@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31105.61
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Runner", "Automaton.Runner\App\Automaton.Runner.csproj", "{E2307462-D09B-44C0-A5F2-53F081B6489A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Runner.Core", "Automaton.Runner\Core\Automaton.Runner.Core.csproj", "{434B4B8C-DDDC-431A-A564-BC61159B08F3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio.Client", "Automaton.Studio\Client\Automaton.Studio.Client.csproj", "{7BE8F528-ED0D-432A-825A-48F7B9E66E0A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio.Core", "Automaton.Studio\Core\Automaton.Studio.Core.csproj", "{68A6E8E8-9DA1-42F7-847D-5624A52F2ADD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio.Server", "Automaton.Studio\Server\Automaton.Studio.Server.csproj", "{D2747731-BACF-414F-B48C-9026AB8BAE2D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio.Shared", "Automaton.Studio\Shared\Automaton.Studio.Shared.csproj", "{E58550F4-8F00-4D52-BC16-6BC65318F4B4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E2307462-D09B-44C0-A5F2-53F081B6489A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2307462-D09B-44C0-A5F2-53F081B6489A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2307462-D09B-44C0-A5F2-53F081B6489A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2307462-D09B-44C0-A5F2-53F081B6489A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{434B4B8C-DDDC-431A-A564-BC61159B08F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{434B4B8C-DDDC-431A-A564-BC61159B08F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{434B4B8C-DDDC-431A-A564-BC61159B08F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{434B4B8C-DDDC-431A-A564-BC61159B08F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BE8F528-ED0D-432A-825A-48F7B9E66E0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BE8F528-ED0D-432A-825A-48F7B9E66E0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BE8F528-ED0D-432A-825A-48F7B9E66E0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BE8F528-ED0D-432A-825A-48F7B9E66E0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68A6E8E8-9DA1-42F7-847D-5624A52F2ADD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68A6E8E8-9DA1-42F7-847D-5624A52F2ADD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68A6E8E8-9DA1-42F7-847D-5624A52F2ADD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68A6E8E8-9DA1-42F7-847D-5624A52F2ADD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2747731-BACF-414F-B48C-9026AB8BAE2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2747731-BACF-414F-B48C-9026AB8BAE2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2747731-BACF-414F-B48C-9026AB8BAE2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2747731-BACF-414F-B48C-9026AB8BAE2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E58550F4-8F00-4D52-BC16-6BC65318F4B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E58550F4-8F00-4D52-BC16-6BC65318F4B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E58550F4-8F00-4D52-BC16-6BC65318F4B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E58550F4-8F00-4D52-BC16-6BC65318F4B4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C5A89E79-D5BC-48DD-B0E4-72F011E38D0E}
+	EndGlobalSection
+EndGlobal
