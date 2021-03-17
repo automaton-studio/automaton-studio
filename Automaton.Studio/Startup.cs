@@ -41,6 +41,7 @@ namespace Automaton.Studio
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddSingleton<WeatherForecastService>();
+            services.AddAntDesign();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
