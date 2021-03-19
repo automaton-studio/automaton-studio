@@ -1,20 +1,17 @@
 using Automaton.Studio.Areas.Identity;
 using Automaton.Studio.Data;
+using Elsa.Persistence.EntityFramework.Core.Extensions;
+using Elsa.Persistence.EntityFramework.SqlServer;
+using ElsaDashboard.Backend.Extensions;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Automaton.Studio
 {
@@ -41,7 +38,22 @@ namespace Automaton.Studio
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddSingleton<WeatherForecastService>();
+            
+            // Ant Design
             services.AddAntDesign();
+
+            // Elsa Workflows
+            services
+                .AddElsa(options => options
+                    .UseEntityFrameworkPersistence(options =>
+                             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                                 db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)), true)
+                    .AddConsoleActivities()
+                    .AddWorkflowsFrom<Startup>()
+                )
+                .AddElsaApiEndpoints()
+                .AddElsaSwagger()
+                .AddElsaDashboardBackend(options => options.ServerUrl = Configuration.GetValue<Uri>("Elsa:Http:BaseUrl"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +78,9 @@ namespace Automaton.Studio
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            // Elsa Grpc services
+            app.UseElsaGrpcServices();
 
             app.UseEndpoints(endpoints =>
             {
