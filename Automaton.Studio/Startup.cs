@@ -63,6 +63,9 @@ namespace Automaton.Studio
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
+
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Elsa"));
             }
             else
             {
