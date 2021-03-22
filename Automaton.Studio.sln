@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31105.61
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automaton.Studio", "Automaton.Studio\Automaton.Studio.csproj", "{13EDE8BF-E921-4AC3-A414-81AD263AD979}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio", "Automaton.Studio\Automaton.Studio.csproj", "{13EDE8BF-E921-4AC3-A414-81AD263AD979}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Runner", "Automaton.Runner\Automaton.Runner.csproj", "{797FB75F-16CE-404B-A08D-7F1DBE311DD6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Runner.Core", "Automaton.Runner.Core\Automaton.Runner.Core.csproj", "{23518AD5-F79A-4347-BADC-172F17F09723}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automaton.Studio.Activities", "Automaton.Studio.Activities\Automaton.Studio.Activities.csproj", "{715E4037-2ED3-43CB-9FBF-551D598E612C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{23518AD5-F79A-4347-BADC-172F17F09723}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23518AD5-F79A-4347-BADC-172F17F09723}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23518AD5-F79A-4347-BADC-172F17F09723}.Release|Any CPU.Build.0 = Release|Any CPU
+		{715E4037-2ED3-43CB-9FBF-551D598E612C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{715E4037-2ED3-43CB-9FBF-551D598E612C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{715E4037-2ED3-43CB-9FBF-551D598E612C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{715E4037-2ED3-43CB-9FBF-551D598E612C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

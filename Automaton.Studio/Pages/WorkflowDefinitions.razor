@@ -1,39 +1,21 @@
 ﻿@page "/workflows"
+@using Automaton.Studio.Activities
 
 <h1>Workflow definitions</h1>
 
-<AntList DataSource="@data" TItem="BasicItem" OnItemClick="ItemClick">
-    <ListItem>
-        <ListItemMeta Avatar="avatar" Description="Ant Design, a design language for background applications, is refined by Ant UED Team">
-            <TitleTemplate>
-                <a href="https://ng.ant.design">@context.Title</a>
-            </TitleTemplate>
-        </ListItemMeta>
-    </ListItem>
-</AntList>
-
-
-@code{
-
-    RenderFragment avatar =@<Avatar Src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"></Avatar>;
-
-public class BasicItem
+@if (activities == null)
 {
-public string Title { get; set; }
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h5>List with dynamic binding to <code>DynamicComponent</code>.</h5>
+    <p>The selection of the view component is now encapsulated within the <code>DynamicComponent</code>.</p>
+    @foreach (var activity in activities)
+    {
+        <DynamicComponent Activity=@activity />
+    }
 }
 
-public List<BasicItem> data = new List<BasicItem>
-{
-        new BasicItem { Title = "Ant Design Title 1"},
-        new BasicItem { Title = "Ant Design Title 2"},
-        new BasicItem { Title = "Ant Design Title 3"},
-        new BasicItem { Title = "Ant Design Title 4"},
-    };
-
-public void ItemClick(BasicItem item)
-{
-Console.WriteLine($"item was clicked: {item.Title}");
-}
-}
 
 

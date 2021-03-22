@@ -18,4 +18,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Activities\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Automaton.Studio.Activities\Automaton.Studio.Activities.csproj" />
+  </ItemGroup>
+
 </Project>
