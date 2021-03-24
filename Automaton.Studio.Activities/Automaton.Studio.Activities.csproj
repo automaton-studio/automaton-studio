@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Elsa.Activities.Console" Version="2.0.0-preview7.1640" />
+    <PackageReference Include="Elsa.Activities.Console" Version="2.0.0-preview7.1651" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.4" />
   </ItemGroup>
 
