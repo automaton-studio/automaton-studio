@@ -1,1 +1,1 @@
-# automaton-studio
+# Automaton Studio
