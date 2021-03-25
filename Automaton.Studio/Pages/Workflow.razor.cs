@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages
 {
-    partial class WorkflowDefinitions
+    partial class Workflow
     {
         protected IList<ActivityBase> activities;
 

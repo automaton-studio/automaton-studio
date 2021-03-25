@@ -1,0 +1,21 @@
+﻿@page "/workflows"
+
+<h1>Workflow definitions</h1>
+
+@if (Definitions == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<AntList Bordered DataSource="@Definitions">
+    <ChildContent Context="definition">
+        <ListItem>
+            <span>@definition.Name</span>
+        </ListItem>
+    </ChildContent>
+</AntList>
+}
+
+
+
