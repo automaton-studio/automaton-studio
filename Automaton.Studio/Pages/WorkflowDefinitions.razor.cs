@@ -1,4 +1,5 @@
 ﻿using Automaton.Studio.Activities;
+using Elsa.Activities.Console;
 using ElsaDashboard.Shared.Rpc;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
@@ -15,14 +16,14 @@ namespace Automaton.Studio.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            //var workflowDefinitions = await WorkflowDefinitionService.ListAsync();
+            var workflowDefinitions = await WorkflowDefinitionService.ListAsync();
+            var activities2 = await ActivityService.GetActivitiesAsync();
 
             activities = new List<ActivityBase>
             {
-                new ConsoleActivity()
+                new WriteLineActivity()
                 {
-                    Id = 1,
-                    Name = "Console Activity"
+                    Name = "Write Line Activity"
                 }
             };
         }

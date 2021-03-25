@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Elsa.Services;
+using System;
 
 namespace Automaton.Studio.Activities
 {
@@ -7,15 +8,44 @@ namespace Automaton.Studio.Activities
     /// </summary>
     public abstract class ActivityBase
     {
-        /// <summary>
-        /// An Id 
-        /// </summary>
-        public int Id { get; set; }
+        #region Properties
+
+        public string Id
+        {
+            get { return ElsaActivity.Id; }
+            set { ElsaActivity.Id = value; }
+        }
+
+        public string? Name
+        {
+            get { return ElsaActivity.Name; }
+            set { ElsaActivity.Name = value; }
+        }
+
+        public string? Description
+        {
+            get { return ElsaActivity.Description; }
+            set { ElsaActivity.Description = value; }
+        }
+
+        public string? DisplayName
+        {
+            get { return ElsaActivity.DisplayName; }
+            set { ElsaActivity.DisplayName = value; }
+        }
+
+        public string Type
+        {
+            get { return ElsaActivity.Type; }
+        }
+        #endregion
+
+        #region Abstracts
 
         /// <summary>
-        /// Product name
+        /// Corresponding Elsa activity
         /// </summary>
-        public string Name { get; set; }
+        public abstract IActivity ElsaActivity { get; }
 
         /// <summary>
         /// Abstract method to get the view component type to use
@@ -28,5 +58,7 @@ namespace Automaton.Studio.Activities
         /// </summary>
         /// <returns></returns>
         public abstract Type GetPropertiesComponent();
+
+        #endregion
     }
 }
