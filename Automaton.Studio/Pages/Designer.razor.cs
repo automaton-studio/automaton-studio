@@ -1,5 +1,4 @@
 ﻿using Automaton.Studio.Activities;
-using Elsa.Activities.Console;
 using ElsaDashboard.Shared.Rpc;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages
 {
-    partial class Workflow
+    partial class Designer
     {
         protected IList<ActivityBase> activities;
 

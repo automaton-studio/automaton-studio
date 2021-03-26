@@ -1,20 +1,24 @@
 ﻿@page "/workflows"
 
-<h1>Workflow definitions</h1>
-
 @if (Definitions == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-<AntList Bordered DataSource="@Definitions">
-    <ChildContent Context="definition">
-        <ListItem>
-            <span>@definition.Name</span>
-        </ListItem>
-    </ChildContent>
-</AntList>
+    @using Elsa.Client.Models
+
+<Table TItem="WorkflowDefinition" DataSource="@Definitions">
+    <Column @bind-Field="@context.Name">
+        <a>@context.Name</a>
+    </Column>
+    <Column @bind-Field="@context.Description"></Column>
+    <Column @bind-Field="@context.Version">
+        <TitleTemplate>
+            <span> <Icon Type="environment" /> Version </span>
+        </TitleTemplate>
+    </Column>
+</Table>
 }
 
 
