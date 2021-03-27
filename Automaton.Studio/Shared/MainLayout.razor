@@ -1,20 +1,51 @@
 ﻿@inherits LayoutComponentBase
+@using Microsoft.AspNetCore.Components
 
 <Layout Class="layout">
     <Header>
         <div class="logo"><Icon Type="robot" Height="31" Width="31" /></div>
-        
-        <Menu Theme="MenuTheme.Dark" Mode="MenuMode.Horizontal" DefaultSelectedKeys=@(new[]{"3"})>
+
+        <Menu Theme="MenuTheme.Dark" Mode="MenuMode.Horizontal" Selectable="false" DefaultSelectedKeys=@(new[]{"3"})>
             <MenuItem Key="1" RouterLink="/">Home</MenuItem>
             <MenuItem Key="2" RouterLink="designer">Designer</MenuItem>
             <MenuItem Key="3" RouterLink="workflows">Workflows</MenuItem>
+
+            <span style="float: right; padding-left:5px">
+                <AuthorizeView>
+                    <Authorized>
+                        <form method="post" action="Identity/Account/LogOut">
+                            <Button HtmlType="submit">Logout</Button>
+                        </form>
+                    </Authorized>
+                </AuthorizeView>
+            </span>
+
             <MenuItem Key="4" Style="float:right">
-                <LoginDisplay />
+                <a href="Identity/Account/Manage" target="_blank">Account</a>
             </MenuItem>
+
         </Menu>
+        
     </Header>
     <Content>
         <div class="site-layout-content">@Body</div>
     </Content>
     @*<Footer Style="text-align: center; ">Automaton Studio ©2021</Footer>*@
 </Layout>
+
+@code{
+    @inject NavigationManager NavigationManager
+
+    [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+        var user = (await AuthStat).User;
+
+        if (!user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo($"Identity/Account/Login");
+        }
+    }
+}

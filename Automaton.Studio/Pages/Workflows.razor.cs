@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages
 {
-    partial class Workflows
+    partial class Workflows : ComponentBase
     {
         [Inject] private IWorkflowDefinitionService WorkflowDefinitionService { get; set; } = default!;
 
