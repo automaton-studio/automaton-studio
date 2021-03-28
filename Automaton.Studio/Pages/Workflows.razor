@@ -18,6 +18,13 @@ else
             <span> <Icon Type="environment" /> Version </span>
         </TitleTemplate>
     </Column>
+    <ActionColumn Title="Action">
+        <Space Size="middle">
+            <SpaceItem> 
+                <a @onclick="@(() => RunWorkflow(context.DefinitionId))"><Icon Type="caret-right" Theme="outline" /></a>
+            </SpaceItem>
+        </Space>
+    </ActionColumn>
 </Table>
 }
 
