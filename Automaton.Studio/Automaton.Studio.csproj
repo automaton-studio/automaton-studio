@@ -8,10 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="AntDesign" Version="0.7.2" />
-    <PackageReference Include="Elsa.Persistence.EntityFramework.SqlServer" Version="2.0.0-preview7.1651" />
+    <PackageReference Include="Elsa.Persistence.EntityFramework.SqlServer" Version="2.0.0-preview7.1715" />
     <PackageReference Include="Elsa.Persistence.EntityFrameworkCore" Version="1.5.3.1369" />
-    <PackageReference Include="Elsa.Server.Api" Version="2.0.0-preview7.1651" />
-    <PackageReference Include="ElsaDashboard.Backend" Version="2.0.0-preview7.1651" />
+    <PackageReference Include="Elsa.Server.Api" Version="2.0.0-preview7.1715" />
+    <PackageReference Include="ElsaDashboard.Backend" Version="2.0.0-preview7.1715" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.4" />
