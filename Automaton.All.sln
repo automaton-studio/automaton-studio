@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio", "Automat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio.Activities", "Automaton.Studio.Activities\Automaton.Studio.Activities.csproj", "{715E4037-2ED3-43CB-9FBF-551D598E612C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Runner.Core", "Automaton.Runner.Core\Automaton.Runner.Core.csproj", "{550F4616-1194-49B6-B91E-F13D0E52720E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Runner", "Automaton.Runner\Automaton.Runner.csproj", "{E12DFF5D-7F16-4205-A397-255EDA870171}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{715E4037-2ED3-43CB-9FBF-551D598E612C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{715E4037-2ED3-43CB-9FBF-551D598E612C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{715E4037-2ED3-43CB-9FBF-551D598E612C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{550F4616-1194-49B6-B91E-F13D0E52720E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{550F4616-1194-49B6-B91E-F13D0E52720E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{550F4616-1194-49B6-B91E-F13D0E52720E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{550F4616-1194-49B6-B91E-F13D0E52720E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E12DFF5D-7F16-4205-A397-255EDA870171}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E12DFF5D-7F16-4205-A397-255EDA870171}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E12DFF5D-7F16-4205-A397-255EDA870171}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E12DFF5D-7F16-4205-A397-255EDA870171}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
