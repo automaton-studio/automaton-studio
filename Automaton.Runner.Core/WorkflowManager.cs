@@ -1,23 +1,19 @@
 ﻿using Elsa.Persistence;
 using Elsa.Services;
-using System;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner.Core
 {
     public class WorkflowManager : IWorkflowManager
     {
-        private IServiceProvider serviceProvider { get; set; }
-        private IWorkflowRunner workflowRunner { get; set; }
-        private IWorkflowDefinitionStore workflowDefinitionStore { get; set; }
-        private IWorkflowBlueprintMaterializer workflowBlueprintMaterializer { get; set; }
+        private readonly IWorkflowRunner workflowRunner;
+        private readonly IWorkflowDefinitionStore workflowDefinitionStore;
+        private readonly IWorkflowBlueprintMaterializer workflowBlueprintMaterializer;
 
         public WorkflowManager(IWorkflowRunner workflowRunner,
             IWorkflowBlueprintMaterializer workflowBlueprintMaterializer,
-            IServiceProvider serviceProvider,
             IWorkflowDefinitionStore workflowDefinitionStore)
         {
-            this.serviceProvider = serviceProvider;
             this.workflowRunner = workflowRunner;
             this.workflowDefinitionStore = workflowDefinitionStore;
             this.workflowBlueprintMaterializer = workflowBlueprintMaterializer;
