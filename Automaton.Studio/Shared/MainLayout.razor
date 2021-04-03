@@ -2,36 +2,106 @@
 @using Microsoft.AspNetCore.Components
 
 <Layout Class="layout">
-    <Header>
-        <div class="logo"><Icon Type="home" Height="31" Width="31" /></div>
 
-        <Menu Theme="MenuTheme.Dark" Mode="MenuMode.Horizontal" Selectable="false" DefaultSelectedKeys=@(new[]{"3"})>
-            <MenuItem Key="1" RouterLink="/">Home</MenuItem>
-            <MenuItem Key="2" RouterLink="designer">Designer</MenuItem>
-            <MenuItem Key="3" RouterLink="workflows">Workflows</MenuItem>
+    <Sider Theme="SiderTheme.Dark" Collapsible="false" Collapsed="true" CollapsedWidth="48" Style="overflow: auto; height: 100vh;">
 
-            <span style="float: right; padding-left:5px">
-                <AuthorizeView>
-                    <Authorized>
-                        <form method="post" action="Identity/Account/LogOut">
-                            <Button HtmlType="submit">Logout</Button>
-                        </form>
-                    </Authorized>
-                </AuthorizeView>
-            </span>
+        <div class="logo"></div>
 
-            <MenuItem Key="4" Style="float:right">
-                <a href="Identity/Account/Manage" target="_blank">Account</a>
-            </MenuItem>
+        <div class="sidebar">
 
-        </Menu>
-        
-    </Header>
-    <Content>
-        <div class="site-layout-content">@Body</div>
-    </Content>
-    @*<Footer Style="text-align: center; ">Automaton Studio ©2021</Footer>*@
+            <div>
+                <Tooltip Placement="@PlacementType.Right" Title="@("Dashboard")">
+                    <a href=""><Icon Type="dashboard" Theme="outline" Width="18" Height="18" /></a>
+                </Tooltip>
+            </div>
+
+            <div>
+                <Tooltip Placement="@PlacementType.Right" Title="@("Designer")">
+                    <a href="designer"><Icon Type="partition" Theme="outline" Width="18" Height="18" /></a>
+                </Tooltip>
+            </div>
+
+            <div>
+                <Tooltip Placement="@PlacementType.Right" Title="@("Workflows")">
+                    <a href="workflows"><Icon Type="profile" Theme="outline" Width="18" Height="18" /></a>
+                </Tooltip>
+
+            </div>
+        </div>
+    </Sider>
+
+    <Layout Class="site-layout">
+        <Header Class="header">
+
+            <div class="menu-item">
+
+                <Space>
+                    <Button Shape="circle" Icon="question-circle" />
+                </Space>
+
+                <Space>
+                    <form method="post" action="Identity/Account/LogOut">
+                        <Button Shape="circle" HtmlType="submit" Icon="logout" />
+                    </form>
+                </Space>
+
+            </div>
+           
+        </Header>
+
+        <Content>
+            <div class="site-layout-content">@Body</div>
+        </Content>
+
+    </Layout>
 </Layout>
+
+<style>
+    .site-layout {
+        padding: 0 5px 5px 5px;
+    }
+
+    .sidebar {
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        padding-top: 48px;
+        overflow: hidden;
+    }
+
+        .sidebar a {
+            padding: 6px 14px 10px 14px;
+            text-decoration: none;
+            display: block;
+            color: #fff;
+        }
+
+            .sidebar a:hover {
+                background-color: #666;
+            }
+
+            .sidebar a:active {
+                color: #ddd;
+            }
+
+    .header {
+        background: #fff;
+        margin-bottom: 5px;
+        height: 48px;
+        line-height: 48px;
+        width: 100%;
+        box-shadow: 0 0px 1.5px rgba(0, 0, 0, 0.004), 0 0px 9px rgba(0, 0, 0, 0.07);
+        padding: 0 20px 0 0;
+    }
+
+        .header .menu-item {
+            float: right;
+            padding-right: 10px;
+        }
+
+</style>
+
 
 @code{
     @inject NavigationManager NavigationManager
