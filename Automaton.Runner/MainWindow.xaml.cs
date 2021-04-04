@@ -38,7 +38,9 @@ namespace Automaton.Runner
                 });
             });
 
-           
+            connection.On<string>("WelcomeRunner", (name) =>
+            {
+            });
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
