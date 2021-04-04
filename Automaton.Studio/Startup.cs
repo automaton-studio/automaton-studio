@@ -47,7 +47,7 @@ namespace Automaton.Studio
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
             services.AddDatabaseDeveloperPageExceptionFilter();
             
             // Ant Design
@@ -67,7 +67,7 @@ namespace Automaton.Studio
                 .AddElsaDashboardBackend(options => options.ServerUrl = Configuration.GetValue<Uri>("Elsa:Http:BaseUrl"));
 
             // Automaton
-            services.AddSingleton<WorkflowHub>();
+            services.AddScoped<WorkflowHub>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
