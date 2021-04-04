@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @using Microsoft.AspNetCore.Components
-
+@using Automaton.Studio.Components
+ 
 <Layout Class="layout">
 
     <Sider Theme="SiderTheme.Dark" Collapsible="false" Collapsed="true" CollapsedWidth="48" Style="overflow: auto; height: 100vh;">
@@ -8,7 +9,6 @@
         <div class="logo"></div>
 
         <div class="sidebar">
-
             <div>
                 <Tooltip Placement="@PlacementType.Right" Title="@("Dashboard")">
                     <a href=""><Icon Type="dashboard" Theme="outline" Width="18" Height="18" /></a>
@@ -25,7 +25,6 @@
                 <Tooltip Placement="@PlacementType.Right" Title="@("Workflows")">
                     <a href="workflows"><Icon Type="profile" Theme="outline" Width="18" Height="18" /></a>
                 </Tooltip>
-
             </div>
         </div>
     </Sider>
@@ -33,20 +32,18 @@
     <Layout Class="site-layout">
         <Header Class="header">
 
-            <div class="menu-item">
+            <DesignerActions></DesignerActions>
 
-                <Space>
+            <Space class="right-header-items">
+                <SpaceItem>
                     <Button Shape="circle" Icon="question-circle" />
-                </Space>
-
-                <Space>
+                </SpaceItem>
+                <SpaceItem>
                     <form method="post" action="Identity/Account/LogOut">
                         <Button Shape="circle" HtmlType="submit" Icon="logout" />
                     </form>
-                </Space>
-
-            </div>
-           
+                </SpaceItem>
+            </Space>
         </Header>
 
         <Content>
@@ -95,7 +92,7 @@
         padding: 0 20px 0 0;
     }
 
-        .header .menu-item {
+        .header .right-header-items {
             float: right;
             padding-right: 10px;
         }
