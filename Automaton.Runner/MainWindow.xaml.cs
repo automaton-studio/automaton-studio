@@ -3,6 +3,7 @@ using System.Windows;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Threading.Tasks;
 using System;
+using System.Windows.Input;
 
 namespace Automaton.Runner
 {
@@ -17,6 +18,8 @@ namespace Automaton.Runner
         public MainWindow(IWorkflowManager workflowManager)
         {
             InitializeComponent();
+
+            loginControl.OnLoginSuccessful += LoginSuccesssful;
 
             this.workflowManager = workflowManager;
 
@@ -43,15 +46,26 @@ namespace Automaton.Runner
             });
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        //private async void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        await connection.StartAsync();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //    }
+        //}
+
+        private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            try
-            {
-                await connection.StartAsync();
-            }
-            catch (Exception ex)
-            {
-            }
+            if (e.LeftButton == MouseButtonState.Pressed)
+                DragMove();
+        }
+
+        public void LoginSuccesssful(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
