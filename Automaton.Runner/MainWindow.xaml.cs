@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using System.Threading.Tasks;
 using System;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace Automaton.Runner
 {
@@ -19,53 +20,53 @@ namespace Automaton.Runner
         {
             InitializeComponent();
 
-            loginControl.OnLoginSuccessful += LoginSuccesssful;
+            loginControl.LoginSuccessful += LoginSuccessful;
 
-            this.workflowManager = workflowManager;
-
-            connection = new HubConnectionBuilder()
-                .WithUrl("https://localhost:5001/WorkflowHub")
-                .Build();
-
-            connection.Closed += async (error) =>
-            {
-                await Task.Delay(new Random().Next(0, 5) * 1000);
-                await connection.StartAsync();
-            };
-
-            connection.On<string>("RunWorkflow", (definitionId) =>
-            {
-                this.Dispatcher.Invoke(() =>
-                {
-                    this.workflowManager.RunWorkflow(definitionId);
-                });
-            });
-
-            connection.On<string>("WelcomeRunner", (name) =>
-            {
-            });
+            this.workflowManager = workflowManager;   
         }
 
-        //private async void Button_Click(object sender, RoutedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        await connection.StartAsync();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //    }
-        //}
+        private async void LoginSuccessful(object sender, AuthTokenArgs e)
+        {
+            try
+            {
+
+                connection = new HubConnectionBuilder()
+                .WithUrl("https://localhost:5001/WorkflowHub", options =>
+                {
+                    options.AccessTokenProvider = () => Task.FromResult(e.AuthToken.AccessToken);
+                })
+                .Build();
+
+                connection.Closed += async (error) =>
+                {
+                    await Task.Delay(new Random().Next(0, 5) * 1000);
+                    await connection.StartAsync();
+                };
+
+                connection.On<string>("RunWorkflow", (definitionId) =>
+                {
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        Trace.WriteLine($"Running workflow definition {definitionId}");
+                        this.workflowManager.RunWorkflow(definitionId);
+                    });
+                });
+
+                connection.On<string>("WelcomeRunner", (name) =>
+                {
+                });
+
+                await connection.StartAsync();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
 
         private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
                 DragMove();
-        }
-
-        public void LoginSuccesssful(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

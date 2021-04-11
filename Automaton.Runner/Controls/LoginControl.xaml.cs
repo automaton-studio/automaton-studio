@@ -1,4 +1,9 @@
-﻿using System.Windows;
+﻿using Automaton.Runner.Core;
+using Newtonsoft.Json;
+using System;
+using System.Net.Http;
+using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Automaton.Runner.Controls
@@ -8,12 +13,12 @@ namespace Automaton.Runner.Controls
     /// </summary>
     public partial class LoginControl : UserControl
     {
-        public static readonly RoutedEvent OnLoginSuccessfulHandler = EventManager.RegisterRoutedEvent("LoginSuccessful", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(LoginControl));
+        public event EventHandler<AuthTokenArgs> LoginSuccessful;
 
-        public event RoutedEventHandler OnLoginSuccessful
+        protected virtual void OnLoginSuccessful(AuthTokenArgs e)
         {
-            add { AddHandler(OnLoginSuccessfulHandler, value); }
-            remove { RemoveHandler(OnLoginSuccessfulHandler, value); }
+            var handler = LoginSuccessful;
+            handler?.Invoke(this, e);
         }
 
         public LoginControl()
@@ -21,15 +26,28 @@ namespace Automaton.Runner.Controls
             InitializeComponent();
         }
 
-        private void LoginSuccessful(object sender, RoutedEventArgs e)
+        private async void LoginClick(object sender, RoutedEventArgs e)
         {
-            RaiseEvent(new RoutedEventArgs(OnLoginSuccessfulHandler));
-        }
+            var userDetails = new SignInUserDetails
+            {
+                UserName = UsernameBox.Text,
+                Password = PasswordBox.Password
+            };
 
-        private void LoginClick(object sender, RoutedEventArgs e)
-        {
-            var username = UsernameBox.Text;
-            var password = PasswordBox.Password;
+            var objAsJson = JsonConvert.SerializeObject(userDetails);
+            var content = new StringContent(objAsJson, Encoding.UTF8, "application/json");
+            var _httpClient = new HttpClient();
+            var response = await _httpClient.PostAsync("https://localhost:5001/api/token", content);
+
+            var authTokenJson = await response.Content.ReadAsStringAsync();
+            var authToken = JsonConvert.DeserializeObject<JsonWebToken>(authTokenJson);
+
+            var tokenArgs = new AuthTokenArgs
+            {
+                AuthToken = authToken
+            };
+
+            OnLoginSuccessful(tokenArgs);
         }
     }
 }

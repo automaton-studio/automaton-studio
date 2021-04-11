@@ -38,6 +38,7 @@
         <StackPanel Grid.Row="1" >
             <StackPanel Orientation="Horizontal">
                 <TextBox Name="UsernameBox"
+                    Text="rzvdaniel@gmail.com"
                     FontFamily="Helvetica"
                     FontWeight="Light"
                     FontSize="20"
@@ -62,18 +63,19 @@
 
             <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                 <PasswordBox Name="PasswordBox"
+                    Password="$Daniel1"
                     FontFamily="Helvetica"
-                             FontWeight="Light"
-                             FontSize="20"
-                             HorizontalAlignment="Center"
-                             Foreground="White"
-                             Background="Transparent"
-                             BorderThickness="0"
-                             Width="235"
-                             HorizontalContentAlignment="Left"
-                             Opacity="0.5"
-                             Height="25"
-                             Margin="63,0,0,0"/>
+                    FontWeight="Light"
+                    FontSize="20"
+                    HorizontalAlignment="Center"
+                    Foreground="White"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Width="235"
+                    HorizontalContentAlignment="Left"
+                    Opacity="0.5"
+                    Height="25"
+                    Margin="63,0,0,0"/>
                 <iconPacks:PackIconMaterial Kind="FormTextboxPassword" 
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Center" 
