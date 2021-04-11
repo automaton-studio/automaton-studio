@@ -2,6 +2,7 @@
 using Elsa.Client.Models;
 using ElsaDashboard.Shared.Rpc;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace Automaton.Studio.Pages
     partial class Workflows : ComponentBase
     {
         [Inject] private IWorkflowDefinitionService WorkflowDefinitionService { get; set; } = default!;
-        [Inject] private WorkflowHub WorkflowHub { get; set; } = default!;     
+        [Inject] private IHubContext<WorkflowHub> WorkflowHubContext { get; set; } = default!;     
 
         private ICollection<WorkflowDefinition> Definitions { get; set; } = new List<WorkflowDefinition>();
 
@@ -21,7 +22,7 @@ namespace Automaton.Studio.Pages
 
         private async Task RunWorkflow(string workflowId)
         {
-            await WorkflowHub.RunWorkflow(workflowId);
+            await WorkflowHubContext.Clients.All.SendAsync("RunWorkflow", workflowId);
         }
     }
 }

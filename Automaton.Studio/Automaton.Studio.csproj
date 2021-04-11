@@ -12,22 +12,27 @@
     <PackageReference Include="Elsa.Persistence.EntityFrameworkCore" Version="1.5.3.1369" />
     <PackageReference Include="Elsa.Server.Api" Version="2.0.0-preview7.1715" />
     <PackageReference Include="ElsaDashboard.Backend" Version="2.0.0-preview7.1715" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="6.0.0-preview.1.21103.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="5.0.5" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.1.1" />
     <PackageReference Include="System.Text.Encodings.Web" Version="6.0.0-preview.1.21102.12" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Activities\" />
+    <Folder Include="Keys\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Automaton.Common\Automaton.Common.csproj" />
     <ProjectReference Include="..\Automaton.Studio.Activities\Automaton.Studio.Activities.csproj" />
   </ItemGroup>
 
