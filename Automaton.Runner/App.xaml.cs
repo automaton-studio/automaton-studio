@@ -1,4 +1,5 @@
 ﻿using Automaton.Runner.Core;
+using Automaton.Runner.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -13,8 +14,8 @@ namespace Automaton.Runner
     /// </summary>
     public partial class App : Application
     {
-        public IServiceProvider ServiceProvider { get; private set; }
-        public IConfiguration Configuration { get; private set; }
+        public static IServiceProvider ServiceProvider { get; private set; }
+        public static IConfiguration Configuration { get; private set; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -24,20 +25,26 @@ namespace Automaton.Runner
 
             Configuration = builder.Build();
 
-            var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
+            var service = new ServiceCollection();
+            ConfigureServices(service);
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             
-            ServiceProvider = serviceCollection.BuildServiceProvider();
+            ServiceProvider = service.BuildServiceProvider();
+
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
         }
 
-        private void ConfigureServices(ServiceCollection serviceCollection)
+        private static void ConfigureServices(ServiceCollection service)
         {
-            serviceCollection.ConfigureCoreServices(Configuration);
-            serviceCollection.AddTransient(typeof(MainWindow));
+            service.ConfigureCoreServices(Configuration);
+
+            // Register main window
+            service.AddTransient(typeof(MainWindow));
+
+            // Register all ViewModels.
+            service.AddSingleton<LoginViewModel>();
         }
     }
 }

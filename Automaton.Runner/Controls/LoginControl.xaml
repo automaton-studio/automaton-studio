@@ -4,12 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:ViewModels="clr-namespace:Automaton.Runner.ViewModels"
              mc:Ignorable="d" 
              Height="450" 
              Width="380"
              Background="Transparent"
              d:DesignHeight="450" 
              d:DesignWidth="380">
+
+    <UserControl.Resources>
+        <ViewModels:ViewModelLocator x:Key="viewModelLocator" />
+    </UserControl.Resources>
+
+    <UserControl.DataContext>
+        <Binding Source="{StaticResource viewModelLocator}" Path="LoginViewModel" />
+    </UserControl.DataContext>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -56,10 +66,11 @@
                     HorizontalAlignment="Center" 
                     Foreground="White"/>
             </StackPanel>
+            
             <Border Width="250"
-                        Height="2"
-                        Background="White"
-                        Opacity="0.5"/>
+                Height="2"
+                Background="White"
+                Opacity="0.5"/>
 
             <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                 <PasswordBox Name="PasswordBox"
@@ -80,10 +91,11 @@
                     HorizontalAlignment="Center" 
                     Foreground="White"/>
             </StackPanel>
+            
             <Border Width="250"
-                        Height="2"
-                        Background="White"
-                        Opacity="0.5"/>
+                Height="2"
+                Background="White"
+                Opacity="0.5"/>
 
             <StackPanel Orientation="Horizontal" Margin="0,50,0,0">
                 <Button Width="100" Height="40" Content="LOGIN" Click="LoginClick" Margin="60,0,60,0"/>

@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 
 namespace Automaton.Runner.Core
 {
-    public class WorkflowManager : IWorkflowManager
+    public class WorkflowService : IWorkflowService
     {
         private readonly IWorkflowRunner workflowRunner;
         private readonly IWorkflowDefinitionStore workflowDefinitionStore;
         private readonly IWorkflowBlueprintMaterializer workflowBlueprintMaterializer;
 
-        public WorkflowManager(IWorkflowRunner workflowRunner,
+        public WorkflowService(IWorkflowRunner workflowRunner,
             IWorkflowBlueprintMaterializer workflowBlueprintMaterializer,
             IWorkflowDefinitionStore workflowDefinitionStore)
         {

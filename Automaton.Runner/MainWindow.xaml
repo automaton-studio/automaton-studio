@@ -14,6 +14,6 @@
         ResizeMode="NoResize"
         MouseDown="Window_MouseDown">
     <Grid>
-        <controls:LoginControl x:Name="loginControl"></controls:LoginControl>
+        <controls:LoginControl></controls:LoginControl>
     </Grid>
 </Window>

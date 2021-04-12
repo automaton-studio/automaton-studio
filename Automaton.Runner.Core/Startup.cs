@@ -1,4 +1,5 @@
-﻿using Automaton.Runner.Core.Data;
+﻿using Automaton.Runner.Core.Auth;
+using Automaton.Runner.Core.Data;
 using Elsa.Persistence.EntityFramework.Core.Extensions;
 using Elsa.Persistence.EntityFramework.SqlServer;
 using Microsoft.AspNetCore.Identity;
@@ -26,7 +27,8 @@ namespace Automaton.Runner.Core
                     .AddConsoleActivities()
                 );
 
-            services.AddScoped<IWorkflowManager, WorkflowManager>();
+            services.AddScoped<IWorkflowService, WorkflowService>();
+            services.AddScoped<IAuthService, AuthService>();            
         }
     }
 }

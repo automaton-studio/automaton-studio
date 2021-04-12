@@ -2,7 +2,7 @@
 
 namespace Automaton.Runner.Core
 {
-    public class AuthTokenArgs : EventArgs
+    public class JsonWebTokenArgs : EventArgs
     {
         public JsonWebToken AuthToken { get; set; }
     }
