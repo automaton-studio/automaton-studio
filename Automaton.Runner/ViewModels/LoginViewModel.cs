@@ -1,6 +1,8 @@
 ﻿using Automaton.Runner.Core;
 using Automaton.Runner.Core.Auth;
+using Automaton.Runner.Core.Config;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
 
@@ -31,16 +33,17 @@ namespace Automaton.Runner.ViewModels
         {
             try
             {
-                var userCredentials = new UserCredentials
+                var studioConfig = new StudioConfig();
+                App.Configuration.GetSection(nameof(StudioConfig)).Bind(studioConfig);
+
+                var token = await authService.GetToken(new UserCredentials
                 {
                     UserName = username,
                     Password = password
-                };
-
-                var token = await authService.GetToken(userCredentials);
+                }, studioConfig.TokenApiUrl);
 
                 connection = new HubConnectionBuilder()
-                .WithUrl("https://localhost:5001/WorkflowHub", options =>
+                .WithUrl(studioConfig.WorkflowHubUrl, options =>
                 {
                     options.AccessTokenProvider = () => Task.FromResult(token.AccessToken);
                 })

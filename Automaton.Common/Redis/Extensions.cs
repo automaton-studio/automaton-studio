@@ -12,13 +12,13 @@ namespace Automaton.Common.Redis
         public static IServiceCollection AddRedis(this IServiceCollection services)
         {
             IConfiguration configuration;
-            var options = new RedisOptions();
 
             using (var serviceProvider = services.BuildServiceProvider())
             {
                 configuration = serviceProvider.GetService<IConfiguration>();
             }
 
+            var options = new RedisOptions();
             configuration.GetSection(nameof(RedisOptions)).Bind(options);
             services.AddSingleton(options);
             
