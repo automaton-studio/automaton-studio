@@ -36,11 +36,15 @@
 
             <Space class="right-header-items">
                 <SpaceItem>
-                    <Button Shape="circle" Icon="question-circle" />
+                    <Button Shape="link" Icon="question-circle" Class="action-button">
+                        <span class="action-label">Help</span>
+                    </Button>
                 </SpaceItem>
                 <SpaceItem>
                     <form method="post" action="Identity/Account/LogOut">
-                        <Button Shape="circle" HtmlType="submit" Icon="logout" />
+                        <Button Shape="link" HtmlType="submit" Icon="logout" Class="action-button">
+                            <span class="action-label">Logout</span>
+                        </Button>
                     </form>
                 </SpaceItem>
             </Space>

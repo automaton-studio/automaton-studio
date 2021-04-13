@@ -10,23 +10,14 @@ namespace Automaton.Runner.ViewModels
 {
     public class LoginViewModel
     {
+        private HubConnection connection;
         private readonly IAuthService authService;
         private readonly IWorkflowService workflowService;
-
-        private HubConnection connection;
-
-        public event EventHandler<JsonWebTokenArgs> LoginSuccessful;
 
         public LoginViewModel(IWorkflowService workflowService, IAuthService authService)
         {
             this.authService = authService;
             this.workflowService = workflowService;
-        }
-
-        protected virtual void OnLoginSuccessful(JsonWebTokenArgs e)
-        {
-            var handler = LoginSuccessful;
-            handler?.Invoke(this, e);
         }
 
         public async Task Login(string username, string password)
@@ -36,18 +27,19 @@ namespace Automaton.Runner.ViewModels
                 var studioConfig = new StudioConfig();
                 App.Configuration.GetSection(nameof(StudioConfig)).Bind(studioConfig);
 
-                var token = await authService.GetToken(new UserCredentials
+                var userCredentials = new UserCredentials
                 {
                     UserName = username,
                     Password = password
-                }, studioConfig.TokenApiUrl);
+                };
+                var token = await authService.GetToken(userCredentials, studioConfig.TokenApiUrl);
 
                 connection = new HubConnectionBuilder()
-                .WithUrl(studioConfig.WorkflowHubUrl, options =>
-                {
-                    options.AccessTokenProvider = () => Task.FromResult(token.AccessToken);
-                })
-                .Build();
+                    .WithUrl(studioConfig.WorkflowHubUrl, options =>
+                    {
+                        options.AccessTokenProvider = () => Task.FromResult(token.AccessToken);
+                    })
+                    .Build();
 
                 connection.Closed += async (error) =>
                 {
@@ -56,7 +48,7 @@ namespace Automaton.Runner.ViewModels
                 };
 
                 connection.On<string>("RunWorkflow", (definitionId) =>
-                {                  
+                {
                     this.workflowService.RunWorkflow(definitionId);
                 });
 
