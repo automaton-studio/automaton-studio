@@ -1,4 +1,5 @@
 ﻿using Automaton.Runner.Core;
+using Automaton.Runner.Core.Auth;
 using Automaton.Runner.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,15 +37,15 @@ namespace Automaton.Runner
             mainWindow.Show();
         }
 
-        private static void ConfigureServices(ServiceCollection service)
+        private static void ConfigureServices(ServiceCollection services)
         {
-            service.ConfigureCoreServices(Configuration);
+            services.AddInfrastructure(Configuration);
+            services.AddApplication(Configuration);
 
             // Register main window
-            service.AddTransient(typeof(MainWindow));
-
+            services.AddTransient(typeof(MainWindow));
             // Register all ViewModels.
-            service.AddSingleton<LoginViewModel>();
+            services.AddSingleton<LoginViewModel>();
         }
     }
 }
