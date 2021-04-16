@@ -1,6 +1,8 @@
 ﻿using Automaton.Runner.Core;
 using Automaton.Runner.Core.Auth;
 using Automaton.Runner.Core.Config;
+using Automaton.Runner.Events;
+using MediatR;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -13,11 +15,16 @@ namespace Automaton.Runner.ViewModels
         private HubConnection connection;
         private readonly IAuthService authService;
         private readonly IWorkflowService workflowService;
+        private readonly IMediator mediator;
 
-        public LoginViewModel(IWorkflowService workflowService, IAuthService authService)
+        public LoginViewModel(
+            IWorkflowService workflowService, 
+            IAuthService authService,
+            IMediator mediator)
         {
             this.authService = authService;
             this.workflowService = workflowService;
+            this.mediator = mediator;
         }
 
         public async Task Login(string username, string password)
@@ -57,11 +64,17 @@ namespace Automaton.Runner.ViewModels
                 });
 
                 await connection.StartAsync();
+
+                await SendSignInCommand(username);
             }
             catch (Exception ex)
             {
             }
         }
 
+        private async Task SendSignInCommand(string username)
+        {
+            await mediator.Publish(new SignInEvent(username));
+        }
     }
 }

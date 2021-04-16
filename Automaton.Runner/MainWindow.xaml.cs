@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using Automaton.Runner.ViewModels;
+using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Automaton.Runner
@@ -8,6 +10,8 @@ namespace Automaton.Runner
     /// </summary>
     public partial class MainWindow : Window
     {
+        public MainWindowViewModel ViewModel => DataContext as MainWindowViewModel;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -18,6 +22,11 @@ namespace Automaton.Runner
             // Allow user to drag the main window around
             if (e.LeftButton == MouseButtonState.Pressed)
                 DragMove();
+        }
+
+        internal void ShowSetup()
+        {
+            ViewModel.ShowSetup();
         }
     }
 }

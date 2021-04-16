@@ -1,12 +1,8 @@
 ﻿using Automaton.Runner.Core.Data;
-using Elsa.Persistence.EntityFramework.Core.Extensions;
-using Elsa.Persistence.EntityFramework.SqlServer;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Automaton.Runner.Core
 {
@@ -18,9 +14,6 @@ namespace Automaton.Runner.Core
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            // MediateR dependency injection
-            services.AddMediatR(Assembly.GetExecutingAssembly());
         }
     }
 }

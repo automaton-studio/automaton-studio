@@ -1,6 +1,7 @@
 ﻿using Automaton.Runner.Core;
 using Automaton.Runner.Core.Auth;
 using Automaton.Runner.ViewModels;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -42,10 +43,16 @@ namespace Automaton.Runner
             services.AddInfrastructure(Configuration);
             services.AddApplication(Configuration);
 
+            // MediateR dependency injection
+            services.AddMediatR(typeof(App));
+
             // Register main window
             services.AddTransient(typeof(MainWindow));
+
             // Register all ViewModels.
+            services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<LoginViewModel>();
+            services.AddSingleton<SetupViewModel>();
         }
     }
 }

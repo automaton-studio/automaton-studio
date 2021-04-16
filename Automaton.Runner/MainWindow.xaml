@@ -4,16 +4,33 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:Automaton.Runner.Controls"
+        xmlns:ViewModels="clr-namespace:Automaton.Runner.ViewModels"
         mc:Ignorable="d"
-        Title="Automaton Runner" 
-        Height="450" 
+        Title="Automaton Runner"
+        Height="450"
         Width="380"
-        AllowsTransparency="True" 
+        AllowsTransparency="True"
         Background="Transparent"
-        WindowStyle="None" 
+        WindowStyle="None"
         ResizeMode="NoResize"
         MouseDown="Window_MouseDown">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <ViewModels:ViewModelLocator x:Key="viewModelLocator" />
+    </Window.Resources>
+
+    <Window.DataContext>
+        <Binding Source="{StaticResource viewModelLocator}" Path="MainWindowViewModel" />
+    </Window.DataContext>
+    
     <Grid>
-        <controls:LoginControl x:Name="LoginControl"></controls:LoginControl>
+        <Grid Visibility="{Binding Path=LoginVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+            <controls:LoginControl></controls:LoginControl>
+        </Grid>
+        
+        <Grid Visibility="{Binding Path=SetupVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+            <controls:SetupControl></controls:SetupControl>
+        </Grid>
     </Grid>
 </Window>

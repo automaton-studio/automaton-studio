@@ -5,7 +5,7 @@ using System.Windows.Controls;
 namespace Automaton.Runner.Controls
 {
     /// <summary>
-    /// Interaction logic for Login.xaml
+    /// Interaction logic for LoginControl.xaml
     /// </summary>
     public partial class LoginControl : UserControl
     {
