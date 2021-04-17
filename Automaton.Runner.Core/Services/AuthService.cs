@@ -8,7 +8,9 @@ namespace Automaton.Runner.Services
 {
     public class AuthService : IAuthService
     {
-        public async Task<JsonWebToken> GetToken(UserCredentials userCredentials, string tokenApiUrl)
+        public JsonWebToken Token { get; set; }
+
+        public async Task<JsonWebToken> SignIn(UserCredentials userCredentials, string tokenApiUrl)
         {
             var userDetailsAsJson = JsonConvert.SerializeObject(userCredentials);
             var userDetailsContent = new StringContent(userDetailsAsJson, Encoding.UTF8, "application/json");
@@ -17,9 +19,10 @@ namespace Automaton.Runner.Services
             var response = await httpClient.PostAsync(tokenApiUrl, userDetailsContent);
 
             var authTokenJson = await response.Content.ReadAsStringAsync();
-            var authToken = JsonConvert.DeserializeObject<JsonWebToken>(authTokenJson);
 
-            return authToken;
+            Token = JsonConvert.DeserializeObject<JsonWebToken>(authTokenJson);
+
+            return Token;
         }
     }
 }

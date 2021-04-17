@@ -5,6 +5,8 @@ namespace Automaton.Runner.Services
 {
     public interface IAuthService
     {
-        Task<JsonWebToken> GetToken(UserCredentials userCredentials, string tokenApiUrl);
+        JsonWebToken Token { get; set; }
+
+        Task<JsonWebToken> SignIn(UserCredentials userCredentials, string tokenApiUrl);
     }
 }

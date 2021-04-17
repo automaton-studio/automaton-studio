@@ -1,7 +1,6 @@
 ﻿using Automaton.Runner.Core;
-using Automaton.Runner.Events;
+using Automaton.Runner.Core.Services;
 using Automaton.Runner.Services;
-using MediatR;
 using System;
 using System.Threading.Tasks;
 
@@ -9,25 +8,26 @@ namespace Automaton.Runner.ViewModels
 {
     public class LoginViewModel
     {
-        private readonly IAppConfigurationService configService;
+        private readonly IAppConfigurationService appConfiguration;
         private readonly IAuthService authService;
-        private readonly IMediator mediator;
+        private readonly IHubService hubService;
 
         public LoginViewModel(
             IAppConfigurationService configService,
             IAuthService authService,
-            IMediator mediator)
+            IHubService hubService)
         {
-            this.configService = configService;
+            this.appConfiguration = configService;
             this.authService = authService;
-            this.mediator = mediator;
+            this.hubService = hubService;
         }
 
         public async Task Login(string username, string password)
         {
             try
             {
-                var studioConfig = configService.GetStudioConfig();
+                var studioConfig = appConfiguration.GetStudioConfig();
+                var mainWindow = App.Current.MainWindow as MainWindow;
 
                 var userCredentials = new UserCredentials
                 {
@@ -35,9 +35,21 @@ namespace Automaton.Runner.ViewModels
                     Password = password
                 };
 
-                var token = await authService.GetToken(userCredentials, studioConfig.TokenApiUrl);
+                var token = await authService.SignIn(userCredentials, studioConfig.TokenApiUrl);
 
-                await mediator.Publish(new SignInEvent(username, token));
+                if (token == null)
+                    return;
+
+                if (appConfiguration.IsRunnerRegistered())
+                {
+                    await hubService.Connect(token, appConfiguration.GetRunnerName());
+
+                    mainWindow.ShowDashboardControl();
+                }
+                else
+                {
+                    mainWindow.ShowRegistrationControl();
+                }
             }
             catch (Exception ex)
             {

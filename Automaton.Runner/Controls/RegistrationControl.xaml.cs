@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Automaton.Runner.ViewModels;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Automaton.Runner.Controls
@@ -13,9 +14,11 @@ namespace Automaton.Runner.Controls
             InitializeComponent();
         }
 
-        private async void OKClick(object sender, RoutedEventArgs e)
+        private async void RegisterClick(object sender, RoutedEventArgs e)
         {
-            
+            var viewModel = DataContext as RegistrationViewModel;
+
+            await viewModel.Register(RunnerNameBox.Text);
         }
     }
 }
