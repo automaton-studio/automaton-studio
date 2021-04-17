@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Automaton.Runner.Core
+namespace Automaton.Runner.Services
 {
     public interface IWorkflowService
     {

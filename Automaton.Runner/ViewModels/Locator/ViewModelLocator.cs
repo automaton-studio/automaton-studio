@@ -17,7 +17,10 @@ namespace Automaton.Runner.ViewModels
         public static MainWindowViewModel MainWindowViewModel
             => App.ServiceProvider.GetRequiredService<MainWindowViewModel>();
 
-        public static SetupViewModel SetupViewModel
-            => App.ServiceProvider.GetRequiredService<SetupViewModel>();
+        public static RegistrationViewModel RegistrationViewModel
+            => App.ServiceProvider.GetRequiredService<RegistrationViewModel>();
+
+        public static DashboardViewModel DashboardViewModel
+            => App.ServiceProvider.GetRequiredService<DashboardViewModel>();
     }
 }

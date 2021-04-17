@@ -1,15 +1,14 @@
-﻿using Automaton.Runner.ViewModels;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace Automaton.Runner.Controls
 {
     /// <summary>
-    /// Interaction logic for SetupControl.xaml
+    /// Runner registration control
     /// </summary>
-    public partial class SetupControl : UserControl
+    public partial class RegistrationControl : UserControl
     {
-        public SetupControl()
+        public RegistrationControl()
         {
             InitializeComponent();
         }

@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using Automaton.Runner.Core;
+using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Automaton.Runner.Core.Auth
+namespace Automaton.Runner.Services
 {
     public class AuthService : IAuthService
     {

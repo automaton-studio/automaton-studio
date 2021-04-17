@@ -24,9 +24,14 @@ namespace Automaton.Runner
                 DragMove();
         }
 
-        internal void ShowSetup()
+        public void ShowRegistrationControl()
         {
-            ViewModel.ShowSetup();
+            ViewModel.ShowRegistrationControl();
+        }
+
+        public void ShowDashboardControl()
+        {
+            ViewModel.ShowDashboardControl();
         }
     }
 }

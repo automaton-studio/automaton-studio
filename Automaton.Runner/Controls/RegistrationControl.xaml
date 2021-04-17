@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Automaton.Runner.Controls.SetupControl"
+﻿<UserControl x:Class="Automaton.Runner.Controls.RegistrationControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -36,8 +36,8 @@
         </Border>
 
         <StackPanel VerticalAlignment="Center">
-            <Image Source="Images/House.png" Width="80"/>
-            <TextBlock Text="Runner Name"
+            <Image Source="../Images/registration.png" Width="48"/>
+            <TextBlock Text="Register Runner"
                 FontWeight="Light"
                 FontFamily="helvetica"
                 FontSize="22"
@@ -60,7 +60,7 @@
                     Opacity="0.5"
                     Height="25"
                     Margin="63,0,0,0"/>
-                <iconPacks:PackIconMaterial Kind="AccountCircle" 
+                <iconPacks:PackIconMaterial Kind="Crown" 
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Center" 
                     Foreground="White"/>

@@ -7,13 +7,24 @@ namespace Automaton.Runner.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private bool setupVisible = false;
-        public bool SetupVisible
+        private bool registrationVisible = false;
+        public bool RegistrationVisible
         {
-            get { return setupVisible; }
+            get { return registrationVisible; }
             set
             {
-                setupVisible = value;
+                registrationVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool dashboardVisible = false;
+        public bool DashboardVisible
+        {
+            get { return dashboardVisible; }
+            set
+            {
+                dashboardVisible = value;
                 OnPropertyChanged();
             }
         }
@@ -29,10 +40,16 @@ namespace Automaton.Runner.ViewModels
             }
         }
 
-        public void ShowSetup()
+        public void ShowRegistrationControl()
         {
             LoginVisible = false;
-            SetupVisible = true;
+            RegistrationVisible = true;
+        }
+
+        public void ShowDashboardControl()
+        {
+            LoginVisible = false;
+            DashboardVisible = true;
         }
 
         // Create the OnPropertyChanged method to raise the event

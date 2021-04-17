@@ -1,4 +1,5 @@
-﻿using Automaton.Runner.Core.Auth;
+﻿using Automaton.Runner.Core.Services;
+using Automaton.Runner.Services;
 using Elsa.Persistence.EntityFramework.Core.Extensions;
 using Elsa.Persistence.EntityFramework.SqlServer;
 using Microsoft.EntityFrameworkCore;
@@ -16,8 +17,10 @@ namespace Automaton.Runner.Core
                     db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)), true)
                 .AddConsoleActivities());
 
+            services.AddScoped<IAppConfigurationService>(service => new AppConfigurationService(configuration)); ;
             services.AddScoped<IWorkflowService, WorkflowService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IHubService, HubService>();           
         }
     }
 }

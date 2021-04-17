@@ -36,8 +36,8 @@
         </Border>
 
         <StackPanel VerticalAlignment="Center">
-            <Image Source="Images/House.png" Width="80"/>
-            <TextBlock Text="Automaton Runner"
+            <Image Source="../Images/login.png" Width="48"/>
+            <TextBlock Text="Automaton Login"
                 FontWeight="Light"
                 FontFamily="helvetica"
                 FontSize="22"

@@ -1,5 +1,4 @@
 ﻿using Automaton.Runner.Core;
-using Automaton.Runner.Core.Auth;
 using Automaton.Runner.ViewModels;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +15,8 @@ namespace Automaton.Runner
     /// </summary>
     public partial class App : Application
     {
+        private const string AppSettings = "appsettings.json";
+
         public static IServiceProvider ServiceProvider { get; private set; }
         public static IConfiguration Configuration { get; private set; }
 
@@ -23,7 +24,7 @@ namespace Automaton.Runner
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", false, true);
+                .AddJsonFile(AppSettings, false, true);
 
             Configuration = builder.Build();
 
@@ -52,7 +53,8 @@ namespace Automaton.Runner
             // Register all ViewModels.
             services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<LoginViewModel>();
-            services.AddSingleton<SetupViewModel>();
+            services.AddSingleton<RegistrationViewModel>();
+            services.AddSingleton<DashboardViewModel>();
         }
     }
 }

@@ -28,9 +28,13 @@
         <Grid Visibility="{Binding Path=LoginVisible, Converter={StaticResource BoolToVisibilityConverter}}">
             <controls:LoginControl></controls:LoginControl>
         </Grid>
-        
-        <Grid Visibility="{Binding Path=SetupVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-            <controls:SetupControl></controls:SetupControl>
+
+        <Grid Visibility="{Binding Path=RegistrationVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+            <controls:RegistrationControl></controls:RegistrationControl>
+        </Grid>
+
+        <Grid Visibility="{Binding Path=DashboardVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+            <controls:DashboardControl></controls:DashboardControl>
         </Grid>
     </Grid>
 </Window>
