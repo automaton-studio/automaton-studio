@@ -53,6 +53,10 @@ namespace Automaton.Studio
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<AutomatonDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -79,7 +83,8 @@ namespace Automaton.Studio
                 .AddElsa(options => options
                     .UseEntityFrameworkPersistence(options =>
                              options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
-                                 db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)), true)
+                                 // Last param instruct Elsa to create its tables if True, and skip this step if False
+                                 db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)), false)
                     .AddConsoleActivities()
                     .AddWorkflowsFrom<Startup>()
                 )
