@@ -20,8 +20,9 @@ namespace Automaton.Runner.ViewModels
         {
             try
             {
-                // TODO! Register Runner
                 await hubService.Connect(authService.Token, runnerName);
+
+                await hubService.Register(runnerName);
 
                 var mainWindow = App.Current.MainWindow as MainWindow;
                 mainWindow.ShowDashboardControl();

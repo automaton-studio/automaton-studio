@@ -23,6 +23,7 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Linq;
 using System.Net.Mime;
+using Automaton.Studio.Services;
 
 namespace Automaton.Studio
 {
@@ -49,7 +50,8 @@ namespace Automaton.Studio
 
             services.AddRedis();
             services.AddHealthChecks()
-                .AddDbContextCheck<ApplicationDbContext>();
+                .AddDbContextCheck<ApplicationDbContext>()
+                .AddDbContextCheck<AutomatonDbContext>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -91,6 +93,9 @@ namespace Automaton.Studio
                 .AddElsaApiEndpoints()
                 .AddElsaSwagger()
                 .AddElsaDashboardBackend(options => options.ServerUrl = Configuration.GetValue<Uri>("Elsa:Http:BaseUrl"));
+
+            // Services
+            services.AddScoped<IRunnerService, RunnerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

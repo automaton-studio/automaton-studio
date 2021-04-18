@@ -82,7 +82,10 @@ namespace Automaton.Studio.Api
         private IDictionary<string, string> GetCustomClaimsForUser(string userId)
         {
             // Add custom claims here
-            return new Dictionary<string, string>();
+            return new Dictionary<string, string>
+            {
+                { "uid", userId }
+            };
         }
     }
 }

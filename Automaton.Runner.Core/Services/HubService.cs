@@ -7,18 +7,32 @@ namespace Automaton.Runner.Core.Services
 {
     public class HubService : IHubService
     {
+        #region Constants
+
         private const string RunnerNameHeader = "RunnerName";
+
+        #endregion
+
+        #region Private Members
 
         private HubConnection connection;
         private readonly IWorkflowService workflowService;
         private readonly IAppConfigurationService configService;
 
+        #endregion
+
+        #region Constructors
+
         public HubService(IAppConfigurationService configService,
-                        IWorkflowService workflowService)
+                       IWorkflowService workflowService)
         {
             this.configService = configService;
             this.workflowService = workflowService;
         }
+
+        #endregion
+
+        #region Public Methods
 
         public async Task Connect(JsonWebToken token, string runnerName)
         {
@@ -49,5 +63,12 @@ namespace Automaton.Runner.Core.Services
 
             await connection.StartAsync();
         }
+
+        public async Task Register(string runnerName)
+        {
+            await connection.SendAsync("RegisterRunner", runnerName);
+        }
+
+        #endregion
+        }
     }
-}
