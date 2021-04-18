@@ -27,6 +27,7 @@ namespace Automaton.Studio
         public virtual DbSet<WorkflowDefinition> WorkflowDefinitions { get; set; }
         public virtual DbSet<WorkflowExecutionLogRecord> WorkflowExecutionLogRecords { get; set; }
         public virtual DbSet<WorkflowInstance> WorkflowInstances { get; set; }
+        public virtual DbSet<Runner> Runners { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -215,6 +216,19 @@ namespace Automaton.Studio
                 entity.HasIndex(e => new { e.WorkflowStatus, e.DefinitionId, e.Version }, "IX_WorkflowInstance_WorkflowStatus_DefinitionId_Version");
 
                 entity.Property(e => e.DefinitionId).IsRequired();
+            });
+
+            modelBuilder.Entity<Runner>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Name).HasMaxLength(128);
+
+                entity.Property(e => e.ConnectionId).HasMaxLength(128);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Runners)
+                    .HasForeignKey(d => d.UserId);
             });
 
             OnModelCreatingPartial(modelBuilder);
