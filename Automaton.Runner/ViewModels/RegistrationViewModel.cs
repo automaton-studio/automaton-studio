@@ -18,18 +18,17 @@ namespace Automaton.Runner.ViewModels
 
         public async Task Register(string runnerName)
         {
-            try
-            {
-                await hubService.Connect(authService.Token, runnerName);
+            await hubService.Connect(authService.Token, runnerName);
 
-                await hubService.Register(runnerName);
+            var registered = await hubService.Register(runnerName);
 
-                var mainWindow = App.Current.MainWindow as MainWindow;
-                mainWindow.ShowDashboardControl();
-            }
-            catch (Exception ex)
+            if (registered)
             {
+
             }
+
+            var mainWindow = App.Current.MainWindow as MainWindow;
+            mainWindow.ShowDashboardControl();
         }
     }
 }

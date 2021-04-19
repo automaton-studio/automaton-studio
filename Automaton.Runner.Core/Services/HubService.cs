@@ -1,4 +1,5 @@
-﻿using Automaton.Runner.Services;
+﻿using Automaton.Runner.Core.Config;
+using Automaton.Runner.Services;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Threading.Tasks;
@@ -64,9 +65,17 @@ namespace Automaton.Runner.Core.Services
             await connection.StartAsync();
         }
 
-        public async Task Register(string runnerName)
+        public async Task<bool> Register(string runnerName)
         {
-            await connection.SendAsync("RegisterRunner", runnerName);
+            var registered = await connection.InvokeAsync<bool>("RegisterRunner", runnerName);
+
+            if (registered)
+            {
+                var userConfig = new UserConfig { RunnerName = runnerName };
+                configService.SetUserConfig(userConfig);
+            }       
+
+            return registered;
         }
 
         #endregion

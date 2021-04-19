@@ -51,7 +51,7 @@ namespace Automaton.Studio.Hubs
 
         #region Public Methods
 
-        public int RegisterRunner(string runnerName)
+        public bool RegisterRunner(string runnerName)
         {
             var runner = new Runner
             {
@@ -62,7 +62,7 @@ namespace Automaton.Studio.Hubs
 
             var result = runnerService.Add(runner);
 
-            return result;
+            return result > 0;
         }
 
         #endregion

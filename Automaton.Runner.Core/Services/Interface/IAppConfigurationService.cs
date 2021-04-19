@@ -4,10 +4,9 @@ namespace Automaton.Runner.Services
 {
     public interface IAppConfigurationService
     {
-        AppConfig GetAppConfig();
         StudioConfig GetStudioConfig();
 
-        bool IsRunnerRegistered();
-        string GetRunnerName();
+        UserConfig GetUserConfig();
+        void SetUserConfig(UserConfig userConfig);
     }
 }

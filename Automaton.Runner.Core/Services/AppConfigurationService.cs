@@ -1,6 +1,11 @@
 ﻿using Automaton.Runner.Core.Config;
 using Automaton.Runner.Services;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using System;
+using System.Configuration;
+using System.IO;
+using System.IO.IsolatedStorage;
 
 namespace Automaton.Runner.Core.Services
 {
@@ -9,6 +14,10 @@ namespace Automaton.Runner.Core.Services
     /// </summary>
     public class AppConfigurationService : IAppConfigurationService
     {
+        private const string CompanyName = "Automaton";
+        private const string ApplicationName = "AutomatonStudio";
+        private const string UserSettings = "UserConfig.json";
+
         private readonly IConfiguration configuration;
 
         public AppConfigurationService(IConfiguration configuration)
@@ -28,31 +37,35 @@ namespace Automaton.Runner.Core.Services
             return config;
         }
 
-        /// <summary>
-        /// Retrieve general Application configuration
-        /// </summary>
-        /// <returns>Application configuration</returns>
-        public AppConfig GetAppConfig()
+        public UserConfig GetUserConfig()
         {
-            var config = new AppConfig();
-            configuration.GetSection(nameof(AppConfig)).Bind(config);
+            var userConfig = new UserConfig();
+            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var filePath = Path.Combine(appData, CompanyName, ApplicationName, UserSettings);
+            
+            if (File.Exists(filePath))
+            {
+                var userConfigJson = File.ReadAllText(filePath);
+                userConfig = JsonConvert.DeserializeObject<UserConfig>(userConfigJson);
+            }
 
-            return config;
+            return userConfig;
         }
 
-        public bool IsRunnerRegistered()
+        public void SetUserConfig(UserConfig userConfig)
         {
-            var config = GetAppConfig();
-            var runnerRegistered = !string.IsNullOrEmpty(config.RunnerName);
+            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
-            return runnerRegistered;
-        }
+            var folderPath = Path.Combine(appData, CompanyName, ApplicationName);
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
 
-        public string GetRunnerName()
-        {
-            var config = GetAppConfig();
+            var filePath = Path.Combine(folderPath, UserSettings);
+            var userConfigJson = JsonConvert.SerializeObject(userConfig, Formatting.Indented);
 
-            return config.RunnerName;
+            File.WriteAllText(filePath, userConfigJson);
         }
     }
 }

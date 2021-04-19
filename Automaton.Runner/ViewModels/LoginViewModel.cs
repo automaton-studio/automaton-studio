@@ -8,7 +8,7 @@ namespace Automaton.Runner.ViewModels
 {
     public class LoginViewModel
     {
-        private readonly IAppConfigurationService appConfiguration;
+        private readonly IAppConfigurationService configurationService;
         private readonly IAuthService authService;
         private readonly IHubService hubService;
 
@@ -17,7 +17,7 @@ namespace Automaton.Runner.ViewModels
             IAuthService authService,
             IHubService hubService)
         {
-            this.appConfiguration = configService;
+            this.configurationService = configService;
             this.authService = authService;
             this.hubService = hubService;
         }
@@ -26,7 +26,7 @@ namespace Automaton.Runner.ViewModels
         {
             try
             {
-                var studioConfig = appConfiguration.GetStudioConfig();
+                var studioConfig = configurationService.GetStudioConfig();
                 var mainWindow = App.Current.MainWindow as MainWindow;
 
                 var userCredentials = new UserCredentials
@@ -40,9 +40,11 @@ namespace Automaton.Runner.ViewModels
                 if (token == null)
                     return;
 
-                if (appConfiguration.IsRunnerRegistered())
+                var userConfig = configurationService.GetUserConfig();
+
+                if (userConfig.IsRunnerRegistered())
                 {
-                    await hubService.Connect(token, appConfiguration.GetRunnerName());
+                    await hubService.Connect(token, userConfig.RunnerName);
 
                     mainWindow.ShowDashboardControl();
                 }
