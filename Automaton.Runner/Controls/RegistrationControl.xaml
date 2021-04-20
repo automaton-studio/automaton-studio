@@ -78,7 +78,7 @@
                 Opacity="0.5"/>
 
             <StackPanel Orientation="Horizontal" Margin="0,50,0,0" HorizontalAlignment="Center">
-                <Button Width="100" Height="40" Content="REGISTER" Click="RegisterClick" />
+                <Button IsDefault="True" Width="100" Height="40" Content="REGISTER" Click="RegisterClick" />
             </StackPanel>
 
         </StackPanel>
