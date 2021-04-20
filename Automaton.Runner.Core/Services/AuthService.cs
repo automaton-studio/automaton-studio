@@ -10,9 +10,9 @@ namespace Automaton.Runner.Services
     {
         public JsonWebToken Token { get; set; }
 
-        public async Task<JsonWebToken> SignIn(UserCredentials userCredentials, string tokenApiUrl)
+        public async Task<JsonWebToken> SignIn(string username, string password, string tokenApiUrl)
         {
-            var userDetailsAsJson = JsonConvert.SerializeObject(userCredentials);
+            var userDetailsAsJson = JsonConvert.SerializeObject(new { UserName = username, Password = password });
             var userDetailsContent = new StringContent(userDetailsAsJson, Encoding.UTF8, "application/json");
 
             using var httpClient = new HttpClient();

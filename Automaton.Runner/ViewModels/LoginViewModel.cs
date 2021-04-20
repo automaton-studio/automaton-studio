@@ -2,6 +2,7 @@
 using Automaton.Runner.Core.Services;
 using Automaton.Runner.Services;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner.ViewModels
@@ -27,19 +28,9 @@ namespace Automaton.Runner.ViewModels
             try
             {
                 var studioConfig = configurationService.GetStudioConfig();
+                var token = await authService.SignIn(username, password, studioConfig.TokenApiUrl);
+
                 var mainWindow = App.Current.MainWindow as MainWindow;
-
-                var userCredentials = new UserCredentials
-                {
-                    UserName = username,
-                    Password = password
-                };
-
-                var token = await authService.SignIn(userCredentials, studioConfig.TokenApiUrl);
-
-                if (token == null)
-                    return;
-
                 var userConfig = configurationService.GetUserConfig();
 
                 if (userConfig.IsRunnerRegistered())
@@ -52,6 +43,9 @@ namespace Automaton.Runner.ViewModels
                 {
                     mainWindow.ShowRegistrationControl();
                 }
+            }
+            catch (HttpRequestException httpException)
+            {        
             }
             catch (Exception ex)
             {

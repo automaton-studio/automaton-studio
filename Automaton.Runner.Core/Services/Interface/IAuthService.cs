@@ -7,6 +7,6 @@ namespace Automaton.Runner.Services
     {
         JsonWebToken Token { get; set; }
 
-        Task<JsonWebToken> SignIn(UserCredentials userCredentials, string tokenApiUrl);
+        Task<JsonWebToken> SignIn(string username, string password, string tokenApiUrl);
     }
 }
