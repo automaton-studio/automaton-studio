@@ -9,9 +9,6 @@
         Title="Automaton Runner"
         Height="450"
         Width="380"
-        AllowsTransparency="True"
-        Background="Transparent"
-        WindowStyle="None"
         ResizeMode="NoResize"
         MouseDown="Window_MouseDown">
 

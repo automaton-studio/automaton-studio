@@ -14,6 +14,7 @@
 
     <UserControl.Resources>
         <ViewModels:ViewModelLocator x:Key="viewModelLocator" />
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>
 
     <UserControl.DataContext>
@@ -22,11 +23,12 @@
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="5.5*"/>
         </Grid.RowDefinitions>
 
-        <Border CornerRadius="10" Grid.RowSpan="2">
+        <Border Grid.RowSpan="3">
             <Border.Background>
                 <LinearGradientBrush>
                     <GradientStop Color="#7be9f6" Offset="0.0"/>
@@ -45,10 +47,26 @@
                 HorizontalAlignment="Center"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" >
+        <Border Grid.Row="1" Background="White" Opacity="0.5" Width="250" Margin="0,0,0,0" 
+                BorderThickness="8" CornerRadius="8"
+                Visibility="{Binding Path=HasErrors, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="{Binding Errors}" Foreground="Red"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" Background="White" Opacity="0.5" Width="250" Margin="0,0,0,0" 
+                BorderThickness="8" CornerRadius="8"
+                Visibility="{Binding Path=Authenticating, Converter={StaticResource BoolToVisibilityConverter}}">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="Authenticating..." Foreground="Black"/>
+            </StackPanel>
+        </Border>
+
+        <StackPanel Grid.Row="2" >
+
             <StackPanel Orientation="Horizontal">
                 <TextBox Name="UsernameBox"
-                    Text="rzvdaniel@gmail.com"
                     FontFamily="Helvetica"
                     FontWeight="Light"
                     FontSize="20"
@@ -61,6 +79,7 @@
                     Opacity="0.5"
                     Height="25"
                     Margin="63,0,0,0"/>
+
                 <iconPacks:PackIconMaterial Kind="Account" 
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Center" 
@@ -91,7 +110,7 @@
                     HorizontalAlignment="Center" 
                     Foreground="White"/>
             </StackPanel>
-            
+
             <Border Width="250"
                 Height="2"
                 Background="White"
