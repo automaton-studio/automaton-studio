@@ -24,8 +24,7 @@ namespace Automaton.Runner.Core.Services
 
         #region Constructors
 
-        public HubService(IAppConfigurationService configService,
-                       IWorkflowService workflowService)
+        public HubService(IAppConfigurationService configService, IWorkflowService workflowService)
         {
             this.configService = configService;
             this.workflowService = workflowService;
@@ -40,12 +39,12 @@ namespace Automaton.Runner.Core.Services
             var studioConfig = configService.GetStudioConfig();
 
             connection = new HubConnectionBuilder()
-                    .WithUrl(studioConfig.WorkflowHubUrl, options =>
-                    {
-                        options.AccessTokenProvider = () => Task.FromResult(token.AccessToken);
-                        options.Headers.Add(RunnerNameHeader, runnerName);
-                    })
-                    .Build();
+                .WithUrl(studioConfig.WorkflowHubUrl, options =>
+                {
+                    options.AccessTokenProvider = () => Task.FromResult(token.AccessToken);
+                    options.Headers.Add(RunnerNameHeader, runnerName);
+                })
+                .Build();
 
             connection.Closed += async (error) =>
             {
@@ -79,5 +78,5 @@ namespace Automaton.Runner.Core.Services
         }
 
         #endregion
-        }
     }
+}

@@ -1,6 +1,5 @@
 ﻿using Automaton.Runner.Core.Services;
 using Automaton.Runner.Services;
-using System;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner.ViewModels
@@ -24,11 +23,9 @@ namespace Automaton.Runner.ViewModels
 
             if (registered)
             {
-
-            }
-
-            var mainWindow = App.Current.MainWindow as MainWindow;
-            mainWindow.ShowDashboardControl();
+                var mainWindow = App.Current.MainWindow as MainWindow;
+                mainWindow.NavigateToDashboard();
+            } 
         }
     }
 }

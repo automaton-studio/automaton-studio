@@ -49,15 +49,15 @@
 
         <Border Grid.Row="1" Background="White" Opacity="0.5" Width="250" Margin="0,0,0,0" 
                 BorderThickness="8" CornerRadius="8"
-                Visibility="{Binding Path=HasErrors, Converter={StaticResource BoolToVisibilityConverter}}">
+                Visibility="{Binding Path=Loader.HasErrors, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="{Binding Errors}" Foreground="Red"/>
+                <TextBlock Text="{Binding Loader.Errors}" Foreground="Red"/>
             </StackPanel>
         </Border>
 
         <Border Grid.Row="1" Background="White" Opacity="0.5" Width="250" Margin="0,0,0,0" 
                 BorderThickness="8" CornerRadius="8"
-                Visibility="{Binding Path=Authenticating, Converter={StaticResource BoolToVisibilityConverter}}">
+                Visibility="{Binding Path=Loader.Loading, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBlock Text="Authenticating..." Foreground="Black"/>
             </StackPanel>

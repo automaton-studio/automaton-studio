@@ -24,12 +24,12 @@ namespace Automaton.Runner
                 DragMove();
         }
 
-        public void ShowRegistrationControl()
+        public void NavigateToRegistration()
         {
             ViewModel.ShowRegistrationControl();
         }
 
-        public void ShowDashboardControl()
+        public void NavigateToDashboard()
         {
             ViewModel.ShowDashboardControl();
         }

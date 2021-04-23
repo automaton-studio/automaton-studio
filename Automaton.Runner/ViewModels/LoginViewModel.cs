@@ -1,16 +1,15 @@
 ﻿using Automaton.Runner.Core.Services;
 using Automaton.Runner.Services;
 using Automaton.Runner.Validators;
+using Automaton.Runner.ViewModels.Common;
 using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner.ViewModels
 {
-    public class LoginViewModel : INotifyPropertyChanged
+    public class LoginViewModel
     {
         private readonly IAppConfigurationService configurationService;
         private readonly IAuthService authService;
@@ -21,34 +20,7 @@ namespace Automaton.Runner.ViewModels
 
         public string UserName { get; set; }
         public string Password { get; set; }
-
-        private string errors;
-        public string Errors
-        {
-            get => errors;
-            set
-            {
-                errors = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(HasErrors));
-            }
-        }
-
-        private bool authenticating;
-        public bool Authenticating
-        {
-            get => authenticating;
-            set
-            {
-                authenticating = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool HasErrors
-        {
-            get => !string.IsNullOrEmpty(Errors);
-        }
+        public IViewModelLoader Loader { get; set; }
 
         #endregion
 
@@ -57,11 +29,14 @@ namespace Automaton.Runner.ViewModels
         public LoginViewModel(
             IAppConfigurationService configService,
             IAuthService authService,
-            IHubService hubService)
+            IHubService hubService,
+            IViewModelLoader loader)
         {
             this.configurationService = configService;
             this.authService = authService;
             this.hubService = hubService;
+            this.Loader = loader;
+
             loginValidator = new LoginValidator();
         }
 
@@ -71,20 +46,24 @@ namespace Automaton.Runner.ViewModels
         {
             try
             {
+                Loader.ClearErrors();
+
                 UserName = username;
                 Password = password;
-                Errors = string.Empty;
 
+                // Validate login
                 var results = loginValidator.Validate(this);
                 if (results != null && results.Errors.Any())
                 {
-                    Errors = string.Join(Environment.NewLine, results.Errors.Select(x => x.ErrorMessage).ToArray());
+                    Loader.SetErrors(string.Join(Environment.NewLine, results.Errors.Select(x => x.ErrorMessage).ToArray()));
                     return;
                 }
 
-                Authenticating = true;
+                Loader.StartLoading();
 
                 var studioConfig = configurationService.GetStudioConfig();
+
+                // Perform authentication
                 var token = await authService.SignIn(username, password, studioConfig.TokenApiUrl);
 
                 var mainWindow = App.Current.MainWindow as MainWindow;
@@ -92,54 +71,33 @@ namespace Automaton.Runner.ViewModels
 
                 if (userConfig.IsRunnerRegistered())
                 {
+                    // Connect to SignalR server hub
                     await hubService.Connect(token, userConfig.RunnerName);
 
-                    mainWindow.ShowDashboardControl();
+                    mainWindow.NavigateToDashboard();
                 }
                 else
                 {
-                    mainWindow.ShowRegistrationControl();
+                    mainWindow.NavigateToRegistration();
                 }
             }
             catch (HttpRequestException httpException)
             {
-                Errors = Resources.Errors.AuthenticationFail;
+                // Display generic authetication error
+                Loader.SetErrors(Resources.Errors.AuthenticationFail);
             }
             catch (Exception ex)
             {
-                Errors = string.Join(Environment.NewLine,
+                // Display generic authetication error
+                Loader.SetErrors(string.Join(Environment.NewLine,
                     Resources.Errors.AuthenticationError,
-                    Resources.Errors.ContactAdministrator);
+                    Resources.Errors.ContactAdministrator));
             }
             finally
             {
-                Authenticating = false;
+                // Hide Authenticating... message
+                Loader.StopLoading();
             }
-        }
-
-        #region Validation
-
-        public string this[string columnName]
-        {
-            get
-            {
-                var firstOrDefault = loginValidator.Validate(this).Errors.FirstOrDefault(lol => lol.PropertyName == columnName);
-                
-                return firstOrDefault != null ? 
-                    loginValidator != null ? firstOrDefault.ErrorMessage : string.Empty : 
-                    string.Empty;
-            }
-        }
-
-        #endregion
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        // Create the OnPropertyChanged method to raise the event
-        // The calling member's name will be used as the parameter.
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }
