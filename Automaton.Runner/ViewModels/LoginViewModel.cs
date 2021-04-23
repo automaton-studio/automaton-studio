@@ -5,6 +5,7 @@ using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner.ViewModels
@@ -16,55 +17,42 @@ namespace Automaton.Runner.ViewModels
         private readonly IHubService hubService;
         private readonly LoginValidator loginValidator;
 
-        private string userName;
-        public string UserName
-        {
-            get { return userName; }
-            set
-            {
-                userName = value;
-                OnPropertyChanged("UserName");
-            }
-        }
+        #region Properties
 
-        private string password;
-        public string Password
-        {
-            get { return password; }
-            set
-            {
-                password = value;
-                OnPropertyChanged("Password");
-            }
-        }
+        public string UserName { get; set; }
+        public string Password { get; set; }
 
         private string errors;
         public string Errors
         {
-            get { return errors; }
+            get => errors;
             set
             {
                 errors = value;
-                OnPropertyChanged("Errors");
-                OnPropertyChanged("HasErrors");
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasErrors));
             }
         }
 
         private bool authenticating;
         public bool Authenticating
         {
-            get { return authenticating; }
+            get => authenticating;
             set
             {
                 authenticating = value;
-                OnPropertyChanged("Authenticating");
+                OnPropertyChanged();
             }
         }
 
         public bool HasErrors
         {
-            get { return !string.IsNullOrEmpty(Errors); }
+            get => !string.IsNullOrEmpty(Errors);
         }
+
+        #endregion
+
+        #region Constructors
 
         public LoginViewModel(
             IAppConfigurationService configService,
@@ -76,6 +64,8 @@ namespace Automaton.Runner.ViewModels
             this.hubService = hubService;
             loginValidator = new LoginValidator();
         }
+
+        #endregion
 
         public async Task Login(string username, string password)
         {
@@ -113,13 +103,13 @@ namespace Automaton.Runner.ViewModels
             }
             catch (HttpRequestException httpException)
             {
-                Errors = "Can not authenticate to the server.";
+                Errors = Resources.Errors.AuthenticationFail;
             }
             catch (Exception ex)
             {
-                Errors = string.Join(Environment.NewLine, 
-                    "A problem has occured during authentication.",
-                    "Please contact administrator.");
+                Errors = string.Join(Environment.NewLine,
+                    Resources.Errors.AuthenticationError,
+                    Resources.Errors.ContactAdministrator);
             }
             finally
             {
@@ -134,9 +124,10 @@ namespace Automaton.Runner.ViewModels
             get
             {
                 var firstOrDefault = loginValidator.Validate(this).Errors.FirstOrDefault(lol => lol.PropertyName == columnName);
-                if (firstOrDefault != null)
-                    return loginValidator != null ? firstOrDefault.ErrorMessage : "";
-                return "";
+                
+                return firstOrDefault != null ? 
+                    loginValidator != null ? firstOrDefault.ErrorMessage : string.Empty : 
+                    string.Empty;
             }
         }
 
@@ -144,10 +135,11 @@ namespace Automaton.Runner.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged(string propertyName)
+        // Create the OnPropertyChanged method to raise the event
+        // The calling member's name will be used as the parameter.
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

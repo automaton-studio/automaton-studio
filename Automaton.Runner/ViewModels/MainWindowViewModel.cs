@@ -5,12 +5,18 @@ namespace Automaton.Runner.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+        #region Events
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        #region Properties
 
         private bool registrationVisible = false;
         public bool RegistrationVisible
         {
-            get { return registrationVisible; }
+            get => registrationVisible;
             set
             {
                 registrationVisible = value;
@@ -21,7 +27,7 @@ namespace Automaton.Runner.ViewModels
         private bool dashboardVisible = false;
         public bool DashboardVisible
         {
-            get { return dashboardVisible; }
+            get => dashboardVisible;
             set
             {
                 dashboardVisible = value;
@@ -32,13 +38,15 @@ namespace Automaton.Runner.ViewModels
         private bool loginVisible = true;
         public bool LoginVisible
         {
-            get { return loginVisible; }
+            get => loginVisible;
             set
             {
                 loginVisible = value;
                 OnPropertyChanged();
             }
         }
+
+        #endregion
 
         public void ShowRegistrationControl()
         {
