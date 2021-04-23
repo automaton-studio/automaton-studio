@@ -61,7 +61,7 @@ namespace Automaton.Runner.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A problem has occured during authentication..
+        ///   Looks up a localized string similar to Authentication error..
         /// </summary>
         public static string AuthenticationError {
             get {

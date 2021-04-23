@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Navigation;
 
 namespace Automaton.Runner
 {
@@ -26,12 +27,12 @@ namespace Automaton.Runner
 
         public void NavigateToRegistration()
         {
-            ViewModel.ShowRegistrationControl();
+            frame.NavigationService.Navigate(new Uri("Controls/RegistrationControl.xaml", UriKind.Relative));
         }
 
         public void NavigateToDashboard()
         {
-            ViewModel.ShowDashboardControl();
+            frame.NavigationService.Navigate(new Uri("Controls/DashboardControl.xaml", UriKind.Relative));
         }
     }
 }

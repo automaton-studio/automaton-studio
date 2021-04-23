@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AuthenticationError" xml:space="preserve">
-    <value>A problem has occured during authentication.</value>
+    <value>Authentication error.</value>
   </data>
   <data name="AuthenticationFail" xml:space="preserve">
     <value>Can not authenticate to the server.</value>

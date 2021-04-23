@@ -1,4 +1,5 @@
 ﻿using Automaton.Runner.Core.Services;
+using Automaton.Runner.Enums;
 using Automaton.Runner.Services;
 using Automaton.Runner.Validators;
 using Automaton.Runner.ViewModels.Common;
@@ -42,7 +43,7 @@ namespace Automaton.Runner.ViewModels
 
         #endregion
 
-        public async Task Login(string username, string password)
+        public async Task<AppNavigate> Login(string username, string password)
         {
             try
             {
@@ -56,7 +57,7 @@ namespace Automaton.Runner.ViewModels
                 if (results != null && results.Errors.Any())
                 {
                     Loader.SetErrors(string.Join(Environment.NewLine, results.Errors.Select(x => x.ErrorMessage).ToArray()));
-                    return;
+                    return AppNavigate.None;
                 }
 
                 Loader.StartLoading();
@@ -66,7 +67,6 @@ namespace Automaton.Runner.ViewModels
                 // Perform authentication
                 var token = await authService.SignIn(username, password, studioConfig.TokenApiUrl);
 
-                var mainWindow = App.Current.MainWindow as MainWindow;
                 var userConfig = configurationService.GetUserConfig();
 
                 if (userConfig.IsRunnerRegistered())
@@ -74,11 +74,11 @@ namespace Automaton.Runner.ViewModels
                     // Connect to SignalR server hub
                     await hubService.Connect(token, userConfig.RunnerName);
 
-                    mainWindow.NavigateToDashboard();
+                    return AppNavigate.Dashboard;
                 }
                 else
                 {
-                    mainWindow.NavigateToRegistration();
+                    return AppNavigate.Registration;
                 }
             }
             catch (HttpRequestException httpException)
@@ -98,6 +98,8 @@ namespace Automaton.Runner.ViewModels
                 // Hide Authenticating... message
                 Loader.StopLoading();
             }
+
+            return AppNavigate.None;
         }
     }
 }

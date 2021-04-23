@@ -16,8 +16,15 @@ namespace Automaton.Runner.Controls
 
         private async void LoginClick(object sender, RoutedEventArgs e)
         {
+            var mainWindow = App.Current.MainWindow as MainWindow;
             var viewModel = DataContext as LoginViewModel;
-            await viewModel.Login(UsernameBox.Text, PasswordBox.Password);
+
+            var result = await viewModel.Login(UsernameBox.Text, PasswordBox.Password);
+
+            if (result == Enums.AppNavigate.Dashboard)
+                mainWindow.NavigateToDashboard();
+            else if (result == Enums.AppNavigate.Registration)
+                mainWindow.NavigateToRegistration();
         }
     }
 }

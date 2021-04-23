@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controls="clr-namespace:Automaton.Runner.Controls"
         xmlns:ViewModels="clr-namespace:Automaton.Runner.ViewModels"
         mc:Ignorable="d"
         Title="Automaton Runner"
@@ -22,16 +21,6 @@
     </Window.DataContext>
     
     <Grid>
-        <Grid Visibility="{Binding Path=LoginVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-            <controls:LoginControl></controls:LoginControl>
-        </Grid>
-
-        <Grid Visibility="{Binding Path=RegistrationVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-            <controls:RegistrationControl></controls:RegistrationControl>
-        </Grid>
-
-        <Grid Visibility="{Binding Path=DashboardVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-            <controls:DashboardControl></controls:DashboardControl>
-        </Grid>
+        <Frame x:Name="frame" Source="Controls/LoginControl.xaml" NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>
