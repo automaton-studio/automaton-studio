@@ -1,4 +1,4 @@
-﻿using Automaton.Runner.Core.Config;
+﻿using Automaton.Runner.Core.Resources;
 using Automaton.Runner.Services;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
@@ -18,13 +18,13 @@ namespace Automaton.Runner.Core.Services
 
         private HubConnection connection;
         private readonly IWorkflowService workflowService;
-        private readonly IAppConfigurationService configService;
+        private readonly AppConfigurationService configService;
 
         #endregion
 
         #region Constructors
 
-        public HubService(IAppConfigurationService configService, IWorkflowService workflowService)
+        public HubService(AppConfigurationService configService, IWorkflowService workflowService)
         {
             this.configService = configService;
             this.workflowService = workflowService;
@@ -34,9 +34,21 @@ namespace Automaton.Runner.Core.Services
 
         #region Public Methods
 
+        public async Task Register(string runnerName)
+        {
+            var registeredOnServer = await connection.InvokeAsync<bool>("RegisterRunner", runnerName);
+
+            if (!registeredOnServer)
+            {
+                throw new Exception(Errors.CanNotRegisterRunner);
+            }
+
+            configService.SaveRunnerName(runnerName);
+        }
+
         public async Task Connect(JsonWebToken token, string runnerName)
         {
-            var studioConfig = configService.GetStudioConfig();
+            var studioConfig = configService.StudioConfig;
 
             connection = new HubConnectionBuilder()
                 .WithUrl(studioConfig.WorkflowHubUrl, options =>
@@ -62,19 +74,6 @@ namespace Automaton.Runner.Core.Services
             });
 
             await connection.StartAsync();
-        }
-
-        public async Task<bool> Register(string runnerName)
-        {
-            var registered = await connection.InvokeAsync<bool>("RegisterRunner", runnerName);
-
-            if (registered)
-            {
-                var userConfig = new UserConfig { RunnerName = runnerName };
-                configService.SetUserConfig(userConfig);
-            }       
-
-            return registered;
         }
 
         #endregion

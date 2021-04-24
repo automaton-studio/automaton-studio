@@ -3,56 +3,67 @@ using Automaton.Runner.Services;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
-using System.Configuration;
 using System.IO;
-using System.IO.IsolatedStorage;
 
 namespace Automaton.Runner.Core.Services
 {
     /// <summary>
     /// Application configuration.
     /// </summary>
-    public class AppConfigurationService : IAppConfigurationService
+    public class AppConfigurationService
     {
+        #region Constants
+
         private const string CompanyName = "Automaton";
         private const string ApplicationName = "AutomatonStudio";
-        private const string UserSettings = "UserConfig.json";
+        private const string UserSettingsFileName = "UserConfig.json";
+
+        #endregion
+
+        #region Members
 
         private readonly IConfiguration configuration;
+
+        #endregion
+
+        #region Properties
+
+        public UserConfig UserConfig { get; private set; } = new UserConfig();
+        public StudioConfig StudioConfig { get; private set; } = new StudioConfig();
+
+        #endregion
 
         public AppConfigurationService(IConfiguration configuration)
         {
             this.configuration = configuration;
+
+            LoadStudioConfig();
+            LoadUserConfig();
         }
 
-        /// <summary>
-        /// Retrieve Studio configuration
-        /// </summary>
-        /// <returns>Studio configuration</returns>
-        public StudioConfig GetStudioConfig()
-        { 
-            var config = new StudioConfig();
-            configuration.GetSection(nameof(StudioConfig)).Bind(config);
+        #region Public Methods
 
-            return config;
-        }
-
-        public UserConfig GetUserConfig()
+        public void SaveRunnerName(string runnerName)
         {
-            var userConfig = new UserConfig();
-            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            var filePath = Path.Combine(appData, CompanyName, ApplicationName, UserSettings);
-            
-            if (File.Exists(filePath))
-            {
-                var userConfigJson = File.ReadAllText(filePath);
-                userConfig = JsonConvert.DeserializeObject<UserConfig>(userConfigJson);
-            }
-
-            return userConfig;
+            UserConfig.RunnerName = runnerName;
+            SaveUserConfig();
         }
 
-        public void SetUserConfig(UserConfig userConfig)
+        #endregion
+
+        #region Private Methods
+
+        private void LoadStudioConfig()
+        {
+            configuration.GetSection(nameof(StudioConfig)).Bind(StudioConfig);
+        }
+
+        private void CreateUserConfig()
+        {
+            SaveUserConfig();
+        }
+
+        private void SaveUserConfig()
         {
             var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
@@ -62,10 +73,34 @@ namespace Automaton.Runner.Core.Services
                 Directory.CreateDirectory(folderPath);
             }
 
-            var filePath = Path.Combine(folderPath, UserSettings);
-            var userConfigJson = JsonConvert.SerializeObject(userConfig, Formatting.Indented);
+            var filePath = Path.Combine(folderPath, UserSettingsFileName);
+            var userConfigJson = JsonConvert.SerializeObject(UserConfig, Formatting.Indented);
 
             File.WriteAllText(filePath, userConfigJson);
         }
+
+        private void LoadUserConfig()
+        {
+            if (!UserConfigExists())
+            {
+                CreateUserConfig();
+            }
+
+            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var filePath = Path.Combine(appData, CompanyName, ApplicationName, UserSettingsFileName);
+           
+            var userConfigJson = File.ReadAllText(filePath);
+            UserConfig = JsonConvert.DeserializeObject<UserConfig>(userConfigJson);
+        }
+
+        private static bool UserConfigExists()
+        {
+            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var filePath = Path.Combine(appData, CompanyName, ApplicationName, UserSettingsFileName);
+
+            return File.Exists(filePath);
+        }
+
+        #endregion
     }
 }

@@ -47,7 +47,8 @@
                 HorizontalAlignment="Center"/>
         </StackPanel>
 
-        <Border Grid.Row="1" Background="White" Opacity="0.5" Width="250" Margin="0,0,0,0" 
+        <Border Grid.Row="1" Background="White" Opacity="0.5"
+                Width="250" Margin="0,0,0,5" 
                 BorderThickness="8" CornerRadius="8"
                 Visibility="{Binding Path=Loader.HasErrors, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -55,7 +56,8 @@
             </StackPanel>
         </Border>
 
-        <Border Grid.Row="1" Background="White" Opacity="0.5" Width="250" Margin="0,0,0,0" 
+        <Border Grid.Row="1" Background="White" Opacity="0.5" 
+                Width="250" Margin="0,0,0,5" 
                 BorderThickness="8" CornerRadius="8"
                 Visibility="{Binding Path=Loader.Loading, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -67,6 +69,7 @@
 
             <StackPanel Orientation="Horizontal">
                 <TextBox Name="UsernameBox"
+                    Text="{Binding UserName}"
                     FontFamily="Helvetica"
                     FontWeight="Light"
                     FontSize="20"
@@ -93,6 +96,7 @@
 
             <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                 <PasswordBox Name="PasswordBox"
+                    PasswordChanged="OnPasswordChanged"
                     FontFamily="Helvetica"
                     FontWeight="Light"
                     FontSize="20"

@@ -1,6 +1,8 @@
 ﻿using Automaton.Runner.Core;
+using Automaton.Runner.Validators;
 using Automaton.Runner.ViewModels;
 using Automaton.Runner.ViewModels.Common;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -57,8 +59,11 @@ namespace Automaton.Runner
             services.AddSingleton<RegistrationViewModel>();
             services.AddSingleton<DashboardViewModel>();
 
-            // Register scoped
-            services.AddScoped<IViewModelLoader, ViewModelLoader>();   
+            // Register validators
+            services.AddScoped<LoginValidator>();
+
+            // Register common
+            services.AddScoped<IViewModelLoader, ViewModelLoader>();
         }
     }
 }

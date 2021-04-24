@@ -1,4 +1,6 @@
-﻿using Automaton.Runner.Core.Services;
+﻿using Automaton.Runner.Core;
+using Automaton.Runner.Core.Resources;
+using Automaton.Runner.Core.Services;
 using Automaton.Runner.Enums;
 using Automaton.Runner.Services;
 using Automaton.Runner.Validators;
@@ -6,73 +8,63 @@ using Automaton.Runner.ViewModels.Common;
 using System;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner.ViewModels
 {
     public class LoginViewModel
     {
-        private readonly IAppConfigurationService configurationService;
+        private readonly AppConfigurationService configService;
         private readonly IAuthService authService;
         private readonly IHubService hubService;
         private readonly LoginValidator loginValidator;
 
         #region Properties
 
+        public IViewModelLoader Loader { get; set; }
+
         public string UserName { get; set; }
         public string Password { get; set; }
-        public IViewModelLoader Loader { get; set; }
 
         #endregion
 
         #region Constructors
 
         public LoginViewModel(
-            IAppConfigurationService configService,
+            AppConfigurationService configService,
             IAuthService authService,
             IHubService hubService,
-            IViewModelLoader loader)
+            IViewModelLoader loader,
+            LoginValidator loginValidator)
         {
-            this.configurationService = configService;
+            this.configService = configService;
             this.authService = authService;
             this.hubService = hubService;
             this.Loader = loader;
-
-            loginValidator = new LoginValidator();
+            this.loginValidator = loginValidator;
         }
 
         #endregion
 
-        public async Task<AppNavigate> Login(string username, string password)
+        public async Task<AppNavigate> Login()
         {
             try
             {
-                Loader.ClearErrors();
-
-                UserName = username;
-                Password = password;
-
-                // Validate login
-                var results = loginValidator.Validate(this);
-                if (results != null && results.Errors.Any())
+                if (!Validate())
                 {
-                    Loader.SetErrors(string.Join(Environment.NewLine, results.Errors.Select(x => x.ErrorMessage).ToArray()));
                     return AppNavigate.None;
                 }
 
                 Loader.StartLoading();
 
-                var studioConfig = configurationService.GetStudioConfig();
+                // Authenticate before connecting to the hub service
+                await authService.SignIn(UserName, Password, configService.StudioConfig.TokenApiUrl);
 
-                // Perform authentication
-                var token = await authService.SignIn(username, password, studioConfig.TokenApiUrl);
-
-                var userConfig = configurationService.GetUserConfig();
-
-                if (userConfig.IsRunnerRegistered())
+                if (configService.UserConfig.IsRunnerRegistered())
                 {
-                    // Connect to SignalR server hub
-                    await hubService.Connect(token, userConfig.RunnerName);
+                    // Connect to the hub service
+                    await hubService.Connect(authService.Token, configService.UserConfig.RunnerName);
 
                     return AppNavigate.Dashboard;
                 }
@@ -81,25 +73,36 @@ namespace Automaton.Runner.ViewModels
                     return AppNavigate.Registration;
                 }
             }
-            catch (HttpRequestException httpException)
+            catch (AuthenticationException ex)
             {
-                // Display generic authetication error
-                Loader.SetErrors(Resources.Errors.AuthenticationFail);
+                Loader.SetErrors(Errors.AuthenticationError);
             }
             catch (Exception ex)
             {
-                // Display generic authetication error
-                Loader.SetErrors(string.Join(Environment.NewLine,
-                    Resources.Errors.AuthenticationError,
-                    Resources.Errors.ContactAdministrator));
+                Loader.SetErrors(Errors.ApplicationError);
             }
             finally
             {
-                // Hide Authenticating... message
                 Loader.StopLoading();
             }
 
             return AppNavigate.None;
+        }
+
+        private bool Validate()
+        {
+            Loader.ClearErrors();
+
+            var results = loginValidator.Validate(this);
+
+            if (results != null && results.Errors.Any())
+            {
+                Loader.SetErrors(string.Join(Environment.NewLine, results.Errors.Select(x => x.ErrorMessage).ToArray()));
+                
+                return false;
+            }
+
+            return true;
         }
     }
 }

@@ -36,10 +36,13 @@ namespace Automaton.Studio.Api
         /// POST api/<TokenController>
         /// </summary>
         [HttpPost]
-        public async Task<JsonWebToken> Post([FromBody] SignInUserDetails userDetails)
+        public async Task<ObjectResult> Post([FromBody] SignInUserDetails userDetails)
         {
-            if (string.IsNullOrWhiteSpace(userDetails.UserName) || string.IsNullOrWhiteSpace(userDetails.Password))
-                throw new Exception("Invalid credentials.");
+            if (string.IsNullOrWhiteSpace(userDetails.UserName) || 
+                string.IsNullOrWhiteSpace(userDetails.Password))
+            {
+                return BadRequest("Invalid credentials.");
+            }
 
             var result = await _signInManager.PasswordSignInAsync(userDetails.UserName, userDetails.Password, isPersistent: true, lockoutOnFailure: false);
             
@@ -51,7 +54,7 @@ namespace Automaton.Studio.Api
 
                 if (user == null)
                 {
-                    throw new Exception("Invalid credentials.");
+                    return Unauthorized("Invalid credentials.");
                 }
 
                 var refreshToken = new RefreshToken<string>(user.Id, 4);
@@ -66,20 +69,22 @@ namespace Automaton.Studio.Api
 
                 _logger.Log(LogLevel.Debug, "UserLoggedIn Event Published.");
 
-                return jwt;
+                return Ok(jwt);
             }
 
             if (result.IsLockedOut)
             {
                 _logger.LogWarning("User account locked out.");
-                throw new Exception("User account locked out.");
+
+                return Unauthorized("User account locked out.");
             }
             
             _logger.LogWarning("Invalid login attempt.");
-            throw new Exception("Invalid login attempt.");
+
+            return Unauthorized("Invalid login attempt.");
         }
 
-        private IDictionary<string, string> GetCustomClaimsForUser(string userId)
+        private static IDictionary<string, string> GetCustomClaimsForUser(string userId)
         {
             // Add custom claims here
             return new Dictionary<string, string>

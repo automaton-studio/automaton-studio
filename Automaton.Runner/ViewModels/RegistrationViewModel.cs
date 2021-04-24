@@ -19,13 +19,11 @@ namespace Automaton.Runner.ViewModels
         {
             await hubService.Connect(authService.Token, runnerName);
 
-            var registered = await hubService.Register(runnerName);
-
-            if (registered)
-            {
-                var mainWindow = App.Current.MainWindow as MainWindow;
-                mainWindow.NavigateToDashboard();
-            } 
+            await hubService.Register(runnerName);
+            
+            var mainWindow = App.Current.MainWindow as MainWindow;
+            mainWindow.NavigateToDashboard();
+            
         }
     }
 }

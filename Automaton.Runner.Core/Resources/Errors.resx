@@ -117,11 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ApplicationError" xml:space="preserve">
+    <value>Application error.</value>
+  </data>
   <data name="AuthenticationError" xml:space="preserve">
     <value>Authentication error.</value>
   </data>
-  <data name="AuthenticationFail" xml:space="preserve">
-    <value>Can not authenticate to the server.</value>
+  <data name="CanNotRegisterRunner" xml:space="preserve">
+    <value>Can not register runner.</value>
   </data>
   <data name="ContactAdministrator" xml:space="preserve">
     <value>Please contact administrator.</value>

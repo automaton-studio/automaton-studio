@@ -17,10 +17,11 @@ namespace Automaton.Runner.Core
                     db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)), true)
                 .AddConsoleActivities());
 
-            services.AddScoped<IAppConfigurationService>(service => new AppConfigurationService(configuration)); ;
+            services.AddSingleton(service => new AppConfigurationService(configuration));
+            services.AddSingleton<IAuthService, AuthService>();
+            services.AddSingleton<IHubService, HubService>();
+
             services.AddScoped<IWorkflowService, WorkflowService>();
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IHubService, HubService>();           
         }
     }
 }

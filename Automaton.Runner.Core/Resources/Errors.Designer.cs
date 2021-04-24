@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Automaton.Runner.Resources {
+namespace Automaton.Runner.Core.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Automaton.Runner.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Automaton.Runner.Resources.Errors", typeof(Errors).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Automaton.Runner.Core.Resources.Errors", typeof(Errors).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,6 +61,15 @@ namespace Automaton.Runner.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Application error..
+        /// </summary>
+        public static string ApplicationError {
+            get {
+                return ResourceManager.GetString("ApplicationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Authentication error..
         /// </summary>
         public static string AuthenticationError {
@@ -70,11 +79,11 @@ namespace Automaton.Runner.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not authenticate to the server..
+        ///   Looks up a localized string similar to Can not register runner..
         /// </summary>
-        public static string AuthenticationFail {
+        public static string CanNotRegisterRunner {
             get {
-                return ResourceManager.GetString("AuthenticationFail", resourceCulture);
+                return ResourceManager.GetString("CanNotRegisterRunner", resourceCulture);
             }
         }
         

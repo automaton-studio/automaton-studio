@@ -19,12 +19,19 @@ namespace Automaton.Runner.Controls
             var mainWindow = App.Current.MainWindow as MainWindow;
             var viewModel = DataContext as LoginViewModel;
 
-            var result = await viewModel.Login(UsernameBox.Text, PasswordBox.Password);
+            var result = await viewModel.Login();
 
             if (result == Enums.AppNavigate.Dashboard)
                 mainWindow.NavigateToDashboard();
             else if (result == Enums.AppNavigate.Registration)
                 mainWindow.NavigateToRegistration();
+        }
+
+        private void OnPasswordChanged(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = sender as PasswordBox;
+            var viewModel = DataContext as LoginViewModel;
+            viewModel.Password = passwordBox.Password;
         }
     }
 }

@@ -1,6 +1,9 @@
 ﻿using Automaton.Runner.Core;
 using Newtonsoft.Json;
+using System;
+using System.Net;
 using System.Net.Http;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +13,7 @@ namespace Automaton.Runner.Services
     {
         public JsonWebToken Token { get; set; }
 
-        public async Task<JsonWebToken> SignIn(string username, string password, string tokenApiUrl)
+        public async Task SignIn(string username, string password, string tokenApiUrl)
         {
             var userDetailsAsJson = JsonConvert.SerializeObject(new { UserName = username, Password = password });
             var userDetailsContent = new StringContent(userDetailsAsJson, Encoding.UTF8, "application/json");
@@ -18,11 +21,12 @@ namespace Automaton.Runner.Services
             using var httpClient = new HttpClient();
             var response = await httpClient.PostAsync(tokenApiUrl, userDetailsContent);
 
-            var authTokenJson = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new AuthenticationException();
+            }
 
-            Token = JsonConvert.DeserializeObject<JsonWebToken>(authTokenJson);
-
-            return Token;
+            Token = JsonConvert.DeserializeObject<JsonWebToken>(await response.Content.ReadAsStringAsync());
         }
     }
 }
