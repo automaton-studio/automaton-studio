@@ -129,4 +129,7 @@
   <data name="ContactAdministrator" xml:space="preserve">
     <value>Please contact administrator.</value>
   </data>
+  <data name="RegistrationError" xml:space="preserve">
+    <value>Registration error.</value>
+  </data>
 </root>

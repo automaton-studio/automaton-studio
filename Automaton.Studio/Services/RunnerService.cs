@@ -12,8 +12,14 @@ namespace Automaton.Studio.Services
             this.dbContext = context ?? throw new ArgumentNullException("context");
         }
 
-        public int Add(Runner runner)
+        public int Add(string runnerName, string userId)
         {
+            var runner = new Runner
+            {
+                Name = runnerName,
+                UserId = userId
+            };
+
             dbContext.Runners.Add(runner);
             var result = dbContext.SaveChanges();
 

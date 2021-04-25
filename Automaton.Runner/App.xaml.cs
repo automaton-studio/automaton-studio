@@ -61,6 +61,7 @@ namespace Automaton.Runner
 
             // Register validators
             services.AddScoped<LoginValidator>();
+            services.AddScoped<RegistrationValidator>();
 
             // Register common
             services.AddScoped<IViewModelLoader, ViewModelLoader>();

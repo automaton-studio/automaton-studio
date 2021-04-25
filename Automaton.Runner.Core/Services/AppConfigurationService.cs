@@ -43,7 +43,7 @@ namespace Automaton.Runner.Core.Services
 
         #region Public Methods
 
-        public void SaveRunnerName(string runnerName)
+        public void RegisterRunnerName(string runnerName)
         {
             UserConfig.RunnerName = runnerName;
             SaveUserConfig();

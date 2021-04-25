@@ -51,18 +51,9 @@ namespace Automaton.Studio.Hubs
 
         #region Public Methods
 
-        public bool RegisterRunner(string runnerName)
+        public bool Ping(string runnerName)
         {
-            var runner = new Runner
-            {
-                Name = runnerName,
-                ConnectionId = Context.ConnectionId,
-                UserId = GetUserId()
-            };
-
-            var result = runnerService.Add(runner);
-
-            return result > 0;
+            return !string.IsNullOrEmpty(runnerName);
         }
 
         #endregion
@@ -91,8 +82,6 @@ namespace Automaton.Studio.Hubs
 
             if (userIdClaim is null)
                 throw new ArgumentNullException("userId");
-
-            var userId = userIdClaim.Value;
 
             return userIdClaim.Value;
         }

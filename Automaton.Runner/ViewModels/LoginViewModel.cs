@@ -59,7 +59,7 @@ namespace Automaton.Runner.ViewModels
                 Loader.StartLoading();
 
                 // Authenticate before connecting to the hub service
-                await authService.SignIn(UserName, Password, configService.StudioConfig.TokenApiUrl);
+                await authService.SignIn(UserName, Password);
 
                 if (configService.UserConfig.IsRunnerRegistered())
                 {

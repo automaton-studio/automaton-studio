@@ -1,5 +1,11 @@
-﻿using Automaton.Runner.Core.Services;
+﻿using Automaton.Runner.Core.Resources;
+using Automaton.Runner.Core.Services;
+using Automaton.Runner.Enums;
 using Automaton.Runner.Services;
+using Automaton.Runner.Validators;
+using Automaton.Runner.ViewModels.Common;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner.ViewModels
@@ -8,22 +14,80 @@ namespace Automaton.Runner.ViewModels
     {
         private readonly IHubService hubService;
         private readonly IAuthService authService;
+        private readonly IRegistrationService registrationService;
+        private readonly RegistrationValidator registrationValidator;
+        private readonly AppConfigurationService configService;
 
-        public RegistrationViewModel(IHubService hubService, IAuthService authService)
+        #region Properties
+
+        public IViewModelLoader Loader { get; set; }
+        public string RunnerName { get; set; }
+
+        #endregion
+
+        public RegistrationViewModel
+        (
+            IHubService hubService, 
+            IAuthService authService,
+            IViewModelLoader loader,
+            IRegistrationService registrationService,
+            AppConfigurationService configService,
+            RegistrationValidator registrationValidator
+        )
         {
             this.hubService = hubService;
             this.authService = authService;
+            this.Loader = loader;
+            this.configService = configService;
+            this.registrationService = registrationService;
+            this.registrationValidator = registrationValidator;
         }
 
-        public async Task Register(string runnerName)
+        public async Task<AppNavigate> Register()
         {
-            await hubService.Connect(authService.Token, runnerName);
+            try
+            {
+                if (!Validate())
+                {
+                    return AppNavigate.None;
+                }
 
-            await hubService.Register(runnerName);
-            
-            var mainWindow = App.Current.MainWindow as MainWindow;
-            mainWindow.NavigateToDashboard();
-            
+                Loader.StartLoading();
+
+                await registrationService.Register(RunnerName);
+
+                configService.RegisterRunnerName(RunnerName);
+
+                await hubService.Connect(authService.Token, RunnerName);
+
+                return AppNavigate.Dashboard;
+            }
+            catch (Exception ex)
+            {
+                Loader.SetErrors(Errors.RegistrationError);
+            }
+            finally
+            {
+                Loader.StopLoading();
+            }
+
+            return AppNavigate.None;
+        }
+
+        private bool Validate()
+        {
+            Loader.ClearErrors();
+
+            var results = registrationValidator.Validate(this);
+
+            if (results != null && results.Errors.Any())
+            {
+                Loader.SetErrors(string.Join(Environment.NewLine, results.Errors.Select(x => x.ErrorMessage).ToArray()));
+
+                return false;
+            }
+
+            return true;
         }
     }
 }

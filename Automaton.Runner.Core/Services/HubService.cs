@@ -1,5 +1,4 @@
-﻿using Automaton.Runner.Core.Resources;
-using Automaton.Runner.Services;
+﻿using Automaton.Runner.Services;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Threading.Tasks;
@@ -34,16 +33,9 @@ namespace Automaton.Runner.Core.Services
 
         #region Public Methods
 
-        public async Task Register(string runnerName)
+        public async Task Ping(string runnerName)
         {
-            var registeredOnServer = await connection.InvokeAsync<bool>("RegisterRunner", runnerName);
-
-            if (!registeredOnServer)
-            {
-                throw new Exception(Errors.CanNotRegisterRunner);
-            }
-
-            configService.SaveRunnerName(runnerName);
+            var result = await connection.InvokeAsync<bool>("Ping", runnerName);
         }
 
         public async Task Connect(JsonWebToken token, string runnerName)

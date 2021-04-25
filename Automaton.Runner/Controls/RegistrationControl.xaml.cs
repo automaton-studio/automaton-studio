@@ -17,8 +17,13 @@ namespace Automaton.Runner.Controls
         private async void RegisterClick(object sender, RoutedEventArgs e)
         {
             var viewModel = DataContext as RegistrationViewModel;
+            var mainWindow = App.Current.MainWindow as MainWindow;
 
-            await viewModel.Register(RunnerNameBox.Text);
+            var result = await viewModel.Register();
+
+            if (result == Enums.AppNavigate.Dashboard)
+                mainWindow.NavigateToDashboard();
+            
         }
     }
 }

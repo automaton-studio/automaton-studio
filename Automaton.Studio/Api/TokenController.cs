@@ -36,7 +36,7 @@ namespace Automaton.Studio.Api
         /// POST api/<TokenController>
         /// </summary>
         [HttpPost]
-        public async Task<ObjectResult> Post([FromBody] SignInUserDetails userDetails)
+        public async Task<ActionResult> Post([FromBody] SignInUserDetails userDetails)
         {
             if (string.IsNullOrWhiteSpace(userDetails.UserName) || 
                 string.IsNullOrWhiteSpace(userDetails.Password))

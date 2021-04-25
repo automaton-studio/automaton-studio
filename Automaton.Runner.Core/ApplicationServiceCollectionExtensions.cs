@@ -19,6 +19,7 @@ namespace Automaton.Runner.Core
 
             services.AddSingleton(service => new AppConfigurationService(configuration));
             services.AddSingleton<IAuthService, AuthService>();
+            services.AddSingleton<IRegistrationService, RegistrationService>();
             services.AddSingleton<IHubService, HubService>();
 
             services.AddScoped<IWorkflowService, WorkflowService>();

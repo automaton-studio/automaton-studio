@@ -95,5 +95,14 @@ namespace Automaton.Runner.Core.Resources {
                 return ResourceManager.GetString("ContactAdministrator", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registration error..
+        /// </summary>
+        public static string RegistrationError {
+            get {
+                return ResourceManager.GetString("RegistrationError", resourceCulture);
+            }
+        }
     }
 }

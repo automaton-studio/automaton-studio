@@ -4,5 +4,6 @@
     {
         public string WorkflowHubUrl { get; set; }
         public string TokenApiUrl { get; set; }
+        public string RegistrationApiUrl { get; set; }
     }
 }
