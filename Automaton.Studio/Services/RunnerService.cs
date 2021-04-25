@@ -14,32 +14,22 @@ namespace Automaton.Studio.Services
             this.dbContext = context ?? throw new ArgumentNullException("context");
         }
 
-        public int Create(Runner runner)
-        {
-            dbContext.Runners.Add(runner);
-            var result = dbContext.SaveChanges();
-
-            return result;
-        }
-
-        public bool Exists(Runner runner)
-        {
-            // Note: OrdinalCase comparison not working with this version of LinQ
-            var exists = dbContext.Runners.Any(x =>
-                x.Name.ToLower() == runner.Name.ToLower() &&
-                x.UserId.ToLower() == runner.UserId.ToLower());
-
-            return exists;
-        }
-
-        public IQueryable<Runner> Get()
+        public IQueryable<Runner> List()
         {
             return dbContext.Runners;
         }
 
         public Runner Get(Guid id)
         {
-            return dbContext.Set<Runner>().Find(id);
+            return dbContext.Runners.Find(id);
+        }
+
+        public int Create(Runner runner)
+        {
+            dbContext.Runners.Add(runner);
+            var result = dbContext.SaveChanges();
+
+            return result;
         }
 
         public async Task Update(Runner runner)
@@ -60,6 +50,16 @@ namespace Automaton.Studio.Services
 
             // Save changes
             await dbContext.SaveChangesAsync();
+        }
+
+        public bool Exists(Runner runner)
+        {
+            // Note: OrdinalCase comparison not working with this version of LinQ
+            var exists = dbContext.Runners.Any(x =>
+                x.Name.ToLower() == runner.Name.ToLower() &&
+                x.UserId.ToLower() == runner.UserId.ToLower());
+
+            return exists;
         }
     }
 }

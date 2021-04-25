@@ -24,6 +24,8 @@ using System;
 using System.Linq;
 using System.Net.Mime;
 using Automaton.Studio.Services;
+using System.Reflection;
+using Automaton.Studio.ViewModels;
 
 namespace Automaton.Studio
 {
@@ -80,6 +82,9 @@ namespace Automaton.Studio
             // Ant Design
             services.AddAntDesign();
 
+            // Automapper
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
             // Elsa Workflows
             services
                 .AddElsa(options => options
@@ -93,6 +98,9 @@ namespace Automaton.Studio
                 .AddElsaApiEndpoints()
                 .AddElsaSwagger()
                 .AddElsaDashboardBackend(options => options.ServerUrl = Configuration.GetValue<Uri>("Elsa:Http:BaseUrl"));
+
+            // ViewModels
+            services.AddScoped<IWorkflowsViewModel, WorkflowsViewModel>();
 
             // Services
             services.AddScoped<IRunnerService, RunnerService>();

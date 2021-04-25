@@ -7,7 +7,7 @@ namespace Automaton.Studio.Services
     public interface IRunnerService
     {
         Runner Get(Guid id);
-        IQueryable<Runner> Get();
+        IQueryable<Runner> List();
         int Create(Runner runner);
         bool Exists(Runner runner);
         Task Update(Runner runner);
