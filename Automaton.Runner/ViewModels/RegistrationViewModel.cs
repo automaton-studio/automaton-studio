@@ -6,6 +6,7 @@ using Automaton.Runner.Validators;
 using Automaton.Runner.ViewModels.Common;
 using System;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner.ViewModels
@@ -62,7 +63,11 @@ namespace Automaton.Runner.ViewModels
 
                 return AppNavigate.Dashboard;
             }
-            catch (Exception ex)
+            catch(HttpRequestException ex)
+            {
+                Loader.SetErrors(ex.Message);
+            }
+            catch
             {
                 Loader.SetErrors(Errors.RegistrationError);
             }

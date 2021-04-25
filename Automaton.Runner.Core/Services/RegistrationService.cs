@@ -1,5 +1,6 @@
 ﻿using Automaton.Runner.Core.Services;
 using Newtonsoft.Json;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -27,7 +28,11 @@ namespace Automaton.Runner.Services
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authService.Token.AccessToken);
             var response = await httpClient.PostAsync(configService.StudioConfig.RegistrationApiUrl, runnerNameContent);
 
-            response.EnsureSuccessStatusCode();
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                var returnObject = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException(returnObject);
+            }
         }
     }
 }

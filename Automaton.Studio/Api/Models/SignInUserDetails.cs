@@ -1,4 +1,4 @@
-﻿namespace Automaton.Common.Auth
+﻿namespace Automaton.Studio.Api.Models
 {
     public class SignInUserDetails
     {

@@ -12,18 +12,22 @@ namespace Automaton.Studio.Services
             this.dbContext = context ?? throw new ArgumentNullException("context");
         }
 
-        public int Add(string runnerName, string userId)
+        public int Create(Runner runner)
         {
-            var runner = new Runner
-            {
-                Name = runnerName,
-                UserId = userId
-            };
-
             dbContext.Runners.Add(runner);
             var result = dbContext.SaveChanges();
 
             return result;
+        }
+
+        public bool Exists(Runner runner)
+        {
+            // Note: OrdinalCase comparison not working with this version of LinQ
+            var exists = dbContext.Runners.Any(x =>
+                x.Name.ToLower() == runner.Name.ToLower() &&
+                x.UserId.ToLower() == runner.UserId.ToLower());
+
+            return exists;
         }
 
         public IQueryable<Runner> Get()

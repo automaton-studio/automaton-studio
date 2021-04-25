@@ -7,6 +7,7 @@ namespace Automaton.Studio.Services
     {
         Runner Get(Guid id);
         IQueryable<Runner> Get();
-        int Add(string runnerName, string userId);
+        int Create(Runner runner);
+        bool Exists(Runner runner);
     }
 }

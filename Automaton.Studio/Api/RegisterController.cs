@@ -42,7 +42,18 @@ namespace Automaton.Studio.Api
                 return BadRequest("Invalid runner name.");
             }
 
-            runnerService.Add(details.RunnerName, GetUserId());
+            var runner = new Runner
+            {
+                Name = details.RunnerName,
+                UserId = GetUserId()
+            };
+
+            if (runnerService.Exists(runner))
+            {
+                return BadRequest($"Runner already exists.");
+            }
+
+            runnerService.Create(runner);
 
             return Ok();
         }
