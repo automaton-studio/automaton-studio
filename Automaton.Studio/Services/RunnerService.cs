@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services
 {
@@ -38,6 +40,26 @@ namespace Automaton.Studio.Services
         public Runner Get(Guid id)
         {
             return dbContext.Set<Runner>().Find(id);
+        }
+
+        public async Task Update(Runner runner)
+        {
+            var runnerEntity = dbContext.Runners.SingleOrDefault(x => x.Name == runner.Name && x.UserId == runner.UserId);
+
+            if (runnerEntity == null)
+                throw new ArgumentException("Runner not found");
+
+            // Update connection id
+            runnerEntity.ConnectionId = runner.ConnectionId;
+
+            // Mark entity as modified
+            dbContext.Entry(runnerEntity).State = EntityState.Modified;
+
+            // Update runner entity
+            dbContext.Update(runnerEntity);
+
+            // Save changes
+            await dbContext.SaveChangesAsync();
         }
     }
 }

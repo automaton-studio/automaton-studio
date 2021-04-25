@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services
 {
@@ -9,5 +10,6 @@ namespace Automaton.Studio.Services
         IQueryable<Runner> Get();
         int Create(Runner runner);
         bool Exists(Runner runner);
+        Task Update(Runner runner);
     }
 }

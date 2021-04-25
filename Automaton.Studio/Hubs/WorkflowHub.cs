@@ -39,6 +39,8 @@ namespace Automaton.Studio.Hubs
         {
             await Clients.Caller.SendAsync("WelcomeRunner", $"Welcome {GetRunnerName()}");
 
+            await UpdateRunner();
+
             await base.OnConnectedAsync();
         }
 
@@ -84,6 +86,18 @@ namespace Automaton.Studio.Hubs
                 throw new ArgumentNullException("userId");
 
             return userIdClaim.Value;
+        }
+
+        private async Task UpdateRunner()
+        {
+            var runner = new Runner
+            {
+                Name = GetRunnerName(),
+                UserId = GetUserId(),
+                ConnectionId = Context.ConnectionId
+            };
+
+            await runnerService.Update(runner);
         }
 
         #endregion

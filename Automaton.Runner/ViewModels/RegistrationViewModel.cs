@@ -57,13 +57,13 @@ namespace Automaton.Runner.ViewModels
 
                 await registrationService.Register(RunnerName);
 
-                configService.RegisterRunnerName(RunnerName);
+                configService.RegisterRunner(RunnerName);
 
                 await hubService.Connect(authService.Token, RunnerName);
 
                 return AppNavigate.Dashboard;
             }
-            catch(HttpRequestException ex)
+            catch (HttpRequestException ex)
             {
                 Loader.SetErrors(ex.Message);
             }
