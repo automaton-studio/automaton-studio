@@ -20,8 +20,27 @@ namespace Automaton.Studio.Services
         }
 
         public Runner Get(Guid id)
-        {
-            return dbContext.Runners.Find(id);
+        {           
+            var entity = dbContext.Runners.Find(id);
+
+            // Because we update Runner's ConnectionId on the fly,
+            // when retrieving data we get the cached version of it
+            // with previous ConnectionId. There is no need to do the
+            // same thing with other entities if they aren't updated
+            // in the same way as the Runner entity.
+
+            // Here are some ideas to fix the issue:
+            // https://stackoverflow.com/a/51290890/778863
+            // http://codethug.com/2016/02/19/Entity-Framework-Cache-Busting/
+
+            // Solution 1. Reload the entity 
+            dbContext.Entry(entity).Reload();
+
+            // Solution 2. Detach the entity to remove it from context’s cache.
+            // dbContext.Entry(entity).State = EntityState.Detached;
+            // entity = dbContext.Runners.Find(id);
+
+            return entity;
         }
 
         public int Create(Runner runner)

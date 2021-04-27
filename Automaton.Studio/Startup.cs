@@ -31,6 +31,8 @@ namespace Automaton.Studio
 {
     public class Startup
     {
+        private const string DatabaseConnection = "DefaultConnection";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -56,10 +58,10 @@ namespace Automaton.Studio
                 .AddDbContextCheck<AutomatonDbContext>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString(DatabaseConnection)));
 
             services.AddDbContext<AutomatonDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString(DatabaseConnection)));
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -70,8 +72,7 @@ namespace Automaton.Studio
             services.AddSignalR();
             services.AddResponseCompression(opts =>
             {
-                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
-                    new[] { "application/octet-stream" });
+                opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" });
             });
 
             services.AddRazorPages();
@@ -89,7 +90,7 @@ namespace Automaton.Studio
             services
                 .AddElsa(options => options
                     .UseEntityFrameworkPersistence(options =>
-                             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                             options.UseSqlServer(Configuration.GetConnectionString(DatabaseConnection),
                                  // Last param instruct Elsa to create its tables if True, and skip this step if False
                                  db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)), false)
                     .AddConsoleActivities()

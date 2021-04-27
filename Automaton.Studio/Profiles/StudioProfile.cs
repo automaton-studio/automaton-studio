@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Models;
+using Elsa.Client.Models;
 
 namespace Automaton.Studio.Profiles
 {
@@ -8,6 +9,7 @@ namespace Automaton.Studio.Profiles
         public StudioProfile()
         {
             CreateMap<Runner, RunnerModel>();
+            CreateMap<WorkflowDefinition, WorkflowModel>();
         }
     }
 }

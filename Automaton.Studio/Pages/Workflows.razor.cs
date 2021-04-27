@@ -1,4 +1,5 @@
-﻿using Automaton.Studio.ViewModels;
+﻿using Automaton.Studio.Models;
+using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -10,12 +11,12 @@ namespace Automaton.Studio.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            await WorkflowsViewModel.LoadWorkflows();
+            await WorkflowsViewModel.Initialize();
         }
 
-        private async Task RunWorkflow(string workflowId, string connectionId)
+        private async Task RunWorkflow(WorkflowModel workflow)
         {
-            await WorkflowsViewModel.RunWorkflow(workflowId, connectionId);
+            await WorkflowsViewModel.RunWorkflow(workflow);
         }
     }
 }

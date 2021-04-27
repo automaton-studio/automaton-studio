@@ -39,7 +39,7 @@ namespace Automaton.Studio.Hubs
         {
             await Clients.Caller.SendAsync("WelcomeRunner", $"Welcome {GetRunnerName()}");
 
-            await UpdateRunner();
+            await UpdateRunnerConnection();
 
             await base.OnConnectedAsync();
         }
@@ -88,7 +88,7 @@ namespace Automaton.Studio.Hubs
             return userIdClaim.Value;
         }
 
-        private async Task UpdateRunner()
+        private async Task UpdateRunnerConnection()
         {
             var runner = new Runner
             {

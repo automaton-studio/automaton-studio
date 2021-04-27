@@ -1,4 +1,5 @@
-﻿using Automaton.Runner.ViewModels;
+﻿using Automaton.Runner.Core.Services;
+using Automaton.Runner.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -11,10 +12,14 @@ namespace Automaton.Runner
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly IHubService hubService;
+
         public MainWindowViewModel ViewModel => DataContext as MainWindowViewModel;
 
-        public MainWindow()
+        public MainWindow(IHubService hubService)
         {
+            this.hubService = hubService;
+
             InitializeComponent();
         }
 
@@ -23,6 +28,11 @@ namespace Automaton.Runner
             // Allow user to drag the main window around
             if (e.LeftButton == MouseButtonState.Pressed)
                 DragMove();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            hubService.Disconnect();
         }
 
         public void NavigateToRegistration()

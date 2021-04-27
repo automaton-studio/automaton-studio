@@ -1,4 +1,5 @@
 ﻿@page "/workflows"
+@using Automaton.Studio.Models
 
 @if (@WorkflowsViewModel.Workflows == null)
 {
@@ -8,7 +9,7 @@ else
 {
     @using Elsa.Client.Models
 
-<Table TItem="WorkflowDefinition" DataSource="@WorkflowsViewModel.Workflows">
+<Table TItem="WorkflowModel" DataSource="@WorkflowsViewModel.Workflows">
     <Column @bind-Field="@context.Name">
         <a>@context.Name</a>
     </Column>
@@ -18,13 +19,47 @@ else
             <span> <Icon Type="environment" /> Version </span>
         </TitleTemplate>
     </Column>
+
     <ActionColumn Title="Action">
         <Space Size="middle">
-            <SpaceItem> 
-                <a @onclick="@(() => RunWorkflow(context.DefinitionId, ""))"><Icon Type="caret-right" Theme="outline" /></a>
+            <SpaceItem>
+                <a @onclick="@(() => RunWorkflow(context))"><Icon Type="caret-right" Theme="outline" /></a>
+                <Select Mode="multiple"
+                        @bind-Values="context.Runners"
+                        Placeholder="Inserted are removed"
+                        EnableSearch
+                        HideSelected
+                        TItemValue="string"
+                        TItem="string"
+                        Style="float:left">
+                    <SelectOptions>
+                        @foreach (var item in @WorkflowsViewModel.Runners)
+                        {
+                            <SelectOption TItemValue="string" TItem="string" Value=@item.Id.ToString() Label=@item.Name />
+                        }
+                    </SelectOptions>
+                </Select>
             </SpaceItem>
         </Space>
     </ActionColumn>
+
+   
+
+    @*<ActionColumn Title="Action">
+            <Space Size="middle">
+                <SpaceItem>
+                    <a @onclick="@(() => RunWorkflow(context))"><Icon Type="caret-right" Theme="outline" /></a>
+                    <AutoComplete Options="@context.Runners"
+                                  @bind-Value="@context.SelectedRunnerName"
+                                  Placeholder="Select runner">
+                        <OptionTemplate Context="runner">
+                            <AutoCompleteOption Value="@runner.Value" Label="@runner.Value.Name">
+                            </AutoCompleteOption>
+                        </OptionTemplate>
+                    </AutoComplete>
+                </SpaceItem>
+            </Space>
+        </ActionColumn>*@
 </Table>
 }
 

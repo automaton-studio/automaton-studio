@@ -68,6 +68,12 @@ namespace Automaton.Runner.Core.Services
             await connection.StartAsync();
         }
 
+        public async Task Disconnect()
+        {
+            await connection.StopAsync();
+            await connection.DisposeAsync();
+        }
+
         #endregion
     }
 }

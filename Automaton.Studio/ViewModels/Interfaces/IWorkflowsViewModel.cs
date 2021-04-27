@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using Automaton.Studio.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.ViewModels
 {
     public interface IWorkflowsViewModel
     {
-        ICollection<Elsa.Client.Models.WorkflowDefinition> Workflows { get; set; }
-        Task LoadWorkflows();
-        Task RunWorkflow(string workflowId, string connectionId);     
+        IEnumerable<WorkflowModel> Workflows { get; set; }
+        IEnumerable<RunnerModel> Runners { get; set; }
+
+        Task Initialize();
+        Task RunWorkflow(WorkflowModel workflow);     
     }
 }

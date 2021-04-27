@@ -1,9 +1,13 @@
-﻿using Automaton.Studio.Hubs;
+﻿using AutoMapper;
+using Automaton.Studio.Hubs;
+using Automaton.Studio.Models;
 using Automaton.Studio.Services;
 using ElsaDashboard.Shared.Rpc;
 using Microsoft.AspNetCore.SignalR;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -13,22 +17,17 @@ namespace Automaton.Studio.ViewModels
     {
         #region Members
 
-        private IWorkflowDefinitionService workflowService;
-        private IRunnerService runnerService;
-        private IHubContext<WorkflowHub> workflowHubContext;
-
-        #endregion
-
-        #region Events
-
-        public event PropertyChangedEventHandler? PropertyChanged;
+        private readonly IWorkflowDefinitionService workflowService;
+        private readonly IHubContext<WorkflowHub> workflowHubContext;
+        private readonly IRunnerService runnerService;
+        private readonly IMapper mapper;
 
         #endregion
 
         #region Properties
 
-        private ICollection<Elsa.Client.Models.WorkflowDefinition>? workflows;
-        public ICollection<Elsa.Client.Models.WorkflowDefinition> Workflows
+        private IEnumerable<WorkflowModel>? workflows;
+        public IEnumerable<WorkflowModel> Workflows
         {
             get => workflows;
 
@@ -39,28 +38,53 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
+        private IEnumerable<RunnerModel>? runners;
+        public IEnumerable<RunnerModel> Runners
+        {
+            get => runners;
+
+            set
+            {
+                runners = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         #endregion
 
         public WorkflowsViewModel(
             IWorkflowDefinitionService workflowService,
             IRunnerService runnerService,
-            IHubContext<WorkflowHub> workflowHubContext)
+            IHubContext<WorkflowHub> workflowHubContext,
+            IMapper mapper)
         {
             this.workflowService = workflowService;
             this.runnerService = runnerService;
             this.workflowHubContext = workflowHubContext;
+            this.mapper = mapper;
         }
 
-        public async Task LoadWorkflows()
+        public async Task Initialize()
         {
-            Workflows = (await workflowService.ListAsync()).Items;
+            var elsaWorkflows = (await workflowService.ListAsync()).Items;
+            Workflows = mapper.Map<IEnumerable<Elsa.Client.Models.WorkflowDefinition>, IEnumerable<WorkflowModel>>(elsaWorkflows);     
+            Runners = mapper.Map<IQueryable<Runner>, IEnumerable<RunnerModel>>(runnerService.List());
         }
 
-        public async Task RunWorkflow(string workflowId, string connectionId)
+        public async Task RunWorkflow(WorkflowModel workflow)
         {
-            var client = workflowHubContext.Clients.Client(connectionId);
+            if (workflow.Runners == null || !workflow.Runners.Any())
+                return;
 
-            await client.SendAsync("RunWorkflow", workflowId);
+            foreach(var runnerId in workflow.Runners)
+            {
+                var runner = runnerService.Get(new Guid(runnerId));
+                var client = workflowHubContext.Clients.Client(runner.ConnectionId);
+                await client.SendAsync("RunWorkflow", workflow.DefinitionId);
+            }
+
         }
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
