@@ -28,7 +28,7 @@ namespace Automaton.Runner.Services
             var workflowBlueprint = await workflowBlueprintMaterializer.CreateWorkflowBlueprintAsync(storeWorkflowDefinition);
 
             // Execute workflow blueprint.
-            await workflowRunner.RunWorkflowAsync(workflowBlueprint);
+            await workflowRunner.RunWorkflowAsync(workflowBlueprint, new Elsa.Models.WorkflowInstance());
         }
     }
 }
