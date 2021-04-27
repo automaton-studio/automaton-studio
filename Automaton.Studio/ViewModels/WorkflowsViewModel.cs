@@ -75,16 +75,15 @@ namespace Automaton.Studio.ViewModels
 
         public async Task RunWorkflow(WorkflowModel workflow)
         {
-            if (workflow.Runners == null || !workflow.Runners.Any())
+            if (!workflow.HasRunners)
                 return;
 
-            foreach(var runnerId in workflow.Runners)
+            foreach(var runnerId in workflow.RunnerIds)
             {
-                var runner = runnerService.Get(new Guid(runnerId));
+                var runner = runnerService.Get(runnerId);
                 var client = workflowHubContext.Clients.Client(runner.ConnectionId);
                 await client.SendAsync("RunWorkflow", workflow.DefinitionId);
             }
-
         }
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.Models
@@ -22,17 +24,28 @@ namespace Automaton.Studio.Models
 
         #endregion
 
-        private IEnumerable<string>? runners;
-        public IEnumerable<string> Runners
+        #region Properties
+
+        private IEnumerable<Guid>? runnerIds;
+        public IEnumerable<Guid>? RunnerIds
         {
-            get => runners;
+            get => runnerIds;
 
             set
             {
-                runners = value;
+                runnerIds = value;
                 OnPropertyChanged();
             }
         }
+
+        public bool HasRunners
+        {
+            get { return RunnerIds != null && RunnerIds.Any(); }
+        }
+
+        #endregion
+
+        #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -40,5 +53,7 @@ namespace Automaton.Studio.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
     }
 }

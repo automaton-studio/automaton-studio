@@ -10,56 +10,42 @@ else
     @using Elsa.Client.Models
 
 <Table TItem="WorkflowModel" DataSource="@WorkflowsViewModel.Workflows">
-    <Column @bind-Field="@context.Name">
+    <Column Title="Workflow" @bind-Field="@context.Name">
         <a>@context.Name</a>
     </Column>
     <Column @bind-Field="@context.Description"></Column>
-    <Column @bind-Field="@context.Version">
+    <Column @bind-Field="@context.Version" Width="100">
         <TitleTemplate>
             <span> <Icon Type="environment" /> Version </span>
         </TitleTemplate>
     </Column>
 
-    <ActionColumn Title="Action">
-        <Space Size="middle">
-            <SpaceItem>
-                <a @onclick="@(() => RunWorkflow(context))"><Icon Type="caret-right" Theme="outline" /></a>
-                <Select Mode="multiple"
-                        @bind-Values="context.Runners"
-                        Placeholder="Inserted are removed"
-                        EnableSearch
-                        HideSelected
-                        TItemValue="string"
-                        TItem="string"
-                        Style="float:left">
-                    <SelectOptions>
-                        @foreach (var item in @WorkflowsViewModel.Runners)
+    <Column Title="Runners" @bind-Field="@context.Description" Width="300">
+        <SpaceItem>
+            <Select Mode="multiple"
+                    @bind-Values="context.RunnerIds"
+                    Placeholder="Select runners..."
+                    TItemValue="Guid"
+                    TItem="Guid"
+                    AllowClear>
+                <SelectOptions>
+                    @foreach (var item in @WorkflowsViewModel.Runners)
                         {
-                            <SelectOption TItemValue="string" TItem="string" Value=@item.Id.ToString() Label=@item.Name />
+                        <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
                         }
-                    </SelectOptions>
-                </Select>
+                </SelectOptions>
+            </Select>
+        </SpaceItem>
+    </Column>
+
+    <ActionColumn Title="Action">
+        <Space Size="10">
+            <SpaceItem>
+                <Button @onclick="@(() => RunWorkflow(context))" Shape="link" Icon="caret-right" Class="action-button"><span class="action-label">Run</span></Button>
             </SpaceItem>
         </Space>
     </ActionColumn>
 
-   
-
-    @*<ActionColumn Title="Action">
-            <Space Size="middle">
-                <SpaceItem>
-                    <a @onclick="@(() => RunWorkflow(context))"><Icon Type="caret-right" Theme="outline" /></a>
-                    <AutoComplete Options="@context.Runners"
-                                  @bind-Value="@context.SelectedRunnerName"
-                                  Placeholder="Select runner">
-                        <OptionTemplate Context="runner">
-                            <AutoCompleteOption Value="@runner.Value" Label="@runner.Value.Name">
-                            </AutoCompleteOption>
-                        </OptionTemplate>
-                    </AutoComplete>
-                </SpaceItem>
-            </Space>
-        </ActionColumn>*@
 </Table>
 }
 
