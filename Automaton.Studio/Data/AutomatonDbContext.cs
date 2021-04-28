@@ -23,10 +23,6 @@ namespace Automaton.Studio
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
-        public virtual DbSet<Bookmark> Bookmarks { get; set; }
-        public virtual DbSet<WorkflowDefinition> WorkflowDefinitions { get; set; }
-        public virtual DbSet<WorkflowExecutionLogRecord> WorkflowExecutionLogRecords { get; set; }
-        public virtual DbSet<WorkflowInstance> WorkflowInstances { get; set; }
         public virtual DbSet<Runner> Runners { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -134,88 +130,6 @@ namespace Automaton.Studio
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserTokens)
                     .HasForeignKey(d => d.UserId);
-            });
-
-            modelBuilder.Entity<Bookmark>(entity =>
-            {
-                entity.HasIndex(e => e.ActivityId, "IX_Bookmark_ActivityId");
-
-                entity.HasIndex(e => e.ActivityType, "IX_Bookmark_ActivityType");
-
-                entity.HasIndex(e => new { e.ActivityType, e.TenantId, e.Hash }, "IX_Bookmark_ActivityType_TenantId_Hash");
-
-                entity.HasIndex(e => e.Hash, "IX_Bookmark_Hash");
-
-                entity.HasIndex(e => e.TenantId, "IX_Bookmark_TenantId");
-
-                entity.HasIndex(e => e.WorkflowInstanceId, "IX_Bookmark_WorkflowInstanceId");
-
-                entity.Property(e => e.ActivityId).IsRequired();
-
-                entity.Property(e => e.ActivityType).IsRequired();
-
-                entity.Property(e => e.Hash).IsRequired();
-
-                entity.Property(e => e.Model).IsRequired();
-
-                entity.Property(e => e.ModelType).IsRequired();
-
-                entity.Property(e => e.WorkflowInstanceId).IsRequired();
-            });
-
-            modelBuilder.Entity<WorkflowDefinition>(entity =>
-            {
-                entity.HasIndex(e => new { e.DefinitionId, e.Version }, "IX_WorkflowDefinition_DefinitionId_VersionId");
-
-                entity.HasIndex(e => e.IsLatest, "IX_WorkflowDefinition_IsLatest");
-
-                entity.HasIndex(e => e.IsPublished, "IX_WorkflowDefinition_IsPublished");
-
-                entity.HasIndex(e => e.Name, "IX_WorkflowDefinition_Name");
-
-                entity.HasIndex(e => e.TenantId, "IX_WorkflowDefinition_TenantId");
-
-                entity.HasIndex(e => e.Version, "IX_WorkflowDefinition_Version");
-
-                entity.Property(e => e.DefinitionId).IsRequired();
-            });
-
-            modelBuilder.Entity<WorkflowExecutionLogRecord>(entity =>
-            {
-                entity.Property(e => e.ActivityId).IsRequired();
-
-                entity.Property(e => e.ActivityType).IsRequired();
-
-                entity.Property(e => e.WorkflowInstanceId).IsRequired();
-            });
-
-            modelBuilder.Entity<WorkflowInstance>(entity =>
-            {
-                entity.HasIndex(e => e.ContextId, "IX_WorkflowInstance_ContextId");
-
-                entity.HasIndex(e => e.ContextType, "IX_WorkflowInstance_ContextType");
-
-                entity.HasIndex(e => e.CorrelationId, "IX_WorkflowInstance_CorrelationId");
-
-                entity.HasIndex(e => e.CreatedAt, "IX_WorkflowInstance_CreatedAt");
-
-                entity.HasIndex(e => e.DefinitionId, "IX_WorkflowInstance_DefinitionId");
-
-                entity.HasIndex(e => e.FaultedAt, "IX_WorkflowInstance_FaultedAt");
-
-                entity.HasIndex(e => e.FinishedAt, "IX_WorkflowInstance_FinishedAt");
-
-                entity.HasIndex(e => e.LastExecutedAt, "IX_WorkflowInstance_LastExecutedAt");
-
-                entity.HasIndex(e => e.Name, "IX_WorkflowInstance_Name");
-
-                entity.HasIndex(e => e.TenantId, "IX_WorkflowInstance_TenantId");
-
-                entity.HasIndex(e => e.WorkflowStatus, "IX_WorkflowInstance_WorkflowStatus");
-
-                entity.HasIndex(e => new { e.WorkflowStatus, e.DefinitionId, e.Version }, "IX_WorkflowInstance_WorkflowStatus_DefinitionId_Version");
-
-                entity.Property(e => e.DefinitionId).IsRequired();
             });
 
             modelBuilder.Entity<Runner>(entity =>
