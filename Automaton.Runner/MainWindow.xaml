@@ -9,7 +9,7 @@
         Height="450"
         Width="380"
         ResizeMode="NoResize"
-        MouseDown="Window_MouseDown">
+        MouseDown="WindowMouseDown">
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />

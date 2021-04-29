@@ -1,6 +1,5 @@
 ﻿using Automaton.Runner.Services;
 using Microsoft.AspNetCore.SignalR.Client;
-using System;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner.Core.Services
@@ -10,6 +9,9 @@ namespace Automaton.Runner.Core.Services
         #region Constants
 
         private const string RunnerNameHeader = "RunnerName";
+        private const string RunWorkflowMethod = "RunWorkflow";
+        private const string WelcomeRunnerMethod = "WelcomeRunner";
+        private const string PingMethod = "Ping";
 
         #endregion
 
@@ -33,11 +35,6 @@ namespace Automaton.Runner.Core.Services
 
         #region Public Methods
 
-        public async Task Ping(string runnerName)
-        {
-            var result = await connection.InvokeAsync<bool>("Ping", runnerName);
-        }
-
         public async Task Connect(JsonWebToken token, string runnerName)
         {
             var studioConfig = configService.StudioConfig;
@@ -50,18 +47,12 @@ namespace Automaton.Runner.Core.Services
                 })
                 .Build();
 
-            connection.Closed += async (error) =>
-            {
-                await Task.Delay(new Random().Next(0, 5) * 1000);
-                await connection.StartAsync();
-            };
-
-            connection.On<string>("RunWorkflow", (definitionId) =>
+            connection.On<string>(RunWorkflowMethod, (definitionId) =>
             {
                 this.workflowService.RunWorkflow(definitionId);
             });
 
-            connection.On<string>("WelcomeRunner", (name) =>
+            connection.On<string>(WelcomeRunnerMethod, (name) =>
             {
             });
 
@@ -72,6 +63,11 @@ namespace Automaton.Runner.Core.Services
         {
             await connection.StopAsync();
             await connection.DisposeAsync();
+        }
+
+        public async Task Ping(string runnerName)
+        {
+            var result = await connection.InvokeAsync<bool>(PingMethod, runnerName);
         }
 
         #endregion

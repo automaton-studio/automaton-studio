@@ -3,7 +3,6 @@ using Automaton.Runner.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Navigation;
 
 namespace Automaton.Runner
 {
@@ -23,17 +22,7 @@ namespace Automaton.Runner
             InitializeComponent();
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            // Allow user to drag the main window around
-            if (e.LeftButton == MouseButtonState.Pressed)
-                DragMove();
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            hubService.Disconnect();
-        }
+        #region Public Methods
 
         public void NavigateToRegistration()
         {
@@ -44,5 +33,23 @@ namespace Automaton.Runner
         {
             frame.NavigationService.Navigate(new Uri("Controls/DashboardControl.xaml", UriKind.Relative));
         }
+
+        #endregion
+
+        #region Private Methods
+
+        private void WindowMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Allow user to drag the main window around
+            if (e.LeftButton == MouseButtonState.Pressed)
+                DragMove();
+        }
+
+        private void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            hubService.Disconnect();
+        }
+
+        #endregion
     }
 }
