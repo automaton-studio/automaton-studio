@@ -22,7 +22,12 @@ namespace Automaton.Studio.Pages
             {
                 new WriteLineActivity()
                 {
-                    Name = "Write Line Activity"
+                    Name = "Hello Studio!"
+                },
+
+                new WriteLineActivity()
+                {
+                    Name = "Hello World!"
                 }
             };
         }

@@ -1,5 +1,6 @@
 ﻿@page "/designer"
 @using Automaton.Studio.Activities
+@using Plk.Blazor.DragDrop
 
 @if (activities == null)
 {
@@ -7,12 +8,9 @@
 }
 else
 {
-    <h5>List with dynamic binding to <code>DynamicComponent</code>.</h5>
-    <p>The selection of the view component is now encapsulated within the <code>DynamicComponent</code>.</p>
-    @foreach (var activity in activities)
-    {
-        <DynamicComponent Activity=@activity />
-    }
+    <Dropzone Items="activities">
+        <DynamicComponent Activity=@context />
+    </Dropzone>
 }
 
 

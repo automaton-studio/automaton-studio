@@ -26,6 +26,7 @@ using System.Net.Mime;
 using Automaton.Studio.Services;
 using System.Reflection;
 using Automaton.Studio.ViewModels;
+using Plk.Blazor.DragDrop;
 
 namespace Automaton.Studio
 {
@@ -82,6 +83,9 @@ namespace Automaton.Studio
             
             // Ant Design
             services.AddAntDesign();
+
+            // Blazor Drag & Drop
+            services.AddBlazorDragDrop();
 
             // Automapper
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
