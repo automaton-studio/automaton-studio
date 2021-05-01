@@ -10,6 +10,7 @@ namespace Automaton.Studio.Profiles
         {
             CreateMap<Runner, RunnerModel>();
             CreateMap<WorkflowDefinition, WorkflowModel>();
+            CreateMap<Elsa.Metadata.ActivityDescriptor, ActivityTreeItem>();
         }
     }
 }

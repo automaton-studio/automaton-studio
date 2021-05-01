@@ -1,5 +1,6 @@
 ﻿@page "/designer"
 @using Automaton.Studio.Activities
+@using Automaton.Studio.Components
 @using Plk.Blazor.DragDrop
 
 @if (activities == null)
@@ -8,9 +9,20 @@
 }
 else
 {
-    <Dropzone Items="activities">
-        <DynamicComponent Activity=@context />
-    </Dropzone>
+<Layout Style="height: 100vh; padding: 0; margin: 0">
+    <Sider Theme="SiderTheme.Light" Style="overflow: auto; height: 100vh; padding: 0; margin: 0">
+        <ActivitiesTree></ActivitiesTree>
+    </Sider>
+    <Layout Style="overflow: auto; height: 100vh; padding: 0; margin: 0">
+        <Content>
+            <Dropzone Items="activities" InstantReplace="true">
+                <DynamicComponent Activity=@context />
+            </Dropzone>
+        </Content>
+        <Footer>Footer</Footer>
+    </Layout>
+</Layout>
+
 }
 
 

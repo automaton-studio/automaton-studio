@@ -1,0 +1,19 @@
+﻿@using Automaton.Studio.Models
+
+@if (@ActivitiesViewModel.TreeItems == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <Tree ShowIcon 
+          DataSource="@ActivitiesViewModel.TreeItems"
+          TitleExpression="x => x.DataItem.DisplayName"
+          ChildrenExpression="x => x.DataItem.Activities"
+          IconExpression="x => x.DataItem.Icon"
+          IsLeafExpression="x => x.DataItem.Activities == null || x.DataItem.Activities.Count == 0"
+          KeyExpression="x => x.DataItem.Type"
+          TItem="ActivityTreeItem">
+    </Tree>
+
+}

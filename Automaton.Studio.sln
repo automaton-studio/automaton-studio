@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio", "Automat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio.Activities", "Automaton.Studio.Activities\Automaton.Studio.Activities.csproj", "{715E4037-2ED3-43CB-9FBF-551D598E612C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automaton.Common", "Automaton.Common\Automaton.Common.csproj", "{6D5966D5-9E69-4CFD-B126-2328D9D8B892}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Common", "Automaton.Common\Automaton.Common.csproj", "{6D5966D5-9E69-4CFD-B126-2328D9D8B892}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

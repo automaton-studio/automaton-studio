@@ -106,9 +106,11 @@ namespace Automaton.Studio
 
             // ViewModels
             services.AddScoped<IWorkflowsViewModel, WorkflowsViewModel>();
+            services.AddScoped<ITreeActivityViewModel, TreeActivityViewModel>();
 
             // Services
             services.AddScoped<IRunnerService, RunnerService>();
+            services.AddScoped<IActivityService, ActivityService>();     
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
