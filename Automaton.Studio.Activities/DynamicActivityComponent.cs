@@ -5,12 +5,12 @@ using System;
 namespace Automaton.Studio.Activities
 {
     /// <summary>
-    /// A code-based component that renders a product using its GetViewComponent result
+    /// A code-based component that renders an Activity using its GetViewComponent result
     /// </summary>
-    public class DynamicComponent : ComponentBase
+    public class DynamicActivityComponent : ComponentBase
     {
         /// <summary>
-        /// The product we want to render
+        /// The Activity we want to render
         /// </summary>
         [Parameter]
         public ActivityBase Activity { get; set; }
@@ -21,7 +21,13 @@ namespace Automaton.Studio.Activities
         /// <param name="builder"></param>
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
+            if (Activity == null)
+            {
+                throw new ArgumentException("Invalid Activity parameter");
+            }
+
             base.BuildRenderTree(builder);
+
             // get the component to view the product with
             Type componentType = Activity.GetViewComponent();
             // create an instance of this component

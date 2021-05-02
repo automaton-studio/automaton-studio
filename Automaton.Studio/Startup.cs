@@ -105,9 +105,10 @@ namespace Automaton.Studio
                 .AddElsaDashboardBackend(options => options.ServerUrl = Configuration.GetValue<Uri>("Elsa:Http:BaseUrl"));
 
             // ViewModels
+            services.AddScoped<IMainLayoutViewModel, MainLayoutViewModel>();
             services.AddScoped<IWorkflowsViewModel, WorkflowsViewModel>();
             services.AddScoped<ITreeActivityViewModel, ActivitiesTreeViewModel>();
-
+            
             // Services
             services.AddScoped<IRunnerService, RunnerService>();
             services.AddScoped<IActivityService, ActivityService>();     
