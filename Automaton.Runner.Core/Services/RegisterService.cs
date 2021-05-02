@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Automaton.Runner.Services
 {
-    public class RegistrationService : IRegistrationService
+    public class RegisterService : IRegistrationService
     {
-        private readonly AppConfigurationService configService;
+        private readonly ConfigService configService;
         private readonly IAuthService authService;
 
-        public RegistrationService(IAuthService authService, AppConfigurationService configService)
+        public RegisterService(IAuthService authService, ConfigService configService)
         {
             this.authService = authService;
             this.configService = configService;

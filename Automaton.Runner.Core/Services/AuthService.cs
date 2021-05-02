@@ -10,11 +10,11 @@ namespace Automaton.Runner.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly AppConfigurationService configService;
+        private readonly ConfigService configService;
 
         public JsonWebToken Token { get; set; }
 
-        public AuthService(AppConfigurationService configService)
+        public AuthService(ConfigService configService)
         {
             this.configService = configService;
         }

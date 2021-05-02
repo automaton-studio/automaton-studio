@@ -10,7 +10,7 @@ namespace Automaton.Runner.Core.Services
     /// <summary>
     /// Application configuration.
     /// </summary>
-    public class AppConfigurationService
+    public class ConfigService
     {
         #region Constants
 
@@ -33,7 +33,7 @@ namespace Automaton.Runner.Core.Services
 
         #endregion
 
-        public AppConfigurationService(IConfiguration configuration)
+        public ConfigService(IConfiguration configuration)
         {
             this.configuration = configuration;
 

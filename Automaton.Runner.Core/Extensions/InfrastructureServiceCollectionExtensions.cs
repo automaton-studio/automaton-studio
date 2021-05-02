@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Automaton.Runner.Core
+namespace Automaton.Runner.Core.Extensions
 {
     public static class InfrastructureServiceCollectionExtensions
     {

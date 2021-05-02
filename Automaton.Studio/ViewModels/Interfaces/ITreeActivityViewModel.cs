@@ -6,7 +6,7 @@ namespace Automaton.Studio.ViewModels
 {
     public interface ITreeActivityViewModel
     {
-        IList<ActivityTreeItem> TreeItems { get; set; }
+        IList<ActivityModel> TreeItems { get; set; }
 
         Task Initialize();
     }

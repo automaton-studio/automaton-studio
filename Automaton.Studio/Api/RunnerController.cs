@@ -13,7 +13,7 @@ namespace Automaton.Studio.Api
     [ApiController]
     [Route("api/[controller]")]
     [Authorize(JwtBearerDefaults.AuthenticationScheme)]
-    public class RegisterController : ControllerBase
+    public class RunnerController : ControllerBase
     {
         private const string UserIdClaim = "uid";
 
@@ -21,7 +21,7 @@ namespace Automaton.Studio.Api
         private readonly ILogger<TokenController> _logger;
         private readonly IRunnerService runnerService;
 
-        public RegisterController(
+        public RunnerController(
             UserManager<IdentityUser> userManager,
             ILogger<TokenController> logger,
             IRunnerService runnerService)
@@ -34,7 +34,7 @@ namespace Automaton.Studio.Api
         /// <summary>
         /// POST api/<RegisterController>
         /// </summary>
-        [HttpPost]
+        [HttpPost("register")]
         public ActionResult Post([FromBody] RegisterDetails details)
         {
             if (string.IsNullOrWhiteSpace(details.RunnerName))

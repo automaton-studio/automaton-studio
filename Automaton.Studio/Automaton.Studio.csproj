@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Activities\" />
     <Folder Include="Keys\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>

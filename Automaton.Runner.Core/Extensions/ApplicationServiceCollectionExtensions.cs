@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Automaton.Runner.Core
+namespace Automaton.Runner.Core.Extensions
 {
     public static class ApplicationServiceCollectionExtensions
     {
@@ -17,9 +17,9 @@ namespace Automaton.Runner.Core
                     db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)), true)
                 .AddConsoleActivities());
 
-            services.AddSingleton(service => new AppConfigurationService(configuration));
+            services.AddSingleton(service => new ConfigService(configuration));
             services.AddSingleton<IAuthService, AuthService>();
-            services.AddSingleton<IRegistrationService, RegistrationService>();
+            services.AddSingleton<IRegistrationService, RegisterService>();
             services.AddSingleton<IHubService, HubService>();
 
             services.AddScoped<IWorkflowService, WorkflowService>();

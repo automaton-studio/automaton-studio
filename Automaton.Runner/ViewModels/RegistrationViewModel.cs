@@ -17,7 +17,7 @@ namespace Automaton.Runner.ViewModels
         private readonly IAuthService authService;
         private readonly IRegistrationService registrationService;
         private readonly RegistrationValidator registrationValidator;
-        private readonly AppConfigurationService configService;
+        private readonly ConfigService configService;
 
         #region Properties
 
@@ -32,7 +32,7 @@ namespace Automaton.Runner.ViewModels
             IAuthService authService,
             IViewModelLoader loader,
             IRegistrationService registrationService,
-            AppConfigurationService configService,
+            ConfigService configService,
             RegistrationValidator registrationValidator
         )
         {

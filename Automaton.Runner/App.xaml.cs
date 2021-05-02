@@ -1,8 +1,7 @@
-﻿using Automaton.Runner.Core;
+﻿using Automaton.Runner.Core.Extensions;
 using Automaton.Runner.Validators;
 using Automaton.Runner.ViewModels;
 using Automaton.Runner.ViewModels.Common;
-using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

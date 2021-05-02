@@ -19,13 +19,13 @@ namespace Automaton.Runner.Core.Services
 
         private HubConnection connection;
         private readonly IWorkflowService workflowService;
-        private readonly AppConfigurationService configService;
+        private readonly ConfigService configService;
 
         #endregion
 
         #region Constructors
 
-        public HubService(AppConfigurationService configService, IWorkflowService workflowService)
+        public HubService(ConfigService configService, IWorkflowService workflowService)
         {
             this.configService = configService;
             this.workflowService = workflowService;

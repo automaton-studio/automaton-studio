@@ -15,7 +15,7 @@ namespace Automaton.Runner.ViewModels
 {
     public class LoginViewModel
     {
-        private readonly AppConfigurationService configService;
+        private readonly ConfigService configService;
         private readonly IAuthService authService;
         private readonly IHubService hubService;
         private readonly LoginValidator loginValidator;
@@ -32,7 +32,7 @@ namespace Automaton.Runner.ViewModels
         #region Constructors
 
         public LoginViewModel(
-            AppConfigurationService configService,
+            ConfigService configService,
             IAuthService authService,
             IHubService hubService,
             IViewModelLoader loader,

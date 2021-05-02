@@ -46,10 +46,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Controls\DashboardControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.ViewModels
 {
-    public class TreeActivityViewModel : ITreeActivityViewModel, INotifyPropertyChanged
+    public class ActivitiesTreeViewModel : ITreeActivityViewModel, INotifyPropertyChanged
     {
         #region Members
 
@@ -20,8 +20,8 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        private IList<ActivityTreeItem>? activities;
-        public IList<ActivityTreeItem> TreeItems
+        private IList<ActivityModel>? activities;
+        public IList<ActivityModel> TreeItems
         {
             get => activities;
 
@@ -36,13 +36,13 @@ namespace Automaton.Studio.ViewModels
 
         #endregion
 
-        public TreeActivityViewModel(
+        public ActivitiesTreeViewModel(
             IActivityService activityService,
             IMapper mapper)
         {
             this.mapper = mapper;
             this.activityService = activityService;
-            TreeItems = new List<ActivityTreeItem>();
+            TreeItems = new List<ActivityModel>();
         }
 
         #region Public Methods
@@ -50,16 +50,16 @@ namespace Automaton.Studio.ViewModels
         public async Task Initialize()
         {
             var elsaActivities = await activityService.List();
-            var activityItems = mapper.Map<IEnumerable<Elsa.Metadata.ActivityDescriptor>, IList<ActivityTreeItem>>(elsaActivities);
+            var activityItems = mapper.Map<IEnumerable<Elsa.Metadata.ActivityDescriptor>, IList<ActivityModel>>(elsaActivities);
             var categoryNames = activityItems.Select(x => x.Category).Distinct();
 
             foreach (var categoryName in categoryNames)
             {
                 // Create category
-                var category = new ActivityTreeItem
+                var category = new ActivityModel
                 {
                     DisplayName = categoryName,
-                    Activities = new List<ActivityTreeItem>()
+                    Activities = new List<ActivityModel>()
                 };
 
                 // Prepare category activities
