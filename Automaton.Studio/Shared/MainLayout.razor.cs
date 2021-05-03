@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Shared
 {
-    partial class MainLayout
+    partial class MainLayout : IDisposable
     {
         [Inject] NavigationManager NavigationManager { get; set; }
         [Inject] private IMainLayoutViewModel MainLayoutViewModel { get; set; } = default!;
@@ -43,6 +43,11 @@ namespace Automaton.Studio.Shared
         private void LocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
         {
             MainLayoutViewModel.ActionBar = ActionBarFactory.GetActionBar(NavigationManager.Uri);
+        }
+
+        public void Dispose()
+        {
+            NavigationManager.LocationChanged -= LocationChanged;
         }
     }
 }
