@@ -9,17 +9,16 @@
 }
 else
 {
-<Layout Style="height: 100vh; padding: 0; margin: 0">
-    <Sider Theme="SiderTheme.Light" Style="overflow: auto; height: 100vh; padding: 0; margin: 0">
-        <ActivitiesTree></ActivitiesTree>
+<Layout>
+    <Sider Theme="SiderTheme.Light" Style="height: 100vh; position: fixed; overflow: auto">
+        <ActivitiesTree ></ActivitiesTree>
     </Sider>
-    <Layout Style="overflow: auto; height: 100vh; padding: 0; margin: 0">
-        <Content>
+    <Layout Style="padding-left: 200px; background-color: #FFF">
+        <Content >
             <Dropzone Items="activities" InstantReplace="true">
                 <DynamicActivityComponent Activity=@context />
             </Dropzone>
         </Content>
-        <Footer>Footer</Footer>
     </Layout>
 </Layout>
 
