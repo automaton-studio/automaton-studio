@@ -42,13 +42,14 @@ namespace Automaton.Studio.ViewModels
         {
             this.mapper = mapper;
             this.activityService = activityService;
-            TreeItems = new List<ActivityModel>();
         }
 
         #region Public Methods
 
         public async Task Initialize()
         {
+            TreeItems = new List<ActivityModel>();
+
             var elsaActivities = await activityService.List();
             var activityItems = mapper.Map<IEnumerable<Elsa.Metadata.ActivityDescriptor>, IList<ActivityModel>>(elsaActivities);
             var categoryNames = activityItems.Select(x => x.Category).Distinct();
