@@ -36,7 +36,7 @@ packages/
 *.orig
 
 #wwwroot
-wwwroot/
+#wwwroot/
 
 #npm
 node_modules/
