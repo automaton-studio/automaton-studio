@@ -14,7 +14,7 @@ namespace Automaton.Runner.Core.Extensions
         {
             services.AddElsa(options => options
                 .UseEntityFrameworkPersistence(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                    db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)), true)
+                    db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)))
                 .AddConsoleActivities());
 
             services.AddSingleton(service => new ConfigService(configuration));

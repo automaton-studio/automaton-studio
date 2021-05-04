@@ -96,7 +96,7 @@ namespace Automaton.Studio
                     .UseEntityFrameworkPersistence(options =>
                              options.UseSqlServer(Configuration.GetConnectionString(DatabaseConnection),
                                  // Last param instruct Elsa to create its tables if True, and skip this step if False
-                                 db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)), true)
+                                 db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)))
                     .AddConsoleActivities()
                     .AddWorkflowsFrom<Startup>()
                 )
