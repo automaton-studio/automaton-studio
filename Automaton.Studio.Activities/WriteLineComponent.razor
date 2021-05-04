@@ -1,8 +1,8 @@
 ﻿<div class="console-activity">
     <Row>
         <Col Flex=@("none")>
-            <div style="padding: 0 16px">
-                <Icon Type="form" Theme="outline" Style="font-size: 18px" />
+            <div class="icon-container">
+                <Icon Type="form" Theme="outline" Class="icon" />
             </div>
         </Col>
 
@@ -10,8 +10,8 @@
             @Activity.Name
         </Col>
 
-        <Col style="margin-left: auto;">
-            <div style="padding: 0 16px"><Icon Type="more" Theme="outline" Style="font-size: 18px" /></div>
+        <Col Class="options">
+            <div class="icon-container"><Icon Type="more" Theme="outline" Class="icon" /></div>
         </Col>
 
     </Row>
@@ -21,5 +21,18 @@
 
     [Parameter]
     public WriteLineActivity Activity { get; set; }
-
 }
+
+<style>
+    .icon-container {
+        padding: 0 16px;
+    }
+
+    .icon {
+        font-size: 18px;
+    }
+
+    .options {
+        margin-left: auto;
+    }
+</style>

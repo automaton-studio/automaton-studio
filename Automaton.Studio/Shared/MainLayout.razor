@@ -4,27 +4,21 @@
  
 <Layout Class="layout">
 
-    <Sider Theme="SiderTheme.Dark" Collapsible="false" Collapsed="true" CollapsedWidth="48" Style="overflow: auto; height: 100vh;">
+    <Sider Theme="SiderTheme.Dark" Collapsible="false" Collapsed="true" CollapsedWidth="48" Class="side-layout">
 
         <div class="logo"></div>
 
         <div class="sidebar">
             <div>
-                <Tooltip Placement="@PlacementType.Right" Title="@("Dashboard")">
-                    <a href=""><Icon Type="dashboard" Theme="outline" Style="font-size: 20px" /></a>
-                </Tooltip>
+                <a href="" title="Dashboard"><Icon Type="dashboard" Theme="outline" Class="side-icon"/></a>
             </div>
 
             <div>
-                <Tooltip Placement="@PlacementType.Right" Title="@("Designer")">
-                    <a href="designer"><Icon Type="partition" Theme="outline" Style="font-size: 20px" /></a>
-                </Tooltip>
+                <a href="designer" title="Designer"><Icon Type="partition" Theme="outline" Class="side-icon"/></a>
             </div>
 
             <div>
-                <Tooltip Placement="@PlacementType.Right" Title="@("Workflows")">
-                    <a href="workflows"><Icon Type="profile" Theme="outline" Style="font-size: 20px" /></a>
-                </Tooltip>
+                <a href="workflows" title="Workflows"><Icon Type="profile" Theme="outline" Class="side-icon"/></a>
             </div>
         </div>
     </Sider>
@@ -112,4 +106,14 @@
     .right-actions {
         margin-left: auto;
     }
+
+    .side-icon {
+        font-size: 20px;
+    }
+
+    .side-layout {
+        overflow: auto;
+        height: 100vh;
+    }
+
 </style>

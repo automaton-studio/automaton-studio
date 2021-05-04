@@ -11,10 +11,9 @@ else
           TitleExpression="x => x.DataItem.DisplayName"
           ChildrenExpression="x => x.DataItem.Activities"
           IconExpression="x => x.DataItem.Icon"
-          IsLeafExpression="x => x.DataItem.Activities == null || x.DataItem.Activities.Count == 0"
+          IsLeafExpression="x => x.DataItem.Activities == null || !x.DataItem.Activities.Any()"
           KeyExpression="x => x.DataItem.Type"
           Style="background-color: #fafafa; height: 100vh; overflow: auto"
           TItem="ActivityModel">
     </Tree>
-
 }
