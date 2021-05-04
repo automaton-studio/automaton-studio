@@ -32,22 +32,30 @@
     <Layout Class="site-layout">
         <Header Class="header">
 
-            <DynamicActionBar ActionBar=@MainLayoutViewModel.ActionBar></DynamicActionBar>
+            <Row>
+                <Col Flex=@("none")>
+                    <DynamicActionBar ActionBar=@MainLayoutViewModel.ActionBar></DynamicActionBar>
+                </Col>
 
-            <Space class="right-header-items">
-                <SpaceItem>
-                    <Button Shape="link" Icon="question-circle" Class="action-button">
-                        <span class="action-label">Help</span>
-                    </Button>
-                </SpaceItem>
-                <SpaceItem>
-                    <form method="post" action="Identity/Account/LogOut">
-                        <Button Shape="link" HtmlType="submit" Icon="logout" Class="action-button">
-                            <span class="action-label">Logout</span>
-                        </Button>
-                    </form>
-                </SpaceItem>
-            </Space>
+                <Col Class="right-actions">
+                    <Space Class="right-header-items">
+                        <SpaceItem>
+                            <Button Shape="link" Icon="question-circle" Class="action-button">
+                                <span class="action-label">Help</span>
+                            </Button>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <form method="post" action="Identity/Account/LogOut">
+                                <Button Shape="link" HtmlType="submit" Icon="logout" Class="action-button">
+                                    <span class="action-label">Logout</span>
+                                </Button>
+                            </form>
+                        </SpaceItem>
+                    </Space>
+                </Col>
+
+            </Row>
+
         </Header>
 
         <Content>
@@ -100,4 +108,8 @@
             float: right;
             padding-right: 10px;
         }
+
+    .right-actions {
+        margin-left: auto;
+    }
 </style>
