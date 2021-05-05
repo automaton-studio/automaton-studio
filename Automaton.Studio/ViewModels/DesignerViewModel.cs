@@ -1,23 +1,24 @@
 ﻿using AutoMapper;
+using Automaton.Studio.Activities;
 using Automaton.Studio.Hubs;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services;
 using Elsa.Models;
 using Elsa.Persistence;
-using Elsa.Persistence.Specifications;
+using Elsa.Persistence.Specifications.WorkflowDefinitions;
 using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.ViewModels
 {
-    public class WorkflowsViewModel : IWorkflowsViewModel, INotifyPropertyChanged
+    public class DesignerViewModel : IDesignerViewModel, INotifyPropertyChanged
     {
         #region Members
 
+        private readonly DynamicActivityFactory activityFactory;
         private readonly IWorkflowDefinitionStore workflowDefinitionStore;
         private readonly IHubContext<WorkflowHub> workflowHubContext;
         private readonly IRunnerService runnerService;
@@ -27,26 +28,33 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        private IEnumerable<WorkflowModel>? workflows;
-        public IEnumerable<WorkflowModel> Workflows
+        private WorkflowDefinition WorkflowDefinition { get; set; } = new()
         {
-            get => workflows;
+            Name = "Untitled",
+            DisplayName = "Untitled",
+            Version = 1
+        };
+
+        private WorkflowModel? workflow;
+        public WorkflowModel Workflow
+        {
+            get => workflow;
 
             set
             {
-                workflows = value;
+                workflow = value;
                 OnPropertyChanged();
             }
         }
 
-        private IEnumerable<RunnerModel>? runners;
-        public IEnumerable<RunnerModel> Runners
+        private IList<DynamicActivity> activities;
+        public IList<DynamicActivity> Activities
         {
-            get => runners;
+            get => activities;
 
             set
             {
-                runners = value;
+                activities = value;
                 OnPropertyChanged();
             }
         }
@@ -59,14 +67,16 @@ namespace Automaton.Studio.ViewModels
 
         #endregion
 
-        public WorkflowsViewModel
+        public DesignerViewModel
         (
+            DynamicActivityFactory activityFactory,
             IRunnerService runnerService,
             IHubContext<WorkflowHub> workflowHubContext,
             IWorkflowDefinitionStore workflowDefinitionStore,
             IMapper mapper
         )
         {
+            this.activityFactory = activityFactory;
             this.runnerService = runnerService;
             this.workflowHubContext = workflowHubContext;
             this.mapper = mapper;
@@ -75,21 +85,13 @@ namespace Automaton.Studio.ViewModels
 
         public async Task Initialize()
         {
-            var workflowDefinitions = await workflowDefinitionStore.FindManyAsync(Specification<WorkflowDefinition>.Identity);
-            Workflows = mapper.Map<IEnumerable<WorkflowDefinition>, IEnumerable<WorkflowModel>>(workflowDefinitions);     
-            Runners = mapper.Map<IQueryable<Runner>, IEnumerable<RunnerModel>>(runnerService.List());
-        }
+            var workflowDefinition = await workflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification("SampleWorkflow"));
+            Workflow = mapper.Map<WorkflowDefinition, WorkflowModel>(workflowDefinition);
+            Activities = new List<DynamicActivity>();
 
-        public async Task RunWorkflow(WorkflowModel workflow)
-        {
-            if (!workflow.HasRunners)
-                return;
-
-            foreach (var runnerId in workflow.RunnerIds)
+            foreach (var activityDefinition in Workflow.Activities)
             {
-                var runner = runnerService.Get(runnerId);
-                var client = workflowHubContext.Clients.Client(runner.ConnectionId);
-                await client.SendAsync("RunWorkflow", workflow.DefinitionId);
+                Activities.Add(activityFactory.GetDynamicActivity(activityDefinition));
             }
         }
 

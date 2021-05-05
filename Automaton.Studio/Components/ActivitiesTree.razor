@@ -14,6 +14,8 @@ else
           IsLeafExpression="x => x.DataItem.Activities == null || !x.DataItem.Activities.Any()"
           KeyExpression="x => x.DataItem.Type"
           Style="background-color: #fafafa; height: 100vh; overflow: auto"
-          TItem="ActivityModel">
+          @bind-SelectedData="@ActivitiesViewModel.SelectedActivity"
+          OnDblClick='e=>DoubleClickActivity(e,"OnDblClick")'
+          TItem="ActivityTreeModel">
     </Tree>
 }

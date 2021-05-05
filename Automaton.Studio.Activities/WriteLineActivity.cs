@@ -1,14 +1,25 @@
-﻿using Elsa.Activities.Console;
-using Elsa.Services;
+﻿using Elsa.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Automaton.Studio.Activities
 {
-    public class WriteLineActivity : ActivityBase
+    public class WriteLineActivity : DynamicActivity
     {
-        readonly IActivity elsaActivity = new WriteLine();
+        private ActivityDefinitionProperty textProperty => Properties?.SingleOrDefault(x => x.Name == "Text");
+        public string Text
+        {
+            get
+            {
+                return textProperty.Expressions[textProperty.Syntax];
+            }
 
-        public override IActivity ElsaActivity => elsaActivity;
+            set
+            {
+                textProperty.Expressions[textProperty.Syntax] = value;
+            }
+        }
 
         public override Type GetViewComponent()
         {

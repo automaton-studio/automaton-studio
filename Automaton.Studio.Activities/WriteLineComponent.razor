@@ -7,7 +7,7 @@
         </Col>
 
         <Col Flex=@("auto")>
-            @Activity.Name
+            @Activity.Text
         </Col>
 
         <Col Class="options">
@@ -18,7 +18,6 @@
 </div>
 
 @code {
-
     [Parameter]
     public WriteLineActivity Activity { get; set; }
 }

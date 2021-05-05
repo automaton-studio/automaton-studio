@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.ViewModels
 {
-    public class ActivitiesTreeViewModel : ITreeActivityViewModel, INotifyPropertyChanged
+    public class TreeActivityViewModel : ITreeActivityViewModel, INotifyPropertyChanged
     {
         #region Members
 
@@ -20,8 +20,8 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        private IList<ActivityModel>? activities;
-        public IList<ActivityModel> TreeItems
+        private IList<ActivityTreeModel>? activities;
+        public IList<ActivityTreeModel> TreeItems
         {
             get => activities;
 
@@ -32,11 +32,13 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
+        public ActivityTreeModel SelectedActivity { get; set; }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         #endregion
 
-        public ActivitiesTreeViewModel(
+        public TreeActivityViewModel(
             IActivityService activityService,
             IMapper mapper)
         {
@@ -48,19 +50,19 @@ namespace Automaton.Studio.ViewModels
 
         public async Task Initialize()
         {
-            TreeItems = new List<ActivityModel>();
+            TreeItems = new List<ActivityTreeModel>();
 
             var elsaActivities = await activityService.List();
-            var activityItems = mapper.Map<IEnumerable<Elsa.Metadata.ActivityDescriptor>, IList<ActivityModel>>(elsaActivities);
+            var activityItems = mapper.Map<IEnumerable<Elsa.Metadata.ActivityDescriptor>, IList<ActivityTreeModel>>(elsaActivities);
             var categoryNames = activityItems.Select(x => x.Category).Distinct();
 
             foreach (var categoryName in categoryNames)
             {
                 // Create category
-                var category = new ActivityModel
+                var category = new ActivityTreeModel
                 {
                     DisplayName = categoryName,
-                    Activities = new List<ActivityModel>()
+                    Activities = new List<ActivityTreeModel>()
                 };
 
                 // Prepare category activities

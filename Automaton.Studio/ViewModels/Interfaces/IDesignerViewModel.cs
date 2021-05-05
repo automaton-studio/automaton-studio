@@ -1,22 +1,22 @@
-﻿using Automaton.Studio.Models;
+﻿using Automaton.Studio.Activities;
+using Automaton.Studio.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.ViewModels
 {
-    public interface IWorkflowsViewModel
+    public interface IDesignerViewModel
     {
         #region Properties
 
-        IEnumerable<WorkflowModel> Workflows { get; set; }
-        IEnumerable<RunnerModel> Runners { get; set; }
+        WorkflowModel Workflow { get; set; }
+        IList<DynamicActivity> Activities { get; set; }
 
         #endregion
 
         #region Methods
 
         Task Initialize();
-        Task RunWorkflow(WorkflowModel workflow);
 
         #endregion
     }

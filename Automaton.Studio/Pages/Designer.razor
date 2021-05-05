@@ -3,7 +3,7 @@
 @using Automaton.Studio.Components
 @using Plk.Blazor.DragDrop
 
-@if (activities == null)
+@if (DesignerViewModel.Activities == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -15,7 +15,7 @@ else
     </Sider>
     <Layout Style="padding-left: 200px; background-color: #FFF">
         <Content>
-            <Dropzone Items="activities" InstantReplace="true">
+            <Dropzone Items="DesignerViewModel.Activities" InstantReplace="true">
                 <DynamicActivityComponent Activity=@context />
             </Dropzone>
         </Content>

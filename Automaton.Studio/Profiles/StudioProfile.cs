@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Automaton.Studio.Activities;
 using Automaton.Studio.Models;
-using Elsa.Client.Models;
+using Elsa.Metadata;
+using Elsa.Models;
 
 namespace Automaton.Studio.Profiles
 {
@@ -10,7 +12,10 @@ namespace Automaton.Studio.Profiles
         {
             CreateMap<Runner, RunnerModel>();
             CreateMap<WorkflowDefinition, WorkflowModel>();
-            CreateMap<Elsa.Metadata.ActivityDescriptor, ActivityModel>();
+            CreateMap<ActivityDescriptor, ActivityTreeModel>();
+
+            // Activities
+            CreateMap<ActivityDefinition, WriteLineActivity>();
         }
     }
 }

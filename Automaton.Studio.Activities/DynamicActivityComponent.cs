@@ -13,7 +13,7 @@ namespace Automaton.Studio.Activities
         /// The Activity we want to render
         /// </summary>
         [Parameter]
-        public ActivityBase Activity { get; set; }
+        public DynamicActivity Activity { get; set; }
 
         /// <summary>
         /// Render the component
@@ -32,7 +32,7 @@ namespace Automaton.Studio.Activities
             Type componentType = Activity.GetViewComponent();
             // create an instance of this component
             builder.OpenComponent(0, componentType);
-            // set the `Product` attribute of the component
+            // set the `Activity` attribute of the component
             builder.AddAttribute(1, "Activity", Activity);
             // close
             builder.CloseComponent();

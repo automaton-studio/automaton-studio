@@ -2,9 +2,9 @@
 
 namespace Automaton.Studio.Models
 {
-    public class ActivityModel
+    public class ActivityTreeModel
     {
-        public ActivityModel()
+        public ActivityTreeModel()
         {
             Type = "Activity";
             Category = "Miscellaneous";
@@ -21,6 +21,6 @@ namespace Automaton.Studio.Models
         #endregion
 
         public string? Icon { get; set; }
-        public List<ActivityModel>? Activities { get; set; }
+        public List<ActivityTreeModel>? Activities { get; set; }
     }
 }

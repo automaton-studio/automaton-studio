@@ -27,6 +27,7 @@ using Automaton.Studio.Services;
 using System.Reflection;
 using Automaton.Studio.ViewModels;
 using Plk.Blazor.DragDrop;
+using Automaton.Studio.Activities;
 
 namespace Automaton.Studio
 {
@@ -107,11 +108,15 @@ namespace Automaton.Studio
             // ViewModels
             services.AddScoped<IMainLayoutViewModel, MainLayoutViewModel>();
             services.AddScoped<IWorkflowsViewModel, WorkflowsViewModel>();
-            services.AddScoped<ITreeActivityViewModel, ActivitiesTreeViewModel>();
+            services.AddScoped<IDesignerViewModel, DesignerViewModel>();
+            services.AddScoped<ITreeActivityViewModel, TreeActivityViewModel>();
             
             // Services
             services.AddScoped<IRunnerService, RunnerService>();
-            services.AddScoped<IActivityService, ActivityService>();     
+            services.AddScoped<IActivityService, ActivityService>();
+
+            // Factories
+            services.AddScoped<DynamicActivityFactory>();     
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
