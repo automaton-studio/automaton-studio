@@ -11,7 +11,7 @@ else
 
 <Table TItem="WorkflowModel" DataSource="@WorkflowsViewModel.Workflows">
     <Column Title="Workflow" @bind-Field="@context.Name">
-        <a>@context.Name</a>
+        <a href="designer?workflow=@context.DefinitionId">@context.Name</a>
     </Column>
     <Column @bind-Field="@context.Description"></Column>
     <Column @bind-Field="@context.Version" Width="100">

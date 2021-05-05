@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Shared
 {
-    partial class MainLayout : IDisposable
+    partial class MainLayout
     {
-        [Inject] NavigationManager NavigationManager { get; set; }
+        [Inject] NavigationManager NavigationManager { get; set; } = default!;
         [Inject] private IMainLayoutViewModel MainLayoutViewModel { get; set; } = default!;
 
         [CascadingParameter] protected Task<AuthenticationState>? AuthStat { get; set; }
@@ -19,10 +19,6 @@ namespace Automaton.Studio.Shared
             base.OnInitialized();
 
             await ValidateUserAuthentication();
-
-            NavigationManager.LocationChanged += LocationChanged;
-
-            MainLayoutViewModel.ActionBar = ActionBarFactory.GetActionBar(NavigationManager.Uri + "/designer");
         }
 
         private async Task ValidateUserAuthentication()
@@ -38,16 +34,6 @@ namespace Automaton.Studio.Shared
             {
                 NavigationManager.NavigateTo($"Identity/Account/Login");
             }
-        }
-
-        private void LocationChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
-        {
-            MainLayoutViewModel.ActionBar = ActionBarFactory.GetActionBar(NavigationManager.Uri);
-        }
-
-        public void Dispose()
-        {
-            NavigationManager.LocationChanged -= LocationChanged;
         }
     }
 }

@@ -11,8 +11,6 @@ namespace Automaton.Studio.Components
     /// </summary>
     public class DynamicActionBar : ComponentBase
     {
-        [Inject] NavigationManager NavigationManager { get; set; }
-
         /// <summary>
         /// The ActionBar we want to render
         /// </summary>
@@ -30,14 +28,10 @@ namespace Automaton.Studio.Components
                 throw new ArgumentException("Invalid ActionBar parameter");
             }
 
-            var routeParts = NavigationManager.Uri.Split("/");
-            var routeName = routeParts.LastOrDefault();
-            var actionBar = ActionBarFactory.GetActionBar(routeName);
-
             base.BuildRenderTree(builder);
 
             // get the component to view the product with
-            Type componentType = actionBar.GetViewComponent();
+            Type componentType = ActionBar.GetViewComponent();
             // create an instance of this component
             builder.OpenComponent(0, componentType);
             // close

@@ -83,9 +83,9 @@ namespace Automaton.Studio.ViewModels
             this.workflowDefinitionStore = workflowDefinitionStore;
         }
 
-        public async Task Initialize()
+        public async Task LoadWorkflow(string workflow)
         {
-            var workflowDefinition = await workflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification("SampleWorkflow"));
+            var workflowDefinition = await workflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification(workflow));
             Workflow = mapper.Map<WorkflowDefinition, WorkflowModel>(workflowDefinition);
             Activities = new List<DynamicActivity>();
 

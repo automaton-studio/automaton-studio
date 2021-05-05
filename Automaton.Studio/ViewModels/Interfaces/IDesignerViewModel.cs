@@ -16,7 +16,7 @@ namespace Automaton.Studio.ViewModels
 
         #region Methods
 
-        Task Initialize();
+        Task LoadWorkflow(string workflow);
 
         #endregion
     }
