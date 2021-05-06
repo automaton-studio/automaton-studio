@@ -16,7 +16,7 @@ namespace Automaton.Studio.Shared
 
         protected async override Task OnInitializedAsync()
         {
-            base.OnInitialized();
+            await base.OnInitializedAsync();
 
             await ValidateUserAuthentication();
         }

@@ -2,7 +2,7 @@
 
 namespace Automaton.Studio.Components.ActionBar
 {
-    public class WorkflowsActionBar : ActionBar
+    public class WorkflowsActionBar : ActionBarComponent
     {
         public override Type GetViewComponent()
         {

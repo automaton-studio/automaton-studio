@@ -11,7 +11,10 @@ namespace Automaton.Studio.Pages
 
         protected override void OnInitialized()
         {
-            MainLayoutViewModel.ActionBar = ActionBarFactory.GetActionBar(StudioNavigation.Dashboard);
+            base.OnInitialized();
+
+            // Update MainLayout ActionBar
+            MainLayoutViewModel.ActionBar = ActionBarFactory.GetActionBar(ActionBar.Dashboard);
         }
     }
 }

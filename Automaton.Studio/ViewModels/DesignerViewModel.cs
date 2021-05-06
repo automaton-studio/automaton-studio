@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Activities;
-using Automaton.Studio.Hubs;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services;
 using Elsa.Models;
 using Elsa.Persistence;
 using Elsa.Persistence.Specifications.WorkflowDefinitions;
-using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -20,7 +18,6 @@ namespace Automaton.Studio.ViewModels
 
         private readonly DynamicActivityFactory activityFactory;
         private readonly IWorkflowDefinitionStore workflowDefinitionStore;
-        private readonly IHubContext<WorkflowHub> workflowHubContext;
         private readonly IRunnerService runnerService;
         private readonly IMapper mapper;
 
@@ -71,14 +68,12 @@ namespace Automaton.Studio.ViewModels
         (
             DynamicActivityFactory activityFactory,
             IRunnerService runnerService,
-            IHubContext<WorkflowHub> workflowHubContext,
             IWorkflowDefinitionStore workflowDefinitionStore,
             IMapper mapper
         )
         {
             this.activityFactory = activityFactory;
             this.runnerService = runnerService;
-            this.workflowHubContext = workflowHubContext;
             this.mapper = mapper;
             this.workflowDefinitionStore = workflowDefinitionStore;
         }

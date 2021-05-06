@@ -2,7 +2,7 @@
 
 namespace Automaton.Studio.Components.ActionBar
 {
-    public abstract class ActionBar
+    public abstract class ActionBarComponent
     {
         /// <summary>
         /// Returns the view component type to render

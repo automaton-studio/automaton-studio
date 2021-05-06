@@ -4,6 +4,6 @@ namespace Automaton.Studio.ViewModels
 {
     public interface IMainLayoutViewModel
     {
-        ActionBar ActionBar { get; set; }
+        ActionBarComponent ActionBar { get; set; }
     }
 }

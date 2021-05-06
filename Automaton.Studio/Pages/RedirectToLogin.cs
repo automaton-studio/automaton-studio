@@ -10,6 +10,8 @@ namespace Automaton.Studio.Pages
 
         protected override void OnInitialized()
         {
+            base.OnInitialized();
+
             NavigationManager.NavigateTo($"Identity/Account/Login");
         }
     }

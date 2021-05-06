@@ -13,7 +13,7 @@ namespace Automaton.Studio.Components
         /// The ActionBar we want to render
         /// </summary>
         [Parameter]
-        public ActionBar.ActionBar? ActionBar { get; set; }
+        public ActionBar.ActionBarComponent? ActionBar { get; set; }
 
         /// <summary>
         /// Render the component

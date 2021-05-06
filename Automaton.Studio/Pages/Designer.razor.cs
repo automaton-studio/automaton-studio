@@ -15,19 +15,16 @@ namespace Automaton.Studio.Pages
 
         #endregion
 
-        #region Properties
-
         [Inject] private NavigationManager NavigationManager { get; set; } = default!;
         [Inject] private IDesignerViewModel DesignerViewModel { get; set; } = default!;
         [Inject] private IMainLayoutViewModel MainLayoutViewModel { get; set; } = default!;
-
-        #endregion
 
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
 
-            MainLayoutViewModel.ActionBar = ActionBarFactory.GetActionBar(StudioNavigation.Designer);
+            // Update MainLayout ActionBar
+            MainLayoutViewModel.ActionBar = ActionBarFactory.GetActionBar(ActionBar.Designer);
 
             var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
             var queryStrings = QueryHelpers.ParseQuery(uri.Query);
@@ -36,7 +33,6 @@ namespace Automaton.Studio.Pages
             {
                 await DesignerViewModel.LoadWorkflow(workflow);
             }
-
         }
     }
 }

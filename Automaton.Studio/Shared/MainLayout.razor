@@ -1,7 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @using Microsoft.AspNetCore.Components
 @using Automaton.Studio.Components
- 
+
 <Layout Class="layout">
 
     <Sider Theme="SiderTheme.Dark" Collapsible="false" Collapsed="true" CollapsedWidth="48" Class="side-layout">
@@ -10,15 +10,15 @@
 
         <div class="sidebar">
             <div>
-                <a href="" title="Dashboard"><Icon Type="dashboard" Theme="outline" Class="side-icon"/></a>
+                <a href="" title="Dashboard"><Icon Type="dashboard" Theme="outline" Class="side-icon" /></a>
             </div>
 
             <div>
-                <a href="designer" title="Designer"><Icon Type="partition" Theme="outline" Class="side-icon"/></a>
+                <a href="designer" title="Designer"><Icon Type="partition" Theme="outline" Class="side-icon" /></a>
             </div>
 
             <div>
-                <a href="workflows" title="Workflows"><Icon Type="profile" Theme="outline" Class="side-icon"/></a>
+                <a href="workflows" title="Workflows"><Icon Type="profile" Theme="outline" Class="side-icon" /></a>
             </div>
         </div>
     </Sider>
@@ -28,24 +28,24 @@
 
             <Row>
                 <Col Flex=@("none")>
-                    <DynamicActionBar ActionBar=@MainLayoutViewModel.ActionBar></DynamicActionBar>
+                <DynamicActionBar ActionBar=@MainLayoutViewModel.ActionBar></DynamicActionBar>
                 </Col>
 
                 <Col Class="right-actions">
-                    <Space Class="right-header-items">
-                        <SpaceItem>
-                            <Button Shape="link" Icon="question-circle" Class="action-button">
-                                <span class="action-label">Help</span>
+                <Space Class="right-header-items">
+                    <SpaceItem>
+                        <Button Shape="link" Icon="question-circle" Class="action-button">
+                            <span class="action-label">Help</span>
+                        </Button>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <form method="post" action="Identity/Account/LogOut">
+                            <Button Shape="link" HtmlType="submit" Icon="logout" Class="action-button">
+                                <span class="action-label">Logout</span>
                             </Button>
-                        </SpaceItem>
-                        <SpaceItem>
-                            <form method="post" action="Identity/Account/LogOut">
-                                <Button Shape="link" HtmlType="submit" Icon="logout" Class="action-button">
-                                    <span class="action-label">Logout</span>
-                                </Button>
-                            </form>
-                        </SpaceItem>
-                    </Space>
+                        </form>
+                    </SpaceItem>
+                </Space>
                 </Col>
 
             </Row>
@@ -116,4 +116,15 @@
         height: 100vh;
     }
 
+    .actions-bar {
+        padding: 0px 0px 0 10px;
+    }
+
+    .action-button {
+        padding: 2px;
+    }
+
+    .action-label {
+        color: #000;
+    }
 </style>

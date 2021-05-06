@@ -8,8 +8,8 @@ namespace Automaton.Studio.ViewModels
     {
         #region Properties
 
-        private ActionBar? actionBar;
-        public ActionBar ActionBar
+        private ActionBarComponent? actionBar;
+        public ActionBarComponent ActionBar
         {
             get => actionBar;
 

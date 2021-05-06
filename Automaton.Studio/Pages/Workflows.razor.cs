@@ -14,7 +14,10 @@ namespace Automaton.Studio.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            MainLayoutViewModel.ActionBar = ActionBarFactory.GetActionBar(StudioNavigation.Workflows);
+            await base.OnInitializedAsync();
+
+            // Update MainLayout ActionBar
+            MainLayoutViewModel.ActionBar = ActionBarFactory.GetActionBar(ActionBar.Workflows);
 
             await WorkflowsViewModel.Initialize();
         }

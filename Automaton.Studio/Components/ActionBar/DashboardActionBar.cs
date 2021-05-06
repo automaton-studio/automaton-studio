@@ -2,7 +2,7 @@
 
 namespace Automaton.Studio.Components.ActionBar
 {
-    public class DashboardActionBar : ActionBar
+    public class DashboardActionBar : ActionBarComponent
     {
         public override Type GetViewComponent()
         {

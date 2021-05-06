@@ -5,21 +5,21 @@ namespace Automaton.Studio.Components.ActionBar
 {
     public static class ActionBarFactory
     {
-        public static ActionBar GetActionBar(StudioNavigation navigation)
+        public static ActionBarComponent GetActionBar(Enums.ActionBar actionBar)
         {
-            switch(navigation)
+            switch(actionBar)
             {
-                case StudioNavigation.Dashboard:
+                case Enums.ActionBar.Dashboard:
                     return new DashboardActionBar();
 
-                case StudioNavigation.Designer:
+                case Enums.ActionBar.Designer:
                     return new DesignerActionBar();
 
-                case StudioNavigation.Workflows:
+                case Enums.ActionBar.Workflows:
                     return new WorkflowsActionBar();
 
                 default:
-                    throw new NotImplementedException(navigation.ToString());
+                    throw new NotImplementedException("Invalid ActionBar");
             }
         }
     }

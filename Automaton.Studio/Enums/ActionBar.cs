@@ -1,6 +1,6 @@
 ﻿namespace Automaton.Studio.Enums
 {
-    public enum StudioNavigation
+    public enum ActionBar
     {
         Dashboard,
         Designer,
