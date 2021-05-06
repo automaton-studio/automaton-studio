@@ -1,4 +1,5 @@
 ﻿using Automaton.Studio.Components.ActionBar;
+using Automaton.Studio.Enums;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 
@@ -10,7 +11,7 @@ namespace Automaton.Studio.Pages
 
         protected override void OnInitialized()
         {
-            MainLayoutViewModel.ActionBar = ActionBarFactory.GetActionBar(string.Empty);
+            MainLayoutViewModel.ActionBar = ActionBarFactory.GetActionBar(StudioNavigation.Dashboard);
         }
     }
 }

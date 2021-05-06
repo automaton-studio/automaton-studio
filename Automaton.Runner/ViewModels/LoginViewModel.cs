@@ -47,13 +47,13 @@ namespace Automaton.Runner.ViewModels
 
         #endregion
 
-        public async Task<AppNavigate> Login()
+        public async Task<RunnerNavigation> Login()
         {
             try
             {
                 if (!Validate())
                 {
-                    return AppNavigate.None;
+                    return RunnerNavigation.None;
                 }
 
                 Loader.StartLoading();
@@ -66,11 +66,11 @@ namespace Automaton.Runner.ViewModels
                     // Connect to the hub service
                     await hubService.Connect(authService.Token, configService.UserConfig.RunnerName);
 
-                    return AppNavigate.Dashboard;
+                    return RunnerNavigation.Dashboard;
                 }
                 else
                 {
-                    return AppNavigate.Registration;
+                    return RunnerNavigation.Registration;
                 }
             }
             catch (AuthenticationException ex)
@@ -86,7 +86,7 @@ namespace Automaton.Runner.ViewModels
                 Loader.StopLoading();
             }
 
-            return AppNavigate.None;
+            return RunnerNavigation.None;
         }
 
         private bool Validate()

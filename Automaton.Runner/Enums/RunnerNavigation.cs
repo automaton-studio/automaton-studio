@@ -1,6 +1,6 @@
 ﻿namespace Automaton.Runner.Enums
 {
-    public enum AppNavigate
+    public enum RunnerNavigation
     {
         None = 0,
         Login,

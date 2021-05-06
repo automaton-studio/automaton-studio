@@ -21,9 +21,9 @@ namespace Automaton.Runner.Controls
 
             var result = await viewModel.Login();
 
-            if (result == Enums.AppNavigate.Dashboard)
+            if (result == Enums.RunnerNavigation.Dashboard)
                 mainWindow.NavigateToDashboard();
-            else if (result == Enums.AppNavigate.Registration)
+            else if (result == Enums.RunnerNavigation.Registration)
                 mainWindow.NavigateToRegistration();
         }
 

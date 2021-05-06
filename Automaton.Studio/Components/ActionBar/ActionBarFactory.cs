@@ -1,16 +1,26 @@
-﻿namespace Automaton.Studio.Components.ActionBar
+﻿using Automaton.Studio.Enums;
+using System;
+
+namespace Automaton.Studio.Components.ActionBar
 {
     public static class ActionBarFactory
     {
-        public static ActionBar GetActionBar(string routeName)
+        public static ActionBar GetActionBar(StudioNavigation navigation)
         {
-            return routeName switch
+            switch(navigation)
             {
-                "" or "dashboard" => new DashboardActionBar(),
-                "designer" => new DesignerActionBar(),
-                "workflows" => new WorkflowsActionBar(),
-                _ => new DashboardActionBar(),
-            };
+                case StudioNavigation.Dashboard:
+                    return new DashboardActionBar();
+
+                case StudioNavigation.Designer:
+                    return new DesignerActionBar();
+
+                case StudioNavigation.Workflows:
+                    return new WorkflowsActionBar();
+
+                default:
+                    throw new NotImplementedException(navigation.ToString());
+            }
         }
     }
 }

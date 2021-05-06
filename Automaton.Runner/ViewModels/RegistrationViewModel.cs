@@ -44,13 +44,13 @@ namespace Automaton.Runner.ViewModels
             this.registrationValidator = registrationValidator;
         }
 
-        public async Task<AppNavigate> Register()
+        public async Task<RunnerNavigation> Register()
         {
             try
             {
                 if (!Validate())
                 {
-                    return AppNavigate.None;
+                    return RunnerNavigation.None;
                 }
 
                 Loader.StartLoading();
@@ -61,7 +61,7 @@ namespace Automaton.Runner.ViewModels
 
                 await hubService.Connect(authService.Token, RunnerName);
 
-                return AppNavigate.Dashboard;
+                return RunnerNavigation.Dashboard;
             }
             catch (HttpRequestException ex)
             {
@@ -76,7 +76,7 @@ namespace Automaton.Runner.ViewModels
                 Loader.StopLoading();
             }
 
-            return AppNavigate.None;
+            return RunnerNavigation.None;
         }
 
         private bool Validate()

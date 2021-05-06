@@ -1,8 +1,6 @@
-﻿using Automaton.Studio.Components.ActionBar;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using System;
-using System.Linq;
 
 namespace Automaton.Studio.Components
 {

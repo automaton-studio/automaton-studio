@@ -1,4 +1,5 @@
 ﻿using Automaton.Studio.Components.ActionBar;
+using Automaton.Studio.Enums;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.WebUtilities;
@@ -11,7 +12,6 @@ namespace Automaton.Studio.Pages
         #region Constants
 
         private const string WorkflowParam = "workflow";
-        private const string PageRoute = "designer";
 
         #endregion
 
@@ -25,9 +25,9 @@ namespace Automaton.Studio.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            MainLayoutViewModel.ActionBar = ActionBarFactory.GetActionBar(PageRoute);
-
             await base.OnInitializedAsync();
+
+            MainLayoutViewModel.ActionBar = ActionBarFactory.GetActionBar(StudioNavigation.Designer);
 
             var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
             var queryStrings = QueryHelpers.ParseQuery(uri.Query);
