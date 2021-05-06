@@ -1,24 +1,11 @@
-﻿using Automaton.Studio.Components.ActionBar;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.ViewModels
 {
     public class MainLayoutViewModel : IMainLayoutViewModel, INotifyPropertyChanged
     {
-        #region Properties
-
-        private ActionBarComponent? actionBar;
-        public ActionBarComponent ActionBar
-        {
-            get => actionBar;
-
-            set
-            {
-                actionBar = value;
-                OnPropertyChanged();
-            }
-        }
+        #region Events
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

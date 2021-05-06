@@ -1,5 +1,6 @@
 ﻿@page "/workflows"
 @using Automaton.Studio.Models
+@using AntDesign
 
 @if (@WorkflowsViewModel.Workflows == null)
 {
@@ -7,46 +8,60 @@
 }
 else
 {
-    @using Elsa.Client.Models
+<div>
+    <Layout>
+        <Header Class="header">
 
-<Table TItem="WorkflowModel" DataSource="@WorkflowsViewModel.Workflows">
-    <Column Title="Workflow" @bind-Field="@context.Name">
-        <a href="designer?workflow=@context.DefinitionId">@context.Name</a>
-    </Column>
-    <Column @bind-Field="@context.Description"></Column>
-    <Column @bind-Field="@context.Version" Width="100">
-        <TitleTemplate>
-            <span> <Icon Type="environment" /> Version </span>
-        </TitleTemplate>
-    </Column>
+        </Header>
+        <Content>
+            <Table TItem="WorkflowModel" DataSource="@WorkflowsViewModel.Workflows">
+                <Column Title="Workflow" @bind-Field="@context.Name">
+                    @context.Name
+                </Column>
+                <Column @bind-Field="@context.Description"></Column>
+                <Column @bind-Field="@context.Version" Width="100">
+                    <TitleTemplate>
+                        <span> <Icon Type="environment" /> Version </span>
+                    </TitleTemplate>
+                </Column>
 
-    <Column Title="Runners" @bind-Field="@context.Description" Width="300">
-        <SpaceItem>
-            <Select Mode="multiple"
-                    @bind-Values="context.RunnerIds"
-                    Placeholder="Select runners..."
-                    TItemValue="Guid"
-                    TItem="Guid"
-                    AllowClear>
-                <SelectOptions>
-                    @foreach (var item in @WorkflowsViewModel.Runners)
-                        {
-                        <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
-                        }
-                </SelectOptions>
-            </Select>
-        </SpaceItem>
-    </Column>
+                <Column Title="Runners" @bind-Field="@context.Description" Width="300">
+                    <SpaceItem>
+                        <Select Mode="multiple"
+                                @bind-Values="context.RunnerIds"
+                                Placeholder="Select runners..."
+                                TItemValue="Guid"
+                                TItem="Guid"
+                                AllowClear>
+                            <SelectOptions>
+                                @foreach (var item in @WorkflowsViewModel.Runners)
+                                    {
+                                    <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
+                                    }
+                            </SelectOptions>
+                        </Select>
+                    </SpaceItem>
+                </Column>
 
-    <ActionColumn Title="Action">
-        <Space Size="10">
-            <SpaceItem>
-                <Button @onclick="@(() => RunWorkflow(context))" Shape="link" Icon="caret-right" Class="action-button"><span class="action-label">Run</span></Button>
-            </SpaceItem>
-        </Space>
-    </ActionColumn>
+                <ActionColumn Title="Action">
+                    <Space Size="10">
+                        <SpaceItem>
+                            <Button Type="dashed" Icon="caret-right" @onclick="@(() => RunWorkflow(context))">
+                                Run
+                            </Button>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Button Type="dashed" Icon="edit" @onclick="@(() => EditWorkflow(context))">
+                                Edit
+                            </Button>
+                        </SpaceItem>
+                    </Space>
+                </ActionColumn>
 
-</Table>
+            </Table>
+        </Content>
+    </Layout>
+</div>
 }
 
 

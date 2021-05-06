@@ -1,7 +1,7 @@
-﻿using Automaton.Studio.Components.ActionBar;
-using Automaton.Studio.ViewModels;
+﻿using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.JSInterop;
 using System;
 using System.Threading.Tasks;
 
@@ -9,8 +9,9 @@ namespace Automaton.Studio.Shared
 {
     partial class MainLayout
     {
-        [Inject] NavigationManager NavigationManager { get; set; } = default!;
+        [Inject] private NavigationManager NavigationManager { get; set; } = default!;
         [Inject] private IMainLayoutViewModel MainLayoutViewModel { get; set; } = default!;
+        [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
 
         [CascadingParameter] protected Task<AuthenticationState>? AuthStat { get; set; }
 
@@ -34,6 +35,11 @@ namespace Automaton.Studio.Shared
             {
                 NavigationManager.NavigateTo($"Identity/Account/Login");
             }
+        }
+
+        private async Task Logout()
+        {
+            await JSRuntime.InvokeAsync<string>("logout");
         }
     }
 }

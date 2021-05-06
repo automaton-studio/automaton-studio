@@ -25,13 +25,6 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        private WorkflowDefinition WorkflowDefinition { get; set; } = new()
-        {
-            Name = "Untitled",
-            DisplayName = "Untitled",
-            Version = 1
-        };
-
         private WorkflowModel? workflow;
         public WorkflowModel Workflow
         {
@@ -76,6 +69,15 @@ namespace Automaton.Studio.ViewModels
             this.runnerService = runnerService;
             this.mapper = mapper;
             this.workflowDefinitionStore = workflowDefinitionStore;
+
+            Activities = new List<DynamicActivity>();
+
+            Workflow = new()
+            {
+                Name = "Untitled",
+                DisplayName = "Untitled",
+                Version = 1
+            };
         }
 
         public async Task LoadWorkflow(string workflow)

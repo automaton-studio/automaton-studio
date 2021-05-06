@@ -1,20 +1,45 @@
 ﻿@page "/designer"
+@page "/designer/{WorkflowId}"
 @using Automaton.Studio.Activities
 @using Automaton.Studio.Components
 @using Plk.Blazor.DragDrop
 
-@if (DesignerViewModel.Activities == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
 <Layout>
-    <Sider Theme="SiderTheme.Light" Style="height: 100vh; position: fixed; overflow: auto">
-        <ActivitiesTree ></ActivitiesTree>
-    </Sider>
-    <Layout Style="padding-left: 200px; background-color: #FFF">
-        <Content>
+    <Header Class="header">
+        <Row>
+            <Col Flex=@("none")>
+                <Space Class="actions-bar">
+                    <SpaceItem>
+                        <Button Type="dashed" Icon="save">
+                            Save
+                        </Button>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Button Type="dashed" Icon="caret-right">
+                            Run
+                        </Button>
+                    </SpaceItem>
+                </Space>
+            </Col>
+
+            @*<Col Class="right-actions">
+                <Space Class="right-header-items">
+                    <SpaceItem>
+                        <Button Shape="link" Icon="question-circle" Class="action-button">
+                            <span class="action-label">Help</span>
+                        </Button>
+                    </SpaceItem>
+                </Space>
+            </Col>*@
+        </Row>
+    </Header>
+
+    <Layout Style="background-color: #FFF">
+        <Sider Theme="SiderTheme.Light" Style="height: 100vh; position: fixed; overflow: auto">
+            <ActivitiesTree></ActivitiesTree>
+        </Sider>
+
+        <Content Style="padding-left: 200px;">
             <Dropzone Items="DesignerViewModel.Activities" InstantReplace="true">
                 <DynamicActivityComponent Activity=@context />
             </Dropzone>
@@ -22,7 +47,6 @@ else
     </Layout>
 </Layout>
 
-}
 
 
 
