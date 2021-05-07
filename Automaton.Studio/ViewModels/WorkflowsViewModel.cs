@@ -93,6 +93,10 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
+        public async Task NewWorkflow()
+        {
+        }
+
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

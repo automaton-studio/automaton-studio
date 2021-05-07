@@ -6,18 +6,11 @@ namespace Automaton.Studio.ViewModels
 {
     public interface IWorkflowsViewModel
     {
-        #region Properties
-
         IEnumerable<WorkflowModel> Workflows { get; set; }
         IEnumerable<RunnerModel> Runners { get; set; }
 
-        #endregion
-
-        #region Methods
-
         Task Initialize();
+        Task NewWorkflow();
         Task RunWorkflow(WorkflowModel workflow);
-
-        #endregion
     }
 }
