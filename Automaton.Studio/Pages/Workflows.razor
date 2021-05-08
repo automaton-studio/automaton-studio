@@ -9,23 +9,9 @@
 else
 {
 <div>
-    <Modal Title="New Workflow"
-           Visible="@NewWorkflowVisible"
-           OnOk="@NewWorkflowOk"
-           OnCancel="@NewWorkflowCancel">
-        <Form @ref="form"
-              Model="@workflowModel"
-              LabelColSpan="8"
-              WrapperColSpan="16">
-            <FormItem Label="WorkflowName">
-                <Input @bind-Value="@context.Name" />
-            </FormItem>
-        </Form>
-    </Modal>
-
     <Layout>
         <Header Class="header">
-            <Space Size="10" Class="actions-bar">
+            <Space Class="actions-bar">
                 <SpaceItem>
                     <Button Type="dashed" Icon="plus" @onclick="@(() => ShowNewWorkflowDialog())">
                         New
@@ -65,7 +51,7 @@ else
                 </Column>
 
                 <ActionColumn Title="Action">
-                    <Space Size="10">
+                    <Space>
                         <SpaceItem>
                             <Button Type="dashed" Icon="caret-right" @onclick="@(() => RunWorkflow(context))">
                                 Run

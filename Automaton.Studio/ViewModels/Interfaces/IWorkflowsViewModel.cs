@@ -8,6 +8,7 @@ namespace Automaton.Studio.ViewModels
     {
         IEnumerable<WorkflowModel> Workflows { get; set; }
         IEnumerable<RunnerModel> Runners { get; set; }
+        NewWorkflowModel NewWorkflowDetails { get; set; }
 
         Task Initialize();
         Task NewWorkflow();

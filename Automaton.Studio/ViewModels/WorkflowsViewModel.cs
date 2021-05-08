@@ -51,6 +51,8 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
+        public NewWorkflowModel NewWorkflowDetails { get; set; } = new NewWorkflowModel();
+
         #endregion
 
         #region Events

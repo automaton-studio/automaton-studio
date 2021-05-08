@@ -1,0 +1,32 @@
+﻿@using Automaton.Studio.Models
+@inherits FeedbackComponent<NewWorkflowModel>
+
+<Form @ref="form"
+      Model="@workflowModel"
+      LabelColSpan="8"
+      WrapperColSpan="16">
+    <FormItem Label="Name">
+        <Input @bind-Value="@context.Name" />
+    </FormItem>
+</Form>
+
+@code {
+
+    private Form<NewWorkflowModel>? form;
+    private NewWorkflowModel? workflowModel;
+
+    protected override void OnInitialized()
+    {
+        workflowModel = this.Options;
+
+        base.OnInitialized();
+    }
+
+    public override async Task OnFeedbackOkAsync(ModalClosingEventArgs args)
+    {
+        var valid = form.Validate();
+        args.Cancel = !form.Validate();
+
+        await base.OnFeedbackOkAsync(args);
+    }
+}
