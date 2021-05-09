@@ -8,7 +8,8 @@
       WrapperColSpan="20">
     <Validator>
         <FluentValidationValidator @ref="fluentValidationValidator" />
-        <ValidationSummary />
+        @*We don't need a validation summary here because all validation is related to the Name field*@
+        @*<ValidationSummary />*@
     </Validator>
 
     <ChildContent>
