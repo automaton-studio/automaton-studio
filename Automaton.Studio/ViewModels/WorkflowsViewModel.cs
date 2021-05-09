@@ -1,11 +1,14 @@
-﻿using AutoMapper;
+﻿using AntDesign;
+using AutoMapper;
 using Automaton.Studio.Hubs;
 using Automaton.Studio.Models;
+using Automaton.Studio.Resources;
 using Automaton.Studio.Services;
 using Elsa.Models;
 using Elsa.Persistence;
 using Elsa.Persistence.Specifications;
 using Microsoft.AspNetCore.SignalR;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -21,6 +24,7 @@ namespace Automaton.Studio.ViewModels
         private readonly IWorkflowDefinitionStore workflowDefinitionStore;
         private readonly IHubContext<WorkflowHub> workflowHubContext;
         private readonly IRunnerService runnerService;
+        private readonly MessageService messageService;
         private readonly IMapper mapper;
 
         #endregion
@@ -66,10 +70,12 @@ namespace Automaton.Studio.ViewModels
             IRunnerService runnerService,
             IHubContext<WorkflowHub> workflowHubContext,
             IWorkflowDefinitionStore workflowDefinitionStore,
+            MessageService messageService,
             IMapper mapper
         )
         {
             this.runnerService = runnerService;
+            this.messageService = messageService;
             this.workflowHubContext = workflowHubContext;
             this.mapper = mapper;
             this.workflowDefinitionStore = workflowDefinitionStore;
@@ -97,6 +103,25 @@ namespace Automaton.Studio.ViewModels
 
         public async Task NewWorkflow()
         {
+            try
+            {
+                var workflowDefinition = mapper.Map<NewWorkflowModel, WorkflowDefinition>(NewWorkflowDetails);
+                await workflowDefinitionStore.AddAsync(workflowDefinition);
+            }
+            catch (Exception ex)
+            {
+                await messageService.Error(Errors.NewWorkflowError);
+                throw;
+            }
+            finally
+            {
+                ClearNewWorkflowDetails();
+            }
+        }
+
+        private void ClearNewWorkflowDetails()
+        {
+            NewWorkflowDetails = new NewWorkflowModel();
         }
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)

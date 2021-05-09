@@ -42,7 +42,8 @@ namespace Automaton.Studio.Pages
 
             modalRef.OnOk = () =>
             {
-                var a = WorkflowsViewModel.NewWorkflowDetails;
+                WorkflowsViewModel.NewWorkflow();
+
                 return Task.CompletedTask;
             };
         }

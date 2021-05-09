@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Automaton.Studio.Models
+﻿namespace Automaton.Studio.Models
 {
     public class NewWorkflowModel
     {
-        [Required]
         public string? Name { get; set; }
+        public string? DisplayName { get; set; }
+        public string? Description { get; set; }
+        public int Version { get; set; } = 1;
     }
 }

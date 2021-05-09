@@ -10,11 +10,13 @@
     <PackageReference Include="AntDesign" Version="0.8.0" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="blazor-dragdrop" Version="2.3.0" />
+    <PackageReference Include="Blazored.FluentValidation" Version="2.0.0" />
     <PackageReference Include="Elsa.Activities.Console" Version="2.0.0-rc1.8" />
     <PackageReference Include="Elsa.Persistence.EntityFramework.SqlServer" Version="2.0.0-rc1.8" />
     <PackageReference Include="Elsa.Persistence.EntityFrameworkCore" Version="1.5.5.1943" />
     <PackageReference Include="Elsa.Server.Api" Version="2.0.0-rc1.8" />
     <PackageReference Include="ElsaDashboard.Backend" Version="2.0.0-rc1.8" />
+    <PackageReference Include="FluentValidation" Version="10.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
@@ -39,17 +41,35 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resources\Errors.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Errors.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Labels.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Labels.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Placeholders.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Placeholders.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\Errors.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Errors.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Labels.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Labels.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Placeholders.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Placeholders.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

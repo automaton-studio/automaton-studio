@@ -1,32 +1,41 @@
 ﻿@using Automaton.Studio.Models
+@using Automaton.Studio.Resources
 @inherits FeedbackComponent<NewWorkflowModel>
 
 <Form @ref="form"
       Model="@workflowModel"
-      LabelColSpan="8"
-      WrapperColSpan="16">
-    <FormItem Label="Name">
-        <Input @bind-Value="@context.Name" />
-    </FormItem>
+      LabelColSpan="4"
+      WrapperColSpan="20"
+      >
+    <Validator>
+        <FluentValidationValidator @ref="fluentValidationValidator" />
+        <ValidationSummary />
+    </Validator>
+
+    <ChildContent>
+        <FormItem Label="Name">
+            <Input @bind-Value="@context.Name" Placeholder=@Placeholders.EnterWorkflowName/>
+        </FormItem>
+    </ChildContent>
 </Form>
 
 @code {
-
     private Form<NewWorkflowModel>? form;
     private NewWorkflowModel? workflowModel;
+    private FluentValidationValidator fluentValidationValidator;
 
     protected override void OnInitialized()
     {
         workflowModel = this.Options;
-
         base.OnInitialized();
     }
 
     public override async Task OnFeedbackOkAsync(ModalClosingEventArgs args)
     {
-        var valid = form.Validate();
-        args.Cancel = !form.Validate();
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(50);
 
-        await base.OnFeedbackOkAsync(args);
+        var valid = fluentValidationValidator.Validate(options => options.IncludeAllRuleSets());
+        args.Cancel = !valid;
     }
 }
