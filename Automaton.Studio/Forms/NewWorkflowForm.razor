@@ -5,8 +5,7 @@
 <Form @ref="form"
       Model="@workflowModel"
       LabelColSpan="4"
-      WrapperColSpan="20"
-      >
+      WrapperColSpan="20">
     <Validator>
         <FluentValidationValidator @ref="fluentValidationValidator" />
         <ValidationSummary />
@@ -14,7 +13,7 @@
 
     <ChildContent>
         <FormItem Label="Name">
-            <Input @bind-Value="@context.Name" Placeholder=@Placeholders.EnterWorkflowName/>
+            <Input @bind-Value="@context.Name" Placeholder=@Placeholders.EnterWorkflowName />
         </FormItem>
     </ChildContent>
 </Form>
@@ -32,10 +31,14 @@
 
     public override async Task OnFeedbackOkAsync(ModalClosingEventArgs args)
     {
+        // Below workaround is required to avoid NewWorkflow dialog
+        // close unexpectedly when shown for the first time.
+        // The fact that validation happens synchronous (while this method is async) may be the cause of the problem.
+        // Please keep both of the next two lines, or find a fix for the issue.
+        // Razvan, May 2021
         await InvokeAsync(StateHasChanged);
         await Task.Delay(50);
 
-        var valid = fluentValidationValidator.Validate(options => options.IncludeAllRuleSets());
-        args.Cancel = !valid;
+        args.Cancel = !fluentValidationValidator.Validate(options => options.IncludeAllRuleSets());
     }
 }
