@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Automaton.Studio.Activities;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace Automaton.Studio.ViewModels
     {
         #region Members
 
+        private readonly IDesignerViewModel designerViewModel;
         private readonly IActivityService activityService;
         private readonly IMapper mapper;
 
@@ -39,10 +41,12 @@ namespace Automaton.Studio.ViewModels
         #endregion
 
         public TreeActivityViewModel(
+            IDesignerViewModel designerViewModel,
             IActivityService activityService,
             IMapper mapper)
         {
             this.mapper = mapper;
+            this.designerViewModel = designerViewModel;
             this.activityService = activityService;
         }
 
@@ -72,6 +76,11 @@ namespace Automaton.Studio.ViewModels
                 // Add category to the tree
                 TreeItems.Add(category);
             }
+        }
+
+        public void DragActivity(ActivityTreeModel activityModel)
+        {
+            designerViewModel.ChangeActiveItem(activityModel);
         }
 
         #endregion

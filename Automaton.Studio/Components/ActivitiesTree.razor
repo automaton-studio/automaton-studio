@@ -1,21 +1,21 @@
 ﻿@using Automaton.Studio.Models
 
-@if (@ActivitiesViewModel.TreeItems == null)
+@if (TreeActivityViewModel.TreeItems == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
     <Tree ShowIcon 
-          DataSource="@ActivitiesViewModel.TreeItems"
-          TitleExpression="x => x.DataItem.DisplayName"
-          ChildrenExpression="x => x.DataItem.Activities"
-          IconExpression="x => x.DataItem.Icon"
-          IsLeafExpression="x => x.DataItem.Activities == null || !x.DataItem.Activities.Any()"
-          KeyExpression="x => x.DataItem.Type"
-          Style="background-color: #fafafa; height: 100vh; overflow: auto"
-          @bind-SelectedData="@ActivitiesViewModel.SelectedActivity"
-          OnDblClick='e=>DoubleClickActivity(e,"OnDblClick")'
-          TItem="ActivityTreeModel">
+        DataSource="@TreeActivityViewModel.TreeItems"
+        TitleExpression="x => x.DataItem.DisplayName"
+        ChildrenExpression="x => x.DataItem.Activities"
+        IconExpression="x => x.DataItem.Icon"
+        IsLeafExpression="x => x.DataItem.Activities == null || !x.DataItem.Activities.Any()"
+        KeyExpression="x => x.DataItem.Type"
+        Style="background-color: #fafafa; height: 100vh; overflow: auto"
+        @bind-SelectedData="@TreeActivityViewModel.SelectedActivity"
+        OnNodeDrag="@((i)=> { TreeActivityViewModel.DragActivity(i); })"
+        TItem="ActivityTreeModel">
     </Tree>
 }

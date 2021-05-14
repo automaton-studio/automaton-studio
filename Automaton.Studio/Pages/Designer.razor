@@ -8,29 +8,29 @@
     <Header Class="header">
         <Row>
             <Col Flex=@("none")>
-                <Space Class="actions-bar">
-                    <SpaceItem>
-                        <Button Type="dashed" Icon="save">
-                            Save
-                        </Button>
-                    </SpaceItem>
-                    <SpaceItem>
-                        <Button Type="dashed" Icon="caret-right">
-                            Run
-                        </Button>
-                    </SpaceItem>
-                </Space>
+            <Space Class="actions-bar">
+                <SpaceItem>
+                    <Button Type="dashed" Icon="save">
+                        Save
+                    </Button>
+                </SpaceItem>
+                <SpaceItem>
+                    <Button Type="dashed" Icon="caret-right">
+                        Run
+                    </Button>
+                </SpaceItem>
+            </Space>
             </Col>
 
             @*<Col Class="right-actions">
-                <Space Class="right-header-items">
-                    <SpaceItem>
-                        <Button Shape="link" Icon="question-circle" Class="action-button">
-                            <span class="action-label">Help</span>
-                        </Button>
-                    </SpaceItem>
-                </Space>
-            </Col>*@
+                    <Space Class="right-header-items">
+                        <SpaceItem>
+                            <Button Shape="link" Icon="question-circle" Class="action-button">
+                                <span class="action-label">Help</span>
+                            </Button>
+                        </SpaceItem>
+                    </Space>
+                </Col>*@
         </Row>
     </Header>
 
@@ -39,14 +39,13 @@
             <ActivitiesTree></ActivitiesTree>
         </Sider>
 
-        <Content Style="padding-left: 200px;">
-            <Dropzone Items="DesignerViewModel.Activities" InstantReplace="true">
+        <Content Style="padding-left: 200px; min-height: 200px">
+            <Dropzone @ref="dropzone" TItem="DynamicActivity" Items="DesignerViewModel.Activities" InstantReplace="true" OnItemDrop="@((p)=>OnItemDrop(p))">
                 <DynamicActivityComponent Activity=@context />
             </Dropzone>
         </Content>
     </Layout>
 </Layout>
-
 
 
 

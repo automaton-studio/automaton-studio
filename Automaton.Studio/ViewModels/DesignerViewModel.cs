@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Activities;
+using Automaton.Studio.Events;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services;
+using Elsa.Activities.Console;
 using Elsa.Models;
 using Elsa.Persistence;
 using Elsa.Persistence.Specifications.WorkflowDefinitions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -54,6 +57,7 @@ namespace Automaton.Studio.ViewModels
         #region Events
 
         public event PropertyChangedEventHandler? PropertyChanged;
+        public event EventHandler<ActivityChangedEventArgs> ActiveItemChanged;
 
         #endregion
 
@@ -90,6 +94,21 @@ namespace Automaton.Studio.ViewModels
             {
                 Activities.Add(activityFactory.GetDynamicActivity(activityDefinition));
             }
+        }
+
+        public void ChangeActiveItem(ActivityTreeModel activityModel)
+        {
+            var activity = new WriteLineActivity
+            {
+                Type = nameof(WriteLine),
+                ActivityId = "activity-1",
+                Properties = new List<ActivityDefinitionProperty>()
+                {
+                    ActivityDefinitionProperty.Liquid(nameof(WriteLine.Text), "Willlmaaaaa!")
+                }
+            };
+
+            ActiveItemChanged?.Invoke(this, new ActivityChangedEventArgs(activity));
         }
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)

@@ -1,5 +1,7 @@
 ﻿using Automaton.Studio.Activities;
+using Automaton.Studio.Events;
 using Automaton.Studio.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,9 +16,16 @@ namespace Automaton.Studio.ViewModels
 
         #endregion
 
+        #region Events
+
+        event EventHandler<ActivityChangedEventArgs> ActiveItemChanged;
+
+        #endregion
+
         #region Methods
 
         Task LoadWorkflow(string workflow);
+        void ChangeActiveItem(ActivityTreeModel activityModel);
 
         #endregion
     }
