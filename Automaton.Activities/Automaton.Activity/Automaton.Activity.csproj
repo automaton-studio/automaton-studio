@@ -11,12 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Elsa.Activities.Console" Version="2.0.0-rc2.82" />
+    <PackageReference Include="Elsa.Abstractions" Version="2.0.0-rc2.73" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.5" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\ant-design-blazor\components\AntDesign.csproj" />
   </ItemGroup>
 
 </Project>

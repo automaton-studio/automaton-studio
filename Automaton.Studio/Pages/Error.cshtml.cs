@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace Automaton.Studio.Pages
 {
@@ -22,7 +21,7 @@ namespace Automaton.Studio.Pages
 
         public void OnGet()
         {
-            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            RequestId = System.Diagnostics.Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         }
     }
 }

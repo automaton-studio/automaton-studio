@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Automaton.Studio.Activities
+namespace Automaton.Activity
 {
     /// <summary>
     /// A base class for all activity instances

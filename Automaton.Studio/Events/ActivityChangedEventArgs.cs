@@ -1,4 +1,4 @@
-﻿using Automaton.Studio.Activities;
+﻿using Automaton.Activity;
 using System;
 
 namespace Automaton.Studio.Events

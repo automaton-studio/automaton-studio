@@ -1,9 +1,8 @@
 ﻿using Elsa.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
-namespace Automaton.Studio.Activities
+namespace Automaton.Activity.WriteLine
 {
     public class WriteLineActivity : DynamicActivity
     {

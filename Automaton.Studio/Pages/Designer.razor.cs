@@ -1,4 +1,4 @@
-﻿using Automaton.Studio.Activities;
+﻿using Automaton.Activity;
 using Automaton.Studio.Events;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;

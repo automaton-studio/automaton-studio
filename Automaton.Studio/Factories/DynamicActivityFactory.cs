@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Automaton.Activity;
+using Automaton.Activity.WriteLine;
 using Elsa.Models;
 using System;
 
-namespace Automaton.Studio.Activities
+namespace Automaton.Studio.Factories
 {
     public class DynamicActivityFactory
     {

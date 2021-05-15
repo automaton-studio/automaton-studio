@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
-using Automaton.Studio.Activities;
+using Automaton.Activity;
 using Automaton.Studio.Events;
+using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services;
-using Elsa.Activities.Console;
+using Automaton.Activity.WriteLine;
 using Elsa.Models;
 using Elsa.Persistence;
 using Elsa.Persistence.Specifications.WorkflowDefinitions;
@@ -100,11 +101,11 @@ namespace Automaton.Studio.ViewModels
         {
             var activity = new WriteLineActivity
             {
-                Type = nameof(WriteLine),
+                Type = activityModel.Type,
                 ActivityId = "activity-1",
                 Properties = new List<ActivityDefinitionProperty>()
                 {
-                    ActivityDefinitionProperty.Liquid(nameof(WriteLine.Text), "Willlmaaaaa!")
+                    ActivityDefinitionProperty.Liquid(nameof(WriteLineActivity.Text), "Willlmaaaaa!")
                 }
             };
 
