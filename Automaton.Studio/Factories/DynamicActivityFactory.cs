@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Automaton.Activity;
-using Automaton.Activity.WriteLine;
+using Automaton.Studio.Activity;
+using Automaton.Studio.Activities;
 using Elsa.Models;
 using System;
 

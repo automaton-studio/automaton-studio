@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components.Rendering;
 using System;
 
-namespace Automaton.Activity
+namespace Automaton.Studio.Activity
 {
     /// <summary>
     /// A code-based component that renders an Activity using its GetViewComponent result

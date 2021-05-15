@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Models;
-using Automaton.Activity.WriteLine;
+using Automaton.Studio.Activities;
 using Elsa.Metadata;
 using Elsa.Models;
 

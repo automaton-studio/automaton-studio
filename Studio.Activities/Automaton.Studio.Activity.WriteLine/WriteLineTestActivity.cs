@@ -2,9 +2,9 @@
 using System;
 using System.Linq;
 
-namespace Automaton.Activity.WriteLine
+namespace Automaton.Studio.Activity.WriteLineTest
 {
-    public class WriteLineActivity : DynamicActivity
+    public class WriteLineTestActivity : DynamicActivity
     {
         private ActivityDefinitionProperty textProperty => Properties?.SingleOrDefault(x => x.Name == "Text");
         public string Text
@@ -22,7 +22,7 @@ namespace Automaton.Activity.WriteLine
 
         public override Type GetViewComponent()
         {
-            return typeof(WriteLineComponent);
+            return typeof(WriteLineTestComponent);
         }
 
         public override Type GetPropertiesComponent()
