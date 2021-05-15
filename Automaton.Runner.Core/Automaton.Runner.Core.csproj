@@ -5,10 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Elsa.Activities.Console" Version="2.0.0-rc1.8" />
-    <PackageReference Include="Elsa.Persistence.EntityFramework.Core" Version="2.0.0-rc1.8" />
-    <PackageReference Include="Elsa.Persistence.EntityFramework.SqlServer" Version="2.0.0-rc1.8" />
-    <PackageReference Include="Elsa.Server.Api" Version="2.0.0-rc1.8" />
+    <PackageReference Include="Elsa.Activities.Console" Version="2.0.0-rc2.82" />
+    <PackageReference Include="Elsa.Persistence.EntityFramework.Core" Version="2.0.0-rc2.82" />
+    <PackageReference Include="Elsa.Persistence.EntityFramework.SqlServer" Version="2.0.0-rc2.82" />
+    <PackageReference Include="Elsa.Server.Api" Version="2.0.0-rc2.82" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.4" />

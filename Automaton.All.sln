@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Runner", "Automat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Common", "Automaton.Common\Automaton.Common.csproj", "{BE05821D-5BE0-47C1-B2D0-9012BAE84C12}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AntDesign", "..\ant-design-blazor\components\AntDesign.csproj", "{6C6ECDF0-2165-4420-9611-E89D8E0A68D0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plk.Blazor.DragDrop", "..\blazor-dragdrop\Plk.Blazor.DragDrop\Plk.Blazor.DragDrop.csproj", "{15DD7E10-74B2-4191-9E68-9A32B191E88C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{BE05821D-5BE0-47C1-B2D0-9012BAE84C12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE05821D-5BE0-47C1-B2D0-9012BAE84C12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE05821D-5BE0-47C1-B2D0-9012BAE84C12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C6ECDF0-2165-4420-9611-E89D8E0A68D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C6ECDF0-2165-4420-9611-E89D8E0A68D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C6ECDF0-2165-4420-9611-E89D8E0A68D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C6ECDF0-2165-4420-9611-E89D8E0A68D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15DD7E10-74B2-4191-9E68-9A32B191E88C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15DD7E10-74B2-4191-9E68-9A32B191E88C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15DD7E10-74B2-4191-9E68-9A32B191E88C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15DD7E10-74B2-4191-9E68-9A32B191E88C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
