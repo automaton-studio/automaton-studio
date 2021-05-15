@@ -16,6 +16,6 @@ else
         Style="background-color: #fafafa; height: 100vh; overflow: auto"
         @bind-SelectedData="@TreeActivityViewModel.SelectedActivity"
         OnNodeDrag="@((i)=> { TreeActivityViewModel.DragActivity(i); })"
-        TItem="ActivityTreeModel">
+        TItem="TreeActivityModel">
     </Tree>
 }

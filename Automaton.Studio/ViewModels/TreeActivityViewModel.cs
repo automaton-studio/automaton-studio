@@ -22,8 +22,8 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        private IList<ActivityTreeModel>? activities;
-        public IList<ActivityTreeModel> TreeItems
+        private IList<TreeActivityModel>? activities;
+        public IList<TreeActivityModel> TreeItems
         {
             get => activities;
 
@@ -34,7 +34,7 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        public ActivityTreeModel SelectedActivity { get; set; }
+        public TreeActivityModel SelectedActivity { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -54,19 +54,19 @@ namespace Automaton.Studio.ViewModels
 
         public async Task Initialize()
         {
-            TreeItems = new List<ActivityTreeModel>();
+            TreeItems = new List<TreeActivityModel>();
 
             var elsaActivities = await activityService.List();
-            var activityItems = mapper.Map<IEnumerable<Elsa.Metadata.ActivityDescriptor>, IList<ActivityTreeModel>>(elsaActivities);
+            var activityItems = mapper.Map<IEnumerable<Elsa.Metadata.ActivityDescriptor>, IList<TreeActivityModel>>(elsaActivities);
             var categoryNames = activityItems.Select(x => x.Category).Distinct();
 
             foreach (var categoryName in categoryNames)
             {
                 // Create category
-                var category = new ActivityTreeModel
+                var category = new TreeActivityModel
                 {
                     DisplayName = categoryName,
-                    Activities = new List<ActivityTreeModel>()
+                    Activities = new List<TreeActivityModel>()
                 };
 
                 // Prepare category activities
@@ -78,9 +78,9 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        public void DragActivity(ActivityTreeModel activityModel)
+        public void DragActivity(TreeActivityModel activityModel)
         {
-            designerViewModel.ChangeActiveItem(activityModel);
+            designerViewModel.DragActivity(activityModel);
         }
 
         #endregion

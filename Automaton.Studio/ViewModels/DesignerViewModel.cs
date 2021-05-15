@@ -57,7 +57,7 @@ namespace Automaton.Studio.ViewModels
         #region Events
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        public event EventHandler<ActivityChangedEventArgs> ActiveItemChanged;
+        public event EventHandler<ActivityChangedEventArgs> ActivityChanged;
 
         #endregion
 
@@ -96,7 +96,7 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        public void ChangeActiveItem(ActivityTreeModel activityModel)
+        public void DragActivity(TreeActivityModel activityModel)
         {
             var activity = new WriteLineActivity
             {
@@ -108,7 +108,7 @@ namespace Automaton.Studio.ViewModels
                 }
             };
 
-            ActiveItemChanged?.Invoke(this, new ActivityChangedEventArgs(activity));
+            ActivityChanged?.Invoke(this, new ActivityChangedEventArgs(activity));
         }
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)

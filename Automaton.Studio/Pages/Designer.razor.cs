@@ -15,16 +15,11 @@ namespace Automaton.Studio.Pages
 
         private Dropzone<DynamicActivity>? dropzone;
 
-        public void OnItemDrop(DynamicActivity item)
-        {
-            StateHasChanged();
-        }
-
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
 
-            DesignerViewModel.ActiveItemChanged += OnActiveItemChanged;
+            DesignerViewModel.ActivityChanged += OnActivityChanged;
 
             if (!string.IsNullOrEmpty(WorkflowId))
             {
@@ -32,9 +27,13 @@ namespace Automaton.Studio.Pages
             }
         }
 
-        private void OnActiveItemChanged(object? sender, ActivityChangedEventArgs e)
+        private void OnActivityChanged(object? sender, ActivityChangedEventArgs e)
         {
             dropzone.ActiveItem = e.Activity;
+        }
+
+        private void OnItemDrop(DynamicActivity item)
+        {
         }
     }
 }

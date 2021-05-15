@@ -18,14 +18,14 @@ namespace Automaton.Studio.ViewModels
 
         #region Events
 
-        event EventHandler<ActivityChangedEventArgs> ActiveItemChanged;
+        event EventHandler<ActivityChangedEventArgs> ActivityChanged;
 
         #endregion
 
         #region Methods
 
         Task LoadWorkflow(string workflow);
-        void ChangeActiveItem(ActivityTreeModel activityModel);
+        void DragActivity(TreeActivityModel activityModel);
 
         #endregion
     }
