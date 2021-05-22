@@ -22,7 +22,7 @@ namespace Automaton.Studio.ViewModels
 
         #region Methods
 
-        Task Initialize();
+        void Initialize();
         void DragActivity(TreeActivityModel activityModel);
 
         #endregion

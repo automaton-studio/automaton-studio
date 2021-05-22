@@ -1,24 +1,22 @@
 ﻿using Automaton.Studio.Activity;
 using Elsa.Models;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace Automaton.Studio.Activities
 {
     public class WriteLineActivity : DynamicActivity
     {
-        private ActivityDefinitionProperty textProperty => Properties?.SingleOrDefault(x => x.Name == "Text");
-        public string Text
+        private ActivityDefinitionProperty TextProperty => GetDefinitionProperty(nameof(Text));
+        public string Text => TextProperty.Expressions[TextProperty.Syntax];
+        
+        public WriteLineActivity()
         {
-            get
+            Type = "WriteLine";
+            Properties = new List<ActivityDefinitionProperty>
             {
-                return textProperty.Expressions[textProperty.Syntax];
-            }
-
-            set
-            {
-                textProperty.Expressions[textProperty.Syntax] = value;
-            }
+                ActivityDefinitionProperty.Liquid(nameof(Text), string.Empty)
+            };
         }
 
         public override Type GetViewComponent()

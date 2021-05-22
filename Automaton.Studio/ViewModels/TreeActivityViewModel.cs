@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using Automaton.Studio.Activities.Factories;
+using Automaton.Studio.Activity.Metadata;
 using Automaton.Studio.Models;
-using Automaton.Studio.Services;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
 namespace Automaton.Studio.ViewModels
 {
@@ -14,7 +14,7 @@ namespace Automaton.Studio.ViewModels
         #region Members
 
         private readonly IDesignerViewModel designerViewModel;
-        private readonly IActivityService activityService;
+        private readonly ActivityFactory activityFactory;
         private readonly IMapper mapper;
 
         #endregion
@@ -41,23 +41,23 @@ namespace Automaton.Studio.ViewModels
 
         public TreeActivityViewModel(
             IDesignerViewModel designerViewModel,
-            IActivityService activityService,
+            ActivityFactory activityFactory,
             IMapper mapper)
         {
             this.mapper = mapper;
             this.designerViewModel = designerViewModel;
-            this.activityService = activityService;
+            this.activityFactory = activityFactory;
         }
 
         #region Public Methods
 
-        public async Task Initialize()
+        public void Initialize()
         {
-            TreeItems = new List<TreeActivityModel>();
-
-            var elsaActivities = await activityService.List();
-            var activityItems = mapper.Map<IEnumerable<Elsa.Metadata.ActivityDescriptor>, IList<TreeActivityModel>>(elsaActivities);
+            var activityDescriptors = activityFactory.GetActivityDescriptors();
+            var activityItems = mapper.Map<IEnumerable<ActivityDescriptor>, IList<TreeActivityModel>>(activityDescriptors);
             var categoryNames = activityItems.Select(x => x.Category).Distinct();
+
+            TreeItems = new List<TreeActivityModel>();
 
             foreach (var categoryName in categoryNames)
             {
@@ -75,6 +75,11 @@ namespace Automaton.Studio.ViewModels
                 // Add category to the tree
                 TreeItems.Add(category);
             }
+        }
+
+        private void PopulateTreeItems()
+        {
+            
         }
 
         public void DragActivity(TreeActivityModel activityModel)

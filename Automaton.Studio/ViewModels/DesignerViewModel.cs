@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Activity;
 using Automaton.Studio.Events;
-using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services;
 using Automaton.Studio.Activities;
@@ -13,6 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Automaton.Studio.Activities.Factories;
 
 namespace Automaton.Studio.ViewModels
 {
@@ -20,7 +20,7 @@ namespace Automaton.Studio.ViewModels
     {
         #region Members
 
-        private readonly DynamicActivityFactory activityFactory;
+        private readonly ActivityFactory activityFactory;
         private readonly IWorkflowDefinitionStore workflowDefinitionStore;
         private readonly IRunnerService runnerService;
         private readonly IMapper mapper;
@@ -64,7 +64,7 @@ namespace Automaton.Studio.ViewModels
 
         public DesignerViewModel
         (
-            DynamicActivityFactory activityFactory,
+            ActivityFactory activityFactory,
             IRunnerService runnerService,
             IWorkflowDefinitionStore workflowDefinitionStore,
             IMapper mapper
@@ -93,21 +93,13 @@ namespace Automaton.Studio.ViewModels
 
             foreach (var activityDefinition in Workflow.Activities)
             {
-                Activities.Add(activityFactory.GetDynamicActivity(activityDefinition));
+                Activities.Add(activityFactory.GetActivityByDefinition(activityDefinition));
             }
         }
 
         public void DragActivity(TreeActivityModel activityModel)
         {
-            var activity = new WriteLineActivity
-            {
-                Type = activityModel.Type,
-                ActivityId = "activity-1",
-                Properties = new List<ActivityDefinitionProperty>()
-                {
-                    ActivityDefinitionProperty.Liquid(nameof(WriteLineActivity.Text), "Willlmaaaaa!")
-                }
-            };
+            var activity = activityFactory.GetActivityByType(activityModel.Type);
 
             ActivityChanged?.Invoke(this, new ActivityChangedEventArgs(activity));
         }

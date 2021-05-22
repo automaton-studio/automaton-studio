@@ -1,8 +1,11 @@
+using Automaton.Common.Auth;
 using Automaton.Common.Redis;
 using Automaton.Studio.Areas.Identity;
-using Automaton.Common.Auth;
 using Automaton.Studio.Data;
+using Automaton.Studio.Extensions;
 using Automaton.Studio.Hubs;
+using Automaton.Studio.Services;
+using Automaton.Studio.ViewModels;
 using Elsa.Persistence.EntityFramework.Core.Extensions;
 using Elsa.Persistence.EntityFramework.SqlServer;
 using ElsaDashboard.Backend.Extensions;
@@ -20,14 +23,11 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Plk.Blazor.DragDrop;
 using System;
 using System.Linq;
 using System.Net.Mime;
-using Automaton.Studio.Services;
 using System.Reflection;
-using Automaton.Studio.ViewModels;
-using Plk.Blazor.DragDrop;
-using Automaton.Studio.Factories;
 
 namespace Automaton.Studio
 {
@@ -68,6 +68,7 @@ namespace Automaton.Studio
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            // Token Authentication
             services.AddJwtAuthentication();
 
             // SignalR
@@ -113,10 +114,9 @@ namespace Automaton.Studio
             
             // Services
             services.AddScoped<IRunnerService, RunnerService>();
-            services.AddScoped<IActivityService, ActivityService>();
 
-            // Factories
-            services.AddScoped<DynamicActivityFactory>();     
+            // Automaton
+            services.AddAutomaton();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

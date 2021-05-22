@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Models;
 using Automaton.Studio.Activities;
-using Elsa.Metadata;
 using Elsa.Models;
+using Automaton.Studio.Activity.Metadata;
 
 namespace Automaton.Studio.Profiles
 {

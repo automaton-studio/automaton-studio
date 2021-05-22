@@ -10,7 +10,9 @@ namespace Automaton.Studio.Components
 
         protected override async Task OnInitializedAsync()
         {
-            await TreeActivityViewModel.Initialize();
+            TreeActivityViewModel.Initialize();
+
+            await base.OnInitializedAsync();
         }
     }
 }
