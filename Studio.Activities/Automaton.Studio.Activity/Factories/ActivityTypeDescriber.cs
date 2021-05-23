@@ -14,19 +14,22 @@ namespace Automaton.Studio.Activities.Factories
         {
         }
 
-        public ActivityDescriptor? Describe(Type activityType)
+        public ActivityDescriptor? Describe(Type automatonActivityType)
         {
-            var activityAttribute = activityType.GetCustomAttribute<ActivityAttribute>(false);
-            var typeName = activityAttribute?.Type ?? activityType.Name;
-            var displayName = activityAttribute?.DisplayName;
-            var description = activityAttribute?.Description;
-            var category = activityAttribute?.Category ?? "Miscellaneous";
-            var icon = activityAttribute?.Icon;
-            var outcomes = activityAttribute?.Outcomes ?? new[] { OutcomeNames.Done };
+            var attribute = automatonActivityType.GetCustomAttribute<ActivityAttribute>(false);
+
+            var name = attribute?.Name ?? automatonActivityType.Name;
+            var elsaName = attribute?.ElsaName;
+            var displayName = attribute?.DisplayName;
+            var description = attribute?.Description;
+            var category = attribute?.Category ?? "Miscellaneous";
+            var icon = attribute?.Icon;
+            var outcomes = attribute?.Outcomes ?? new[] { OutcomeNames.Done };
 
             return new ActivityDescriptor
             {
-                Type = typeName.Pascalize(),
+                Name = name.Pascalize(),
+                ElsaName = elsaName.Pascalize(),
                 DisplayName = displayName,
                 Description = description,
                 Category = category,

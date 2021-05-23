@@ -1,4 +1,5 @@
-﻿using Automaton.Studio.Activity;
+﻿using AutoMapper;
+using Automaton.Studio.Activity;
 using Automaton.Studio.Activity.Metadata;
 using Elsa.Models;
 using System;
@@ -8,18 +9,22 @@ namespace Automaton.Studio.Activities.Factories
 {
     public class ActivityFactory
     {
+        private readonly IMapper mapper;
+        private readonly IServiceProvider serviceProvider;
         private readonly IDescribesActivityType describesActivityType;
-        private AutomatonOptions automatonOptions;
+        private readonly AutomatonOptions automatonOptions;
 
-        public ActivityFactory(IDescribesActivityType describesActivityType,
+        public ActivityFactory(
+            IMapper mapper,
+            IDescribesActivityType describesActivityType,
             AutomatonOptions automatonOptions,
             IServiceProvider serviceProvider)
         {
+            this.mapper = mapper;
+            this.serviceProvider = serviceProvider;
             this.automatonOptions = automatonOptions;
             this.describesActivityType = describesActivityType;
         }
-
-        private IEnumerable<Type> GetActivityTypes() => automatonOptions.Types;
 
         public IEnumerable<ActivityDescriptor> GetActivityDescriptors()
         {
@@ -27,38 +32,35 @@ namespace Automaton.Studio.Activities.Factories
 
             foreach (var types in GetActivityTypes())
             {
-                var activityDescriptor = CreateActivityType(types);
+                var activityDescriptor = CreateActivityDescriptor(types);
                 activityDescriptors.Add(activityDescriptor);
             }
 
             return activityDescriptors;
         }
 
-        private ActivityDescriptor? CreateActivityType(Type activityType)
-        {
-            //var foo = serviceProvider.GetService(activityType);
+        private IEnumerable<Type> GetActivityTypes() => automatonOptions.AutomatonActivities;
 
+        private ActivityDescriptor? CreateActivityDescriptor(Type activityType)
+        {
             var info = describesActivityType.Describe(activityType);
 
             return info??default;
         }
 
-        public DynamicActivity GetActivityByDefinition(ActivityDefinition activityDefinition)
+        public DynamicActivity GetStudioActivity(ActivityDefinition activityDefinition)
         {
-            var activity = GetActivityByType(activityDefinition.Type);
+            var activityType = automatonOptions.GetElsaActivity(activityDefinition.Type);
+            var studioActivity = serviceProvider.GetService(activityType) as DynamicActivity;
+            mapper.Map<ActivityDefinition, DynamicActivity>(activityDefinition, studioActivity);
 
-            return activity;
+            return studioActivity;
         }
 
-        public DynamicActivity GetActivityByType(string activityType)
+        public DynamicActivity GetStudioActivity(string name)
         {
-            return GetInstance(activityType);
-        }
-
-        public DynamicActivity GetInstance(string strFullyQualifiedName)
-        {
-            Type t = Type.GetType(strFullyQualifiedName);
-            return Activator.CreateInstance(t) as DynamicActivity;
+            var activityType = automatonOptions.GetAutomatonActivity(name);
+            return serviceProvider.GetService(activityType) as DynamicActivity;
         }
     }
 }

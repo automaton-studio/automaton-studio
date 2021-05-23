@@ -5,7 +5,8 @@ namespace Automaton.Studio.Activities.Attributes
     [AttributeUsage(AttributeTargets.Class)]
     public class ActivityAttribute : Attribute
     {
-        public string? Type { get; set; }
+        public string? Name { get; set; }
+        public string? ElsaName { get; set; }
         public string? DisplayName { get; set; }
         public string? Description { get; set; }
         public string? Category { get; set; }

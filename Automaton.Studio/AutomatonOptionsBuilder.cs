@@ -1,4 +1,5 @@
-﻿using Automaton.Studio.Activity;
+﻿using Automaton.Studio.Activities.Factories;
+using Automaton.Studio.Activity;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -9,13 +10,17 @@ namespace Automaton.Studio
 {
     public class AutomatonOptionsBuilder
     {
-        public IServiceCollection Services { get; }
+        private IDescribesActivityType DescribesActivityType { get; }
+        private IServiceCollection Services { get; }
+
         public AutomatonOptions AutomatonOptions { get; }
 
         public AutomatonOptionsBuilder(IServiceCollection services)
         {
+            this.Services = services;
+
+            DescribesActivityType = new ActivityTypeDescriber();
             AutomatonOptions = new AutomatonOptions();
-            Services = services;
         }
 
         public AutomatonOptionsBuilder AddActivitiesFrom(Assembly assembly) => AddActivitiesFrom(new[] { assembly });
@@ -38,7 +43,11 @@ namespace Automaton.Studio
         public AutomatonOptionsBuilder AddActivity(Type activityType)
         {
             Services.AddTransient(activityType);
-            AutomatonOptions.Add(activityType);
+
+            var activityDescription = DescribesActivityType.Describe(activityType);
+
+            AutomatonOptions.AddAutomatonActivity(activityDescription.Name, activityType);
+            AutomatonOptions.AddElsaActivity(activityDescription.ElsaName, activityType);
 
             return this;
         }

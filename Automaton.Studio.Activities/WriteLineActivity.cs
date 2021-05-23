@@ -1,10 +1,18 @@
-﻿using Automaton.Studio.Activity;
+﻿using Automaton.Studio.Activities.Attributes;
+using Automaton.Studio.Activity;
 using Elsa.Models;
 using System;
 using System.Collections.Generic;
 
 namespace Automaton.Studio.Activities
 {
+    [Activity(
+        Name = "WriteLineActivity",
+        DisplayName = "WriteLine",
+        ElsaName = "WriteLine",
+        Category = "Console",
+        Description = "Write text to console"
+    )]
     public class WriteLineActivity : DynamicActivity
     {
         private ActivityDefinitionProperty TextProperty => GetDefinitionProperty(nameof(Text));
@@ -12,7 +20,8 @@ namespace Automaton.Studio.Activities
         
         public WriteLineActivity()
         {
-            Type = "WriteLine";
+            Name = "WriteLineActivity";
+
             Properties = new List<ActivityDefinitionProperty>
             {
                 ActivityDefinitionProperty.Liquid(nameof(Text), string.Empty)

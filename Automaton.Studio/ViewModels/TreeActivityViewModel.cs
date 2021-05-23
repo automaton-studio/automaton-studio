@@ -77,11 +77,6 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        private void PopulateTreeItems()
-        {
-            
-        }
-
         public void DragActivity(TreeActivityModel activityModel)
         {
             designerViewModel.DragActivity(activityModel);

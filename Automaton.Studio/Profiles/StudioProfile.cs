@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Automaton.Studio.Models;
-using Automaton.Studio.Activities;
-using Elsa.Models;
+using Automaton.Studio.Activity;
 using Automaton.Studio.Activity.Metadata;
+using Automaton.Studio.Models;
+using Elsa.Models;
 
 namespace Automaton.Studio.Profiles
 {
@@ -14,9 +14,7 @@ namespace Automaton.Studio.Profiles
             CreateMap<ActivityDescriptor, TreeActivityModel>();
             CreateMap<WorkflowDefinition, WorkflowModel>();
             CreateMap<NewWorkflowModel, WorkflowDefinition>();
-
-            // Activities
-            CreateMap<ActivityDefinition, WriteLineActivity>();
+            CreateMap<ActivityDefinition, DynamicActivity>();
         }
     }
 }

@@ -6,20 +6,20 @@ namespace Automaton.Studio.Models
     {
         public TreeActivityModel()
         {
-            Type = "Activity";
+            Name = "Activity";
             Category = "Miscellaneous";
             DisplayName = "Activity";
         }
 
-        public TreeActivityModel(string type, string displayName)
+        public TreeActivityModel(string name, string displayName)
         {
-            Type = type;
+            Name = name;
             DisplayName = displayName;
         }
 
-        public TreeActivityModel(string type, string displayName, string? icon, string? category = null)
+        public TreeActivityModel(string name, string displayName, string? icon, string? category = null)
         {
-            Type = type;
+            Name = name;
             DisplayName = displayName;
             Icon = icon;
             Category = category;
@@ -27,7 +27,7 @@ namespace Automaton.Studio.Models
 
         #region Elsa properties
 
-        public string? Type { get; set; }
+        public string? Name { get; set; }
         public string? DisplayName { get; set; }
         public string? Description { get; set; }
         public string? Category { get; set; }

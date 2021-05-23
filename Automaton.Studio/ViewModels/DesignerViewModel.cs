@@ -93,13 +93,13 @@ namespace Automaton.Studio.ViewModels
 
             foreach (var activityDefinition in Workflow.Activities)
             {
-                Activities.Add(activityFactory.GetActivityByDefinition(activityDefinition));
+                Activities.Add(activityFactory.GetStudioActivity(activityDefinition));
             }
         }
 
         public void DragActivity(TreeActivityModel activityModel)
         {
-            var activity = activityFactory.GetActivityByType(activityModel.Type);
+            var activity = activityFactory.GetStudioActivity(activityModel.Name);
 
             ActivityChanged?.Invoke(this, new ActivityChangedEventArgs(activity));
         }
