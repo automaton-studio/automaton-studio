@@ -38,7 +38,7 @@
     <ProjectReference Include="..\..\blazor-dragdrop\Plk.Blazor.DragDrop\Plk.Blazor.DragDrop.csproj" />
     <ProjectReference Include="..\Automaton.Common\Automaton.Common.csproj" />
     <ProjectReference Include="..\Automaton.Studio.Activities\Automaton.Studio.Activities.csproj" />
-    <ProjectReference Include="..\Studio.Activities\Automaton.Studio.Activity\Automaton.Studio.Activity.csproj" />
+    <ProjectReference Include="..\Automaton.Studio.Activity\Automaton.Studio.Activity.csproj" />
   </ItemGroup>
 
   <ItemGroup>

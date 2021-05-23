@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Studio.Activities\Automaton.Studio.Activity\Automaton.Studio.Activity.csproj" />
+    <ProjectReference Include="..\Automaton.Studio.Activity\Automaton.Studio.Activity.csproj" />
   </ItemGroup>
 
 </Project>

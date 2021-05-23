@@ -1,10 +1,19 @@
-﻿using Elsa.Models;
+﻿using Automaton.Studio.Activities.Attributes;
+using Automaton.Studio.Activity;
+using Elsa.Models;
 using System;
 using System.Linq;
 
-namespace Automaton.Studio.Activity.WriteLineTest
+namespace Automaton.Studio.SampleActivity
 {
-    public class WriteLineTestActivity : DynamicActivity
+    [Activity(
+        Name = "SampleActivity",
+        DisplayName = "SampleActivity",
+        ElsaName = "ElsaSampleActivity",
+        Category = "Sample",
+        Description = "Sample activity that writes text to console"
+    )]
+    public class SampleActivity : DynamicActivity
     {
         private ActivityDefinitionProperty textProperty => Properties?.SingleOrDefault(x => x.Name == "Text");
         public string Text
@@ -22,7 +31,7 @@ namespace Automaton.Studio.Activity.WriteLineTest
 
         public override Type GetViewComponent()
         {
-            return typeof(WriteLineTestComponent);
+            return typeof(SampleActivityComponent);
         }
 
         public override Type GetPropertiesComponent()
