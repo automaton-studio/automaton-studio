@@ -40,8 +40,8 @@
         </Sider>
 
         <Content Style="padding-left: 200px; min-height: 200px">
-            <Dropzone @ref="dropzone" TItem="DynamicActivity" Items="DesignerViewModel.Activities" InstantReplace="true" OnItemDrop="@((p)=>OnItemDrop(p))">
-                <DynamicActivityComponent Activity=@context />
+            <Dropzone @ref="dropzone" TItem="StudioActivity" Items="DesignerViewModel.Activities" InstantReplace="true" OnItemDrop="@((p)=>OnItemDrop(p))">
+                <StudioActivityComponent Activity=@context />
             </Dropzone>
         </Content>
     </Layout>

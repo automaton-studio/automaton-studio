@@ -13,7 +13,7 @@ namespace Automaton.Studio.Pages
 
         [Parameter] public string WorkflowId { get; set; }
 
-        private Dropzone<DynamicActivity>? dropzone;
+        private Dropzone<StudioActivity>? dropzone;
 
         protected override async Task OnInitializedAsync()
         {
@@ -32,7 +32,7 @@ namespace Automaton.Studio.Pages
             dropzone.ActiveItem = e.Activity;
         }
 
-        private void OnItemDrop(DynamicActivity item)
+        private void OnItemDrop(StudioActivity item)
         {
         }
     }

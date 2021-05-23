@@ -14,7 +14,7 @@ namespace Automaton.Studio.Profiles
             CreateMap<ActivityDescriptor, TreeActivityModel>();
             CreateMap<WorkflowDefinition, WorkflowModel>();
             CreateMap<NewWorkflowModel, WorkflowDefinition>();
-            CreateMap<ActivityDefinition, DynamicActivity>();
+            CreateMap<ActivityDefinition, StudioActivity>();
         }
     }
 }

@@ -48,19 +48,19 @@ namespace Automaton.Studio.Activities.Factories
             return info??default;
         }
 
-        public DynamicActivity GetStudioActivity(ActivityDefinition activityDefinition)
+        public StudioActivity GetStudioActivity(ActivityDefinition activityDefinition)
         {
             var activityType = automatonOptions.GetElsaActivity(activityDefinition.Type);
-            var studioActivity = serviceProvider.GetService(activityType) as DynamicActivity;
-            mapper.Map<ActivityDefinition, DynamicActivity>(activityDefinition, studioActivity);
+            var studioActivity = serviceProvider.GetService(activityType) as StudioActivity;
+            mapper.Map<ActivityDefinition, StudioActivity>(activityDefinition, studioActivity);
 
             return studioActivity;
         }
 
-        public DynamicActivity GetStudioActivity(string name)
+        public StudioActivity GetStudioActivity(string name)
         {
             var activityType = automatonOptions.GetAutomatonActivity(name);
-            return serviceProvider.GetService(activityType) as DynamicActivity;
+            return serviceProvider.GetService(activityType) as StudioActivity;
         }
     }
 }

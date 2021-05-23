@@ -12,7 +12,7 @@ namespace Automaton.Studio.ViewModels
         #region Properties
 
         WorkflowModel Workflow { get; set; }
-        IList<DynamicActivity> Activities { get; set; }
+        IList<StudioActivity> Activities { get; set; }
 
         #endregion
 

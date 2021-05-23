@@ -8,7 +8,7 @@ namespace Automaton.Studio.Activity
     /// <summary>
     /// A base class for all activity instances
     /// </summary>
-    public abstract class DynamicActivity
+    public abstract class StudioActivity
     {
         #region Elsa Activity properties
 
@@ -24,7 +24,7 @@ namespace Automaton.Studio.Activity
 
         #endregion
 
-        public DynamicActivity()
+        public StudioActivity()
         {
             ActivityId = Guid.NewGuid().ToString();
             Properties = new List<ActivityDefinitionProperty>();

@@ -5,11 +5,11 @@ namespace Automaton.Studio.Events
 {
     public class ActivityChangedEventArgs : EventArgs
     {
-        public ActivityChangedEventArgs(DynamicActivity dynamicActivity)
+        public ActivityChangedEventArgs(StudioActivity activity)
         {
-            Activity = dynamicActivity;
+            Activity = activity;
         }
 
-        public DynamicActivity? Activity { get; set; }
+        public StudioActivity? Activity { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace Automaton.Studio.Activities
         Category = "Console",
         Description = "Write text to console"
     )]
-    public class WriteLineActivity : DynamicActivity
+    public class WriteLineActivity : StudioActivity
     {
         private ActivityDefinitionProperty TextProperty => GetDefinitionProperty(nameof(Text));
         public string Text => TextProperty.Expressions[TextProperty.Syntax];

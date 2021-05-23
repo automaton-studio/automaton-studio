@@ -7,13 +7,13 @@ namespace Automaton.Studio.Activity
     /// <summary>
     /// A code-based component that renders an Activity using its GetViewComponent result
     /// </summary>
-    public class DynamicActivityComponent : ComponentBase
+    public class StudioActivityComponent : ComponentBase
     {
         /// <summary>
         /// The Activity we want to render
         /// </summary>
         [Parameter]
-        public DynamicActivity Activity { get; set; }
+        public StudioActivity Activity { get; set; }
 
         /// <summary>
         /// Render the component

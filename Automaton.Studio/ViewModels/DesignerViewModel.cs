@@ -41,8 +41,8 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        private IList<DynamicActivity> activities;
-        public IList<DynamicActivity> Activities
+        private IList<StudioActivity> activities;
+        public IList<StudioActivity> Activities
         {
             get => activities;
 
@@ -75,7 +75,7 @@ namespace Automaton.Studio.ViewModels
             this.mapper = mapper;
             this.workflowDefinitionStore = workflowDefinitionStore;
 
-            Activities = new List<DynamicActivity>();
+            Activities = new List<StudioActivity>();
 
             Workflow = new()
             {
@@ -89,7 +89,7 @@ namespace Automaton.Studio.ViewModels
         {
             var workflowDefinition = await workflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification(workflow));
             Workflow = mapper.Map<WorkflowDefinition, WorkflowModel>(workflowDefinition);
-            Activities = new List<DynamicActivity>();
+            Activities = new List<StudioActivity>();
 
             foreach (var activityDefinition in Workflow.Activities)
             {

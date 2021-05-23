@@ -13,7 +13,7 @@ namespace Automaton.Studio.SampleActivity
         Category = "Sample",
         Description = "Sample activity that writes text to console"
     )]
-    public class SampleActivity : DynamicActivity
+    public class SampleActivity : StudioActivity
     {
         private ActivityDefinitionProperty textProperty => Properties?.SingleOrDefault(x => x.Name == "Text");
         public string Text

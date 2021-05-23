@@ -29,7 +29,7 @@ namespace Automaton.Studio
         public AutomatonOptionsBuilder AddActivitiesFrom<TMarker>() where TMarker : class => AddActivitiesFrom(typeof(TMarker));
         public AutomatonOptionsBuilder AddActivitiesFrom(IEnumerable<Assembly> assemblies)
         {
-            var types = assemblies.SelectMany(x => x.GetAllWithBaseClass<DynamicActivity>());
+            var types = assemblies.SelectMany(x => x.GetAllWithBaseClass<StudioActivity>());
 
             foreach (var type in types)
             {
@@ -39,7 +39,7 @@ namespace Automaton.Studio
             return this;
         }
 
-        public AutomatonOptionsBuilder AddActivity<T>() where T : DynamicActivity => AddActivity(typeof(T));
+        public AutomatonOptionsBuilder AddActivity<T>() where T : StudioActivity => AddActivity(typeof(T));
         public AutomatonOptionsBuilder AddActivity(Type activityType)
         {
             Services.AddTransient(activityType);
