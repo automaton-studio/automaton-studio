@@ -1,29 +1,29 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Activity;
-using Automaton.Studio.Activity.Metadata;
+using Automaton.Studio.Metadata;
 using Elsa.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Automaton.Studio.Activities.Factories
+namespace Automaton.Studio.Factories
 {
     public class ActivityFactory
     {
         private readonly IMapper mapper;
         private readonly IServiceProvider serviceProvider;
-        private readonly IDescribesActivityType describesActivityType;
+        private readonly IActivityTypeDescriber describesActivityType;
         private readonly AutomatonOptions automatonOptions;
 
         public ActivityFactory(
             IMapper mapper,
-            IDescribesActivityType describesActivityType,
-            AutomatonOptions automatonOptions,
-            IServiceProvider serviceProvider)
+            IActivityTypeDescriber describesActivityType,
+            IServiceProvider serviceProvider,
+            AutomatonOptions automatonOptions)
         {
             this.mapper = mapper;
             this.serviceProvider = serviceProvider;
-            this.automatonOptions = automatonOptions;
             this.describesActivityType = describesActivityType;
+            this.automatonOptions = automatonOptions;
         }
 
         public IEnumerable<ActivityDescriptor> GetActivityDescriptors()

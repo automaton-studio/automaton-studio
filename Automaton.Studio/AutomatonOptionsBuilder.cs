@@ -1,5 +1,5 @@
-﻿using Automaton.Studio.Activities.Factories;
-using Automaton.Studio.Activity;
+﻿using Automaton.Studio.Activity;
+using Automaton.Studio.Metadata;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ namespace Automaton.Studio
 {
     public class AutomatonOptionsBuilder
     {
-        private IDescribesActivityType DescribesActivityType { get; }
+        private IActivityTypeDescriber DescribesActivityType { get; }
         private IServiceCollection Services { get; }
 
         public AutomatonOptions AutomatonOptions { get; }

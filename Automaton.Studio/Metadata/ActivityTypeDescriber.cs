@@ -1,19 +1,13 @@
 using Automaton.Studio.Activities.Attributes;
-using Automaton.Studio.Activity.Metadata;
 using Elsa;
 using Humanizer;
 using System;
 using System.Reflection;
 
-namespace Automaton.Studio.Activities.Factories
+namespace Automaton.Studio.Metadata
 {
-    public class ActivityTypeDescriber : IDescribesActivityType
+    public class ActivityTypeDescriber : IActivityTypeDescriber
     {
-
-        public ActivityTypeDescriber()
-        {
-        }
-
         public ActivityDescriptor? Describe(Type automatonActivityType)
         {
             var attribute = automatonActivityType.GetCustomAttribute<ActivityAttribute>(false);

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Activity;
 using Automaton.Studio.Events;
+using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services;
-using Automaton.Studio.Activities;
 using Elsa.Models;
 using Elsa.Persistence;
 using Elsa.Persistence.Specifications.WorkflowDefinitions;
@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using Automaton.Studio.Activities.Factories;
 
 namespace Automaton.Studio.ViewModels
 {

@@ -1,6 +1,7 @@
 using Automaton.Studio.Activities;
-using Automaton.Studio.Activities.Factories;
 using Automaton.Studio.Activity;
+using Automaton.Studio.Factories;
+using Automaton.Studio.Metadata;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -23,7 +24,7 @@ namespace Automaton.Studio.Extensions
             services.AddTransient<ActivityFactory>();
 
             // Activity descriptors
-            services.AddSingleton<IDescribesActivityType, ActivityTypeDescriber>();
+            services.AddSingleton<IActivityTypeDescriber, ActivityTypeDescriber>();
 
             // Activities
             optionsBuilder.AddActivitiesFrom<WriteLineActivity>();      

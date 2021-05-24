@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Automaton.Studio.Activities.Factories;
-using Automaton.Studio.Activity.Metadata;
+using Automaton.Studio.Factories;
+using Automaton.Studio.Metadata;
 using Automaton.Studio.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
