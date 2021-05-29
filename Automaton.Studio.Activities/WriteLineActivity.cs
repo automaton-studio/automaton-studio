@@ -1,5 +1,6 @@
 ﻿using Automaton.Studio.Activities.Attributes;
 using Automaton.Studio.Activity;
+using Automaton.Studio.Models;
 using Elsa.Models;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,20 @@ namespace Automaton.Studio.Activities
     public class WriteLineActivity : StudioActivity
     {
         private ActivityDefinitionProperty TextProperty => GetDefinitionProperty(nameof(Text));
-        public string Text => TextProperty.Expressions[TextProperty.Syntax];
-        
+        public string Text
+        {
+            get
+            {
+                return TextProperty.Expressions[TextProperty.Syntax];
+            }
+            set
+            {
+                TextProperty.Expressions[TextProperty.Syntax] = value;
+            }
+        }
+
+        public override IStudioActivityModel Model { get; set; } = new WriteLineModel();
+
         public WriteLineActivity()
         {
             Name = "WriteLineActivity";
@@ -35,7 +48,12 @@ namespace Automaton.Studio.Activities
 
         public override Type GetPropertiesComponent()
         {
-            throw new NotImplementedException();
+            return typeof(WriteLineForm);
+        }
+
+        public override Type GetModelType()
+        {
+            return typeof(WriteLineModel);
         }
     }
 }
