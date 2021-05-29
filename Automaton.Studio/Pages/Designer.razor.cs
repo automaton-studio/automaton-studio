@@ -1,24 +1,14 @@
 ﻿using AntDesign;
 using Automaton.Studio.Activity;
 using Automaton.Studio.Events;
+using Automaton.Studio.Extensions;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Plk.Blazor.DragDrop;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages
 {
-    public static class ExtensionMethods
-    {
-        public static async Task<object> InvokeAsync(this MethodInfo @this, object obj, params object[] parameters)
-        {
-            dynamic awaitable = @this.Invoke(obj, parameters);
-            await awaitable;
-            return awaitable.GetAwaiter().GetResult();
-        }
-    }
-
     partial class Designer : ComponentBase
     {
         [Inject] private IDesignerViewModel DesignerViewModel { get; set; } = default!;
