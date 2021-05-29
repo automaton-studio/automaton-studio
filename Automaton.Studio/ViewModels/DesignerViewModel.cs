@@ -57,7 +57,7 @@ namespace Automaton.Studio.ViewModels
         #region Events
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        public event EventHandler<ActivityChangedEventArgs> ActivityChanged;
+        public event EventHandler<DragActivityChangedEventArgs> DragActivityChanged;
 
         #endregion
 
@@ -100,7 +100,9 @@ namespace Automaton.Studio.ViewModels
         {
             var activity = activityFactory.GetStudioActivity(activityModel.Name);
 
-            ActivityChanged?.Invoke(this, new ActivityChangedEventArgs(activity));
+            mapper.Map(activityModel, activity);
+
+            DragActivityChanged?.Invoke(this, new DragActivityChangedEventArgs(activity));
         }
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)

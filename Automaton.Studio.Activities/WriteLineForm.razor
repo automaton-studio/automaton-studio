@@ -2,10 +2,10 @@
 @using Automaton.Studio.Activities.Resources;
 @using Blazored.FluentValidation;
 
-@inherits FeedbackComponent<WriteLineModel>
+@inherits FeedbackComponent<WriteLineActivity>
 
 <Form @ref="form"
-      Model="@model"
+      Model="@activity"
       LabelColSpan="4"
       WrapperColSpan="20">
     <Validator>
@@ -22,13 +22,13 @@
 </Form>
 
 @code {
-    private Form<WriteLineModel>? form;
-    private WriteLineModel? model;
+    private Form<WriteLineActivity>? form;
+    private WriteLineActivity? activity;
     private FluentValidationValidator fluentValidationValidator;
 
     protected override void OnInitialized()
     {
-        model = this.Options;
+        activity = this.Options;
         base.OnInitialized();
     }
 

@@ -1,8 +1,6 @@
 ﻿using AntDesign;
-using Automaton.Studio.Activities;
 using Automaton.Studio.Activity;
 using Automaton.Studio.Events;
-using Automaton.Studio.Models;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Plk.Blazor.DragDrop;
@@ -34,7 +32,7 @@ namespace Automaton.Studio.Pages
         {
             await base.OnInitializedAsync();
 
-            DesignerViewModel.ActivityChanged += OnActivityChanged;
+            DesignerViewModel.DragActivityChanged += OnActivityChanged;
 
             if (!string.IsNullOrEmpty(WorkflowId))
             {
@@ -42,7 +40,7 @@ namespace Automaton.Studio.Pages
             }
         }
 
-        private void OnActivityChanged(object? sender, ActivityChangedEventArgs e)
+        private void OnActivityChanged(object? sender, DragActivityChangedEventArgs e)
         {
             dropzone.ActiveItem = e.Activity;
         }
@@ -52,28 +50,18 @@ namespace Automaton.Studio.Pages
             await NewActivityDialog(item);
         }
 
-        private async Task NewActivityDialog(StudioActivity item)
+        private async Task NewActivityDialog(StudioActivity activity)
         {
             var modalConfig = new ModalOptions
             {
-                Title = "WriteLine"
+                Title = activity.DisplayName
             };
 
-            var modalRefResult = await CallGetByReflection(item, modalConfig);
-
-            var modalRef = modalRefResult as ModalRef;
-
-            modalRef.OnOk = () =>
-            {
-                return Task.CompletedTask;
-            };
-        }
-
-        private Task<object> CallGetByReflection(StudioActivity activity, ModalOptions modalConfig)
-        {
             var method = typeof(ModalService).GetMethod(nameof(ModalService.CreateAutomatonModalAsync));
-            var generic = method.MakeGenericMethod(activity.GetPropertiesComponent(), activity.GetModelType());
-            return generic.InvokeAsync(ModalService, new object[] { modalConfig, activity.Model });
+            var generic = method.MakeGenericMethod(activity.GetPropertiesComponent(), activity.GetType());
+            var result = await generic.InvokeAsync(ModalService, new object[] { modalConfig, activity }) as ModalRef;
+
+            result.OnOk = () => { return Task.CompletedTask; };
         }
     }
 }

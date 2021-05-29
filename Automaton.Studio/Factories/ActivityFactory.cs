@@ -50,16 +50,16 @@ namespace Automaton.Studio.Factories
 
         public StudioActivity GetStudioActivity(ActivityDefinition activityDefinition)
         {
-            var activityType = automatonOptions.GetElsaActivity(activityDefinition.Type);
+            var activityType = automatonOptions.GetElsaActivityType(activityDefinition.Type);
             var studioActivity = serviceProvider.GetService(activityType) as StudioActivity;
-            mapper.Map<ActivityDefinition, StudioActivity>(activityDefinition, studioActivity);
+            mapper.Map(activityDefinition, studioActivity);
 
             return studioActivity;
         }
 
         public StudioActivity GetStudioActivity(string name)
         {
-            var activityType = automatonOptions.GetAutomatonActivity(name);
+            var activityType = automatonOptions.GetStudioActivityType(name);
             return serviceProvider.GetService(activityType) as StudioActivity;
         }
     }

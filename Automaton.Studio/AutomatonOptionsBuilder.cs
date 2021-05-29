@@ -46,8 +46,8 @@ namespace Automaton.Studio
 
             var activityDescription = DescribesActivityType.Describe(activityType);
 
-            AutomatonOptions.AddAutomatonActivity(activityDescription.Name, activityType);
-            AutomatonOptions.AddElsaActivity(activityDescription.ElsaName, activityType);
+            AutomatonOptions.AddStudioActivityType(activityDescription.Name, activityType);
+            AutomatonOptions.AddElsaActivityType(activityDescription.ElsaName, activityType);
 
             return this;
         }
