@@ -4,6 +4,8 @@ namespace Automaton.Studio.Models
 {
     public class TreeActivity
     {
+        private const string DefaultIcon = "file";
+
         public TreeActivity()
         {
             Name = "Activity";
@@ -17,14 +19,6 @@ namespace Automaton.Studio.Models
             DisplayName = displayName;
         }
 
-        public TreeActivity(string name, string displayName, string? icon, string? category = null)
-        {
-            Name = name;
-            DisplayName = displayName;
-            Icon = icon;
-            Category = category;
-        }
-
         #region Elsa properties
 
         public string? Name { get; set; }
@@ -34,7 +28,7 @@ namespace Automaton.Studio.Models
 
         #endregion
 
-        public string? Icon { get; set; }
+        public string? Icon { get; set; } = DefaultIcon;
         public List<TreeActivity>? Activities { get; set; }
     }
 }

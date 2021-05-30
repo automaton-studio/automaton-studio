@@ -1,4 +1,5 @@
 ﻿using Automaton.Studio.Activity;
+using Automaton.Studio.Activity.Metadata;
 using Elsa.Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,8 @@ namespace Automaton.Studio.Activities.Console.WriteLine
         DisplayName = "WriteLine",
         ElsaName = "WriteLine",
         Category = "Console",
-        Description = "Write text to console"
+        Description = "Write text to console",
+        Icon = "field-string"
     )]
     public class WriteLineActivity : StudioActivity
     {
@@ -27,7 +29,7 @@ namespace Automaton.Studio.Activities.Console.WriteLine
             }
         }
 
-        public WriteLineActivity()
+        public WriteLineActivity(IActivityTypeDescriber activityDescriber) : base(activityDescriber)
         {
             Name = "WriteLineActivity";
 

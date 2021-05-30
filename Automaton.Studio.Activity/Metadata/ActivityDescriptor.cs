@@ -1,4 +1,4 @@
-namespace Automaton.Studio.Metadata
+namespace Automaton.Studio.Activity.Metadata
 {
     public class ActivityDescriptor
     {

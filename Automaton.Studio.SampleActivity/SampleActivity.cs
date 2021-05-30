@@ -1,4 +1,5 @@
 ﻿using Automaton.Studio.Activity;
+using Automaton.Studio.Activity.Metadata;
 using Elsa.Models;
 using System;
 using System.Linq;
@@ -14,6 +15,10 @@ namespace Automaton.Studio.SampleActivity
     )]
     public class SampleActivity : StudioActivity
     {
+        public SampleActivity(IActivityTypeDescriber activityDescriber) : base(activityDescriber)
+        {
+        }
+
         private ActivityDefinitionProperty textProperty => Properties?.SingleOrDefault(x => x.Name == "Text");
         public string Text
         {

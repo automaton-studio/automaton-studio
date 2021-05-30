@@ -1,4 +1,5 @@
-﻿using Elsa.Models;
+﻿using Automaton.Studio.Activity.Metadata;
+using Elsa.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,12 @@ namespace Automaton.Studio.Activity
     /// </summary>
     public abstract class StudioActivity
     {
+        #region Members
+
+        private IActivityTypeDescriber activityDescriber;
+
+        #endregion
+
         #region Elsa Activity properties
 
         public string ActivityId { get; set; }
@@ -24,10 +31,18 @@ namespace Automaton.Studio.Activity
 
         #endregion
 
-        public StudioActivity()
+        #region Public Properties
+
+        public ActivityDescriptor Descriptor { get; set; }
+
+        #endregion
+
+        public StudioActivity(IActivityTypeDescriber activityDescriber)
         {
+            this.activityDescriber = activityDescriber;
             ActivityId = Guid.NewGuid().ToString();
             Properties = new List<ActivityDefinitionProperty>();
+            Descriptor = activityDescriber.Describe(this.GetType());
         }
 
         protected ActivityDefinitionProperty GetDefinitionProperty(string propertyName)

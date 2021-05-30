@@ -1,5 +1,5 @@
 ﻿using Automaton.Studio.Activity;
-using Automaton.Studio.Metadata;
+using Automaton.Studio.Activity.Metadata;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

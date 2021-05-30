@@ -1,10 +1,9 @@
-using Automaton.Studio.Activity;
 using Elsa;
 using Humanizer;
 using System;
 using System.Reflection;
 
-namespace Automaton.Studio.Metadata
+namespace Automaton.Studio.Activity.Metadata
 {
     public class ActivityTypeDescriber : IActivityTypeDescriber
     {

@@ -1,7 +1,5 @@
-using Automaton.Studio.Activities;
-using Automaton.Studio.Activity;
+using Automaton.Studio.Activity.Metadata;
 using Automaton.Studio.Factories;
-using Automaton.Studio.Metadata;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
