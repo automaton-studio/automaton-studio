@@ -1,4 +1,5 @@
-﻿using Elsa.Models;
+﻿using Automaton.Studio.Activity;
+using Elsa.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +10,14 @@ namespace Automaton.Studio.Models
 {
     public class WorkflowModel : INotifyPropertyChanged
     {
-        #region Elsa
+        #region Private Members
+
+        private IEnumerable<Guid>? runnerIds;
+        private IList<StudioActivity>? activities = new List<StudioActivity>();
+
+        #endregion
+
+        #region Elsa properties
 
         public string? Tag { get; set; }
         public bool IsLatest { get; set; }
@@ -27,12 +35,23 @@ namespace Automaton.Studio.Models
         public WorkflowContextOptions? ContextOptions { get; set; }
         public Variables? CustomAttributes { get; set; }
         public Variables? Variables { get; set; }
-        public ICollection<ActivityDefinition>? Activities { get; set; }
         public ICollection<ConnectionDefinition>? Connections { get; set; }
 
         #endregion
 
-        private IEnumerable<Guid>? runnerIds;
+        #region Public Properties
+
+        public IList<StudioActivity> Activities
+        {
+            get => activities;
+
+            set
+            {
+                activities = value;
+                OnPropertyChanged();
+            }
+        }
+
         public IEnumerable<Guid>? RunnerIds
         {
             get => runnerIds;
@@ -46,7 +65,19 @@ namespace Automaton.Studio.Models
 
         public bool HasRunners
         {
-            get { return RunnerIds != null && RunnerIds.Any(); }
+            get 
+            { 
+                return RunnerIds != null && RunnerIds.Any(); 
+            }
+        }
+
+        #endregion
+
+        public WorkflowModel()
+        {
+            Name = "Untitled";
+            DisplayName = "Untitled";
+            Version = 1;
         }
 
         #region INotifyPropertyChanged

@@ -2,7 +2,6 @@
 using Automaton.Studio.Events;
 using Automaton.Studio.Models;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.ViewModels
@@ -12,7 +11,7 @@ namespace Automaton.Studio.ViewModels
         #region Properties
 
         WorkflowModel Workflow { get; set; }
-        IList<StudioActivity> Activities { get; set; }
+        StudioActivity SelectedActivity { get; set; }
 
         #endregion
 

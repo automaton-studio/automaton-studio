@@ -40,7 +40,7 @@
         </Sider>
 
         <Content Style="padding-left: 200px; min-height: 200px">
-            <Dropzone @ref="dropzone" TItem="StudioActivity" Items="DesignerViewModel.Activities" InstantReplace="true" OnItemDrop="@((p)=>OnItemDrop(p))">
+            <Dropzone @ref="dropzone" TItem="StudioActivity" Items="DesignerViewModel.Workflow.Activities" InstantReplace="true" OnItemDrop="@((p)=>CreateActivity(p))">
                 <StudioActivityComponent Activity=@context />
             </Dropzone>
         </Content>

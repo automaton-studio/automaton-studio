@@ -11,12 +11,26 @@ namespace Automaton.Studio.Pages
 {
     partial class Designer : ComponentBase
     {
-        [Inject] private IDesignerViewModel DesignerViewModel { get; set; } = default!;
+        #region Members
+
+        private Dropzone<StudioActivity>? dropzone;
+
+        #endregion
+
+        #region DI
+
         [Inject] ModalService ModalService { get; set; } = default!;
+        [Inject] private IDesignerViewModel DesignerViewModel { get; set; } = default!;
+
+        #endregion
+
+        #region Params
 
         [Parameter] public string WorkflowId { get; set; }
 
-        private Dropzone<StudioActivity>? dropzone;
+        #endregion
+
+        #region Overrides
 
         protected override async Task OnInitializedAsync()
         {
@@ -30,17 +44,16 @@ namespace Automaton.Studio.Pages
             }
         }
 
+        #endregion
+
+        #region Private Methods
+
         private void OnActivityChanged(object? sender, DragActivityChangedEventArgs e)
         {
             dropzone.ActiveItem = e.Activity;
         }
 
-        private async void OnItemDrop(StudioActivity item)
-        {
-            await NewActivityDialog(item);
-        }
-
-        private async Task NewActivityDialog(StudioActivity activity)
+        private async void CreateActivity(StudioActivity activity)
         {
             var modalConfig = new ModalOptions
             {
@@ -53,5 +66,7 @@ namespace Automaton.Studio.Pages
 
             result.OnOk = () => { return Task.CompletedTask; };
         }
+
+        #endregion
     }
 }

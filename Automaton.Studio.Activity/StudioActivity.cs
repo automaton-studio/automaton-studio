@@ -16,6 +16,10 @@ namespace Automaton.Studio.Activity
         public string? Name { get; set; }
         public string? DisplayName { get; set; }
         public string? Description { get; set; }
+        public bool PersistWorkflow { get; set; }
+        public bool LoadWorkflowContext { get; set; }
+        public bool SaveWorkflowContext { get; set; }
+        public bool PersistOutput { get; set; }
         public ICollection<ActivityDefinitionProperty>? Properties { get; set; }
 
         #endregion
