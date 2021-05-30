@@ -11,11 +11,11 @@ namespace Automaton.Studio.Profiles
         public StudioProfile()
         {
             CreateMap<Runner, RunnerModel>();
-            CreateMap<ActivityDescriptor, TreeActivityModel>();
-            CreateMap<TreeActivityModel, StudioActivity>();
+            CreateMap<ActivityDescriptor, TreeActivity>();
+            CreateMap<TreeActivity, StudioActivity>();
             CreateMap<NewWorkflowModel, WorkflowDefinition>();
             CreateMap<ActivityDefinition, StudioActivity>();
-            CreateMap<WorkflowDefinition, WorkflowModel>()
+            CreateMap<WorkflowDefinition, StudioWorkflow>()
                 .ForMember(d => d.Activities, option => option.Ignore()); ;
         }
     }

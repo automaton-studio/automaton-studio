@@ -15,15 +15,15 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        IList<TreeActivityModel> TreeItems { get; set; }
-        TreeActivityModel SelectedActivity { get; set; }
+        IList<TreeActivity> TreeItems { get; set; }
+        TreeActivity SelectedActivity { get; set; }
 
         #endregion
 
         #region Methods
 
         void Initialize();
-        void DragActivity(TreeActivityModel activityModel);
+        void DragActivity(TreeActivity activityModel);
 
         #endregion
     }

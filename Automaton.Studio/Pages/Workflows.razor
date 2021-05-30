@@ -21,7 +21,7 @@ else
         </Header>
 
         <Content>
-            <Table TItem="WorkflowModel" DataSource="@WorkflowsViewModel.Workflows">
+            <Table TItem="StudioWorkflow" DataSource="@WorkflowsViewModel.Workflows">
                 <Column Title="Workflow" @bind-Field="@context.Name">
                     @context.Name
                 </Column>

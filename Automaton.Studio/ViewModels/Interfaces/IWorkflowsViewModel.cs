@@ -6,12 +6,12 @@ namespace Automaton.Studio.ViewModels
 {
     public interface IWorkflowsViewModel
     {
-        IEnumerable<WorkflowModel> Workflows { get; set; }
+        IEnumerable<StudioWorkflow> Workflows { get; set; }
         IEnumerable<RunnerModel> Runners { get; set; }
         NewWorkflowModel NewWorkflowDetails { get; set; }
 
         Task Initialize();
         Task NewWorkflow();
-        Task RunWorkflow(WorkflowModel workflow);
+        Task RunWorkflow(StudioWorkflow workflow);
     }
 }

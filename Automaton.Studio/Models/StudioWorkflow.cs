@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.Models
 {
-    public class WorkflowModel : INotifyPropertyChanged
+    public class StudioWorkflow : INotifyPropertyChanged
     {
         #region Private Members
 
@@ -73,7 +73,7 @@ namespace Automaton.Studio.Models
 
         #endregion
 
-        public WorkflowModel()
+        public StudioWorkflow()
         {
             Name = "Untitled";
             DisplayName = "Untitled";

@@ -21,8 +21,8 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        private IList<TreeActivityModel>? activities;
-        public IList<TreeActivityModel> TreeItems
+        private IList<TreeActivity>? activities;
+        public IList<TreeActivity> TreeItems
         {
             get => activities;
 
@@ -33,7 +33,7 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        public TreeActivityModel SelectedActivity { get; set; }
+        public TreeActivity SelectedActivity { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -54,18 +54,18 @@ namespace Automaton.Studio.ViewModels
         public void Initialize()
         {
             var activityDescriptors = activityFactory.GetActivityDescriptors();
-            var activityItems = mapper.Map<IEnumerable<ActivityDescriptor>, IList<TreeActivityModel>>(activityDescriptors);
+            var activityItems = mapper.Map<IEnumerable<ActivityDescriptor>, IList<TreeActivity>>(activityDescriptors);
             var categoryNames = activityItems.Select(x => x.Category).Distinct();
 
-            TreeItems = new List<TreeActivityModel>();
+            TreeItems = new List<TreeActivity>();
 
             foreach (var categoryName in categoryNames)
             {
                 // Create category
-                var category = new TreeActivityModel
+                var category = new TreeActivity
                 {
                     DisplayName = categoryName,
-                    Activities = new List<TreeActivityModel>()
+                    Activities = new List<TreeActivity>()
                 };
 
                 // Prepare category activities
@@ -77,7 +77,7 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        public void DragActivity(TreeActivityModel activityModel)
+        public void DragActivity(TreeActivity activityModel)
         {
             designerViewModel.DragActivity(activityModel);
         }

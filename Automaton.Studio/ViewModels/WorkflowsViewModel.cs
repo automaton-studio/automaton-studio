@@ -31,8 +31,8 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        private IEnumerable<WorkflowModel>? workflows;
-        public IEnumerable<WorkflowModel> Workflows
+        private IEnumerable<StudioWorkflow>? workflows;
+        public IEnumerable<StudioWorkflow> Workflows
         {
             get => workflows;
 
@@ -84,11 +84,11 @@ namespace Automaton.Studio.ViewModels
         public async Task Initialize()
         {
             var workflowDefinitions = await workflowDefinitionStore.FindManyAsync(Specification<WorkflowDefinition>.Identity);
-            Workflows = mapper.Map<IEnumerable<WorkflowDefinition>, IEnumerable<WorkflowModel>>(workflowDefinitions);     
+            Workflows = mapper.Map<IEnumerable<WorkflowDefinition>, IEnumerable<StudioWorkflow>>(workflowDefinitions);     
             Runners = mapper.Map<IQueryable<Runner>, IEnumerable<RunnerModel>>(runnerService.List());
         }
 
-        public async Task RunWorkflow(WorkflowModel workflow)
+        public async Task RunWorkflow(StudioWorkflow workflow)
         {
             if (!workflow.HasRunners)
                 return;

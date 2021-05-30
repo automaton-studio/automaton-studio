@@ -10,7 +10,7 @@ namespace Automaton.Studio.ViewModels
     {
         #region Properties
 
-        WorkflowModel Workflow { get; set; }
+        StudioWorkflow Workflow { get; set; }
         StudioActivity SelectedActivity { get; set; }
 
         #endregion
@@ -24,7 +24,7 @@ namespace Automaton.Studio.ViewModels
         #region Methods
 
         Task LoadWorkflow(string workflow);
-        void DragActivity(TreeActivityModel activityModel);
+        void DragActivity(TreeActivity activityModel);
 
         #endregion
     }

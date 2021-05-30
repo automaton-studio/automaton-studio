@@ -25,8 +25,8 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        private WorkflowModel workflow = new();
-        public WorkflowModel Workflow
+        private StudioWorkflow workflow = new();
+        public StudioWorkflow Workflow
         {
             get => workflow;
 
@@ -75,7 +75,7 @@ namespace Automaton.Studio.ViewModels
         public async Task LoadWorkflow(string workflowId)
         {
             var workflowDefinition = await workflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification(workflowId));
-            Workflow = mapper.Map<WorkflowDefinition, WorkflowModel>(workflowDefinition);
+            Workflow = mapper.Map<WorkflowDefinition, StudioWorkflow>(workflowDefinition);
 
             foreach (var activityDefinition in workflowDefinition.Activities)
             {
@@ -83,7 +83,7 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        public void DragActivity(TreeActivityModel activityModel)
+        public void DragActivity(TreeActivity activityModel)
         {
             var activity = activityFactory.GetStudioActivity(activityModel.Name);
 

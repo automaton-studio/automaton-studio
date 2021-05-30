@@ -2,22 +2,22 @@
 
 namespace Automaton.Studio.Models
 {
-    public class TreeActivityModel
+    public class TreeActivity
     {
-        public TreeActivityModel()
+        public TreeActivity()
         {
             Name = "Activity";
             Category = "Miscellaneous";
             DisplayName = "Activity";
         }
 
-        public TreeActivityModel(string name, string displayName)
+        public TreeActivity(string name, string displayName)
         {
             Name = name;
             DisplayName = displayName;
         }
 
-        public TreeActivityModel(string name, string displayName, string? icon, string? category = null)
+        public TreeActivity(string name, string displayName, string? icon, string? category = null)
         {
             Name = name;
             DisplayName = displayName;
@@ -35,6 +35,6 @@ namespace Automaton.Studio.Models
         #endregion
 
         public string? Icon { get; set; }
-        public List<TreeActivityModel>? Activities { get; set; }
+        public List<TreeActivity>? Activities { get; set; }
     }
 }
