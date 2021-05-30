@@ -4,17 +4,23 @@ using Automaton.Studio.Factories;
 using Automaton.Studio.Metadata;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Reflection;
 
 namespace Automaton.Studio.Extensions
 {
     public static class ServiceCollectionExtensions
-    {        
-        public static IServiceCollection AddAutomaton(
-            this IServiceCollection services,
-            Action<AutomatonOptionsBuilder>? configure = default)
+    {
+        private const string ActivitiesAssemblyName = "Automaton.Studio.Activities";
+
+        public static IServiceCollection AddAutomaton(this IServiceCollection services, Action<AutomatonOptionsBuilder>? configure = default)
         {
             // Options
             var optionsBuilder = new AutomatonOptionsBuilder(services);
+            
+            // Activities
+            var assembly = Assembly.Load(ActivitiesAssemblyName);
+            optionsBuilder.AddActivitiesFrom(assembly);
+
             configure?.Invoke(optionsBuilder);
 
             services.AddTransient(sp => sp.GetRequiredService<AutomatonOptions>());
@@ -25,9 +31,6 @@ namespace Automaton.Studio.Extensions
 
             // Activity descriptors
             services.AddSingleton<IActivityTypeDescriber, ActivityTypeDescriber>();
-
-            // Activities
-            optionsBuilder.AddActivitiesFrom<WriteLineActivity>();      
 
             return services;
         }
