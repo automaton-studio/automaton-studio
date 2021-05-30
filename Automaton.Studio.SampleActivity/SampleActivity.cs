@@ -1,12 +1,11 @@
-﻿using Automaton.Studio.Activities.Attributes;
-using Automaton.Studio.Activity;
+﻿using Automaton.Studio.Activity;
 using Elsa.Models;
 using System;
 using System.Linq;
 
 namespace Automaton.Studio.SampleActivity
 {
-    [Activity(
+    [StudioActivity(
         Name = "SampleActivity",
         DisplayName = "SampleActivity",
         ElsaName = "ElsaSampleActivity",
@@ -37,11 +36,6 @@ namespace Automaton.Studio.SampleActivity
         public override Type GetDialogComponent()
         {
             throw new NotImplementedException();
-        }
-
-        public override Type GetModelType()
-        {
-            return typeof(SampleActivity);
         }
     }
 }

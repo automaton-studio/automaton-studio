@@ -1,4 +1,4 @@
-using Automaton.Studio.Activities.Attributes;
+using Automaton.Studio.Activity;
 using Elsa;
 using Humanizer;
 using System;
@@ -10,7 +10,7 @@ namespace Automaton.Studio.Metadata
     {
         public ActivityDescriptor? Describe(Type automatonActivityType)
         {
-            var attribute = automatonActivityType.GetCustomAttribute<ActivityAttribute>(false);
+            var attribute = automatonActivityType.GetCustomAttribute<StudioActivityAttribute>(false);
 
             var name = attribute?.Name ?? automatonActivityType.Name;
             var elsaName = attribute?.ElsaName;

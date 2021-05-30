@@ -49,12 +49,6 @@ namespace Automaton.Studio.Activity
         /// <returns></returns>
         public abstract Type GetDialogComponent();
 
-        /// <summary>
-        /// Abstract method to get the model type associated with the activity
-        /// </summary>
-        /// <returns></returns>
-        public abstract Type GetModelType();
-
         #endregion
     }
 }

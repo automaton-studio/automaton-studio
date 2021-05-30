@@ -1,9 +1,9 @@
 using System;
 
-namespace Automaton.Studio.Activities.Attributes
+namespace Automaton.Studio.Activity
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class ActivityAttribute : Attribute
+    public class StudioActivityAttribute : Attribute
     {
         public string? Name { get; set; }
         public string? ElsaName { get; set; }

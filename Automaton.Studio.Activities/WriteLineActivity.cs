@@ -1,12 +1,11 @@
-﻿using Automaton.Studio.Activities.Attributes;
-using Automaton.Studio.Activity;
+﻿using Automaton.Studio.Activity;
 using Elsa.Models;
 using System;
 using System.Collections.Generic;
 
 namespace Automaton.Studio.Activities
 {
-    [Activity(
+    [StudioActivity(
         Name = "WriteLineActivity",
         DisplayName = "WriteLine",
         ElsaName = "WriteLine",
@@ -46,11 +45,6 @@ namespace Automaton.Studio.Activities
         public override Type GetDialogComponent()
         {
             return typeof(WriteLineDialog);
-        }
-
-        public override Type GetModelType()
-        {
-            return typeof(WriteLineActivity);
         }
     }
 }
