@@ -38,11 +38,6 @@ namespace Automaton.Studio.Activity
         #region Abstracts
 
         /// <summary>
-        /// Model associated with activity
-        /// </summary>
-        public abstract IStudioActivityModel Model { get; set; }
-
-        /// <summary>
         /// Abstract method to get the view component type to use
         /// </summary>
         /// <returns></returns>

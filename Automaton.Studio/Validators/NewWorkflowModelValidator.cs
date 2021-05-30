@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Validators
 {
-    public class NewWorkflowModelValidator : AbstractValidator<NewWorkflowModel>
+    public class NewWorkflowModelValidator : AbstractValidator<WorkflowNew>
     {
         private readonly IWorkflowDefinitionStore workflowDefinitionStore;
 

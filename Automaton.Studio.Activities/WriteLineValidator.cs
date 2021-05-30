@@ -1,10 +1,9 @@
 ﻿using Automaton.Studio.Activities.Resources;
-using Automaton.Studio.Models;
 using FluentValidation;
 
-namespace Automaton.Studio.Validators
+namespace Automaton.Studio.Activities
 {
-    public class WriteLineValidator : AbstractValidator<WriteLineModel>
+    public class WriteLineValidator : AbstractValidator<WriteLineActivity>
     {
         public WriteLineValidator()
         {

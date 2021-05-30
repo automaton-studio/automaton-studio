@@ -43,8 +43,8 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        private IEnumerable<RunnerModel>? runners;
-        public IEnumerable<RunnerModel> Runners
+        private IEnumerable<WorkflowRunner>? runners;
+        public IEnumerable<WorkflowRunner> Runners
         {
             get => runners;
 
@@ -55,7 +55,7 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        public NewWorkflowModel NewWorkflowDetails { get; set; } = new NewWorkflowModel();
+        public WorkflowNew NewWorkflowDetails { get; set; } = new WorkflowNew();
 
         #endregion
 
@@ -85,7 +85,7 @@ namespace Automaton.Studio.ViewModels
         {
             var workflowDefinitions = await workflowDefinitionStore.FindManyAsync(Specification<WorkflowDefinition>.Identity);
             Workflows = mapper.Map<IEnumerable<WorkflowDefinition>, IEnumerable<StudioWorkflow>>(workflowDefinitions);     
-            Runners = mapper.Map<IQueryable<Runner>, IEnumerable<RunnerModel>>(runnerService.List());
+            Runners = mapper.Map<IQueryable<Runner>, IEnumerable<WorkflowRunner>>(runnerService.List());
         }
 
         public async Task RunWorkflow(StudioWorkflow workflow)
@@ -105,7 +105,7 @@ namespace Automaton.Studio.ViewModels
         {
             try
             {
-                var workflowDefinition = mapper.Map<NewWorkflowModel, WorkflowDefinition>(NewWorkflowDetails);
+                var workflowDefinition = mapper.Map<WorkflowNew, WorkflowDefinition>(NewWorkflowDetails);
                 await workflowDefinitionStore.AddAsync(workflowDefinition);
             }
             catch (Exception ex)
@@ -121,7 +121,7 @@ namespace Automaton.Studio.ViewModels
 
         private void ClearNewWorkflowDetails()
         {
-            NewWorkflowDetails = new NewWorkflowModel();
+            NewWorkflowDetails = new WorkflowNew();
         }
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)

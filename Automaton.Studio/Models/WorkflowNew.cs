@@ -1,6 +1,6 @@
 ﻿namespace Automaton.Studio.Models
 {
-    public class NewWorkflowModel
+    public class WorkflowNew
     {
         public string? Name { get; set; }
         public string? DisplayName { get; set; }

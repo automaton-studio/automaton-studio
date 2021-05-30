@@ -38,7 +38,7 @@ namespace Automaton.Studio.Pages
                 Title = Labels.NewWorkflowTitle
             };
 
-            var modalRef = await ModalService.CreateModalAsync<NewWorkflowForm, NewWorkflowModel>(modalConfig, WorkflowsViewModel.NewWorkflowDetails);
+            var modalRef = await ModalService.CreateModalAsync<NewWorkflowForm, WorkflowNew>(modalConfig, WorkflowsViewModel.NewWorkflowDetails);
 
             modalRef.OnOk = () =>
             {

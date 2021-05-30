@@ -1,6 +1,6 @@
 ﻿@using Automaton.Studio.Models
 @using Automaton.Studio.Resources
-@inherits FeedbackComponent<NewWorkflowModel>
+@inherits FeedbackComponent<WorkflowNew>
 
 <Form @ref="form"
       Model="@workflowModel"
@@ -20,8 +20,8 @@
 </Form>
 
 @code {
-    private Form<NewWorkflowModel>? form;
-    private NewWorkflowModel? workflowModel;
+    private Form<WorkflowNew>? form;
+    private WorkflowNew? workflowModel;
     private FluentValidationValidator fluentValidationValidator;
 
     protected override void OnInitialized()

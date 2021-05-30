@@ -29,8 +29,6 @@ namespace Automaton.Studio.SampleActivity
             }
         }
 
-        public override IStudioActivityModel Model { get; set; } = new SampleModel();
-
         public override Type GetViewComponent()
         {
             return typeof(SampleActivityComponent);
@@ -43,7 +41,7 @@ namespace Automaton.Studio.SampleActivity
 
         public override Type GetModelType()
         {
-            return typeof(SampleModel);
+            return typeof(SampleActivity);
         }
     }
 }

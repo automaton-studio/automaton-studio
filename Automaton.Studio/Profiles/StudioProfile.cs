@@ -10,10 +10,10 @@ namespace Automaton.Studio.Profiles
     {
         public StudioProfile()
         {
-            CreateMap<Runner, RunnerModel>();
+            CreateMap<Runner, WorkflowRunner>();
             CreateMap<ActivityDescriptor, TreeActivity>();
             CreateMap<TreeActivity, StudioActivity>();
-            CreateMap<NewWorkflowModel, WorkflowDefinition>();
+            CreateMap<WorkflowNew, WorkflowDefinition>();
             CreateMap<ActivityDefinition, StudioActivity>();
             CreateMap<WorkflowDefinition, StudioWorkflow>()
                 .ForMember(d => d.Activities, option => option.Ignore()); ;

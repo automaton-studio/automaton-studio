@@ -1,6 +1,5 @@
 ﻿using Automaton.Studio.Activities.Attributes;
 using Automaton.Studio.Activity;
-using Automaton.Studio.Models;
 using Elsa.Models;
 using System;
 using System.Collections.Generic;
@@ -29,8 +28,6 @@ namespace Automaton.Studio.Activities
             }
         }
 
-        public override IStudioActivityModel Model { get; set; } = new WriteLineModel();
-
         public WriteLineActivity()
         {
             Name = "WriteLineActivity";
@@ -53,7 +50,7 @@ namespace Automaton.Studio.Activities
 
         public override Type GetModelType()
         {
-            return typeof(WriteLineModel);
+            return typeof(WriteLineActivity);
         }
     }
 }
