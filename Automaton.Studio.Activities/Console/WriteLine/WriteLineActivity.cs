@@ -3,7 +3,7 @@ using Elsa.Models;
 using System;
 using System.Collections.Generic;
 
-namespace Automaton.Studio.Activities
+namespace Automaton.Studio.Activities.Console.WriteLine
 {
     [StudioActivity(
         Name = "WriteLineActivity",

@@ -1,7 +1,7 @@
 ﻿using Automaton.Studio.Activities.Resources;
 using FluentValidation;
 
-namespace Automaton.Studio.Activities
+namespace Automaton.Studio.Activities.Console.WriteLine
 {
     public class WriteLineValidator : AbstractValidator<WriteLineActivity>
     {
