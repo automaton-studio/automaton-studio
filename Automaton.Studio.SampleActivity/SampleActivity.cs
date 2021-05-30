@@ -29,12 +29,12 @@ namespace Automaton.Studio.SampleActivity
             }
         }
 
-        public override Type GetViewComponent()
+        public override Type GetDesignerComponent()
         {
-            return typeof(SampleActivityComponent);
+            return typeof(SampleActivityDesigner);
         }
 
-        public override Type GetPropertiesComponent()
+        public override Type GetDialogComponent()
         {
             throw new NotImplementedException();
         }

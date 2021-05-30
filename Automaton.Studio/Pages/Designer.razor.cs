@@ -61,7 +61,7 @@ namespace Automaton.Studio.Pages
             };
 
             var method = typeof(ModalService).GetMethod(nameof(ModalService.CreateDynamicModalAsync));
-            var generic = method.MakeGenericMethod(activity.GetPropertiesComponent(), activity.GetType());
+            var generic = method.MakeGenericMethod(activity.GetDialogComponent(), activity.GetType());
             var result = await generic.InvokeAsync(ModalService, new object[] { modalConfig, activity }) as ModalRef;
 
             result.OnOk = () => { return Task.CompletedTask; };

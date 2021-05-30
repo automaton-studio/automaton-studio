@@ -38,14 +38,14 @@ namespace Automaton.Studio.Activities
             };
         }
 
-        public override Type GetViewComponent()
+        public override Type GetDesignerComponent()
         {
-            return typeof(WriteLineComponent);
+            return typeof(WriteLineDesigner);
         }
 
-        public override Type GetPropertiesComponent()
+        public override Type GetDialogComponent()
         {
-            return typeof(WriteLineForm);
+            return typeof(WriteLineDialog);
         }
 
         public override Type GetModelType()

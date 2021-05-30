@@ -7,7 +7,7 @@ using System;
 
 namespace Automaton.Studio.Extensions
 {
-    public static class AutomatonServiceCollectionExtensions
+    public static class ServiceCollectionExtensions
     {        
         public static IServiceCollection AddAutomaton(
             this IServiceCollection services,

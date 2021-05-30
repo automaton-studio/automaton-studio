@@ -61,6 +61,15 @@ namespace Automaton.Studio.Activities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter text.
+        /// </summary>
+        public static string EnterText {
+            get {
+                return ResourceManager.GetString("EnterText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter workflow name.
         /// </summary>
         public static string EnterWorkflowName {

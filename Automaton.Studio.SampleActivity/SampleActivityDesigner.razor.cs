@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.SampleActivity
 {
-    public partial class SampleActivityComponent : ComponentBase
+    public partial class SampleActivityDesigner : ComponentBase
     {
         protected override async Task OnInitializedAsync()
         {

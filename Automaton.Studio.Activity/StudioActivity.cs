@@ -41,13 +41,13 @@ namespace Automaton.Studio.Activity
         /// Abstract method to get the view component type to use
         /// </summary>
         /// <returns></returns>
-        public abstract Type GetViewComponent();
+        public abstract Type GetDesignerComponent();
 
         /// <summary>
         /// Abstract method to get the properties component type to use
         /// </summary>
         /// <returns></returns>
-        public abstract Type GetPropertiesComponent();
+        public abstract Type GetDialogComponent();
 
         /// <summary>
         /// Abstract method to get the model type associated with the activity

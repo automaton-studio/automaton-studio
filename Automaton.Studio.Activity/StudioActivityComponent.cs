@@ -5,7 +5,7 @@ using System;
 namespace Automaton.Studio.Activity
 {
     /// <summary>
-    /// A code-based component that renders an Activity using its GetViewComponent result
+    /// A code-based component that renders a Studio Activity
     /// </summary>
     public class StudioActivityComponent : ComponentBase
     {
@@ -29,7 +29,7 @@ namespace Automaton.Studio.Activity
             base.BuildRenderTree(builder);
 
             // get the component to view the product with
-            Type componentType = Activity.GetViewComponent();
+            Type componentType = Activity.GetDesignerComponent();
             // create an instance of this component
             builder.OpenComponent(0, componentType);
             // set the `Activity` attribute of the component
