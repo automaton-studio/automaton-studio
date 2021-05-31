@@ -13,9 +13,17 @@ else
         IconExpression="x => x.DataItem.Icon"
         IsLeafExpression="x => x.DataItem.Activities == null || !x.DataItem.Activities.Any()"
         KeyExpression="x => x.DataItem.Name"
-        Style="background-color: #fafafa; height: 100vh; overflow: auto"
+        Class="activities-tree"
         @bind-SelectedData="@TreeActivityViewModel.SelectedActivity"
         OnNodeDrag="@((i)=> { TreeActivityViewModel.DragActivity(i); })"
         TItem="TreeActivity">
     </Tree>
 }
+
+<style>
+    .activities-tree {
+        background-color: #fafafa;
+        height: calc(100vh - 70px);
+        overflow: auto
+    }
+</style>

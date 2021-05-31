@@ -23,29 +23,49 @@
             </Col>
 
             @*<Col Class="right-actions">
-                    <Space Class="right-header-items">
-                        <SpaceItem>
-                            <Button Shape="link" Icon="question-circle" Class="action-button">
-                                <span class="action-label">Help</span>
-                            </Button>
-                        </SpaceItem>
-                    </Space>
-                </Col>*@
-        </Row>
-    </Header>
+                            <Space Class="right-header-items">
+                                <SpaceItem>
+                                    <Button Shape="link" Icon="question-circle" Class="action-button">
+                                        <span class="action-label">Help</span>
+                                    </Button>
+                                </SpaceItem>
+                            </Space>
+                        </Col>*@
+                </Row>
+            </Header>
 
-    <Layout Style="background-color: #FFF">
-        <Sider Theme="SiderTheme.Light" Style="height: 100vh; position: fixed; overflow: auto">
-            <ActivitiesTree></ActivitiesTree>
-        </Sider>
+            <Layout Class="designer-container">
+                <Sider Theme="SiderTheme.Light" Class="tree-sidebar">
+                    <ActivitiesTree></ActivitiesTree>
+                </Sider>
 
-        <Content Style="padding-left: 200px; min-height: 200px">
-            <Dropzone @ref="dropzone" TItem="StudioActivity" Items="DesignerViewModel.Workflow.Activities" InstantReplace="true" OnItemDrop="@((p)=>CreateActivity(p))">
-                <StudioActivityComponent Activity=@context />
-            </Dropzone>
-        </Content>
-    </Layout>
-</Layout>
+                <Content Class="dropzone-container">
+                    <Dropzone Class="dropzone" @ref="dropzone" TItem="StudioActivity" Items="DesignerViewModel.Workflow.Activities" InstantReplace="true" OnItemDrop="@((p)=>CreateActivity(p))">
+                        <StudioActivityComponent Activity=@context />
+                    </Dropzone>
+                </Content>
+            </Layout>
+        </Layout>
+
+        <style>
+            .designer-container {
+                background-color: #FFF
+            }
+
+            .tree-sidebar {
+                height: 100vh;
+                overflow: auto
+            }
+
+            .dropzone-container {
+                height: calc(100vh - 70px);
+            }
+
+            .dropzone {
+                height: calc(100vh - 70px);
+                overflow: auto;
+            }
+        </style>
 
 
 
