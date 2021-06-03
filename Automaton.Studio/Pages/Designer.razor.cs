@@ -64,7 +64,15 @@ namespace Automaton.Studio.Pages
             var generic = method.MakeGenericMethod(activity.GetDialogComponent(), activity.GetType());
             var result = await generic.InvokeAsync(ModalService, new object[] { modalConfig, activity }) as ModalRef;
 
-            result.OnOk = () => { return Task.CompletedTask; };
+            result.OnOk = () => {
+
+                // TODO!
+                // It may be inneficient to update the state of the entire Designer control.
+                // A better alternative would be to update the state of the activity designer component being updated.
+                StateHasChanged();
+
+                return Task.CompletedTask; 
+            };
         }
 
         #endregion

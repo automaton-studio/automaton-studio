@@ -2,14 +2,16 @@
 using Elsa.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.Activity
 {
     /// <summary>
     /// A base class for all activity instances
     /// </summary>
-    public abstract class StudioActivity
+    public abstract class StudioActivity : INotifyPropertyChanged
     {
         #region Members
 
@@ -65,5 +67,17 @@ namespace Automaton.Studio.Activity
         public abstract Type GetDialogComponent();
 
         #endregion
+
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
     }
 }

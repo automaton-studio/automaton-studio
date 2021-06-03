@@ -26,6 +26,7 @@ namespace Automaton.Studio.Activities.Console.WriteLine
             set
             {
                 TextProperty.Expressions[TextProperty.Syntax] = value;
+                OnPropertyChanged();
             }
         }
 
