@@ -57,6 +57,7 @@ namespace Automaton.Studio.Pages
         private void OnDragActivity(object? sender, DragActivityEventArgs e)
         {
             dropzone.ActiveItem = e.Activity;
+            dropzone.ActiveItem.Class = "designer-activity-selected";
         }
 
         /// <summary>
@@ -65,6 +66,8 @@ namespace Automaton.Studio.Pages
         /// <param name="activity">Activity dropped on designer</param>
         private async Task OnActivityDrop(StudioActivity activity)
         {
+            activity.Class = "designer-activity";
+
             // When activity was already created don't display create dialog when OnDrop event occurs
             if (activity.PendingCreation)
             {

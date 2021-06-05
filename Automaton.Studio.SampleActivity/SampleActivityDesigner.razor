@@ -1,9 +1,9 @@
 ﻿@using Automaton.Studio.SampleActivity
 
-<div class="console-activity">
+<div class="designer-activity">
     <Row>
         <Col Flex=@("none")>
-            <div class="icon-container">
+            <div class="designer-activity-icon-container">
                 <Icon Type="form" Theme="outline" />
             </div>
         </Col>
@@ -12,8 +12,8 @@
             @Activity.Text
         </Col>
 
-        <Col Class="options">
-            <div class="icon-container"><Icon Type="more" Theme="outline" /></div>
+        <Col Class="designer-activity-options">
+            <div class="designer-activity-icon-container"><Icon Type="more" Theme="outline" /></div>
         </Col>
     </Row>
 </div>
@@ -22,22 +22,3 @@
     [Parameter]
     public SampleActivity Activity { get; set; }
 }
-
-<style>
-    .icon-container {
-        padding: 0 16px;
-    }
-
-    .options {
-        margin-left: auto;
-    }
-
-    .console-activity {
-        padding: 1em;
-        border-radius: 5px;
-        margin: 1em 1em;
-        box-shadow: 1px 1px 5px 2px rgba(179,179,179,0.46);
-        -webkit-box-shadow: 1px 1px 5px 2px rgba(179,179,179,0.46);
-        -moz-box-shadow: 1px 1px 5px 2px rgba(179,179,179,0.46);
-    }
-</style>

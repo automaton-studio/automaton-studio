@@ -42,6 +42,11 @@ namespace Automaton.Studio.Activity
         /// </summary>
         public bool PendingCreation { get; set; }
 
+        /// <summary>
+        /// Activity designer class
+        /// </summary>
+        public string? Class { get; set; }
+
         #endregion
 
         public StudioActivity(IActivityTypeDescriber activityDescriber)
@@ -50,6 +55,8 @@ namespace Automaton.Studio.Activity
             ActivityId = Guid.NewGuid().ToString();
             Properties = new List<ActivityDefinitionProperty>();
             Descriptor = this.activityDescriber.Describe(this.GetType());
+
+            Class = "designer-activity";
         }
 
         protected ActivityDefinitionProperty GetDefinitionProperty(string propertyName)

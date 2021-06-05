@@ -7,7 +7,7 @@ namespace Automaton.Studio.Activity
     /// <summary>
     /// A code-based component that renders a Studio Activity
     /// </summary>
-    public class StudioActivityComponent : ComponentBase
+    public class DesignerActivityComponent : ComponentBase
     {
         /// <summary>
         /// The Activity we want to render
