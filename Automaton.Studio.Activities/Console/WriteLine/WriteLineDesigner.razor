@@ -1,5 +1,7 @@
-﻿<div class="console-activity">
-    <Row>
+﻿@using Automaton.Studio.Activities.Resources 
+
+<div class="console-activity">
+    <Row Align="middle">
         <Col Flex=@("none")>
             <div class="icon-container">
                 <Icon Type="@Activity.Descriptor.Icon" Theme="outline" />
@@ -7,7 +9,12 @@
         </Col>
 
         <Col Flex=@("auto")>
-            @Activity.Text
+            <div>
+                <b>@Activity.Descriptor.DisplayName</b>
+            </div>
+            <div>
+                Write <a href="" @onclick:preventDefault>'@Activity.Text'</a> to console
+            </div>
         </Col>
 
         <Col Class="options">
@@ -19,6 +26,11 @@
 @code {
     [Parameter]
     public WriteLineActivity Activity { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
 }
 
 <style>

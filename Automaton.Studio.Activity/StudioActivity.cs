@@ -44,7 +44,7 @@ namespace Automaton.Studio.Activity
             this.activityDescriber = activityDescriber;
             ActivityId = Guid.NewGuid().ToString();
             Properties = new List<ActivityDefinitionProperty>();
-            Descriptor = activityDescriber.Describe(this.GetType());
+            Descriptor = this.activityDescriber.Describe(this.GetType());
         }
 
         protected ActivityDefinitionProperty GetDefinitionProperty(string propertyName)

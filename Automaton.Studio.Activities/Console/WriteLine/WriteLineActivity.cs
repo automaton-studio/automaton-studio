@@ -8,7 +8,7 @@ namespace Automaton.Studio.Activities.Console.WriteLine
 {
     [StudioActivity(
         Name = "WriteLineActivity",
-        DisplayName = "WriteLine",
+        DisplayName = "Write Line",
         ElsaName = "WriteLine",
         Category = "Console",
         Description = "Write text to console",

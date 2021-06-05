@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using Automaton.Studio.Activities.Resources;
 using Automaton.Studio.Activity;
 using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
@@ -57,7 +58,7 @@ namespace Automaton.Studio.Pages
         {
             var modalConfig = new ModalOptions
             {
-                Title = activity.DisplayName
+                Title = activity.Descriptor.DisplayName
             };
 
             var method = typeof(ModalService).GetMethod(nameof(ModalService.CreateDynamicModalAsync));
