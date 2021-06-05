@@ -1,30 +1,13 @@
 ﻿@using Automaton.Studio.Activity
-@inherits StudioActivityComponent
 
-<div class="@Activity.Class">
-    <Row Align="middle">
-        <Col Flex=@("none")>
-        <div class="designer-activity-icon-container">
-            <Icon Type="@Activity.Descriptor.Icon" Theme="outline" />
-        </div>
-        </Col>
-
-        <Col Flex=@("auto")>
-        <div>
-            <b>@Activity.Descriptor.DisplayName</b>
-        </div>
-        <div>
-            Write <a href="" @onclick:preventDefault>'@Activity.Text'</a> to console
-        </div>
-        </Col>
-
-        <Col Class="designer-activity-options">
-            <div class="designer-activity-icon-container">
-                <Icon Type="more" Theme="outline" />
-            </div>
-        </Col>
-    </Row>
-</div>
+<DesignerActivityComponent Activity=@Activity>
+    <div>
+        <b>@Activity.Descriptor.DisplayName</b>
+    </div>
+    <div>
+        Write <a href="" @onclick:preventDefault>'@Activity.Text'</a> to console
+    </div>
+</DesignerActivityComponent>
 
 @code {
     [Parameter]
@@ -36,6 +19,3 @@
     }
 }
 
-<style>
-   
-</style>

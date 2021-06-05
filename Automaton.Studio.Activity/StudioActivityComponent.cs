@@ -7,7 +7,7 @@ namespace Automaton.Studio.Activity
     /// <summary>
     /// A code-based component that renders a Studio Activity
     /// </summary>
-    public class DesignerActivityComponent : ComponentBase
+    public class StudioActivityComponent : ComponentBase
     {
         /// <summary>
         /// The Activity we want to render
@@ -18,7 +18,6 @@ namespace Automaton.Studio.Activity
         /// <summary>
         /// Render the component
         /// </summary>
-        /// <param name="builder"></param>
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             if (Activity == null)

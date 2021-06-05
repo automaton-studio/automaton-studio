@@ -1,0 +1,21 @@
+﻿@using AntDesign
+
+<div class="@Activity.Class">
+    <Row Align="middle">
+        <Col Flex=@("none")>
+            <div class="designer-activity-icon-container">
+                <Icon Type="@Activity.Descriptor.Icon" Theme="outline" />
+            </div>
+        </Col>
+
+        <Col Flex=@("auto")>
+            @ChildContent
+        </Col>
+
+        <Col Class="designer-activity-options">
+            <div class="designer-activity-icon-container">
+                <Icon Type="more" Theme="outline" />
+            </div>
+        </Col>
+    </Row>
+</div>

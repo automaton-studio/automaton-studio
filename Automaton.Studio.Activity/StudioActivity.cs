@@ -13,6 +13,13 @@ namespace Automaton.Studio.Activity
     /// </summary>
     public abstract class StudioActivity : INotifyPropertyChanged, IEquatable<StudioActivity>
     {
+        #region Constants
+
+        private const string ActivityClass = "designer-activity";
+        private const string SelectedActivityClass = "designer-activity-selected";
+
+        #endregion
+
         #region Members
 
         private IActivityTypeDescriber activityDescriber;
@@ -57,6 +64,21 @@ namespace Automaton.Studio.Activity
             Descriptor = this.activityDescriber.Describe(this.GetType());
 
             Class = "designer-activity";
+        }
+
+        public void Select()
+        {
+            Class = SelectedActivityClass;
+        }
+
+        public void Unselect()
+        {
+            Class = ActivityClass;
+        }
+
+        public bool IsSelected()
+        {
+            return Class == SelectedActivityClass;
         }
 
         protected ActivityDefinitionProperty GetDefinitionProperty(string propertyName)

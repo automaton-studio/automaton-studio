@@ -5,7 +5,10 @@ using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Plk.Blazor.DragDrop;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages
@@ -56,8 +59,10 @@ namespace Automaton.Studio.Pages
         /// <param name="e"></param>
         private void OnDragActivity(object? sender, DragActivityEventArgs e)
         {
+            UnselectActivities();
+
             dropzone.ActiveItem = e.Activity;
-            dropzone.ActiveItem.Class = "designer-activity-selected";
+            dropzone.ActiveItem.Select();
         }
 
         /// <summary>
@@ -66,12 +71,37 @@ namespace Automaton.Studio.Pages
         /// <param name="activity">Activity dropped on designer</param>
         private async Task OnActivityDrop(StudioActivity activity)
         {
-            activity.Class = "designer-activity";
-
             // When activity was already created don't display create dialog when OnDrop event occurs
             if (activity.PendingCreation)
             {
                 await ShowActivityDialog(activity);
+            }
+        }
+
+        /// <summary>
+        /// Occurs when mouse is down on activity
+        /// </summary>
+        /// <param name="activity">Activity dropped on designer</param>
+        private void OnActivityMouseDown(StudioActivity activity)
+        {
+            UnselectActivities();
+
+            activity.Select();
+        }
+
+        /// <summary>
+        /// Unselect all selected activities
+        /// </summary>
+        private void UnselectActivities()
+        {
+            var selectedActivities = DesignerViewModel.Workflow.Activities.Where(x => x.IsSelected());
+
+            if (selectedActivities != null)
+            {
+                foreach (var selectedActivity in selectedActivities)
+                {
+                    selectedActivity.Unselect();
+                }
             }
         }
 
