@@ -66,12 +66,10 @@ namespace Automaton.Studio.Pages
         private async Task OnActivityDrop(StudioActivity activity)
         {
             // When activity was already created don't display create dialog when OnDrop event occurs
-            if (activity.Created)
+            if (activity.PendingCreation)
             {
-                return;
+                await ShowActivityDialog(activity);
             }
-
-            await ShowActivityDialog(activity);
         }
 
         /// <summary>
@@ -91,7 +89,8 @@ namespace Automaton.Studio.Pages
 
             result.OnOk = () => {
 
-                activity.Created = true;
+                // The activity is final, not pending anymore
+                activity.PendingCreation = false;
 
                 // TODO! It may be inneficient to update the state of the entire Designer control.
                 // A better alternative would be to update the state of the activity designer component being updated.

@@ -38,9 +38,9 @@ namespace Automaton.Studio.Activity
         public ActivityDescriptor Descriptor { get; set; }
 
         /// <summary>
-        /// Specifies if the activity was fully created in designer
+        /// Specifies if the activity is pending creation
         /// </summary>
-        public bool Created { get; set; }
+        public bool PendingCreation { get; set; }
 
         #endregion
 

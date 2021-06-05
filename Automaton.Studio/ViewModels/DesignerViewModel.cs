@@ -80,19 +80,18 @@ namespace Automaton.Studio.ViewModels
             foreach (var activityDefinition in workflowDefinition.Activities)
             {
                 var studioActivity = activityFactory.GetStudioActivity(activityDefinition);      
-                studioActivity.Created = true; // Activity is fully created
-
                 Workflow.Activities.Add(studioActivity);
             }
         }
 
-        public void OnDragActivity(TreeActivity activityModel)
+        public void OnDragActivity(TreeActivity treeActivity)
         {
-            var activity = activityFactory.GetStudioActivity(activityModel.Name);
+            var studioActivity = activityFactory.GetStudioActivity(treeActivity.Name);
+            studioActivity.PendingCreation = true;
 
-            mapper.Map(activityModel, activity);
+            mapper.Map(treeActivity, studioActivity);
 
-            DragActivity?.Invoke(this, new DragActivityEventArgs(activity));
+            DragActivity?.Invoke(this, new DragActivityEventArgs(studioActivity));
         }
 
         #endregion
