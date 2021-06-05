@@ -53,7 +53,7 @@ namespace Automaton.Studio.ViewModels
 
         #region Events
 
-        public event EventHandler<DragActivityChangedEventArgs> DragActivityChanged;
+        public event EventHandler<DragActivityEventArgs> DragActivity;
 
         #endregion
 
@@ -79,17 +79,20 @@ namespace Automaton.Studio.ViewModels
 
             foreach (var activityDefinition in workflowDefinition.Activities)
             {
-                Workflow.Activities.Add(activityFactory.GetStudioActivity(activityDefinition));
+                var studioActivity = activityFactory.GetStudioActivity(activityDefinition);      
+                studioActivity.Created = true; // Activity is fully created
+
+                Workflow.Activities.Add(studioActivity);
             }
         }
 
-        public void DragActivity(TreeActivity activityModel)
+        public void OnDragActivity(TreeActivity activityModel)
         {
             var activity = activityFactory.GetStudioActivity(activityModel.Name);
 
             mapper.Map(activityModel, activity);
 
-            DragActivityChanged?.Invoke(this, new DragActivityChangedEventArgs(activity));
+            DragActivity?.Invoke(this, new DragActivityEventArgs(activity));
         }
 
         #endregion

@@ -3,9 +3,9 @@ using System;
 
 namespace Automaton.Studio.Events
 {
-    public class DragActivityChangedEventArgs : EventArgs
+    public class DragActivityEventArgs : EventArgs
     {
-        public DragActivityChangedEventArgs(StudioActivity activity)
+        public DragActivityEventArgs(StudioActivity activity)
         {
             Activity = activity;
         }

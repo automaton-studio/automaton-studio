@@ -60,7 +60,9 @@ namespace Automaton.Studio.Factories
         public StudioActivity GetStudioActivity(string name)
         {
             var activityType = automatonOptions.GetStudioActivityType(name);
-            return serviceProvider.GetService(activityType) as StudioActivity;
+            var studioActivity = serviceProvider.GetService(activityType) as StudioActivity;
+
+            return studioActivity;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Automaton.Studio.Activity
     /// <summary>
     /// A base class for all activity instances
     /// </summary>
-    public abstract class StudioActivity : INotifyPropertyChanged
+    public abstract class StudioActivity : INotifyPropertyChanged, IEquatable<StudioActivity>
     {
         #region Members
 
@@ -36,6 +36,11 @@ namespace Automaton.Studio.Activity
         #region Public Properties
 
         public ActivityDescriptor Descriptor { get; set; }
+
+        /// <summary>
+        /// Specifies if the activity was fully created in designer
+        /// </summary>
+        public bool Created { get; set; }
 
         #endregion
 
@@ -79,5 +84,13 @@ namespace Automaton.Studio.Activity
 
         #endregion
 
+        #region IEquatable
+
+        public bool Equals(StudioActivity? other)
+        {
+            return ActivityId == other.ActivityId;
+        }
+
+        #endregion
     }
 }

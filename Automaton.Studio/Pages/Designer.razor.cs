@@ -37,7 +37,7 @@ namespace Automaton.Studio.Pages
         {
             await base.OnInitializedAsync();
 
-            DesignerViewModel.DragActivityChanged += OnActivityChanged;
+            DesignerViewModel.DragActivity += OnDragActivity;
 
             if (!string.IsNullOrEmpty(WorkflowId))
             {
@@ -49,12 +49,36 @@ namespace Automaton.Studio.Pages
 
         #region Private Methods
 
-        private void OnActivityChanged(object? sender, DragActivityChangedEventArgs e)
+        /// <summary>
+        /// Occurs when an activity is dragged
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnDragActivity(object? sender, DragActivityEventArgs e)
         {
             dropzone.ActiveItem = e.Activity;
         }
 
-        private async void CreateActivity(StudioActivity activity)
+        /// <summary>
+        /// Occurs when a new activity is dropped on designer
+        /// </summary>
+        /// <param name="activity">Activity dropped on designer</param>
+        private async Task OnActivityDrop(StudioActivity activity)
+        {
+            // When activity was already created don't display create dialog when OnDrop event occurs
+            if (activity.Created)
+            {
+                return;
+            }
+
+            await ShowActivityDialog(activity);
+        }
+
+        /// <summary>
+        /// Display activity dialog
+        /// </summary>
+        /// <param name="activity"></param>
+        private async Task ShowActivityDialog(StudioActivity activity)
         {
             var modalConfig = new ModalOptions
             {
@@ -67,12 +91,24 @@ namespace Automaton.Studio.Pages
 
             result.OnOk = () => {
 
-                // TODO!
-                // It may be inneficient to update the state of the entire Designer control.
+                activity.Created = true;
+
+                // TODO! It may be inneficient to update the state of the entire Designer control.
                 // A better alternative would be to update the state of the activity designer component being updated.
                 StateHasChanged();
 
-                return Task.CompletedTask; 
+                return Task.CompletedTask;
+            };
+
+            result.OnCancel = () => {
+
+                DesignerViewModel.Workflow.Activities.Remove(activity);
+
+                // TODO! It may be inneficient to update the state of the entire Designer control.
+                // A better alternative would be to update the state of the activity designer component being updated.
+                StateHasChanged();
+
+                return Task.CompletedTask;
             };
         }
 
