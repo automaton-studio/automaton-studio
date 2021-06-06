@@ -29,6 +29,7 @@ namespace Automaton.Studio.Activity
         #region Elsa Activity properties
 
         public string ActivityId { get; set; }
+        public string Type { get; set; }
         public string? Name { get; set; }
         public string? DisplayName { get; set; }
         public string? Description { get; set; }
@@ -36,7 +37,7 @@ namespace Automaton.Studio.Activity
         public bool LoadWorkflowContext { get; set; }
         public bool SaveWorkflowContext { get; set; }
         public bool PersistOutput { get; set; }
-        public ICollection<ActivityDefinitionProperty>? Properties { get; set; }
+        public ICollection<ActivityDefinitionProperty> Properties { get; set; }
 
         #endregion
 
