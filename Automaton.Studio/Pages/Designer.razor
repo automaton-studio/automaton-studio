@@ -19,6 +19,22 @@
                         Run
                     </Button>
                 </SpaceItem>
+                <SpaceItem>
+                    <Select Mode="multiple"
+                            @bind-Values="@DesignerViewModel.Workflow.RunnerIds"
+                            Placeholder="Select runners..."
+                            TItemValue="Guid"
+                            TItem="Guid"
+                            Class="runners-select"
+                            AllowClear>
+                        <SelectOptions>
+                            @foreach (var item in @DesignerViewModel.Runners)
+                            {
+                                <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
+                            }
+                        </SelectOptions>
+                    </Select>
+                </SpaceItem>
             </Space>
             </Col>
 
@@ -60,6 +76,11 @@
     .dropzone {
         height: calc(100vh - 55px);
         overflow: auto;
+    }
+
+    .runners-select {
+        min-width: 140px;
+        max-width: 140px;
     }
 </style>
 

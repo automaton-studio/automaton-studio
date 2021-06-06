@@ -37,13 +37,8 @@ namespace Automaton.Studio.Pages
         {
             await base.OnInitializedAsync();
 
+            await DesignerViewModel.Initialize(WorkflowId);
             DesignerViewModel.DragActivity += OnDragActivity;
-
-            // Load workflow if WorkflowId parameter was passed
-            if (!string.IsNullOrEmpty(WorkflowId))
-            {
-                await DesignerViewModel.LoadWorkflow(WorkflowId);
-            }
         }
 
         #endregion
