@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Automaton.Studio.Activity;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
@@ -86,6 +85,7 @@ namespace Automaton.Studio.ViewModels
         #region INotifyPropertyChanged
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

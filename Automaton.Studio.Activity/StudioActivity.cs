@@ -63,9 +63,10 @@ namespace Automaton.Studio.Activity
             ActivityId = Guid.NewGuid().ToString();
             Properties = new List<ActivityDefinitionProperty>();
             Descriptor = this.activityDescriber.Describe(this.GetType());
-
-            Class = "designer-activity";
+            Class = ActivityClass;
         }
+
+        #region Public Properties
 
         public void Select()
         {
@@ -82,10 +83,16 @@ namespace Automaton.Studio.Activity
             return Class == SelectedActivityClass;
         }
 
-        protected ActivityDefinitionProperty GetDefinitionProperty(string propertyName)
+        #endregion
+
+        #region Protected Properties
+
+        protected ActivityDefinitionProperty GetProperty(string propertyName)
         {
             return Properties?.SingleOrDefault(x => x.Name == propertyName);
         }
+
+        #endregion
 
         #region Abstracts
 
@@ -99,7 +106,7 @@ namespace Automaton.Studio.Activity
         /// Abstract method to get the properties component type to use
         /// </summary>
         /// <returns></returns>
-        public abstract Type GetDialogComponent();
+        public abstract Type GetPropertiesComponent();
 
         #endregion
 

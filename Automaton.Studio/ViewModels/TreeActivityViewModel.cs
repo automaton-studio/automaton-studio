@@ -33,10 +33,6 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        public TreeActivity SelectedActivity { get; set; }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         #endregion
 
         public TreeActivityViewModel(
@@ -84,7 +80,9 @@ namespace Automaton.Studio.ViewModels
 
         #endregion
 
-        #region Private Methods
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {

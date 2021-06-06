@@ -16,7 +16,7 @@ namespace Automaton.Studio.Activities.Console.WriteLine
     )]
     public class WriteLineActivity : StudioActivity
     {
-        private ActivityDefinitionProperty TextProperty => GetDefinitionProperty(nameof(Text));
+        private ActivityDefinitionProperty TextProperty => GetProperty(nameof(Text));
         public string Text
         {
             get
@@ -30,7 +30,8 @@ namespace Automaton.Studio.Activities.Console.WriteLine
             }
         }
 
-        public WriteLineActivity(IActivityTypeDescriber activityDescriber) : base(activityDescriber)
+        public WriteLineActivity(IActivityTypeDescriber activityDescriber) 
+            : base(activityDescriber)
         {
             Name = "WriteLineActivity";
 
@@ -45,9 +46,9 @@ namespace Automaton.Studio.Activities.Console.WriteLine
             return typeof(WriteLineDesigner);
         }
 
-        public override Type GetDialogComponent()
+        public override Type GetPropertiesComponent()
         {
-            return typeof(WriteLineDialog);
+            return typeof(WriteLineProperties);
         }
     }
 }

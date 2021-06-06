@@ -15,7 +15,8 @@ namespace Automaton.Studio.SampleActivity
     )]
     public class SampleActivity : StudioActivity
     {
-        public SampleActivity(IActivityTypeDescriber activityDescriber) : base(activityDescriber)
+        public SampleActivity(IActivityTypeDescriber activityDescriber) 
+            : base(activityDescriber)
         {
         }
 
@@ -38,9 +39,9 @@ namespace Automaton.Studio.SampleActivity
             return typeof(SampleActivityDesigner);
         }
 
-        public override Type GetDialogComponent()
+        public override Type GetPropertiesComponent()
         {
-            throw new NotImplementedException();
+            return typeof(SampleActivityProperties);
         }
     }
 }
