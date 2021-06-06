@@ -39,6 +39,7 @@ namespace Automaton.Studio.Pages
 
             DesignerViewModel.DragActivity += OnDragActivity;
 
+            // Load workflow if WorkflowId parameter was passed
             if (!string.IsNullOrEmpty(WorkflowId))
             {
                 await DesignerViewModel.LoadWorkflow(WorkflowId);
@@ -56,9 +57,12 @@ namespace Automaton.Studio.Pages
         /// <param name="e"></param>
         private void OnDragActivity(object? sender, DragActivityEventArgs e)
         {
+            dropzone.ActiveItem = e.Activity;
+
+            // Unselect all the previous selected activities
             UnselectActivities();
 
-            dropzone.ActiveItem = e.Activity;
+            // Select the activity being dragged
             dropzone.ActiveItem.Select();
         }
 
@@ -76,13 +80,15 @@ namespace Automaton.Studio.Pages
         }
 
         /// <summary>
-        /// Occurs when mouse is down on activity
+        /// Occurs when mouse is down on activity.
         /// </summary>
         /// <param name="activity">Activity dropped on designer</param>
         private void OnActivityMouseDown(StudioActivity activity)
         {
+            // Unselect all the previous selected activities
             UnselectActivities();
 
+            // Select the one under the mouse cursor
             activity.Select();
         }
 
@@ -113,32 +119,35 @@ namespace Automaton.Studio.Pages
                 Title = activity.Descriptor.DisplayName
             };
 
+            // We need to launch the Properties dialog using reflexion to load the right activity properties content
+            // 1. Select the method to be executed, in this case AndDesign's ModalService.CreateDynamicModalAsync
+            // CreateDynamicModalAsync is an exact copy of ModalService.CreateModalAsync that's used here to avoid
+            // relexion engine being confused about the write method to execute (there are a few CreateModalAsync)
             var method = typeof(ModalService).GetMethod(nameof(ModalService.CreateDynamicModalAsync));
+            // 2. Make the metod generic (CreateDynamicModalAsync is using generics)
             var generic = method.MakeGenericMethod(activity.GetPropertiesComponent(), activity.GetType());
+            // 3. Invoke the method and pass the required parameters
             var result = await generic.InvokeAsync(ModalService, new object[] { modalConfig, activity }) as ModalRef;
 
             result.OnOk = () => {
 
-                // The activity is final
+                // The activity was created and it's final
                 activity.PendingCreation = false;
-
-                // TODO! It may be inneficient to update the state of the entire Designer control.
-                // A better alternative would be to update the state of the activity designer component being updated.
-                StateHasChanged();
 
                 return Task.CompletedTask;
             };
 
             result.OnCancel = () => {
 
+                // Activity is removed from workflow
                 DesignerViewModel.Workflow.Activities.Remove(activity);
-
-                // TODO! It may be inneficient to update the state of the entire Designer control.
-                // A better alternative would be to update the state of the activity designer component being updated.
-                StateHasChanged();
 
                 return Task.CompletedTask;
             };
+
+            // TODO! It may be inneficient to update the state of the entire Designer control.
+            // A better alternative would be to update the state of the activity being updated.
+            StateHasChanged();
         }
 
         #endregion
