@@ -79,7 +79,7 @@ namespace Automaton.Studio.ViewModels
 
         public void DragActivity(TreeActivity activityModel)
         {
-            designerViewModel.OnDragActivity(activityModel);
+            designerViewModel.DragTreeActivity(activityModel);
         }
 
         #endregion

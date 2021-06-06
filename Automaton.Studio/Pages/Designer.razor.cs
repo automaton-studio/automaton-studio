@@ -1,13 +1,10 @@
 ﻿using AntDesign;
-using Automaton.Studio.Activities.Resources;
 using Automaton.Studio.Activity;
 using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Plk.Blazor.DragDrop;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -122,7 +119,7 @@ namespace Automaton.Studio.Pages
 
             result.OnOk = () => {
 
-                // The activity is final, not pending anymore
+                // The activity is final
                 activity.PendingCreation = false;
 
                 // TODO! It may be inneficient to update the state of the entire Designer control.

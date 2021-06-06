@@ -1,5 +1,4 @@
-﻿using Automaton.Studio.Activity;
-using Automaton.Studio.Events;
+﻿using Automaton.Studio.Events;
 using Automaton.Studio.Models;
 using System;
 using System.Threading.Tasks;
@@ -11,7 +10,6 @@ namespace Automaton.Studio.ViewModels
         #region Properties
 
         StudioWorkflow Workflow { get; set; }
-        StudioActivity SelectedActivity { get; set; }
 
         #endregion
 
@@ -24,7 +22,7 @@ namespace Automaton.Studio.ViewModels
         #region Methods
 
         Task LoadWorkflow(string workflow);
-        void OnDragActivity(TreeActivity activityModel);
+        void DragTreeActivity(TreeActivity activityModel);
 
         #endregion
     }

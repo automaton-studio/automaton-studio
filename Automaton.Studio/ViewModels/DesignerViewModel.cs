@@ -37,18 +37,6 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        private StudioActivity selectedActivity;
-        public StudioActivity SelectedActivity
-        {
-            get => selectedActivity;
-
-            set
-            {
-                selectedActivity = value;
-                OnPropertyChanged();
-            }
-        }
-
         #endregion
 
         #region Events
@@ -56,7 +44,6 @@ namespace Automaton.Studio.ViewModels
         public event EventHandler<DragActivityEventArgs> DragActivity;
 
         #endregion
-
 
         public DesignerViewModel
         (
@@ -84,7 +71,7 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        public void OnDragActivity(TreeActivity treeActivity)
+        public void DragTreeActivity(TreeActivity treeActivity)
         {
             var studioActivity = activityFactory.GetStudioActivity(treeActivity.Name);
             studioActivity.PendingCreation = true;
