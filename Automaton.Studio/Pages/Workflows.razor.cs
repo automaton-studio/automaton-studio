@@ -21,12 +21,12 @@ namespace Automaton.Studio.Pages
             await WorkflowsViewModel.Initialize();
         }
 
-        private async Task RunWorkflow(StudioWorkflow workflow)
+        private async Task RunWorkflow(WorkflowInfo workflow)
         {
             await WorkflowsViewModel.RunWorkflow(workflow);
         }
 
-        private void EditWorkflow(StudioWorkflow workflow)
+        private void EditWorkflow(WorkflowInfo workflow)
         {
             NavigationManager.NavigateTo($"designer/{workflow.DefinitionId}");
         }
