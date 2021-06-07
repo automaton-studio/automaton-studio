@@ -34,6 +34,7 @@ namespace Automaton.Studio.Activities.Console.WriteLine
             : base(activityDescriber)
         {
             Name = "WriteLineActivity";
+            Type = "WriteLine";
 
             Properties = new List<ActivityDefinitionProperty>
             {

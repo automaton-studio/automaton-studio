@@ -10,7 +10,7 @@
             <Col Flex=@("none")>
             <Space Class="actions-bar">
                 <SpaceItem>
-                    <Button Type="dashed" Icon="save">
+                    <Button Type="dashed" Icon="save" OnClick="SaveWorkflow">
                         Save
                     </Button>
                 </SpaceItem>
@@ -21,7 +21,7 @@
                 </SpaceItem>
                 <SpaceItem>
                     <Select Mode="multiple"
-                            @bind-Values="@DesignerViewModel.Workflow.RunnerIds"
+                            @bind-Values="@DesignerViewModel.StudioWorkflow.RunnerIds"
                             Placeholder="Select runners..."
                             TItemValue="Guid"
                             TItem="Guid"
@@ -59,7 +59,7 @@
             <Dropzone Class="dropzone" 
                       @ref="dropzone" 
                       TItem="StudioActivity" 
-                      Items="DesignerViewModel.Workflow.Activities" 
+                      Items="DesignerViewModel.StudioWorkflow.Activities" 
                       InstantReplace="true" 
                       OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())" 
                       OnItemDrop="@((p)=>OnActivityDrop(p))" 

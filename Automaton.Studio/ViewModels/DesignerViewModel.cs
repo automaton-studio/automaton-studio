@@ -28,14 +28,16 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        private StudioWorkflow workflow = new();
-        public StudioWorkflow Workflow
+        public WorkflowDefinition ElsaWorkflow { get; set; }
+
+        private StudioWorkflow studioWorkflow = new();
+        public StudioWorkflow StudioWorkflow
         {
-            get => workflow;
+            get => studioWorkflow;
 
             set
             {
-                workflow = value;
+                studioWorkflow = value;
                 OnPropertyChanged();
             }
         }
@@ -96,7 +98,17 @@ namespace Automaton.Studio.ViewModels
 
             mapper.Map(treeActivity, studioActivity);
 
-            DragActivity?.Invoke(this, new DragActivityEventArgs(studioActivity));
+            DragActivity?.Invoke(this, new DragActivityEventArgs(studioActivity)); 
+        }
+
+        /// <summary>
+        /// Save workflow to database
+        /// </summary>
+        public async Task SaveWorkflow()
+        {
+            mapper.Map(StudioWorkflow, ElsaWorkflow);
+
+            await workflowDefinitionStore.SaveAsync(ElsaWorkflow);
         }
 
         #endregion
@@ -105,13 +117,16 @@ namespace Automaton.Studio.ViewModels
 
         private async Task LoadWorkflow(string workflowId)
         {
-            var workflowDefinition = await workflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification(workflowId));
-            Workflow = mapper.Map<WorkflowDefinition, StudioWorkflow>(workflowDefinition);
+            // Find Elsa workflow based on workflow id
+            ElsaWorkflow = await workflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification(workflowId));
+            // Map Elsa to Studio workflow
+            StudioWorkflow = mapper.Map<WorkflowDefinition, StudioWorkflow>(ElsaWorkflow);
 
-            foreach (var activityDefinition in workflowDefinition.Activities)
+            // We can't just map Elsa to Studio activities because of their different type 
+            foreach (var activityDefinition in ElsaWorkflow.Activities)
             {
                 var studioActivity = activityFactory.GetStudioActivity(activityDefinition);
-                Workflow.Activities.Add(studioActivity);
+                StudioWorkflow.Activities.Add(studioActivity);
             }
         }
 

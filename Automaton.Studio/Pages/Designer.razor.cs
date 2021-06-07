@@ -102,7 +102,7 @@ namespace Automaton.Studio.Pages
         /// </summary>
         private void UnselectActivities()
         {
-            var selectedActivities = DesignerViewModel.Workflow.Activities.Where(x => x.IsSelected());
+            var selectedActivities = DesignerViewModel.StudioWorkflow.Activities.Where(x => x.IsSelected());
 
             if (selectedActivities != null)
             {
@@ -111,6 +111,14 @@ namespace Automaton.Studio.Pages
                     selectedActivity.Unselect();
                 }
             }
+        }
+
+        /// <summary>
+        /// Save workflow
+        /// </summary>
+        private async Task SaveWorkflow()
+        {
+            await DesignerViewModel.SaveWorkflow();
         }
 
         /// <summary>
@@ -148,7 +156,7 @@ namespace Automaton.Studio.Pages
             result.OnCancel = () => {
 
                 // Activity is removed from workflow
-                DesignerViewModel.Workflow.Activities.Remove(activity);
+                DesignerViewModel.StudioWorkflow.Activities.Remove(activity);
 
                 // TODO! It may be inneficient to update the state of the entire Designer control.
                 // A better alternative would be to update the state of the activity being updated.
