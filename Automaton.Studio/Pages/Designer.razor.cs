@@ -114,12 +114,11 @@ namespace Automaton.Studio.Pages
                 Title = activity.Descriptor.DisplayName
             };
 
-            // We need to launch the Properties dialog using reflexion to load the right activity properties content
-            // 1. Select the method to be executed, in this case AndDesign's ModalService.CreateDynamicModalAsync
-            // CreateDynamicModalAsync is an exact copy of ModalService.CreateModalAsync that's used here to avoid
-            // relexion engine being confused about the write method to execute (there are a few CreateModalAsync)
+            // Launch the Properties dialog using reflection to dynamically load the activity properties component.
+
+            // 1. Select the method to be executed
             var method = typeof(ModalService).GetMethod(nameof(ModalService.CreateDynamicModalAsync));
-            // 2. Make the metod generic (CreateDynamicModalAsync is using generics)
+            // 2. Make the metod generic because CreateDynamicModalAsync is using generics
             var generic = method.MakeGenericMethod(activity.GetPropertiesComponent(), activity.GetType());
             // 3. Invoke the method and pass the required parameters
             var result = await generic.InvokeAsync(ModalService, new object[] { modalConfig, activity }) as ModalRef;
@@ -129,6 +128,10 @@ namespace Automaton.Studio.Pages
                 // The activity was created and it's final
                 activity.PendingCreation = false;
 
+                // TODO! It may be inneficient to update the state of the entire Designer control.
+                // A better alternative would be to update the state of the activity being updated.
+                StateHasChanged();
+
                 return Task.CompletedTask;
             };
 
@@ -137,12 +140,12 @@ namespace Automaton.Studio.Pages
                 // Activity is removed from workflow
                 DesignerViewModel.Workflow.Activities.Remove(activity);
 
+                // TODO! It may be inneficient to update the state of the entire Designer control.
+                // A better alternative would be to update the state of the activity being updated.
+                StateHasChanged();
+
                 return Task.CompletedTask;
             };
-
-            // TODO! It may be inneficient to update the state of the entire Designer control.
-            // A better alternative would be to update the state of the activity being updated.
-            StateHasChanged();
         }
 
         #endregion

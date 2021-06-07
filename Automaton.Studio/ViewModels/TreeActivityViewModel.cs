@@ -75,7 +75,10 @@ namespace Automaton.Studio.ViewModels
 
         public void DragActivity(TreeActivity activityModel)
         {
-            designerViewModel.DragTreeActivity(activityModel);
+            if (!activityModel.IsCategory())
+            {
+                designerViewModel.DragTreeActivity(activityModel);
+            }
         }
 
         #endregion
