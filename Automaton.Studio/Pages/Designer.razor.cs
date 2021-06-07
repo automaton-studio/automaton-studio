@@ -65,6 +65,16 @@ namespace Automaton.Studio.Pages
         /// Occurs when a new activity is dropped on designer
         /// </summary>
         /// <param name="activity">Activity dropped on designer</param>
+        private async Task OnDropzoneMouseDown()
+        {
+            // Unselect all the previous selected activities
+            UnselectActivities();
+        }
+
+        /// <summary>
+        /// Occurs when a new activity is dropped on designer
+        /// </summary>
+        /// <param name="activity">Activity dropped on designer</param>
         private async Task OnActivityDrop(StudioActivity activity)
         {
             // When activity was already created don't display create dialog when OnDrop event occurs

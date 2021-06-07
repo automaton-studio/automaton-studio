@@ -56,8 +56,14 @@
         </Sider>
 
         <Content Class="dropzone-container">
-            <Dropzone Class="dropzone" @ref="dropzone" TItem="StudioActivity" Items="DesignerViewModel.Workflow.Activities" InstantReplace="true" 
-                      OnItemDrop="@((p)=>OnActivityDrop(p))" OnItemMouseDown="@((p)=>OnActivityMouseDown(p))">
+            <Dropzone Class="dropzone" 
+                      @ref="dropzone" 
+                      TItem="StudioActivity" 
+                      Items="DesignerViewModel.Workflow.Activities" 
+                      InstantReplace="true" 
+                      OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())" 
+                      OnItemDrop="@((p)=>OnActivityDrop(p))" 
+                      OnItemMouseDown="@((p)=>OnActivityMouseDown(p))">
                 <StudioActivityComponent Activity="@context" />
             </Dropzone>
         </Content>
