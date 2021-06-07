@@ -22,7 +22,6 @@ namespace Automaton.Studio.ViewModels
         #region Members
 
         private readonly IWorkflowDefinitionStore workflowDefinitionStore;
-        private readonly IHubContext<WorkflowHub> workflowHubContext;
         private readonly IRunnerService runnerService;
         private readonly MessageService messageService;
         private readonly IMapper mapper;
@@ -68,7 +67,6 @@ namespace Automaton.Studio.ViewModels
         public WorkflowsViewModel
         (
             IRunnerService runnerService,
-            IHubContext<WorkflowHub> workflowHubContext,
             IWorkflowDefinitionStore workflowDefinitionStore,
             MessageService messageService,
             IMapper mapper
@@ -76,7 +74,6 @@ namespace Automaton.Studio.ViewModels
         {
             this.runnerService = runnerService;
             this.messageService = messageService;
-            this.workflowHubContext = workflowHubContext;
             this.mapper = mapper;
             this.workflowDefinitionStore = workflowDefinitionStore;
         }
@@ -90,15 +87,7 @@ namespace Automaton.Studio.ViewModels
 
         public async Task RunWorkflow(StudioWorkflow workflow)
         {
-            if (!workflow.HasRunners)
-                return;
-
-            foreach (var runnerId in workflow.RunnerIds)
-            {
-                var runner = runnerService.Get(runnerId);
-                var client = workflowHubContext.Clients.Client(runner.ConnectionId);
-                await client.SendAsync("RunWorkflow", workflow.DefinitionId);
-            }
+            await runnerService.RunWorkflow(workflow.DefinitionId, workflow.RunnerIds);
         }
 
         public async Task NewWorkflow()

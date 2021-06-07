@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,5 +12,7 @@ namespace Automaton.Studio.Services
         int Create(Runner runner);
         bool Exists(Runner runner);
         Task Update(Runner runner);
+
+        Task RunWorkflow(string workflowId, IEnumerable<Guid> runnerIds);
     }
 }

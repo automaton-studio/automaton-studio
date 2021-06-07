@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Automaton.Studio.Hubs;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,10 +11,13 @@ namespace Automaton.Studio.Services
     public class RunnerService : IRunnerService
     {
         private readonly AutomatonDbContext dbContext;
+        private readonly IHubContext<WorkflowHub> workflowHubContext;
 
-        public RunnerService(AutomatonDbContext context)
+        public RunnerService(AutomatonDbContext context,
+            IHubContext<WorkflowHub> workflowHubContext)
         {
             this.dbContext = context ?? throw new ArgumentNullException("context");
+            this.workflowHubContext = workflowHubContext;
         }
 
         public IQueryable<Runner> List()
@@ -79,6 +85,16 @@ namespace Automaton.Studio.Services
                 x.UserId.ToLower() == runner.UserId.ToLower());
 
             return exists;
+        }
+
+        public async Task RunWorkflow(string workflowId, IEnumerable<Guid> runnerIds)
+        {
+            foreach (var runnerId in runnerIds)
+            {
+                var runner = Get(runnerId);
+                var client = workflowHubContext.Clients.Client(runner.ConnectionId);
+                await client.SendAsync("RunWorkflow", workflowId);
+            }
         }
     }
 }

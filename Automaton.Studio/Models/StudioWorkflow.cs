@@ -10,13 +10,6 @@ namespace Automaton.Studio.Models
 {
     public class StudioWorkflow : INotifyPropertyChanged
     {
-        #region Private Members
-
-        private IEnumerable<Guid>? runnerIds;
-        private IList<StudioActivity>? activities = new List<StudioActivity>();
-
-        #endregion
-
         #region Elsa properties
 
         // Observation:
@@ -45,6 +38,7 @@ namespace Automaton.Studio.Models
 
         #region Public Properties
 
+        private IList<StudioActivity>? activities = new List<StudioActivity>();
         public IList<StudioActivity> Activities
         {
             get => activities;
@@ -56,6 +50,7 @@ namespace Automaton.Studio.Models
             }
         }
 
+        private IEnumerable<Guid>? runnerIds = new List<Guid>();
         public IEnumerable<Guid>? RunnerIds
         {
             get => runnerIds;
@@ -64,14 +59,6 @@ namespace Automaton.Studio.Models
             {
                 runnerIds = value;
                 OnPropertyChanged();
-            }
-        }
-
-        public bool HasRunners
-        {
-            get 
-            { 
-                return RunnerIds != null && RunnerIds.Any(); 
             }
         }
 

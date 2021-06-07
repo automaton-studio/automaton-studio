@@ -12,6 +12,7 @@ namespace Automaton.Studio.ViewModels
 
         StudioWorkflow StudioWorkflow { get; set; }
         IEnumerable<WorkflowRunner> Runners { get; set; }
+        IEnumerable<Guid>? RunnerIds { get; set; }
 
         #endregion
 
@@ -24,8 +25,9 @@ namespace Automaton.Studio.ViewModels
         #region Methods
 
         Task Initialize(string workflowId);
-        Task SaveWorkflow();
         void DragTreeActivity(TreeActivity activityModel);
+        Task SaveWorkflow();
+        Task RunWorkflow();
 
         #endregion
     }

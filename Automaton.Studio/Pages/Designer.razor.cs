@@ -122,6 +122,15 @@ namespace Automaton.Studio.Pages
         }
 
         /// <summary>
+        /// Run workflow
+        /// </summary>
+        /// <returns></returns>
+        public async Task RunWorkflow()
+        {
+            await DesignerViewModel.RunWorkflow();
+        }
+
+        /// <summary>
         /// Display activity dialog
         /// </summary>
         /// <param name="activity"></param>

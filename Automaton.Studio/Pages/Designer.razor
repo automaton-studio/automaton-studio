@@ -15,13 +15,13 @@
                     </Button>
                 </SpaceItem>
                 <SpaceItem>
-                    <Button Type="dashed" Icon="caret-right">
+                    <Button Type="dashed" Icon="caret-right" OnClick="RunWorkflow">
                         Run
                     </Button>
                 </SpaceItem>
                 <SpaceItem>
                     <Select Mode="multiple"
-                            @bind-Values="@DesignerViewModel.StudioWorkflow.RunnerIds"
+                            @bind-Values="@DesignerViewModel.RunnerIds"
                             Placeholder="Select runners..."
                             TItemValue="Guid"
                             TItem="Guid"

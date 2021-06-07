@@ -54,6 +54,18 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
+        private IEnumerable<Guid>? runnerIds = new List<Guid>();
+        public IEnumerable<Guid>? RunnerIds
+        {
+            get => runnerIds;
+
+            set
+            {
+                runnerIds = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Events
@@ -79,8 +91,7 @@ namespace Automaton.Studio.ViewModels
         public async Task Initialize(string workflowId)
         {
             // Initialize runners
-            var runners = runnerService.List();
-            Runners = mapper.Map<IQueryable<Runner>, IEnumerable<WorkflowRunner>>(runners);
+            Runners = mapper.Map<IQueryable<Runner>, IEnumerable<WorkflowRunner>>(runnerService.List());
 
             // Load workflow
             if (!string.IsNullOrEmpty(workflowId))
@@ -109,6 +120,15 @@ namespace Automaton.Studio.ViewModels
             mapper.Map(StudioWorkflow, ElsaWorkflow);
 
             await workflowDefinitionStore.SaveAsync(ElsaWorkflow);
+        }
+
+        /// <summary>
+        /// Run workflow on specified runners
+        /// </summary>
+        /// <param name="workflow"></param>
+        public async Task RunWorkflow()
+        {
+            await runnerService.RunWorkflow(StudioWorkflow.DefinitionId, RunnerIds);
         }
 
         #endregion
