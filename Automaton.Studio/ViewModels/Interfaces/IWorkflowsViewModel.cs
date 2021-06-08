@@ -1,4 +1,5 @@
 ﻿using Automaton.Studio.Models;
+using Elsa.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace Automaton.Studio.ViewModels
         WorkflowNew NewWorkflowDetails { get; set; }
 
         Task Initialize();
-        Task NewWorkflow();
+        Task<WorkflowDefinition> NewWorkflow();
         Task RunWorkflow(WorkflowInfo workflow);
     }
 }

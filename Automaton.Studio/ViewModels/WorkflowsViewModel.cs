@@ -90,12 +90,15 @@ namespace Automaton.Studio.ViewModels
             await runnerService.RunWorkflow(workflow.DefinitionId, workflow.RunnerIds);
         }
 
-        public async Task NewWorkflow()
+        public async Task<WorkflowDefinition> NewWorkflow()
         {
             try
             {
                 var workflowDefinition = mapper.Map<WorkflowNew, WorkflowDefinition>(NewWorkflowDetails);
+
                 await workflowDefinitionStore.AddAsync(workflowDefinition);
+
+                return workflowDefinition;
             }
             catch (Exception ex)
             {

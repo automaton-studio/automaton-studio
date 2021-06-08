@@ -35,16 +35,23 @@ namespace Automaton.Studio.Pages
         {
             var modalConfig = new ModalOptions
             {
-                Title = Labels.NewWorkflowTitle
+                Title = Labels.NewWorkflowTitle,
+                // Needed as a workaround to prevent dialog
+                // close imediatelly when clicking OK button
+                MaskClosable = false
             };
 
             var modalRef = await ModalService.CreateModalAsync<NewWorkflowForm, WorkflowNew>(modalConfig, WorkflowsViewModel.NewWorkflowDetails);
 
-            modalRef.OnOk = () =>
+            modalRef.OnOk = async () =>
             {
-                WorkflowsViewModel.NewWorkflow();
+                // Needed to update OK button loading icon
+                modalRef.Config.ConfirmLoading = true;
+                await modalRef.UpdateConfigAsync();
 
-                return Task.CompletedTask;
+                var workflow = await WorkflowsViewModel.NewWorkflow();
+
+                NavigationManager.NavigateTo($"designer/{workflow.DefinitionId}");
             };
         }
     }
