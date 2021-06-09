@@ -3,9 +3,9 @@
 <div class="@Activity.Class">
     <Row Align="middle">
         <Col Flex=@("none")>
-            <div class="designer-activity-icon-container">
-                <Icon Type="@Activity.Descriptor.Icon" Theme="outline" />
-            </div>
+        <div class="designer-activity-icon-container">
+            <Icon Type="@Activity.Descriptor.Icon" Theme="outline" />
+        </div>
         </Col>
 
         <Col Flex=@("auto")>
@@ -14,8 +14,42 @@
 
         <Col Class="designer-activity-options">
             <div class="designer-activity-icon-container">
-                <Icon Type="more" Theme="outline" />
+                <Dropdown Placement="@PlacementType.Left" Trigger="@(new TriggerType[] { TriggerType.Click })">
+                    <Overlay>
+                        <Menu>
+                            <MenuItem Icon="edit">
+                                Edit
+                            </MenuItem>
+                            <MenuItem Icon="delete">
+                                Delete
+                            </MenuItem>
+                        </Menu>
+                    </Overlay>
+                    <ChildContent>
+                        <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
+                            <Icon Type="more" Theme="outline" />
+                        </a>
+                    </ChildContent>
+                </Dropdown>
             </div>
         </Col>
     </Row>
 </div>
+
+@code
+{
+    private RenderFragment _content =
+    @<div>
+        <Space Direction="DirectionVHType.Vertical">
+            <SpaceItem>
+                <Icon Type="edit" Theme="outline" /><a href="#" class="options-menu-text">Edit</a>
+            </SpaceItem>
+        </Space>
+    </div>;
+}
+
+<style>
+    .options-menu-text {
+        margin-left: 10px;
+    }
+</style>
