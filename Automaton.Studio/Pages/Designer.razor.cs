@@ -45,6 +45,8 @@ namespace Automaton.Studio.Pages
 
         #region Private Methods
 
+        #region Event Handlers
+
         /// <summary>
         /// Occurs when an activity is dragged
         /// </summary>
@@ -80,7 +82,7 @@ namespace Automaton.Studio.Pages
             // When activity was already created don't display create dialog when OnDrop event occurs
             if (activity.PendingCreation)
             {
-                await ShowActivityDialog(activity);
+                await NewActivityDialog(activity);
             }
         }
 
@@ -97,29 +99,10 @@ namespace Automaton.Studio.Pages
             activity.Select();
         }
 
-        /// <summary>
-        /// Unselect all selected activities
-        /// </summary>
-        private void UnselectActivities()
-        {
-            var selectedActivities = DesignerViewModel.StudioWorkflow.Activities.Where(x => x.IsSelected());
+        #endregion
 
-            if (selectedActivities != null)
-            {
-                foreach (var selectedActivity in selectedActivities)
-                {
-                    selectedActivity.Unselect();
-                }
-            }
-        }
 
-        /// <summary>
-        /// Save workflow
-        /// </summary>
-        private async Task SaveWorkflow()
-        {
-            await DesignerViewModel.SaveWorkflow();
-        }
+        #region Workflow Actions
 
         /// <summary>
         /// Run workflow
@@ -131,10 +114,20 @@ namespace Automaton.Studio.Pages
         }
 
         /// <summary>
-        /// Display activity dialog
+        /// Save workflow
+        /// </summary>
+        private async Task SaveWorkflow()
+        {
+            await DesignerViewModel.SaveWorkflow();
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Display new activity dialog
         /// </summary>
         /// <param name="activity"></param>
-        private async Task ShowActivityDialog(StudioActivity activity)
+        private async Task NewActivityDialog(StudioActivity activity)
         {
             var modalConfig = new ModalOptions
             {
@@ -173,6 +166,22 @@ namespace Automaton.Studio.Pages
 
                 return Task.CompletedTask;
             };
+        }
+
+        /// <summary>
+        /// Unselect all selected activities
+        /// </summary>
+        private void UnselectActivities()
+        {
+            var selectedActivities = DesignerViewModel.StudioWorkflow.Activities.Where(x => x.IsSelected());
+
+            if (selectedActivities != null)
+            {
+                foreach (var selectedActivity in selectedActivities)
+                {
+                    selectedActivity.Unselect();
+                }
+            }
         }
 
         #endregion

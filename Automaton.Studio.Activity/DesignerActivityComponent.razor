@@ -17,7 +17,7 @@
                 <Dropdown Placement="@PlacementType.Left" Trigger="@(new TriggerType[] { TriggerType.Click })">
                     <Overlay>
                         <Menu>
-                            <MenuItem Icon="edit">
+                            <MenuItem Icon="edit" OnClick="@(() => OnEdit(Activity))">
                                 Edit
                             </MenuItem>
                             <MenuItem Icon="delete">
