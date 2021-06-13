@@ -46,6 +46,11 @@ namespace Automaton.Studio.Activity
         public ActivityDescriptor Descriptor { get; set; }
 
         /// <summary>
+        /// The StudioWorkflow activity is part of
+        /// </summary>
+        public StudioWorkflow StudioWorkflow { get; set; }
+
+        /// <summary>
         /// Specifies if the activity is pending creation
         /// </summary>
         public bool PendingCreation { get; set; }
@@ -81,6 +86,11 @@ namespace Automaton.Studio.Activity
         public bool IsSelected()
         {
             return Class == SelectedActivityClass;
+        }
+
+        public void Finalize(StudioWorkflow studioWorkflow)
+        {
+            PendingCreation = false;
         }
 
         #endregion

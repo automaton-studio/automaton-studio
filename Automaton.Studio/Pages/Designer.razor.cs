@@ -1,6 +1,5 @@
 ﻿using AntDesign;
 using Automaton.Studio.Activity;
-using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
@@ -38,7 +37,10 @@ namespace Automaton.Studio.Pages
             await base.OnInitializedAsync();
 
             await DesignerViewModel.Initialize(WorkflowId);
+
             DesignerViewModel.DragActivity += OnDragActivity;
+            DesignerViewModel.StudioWorkflow.ActivityAdded += OnActivityAdded;
+            DesignerViewModel.StudioWorkflow.ActivityRemoved += OnActivityRemoved;
         }
 
         #endregion
@@ -52,7 +54,7 @@ namespace Automaton.Studio.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnDragActivity(object? sender, DragActivityEventArgs e)
+        private void OnDragActivity(object? sender, ActivityEventArgs e)
         {
             dropzone.ActiveItem = e.Activity;
 
@@ -61,16 +63,6 @@ namespace Automaton.Studio.Pages
 
             // Select the activity being dragged
             dropzone.ActiveItem.Select();
-        }
-
-        /// <summary>
-        /// Occurs when a new activity is dropped on designer
-        /// </summary>
-        /// <param name="activity">Activity dropped on designer</param>
-        private async Task OnDropzoneMouseDown()
-        {
-            // Unselect all the previous selected activities
-            UnselectActivities();
         }
 
         /// <summary>
@@ -97,6 +89,32 @@ namespace Automaton.Studio.Pages
 
             // Select the one under the mouse cursor
             activity.Select();
+        }
+
+        /// <summary>
+        /// Occurs when a new activity is dropped on designer
+        /// </summary>
+        /// <param name="activity">Activity dropped on designer</param>
+        private async Task OnDropzoneMouseDown()
+        {
+            // Unselect all the previous selected activities
+            UnselectActivities();
+        }
+
+        /// <summary>
+        /// Occurs when an activity is added to the workflow
+        /// </summary>
+        private void OnActivityAdded(object? sender, ActivityEventArgs e)
+        {
+            StateHasChanged();
+        }
+
+        /// <summary>
+        /// Occurs when an activity is removed from the workflow
+        /// </summary>
+        private void OnActivityRemoved(object? sender, ActivityEventArgs e)
+        {
+            StateHasChanged();
         }
 
         #endregion
@@ -146,7 +164,7 @@ namespace Automaton.Studio.Pages
             result.OnOk = () => {
 
                 // The activity was created and it's final
-                activity.PendingCreation = false;
+                activity.Finalize(DesignerViewModel.StudioWorkflow);
 
                 // TODO! It may be inneficient to update the state of the entire Designer control.
                 // A better alternative would be to update the state of the activity being updated.

@@ -1,4 +1,4 @@
-﻿using Automaton.Studio.Events;
+﻿using Automaton.Studio.Activity;
 using Automaton.Studio.Models;
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ namespace Automaton.Studio.ViewModels
 
         #region Events
 
-        event EventHandler<DragActivityEventArgs> DragActivity;
+        event EventHandler<ActivityEventArgs> DragActivity;
 
         #endregion
 

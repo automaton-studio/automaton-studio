@@ -19,6 +19,9 @@ namespace Automaton.Studio.Activity
         [Parameter] 
         public RenderFragment ChildContent { get; set; }
 
+        /// <summary>
+        /// AntDesign modal service
+        /// </summary>
         [Inject] 
         ModalService ModalService { get; set; } = default!;
 
@@ -34,9 +37,12 @@ namespace Automaton.Studio.Activity
             await EditActivityDialog(activity);
         }
 
-        #endregion
+        private void OnDelete(StudioActivity activity)
+        {
+            activity.StudioWorkflow.RemoveActivity(activity);
+        }
 
-        #region Activity Actions
+        #endregion
 
         /// <summary>
         /// Display new activity dialog
@@ -67,7 +73,5 @@ namespace Automaton.Studio.Activity
                 return Task.CompletedTask;
             };
         }
-
-        #endregion
     }
 }

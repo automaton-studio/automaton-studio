@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Automaton.Studio.Events;
+using Automaton.Studio.Activity;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services;
@@ -70,7 +70,7 @@ namespace Automaton.Studio.ViewModels
 
         #region Events
 
-        public event EventHandler<DragActivityEventArgs> DragActivity;
+        public event EventHandler<ActivityEventArgs> DragActivity;
 
         #endregion
 
@@ -105,11 +105,12 @@ namespace Automaton.Studio.ViewModels
         public void DragTreeActivity(TreeActivity treeActivity)
         {
             var studioActivity = activityFactory.GetStudioActivity(treeActivity.Name);
+            studioActivity.StudioWorkflow = StudioWorkflow;
             studioActivity.PendingCreation = true;
 
             mapper.Map(treeActivity, studioActivity);
 
-            DragActivity?.Invoke(this, new DragActivityEventArgs(studioActivity)); 
+            DragActivity?.Invoke(this, new ActivityEventArgs(studioActivity)); 
         }
 
         /// <summary>
@@ -146,7 +147,7 @@ namespace Automaton.Studio.ViewModels
             foreach (var activityDefinition in ElsaWorkflow.Activities)
             {
                 var studioActivity = activityFactory.GetStudioActivity(activityDefinition);
-                StudioWorkflow.Activities.Add(studioActivity);
+                StudioWorkflow.AddActivity(studioActivity);
             }
         }
 

@@ -1,15 +1,14 @@
-﻿using Automaton.Studio.Activity;
-using Elsa.Models;
+﻿using Elsa.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Automaton.Studio.Models
+namespace Automaton.Studio.Activity
 {
     public class StudioWorkflow : INotifyPropertyChanged
     {
-        #region Elsa properties
+        #region Elsa Properties
 
         // Observation:
         // Replaced Elsa Activities with own Studio Activities
@@ -42,12 +41,19 @@ namespace Automaton.Studio.Models
         {
             get => activities;
 
-            set
+            private set
             {
                 activities = value;
                 OnPropertyChanged();
             }
         }
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler<ActivityEventArgs> ActivityAdded;
+        public event EventHandler<ActivityEventArgs> ActivityRemoved;
 
         #endregion
 
@@ -57,6 +63,36 @@ namespace Automaton.Studio.Models
             DisplayName = "Untitled";
             Version = 1;
         }
+
+        #region Public Methods
+
+        /// <summary>
+        /// Add activity to workflow
+        /// </summary>
+        /// <param name="activity">Activity to be added to workflow</param>
+        public void AddActivity(StudioActivity activity)
+        {
+            activity.StudioWorkflow = this;
+
+            Activities.Add(activity);
+
+            ActivityAdded?.Invoke(this, new ActivityEventArgs(activity));
+        }
+
+        /// <summary>
+        /// Remove activity from workflow
+        /// </summary>
+        /// <param name="activity">Activity to be removed from workflow</param>
+        public bool RemoveActivity(StudioActivity activity)
+        {
+            var result = Activities.Remove(activity);
+
+            ActivityRemoved?.Invoke(this, new ActivityEventArgs(activity));
+
+            return result;
+        }
+
+        #endregion
 
         #region INotifyPropertyChanged
 
