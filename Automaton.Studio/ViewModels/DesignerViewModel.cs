@@ -31,7 +31,7 @@ namespace Automaton.Studio.ViewModels
         public WorkflowDefinition ElsaWorkflow { get; set; }
 
         private StudioWorkflow studioWorkflow = new();
-        public StudioWorkflow StudioWorkflow
+        public StudioWorkflow StudioWorkflow 
         {
             get => studioWorkflow;
 
@@ -86,18 +86,8 @@ namespace Automaton.Studio.ViewModels
             this.activityFactory = activityFactory;
             this.runnerService = runnerService;
             this.workflowDefinitionStore = workflowDefinitionStore;
-        }
 
-        public async Task Initialize(string workflowId)
-        {
-            // Initialize runners
             Runners = mapper.Map<IQueryable<Runner>, IEnumerable<WorkflowRunner>>(runnerService.List());
-
-            // Load workflow
-            if (!string.IsNullOrEmpty(workflowId))
-            {
-                await LoadWorkflow(workflowId);
-            }
         }
 
         #region Public Methods
@@ -105,12 +95,37 @@ namespace Automaton.Studio.ViewModels
         public void DragTreeActivity(TreeActivity treeActivity)
         {
             var studioActivity = activityFactory.GetStudioActivity(treeActivity.Name);
-            studioActivity.StudioWorkflow = StudioWorkflow;
-            studioActivity.PendingCreation = true;
+
+            studioWorkflow.DropActivity(studioActivity);
 
             mapper.Map(treeActivity, studioActivity);
 
             DragActivity?.Invoke(this, new ActivityEventArgs(studioActivity)); 
+        }
+
+        public void FinalizeActivity(StudioActivity activity)
+        {
+            StudioWorkflow.FinalizeActivity(activity);
+        }
+
+        /// <summary>
+        /// Load workflow
+        /// </summary>
+        /// <param name="workflowId">Workflow identifier</param>
+        public async Task LoadWorkflow(string workflowId)
+        {
+            // Find Elsa workflow based on workflow id
+            ElsaWorkflow = await workflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification(workflowId));
+
+            // Map Elsa to Studio workflow
+            StudioWorkflow = mapper.Map<WorkflowDefinition, StudioWorkflow>(ElsaWorkflow);
+
+            // We can't just map Elsa to Studio activities because of their different type 
+            foreach (var activityDefinition in ElsaWorkflow.Activities)
+            {
+                var studioActivity = activityFactory.GetStudioActivity(activityDefinition);
+                StudioWorkflow.AddActivity(studioActivity);
+            }
         }
 
         /// <summary>
@@ -130,25 +145,6 @@ namespace Automaton.Studio.ViewModels
         public async Task RunWorkflow()
         {
             await runnerService.RunWorkflow(StudioWorkflow.DefinitionId, RunnerIds);
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        private async Task LoadWorkflow(string workflowId)
-        {
-            // Find Elsa workflow based on workflow id
-            ElsaWorkflow = await workflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification(workflowId));
-            // Map Elsa to Studio workflow
-            StudioWorkflow = mapper.Map<WorkflowDefinition, StudioWorkflow>(ElsaWorkflow);
-
-            // We can't just map Elsa to Studio activities because of their different type 
-            foreach (var activityDefinition in ElsaWorkflow.Activities)
-            {
-                var studioActivity = activityFactory.GetStudioActivity(activityDefinition);
-                StudioWorkflow.AddActivity(studioActivity);
-            }
         }
 
         #endregion

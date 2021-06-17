@@ -19,14 +19,18 @@ namespace Automaton.Studio.Pages
 
         #region DI
 
-        [Inject] ModalService ModalService { get; set; } = default!;
-        [Inject] private IDesignerViewModel DesignerViewModel { get; set; } = default!;
+        [Inject] 
+        private ModalService ModalService { get; set; } = default!;
+
+        [Inject] 
+        private IDesignerViewModel DesignerViewModel { get; set; } = default!;
 
         #endregion
 
         #region Params
 
-        [Parameter] public string WorkflowId { get; set; }
+        [Parameter] 
+        public string WorkflowId { get; set; }
 
         #endregion
 
@@ -36,11 +40,14 @@ namespace Automaton.Studio.Pages
         {
             await base.OnInitializedAsync();
 
-            await DesignerViewModel.Initialize(WorkflowId);
-
             DesignerViewModel.DragActivity += OnDragActivity;
             DesignerViewModel.StudioWorkflow.ActivityAdded += OnActivityAdded;
             DesignerViewModel.StudioWorkflow.ActivityRemoved += OnActivityRemoved;
+
+            if (!string.IsNullOrEmpty(WorkflowId))
+            {
+                await DesignerViewModel.LoadWorkflow(WorkflowId);
+            }
         }
 
         #endregion
@@ -163,8 +170,7 @@ namespace Automaton.Studio.Pages
 
             result.OnOk = () => {
 
-                // The activity was created and it's final
-                activity.Finalize(DesignerViewModel.StudioWorkflow);
+                DesignerViewModel.FinalizeActivity(activity);
 
                 // TODO! It may be inneficient to update the state of the entire Designer control.
                 // A better alternative would be to update the state of the activity being updated.

@@ -62,9 +62,16 @@ namespace Automaton.Studio.Activity
             Name = "Untitled";
             DisplayName = "Untitled";
             Version = 1;
+            Connections = new List<ConnectionDefinition>();
         }
 
         #region Public Methods
+
+        public void DropActivity(StudioActivity activity)
+        {
+            activity.StudioWorkflow = this;
+            activity.PendingCreation = true;
+        }
 
         /// <summary>
         /// Add activity to workflow
@@ -75,6 +82,14 @@ namespace Automaton.Studio.Activity
             activity.StudioWorkflow = this;
 
             Activities.Add(activity);
+
+            ActivityAdded?.Invoke(this, new ActivityEventArgs(activity));
+        }
+
+        public void FinalizeActivity(StudioActivity activity)
+        {
+            // The activity was created and it's final
+            activity.Finalize(this);
 
             ActivityAdded?.Invoke(this, new ActivityEventArgs(activity));
         }
