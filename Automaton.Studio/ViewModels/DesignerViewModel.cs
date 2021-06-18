@@ -71,6 +71,8 @@ namespace Automaton.Studio.ViewModels
         #region Events
 
         public event EventHandler<ActivityEventArgs> DragActivity;
+        public event EventHandler<ActivityEventArgs> ActivityAdded;
+        public event EventHandler<ActivityEventArgs> ActivityRemoved;
 
         #endregion
 
@@ -106,6 +108,13 @@ namespace Automaton.Studio.ViewModels
         public void FinalizeActivity(StudioActivity activity)
         {
             StudioWorkflow.FinalizeActivity(activity);
+            ActivityAdded?.Invoke(this, new ActivityEventArgs(activity));
+        }
+
+        public void AddActivity(StudioActivity activity)
+        {
+            StudioWorkflow.AddActivity(activity);
+            ActivityAdded?.Invoke(this, new ActivityEventArgs(activity));
         }
 
         /// <summary>

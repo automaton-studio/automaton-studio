@@ -41,8 +41,8 @@ namespace Automaton.Studio.Pages
             await base.OnInitializedAsync();
 
             DesignerViewModel.DragActivity += OnDragActivity;
-            DesignerViewModel.StudioWorkflow.ActivityAdded += OnActivityAdded;
-            DesignerViewModel.StudioWorkflow.ActivityRemoved += OnActivityRemoved;
+            DesignerViewModel.ActivityAdded += OnActivityAdded;
+            DesignerViewModel.ActivityRemoved += OnActivityRemoved;
 
             if (!string.IsNullOrEmpty(WorkflowId))
             {
@@ -125,7 +125,6 @@ namespace Automaton.Studio.Pages
         }
 
         #endregion
-
 
         #region Workflow Actions
 

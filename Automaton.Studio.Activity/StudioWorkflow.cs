@@ -50,13 +50,6 @@ namespace Automaton.Studio.Activity
 
         #endregion
 
-        #region Events
-
-        public event EventHandler<ActivityEventArgs> ActivityAdded;
-        public event EventHandler<ActivityEventArgs> ActivityRemoved;
-
-        #endregion
-
         public StudioWorkflow()
         {
             Name = "Untitled";
@@ -82,16 +75,12 @@ namespace Automaton.Studio.Activity
             activity.StudioWorkflow = this;
 
             Activities.Add(activity);
-
-            ActivityAdded?.Invoke(this, new ActivityEventArgs(activity));
         }
 
         public void FinalizeActivity(StudioActivity activity)
         {
             // The activity was created and it's final
             activity.Finalize(this);
-
-            ActivityAdded?.Invoke(this, new ActivityEventArgs(activity));
         }
 
         /// <summary>
@@ -101,9 +90,6 @@ namespace Automaton.Studio.Activity
         public bool RemoveActivity(StudioActivity activity)
         {
             var result = Activities.Remove(activity);
-
-            ActivityRemoved?.Invoke(this, new ActivityEventArgs(activity));
-
             return result;
         }
 
