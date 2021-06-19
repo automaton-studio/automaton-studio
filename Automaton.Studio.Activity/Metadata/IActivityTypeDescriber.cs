@@ -4,6 +4,6 @@ namespace Automaton.Studio.Activity.Metadata
 {
     public interface IActivityTypeDescriber
     {
-        ActivityDescriptor? Describe(Type activityType);
+        ActivityDescriptor Describe(Type activityType);
     }
 }

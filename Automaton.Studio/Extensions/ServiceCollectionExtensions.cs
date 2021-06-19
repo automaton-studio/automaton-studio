@@ -11,7 +11,7 @@ namespace Automaton.Studio.Extensions
     {
         private const string ActivitiesAssemblyName = "Automaton.Studio.Activities";
 
-        public static IServiceCollection AddAutomaton(this IServiceCollection services, Action<AutomatonOptionsBuilder>? configure = default)
+        public static IServiceCollection AddAutomaton(this IServiceCollection services, Action<AutomatonOptionsBuilder> configure = default)
         {
             // Options
             var optionsBuilder = new AutomatonOptionsBuilder(services);

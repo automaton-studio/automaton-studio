@@ -21,7 +21,7 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        private IList<TreeActivity>? activities;
+        private IList<TreeActivity> activities;
         public IList<TreeActivity> TreeItems
         {
             get => activities;
@@ -85,9 +85,9 @@ namespace Automaton.Studio.ViewModels
 
         #region INotifyPropertyChanged
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

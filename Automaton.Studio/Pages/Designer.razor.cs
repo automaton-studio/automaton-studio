@@ -13,7 +13,7 @@ namespace Automaton.Studio.Pages
     {
         #region Members
 
-        private Dropzone<StudioActivity>? dropzone;
+        private Dropzone<StudioActivity> dropzone;
 
         #endregion
 
@@ -62,7 +62,7 @@ namespace Automaton.Studio.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnDragActivity(object? sender, ActivityEventArgs e)
+        private void OnDragActivity(object sender, ActivityEventArgs e)
         {
             dropzone.ActiveItem = e.Activity;
 
@@ -103,7 +103,7 @@ namespace Automaton.Studio.Pages
         /// Occurs when a new activity is dropped on designer
         /// </summary>
         /// <param name="activity">Activity dropped on designer</param>
-        private async Task OnDropzoneMouseDown()
+        private void OnDropzoneMouseDown()
         {
             // Unselect all the previous selected activities
             UnselectActivities();
@@ -112,7 +112,7 @@ namespace Automaton.Studio.Pages
         /// <summary>
         /// Occurs when an activity is added to the workflow
         /// </summary>
-        private void OnActivityAdded(object? sender, ActivityEventArgs e)
+        private void OnActivityAdded(object sender, ActivityEventArgs e)
         {
             StateHasChanged();
         }
@@ -120,7 +120,7 @@ namespace Automaton.Studio.Pages
         /// <summary>
         /// Occurs when an activity is removed from the workflow
         /// </summary>
-        private void OnActivityRemoved(object? sender, ActivityEventArgs e)
+        private void OnActivityRemoved(object sender, ActivityEventArgs e)
         {
             StateHasChanged();
         }

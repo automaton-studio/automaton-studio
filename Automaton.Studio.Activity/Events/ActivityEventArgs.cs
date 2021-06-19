@@ -9,6 +9,6 @@ namespace Automaton.Studio.Activity
             Activity = activity;
         }
 
-        public StudioActivity? Activity { get; set; }
+        public StudioActivity Activity { get; set; }
     }
 }

@@ -41,7 +41,7 @@ namespace Automaton.Studio.Factories
 
         private IEnumerable<Type> GetActivityTypes() => automatonOptions.AutomatonActivities;
 
-        private ActivityDescriptor? CreateActivityDescriptor(Type activityType)
+        private ActivityDescriptor CreateActivityDescriptor(Type activityType)
         {
             var info = describesActivityType.Describe(activityType);
 

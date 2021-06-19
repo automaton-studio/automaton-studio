@@ -7,7 +7,7 @@ namespace Automaton.Studio.Activity.Metadata
 {
     public class ActivityTypeDescriber : IActivityTypeDescriber
     {
-        public ActivityDescriptor? Describe(Type automatonActivityType)
+        public ActivityDescriptor Describe(Type automatonActivityType)
         {
             var attribute = automatonActivityType.GetCustomAttribute<StudioActivityAttribute>(false);
 

@@ -2,6 +2,6 @@
 {
     public class RegisterDetails
     {
-        public string? RunnerName { get; set; }
+        public string RunnerName { get; set; }
     }
 }

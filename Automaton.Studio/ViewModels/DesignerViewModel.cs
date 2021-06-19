@@ -51,7 +51,7 @@ namespace Automaton.Studio.ViewModels
         /// <summary>
         /// List of all runners
         /// </summary>
-        private IEnumerable<WorkflowRunner>? runners;
+        private IEnumerable<WorkflowRunner> runners;
         public IEnumerable<WorkflowRunner> Runners
         {
             get => runners;
@@ -66,8 +66,8 @@ namespace Automaton.Studio.ViewModels
         /// <summary>
         /// Runners to execute Designer workflow
         /// </summary>
-        private IEnumerable<Guid>? selectedRunnerIds = new List<Guid>();
-        public IEnumerable<Guid>? SelectedRunnerIds
+        private IEnumerable<Guid> selectedRunnerIds = new List<Guid>();
+        public IEnumerable<Guid> SelectedRunnerIds
         {
             get => selectedRunnerIds;
 
@@ -180,9 +180,9 @@ namespace Automaton.Studio.ViewModels
 
         #region INotifyPropertyChanged
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

@@ -30,9 +30,9 @@ namespace Automaton.Studio.Activity
 
         public string ActivityId { get; set; }
         public string Type { get; set; }
-        public string? Name { get; set; }
-        public string? DisplayName { get; set; }
-        public string? Description { get; set; }
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public string Description { get; set; }
         public bool PersistWorkflow { get; set; }
         public bool LoadWorkflowContext { get; set; }
         public bool SaveWorkflowContext { get; set; }
@@ -58,7 +58,7 @@ namespace Automaton.Studio.Activity
         /// <summary>
         /// Activity designer class
         /// </summary>
-        public string? Class { get; set; }
+        public string Class { get; set; }
 
         #endregion
 
@@ -117,9 +117,9 @@ namespace Automaton.Studio.Activity
 
         #region INotifyPropertyChanged
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
@@ -128,7 +128,7 @@ namespace Automaton.Studio.Activity
 
         #region IEquatable
 
-        public bool Equals(StudioActivity? other)
+        public bool Equals(StudioActivity other)
         {
             return ActivityId == other.ActivityId;
         }

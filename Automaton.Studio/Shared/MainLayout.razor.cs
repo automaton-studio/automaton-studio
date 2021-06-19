@@ -13,7 +13,7 @@ namespace Automaton.Studio.Shared
         [Inject] private IMainLayoutViewModel MainLayoutViewModel { get; set; } = default!;
         [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
 
-        [CascadingParameter] protected Task<AuthenticationState>? AuthStat { get; set; }
+        [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
 
         protected async override Task OnInitializedAsync()
         {

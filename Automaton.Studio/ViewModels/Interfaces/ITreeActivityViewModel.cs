@@ -9,7 +9,7 @@ namespace Automaton.Studio.ViewModels
     {
         #region Events
 
-        event PropertyChangedEventHandler? PropertyChanged;
+        event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
 

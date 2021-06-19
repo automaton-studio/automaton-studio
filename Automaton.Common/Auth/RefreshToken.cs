@@ -5,9 +5,9 @@ namespace Automaton.Common.Auth
 {
     public class RefreshToken<TKey> where TKey : IEquatable<TKey>
     {
-        public TKey? Id { get; private set; }
-        public TKey? UserId { get; private set; }
-        public string? Token { get; private set; }
+        public TKey Id { get; private set; }
+        public TKey UserId { get; private set; }
+        public string Token { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime? RevokedAt { get; private set; }
         public bool Revoked => RevokedAt.HasValue;

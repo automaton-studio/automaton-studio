@@ -30,7 +30,7 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        private IEnumerable<WorkflowInfo>? workflows;
+        private IEnumerable<WorkflowInfo> workflows;
         public IEnumerable<WorkflowInfo> Workflows
         {
             get => workflows;
@@ -42,7 +42,7 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        private IEnumerable<WorkflowRunner>? runners;
+        private IEnumerable<WorkflowRunner> runners;
         public IEnumerable<WorkflowRunner> Runners
         {
             get => runners;
@@ -55,12 +55,6 @@ namespace Automaton.Studio.ViewModels
         }
 
         public WorkflowNew NewWorkflowDetails { get; set; } = new WorkflowNew();
-
-        #endregion
-
-        #region Events
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         #endregion
 
@@ -100,7 +94,7 @@ namespace Automaton.Studio.ViewModels
 
                 return workflowDefinition;
             }
-            catch (Exception ex)
+            catch
             {
                 await messageService.Error(Errors.NewWorkflowError);
                 throw;
@@ -116,9 +110,15 @@ namespace Automaton.Studio.ViewModels
             NewWorkflowDetails = new WorkflowNew();
         }
 
-        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
     }
 }

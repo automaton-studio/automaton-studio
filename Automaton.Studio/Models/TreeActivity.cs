@@ -7,12 +7,12 @@ namespace Automaton.Studio.Models
     {
         private const string DefaultIcon = "file";
 
-        public string? Name { get; set; }
-        public string? DisplayName { get; set; }
-        public string? Description { get; set; }
-        public string? Category { get; set; }
-        public string? Icon { get; set; } = DefaultIcon;
-        public List<TreeActivity>? Activities { get; set; }
+        public string Name { get; set; }
+        public string DisplayName { get; set; }
+        public string Description { get; set; }
+        public string Category { get; set; }
+        public string Icon { get; set; } = DefaultIcon;
+        public List<TreeActivity> Activities { get; set; }
 
         public TreeActivity()
         {
