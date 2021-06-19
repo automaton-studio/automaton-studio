@@ -5,40 +5,47 @@
 @using Plk.Blazor.DragDrop
 
 <Layout>
-    <Header Class="header">
-        <Row>
-            <Col Flex=@("none")>
-            <Space Class="actions-bar">
-                <SpaceItem>
-                    <Button Type="dashed" Icon="save" OnClick="SaveWorkflow">
-                        Save
-                    </Button>
-                </SpaceItem>
-                <SpaceItem>
-                    <Button Type="dashed" Icon="caret-right" OnClick="RunWorkflow">
-                        Run
-                    </Button>
-                </SpaceItem>
-                <SpaceItem>
-                    <Select Mode="multiple"
-                            @bind-Values="@DesignerViewModel.SelectedRunnerIds"
-                            Placeholder="Select runners..."
-                            TItemValue="Guid"
-                            TItem="Guid"
-                            Class="runners-select"
-                            AllowClear>
-                        <SelectOptions>
-                            @foreach (var item in @DesignerViewModel.Runners)
-                            {
-                                <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
-                            }
-                        </SelectOptions>
-                    </Select>
-                </SpaceItem>
-            </Space>
-            </Col>
 
-            @*<Col Class="right-actions">
+    <Layout Class="designer-container">
+        <Sider Theme="SiderTheme.Light" Class="tree-sidebar">
+            <ActivitiesTree></ActivitiesTree>
+        </Sider>
+
+        <Content Class="dropzone-container">
+            <Header Class="header">
+                <Row>
+                    <Col Flex=@("none")>
+                    <Space Class="actions-bar">
+                        <SpaceItem>
+                            <Button Type="dashed" Icon="save" OnClick="SaveWorkflow">
+                                Save
+                            </Button>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Button Type="dashed" Icon="caret-right" OnClick="RunWorkflow">
+                                Run
+                            </Button>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Select Mode="multiple"
+                                    @bind-Values="@DesignerViewModel.SelectedRunnerIds"
+                                    Placeholder="Select runners..."
+                                    TItemValue="Guid"
+                                    TItem="Guid"
+                                    Class="runners-select"
+                                    AllowClear>
+                                <SelectOptions>
+                                    @foreach (var item in @DesignerViewModel.Runners)
+                                    {
+                                        <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
+                                    }
+                                </SelectOptions>
+                            </Select>
+                        </SpaceItem>
+                    </Space>
+                    </Col>
+
+                    @*<Col Class="right-actions">
                     <Space Class="right-header-items">
                         <SpaceItem>
                             <Button Shape="link" Icon="question-circle" Class="action-button">
@@ -47,15 +54,9 @@
                         </SpaceItem>
                     </Space>
                 </Col>*@
-        </Row>
-    </Header>
+                </Row>
+            </Header>
 
-    <Layout Class="designer-container">
-        <Sider Theme="SiderTheme.Light" Class="tree-sidebar">
-            <ActivitiesTree></ActivitiesTree>
-        </Sider>
-
-        <Content Class="dropzone-container">
             <Dropzone Class="dropzone"
                       @ref="dropzone"
                       TItem="StudioActivity"
