@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.Configuration.Annotations;
 using Elsa.Models;
 using System;
 using System.Collections.Generic;

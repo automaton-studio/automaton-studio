@@ -28,8 +28,14 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
+        /// <summary>
+        /// Elsa workflow
+        /// </summary>
         public WorkflowDefinition ElsaWorkflow { get; set; }
 
+        /// <summary>
+        /// Studio workflow
+        /// </summary>
         private StudioWorkflow studioWorkflow = new();
         public StudioWorkflow StudioWorkflow 
         {
@@ -42,6 +48,9 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
+        /// <summary>
+        /// List of all runners
+        /// </summary>
         private IEnumerable<WorkflowRunner>? runners;
         public IEnumerable<WorkflowRunner> Runners
         {
@@ -54,14 +63,17 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        private IEnumerable<Guid>? runnerIds = new List<Guid>();
-        public IEnumerable<Guid>? RunnerIds
+        /// <summary>
+        /// Runners to execute Designer workflow
+        /// </summary>
+        private IEnumerable<Guid>? selectedRunnerIds = new List<Guid>();
+        public IEnumerable<Guid>? SelectedRunnerIds
         {
-            get => runnerIds;
+            get => selectedRunnerIds;
 
             set
             {
-                runnerIds = value;
+                selectedRunnerIds = value;
                 OnPropertyChanged();
             }
         }
@@ -92,6 +104,11 @@ namespace Automaton.Studio.ViewModels
 
         #region Public Methods
 
+        /// <summary>
+        /// Drag activity to the workflow.
+        /// Activity isn't final until confirmed by user from activity dialog
+        /// </summary>
+        /// <param name="treeActivity"></param>
         public void DragTreeActivity(TreeActivity treeActivity)
         {
             var studioActivity = activityFactory.GetStudioActivity(treeActivity.Name);
@@ -101,11 +118,19 @@ namespace Automaton.Studio.ViewModels
             DragActivity?.Invoke(this, new ActivityEventArgs(studioActivity)); 
         }
 
+        /// <summary>
+        /// Finalize pending activity
+        /// </summary>
+        /// <param name="activity"></param>
         public void FinalizeActivity(StudioActivity activity)
         {
             StudioWorkflow.FinalizeActivity(activity);
         }
 
+        /// <summary>
+        /// Adds activity to workflow
+        /// </summary>
+        /// <param name="activity"></param>
         public void AddActivity(StudioActivity activity)
         {
             StudioWorkflow.AddActivity(activity);
@@ -143,12 +168,12 @@ namespace Automaton.Studio.ViewModels
         }
 
         /// <summary>
-        /// Run workflow on specified runners
+        /// Run workflow on selected runners
         /// </summary>
         /// <param name="workflow"></param>
         public async Task RunWorkflow()
         {
-            await runnerService.RunWorkflow(StudioWorkflow.DefinitionId, RunnerIds);
+            await runnerService.RunWorkflow(StudioWorkflow.DefinitionId, SelectedRunnerIds);
         }
 
         #endregion

@@ -45,6 +45,7 @@ namespace Automaton.Studio.Pages
                 await DesignerViewModel.LoadWorkflow(WorkflowId);
             }
 
+            // Setup event handlers after workflow is loaded
             DesignerViewModel.DragActivity += OnDragActivity;
             DesignerViewModel.StudioWorkflow.ActivityAdded += OnActivityAdded;
             DesignerViewModel.StudioWorkflow.ActivityRemoved += OnActivityRemoved;
