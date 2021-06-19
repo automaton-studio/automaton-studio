@@ -40,8 +40,6 @@ namespace Automaton.Studio.Activity
         private void OnDelete(StudioActivity activity)
         {
             activity.StudioWorkflow.RemoveActivity(activity);
-            //ActivityRemoved?.Invoke(this, new ActivityEventArgs(activity));
-
         }
 
         #endregion

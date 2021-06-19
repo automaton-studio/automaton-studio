@@ -88,11 +88,6 @@ namespace Automaton.Studio.Activity
             return Class == SelectedActivityClass;
         }
 
-        public void Finalize(StudioWorkflow studioWorkflow)
-        {
-            PendingCreation = false;
-        }
-
         #endregion
 
         #region Protected Properties

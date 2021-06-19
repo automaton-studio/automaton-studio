@@ -16,8 +16,7 @@ namespace Automaton.Studio.Profiles
             CreateMap<WorkflowNew, WorkflowDefinition>();
             CreateMap<ActivityDefinition, StudioActivity>();
             CreateMap<StudioActivity, ActivityDefinition>();
-            CreateMap<WorkflowDefinition, StudioWorkflow>()
-                .ForMember(d => d.Activities, option => option.Ignore());
+            CreateMap<WorkflowDefinition, StudioWorkflow>();
             CreateMap<StudioWorkflow, WorkflowDefinition>();
             CreateMap<WorkflowDefinition, WorkflowInfo>();
         }

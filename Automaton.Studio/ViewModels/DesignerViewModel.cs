@@ -71,8 +71,6 @@ namespace Automaton.Studio.ViewModels
         #region Events
 
         public event EventHandler<ActivityEventArgs> DragActivity;
-        public event EventHandler<ActivityEventArgs> ActivityAdded;
-        public event EventHandler<ActivityEventArgs> ActivityRemoved;
 
         #endregion
 
@@ -98,9 +96,7 @@ namespace Automaton.Studio.ViewModels
         {
             var studioActivity = activityFactory.GetStudioActivity(treeActivity.Name);
 
-            studioWorkflow.DropActivity(studioActivity);
-
-            mapper.Map(treeActivity, studioActivity);
+            studioWorkflow.PendingActivity(studioActivity);
 
             DragActivity?.Invoke(this, new ActivityEventArgs(studioActivity)); 
         }
@@ -108,13 +104,11 @@ namespace Automaton.Studio.ViewModels
         public void FinalizeActivity(StudioActivity activity)
         {
             StudioWorkflow.FinalizeActivity(activity);
-            ActivityAdded?.Invoke(this, new ActivityEventArgs(activity));
         }
 
         public void AddActivity(StudioActivity activity)
         {
             StudioWorkflow.AddActivity(activity);
-            ActivityAdded?.Invoke(this, new ActivityEventArgs(activity));
         }
 
         /// <summary>
@@ -126,10 +120,10 @@ namespace Automaton.Studio.ViewModels
             // Find Elsa workflow based on workflow id
             ElsaWorkflow = await workflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification(workflowId));
 
-            // Map Elsa to Studio workflow
+            // Map Elsa to Studio
             StudioWorkflow = mapper.Map<WorkflowDefinition, StudioWorkflow>(ElsaWorkflow);
 
-            // We can't just map Elsa to Studio activities because of their different type 
+            // Elsa to Studio activities easily be mapped, so we are doing it here
             foreach (var activityDefinition in ElsaWorkflow.Activities)
             {
                 var studioActivity = activityFactory.GetStudioActivity(activityDefinition);
@@ -142,6 +136,7 @@ namespace Automaton.Studio.ViewModels
         /// </summary>
         public async Task SaveWorkflow()
         {
+            // Update ElsaWorkflow with details from StudioWorkflow
             mapper.Map(StudioWorkflow, ElsaWorkflow);
 
             await workflowDefinitionStore.SaveAsync(ElsaWorkflow);

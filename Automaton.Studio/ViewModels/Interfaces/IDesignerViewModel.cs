@@ -19,8 +19,6 @@ namespace Automaton.Studio.ViewModels
         #region Events
 
         event EventHandler<ActivityEventArgs> DragActivity;
-        event EventHandler<ActivityEventArgs> ActivityAdded;
-        event EventHandler<ActivityEventArgs> ActivityRemoved;
 
         #endregion
 

@@ -1,4 +1,6 @@
-﻿using Elsa.Models;
+﻿using AutoMapper;
+using AutoMapper.Configuration.Annotations;
+using Elsa.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -37,6 +39,8 @@ namespace Automaton.Studio.Activity
         #region Public Properties
 
         private IList<StudioActivity>? activities = new List<StudioActivity>();
+
+        [IgnoreMap]
         public IList<StudioActivity> Activities
         {
             get => activities;
@@ -50,6 +54,13 @@ namespace Automaton.Studio.Activity
 
         #endregion
 
+        #region Events
+
+        public event EventHandler<ActivityEventArgs> ActivityAdded;
+        public event EventHandler<ActivityEventArgs> ActivityRemoved;
+
+        #endregion
+
         public StudioWorkflow()
         {
             Name = "Untitled";
@@ -60,12 +71,6 @@ namespace Automaton.Studio.Activity
 
         #region Public Methods
 
-        public void DropActivity(StudioActivity activity)
-        {
-            activity.StudioWorkflow = this;
-            activity.PendingCreation = true;
-        }
-
         /// <summary>
         /// Add activity to workflow
         /// </summary>
@@ -75,12 +80,30 @@ namespace Automaton.Studio.Activity
             activity.StudioWorkflow = this;
 
             Activities.Add(activity);
+
+            ActivityAdded?.Invoke(this, new ActivityEventArgs(activity));
         }
 
+        /// <summary>
+        /// Activity is pending and not final yet
+        /// </summary>
+        /// <param name="activity"></param>
+        public void PendingActivity(StudioActivity activity)
+        {
+            activity.StudioWorkflow = this;
+            activity.PendingCreation = true;
+        }
+
+        /// <summary>
+        /// The activity was created and it's final
+        /// </summary>
+        /// <param name="activity"></param>
         public void FinalizeActivity(StudioActivity activity)
         {
-            // The activity was created and it's final
-            activity.Finalize(this);
+            activity.StudioWorkflow = this;
+            activity.PendingCreation = false;
+
+            ActivityAdded?.Invoke(this, new ActivityEventArgs(activity));
         }
 
         /// <summary>
@@ -90,6 +113,9 @@ namespace Automaton.Studio.Activity
         public bool RemoveActivity(StudioActivity activity)
         {
             var result = Activities.Remove(activity);
+
+            ActivityRemoved?.Invoke(this, new ActivityEventArgs(activity));
+
             return result;
         }
 
