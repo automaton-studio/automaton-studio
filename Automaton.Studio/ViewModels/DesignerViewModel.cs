@@ -37,7 +37,7 @@ namespace Automaton.Studio.ViewModels
         /// Studio workflow
         /// </summary>
         private StudioWorkflow studioWorkflow = new();
-        public StudioWorkflow StudioWorkflow 
+        public StudioWorkflow StudioWorkflow
         {
             get => studioWorkflow;
 
@@ -115,7 +115,7 @@ namespace Automaton.Studio.ViewModels
 
             studioWorkflow.PendingActivity(studioActivity);
 
-            DragActivity?.Invoke(this, new ActivityEventArgs(studioActivity)); 
+            DragActivity?.Invoke(this, new ActivityEventArgs(studioActivity));
         }
 
         /// <summary>
@@ -161,6 +161,8 @@ namespace Automaton.Studio.ViewModels
         /// </summary>
         public async Task SaveWorkflow()
         {
+            ElsaWorkflow ??= new WorkflowDefinition();
+
             // Update ElsaWorkflow with details from StudioWorkflow
             mapper.Map(StudioWorkflow, ElsaWorkflow);
 

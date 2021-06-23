@@ -17,6 +17,7 @@ namespace Automaton.Studio.Activity
 
         private const string ActivityClass = "designer-activity";
         private const string SelectedActivityClass = "designer-activity-selected";
+        private const string DisabledActivityClass = "designer-activity-disabled";
 
         #endregion
 
