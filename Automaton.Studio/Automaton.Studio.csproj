@@ -8,10 +8,10 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Blazored.FluentValidation" Version="2.0.0" />
-    <PackageReference Include="Elsa.Activities.Console" Version="2.0.0.159" />
-    <PackageReference Include="Elsa.Persistence.EntityFramework.Core" Version="2.0.0.159" />
-    <PackageReference Include="Elsa.Persistence.EntityFramework.SqlServer" Version="2.0.0.159" />
-    <PackageReference Include="Elsa.Server.Api" Version="2.0.0.159" />
+    <PackageReference Include="Elsa.Activities.Console" Version="2.1.0-preview.317" />
+    <PackageReference Include="Elsa.Persistence.EntityFramework.Core" Version="2.1.0-preview.317" />
+    <PackageReference Include="Elsa.Persistence.EntityFramework.SqlServer" Version="2.1.0-preview.317" />
+    <PackageReference Include="Elsa.Server.Api" Version="2.1.0-preview.317" />
     <PackageReference Include="ElsaDashboard.Backend" Version="2.0.0.159" />
     <PackageReference Include="FluentValidation" Version="10.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.5" />
