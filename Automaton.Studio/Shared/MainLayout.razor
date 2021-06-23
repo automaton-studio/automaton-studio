@@ -1,6 +1,5 @@
 ﻿@inherits LayoutComponentBase
 @using Microsoft.AspNetCore.Components
-@using Automaton.Studio.Components
 
 <Layout Class="layout">
 
@@ -22,10 +21,7 @@
                     Designer
                 </MenuLink>
             </MenuItem>
-            <MenuItem Key="4" Icon="question-circle" Class="menu-link">
-                Help
-            </MenuItem>
-            <MenuItem Key="5" Icon="logout" OnClick="@(() => Logout())">
+            <MenuItem Key="4" Icon="logout" OnClick="@(() => Logout())">
                 Logout
             </MenuItem>
         </Menu>

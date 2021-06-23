@@ -9,9 +9,12 @@ namespace Automaton.Studio.Shared
 {
     partial class MainLayout
     {
-        [Inject] private NavigationManager NavigationManager { get; set; } = default!;
-        [Inject] private IMainLayoutViewModel MainLayoutViewModel { get; set; } = default!;
-        [Inject] private IJSRuntime JSRuntime { get; set; } = default!;
+        [Inject] 
+        private NavigationManager NavigationManager { get; set; } = default!;
+        [Inject] 
+        private IMainLayoutViewModel MainLayoutViewModel { get; set; } = default!;
+        [Inject] 
+        private IJSRuntime JSRuntime { get; set; } = default!;
 
         [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
 
