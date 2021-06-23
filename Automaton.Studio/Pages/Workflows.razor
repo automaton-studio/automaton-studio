@@ -21,7 +21,7 @@ else
         </Header>
 
         <Content>
-            <Table TItem="WorkflowInfo" DataSource="@WorkflowsViewModel.Workflows">
+            <Table TItem="WorkflowInfo" @ref="workflowsTable" DataSource="@WorkflowsViewModel.Workflows">
                 <Column Title="Workflow" @bind-Field="@context.Name">
                     @context.Name
                 </Column>
@@ -51,18 +51,28 @@ else
                 </Column>
 
                 <ActionColumn Title="Action">
-                    <Space>
-                        <SpaceItem>
-                            <Button Type="dashed" Icon="caret-right" @onclick="@(() => RunWorkflow(context))">
-                                Run
-                            </Button>
-                        </SpaceItem>
-                        <SpaceItem>
-                            <Button Type="dashed" Icon="edit" @onclick="@(() => EditWorkflow(context))">
-                                Edit
-                            </Button>
-                        </SpaceItem>
-                    </Space>
+                    <div class="designer-activity-icon-container">
+                        <Dropdown Placement="@PlacementType.Left" Trigger="@(new TriggerType[] { TriggerType.Click })">
+                            <Overlay>
+                                <Menu>
+                                    <MenuItem Icon="caret-right" OnClick="@(() => RunWorkflow(context))">
+                                        Run
+                                    </MenuItem>
+                                    <MenuItem Icon="edit" OnClick="@(() => EditWorkflow(context))">
+                                        Edit
+                                    </MenuItem>
+                                    <MenuItem Icon="delete" OnClick="@(() => DeleteWorkflow(context))">
+                                        Delete
+                                    </MenuItem>
+                                </Menu>
+                            </Overlay>
+                            <ChildContent>
+                                <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
+                                    <Icon Type="more" Theme="outline" />
+                                </a>
+                            </ChildContent>
+                        </Dropdown>
+                    </div>
                 </ActionColumn>
 
             </Table>

@@ -4,9 +4,11 @@ using Automaton.Studio.Hubs;
 using Automaton.Studio.Models;
 using Automaton.Studio.Resources;
 using Automaton.Studio.Services;
+using Automaton.Studio.Specifications;
 using Elsa.Models;
 using Elsa.Persistence;
 using Elsa.Persistence.Specifications;
+using Elsa.Persistence.Specifications.WorkflowDefinitions;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -30,8 +32,8 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        private IEnumerable<WorkflowInfo> workflows;
-        public IEnumerable<WorkflowInfo> Workflows
+        private IList<WorkflowInfo> workflows;
+        public IList<WorkflowInfo> Workflows
         {
             get => workflows;
 
@@ -75,13 +77,8 @@ namespace Automaton.Studio.ViewModels
         public async Task Initialize()
         {
             var workflowDefinitions = await workflowDefinitionStore.FindManyAsync(Specification<WorkflowDefinition>.Identity);
-            Workflows = mapper.Map<IEnumerable<WorkflowDefinition>, IEnumerable<WorkflowInfo>>(workflowDefinitions);     
+            Workflows = mapper.Map<IEnumerable<WorkflowDefinition>, IList<WorkflowInfo>>(workflowDefinitions);     
             Runners = mapper.Map<IQueryable<Runner>, IEnumerable<WorkflowRunner>>(runnerService.List());
-        }
-
-        public async Task RunWorkflow(WorkflowInfo workflow)
-        {
-            await runnerService.RunWorkflow(workflow.DefinitionId, workflow.RunnerIds);
         }
 
         public async Task<WorkflowDefinition> NewWorkflow()
@@ -103,6 +100,22 @@ namespace Automaton.Studio.ViewModels
             {
                 ClearNewWorkflowDetails();
             }
+        }
+
+        public async Task DeleteWorkflow(WorkflowInfo workflow)
+        {
+            // Delete Elsa workflow
+            var workflowDefinition = await workflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification(workflow.DefinitionId));
+            await workflowDefinitionStore.DeleteAsync(workflowDefinition);
+
+            // Delete Studio workflow
+            var studioWorkflow = Workflows.SingleOrDefault(x => x.DefinitionId == workflow.DefinitionId);
+            Workflows.Remove(studioWorkflow);
+        }
+
+        public async Task RunWorkflow(WorkflowInfo workflow)
+        {
+            await runnerService.RunWorkflow(workflow.DefinitionId, workflow.RunnerIds);
         }
 
         private void ClearNewWorkflowDetails()

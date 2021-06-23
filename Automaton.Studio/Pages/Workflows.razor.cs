@@ -10,9 +10,14 @@ namespace Automaton.Studio.Pages
 {
     partial class Workflows : ComponentBase
     {
-        [Inject] private NavigationManager NavigationManager { get; set; } = default!;
-        [Inject] private IWorkflowsViewModel WorkflowsViewModel { get; set; } = default!;
-        [Inject] ModalService ModalService { get; set; } = default!;
+        [Inject] 
+        private NavigationManager NavigationManager { get; set; } = default!;
+        [Inject] 
+        private IWorkflowsViewModel WorkflowsViewModel { get; set; } = default!;
+        [Inject] 
+        ModalService ModalService { get; set; } = default!;
+
+        private Table<WorkflowInfo> workflowsTable;
 
         protected override async Task OnInitializedAsync()
         {
@@ -29,6 +34,12 @@ namespace Automaton.Studio.Pages
         private void EditWorkflow(WorkflowInfo workflow)
         {
             NavigationManager.NavigateTo($"designer/{workflow.DefinitionId}");
+        }
+
+        private async Task DeleteWorkflow(WorkflowInfo workflow)
+        {
+            await WorkflowsViewModel.DeleteWorkflow(workflow);
+            //StateHasChanged();
         }
 
         private async Task ShowNewWorkflowDialog()
