@@ -3,7 +3,8 @@
 <Layout>
     <Header Class="header">
         <Row>
-            <Col Flex=@("none")>
+            <Col Flex=@("none") Class="page-title">
+                <h3>Dashboard</h3>
             </Col>
             <Col Class="right-actions">
             <Space Class="right-header-items">
@@ -15,11 +16,36 @@
     </Header>
 
     <Layout>
-        <Content>
-            Welcome to the dashboard.
+        <Content Class="dashboard-content">
+            <Space Size=@("middle")>
+                <SpaceItem>
+                    <Card Bordered="false" Title=@("Workflows") Style="width: 200px">
+                        <Body>
+                            <p><b>Active:</b> 5</p>
+                            <p><b>Disabled:</b> 2</p>
+                        </Body>
+                    </Card>
+                </SpaceItem>
+                <SpaceItem>
+                    <Card Bordered="false" Title=@("Runners") Style="width: 200px">
+                        <Body>
+                            <p><b>Active:</b> 2</p>
+                            <p><b>Disabled:</b> 1</p>
+                        </Body>
+                    </Card>
+                </SpaceItem>
+            </Space>
+               
+            
         </Content>
     </Layout>
 </Layout>
+
+<style>
+    .dashboard-content {
+        padding: 0 10px 10px 10px;
+    }
+</style>
 
 
 

@@ -2,27 +2,29 @@
 @using Automaton.Studio.Models
 @using AntDesign
 
-@if (@WorkflowsViewModel.Workflows == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
 <div>
     <Layout>
         <Header Class="header">
-            <Space Class="actions-bar">
-                <SpaceItem>
-                    <Button Type="dashed" Icon="plus" @onclick="@(() => ShowNewWorkflowDialog())">
-                        New
-                    </Button>
-                </SpaceItem>
-            </Space>
+            <Row>
+                <Col Flex=@("none") Class="page-title">
+                    <h3>Workflows</h3>
+                </Col>
+                <Col Class="right-actions">
+                <Space Class="right-header-items">
+                    <SpaceItem>
+                        <Button Type="dashed" Icon="plus" @onclick="@(() => ShowNewWorkflowDialog())">
+                            New
+                        </Button>
+                    </SpaceItem>
+                </Space>
+                </Col>
+            </Row>
+
         </Header>
 
         <Content>
             <Table TItem="WorkflowInfo" @ref="workflowsTable" DataSource="@WorkflowsViewModel.Workflows">
-                <Column Title="Workflow" @bind-Field="@context.Name">
+                <Column Title="Name" @bind-Field="@context.Name">
                     @context.Name
                 </Column>
                 <Column @bind-Field="@context.Description"></Column>
@@ -79,7 +81,9 @@ else
         </Content>
     </Layout>
 </div>
-}
+
+<style>
+</style>
 
 
 
