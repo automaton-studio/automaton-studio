@@ -7,7 +7,7 @@
 <Layout>
 
     <Layout Class="designer-container">
-        <Sider Theme="SiderTheme.Light" Class="tree-sidebar">
+        <Sider Theme="SiderTheme.Light">
             <ActivitiesTree></ActivitiesTree>
         </Sider>
 
@@ -42,18 +42,19 @@
                                 </SelectOptions>
                             </Select>
                         </SpaceItem>
+                        <SpaceItem>
+                            <Button Shape="circle" Type="dashed" Icon="setting" Class="action-button"></Button>
+                        </SpaceItem>
                     </Space>
                     </Col>
 
                     @*<Col Class="right-actions">
-                    <Space Class="right-header-items">
-                        <SpaceItem>
-                            <Button Shape="link" Icon="question-circle" Class="action-button">
-                                <span class="action-label">Help</span>
-                            </Button>
-                        </SpaceItem>
-                    </Space>
-                </Col>*@
+                        <Space Class="right-header-items">
+                            <SpaceItem>
+                                <Button Shape="circle" Type="dashed" Icon="setting" Class="action-button"></Button>
+                            </SpaceItem>
+                        </Space>
+                    </Col>*@
                 </Row>
             </Header>
 
@@ -68,6 +69,28 @@
                 <StudioActivityComponent Activity="@context" />
             </Dropzone>
         </Content>
+
+        <Sider Theme=SiderTheme.Light Collapsed=true Class="right-sider">
+            <Menu Mode=MenuMode.Inline
+                  Theme=MenuTheme.Light Selectable=true Class="right-sider" DefaultSelectedKeys=@(new[]{"1"})>
+                <MenuItem Key="1" Icon="pie-chart" Class="right-sider">
+                    <MenuLink Class="menu-link">
+                        Dashboard
+                    </MenuLink>
+                </MenuItem>
+                <MenuItem Key="2" Icon="profile">
+                    <MenuLink Href="workflows" Class="menu-link">
+                        Workflows
+                    </MenuLink>
+                </MenuItem>
+                <MenuItem Key="3" Icon="desktop">
+                    <MenuLink Href="designer" Class="menu-link">
+                        Designer
+                    </MenuLink>
+                </MenuItem>
+               
+            </Menu>
+        </Sider>
     </Layout>
 </Layout>
 
@@ -89,6 +112,16 @@
         min-width: 140px;
         max-width: 140px;
     }
+
+    .right-sider {
+        max-width: 50px !important;
+        min-width: 50px !important;
+        background-color: #fafafa;
+    }
+
+        .right-sider .ant-menu-item {
+            padding-left: 15px !important;
+        }
 </style>
 
 
