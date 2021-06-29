@@ -7,16 +7,18 @@
         <Header Class="header">
             <Row>
                 <Col Flex=@("none") Class="page-title">
-                    <h3>Workflows</h3>
+                    <Space Size="@AntSizeLDSType.Large">
+                        <SpaceItem> <h3>Workflows</h3></SpaceItem>
+                            <SpaceItem>
+                                <Button Type="dashed" Class="new-button" Icon="plus" @onclick="@(() => ShowNewWorkflowDialog())">
+                                    New
+                                </Button>
+                            </SpaceItem>
+                    </Space>             
                 </Col>
                 <Col Class="right-actions">
-                <Space Class="right-header-items">
-                    <SpaceItem>
-                        <Button Type="dashed" Icon="plus" @onclick="@(() => ShowNewWorkflowDialog())">
-                            New
-                        </Button>
-                    </SpaceItem>
-                </Space>
+                    <Space Class="right-header-items">
+                    </Space>
                 </Col>
             </Row>
 
@@ -83,6 +85,9 @@
 </div>
 
 <style>
+    .new-button {
+        margin-bottom: 15px;
+    }
 </style>
 
 

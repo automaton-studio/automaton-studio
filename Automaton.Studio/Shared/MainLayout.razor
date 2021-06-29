@@ -3,9 +3,9 @@
 
 <Layout Class="layout">
 
-    <Sider Theme="SiderTheme.Dark" Collapsible Collapsed=true Class="side-layout">
+    <Sider Theme="SiderTheme.Dark" Collapsed="true" Class="left-sider">
         <Menu Mode=MenuMode.Inline
-              Theme=MenuTheme.Dark Selectable=true DefaultSelectedKeys=@(new[]{"1"})>
+              Theme=MenuTheme.Dark Selectable=true Class="left-sider" DefaultSelectedKeys=@(new[]{"1"})>
             <MenuItem Key="1" Icon="pie-chart">
                 <MenuLink Href="" Class="menu-link">
                     Dashboard
@@ -88,14 +88,24 @@
         margin-left: auto;
     }
 
-    .side-layout {
+    .left-sider {
         overflow: auto;
         height: 100vh;
+        max-width: 55px !important;
+        min-width: 55px !important;
     }
 
-    .actions-bar {
-        padding: 0px 0px 0 10px;
-    }
+        .left-sider .ant-menu-item {
+            padding-left: 17px !important;
+        }
+
+        .left-sider .ant-menu .ant-menu-root {
+            max-width: 55px !important;
+        }
+
+        .actions-bar {
+            padding: 0px 0px 0 10px;
+        }
 
     .menu-link {
         color: #FFF;
