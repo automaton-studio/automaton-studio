@@ -1,5 +1,5 @@
 ﻿using AntDesign;
-using Automaton.Studio.Forms;
+using Automaton.Studio.Components;
 using Automaton.Studio.Models;
 using Automaton.Studio.Resources;
 using Automaton.Studio.ViewModels;
@@ -52,7 +52,7 @@ namespace Automaton.Studio.Pages
                 MaskClosable = false
             };
 
-            var modalRef = await ModalService.CreateModalAsync<NewWorkflowForm, WorkflowNew>(modalConfig, WorkflowsViewModel.NewWorkflowDetails);
+            var modalRef = await ModalService.CreateModalAsync<NewWorkflow, WorkflowNew>(modalConfig, WorkflowsViewModel.NewWorkflowDetails);
 
             modalRef.OnOk = async () =>
             {
