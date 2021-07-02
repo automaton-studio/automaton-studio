@@ -68,17 +68,12 @@
         </Content>
 
         <Sider Theme=SiderTheme.Light Collapsed=true Class="right-sider">
-            <Menu Mode=MenuMode.Inline
-                  Theme=MenuTheme.Light Selectable=true Class="right-sider" DefaultSelectedKeys=@(new[]{"1"})>
-                <MenuItem Key="1" Icon="setting">
-                    <MenuLink Href="#" Class="menu-link">
-                        Settings
-                    </MenuLink>
+            <Menu Mode=MenuMode.Inline Theme=MenuTheme.Light Selectable=true Class="right-sider">
+                <MenuItem Key="1" Icon="setting" OnClick="OpenWorkflowSettings">
+                    Settings
                 </MenuItem>
-                <MenuItem Key="2" Icon="snippets">
-                    <MenuLink Href="#" Class="menu-link">
-                        Variables
-                    </MenuLink>
+                <MenuItem Key="2" OnClick="OpenWorkflowVariables" Icon="snippets">
+                    Variables
                 </MenuItem>               
             </Menu>
         </Sider>

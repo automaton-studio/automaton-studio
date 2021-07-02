@@ -1,5 +1,6 @@
 ﻿using AntDesign;
 using Automaton.Studio.Activity;
+using Automaton.Studio.Components;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
@@ -24,6 +25,9 @@ namespace Automaton.Studio.Pages
 
         [Inject] 
         private IDesignerViewModel DesignerViewModel { get; set; } = default!;
+
+        [Inject]
+        private DrawerService DrawerService { get; set; } = default!;
 
         #endregion
 
@@ -206,6 +210,46 @@ namespace Automaton.Studio.Pages
                     selectedActivity.Unselect();
                 }
             }
+        }
+
+        /// <summary>
+        /// Open workflow settings drawer
+        /// </summary>
+        private async Task OpenWorkflowSettings()
+        {
+            var options = new DrawerOptions()
+            {
+                Title = "Workflow Settings",
+                Width = 350,
+                OffsetX = 50
+            };
+
+            var drawerRef = await DrawerService.CreateAsync<WorkflowSettings, StudioWorkflow, string>(options, DesignerViewModel.StudioWorkflow);
+
+            drawerRef.OnClosed = async result =>
+            {                   
+                await InvokeAsync(StateHasChanged);
+            };
+        }
+
+        /// <summary>
+        /// Open workflow settings drawer
+        /// </summary>
+        private async Task OpenWorkflowVariables()
+        {
+            var options = new DrawerOptions()
+            {
+                Title = "Workflow Variables",
+                Width = 350,
+                OffsetX = 50
+            };
+
+            var drawerRef = await DrawerService.CreateAsync<WorkflowSettings, StudioWorkflow, string>(options, DesignerViewModel.StudioWorkflow);
+
+            drawerRef.OnClosed = async result =>
+            {
+                await InvokeAsync(StateHasChanged);
+            };
         }
 
         #endregion
