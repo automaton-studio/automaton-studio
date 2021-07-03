@@ -52,7 +52,7 @@ namespace Automaton.Studio.Pages
                 MaskClosable = false
             };
 
-            var modalRef = await ModalService.CreateModalAsync<NewWorkflow, WorkflowNew>(modalConfig, WorkflowsViewModel.NewWorkflowDetails);
+            var modalRef = await ModalService.CreateModalAsync<WorkflowNew, NewWorkflow>(modalConfig, WorkflowsViewModel.NewWorkflowDetails);
 
             modalRef.OnOk = async () =>
             {

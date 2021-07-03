@@ -1,10 +1,13 @@
 ﻿using AntDesign;
+using AutoMapper;
 using Automaton.Studio.Activity;
 using Automaton.Studio.Components;
 using Automaton.Studio.Extensions;
+using Automaton.Studio.Models;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Plk.Blazor.DragDrop;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -224,7 +227,7 @@ namespace Automaton.Studio.Pages
                 OffsetX = 50
             };
 
-            var drawerRef = await DrawerService.CreateAsync<WorkflowSettings, StudioWorkflow, string>(options, DesignerViewModel.StudioWorkflow);
+            var drawerRef = await DrawerService.CreateAsync<WorkflowDetails, StudioWorkflow, bool>(options, DesignerViewModel.StudioWorkflow);
 
             drawerRef.OnClosed = async result =>
             {                   
@@ -237,19 +240,7 @@ namespace Automaton.Studio.Pages
         /// </summary>
         private async Task OpenWorkflowVariables()
         {
-            var options = new DrawerOptions()
-            {
-                Title = "Workflow Variables",
-                Width = 350,
-                OffsetX = 50
-            };
-
-            var drawerRef = await DrawerService.CreateAsync<WorkflowSettings, StudioWorkflow, string>(options, DesignerViewModel.StudioWorkflow);
-
-            drawerRef.OnClosed = async result =>
-            {
-                await InvokeAsync(StateHasChanged);
-            };
+            throw new NotImplementedException();
         }
 
         #endregion

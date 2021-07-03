@@ -56,7 +56,7 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        public WorkflowNew NewWorkflowDetails { get; set; } = new WorkflowNew();
+        public NewWorkflow NewWorkflowDetails { get; set; } = new NewWorkflow();
 
         #endregion
 
@@ -85,7 +85,7 @@ namespace Automaton.Studio.ViewModels
         {
             try
             {
-                var workflowDefinition = mapper.Map<WorkflowNew, WorkflowDefinition>(NewWorkflowDetails);
+                var workflowDefinition = mapper.Map<NewWorkflow, WorkflowDefinition>(NewWorkflowDetails);
 
                 await workflowDefinitionStore.AddAsync(workflowDefinition);
 
@@ -120,7 +120,7 @@ namespace Automaton.Studio.ViewModels
 
         private void ClearNewWorkflowDetails()
         {
-            NewWorkflowDetails = new WorkflowNew();
+            NewWorkflowDetails = new NewWorkflow();
         }
 
         #region INotifyPropertyChanged

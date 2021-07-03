@@ -1,4 +1,4 @@
-﻿using Automaton.Studio.Models;
+﻿using Automaton.Studio.Activity;
 using Automaton.Studio.Resources;
 using Automaton.Studio.Specifications;
 using Elsa.Persistence;
@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Validators
 {
-    public class NewWorkflowModelValidator : AbstractValidator<WorkflowNew>
+    public class SaveWorkflowModelValidator : AbstractValidator<StudioWorkflow>
     {
         private readonly IWorkflowDefinitionStore workflowDefinitionStore;
 
-        public NewWorkflowModelValidator(IWorkflowDefinitionStore workflowDefinitionStore)
+        public SaveWorkflowModelValidator(IWorkflowDefinitionStore workflowDefinitionStore)
         {
             this.workflowDefinitionStore = workflowDefinitionStore;
 

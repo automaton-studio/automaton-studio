@@ -1,6 +1,7 @@
 ﻿using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using System;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Components
@@ -25,11 +26,12 @@ namespace Automaton.Studio.Components
 
         public async Task OnSearch()
         {
-            //searchText
+            throw new NotImplementedException();
         }
 
         private async Task OnEnter(KeyboardEventArgs e)
         {
+            throw new NotImplementedException();
         }
     }
 }

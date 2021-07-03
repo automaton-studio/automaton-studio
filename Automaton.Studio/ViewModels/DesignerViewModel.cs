@@ -148,7 +148,7 @@ namespace Automaton.Studio.ViewModels
             // Map Elsa to Studio
             StudioWorkflow = mapper.Map<WorkflowDefinition, StudioWorkflow>(ElsaWorkflow);
 
-            // Elsa to Studio activities easily be mapped, so we are doing it here
+            // Elsa to Studio activities are not easily mapped, so we are doing it here
             foreach (var activityDefinition in ElsaWorkflow.Activities)
             {
                 var studioActivity = activityFactory.GetStudioActivity(activityDefinition);
