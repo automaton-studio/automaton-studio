@@ -43,11 +43,14 @@ namespace Automaton.Studio.Components
                 // Find Elsa workflow based on workflow id
                 var elsaWorkflow = await WorkflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification(studioWorkflow.DefinitionId));
 
-                // Update ElsaWorkflow with details from StudioWorkflow
-                Mapper.Map(studioWorkflow, elsaWorkflow);
+                if (elsaWorkflow != null)
+                {
+                    // Update ElsaWorkflow with details from StudioWorkflow
+                    Mapper.Map(studioWorkflow, elsaWorkflow);
 
-                // Save Elsa workflow
-                await WorkflowDefinitionStore.SaveAsync(elsaWorkflow);
+                    // Save Elsa workflow
+                    await WorkflowDefinitionStore.SaveAsync(elsaWorkflow);
+                }
 
                 // Close drawer and return true
                 var drawerRef = base.FeedbackRef as DrawerRef<bool>;
