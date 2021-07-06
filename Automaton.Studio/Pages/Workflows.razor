@@ -37,21 +37,19 @@
                 </Column>
 
                 <Column Title="Runners" @bind-Field="@context.Description" Width="300">
-                    <SpaceItem>
-                        <Select Mode="multiple"
-                                @bind-Values="context.RunnerIds"
-                                Placeholder="Select runners..."
-                                TItemValue="Guid"
-                                TItem="Guid"
-                                AllowClear>
-                            <SelectOptions>
-                                @foreach (var item in @WorkflowsViewModel.Runners)
-                                    {
-                                    <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
-                                    }
-                            </SelectOptions>
-                        </Select>
-                    </SpaceItem>
+                    <Select Mode="multiple"
+                            @bind-Values="context.RunnerIds"
+                            Placeholder="Select runners..."
+                            TItemValue="Guid"
+                            TItem="Guid"
+                            AllowClear>
+                        <SelectOptions>
+                            @foreach (var item in @WorkflowsViewModel.Runners)
+                            {
+                                <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
+                            }
+                        </SelectOptions>
+                    </Select>
                 </Column>
 
                 <ActionColumn Title="Action">
