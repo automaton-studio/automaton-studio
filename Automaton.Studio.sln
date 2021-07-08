@@ -21,6 +21,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParty", "ThirdParty", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{9AA2D68D-047F-4B97-B52F-9C4E18C868D2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Automaton.Activities", "Automaton.Activities", "{2F63D124-A0AB-45A9-B19D-7DD4678B0E14}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.MessageBox", "Automaton.Activities\Automaton.MessageBox\Automaton.MessageBox.csproj", "{B20ADF96-8374-498E-9302-844C11B8D071}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +59,10 @@ Global
 		{84F74B80-A41E-4215-B60D-5592AD61A871}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84F74B80-A41E-4215-B60D-5592AD61A871}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84F74B80-A41E-4215-B60D-5592AD61A871}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B20ADF96-8374-498E-9302-844C11B8D071}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B20ADF96-8374-498E-9302-844C11B8D071}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B20ADF96-8374-498E-9302-844C11B8D071}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B20ADF96-8374-498E-9302-844C11B8D071}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,6 +71,7 @@ Global
 		{ADCBBAB2-87DD-416E-9E61-79EFF73E21C6} = {F8B5E808-1FCA-4977-89E4-DCBC9F6D2173}
 		{89EE9AE6-77CA-4713-AD29-0F8DBA5C1A64} = {F8B5E808-1FCA-4977-89E4-DCBC9F6D2173}
 		{84F74B80-A41E-4215-B60D-5592AD61A871} = {9AA2D68D-047F-4B97-B52F-9C4E18C868D2}
+		{B20ADF96-8374-498E-9302-844C11B8D071} = {2F63D124-A0AB-45A9-B19D-7DD4678B0E14}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C5A89E79-D5BC-48DD-B0E4-72F011E38D0E}

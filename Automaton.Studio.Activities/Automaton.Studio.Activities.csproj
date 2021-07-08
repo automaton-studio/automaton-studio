@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
   </PropertyGroup>
 
   
@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ant-design-blazor\components\AntDesign.csproj" />
+    <ProjectReference Include="..\Automaton.Activities\Automaton.MessageBox\Automaton.MessageBox.csproj" />
     <ProjectReference Include="..\Automaton.Studio.Activity\Automaton.Studio.Activity.csproj" />
   </ItemGroup>
 

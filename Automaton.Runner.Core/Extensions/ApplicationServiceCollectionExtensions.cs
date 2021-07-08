@@ -13,9 +13,12 @@ namespace Automaton.Runner.Core.Extensions
         public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddElsa(options => options
-                .UseEntityFrameworkPersistence(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                .UseEntityFrameworkPersistence(options => 
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)))
-                .AddConsoleActivities());
+                .AddConsoleActivities()
+                .AddActivity<Automaton.MessageBox.MessageBox>());
+
 
             services.AddSingleton(service => new ConfigService(configuration));
             services.AddSingleton<IAuthService, AuthService>();

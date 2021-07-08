@@ -1,11 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Elsa.Activities.Console" Version="2.1.0-preview.317" />
     <PackageReference Include="Elsa.Persistence.EntityFramework.Core" Version="2.1.0-preview.317" />
     <PackageReference Include="Elsa.Persistence.EntityFramework.SqlServer" Version="2.0.0-rc3.151" />
     <PackageReference Include="Elsa.Server.Api" Version="2.1.0-preview.317" />
@@ -18,6 +17,10 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0-preview.1.21102.12" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0-preview.1.21102.12" />
     <PackageReference Include="System.Text.Encodings.Web" Version="6.0.0-preview.1.21102.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Automaton.Activities\Automaton.MessageBox\Automaton.MessageBox.csproj" />
   </ItemGroup>
 
   <ItemGroup>
