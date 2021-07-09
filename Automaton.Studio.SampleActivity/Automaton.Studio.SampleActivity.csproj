@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Blazored.FluentValidation" Version="2.0.0" />
-    <PackageReference Include="Elsa.Activities.Console" Version="2.1.0-preview.317" />
+    <PackageReference Include="Elsa.Activities.Console" Version="2.1.0-preview.421" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.5" />
   </ItemGroup>
 
