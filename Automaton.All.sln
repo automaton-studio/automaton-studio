@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio.Activity",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParty", "ThirdParty", "{A9947784-AEC9-482C-9F1C-752B44C68FCF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Automaton.Activities", "Automaton.Activities", "{D6698DBA-4978-4B9A-BF12-93151ABFAA42}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Activities", "Activities", "{D6698DBA-4978-4B9A-BF12-93151ABFAA42}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.MessageBox", "Automaton.Activities\Automaton.MessageBox\Automaton.MessageBox.csproj", "{12A74ADF-9500-468C-86BA-123536EAE678}"
 EndProject
