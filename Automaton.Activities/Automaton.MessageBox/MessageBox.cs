@@ -1,6 +1,7 @@
 using Elsa;
 using Elsa.ActivityResults;
 using Elsa.Attributes;
+using Elsa.Expressions;
 using Elsa.Services.Models;
 using System;
 
@@ -11,7 +12,8 @@ namespace Automaton.MessageBox
     /// </summary>
     [Action(
         Category = "Dialogs",
-        Description = "Write text to a standard message box."
+        Description = "Write text to a standard message box.",
+        Outcomes = new[] { OutcomeNames.Done }
     )]
     public class MessageBox : Elsa.Services.Activity
     {
