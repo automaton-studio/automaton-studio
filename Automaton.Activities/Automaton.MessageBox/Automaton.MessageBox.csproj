@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Elsa.Abstractions" Version="2.1.0-preview.421" />
-    <PackageReference Include="Elsa.Core" Version="2.1.0-preview.421" />
+    <ProjectReference Include="..\..\..\elsa-core\src\core\Elsa.Abstractions\Elsa.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\elsa-core\src\core\Elsa.Core\Elsa.Core.csproj" />
   </ItemGroup>
 
 </Project>

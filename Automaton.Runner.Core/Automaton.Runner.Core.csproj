@@ -5,9 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Elsa.Persistence.EntityFramework.Core" Version="2.1.0-preview.421" />
-    <PackageReference Include="Elsa.Persistence.EntityFramework.SqlServer" Version="2.1.0-preview.421" />
-    <PackageReference Include="Elsa.Server.Api" Version="2.1.0-preview.421" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.4" />
@@ -20,6 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\elsa-core\src\persistence\Elsa.Persistence.EntityFramework\Elsa.Persistence.EntityFramework.Core\Elsa.Persistence.EntityFramework.Core.csproj" />
+    <ProjectReference Include="..\..\elsa-core\src\persistence\Elsa.Persistence.EntityFramework\Elsa.Persistence.EntityFramework.SqlServer\Elsa.Persistence.EntityFramework.SqlServer.csproj" />
+    <ProjectReference Include="..\..\elsa-core\src\server\Elsa.Server.Api\Elsa.Server.Api.csproj" />
     <ProjectReference Include="..\Automaton.Activities\Automaton.MessageBox\Automaton.MessageBox.csproj" />
   </ItemGroup>
 
