@@ -8,7 +8,6 @@ using Automaton.Studio.Services;
 using Automaton.Studio.ViewModels;
 using Elsa.Persistence.EntityFramework.Core.Extensions;
 using Elsa.Persistence.EntityFramework.SqlServer;
-using ElsaDashboard.Backend.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -103,8 +102,7 @@ namespace Automaton.Studio
                     .AddWorkflowsFrom<Startup>()
                 )
                 .AddElsaApiEndpoints()
-                .AddElsaSwagger()
-                .AddElsaDashboardBackend(options => options.ServerUrl = Configuration.GetValue<Uri>("Elsa:Http:BaseUrl"));
+                .AddElsaSwagger();
 
             // ViewModels
             services.AddScoped<IMainLayoutViewModel, MainLayoutViewModel>();
@@ -149,9 +147,6 @@ namespace Automaton.Studio
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            // Elsa Grpc services
-            app.UseElsaGrpcServices();
 
             app.UseEndpoints(endpoints =>
             {
