@@ -17,7 +17,7 @@ namespace Automaton.Runner.Core.Extensions
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)))
                 .AddConsoleActivities()
-                .AddActivity<Automaton.MessageBox.MessageBox>());
+                .AddActivity<MessageBox.MessageBox>());
 
 
             services.AddSingleton(service => new ConfigService(configuration));

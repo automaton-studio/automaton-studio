@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\elsa-core\src\core\Elsa.Core\Elsa.Core.csproj" />
     <ProjectReference Include="..\..\elsa-core\src\persistence\Elsa.Persistence.EntityFramework\Elsa.Persistence.EntityFramework.Core\Elsa.Persistence.EntityFramework.Core.csproj" />
     <ProjectReference Include="..\..\elsa-core\src\persistence\Elsa.Persistence.EntityFramework\Elsa.Persistence.EntityFramework.SqlServer\Elsa.Persistence.EntityFramework.SqlServer.csproj" />
     <ProjectReference Include="..\..\elsa-core\src\server\Elsa.Server.Api\Elsa.Server.Api.csproj" />
