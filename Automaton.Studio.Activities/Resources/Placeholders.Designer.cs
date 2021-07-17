@@ -61,6 +61,15 @@ namespace Automaton.Studio.Activities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter caption.
+        /// </summary>
+        public static string EnterCaption {
+            get {
+                return ResourceManager.GetString("EnterCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter text.
         /// </summary>
         public static string EnterText {

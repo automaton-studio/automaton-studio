@@ -61,6 +61,33 @@ namespace Automaton.Studio.Activities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Caption is required..
+        /// </summary>
+        public static string CaptionRequired {
+            get {
+                return ResourceManager.GetString("CaptionRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name is required..
+        /// </summary>
+        public static string NameRequired {
+            get {
+                return ResourceManager.GetString("NameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text is required..
+        /// </summary>
+        public static string TextRequired {
+            get {
+                return ResourceManager.GetString("TextRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name is required..
         /// </summary>
         public static string WorkflowNameRequired {

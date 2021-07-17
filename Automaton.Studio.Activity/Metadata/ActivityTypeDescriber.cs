@@ -12,17 +12,15 @@ namespace Automaton.Studio.Activity.Metadata
             var attribute = automatonActivityType.GetCustomAttribute<StudioActivityAttribute>(false);
 
             var name = attribute?.Name ?? automatonActivityType.Name;
-            var elsaName = attribute?.ElsaName;
             var displayName = attribute?.DisplayName;
             var description = attribute?.Description;
             var category = attribute?.Category ?? "Miscellaneous";
             var icon = attribute?.Icon;
-            var outcomes = attribute?.Outcomes ?? new[] { OutcomeNames.Done };
+            var outcomes = attribute?.Outcomes ?? OutcomeNames.Done;
 
             return new ActivityDescriptor
             {
                 Name = name.Pascalize(),
-                ElsaName = elsaName.Pascalize(),
                 DisplayName = displayName,
                 Description = description,
                 Category = category,

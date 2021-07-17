@@ -8,7 +8,7 @@ namespace Automaton.Studio.Activities.Console.WriteLine
     {
         public MessageBoxValidator()
         {
-            RuleFor(x => x.Text).NotEmpty().MaximumLength(50).WithMessage(Errors.WorkflowNameRequired);
+            RuleFor(x => x.Text).NotEmpty().MaximumLength(50).WithMessage(Errors.TextRequired);
         }
     }
 }

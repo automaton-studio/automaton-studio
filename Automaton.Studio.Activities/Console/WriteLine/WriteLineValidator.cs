@@ -7,7 +7,7 @@ namespace Automaton.Studio.Activities.Console.WriteLine
     {
         public WriteLineValidator()
         {
-            RuleFor(x => x.Text).NotEmpty().MaximumLength(50).WithMessage(Errors.WorkflowNameRequired);
+            RuleFor(x => x.Text).NotEmpty().MaximumLength(50).WithMessage(Errors.TextRequired);
         }
     }
 }

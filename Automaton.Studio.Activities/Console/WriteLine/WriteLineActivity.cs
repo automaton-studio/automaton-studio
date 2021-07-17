@@ -7,9 +7,9 @@ using System.Collections.Generic;
 namespace Automaton.Studio.Activities.Console.WriteLine
 {
     [StudioActivity(
-        Name = "WriteLineActivity",
+        Name = "WriteLine",
+        Type = "WriteLine",
         DisplayName = "Write Line",
-        ElsaName = "WriteLine",
         Category = "Console",
         Description = "Write text to console",
         Icon = "field-string"
@@ -33,9 +33,6 @@ namespace Automaton.Studio.Activities.Console.WriteLine
         public WriteLineActivity(IActivityTypeDescriber activityDescriber) 
             : base(activityDescriber)
         {
-            Name = "WriteLineActivity";
-            Type = "WriteLine";
-
             Properties = new List<ActivityDefinitionProperty>
             {
                 ActivityDefinitionProperty.Liquid(nameof(Text), string.Empty)

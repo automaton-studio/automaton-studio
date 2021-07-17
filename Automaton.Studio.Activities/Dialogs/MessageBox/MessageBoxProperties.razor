@@ -14,6 +14,10 @@
     </Validator>
 
     <ChildContent>
+        <FormItem Label="Caption">
+            <Input @bind-Value="@context.Caption" Placeholder=@Placeholders.EnterCaption />
+        </FormItem>
+
         <FormItem Label="Text">
             <Input @bind-Value="@context.Text" Placeholder=@Placeholders.EnterText />
         </FormItem>

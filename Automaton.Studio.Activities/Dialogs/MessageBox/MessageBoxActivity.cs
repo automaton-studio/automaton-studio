@@ -1,4 +1,5 @@
 ﻿using Automaton.Studio.Activity;
+using Automaton.Studio.Activity.Extensions;
 using Automaton.Studio.Activity.Metadata;
 using Elsa.Models;
 using System;
@@ -7,40 +8,57 @@ using System.Collections.Generic;
 namespace Automaton.Studio.Activities.Dialogs.MessageBox
 {
     [StudioActivity(
-        Name = "MessageBoxActivity",
-        DisplayName = "MessageBox",
-        ElsaName = "MessageBox",
+        Name = "MessageBox",
+        Type = "MessageBox",
+        DisplayName = "Message Box",
         Category = "Dialogs",
         Description = "Write text to MessageBox",
         Icon = "field-string"
     )]
     public class MessageBoxActivity : StudioActivity
     {
-        public Automaton.MessageBox.MessageBox Activity { get; set; }
+        #region Private Properties
 
         private ActivityDefinitionProperty TextProperty => GetProperty(nameof(Text));
+        private ActivityDefinitionProperty CaptionProperty => GetProperty(nameof(Caption));
+
+        #endregion
+
+        #region Public Properties
+
+        public Automaton.MessageBox.MessageBox Activity { get; set; }
+
         public string Text
         {
-            get
-            {
-                return TextProperty.Expressions[TextProperty.Syntax];
-            }
+            get => TextProperty.GetExpression();
+
             set
             {
-                TextProperty.Expressions[TextProperty.Syntax] = value;
+                TextProperty.SetExpression(value);
                 OnPropertyChanged();
             }
         }
 
+        public string Caption
+        {
+            get => CaptionProperty.GetExpression();
+
+            set
+            {
+                CaptionProperty.SetExpression(value);
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion
+
         public MessageBoxActivity(IActivityTypeDescriber activityDescriber) 
             : base(activityDescriber)
         {
-            Name = "MessageBoxActivity";
-            Type = "MessageBox";
-
             Properties = new List<ActivityDefinitionProperty>
             {
-                ActivityDefinitionProperty.Liquid(nameof(Text), string.Empty)
+                ActivityDefinitionProperty.Liquid(nameof(Text), string.Empty),
+                ActivityDefinitionProperty.Liquid(nameof(Caption), string.Empty),
             };
         }
 

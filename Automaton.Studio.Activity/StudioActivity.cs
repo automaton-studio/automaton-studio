@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.Activity
@@ -27,7 +28,7 @@ namespace Automaton.Studio.Activity
 
         #endregion
 
-        #region Elsa Activity properties
+        #region Elsa Activity Properties
 
         public string ActivityId { get; set; }
         public string Type { get; set; }
@@ -70,6 +71,12 @@ namespace Automaton.Studio.Activity
             Properties = new List<ActivityDefinitionProperty>();
             Descriptor = this.activityDescriber.Describe(this.GetType());
             Class = ActivityClass;
+
+            var attribute = GetType().GetCustomAttribute<StudioActivityAttribute>(false);
+            Name = attribute.Name ?? GetType().Name;
+            Type = attribute.Type ?? GetType().Name;
+            DisplayName = attribute.DisplayName ?? GetType().Name;
+            Description = attribute.Description ?? string.Empty;
         }
 
         #region Public Properties
