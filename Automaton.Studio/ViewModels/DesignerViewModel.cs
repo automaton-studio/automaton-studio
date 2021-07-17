@@ -6,6 +6,8 @@ using Automaton.Studio.Services;
 using Elsa.Models;
 using Elsa.Persistence;
 using Elsa.Persistence.Specifications.WorkflowDefinitions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,8 +22,10 @@ namespace Automaton.Studio.ViewModels
         #region Members
 
         private readonly IMapper mapper;
+        private readonly IWebHostEnvironment env;
         private readonly ActivityFactory activityFactory;
         private readonly IRunnerService runnerService;
+        private readonly IWorkflowService workflowService;
         private readonly IWorkflowDefinitionStore workflowDefinitionStore;
 
         #endregion
@@ -89,14 +93,18 @@ namespace Automaton.Studio.ViewModels
         public DesignerViewModel
         (
             IMapper mapper,
+            IWebHostEnvironment env,
             ActivityFactory activityFactory,
             IRunnerService runnerService,
+            IWorkflowService workflowService,
             IWorkflowDefinitionStore workflowDefinitionStore
         )
         {
             this.mapper = mapper;
+            this.env = env;
             this.activityFactory = activityFactory;
             this.runnerService = runnerService;
+            this.workflowService = workflowService;
             this.workflowDefinitionStore = workflowDefinitionStore;
 
             Runners = mapper.Map<IQueryable<Runner>, IEnumerable<WorkflowRunner>>(runnerService.List());
@@ -170,12 +178,18 @@ namespace Automaton.Studio.ViewModels
         }
 
         /// <summary>
-        /// Run workflow on selected runners
+        /// Run workflow on selected runners or on the server if in Development mode
         /// </summary>
-        /// <param name="workflow"></param>
         public async Task RunWorkflow()
         {
-            await runnerService.RunWorkflow(StudioWorkflow.DefinitionId, SelectedRunnerIds);
+            if (env.IsDevelopment())
+            {
+                await workflowService.RunWorkflow(StudioWorkflow.DefinitionId);
+            }
+            else
+            {
+                await runnerService.RunWorkflow(StudioWorkflow.DefinitionId, SelectedRunnerIds);
+            }
         }
 
         #endregion

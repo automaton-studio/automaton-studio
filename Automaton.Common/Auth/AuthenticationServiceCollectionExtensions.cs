@@ -14,12 +14,9 @@ namespace Automaton.Common.Auth
 {
     public static class AuthenticationServiceCollectionExtensions
     {
-        public static void AddJwtAuthentication(this IServiceCollection services,
-            TokenValidationParameters parameters = null)
+        public static void AddJwtAuthentication(this IServiceCollection services, TokenValidationParameters parameters = null)
         {
             IConfiguration configuration;
-            JwtOptions jwtOptions = new JwtOptions();
-            var authSettings = new AuthenticationSettings();
 
             using (var serviceProvider = services.BuildServiceProvider())
             {
@@ -27,14 +24,18 @@ namespace Automaton.Common.Auth
             }
 
             services.AddHttpContextAccessor();
+
+            var authSettings = new AuthenticationSettings();
             configuration.GetSection(nameof(AuthenticationSettings)).Bind(authSettings);
 
+            var jwtOptions = new JwtOptions();
             configuration.GetSection(nameof(JwtOptions)).Bind(jwtOptions);
             jwtOptions.SigningCredentials = GetCredentialSigningKey(authSettings);
 
             services.TryAddSingleton(jwtOptions);
             services.TryAddSingleton(authSettings);
             services.TryAddSingleton<IJwtService, JwtService>();
+
             var validationParameters = new TokenValidationParameters
             {
                 // Ensure the token was issued by a trusted authorization server (default true)

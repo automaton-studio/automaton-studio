@@ -99,6 +99,7 @@ namespace Automaton.Studio
                                  // Last param instruct Elsa to create its tables if True, and skip this step if False
                                  db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)), false)
                     .AddConsoleActivities()
+                    .AddActivity<MessageBox.MessageBox>()
                     .AddWorkflowsFrom<Startup>()
                 )
                 .AddElsaApiEndpoints()
@@ -109,8 +110,9 @@ namespace Automaton.Studio
             services.AddScoped<IWorkflowsViewModel, WorkflowsViewModel>();
             services.AddScoped<IDesignerViewModel, DesignerViewModel>();
             services.AddScoped<ITreeActivityViewModel, TreeActivityViewModel>();
-            
+
             // Services
+            services.AddScoped<IWorkflowService, WorkflowService>();
             services.AddScoped<IRunnerService, RunnerService>();
 
             // Automaton
