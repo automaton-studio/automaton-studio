@@ -43,26 +43,26 @@ namespace Automaton.Runner
 
         private static void ConfigureServices(ServiceCollection services)
         {
-            services.AddInfrastructure(Configuration);
+            // Application
             services.AddApplication(Configuration);
 
-            // MediateR dependency injection
+            // MediateR
             services.AddMediatR(typeof(App));
 
-            // Register main window
+            // Main window
             services.AddTransient(typeof(MainWindow));
 
-            // Register all ViewModels.
+            // View models
             services.AddSingleton<MainWindowViewModel>();
             services.AddSingleton<LoginViewModel>();
             services.AddSingleton<RegistrationViewModel>();
             services.AddSingleton<DashboardViewModel>();
 
-            // Register validators
+            // Validators
             services.AddScoped<LoginValidator>();
             services.AddScoped<RegistrationValidator>();
 
-            // Register common
+            // Other
             services.AddScoped<IViewModelLoader, ViewModelLoader>();
         }
     }
