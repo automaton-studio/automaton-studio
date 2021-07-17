@@ -1,5 +1,5 @@
 using Automaton.Common.Auth;
-using Automaton.Common.Redis;
+using Automaton.Common.Extensions;
 using Automaton.Studio.Areas.Identity;
 using Automaton.Studio.Data;
 using Automaton.Studio.Extensions;
@@ -91,19 +91,15 @@ namespace Automaton.Studio
             // Automapper
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            // Elsa Workflows
-            services
-                .AddElsa(options => options
-                    .UseEntityFrameworkPersistence(options =>
-                             options.UseSqlServer(Configuration.GetConnectionString(DatabaseConnection),
-                                 // Last param instruct Elsa to create its tables if True, and skip this step if False
-                                 db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)), false)
-                    .AddConsoleActivities()
-                    .AddActivity<MessageBox.MessageBox>()
-                    .AddWorkflowsFrom<Startup>()
-                )
-                .AddElsaApiEndpoints()
-                .AddElsaSwagger();
+            // Elsa
+            services.AddElsa(options => options
+                .UseEntityFrameworkPersistence(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                    db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)), false)
+                .AddElsaActivities()
+            )
+            .AddElsaApiEndpoints()
+            .AddElsaSwagger();
 
             // ViewModels
             services.AddScoped<IMainLayoutViewModel, MainLayoutViewModel>();

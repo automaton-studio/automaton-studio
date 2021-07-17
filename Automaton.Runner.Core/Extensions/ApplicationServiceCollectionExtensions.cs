@@ -1,4 +1,5 @@
-﻿using Automaton.Runner.Core.Services;
+﻿using Automaton.Common.Extensions;
+using Automaton.Runner.Core.Services;
 using Automaton.Runner.Services;
 using Elsa.Persistence.EntityFramework.Core.Extensions;
 using Elsa.Persistence.EntityFramework.SqlServer;
@@ -15,10 +16,9 @@ namespace Automaton.Runner.Core.Extensions
             services.AddElsa(options => options
                 .UseEntityFrameworkPersistence(options => 
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                    db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)))
-                .AddConsoleActivities()
-                .AddActivity<MessageBox.MessageBox>());
-
+                    db => db.MigrationsAssembly(typeof(SqlServerElsaContextFactory).Assembly.GetName().Name)), false)
+                .AddElsaActivities()
+            );
 
             services.AddSingleton(service => new ConfigService(configuration));
             services.AddSingleton<IAuthService, AuthService>();

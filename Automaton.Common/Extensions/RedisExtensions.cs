@@ -1,9 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Automaton.Common.Redis;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Automaton.Common.Redis
+namespace Automaton.Common.Extensions
 {
-    public static class Extensions
+    public static class RedisExtensions
     {
         /// <summary>
         /// Redis configuration

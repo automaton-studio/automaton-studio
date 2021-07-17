@@ -22,6 +22,7 @@
     <ProjectReference Include="..\..\elsa-core\src\persistence\Elsa.Persistence.EntityFramework\Elsa.Persistence.EntityFramework.SqlServer\Elsa.Persistence.EntityFramework.SqlServer.csproj" />
     <ProjectReference Include="..\..\elsa-core\src\server\Elsa.Server.Api\Elsa.Server.Api.csproj" />
     <ProjectReference Include="..\Automaton.Activities\Automaton.MessageBox\Automaton.MessageBox.csproj" />
+    <ProjectReference Include="..\Automaton.Common\Automaton.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elsa.Core", "..\elsa-core\s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elsa.Abstractions", "..\elsa-core\src\core\Elsa.Abstractions\Elsa.Abstractions.csproj", "{337AD56D-828A-4CE9-A754-36299663BDB8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elsa", "Elsa", "{E005B0E5-E472-4F29-B90D-9374635D1563}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParties", "ThirdParties", "{E005B0E5-E472-4F29-B90D-9374635D1563}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elsa.Server.Api", "..\elsa-core\src\server\Elsa.Server.Api\Elsa.Server.Api.csproj", "{77600A2C-7392-4C12-925A-1791C7EE796E}"
 EndProject
