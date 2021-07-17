@@ -178,16 +178,18 @@ namespace Automaton.Studio.ViewModels
         }
 
         /// <summary>
-        /// Run workflow on selected runners or on the server if in Development mode
+        /// Run workflow
         /// </summary>
         public async Task RunWorkflow()
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() && !SelectedRunnerIds.Any())
             {
+                // Run on the server if in Development mode and there are no selected runners
                 await workflowService.RunWorkflow(StudioWorkflow.DefinitionId);
             }
             else
             {
+                // Run on specified runners if in Production
                 await runnerService.RunWorkflow(StudioWorkflow.DefinitionId, SelectedRunnerIds);
             }
         }
