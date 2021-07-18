@@ -1,4 +1,5 @@
 ﻿using Automaton.Studio.Activity.Metadata;
+using Elsa;
 using Elsa.Models;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace Automaton.Studio.Activity
 
         #endregion
 
-        #region Elsa Activity Properties
+        #region Elsa Properties
 
         public string ActivityId { get; set; }
         public string Type { get; set; }

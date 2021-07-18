@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Elsa;
 using Elsa.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.Activity
@@ -102,6 +104,8 @@ namespace Automaton.Studio.Activity
             activity.StudioWorkflow = this;
             activity.PendingCreation = false;
 
+            NewConnection(activity);
+
             ActivityAdded?.Invoke(this, new ActivityEventArgs(activity));
         }
 
@@ -116,6 +120,55 @@ namespace Automaton.Studio.Activity
             ActivityRemoved?.Invoke(this, new ActivityEventArgs(activity));
 
             return result;
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// Create a new connection for activity
+        /// </summary>
+        /// <param name="activity">Activity to create connection for</param>
+        private void NewConnection(StudioActivity activity)
+        {
+            // Current activity
+            var activityIndex = Activities.IndexOf(activity);
+
+            // Return if not found
+            if (activityIndex < 0)
+            {
+                return;
+            }
+
+            // Previous activity
+            var previousActivityIndex = activityIndex > 0 ? activityIndex - 1 : -1;
+            var previousActivity = previousActivityIndex >= 0 ? Activities[previousActivityIndex] : null;
+
+            // Next activity
+            var nextActivityIndex = activityIndex < Activities.Count - 1 ? activityIndex + 1 : -1;
+            var nextActivity = nextActivityIndex >= 0 ? Activities[nextActivityIndex] : null;
+
+            // TODO! Outcome should not be hardcoded.
+            var activityConnection = previousActivity != null ?
+                new ConnectionDefinition(previousActivity.ActivityId, activity.ActivityId, OutcomeNames.Done) :
+                null;
+
+            // Add connection if there is a previous activity
+            if (activityConnection != null)
+            {
+                Connections.Add(activityConnection);
+            }
+
+            // If there is a next activity, update its connection to point to the new activity as its source
+            if (nextActivity != null)
+            {
+                var nextActivityConnection = Connections.SingleOrDefault(x => x.TargetActivityId == nextActivity.ActivityId);
+                if (nextActivityConnection != null)
+                {
+                    nextActivityConnection.SourceActivityId = activity.ActivityId;
+                }
+            }
         }
 
         #endregion
