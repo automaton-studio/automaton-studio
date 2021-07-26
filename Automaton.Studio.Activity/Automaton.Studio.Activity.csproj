@@ -10,13 +10,13 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="Elsa.Abstractions" Version="2.1.0-preview.421" />
     <PackageReference Include="Humanizer" Version="2.10.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.5" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\ant-design-blazor\components\AntDesign.csproj" />
+    <ProjectReference Include="..\..\elsa-core\src\core\Elsa.Abstractions\Elsa.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>
