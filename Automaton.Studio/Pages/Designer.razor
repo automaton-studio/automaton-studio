@@ -1,5 +1,6 @@
 ﻿@page "/designer"
 @page "/designer/{WorkflowId}"
+@using AntDesign 
 @using Automaton.Studio.Activity
 @using Automaton.Studio.Components
 @using Automaton.Studio.DragDrop
@@ -17,12 +18,12 @@
                     <Col Flex=@("none")>
                     <Space Class="actions-bar">
                         <SpaceItem>
-                            <Button Type="dashed" Icon="save" OnClick="SaveWorkflow">
+                            <Button Icon="save" OnClick="SaveWorkflow">
                                 Save
                             </Button>
                         </SpaceItem>
                         <SpaceItem>
-                            <Button Type="dashed" Icon="caret-right" OnClick="RunWorkflow">
+                            <Button Icon="caret-right" OnClick="RunWorkflow">
                                 Run
                             </Button>
                         </SpaceItem>
@@ -48,7 +49,7 @@
                     @*<Col Class="right-actions">
                         <Space Class="right-header-items">
                             <SpaceItem>
-                                <Button Shape="circle" Type="dashed" Icon="setting" Class="action-button"></Button>
+                                <Button Shape="circle" Type="ButtonType.Dashed" Icon="setting" Class="action-button"></Button>
                             </SpaceItem>
                         </Space>
                     </Col>*@
