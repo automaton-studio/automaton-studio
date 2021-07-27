@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ant-design-blazor\components\AntDesign.csproj" />
-    <ProjectReference Include="..\..\blazor-dragdrop\Plk.Blazor.DragDrop\Plk.Blazor.DragDrop.csproj" />
     <ProjectReference Include="..\..\elsa-core\src\core\Elsa.Abstractions\Elsa.Abstractions.csproj" />
     <ProjectReference Include="..\..\elsa-core\src\persistence\Elsa.Persistence.EntityFramework\Elsa.Persistence.EntityFramework.Core\Elsa.Persistence.EntityFramework.Core.csproj" />
     <ProjectReference Include="..\..\elsa-core\src\persistence\Elsa.Persistence.EntityFramework\Elsa.Persistence.EntityFramework.SqlServer\Elsa.Persistence.EntityFramework.SqlServer.csproj" />

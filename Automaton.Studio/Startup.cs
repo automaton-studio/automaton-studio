@@ -22,7 +22,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Plk.Blazor.DragDrop;
+using Automaton.Studio.DragDrop;
 using System;
 using System.Linq;
 using System.Net.Mime;
