@@ -1,11 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Automaton.Studio.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Automaton.Studio.DragDrop
 {
-    public static class ServiceCollectionExtensions
+    public static class DragDropExtensions
     {
         public static IServiceCollection AddBlazorDragDrop(this IServiceCollection services)
         {

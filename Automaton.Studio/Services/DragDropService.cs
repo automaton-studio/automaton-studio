@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
-namespace Automaton.Studio.DragDrop
+namespace Automaton.Studio.Services
 {
     public class DragDropService<T>
     {
