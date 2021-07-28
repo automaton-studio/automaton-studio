@@ -17,9 +17,7 @@
      @ondragend:stopPropagation
      @ondragover:stopPropagation
      @ondragleave:stopPropagation
-     @ondragstart:stopPropagation
-     style="background-color:aquamarine"
-     >
+     @ondragstart:stopPropagation>
 
     @foreach (var item in Items)
     {
@@ -29,7 +27,7 @@
                  @ondrop:stopPropagation 
                  @ondragenter="()=>DragDropService.ActiveSpacerId = 0" 
                  @ondragleave="()=>DragDropService.ActiveSpacerId = null" 
-                 class="@GetClassesForSpacing(0)" style="background-color:red"></div>
+                 class="@GetClassesForSpacing(0)"></div>
         }
 
         <div draggable="@IsItemDragable(item)"
@@ -56,8 +54,7 @@
             <div @ondrop="()=>OnDropItemOnSpacing(Items.IndexOf(item)+1)" 
                  @ondrop:stopPropagation @ondragenter="()=>DragDropService.ActiveSpacerId = Items.IndexOf(item)+1" 
                  @ondragleave="()=>DragDropService.ActiveSpacerId = null" 
-                 class="@CheckIfDragOperationIsInProgess() @GetClassesForSpacing(Items.IndexOf(item)+1)"
-                 style="background-color:orange">
+                 class="@CheckIfDragOperationIsInProgess() @GetClassesForSpacing(Items.IndexOf(item)+1)">
             </div>
         }
     }
