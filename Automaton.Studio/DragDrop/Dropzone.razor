@@ -18,14 +18,18 @@
      @ondragover:stopPropagation
      @ondragleave:stopPropagation
      @ondragstart:stopPropagation
+     style="background-color:aquamarine"
      >
 
     @foreach (var item in Items)
     {
-
         if (Items.IndexOf(item) == 0 && MaxItems == null || MaxItems > 1)
         {
-            <div @ondrop="()=>OnDropItemOnSpacing(0)" @ondrop:stopPropagation @ondragenter="()=>DragDropService.ActiveSpacerId =  0" @ondragleave="()=>DragDropService.ActiveSpacerId = null" class="@GetClassesForSpacing(0)"></div>
+            <div @ondrop="()=>OnDropItemOnSpacing(0)" 
+                 @ondrop:stopPropagation 
+                 @ondragenter="()=>DragDropService.ActiveSpacerId = 0" 
+                 @ondragleave="()=>DragDropService.ActiveSpacerId = null" 
+                 class="@GetClassesForSpacing(0)"></div>
         }
 
         <div draggable="@IsItemDragable(item)"
@@ -49,7 +53,11 @@
 
         @if (MaxItems == null || MaxItems > 1)
         {
-            <div @ondrop="()=>OnDropItemOnSpacing(Items.IndexOf(item)+1)" @ondrop:stopPropagation @ondragenter="()=>DragDropService.ActiveSpacerId = Items.IndexOf(item)+1" @ondragleave="()=>DragDropService.ActiveSpacerId = null" class="@CheckIfDragOperationIsInProgess() @GetClassesForSpacing(Items.IndexOf(item)+1)"></div>
+            <div @ondrop="()=>OnDropItemOnSpacing(Items.IndexOf(item)+1)" 
+                 @ondrop:stopPropagation @ondragenter="()=>DragDropService.ActiveSpacerId = Items.IndexOf(item)+1" 
+                 @ondragleave="()=>DragDropService.ActiveSpacerId = null" 
+                 class="@CheckIfDragOperationIsInProgess() @GetClassesForSpacing(Items.IndexOf(item)+1)">
+            </div>
         }
     }
 

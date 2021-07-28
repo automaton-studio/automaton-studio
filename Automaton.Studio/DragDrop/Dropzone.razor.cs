@@ -25,11 +25,8 @@ namespace Automaton.Studio.DragDrop
             var sameDropZone = false;
             if (oldIndex == -1) // item not present in target dropzone
             {
-                if (CopyItem == null)
-                {
-                    if (DragDropService.Items != null)
-                        DragDropService.Items.Remove(activeItem);
-                }
+                if (DragDropService.Items != null)
+                    DragDropService.Items.Remove(activeItem);
             }
             else // same dropzone drop
             {
@@ -40,15 +37,7 @@ namespace Automaton.Studio.DragDrop
                     newIndex--;
             }
 
-            if (CopyItem == null)
-            {
-                Items.Insert(newIndex, activeItem);
-            }
-            else
-            {
-                // for the same zone - do not call CopyItem
-                Items.Insert(newIndex, sameDropZone ? activeItem : CopyItem(activeItem));
-            }
+            Items.Insert(newIndex, activeItem);
 
             OnItemDrop.InvokeAsync(activeItem);
 
@@ -337,12 +326,6 @@ namespace Automaton.Studio.DragDrop
         [Parameter]
         public Func<TItem, string> ItemWrapperClass { get; set; }
 
-        /// <summary>
-        /// If set items dropped are copied to this dropzone and are not removed from their source.
-        /// </summary>
-        [Parameter]
-        public Func<TItem, TItem> CopyItem { get; set; }
-
         public TItem ActiveItem
         {
             get { return DragDropService.ActiveItem; }
@@ -410,17 +393,10 @@ namespace Automaton.Studio.DragDrop
             if (DragDropService.DragTargetItem == null) //no direct drag target
             {
                 if (!Items.Contains(activeItem)) //if dragged to another dropzone
-                {
-                    if (CopyItem == null)
-                    {
-                        Items.Insert(Items.Count, activeItem); //insert item to new zone
-                        if (DragDropService.Items != null)
-                            DragDropService.Items.Remove(activeItem); //remove from old zone
-                    }
-                    else
-                    {
-                        Items.Insert(Items.Count, CopyItem(activeItem)); //insert item to new zone
-                    }
+                {          
+                    Items.Insert(Items.Count, activeItem); //insert item to new zone
+                    if (DragDropService.Items != null)
+                        DragDropService.Items.Remove(activeItem); //remove from old zone            
                 }
                 else
                 {
@@ -432,19 +408,9 @@ namespace Automaton.Studio.DragDrop
             {
                 if (!Items.Contains(activeItem)) // if dragged to another dropzone
                 {
-                    if (CopyItem == null)
+                    if (!InstantReplace)
                     {
-                        if (!InstantReplace)
-                        {
-                            Swap(DragDropService.DragTargetItem, activeItem); //swap target with active item
-                        }
-                    }
-                    else
-                    {
-                        if (!InstantReplace)
-                        {
-                            Swap(DragDropService.DragTargetItem, CopyItem(activeItem)); //swap target with a copy of active item
-                        }
+                        Swap(DragDropService.DragTargetItem, activeItem); //swap target with active item
                     }
                 }
                 else
