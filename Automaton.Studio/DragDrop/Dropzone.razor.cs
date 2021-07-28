@@ -9,14 +9,210 @@ namespace Automaton.Studio.DragDrop
 {
     public partial class Dropzone<TItem>
     {
-        #region Private Properties
+        [Inject]
+        DragDropService<TItem> DragDropService { get; set; }
 
-        [Inject] 
-        private DragDropService<TItem> DragDropService { get; set; }
+        private void OnDropItemOnSpacing(int newIndex)
+        {
+            if (!IsDropAllowed())
+            {
+                DragDropService.Reset();
+                return;
+            }
 
-        #endregion
+            var activeItem = DragDropService.ActiveItem;
+            var oldIndex = Items.IndexOf(activeItem);
+            var sameDropZone = false;
+            if (oldIndex == -1) // item not present in target dropzone
+            {
+                if (DragDropService.Items != null)
+                    DragDropService.Items.Remove(activeItem);
+            }
+            else // same dropzone drop
+            {
+                sameDropZone = true;
+                Items.RemoveAt(oldIndex);
+                // the actual index could have shifted due to the removal
+                if (newIndex > oldIndex)
+                    newIndex--;
+            }
 
-        #region Public Properties
+            Items.Insert(newIndex, activeItem);
+
+            OnItemDrop.InvokeAsync(activeItem);
+
+            //Operation is finished
+            DragDropService.Reset();
+        }
+
+        private bool IsMaxItemLimitReached()
+        {
+            var activeItem = DragDropService.ActiveItem;
+            return (!Items.Contains(activeItem) && MaxItems.HasValue && MaxItems == Items.Count());
+        }
+
+        private string IsItemDragable(TItem item)
+        {
+            if (AllowsDrag == null)
+                return "true";
+            if (item == null)
+                return "false";
+            return AllowsDrag(item).ToString();
+        }
+
+        private bool IsItemAccepted(TItem dragTargetItem)
+        {
+            if (Accepts == null)
+                return true;
+            return Accepts(DragDropService.ActiveItem, dragTargetItem);
+        }
+
+        private bool IsValidItem()
+        {
+            return DragDropService.ActiveItem != null;
+        }
+
+        protected override bool ShouldRender()
+        {
+            return DragDropService.ShouldRender;
+        }
+
+        private void ForceRender(object sender, EventArgs e)
+        {
+            StateHasChanged();
+        }
+
+        protected override void OnInitialized()
+        {
+            DragDropService.StateHasChanged += ForceRender;
+            base.OnInitialized();
+        }
+
+        public string CheckIfDraggable(TItem item)
+        {
+            if (AllowsDrag == null)
+                return "";
+            if (item == null)
+                return "";
+            if (AllowsDrag(item))
+                return "";
+            return "plk-dd-noselect";
+        }
+
+        public string CheckIfDragOperationIsInProgess()
+        {
+            var activeItem = DragDropService.ActiveItem;
+            return activeItem == null ? "" : "plk-dd-inprogess";
+        }
+
+        public void OnDragEnd()
+        {
+            if (DragEnd != null)
+            {
+                DragEnd(DragDropService.ActiveItem);
+            }
+
+            DragDropService.Reset();
+            //dragTargetItem = default;
+        }
+
+        public void OnDragEnter(TItem item)
+        {
+            var activeItem = DragDropService.ActiveItem;
+            if (item.Equals(activeItem))
+                return;
+            if (!IsValidItem())
+                return;
+            if (IsMaxItemLimitReached())
+                return;
+            if (!IsItemAccepted(item))
+                return;
+            DragDropService.DragTargetItem = item;
+            if (InstantReplace)
+            {
+                Swap(DragDropService.DragTargetItem, activeItem);
+            }
+
+            DragDropService.ShouldRender = true;
+            StateHasChanged();
+            DragDropService.ShouldRender = false;
+        }
+
+        public void OnDragLeave()
+        {
+            DragDropService.DragTargetItem = default;
+            DragDropService.ShouldRender = true;
+            StateHasChanged();
+            DragDropService.ShouldRender = false;
+        }
+
+        public void OnDragStart(TItem item)
+        {
+            DragDropService.ShouldRender = true;
+            DragDropService.ActiveItem = item;
+            DragDropService.Items = Items;
+            StateHasChanged();
+            DragDropService.ShouldRender = false;
+        }
+
+        public string CheckIfItemIsInTransit(TItem item)
+        {
+            return item.Equals(DragDropService.ActiveItem) ? "plk-dd-in-transit no-pointer-events" : "";
+        }
+
+        public string CheckIfItemIsDragTarget(TItem item)
+        {
+            if (item.Equals(DragDropService.ActiveItem))
+                return "";
+            if (item.Equals(DragDropService.DragTargetItem))
+            {
+                return IsItemAccepted(DragDropService.DragTargetItem) ? "plk-dd-dragged-over" : "plk-dd-dragged-over-denied";
+            }
+
+            return "";
+        }
+
+        private string GetClassesForDraggable(TItem item)
+        {
+            var builder = new StringBuilder();
+            builder.Append("plk-dd-draggable");
+            if (ItemWrapperClass != null)
+            {
+                var itemWrapperClass = ItemWrapperClass(item);
+                builder.AppendLine(" " + itemWrapperClass);
+            }
+
+            return builder.ToString();
+        }
+
+        private string GetClassesForDropzone()
+        {
+            var builder = new StringBuilder();
+            builder.Append("plk-dd-dropzone");
+            if (!String.IsNullOrEmpty(Class))
+            {
+                builder.AppendLine(" " + Class);
+            }
+
+            return builder.ToString();
+        }
+
+        private string GetClassesForSpacing(int spacerId)
+        {
+            var builder = new StringBuilder();
+            builder.Append("plk-dd-spacing");
+            //if active space id and item is from another dropzone -> always create insert space
+            if (DragDropService.ActiveSpacerId == spacerId && Items.IndexOf(DragDropService.ActiveItem) == -1)
+            {
+                builder.Append(" plk-dd-spacing-dragged-over");
+            } // else -> check if active space id and that it is an item that needs space
+            else if (DragDropService.ActiveSpacerId == spacerId && (spacerId != Items.IndexOf(DragDropService.ActiveItem)) && (spacerId != Items.IndexOf(DragDropService.ActiveItem) + 1))
+            {
+                builder.Append(" plk-dd-spacing-dragged-over");
+            }
+
+            return builder.ToString();
+        }
 
         /// <summary>
         /// Allows to pass a delegate which executes if something is dropped and decides if the item is accepted
@@ -47,6 +243,7 @@ namespace Automaton.Studio.DragDrop
         /// </summary>
         [Parameter]
         public EventCallback OnDropzoneMouseDown { get; set; }
+
 
         /// <summary>
         /// Raises a callback with the dropped item as parameter in case the item can not be dropped due to the given Accept Delegate
@@ -135,170 +332,6 @@ namespace Automaton.Studio.DragDrop
             set { DragDropService.ActiveItem = value; }
         }
 
-        #endregion
-
-        #region Public Methods
-
-        public string CheckIfDraggable(TItem item)
-        {
-            if (AllowsDrag == null)
-                return "";
-            if (item == null)
-                return "";
-            if (AllowsDrag(item))
-                return "";
-            return "plk-dd-noselect";
-        }
-
-        public string CheckIfDragOperationIsInProgess()
-        {
-            var activeItem = DragDropService.ActiveItem;
-            return activeItem == null ? "" : "plk-dd-inprogess";
-        }
-
-        public void OnDragEnd()
-        {
-            if (DragEnd != null)
-            {
-                DragEnd(DragDropService.ActiveItem);
-            }
-
-            DragDropService.Reset();
-            //dragTargetItem = default;
-        }
-
-        public void OnDragEnter()
-        {
-            var activeItem = DragDropService.ActiveItem;
-
-            if (InstantReplace)
-            {
-                Swap(DragDropService.DragTargetItem, activeItem);
-            }
-        }
-
-        public void OnDragEnter(TItem item)
-        {
-            var activeItem = DragDropService.ActiveItem;
-
-            if (item.Equals(activeItem) || !IsValidItem() || IsMaxItemLimitReached() || !IsItemAccepted(item))
-                return;
-
-            DragDropService.DragTargetItem = item;
-
-            if (InstantReplace)
-            {
-                Swap(DragDropService.DragTargetItem, activeItem);
-            }
-
-            RefreshState();
-        }
-
-        public void OnDragLeave()
-        {
-            DragDropService.DragTargetItem = default;
-
-            RefreshState();
-        }
-
-        public void OnDragStart(TItem item)
-        {
-            DragDropService.ShouldRender = true;
-            DragDropService.ActiveItem = item;
-
-            RefreshState();
-        }
-
-        public string CheckIfItemIsInTransit(TItem item)
-        {
-            return item.Equals(DragDropService.ActiveItem) ? "plk-dd-in-transit no-pointer-events" : "";
-        }
-
-        public string CheckIfItemIsDragTarget(TItem item)
-        {
-            if (item.Equals(DragDropService.ActiveItem))
-                return "";
-            if (item.Equals(DragDropService.DragTargetItem))
-            {
-                return IsItemAccepted(DragDropService.DragTargetItem) ? "plk-dd-dragged-over" : "plk-dd-dragged-over-denied";
-            }
-
-            return "";
-        }
-
-        public void Dispose()
-        {
-            DragDropService.StateHasChanged -= ForceRender;
-        }
-
-        #endregion
-
-        #region Protected Methods
-
-        protected override void OnInitialized()
-        {
-            DragDropService.StateHasChanged += ForceRender;
-            base.OnInitialized();
-        }
-
-        protected override bool ShouldRender()
-        {
-            return DragDropService.ShouldRender;
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        private void RefreshState()
-        {
-            DragDropService.Items = Items;
-            StateHasChanged();
-            DragDropService.ShouldRender = false;
-        }
-
-        private string GetClassesForDraggable(TItem item)
-        {
-            var builder = new StringBuilder();
-            builder.Append("plk-dd-draggable");
-            if (ItemWrapperClass != null)
-            {
-                var itemWrapperClass = ItemWrapperClass(item);
-                builder.AppendLine(" " + itemWrapperClass);
-            }
-
-            return builder.ToString();
-        }
-
-        private string GetClassesForDropzone()
-        {
-            var builder = new StringBuilder();
-            builder.Append("plk-dd-dropzone");
-            if (!String.IsNullOrEmpty(Class))
-            {
-                builder.AppendLine(" " + Class);
-            }
-
-            return builder.ToString();
-        }
-
-        private string GetClassesForSpacing(int spacerId)
-        {
-            var builder = new StringBuilder();
-            builder.Append("plk-dd-spacing");
-            //if active space id and item is from another dropzone -> always create insert space
-            if (DragDropService.ActiveSpacerId == spacerId && Items.IndexOf(DragDropService.ActiveItem) == -1)
-            {
-                builder.Append(" plk-dd-spacing-dragged-over");
-            } // else -> check if active space id and that it is an item that needs space
-            else if (DragDropService.ActiveSpacerId == spacerId && (spacerId != Items.IndexOf(DragDropService.ActiveItem)) && (spacerId != Items.IndexOf(DragDropService.ActiveItem) + 1))
-            {
-                builder.Append(" plk-dd-spacing-dragged-over");
-            }
-
-            return builder.ToString();
-        }
-
         private bool IsDropAllowed()
         {
             var activeItem = DragDropService.ActiveItem;
@@ -321,71 +354,6 @@ namespace Automaton.Studio.DragDrop
 
             return true;
         }
-
-        private void ForceRender(object sender, EventArgs e)
-        {
-            StateHasChanged();
-        }
-
-        private void OnDropItemOnSpacing(int newIndex)
-        {
-            if (!IsDropAllowed())
-            {
-                DragDropService.Reset();
-                return;
-            }
-
-            var activeItem = DragDropService.ActiveItem;
-            var oldIndex = Items.IndexOf(activeItem);
-
-            if (oldIndex == -1) // item not present in target dropzone
-            {
-                if (DragDropService.Items != null)
-                    DragDropService.Items.Remove(activeItem);
-            }
-            else // same dropzone drop
-            {
-                Items.RemoveAt(oldIndex);
-                // the actual index could have shifted due to the removal
-                if (newIndex > oldIndex)
-                    newIndex--;
-            }
-
-            Items.Insert(newIndex, activeItem);
-
-            OnItemDrop.InvokeAsync(activeItem);
-
-            //Operation is finished
-            DragDropService.Reset();
-        }
-
-        private bool IsMaxItemLimitReached()
-        {
-            var activeItem = DragDropService.ActiveItem;
-            return (!Items.Contains(activeItem) && MaxItems.HasValue && MaxItems == Items.Count());
-        }
-
-        private string IsItemDragable(TItem item)
-        {
-            if (AllowsDrag == null)
-                return "true";
-            if (item == null)
-                return "false";
-            return AllowsDrag(item).ToString();
-        }
-
-        private bool IsItemAccepted(TItem dragTargetItem)
-        {
-            if (Accepts == null)
-                return true;
-            return Accepts(DragDropService.ActiveItem, dragTargetItem);
-        }
-
-        private bool IsValidItem()
-        {
-            return DragDropService.ActiveItem != null;
-        }
-
 
         private void DropzoneClick()
         {
@@ -425,7 +393,7 @@ namespace Automaton.Studio.DragDrop
             if (DragDropService.DragTargetItem == null) //no direct drag target
             {
                 if (!Items.Contains(activeItem)) //if dragged to another dropzone
-                {          
+                {
                     Items.Insert(Items.Count, activeItem); //insert item to new zone
                     if (DragDropService.Items != null)
                         DragDropService.Items.Remove(activeItem); //remove from old zone            
@@ -477,29 +445,24 @@ namespace Automaton.Studio.DragDrop
             {
                 if (indexDraggedOverItem == indexActiveItem)
                     return;
-
-                if(indexDraggedOverItem > -1)
-                {
-                    TItem tmp = Items[indexDraggedOverItem];
-                    Items[indexDraggedOverItem] = Items[indexActiveItem];
-                    Items[indexActiveItem] = tmp;
-                    OnReplacedItemDrop.InvokeAsync(Items[indexActiveItem]);
-                }
+                TItem tmp = Items[indexDraggedOverItem];
+                Items[indexDraggedOverItem] = Items[indexActiveItem];
+                Items[indexActiveItem] = tmp;
+                OnReplacedItemDrop.InvokeAsync(Items[indexActiveItem]);
             }
             else //no instant replace, just insert it after 
             {
                 if (indexDraggedOverItem == indexActiveItem)
                     return;
-
-                if (indexActiveItem > -1)
-                {
-                    var tmp = Items[indexActiveItem];
-                    Items.RemoveAt(indexActiveItem);
-                    Items.Insert(indexDraggedOverItem, tmp); 
-                }
+                var tmp = Items[indexActiveItem];
+                Items.RemoveAt(indexActiveItem);
+                Items.Insert(indexDraggedOverItem, tmp);
             }
         }
 
-        #endregion
+        public void Dispose()
+        {
+            DragDropService.StateHasChanged -= ForceRender;
+        }
     }
 }
