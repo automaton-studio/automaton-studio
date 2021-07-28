@@ -12,74 +12,9 @@ namespace Automaton.Studio.DragDrop
         [Inject] 
         DragDropService<TItem> DragDropService { get; set; }
 
-        private void OnDropItemOnSpacing(int newIndex)
-        {
-            if (!IsDropAllowed())
-            {
-                DragDropService.Reset();
-                return;
-            }
-
-            var activeItem = DragDropService.ActiveItem;
-            var oldIndex = Items.IndexOf(activeItem);
-            var sameDropZone = false;
-            if (oldIndex == -1) // item not present in target dropzone
-            {
-                if (DragDropService.Items != null)
-                    DragDropService.Items.Remove(activeItem);
-            }
-            else // same dropzone drop
-            {
-                sameDropZone = true;
-                Items.RemoveAt(oldIndex);
-                // the actual index could have shifted due to the removal
-                if (newIndex > oldIndex)
-                    newIndex--;
-            }
-
-            Items.Insert(newIndex, activeItem);
-
-            OnItemDrop.InvokeAsync(activeItem);
-
-            //Operation is finished
-            DragDropService.Reset();
-        }
-
-        private bool IsMaxItemLimitReached()
-        {
-            var activeItem = DragDropService.ActiveItem;
-            return (!Items.Contains(activeItem) && MaxItems.HasValue && MaxItems == Items.Count());
-        }
-
-        private string IsItemDragable(TItem item)
-        {
-            if (AllowsDrag == null)
-                return "true";
-            if (item == null)
-                return "false";
-            return AllowsDrag(item).ToString();
-        }
-
-        private bool IsItemAccepted(TItem dragTargetItem)
-        {
-            if (Accepts == null)
-                return true;
-            return Accepts(DragDropService.ActiveItem, dragTargetItem);
-        }
-
-        private bool IsValidItem()
-        {
-            return DragDropService.ActiveItem != null;
-        }
-
         protected override bool ShouldRender()
         {
             return DragDropService.ShouldRender;
-        }
-
-        private void ForceRender(object sender, EventArgs e)
-        {
-            StateHasChanged();
         }
 
         protected override void OnInitialized()
@@ -116,43 +51,46 @@ namespace Automaton.Studio.DragDrop
             //dragTargetItem = default;
         }
 
+        public void OnDragEnter()
+        {
+            var activeItem = DragDropService.ActiveItem;
+            
+            if (InstantReplace)
+            {
+                Swap(DragDropService.DragTargetItem, activeItem);
+            }
+        }
+
         public void OnDragEnter(TItem item)
         {
             var activeItem = DragDropService.ActiveItem;
-            if (item.Equals(activeItem))
+
+            if (item.Equals(activeItem) || !IsValidItem() || IsMaxItemLimitReached() || !IsItemAccepted(item))
                 return;
-            if (!IsValidItem())
-                return;
-            if (IsMaxItemLimitReached())
-                return;
-            if (!IsItemAccepted(item))
-                return;
+
             DragDropService.DragTargetItem = item;
+
             if (InstantReplace)
             {
                 Swap(DragDropService.DragTargetItem, activeItem);
             }
 
-            DragDropService.ShouldRender = true;
-            StateHasChanged();
-            DragDropService.ShouldRender = false;
+            RefreshState();
         }
 
         public void OnDragLeave()
         {
             DragDropService.DragTargetItem = default;
-            DragDropService.ShouldRender = true;
-            StateHasChanged();
-            DragDropService.ShouldRender = false;
+
+            RefreshState();
         }
 
         public void OnDragStart(TItem item)
         {
             DragDropService.ShouldRender = true;
             DragDropService.ActiveItem = item;
-            DragDropService.Items = Items;
-            StateHasChanged();
-            DragDropService.ShouldRender = false;
+
+            RefreshState();
         }
 
         public string CheckIfItemIsInTransit(TItem item)
@@ -170,6 +108,13 @@ namespace Automaton.Studio.DragDrop
             }
 
             return "";
+        }
+
+        private void RefreshState()
+        {
+            DragDropService.Items = Items;
+            StateHasChanged();
+            DragDropService.ShouldRender = false;
         }
 
         private string GetClassesForDraggable(TItem item)
@@ -355,6 +300,71 @@ namespace Automaton.Studio.DragDrop
             return true;
         }
 
+        private void ForceRender(object sender, EventArgs e)
+        {
+            StateHasChanged();
+        }
+
+        private void OnDropItemOnSpacing(int newIndex)
+        {
+            if (!IsDropAllowed())
+            {
+                DragDropService.Reset();
+                return;
+            }
+
+            var activeItem = DragDropService.ActiveItem;
+            var oldIndex = Items.IndexOf(activeItem);
+
+            if (oldIndex == -1) // item not present in target dropzone
+            {
+                if (DragDropService.Items != null)
+                    DragDropService.Items.Remove(activeItem);
+            }
+            else // same dropzone drop
+            {
+                Items.RemoveAt(oldIndex);
+                // the actual index could have shifted due to the removal
+                if (newIndex > oldIndex)
+                    newIndex--;
+            }
+
+            Items.Insert(newIndex, activeItem);
+
+            OnItemDrop.InvokeAsync(activeItem);
+
+            //Operation is finished
+            DragDropService.Reset();
+        }
+
+        private bool IsMaxItemLimitReached()
+        {
+            var activeItem = DragDropService.ActiveItem;
+            return (!Items.Contains(activeItem) && MaxItems.HasValue && MaxItems == Items.Count());
+        }
+
+        private string IsItemDragable(TItem item)
+        {
+            if (AllowsDrag == null)
+                return "true";
+            if (item == null)
+                return "false";
+            return AllowsDrag(item).ToString();
+        }
+
+        private bool IsItemAccepted(TItem dragTargetItem)
+        {
+            if (Accepts == null)
+                return true;
+            return Accepts(DragDropService.ActiveItem, dragTargetItem);
+        }
+
+        private bool IsValidItem()
+        {
+            return DragDropService.ActiveItem != null;
+        }
+
+
         private void DropzoneClick()
         {
             OnDropzoneClick.InvokeAsync(null);
@@ -445,18 +455,26 @@ namespace Automaton.Studio.DragDrop
             {
                 if (indexDraggedOverItem == indexActiveItem)
                     return;
-                TItem tmp = Items[indexDraggedOverItem];
-                Items[indexDraggedOverItem] = Items[indexActiveItem];
-                Items[indexActiveItem] = tmp;
-                OnReplacedItemDrop.InvokeAsync(Items[indexActiveItem]);
+
+                if(indexDraggedOverItem > -1)
+                {
+                    TItem tmp = Items[indexDraggedOverItem];
+                    Items[indexDraggedOverItem] = Items[indexActiveItem];
+                    Items[indexActiveItem] = tmp;
+                    OnReplacedItemDrop.InvokeAsync(Items[indexActiveItem]);
+                }
             }
             else //no instant replace, just insert it after 
             {
                 if (indexDraggedOverItem == indexActiveItem)
                     return;
-                var tmp = Items[indexActiveItem];
-                Items.RemoveAt(indexActiveItem);
-                Items.Insert(indexDraggedOverItem, tmp);
+
+                if (indexActiveItem > -1)
+                {
+                    var tmp = Items[indexActiveItem];
+                    Items.RemoveAt(indexActiveItem);
+                    Items.Insert(indexDraggedOverItem, tmp); 
+                }
             }
         }
 

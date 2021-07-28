@@ -6,7 +6,7 @@
      @ondragover:preventDefault
      @ondragover="()=> { }"
      @ondragenter:preventDefault
-     @ondragenter="()=> { }"
+     @ondragenter="()=>OnDragEnter()"
      @ondrop="()=>OnDrop()"
      @onmousedown="()=>DropzoneMouseDown()"
      @onclick="()=>DropzoneClick()"
@@ -29,7 +29,7 @@
                  @ondrop:stopPropagation 
                  @ondragenter="()=>DragDropService.ActiveSpacerId = 0" 
                  @ondragleave="()=>DragDropService.ActiveSpacerId = null" 
-                 class="@GetClassesForSpacing(0)"></div>
+                 class="@GetClassesForSpacing(0)" style="background-color:red"></div>
         }
 
         <div draggable="@IsItemDragable(item)"
@@ -56,7 +56,8 @@
             <div @ondrop="()=>OnDropItemOnSpacing(Items.IndexOf(item)+1)" 
                  @ondrop:stopPropagation @ondragenter="()=>DragDropService.ActiveSpacerId = Items.IndexOf(item)+1" 
                  @ondragleave="()=>DragDropService.ActiveSpacerId = null" 
-                 class="@CheckIfDragOperationIsInProgess() @GetClassesForSpacing(Items.IndexOf(item)+1)">
+                 class="@CheckIfDragOperationIsInProgess() @GetClassesForSpacing(Items.IndexOf(item)+1)"
+                 style="background-color:orange">
             </div>
         }
     }
