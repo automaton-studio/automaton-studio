@@ -34,7 +34,14 @@ namespace Automaton.Studio.Activity
 
         private async Task OnEdit(StudioActivity activity)
         {
-            await EditActivityDialog(activity);
+            var result = await activity.EditActivityDialog(ModalService);
+
+            result.OnOk = () => {
+
+                StateHasChanged();
+
+                return Task.CompletedTask;
+            };
         }
 
         private void OnDelete(StudioActivity activity)
@@ -43,35 +50,5 @@ namespace Automaton.Studio.Activity
         }
 
         #endregion
-
-        /// <summary>
-        /// Display new activity dialog
-        /// </summary>
-        /// <param name="activity"></param>
-        private async Task EditActivityDialog(StudioActivity activity)
-        {
-            var modalConfig = new ModalOptions
-            {
-                Title = activity.Descriptor.DisplayName
-            };
-
-            // Launch the Properties dialog using reflection to dynamically load the activity properties component.
-
-            // 1. Select the method to be executed
-            var method = typeof(ModalService).GetMethod(nameof(ModalService.CreateDynamicModalAsync));
-            // 2. Make the metod generic because CreateDynamicModalAsync is using generics
-            var generic = method.MakeGenericMethod(activity.GetPropertiesComponent(), activity.GetType());
-            // 3. Invoke the method and pass the required parameters
-            var result = await generic.InvokeAsync(ModalService, new object[] { modalConfig, activity }) as ModalRef;
-
-            result.OnOk = () => {
-
-                // TODO! It may be inneficient to update the state of the entire Designer control.
-                // A better alternative would be to update the state of the activity being updated.
-                StateHasChanged();
-
-                return Task.CompletedTask;
-            };
-        }
     }
 }

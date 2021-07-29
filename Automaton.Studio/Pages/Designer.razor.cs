@@ -1,10 +1,8 @@
 ﻿using AntDesign;
-using AutoMapper;
 using Automaton.Studio.Activity;
+using Automaton.Studio.Activity.Extensions;
 using Automaton.Studio.Components;
 using Automaton.Studio.DragDrop;
-using Automaton.Studio.Extensions;
-using Automaton.Studio.Models;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -56,6 +54,7 @@ namespace Automaton.Studio.Pages
             DesignerViewModel.DragActivity += OnDragActivity;
             DesignerViewModel.StudioWorkflow.ActivityAdded += OnActivityAdded;
             DesignerViewModel.StudioWorkflow.ActivityRemoved += OnActivityRemoved;
+
         }
 
         #endregion
@@ -104,6 +103,22 @@ namespace Automaton.Studio.Pages
 
             // Select the one under the mouse cursor
             activity.Select();
+        }
+
+        /// <summary>
+        /// Occurs when double click over an activity.
+        /// </summary>
+        /// <param name="activity">Clicked activity</param>
+        private async Task OnActivityDoubleClick(StudioActivity activity)
+        {
+            var result = await activity.EditActivityDialog(ModalService);
+
+            result.OnOk = () => {
+
+                StateHasChanged();
+
+                return Task.CompletedTask;
+            };
         }
 
         /// <summary>

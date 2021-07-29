@@ -63,7 +63,8 @@
                       InstantReplace="true"
                       OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
                       OnItemDrop="@((p)=>OnActivityDrop(p))"
-                      OnItemMouseDown="@((p)=>OnActivityMouseDown(p))">
+                      OnItemMouseDown="@((p)=>OnActivityMouseDown(p))"
+                      OnItemDoubleClick="@((p)=>OnActivityDoubleClick(p))">
                 <StudioActivityComponent Activity="@context" />
             </Dropzone>
         </Content>
