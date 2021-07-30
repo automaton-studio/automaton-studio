@@ -34,7 +34,6 @@
     <ProjectReference Include="..\..\elsa-core\src\persistence\Elsa.Persistence.EntityFramework\Elsa.Persistence.EntityFramework.SqlServer\Elsa.Persistence.EntityFramework.SqlServer.csproj" />
     <ProjectReference Include="..\..\elsa-core\src\server\Elsa.Server.Api\Elsa.Server.Api.csproj" />
     <ProjectReference Include="..\Automaton.Common\Automaton.Common.csproj" />
-    <ProjectReference Include="..\Automaton.Elsa.Activities\Automaton.Elsa.Activities.csproj" />
     <ProjectReference Include="..\Automaton.Studio.Activities\Automaton.Studio.Activities.csproj" />
     <ProjectReference Include="..\Automaton.Studio.Core\Automaton.Studio.Core.csproj" />
   </ItemGroup>

@@ -22,7 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ant-design-blazor\components\AntDesign.csproj" />
     <ProjectReference Include="..\..\elsa-core\src\core\Elsa.Core\Elsa.Core.csproj" />
-    <ProjectReference Include="..\Automaton.Elsa.Activities\Automaton.Elsa.Activities.csproj" />
+    <ProjectReference Include="..\Automaton.Activities\Automaton.Activities.csproj" />
     <ProjectReference Include="..\Automaton.Studio.Core\Automaton.Studio.Core.csproj" />
   </ItemGroup>
 

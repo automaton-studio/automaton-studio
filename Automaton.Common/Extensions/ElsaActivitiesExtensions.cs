@@ -1,4 +1,4 @@
-using Automaton.Elsa.Activities.Dialogs;
+using Automaton.Activities;
 using Elsa;
 using Microsoft.Extensions.DependencyInjection;
 

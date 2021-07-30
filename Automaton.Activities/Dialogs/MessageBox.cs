@@ -6,7 +6,7 @@ using Elsa.Services;
 using Elsa.Services.Models;
 using System;
 
-namespace Automaton.Elsa.Activities.Dialogs
+namespace Automaton.Activities
 {
     /// <summary>
     /// Writes a text string to a message box.

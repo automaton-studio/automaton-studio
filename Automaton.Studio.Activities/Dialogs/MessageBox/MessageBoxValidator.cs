@@ -1,8 +1,7 @@
-﻿using Automaton.Studio.Activities.Dialogs.MessageBox;
-using Automaton.Studio.Activities.Resources;
+﻿using Automaton.Studio.Activities.Resources;
 using FluentValidation;
 
-namespace Automaton.Studio.Activities.Console.WriteLine
+namespace Automaton.Studio.Activities.Dialogs.MessageBox
 {
     public class MessageBoxValidator : AbstractValidator<MessageBoxActivity>
     {
