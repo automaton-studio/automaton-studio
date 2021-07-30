@@ -1,7 +1,7 @@
 using Elsa.Attributes;
 using System;
 
-namespace Automaton.Studio.Activity
+namespace Automaton.Studio.Core
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class StudioActivityAttribute : ActivityAttribute

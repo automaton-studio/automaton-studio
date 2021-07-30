@@ -1,7 +1,7 @@
 ﻿using AntDesign;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Activity.Extensions
+namespace Automaton.Studio.Core.Extensions
 {
     public static class ActivityExtensions
     {

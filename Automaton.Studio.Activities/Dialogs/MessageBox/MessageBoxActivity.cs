@@ -1,6 +1,6 @@
-﻿using Automaton.Studio.Activity;
-using Automaton.Studio.Activity.Extensions;
-using Automaton.Studio.Activity.Metadata;
+﻿using Automaton.Studio.Core;
+using Automaton.Studio.Core.Extensions;
+using Automaton.Studio.Core.Metadata;
 using Elsa.Models;
 using System;
 using System.Collections.Generic;

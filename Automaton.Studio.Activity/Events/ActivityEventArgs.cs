@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Automaton.Studio.Activity
+namespace Automaton.Studio.Core
 {
     public class ActivityEventArgs : EventArgs
     {

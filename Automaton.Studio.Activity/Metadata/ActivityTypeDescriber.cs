@@ -3,7 +3,7 @@ using Humanizer;
 using System;
 using System.Reflection;
 
-namespace Automaton.Studio.Activity.Metadata
+namespace Automaton.Studio.Core.Metadata
 {
     public class ActivityTypeDescriber : IActivityTypeDescriber
     {

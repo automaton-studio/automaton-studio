@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Automaton.Studio.Activity.Metadata;
+using Automaton.Studio.Core.Metadata;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
 using System.Collections.Generic;

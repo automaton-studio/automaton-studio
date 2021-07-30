@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components.Rendering;
 using System;
 
-namespace Automaton.Studio.Activity
+namespace Automaton.Studio.Core
 {
     /// <summary>
     /// A code-based component that renders a Studio Activity

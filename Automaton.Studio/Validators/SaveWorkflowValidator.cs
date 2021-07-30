@@ -1,4 +1,4 @@
-﻿using Automaton.Studio.Activity;
+﻿using Automaton.Studio.Core;
 using Automaton.Studio.Resources;
 using Automaton.Studio.Specifications;
 using Elsa.Persistence;

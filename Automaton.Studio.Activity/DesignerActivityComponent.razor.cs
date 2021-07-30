@@ -1,9 +1,9 @@
 ﻿using AntDesign;
-using Automaton.Studio.Activity.Extensions;
+using Automaton.Studio.Core.Extensions;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Activity
+namespace Automaton.Studio.Core
 {
     public partial class DesignerActivityComponent : ComponentBase
     {

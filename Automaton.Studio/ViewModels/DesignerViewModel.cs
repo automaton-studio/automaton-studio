@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Automaton.Studio.Activity;
+using Automaton.Studio.Core;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services;

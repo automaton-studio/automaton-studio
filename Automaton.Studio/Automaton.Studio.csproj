@@ -35,7 +35,7 @@
     <ProjectReference Include="..\..\elsa-core\src\server\Elsa.Server.Api\Elsa.Server.Api.csproj" />
     <ProjectReference Include="..\Automaton.Common\Automaton.Common.csproj" />
     <ProjectReference Include="..\Automaton.Studio.Activities\Automaton.Studio.Activities.csproj" />
-    <ProjectReference Include="..\Automaton.Studio.Activity\Automaton.Studio.Activity.csproj" />
+    <ProjectReference Include="..\Automaton.Studio.Activity\Automaton.Studio.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

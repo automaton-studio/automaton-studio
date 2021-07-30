@@ -1,6 +1,6 @@
 ﻿using AntDesign;
-using Automaton.Studio.Activity;
-using Automaton.Studio.Activity.Extensions;
+using Automaton.Studio.Core;
+using Automaton.Studio.Core.Extensions;
 using Automaton.Studio.Components;
 using Automaton.Studio.DragDrop;
 using Automaton.Studio.ViewModels;

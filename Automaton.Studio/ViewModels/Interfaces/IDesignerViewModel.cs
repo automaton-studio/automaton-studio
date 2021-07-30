@@ -1,4 +1,4 @@
-﻿using Automaton.Studio.Activity;
+﻿using Automaton.Studio.Core;
 using Automaton.Studio.Models;
 using System;
 using System.Collections.Generic;

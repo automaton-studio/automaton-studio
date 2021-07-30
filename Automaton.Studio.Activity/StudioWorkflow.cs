@@ -7,15 +7,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Automaton.Studio.Activity
+namespace Automaton.Studio.Core
 {
     public class StudioWorkflow : INotifyPropertyChanged
     {
         #region Elsa Properties
-
-        // Observation:
-        // Replaced Elsa Activities with own Studio Activities
-        // which are easily mapped to each other
 
         public string Tag { get; set; }
         public bool IsLatest { get; set; }
@@ -34,6 +30,7 @@ namespace Automaton.Studio.Activity
         public string DefinitionId { get; set; }
         public Variables Variables { get; set; }
         public ICollection<ConnectionDefinition> Connections { get; set; }
+        // Replaced Elsa Activities with own Studio Activities
 
         #endregion
 

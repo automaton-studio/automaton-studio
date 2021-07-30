@@ -1,4 +1,4 @@
-﻿using Automaton.Studio.Activity.Metadata;
+﻿using Automaton.Studio.Core.Metadata;
 using Elsa.Models;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace Automaton.Studio.Activity
+namespace Automaton.Studio.Core
 {
     /// <summary>
     /// A base class for all activity instances

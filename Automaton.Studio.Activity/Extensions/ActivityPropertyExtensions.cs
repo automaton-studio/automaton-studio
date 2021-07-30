@@ -1,6 +1,6 @@
 ﻿using Elsa.Models;
 
-namespace Automaton.Studio.Activity.Extensions
+namespace Automaton.Studio.Core.Extensions
 {
     public static class ActivityPropertyExtensions
     {

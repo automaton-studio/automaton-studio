@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Elsa.Persistence;
 using AntDesign;
-using Automaton.Studio.Activity;
+using Automaton.Studio.Core;
 using Blazored.FluentValidation;
 using System.Threading.Tasks;
 using Elsa.Persistence.Specifications.WorkflowDefinitions;

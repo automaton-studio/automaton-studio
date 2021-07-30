@@ -1,4 +1,4 @@
-using Automaton.Studio.Activity.Metadata;
+using Automaton.Studio.Core.Metadata;
 using Automaton.Studio.Factories;
 using Microsoft.Extensions.DependencyInjection;
 using System;

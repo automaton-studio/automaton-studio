@@ -1,6 +1,6 @@
 using System;
 
-namespace Automaton.Studio.Activity.Metadata
+namespace Automaton.Studio.Core.Metadata
 {
     public interface IActivityTypeDescriber
     {

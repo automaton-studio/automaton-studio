@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AntDesign", "..\ant-design-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio.Activities", "Automaton.Studio.Activities\Automaton.Studio.Activities.csproj", "{55428F30-8CFD-4014-8220-E3C58E211FA0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio.Activity", "Automaton.Studio.Activity\Automaton.Studio.Activity.csproj", "{AC66DD72-1713-4860-BD37-B616F65C3112}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio.Core", "Automaton.Studio.Activity\Automaton.Studio.Core.csproj", "{AC66DD72-1713-4860-BD37-B616F65C3112}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParty", "ThirdParty", "{F8B5E808-1FCA-4977-89E4-DCBC9F6D2173}"
 EndProject
