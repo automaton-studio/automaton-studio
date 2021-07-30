@@ -10,8 +10,12 @@ namespace Automaton.Studio.Services
 {
     public class RunnerService : IRunnerService
     {
+        #region Private Members
+
         private readonly AutomatonDbContext dbContext;
         private readonly IHubContext<WorkflowHub> workflowHubContext;
+
+        #endregion
 
         public RunnerService(AutomatonDbContext context,
             IHubContext<WorkflowHub> workflowHubContext)
@@ -20,13 +24,24 @@ namespace Automaton.Studio.Services
             this.workflowHubContext = workflowHubContext;
         }
 
+        #region Public Methods
+
+        /// <summary>
+        /// Retrieves the full list of runners
+        /// </summary>
+        /// <returns></returns>
         public IQueryable<Runner> List()
         {
             return dbContext.Runners;
         }
 
+        /// <summary>
+        /// Retrieve runner by id
+        /// </summary>
+        /// <param name="id">Runner id</param>
+        /// <returns>Runner by incoming id</returns>
         public Runner Get(Guid id)
-        {           
+        {
             var entity = dbContext.Runners.Find(id);
 
             // Because we update Runner's ConnectionId on the fly,
@@ -49,6 +64,11 @@ namespace Automaton.Studio.Services
             return entity;
         }
 
+        /// <summary>
+        /// Adds a new runner to the database
+        /// </summary>
+        /// <param name="runner">Runner to add</param>
+        /// <returns>Result of the runner create operation</returns>
         public int Create(Runner runner)
         {
             dbContext.Runners.Add(runner);
@@ -57,6 +77,11 @@ namespace Automaton.Studio.Services
             return result;
         }
 
+        /// <summary>
+        /// Update incoming runner into the database
+        /// </summary>
+        /// <param name="runner">Runner to update information for</param>
+        /// <returns>Result of the runner update operation</returns>
         public async Task Update(Runner runner)
         {
             var runnerEntity = dbContext.Runners.SingleOrDefault(x => x.Name == runner.Name && x.UserId == runner.UserId);
@@ -77,6 +102,11 @@ namespace Automaton.Studio.Services
             await dbContext.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Check if runner exists into the database
+        /// </summary>
+        /// <param name="runner">Runner to check if exists</param>
+        /// <returns>True if runner exists, false if not</returns>
         public bool Exists(Runner runner)
         {
             // Note: OrdinalCase comparison not working with this version of LinQ
@@ -87,6 +117,11 @@ namespace Automaton.Studio.Services
             return exists;
         }
 
+        /// <summary>
+        /// Runs a workflow on specified runners
+        /// </summary>
+        /// <param name="workflowId">Workflow id to run</param>
+        /// <param name="runnerIds">RUnner ids to run the workflow on</param>
         public async Task RunWorkflow(string workflowId, IEnumerable<Guid> runnerIds)
         {
             foreach (var runnerId in runnerIds)
@@ -96,5 +131,7 @@ namespace Automaton.Studio.Services
                 await client.SendAsync("RunWorkflow", workflowId);
             }
         }
+
+        #endregion
     }
 }

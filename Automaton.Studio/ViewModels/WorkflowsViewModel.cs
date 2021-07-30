@@ -1,16 +1,12 @@
 ﻿using AntDesign;
 using AutoMapper;
-using Automaton.Studio.Hubs;
 using Automaton.Studio.Models;
 using Automaton.Studio.Resources;
 using Automaton.Studio.Services;
-using Automaton.Studio.Specifications;
 using Elsa.Models;
 using Elsa.Persistence;
 using Elsa.Persistence.Specifications;
 using Elsa.Persistence.Specifications.WorkflowDefinitions;
-using Microsoft.AspNetCore.SignalR;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;

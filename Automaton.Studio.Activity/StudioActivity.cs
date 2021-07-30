@@ -1,5 +1,4 @@
 ﻿using Automaton.Studio.Activity.Metadata;
-using Elsa;
 using Elsa.Models;
 using System;
 using System.Collections.Generic;
