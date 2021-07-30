@@ -2,85 +2,86 @@
 @using Automaton.Studio.Models
 @using AntDesign
 
-<div>
-    <Layout>
-        <Header Class="header">
-            <Row>
-                <Col Flex=@("none") Class="page-title">
-                    <Space Size="@AntSizeLDSType.Large">
-                        <SpaceItem> <h3>Workflows</h3></SpaceItem>
-                            <SpaceItem>
-                                <Button Class="new-button" Icon="plus" @onclick="@(() => ShowNewWorkflowDialog())">
-                                    New
-                                </Button>
-                            </SpaceItem>
-                    </Space>             
-                </Col>
-                <Col Class="right-actions">
-                    <Space Class="right-header-items">
-                    </Space>
-                </Col>
-            </Row>
+<Layout>
+    <Header Class="header">
+        <Row>
+            <Col Flex=@("none") Class="page-title">
+            <Space Size="@AntSizeLDSType.Large">
+                <SpaceItem>
+                    <h3>Workflows</h3>
+                </SpaceItem>
+                <SpaceItem>
+                    <Button Class="new-button" Icon="plus" @onclick="@(() => ShowNewWorkflowDialog())">
+                        New
+                    </Button>
+                </SpaceItem>
+            </Space>
+            </Col>
 
-        </Header>
+            <Col Class="right-actions">
+            <Space Class="right-header-items"></Space>
+            </Col>
+        </Row>
 
-        <Content>
-            <Table TItem="WorkflowInfo" @ref="workflowsTable" DataSource="@WorkflowsViewModel.Workflows">
-                <Column Title="Name" @bind-Field="@context.Name">
-                    @context.Name
-                </Column>
-                <Column @bind-Field="@context.Description"></Column>
-                <Column @bind-Field="@context.Version" Width="100">
-                    <TitleTemplate>
-                        <span> <Icon Type="environment" /> Version </span>
-                    </TitleTemplate>
-                </Column>
+    </Header>
 
-                <Column Title="Runners" @bind-Field="@context.Description" Width="300">
-                    <Select Mode="multiple"
-                            @bind-Values="context.RunnerIds"
-                            Placeholder="Select runners..."
-                            TItemValue="Guid"
-                            TItem="Guid"
-                            AllowClear>
-                        <SelectOptions>
-                            @foreach (var item in @WorkflowsViewModel.Runners)
-                            {
-                                <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
-                            }
-                        </SelectOptions>
-                    </Select>
-                </Column>
+    <Content>
+        <Table TItem="WorkflowInfo" @ref="workflowsTable" DataSource="@WorkflowsViewModel.Workflows">
+            <Column Title="Name" @bind-Field="@context.Name">
+                @context.Name
+            </Column>
 
-                <ActionColumn Title="Action">
-                    <div class="designer-activity-icon-container">
-                        <Dropdown Placement="@PlacementType.Left" Trigger="@(new TriggerType[] { TriggerType.Click })">
-                            <Overlay>
-                                <Menu>
-                                    <MenuItem Icon="caret-right" OnClick="@(() => RunWorkflow(context))">
-                                        Run
-                                    </MenuItem>
-                                    <MenuItem Icon="edit" OnClick="@(() => EditWorkflow(context))">
-                                        Edit
-                                    </MenuItem>
-                                    <MenuItem Icon="delete" OnClick="@(() => DeleteWorkflow(context))">
-                                        Delete
-                                    </MenuItem>
-                                </Menu>
-                            </Overlay>
-                            <ChildContent>
-                                <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
-                                    <Icon Type="more" Theme="outline" />
-                                </a>
-                            </ChildContent>
-                        </Dropdown>
-                    </div>
-                </ActionColumn>
+            <Column @bind-Field="@context.Description"></Column>
 
-            </Table>
-        </Content>
-    </Layout>
-</div>
+            <Column @bind-Field="@context.Version" Width="100">
+                <TitleTemplate>
+                    <span> <Icon Type="environment" /> Version </span>
+                </TitleTemplate>
+            </Column>
+
+            <Column Title="Runners" @bind-Field="@context.Description" Width="300">
+                <Select Mode="multiple"
+                        @bind-Values="context.RunnerIds"
+                        Placeholder="Select runners..."
+                        TItemValue="Guid"
+                        TItem="Guid"
+                        AllowClear>
+                    <SelectOptions>
+                        @foreach (var item in @WorkflowsViewModel.Runners)
+                        {
+                            <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
+                        }
+                    </SelectOptions>
+                </Select>
+            </Column>
+
+            <ActionColumn Title="Action">
+                <div class="designer-activity-icon-container">
+                    <Dropdown Placement="@PlacementType.Left" Trigger="@(new TriggerType[] { TriggerType.Click })">
+                        <Overlay>
+                            <Menu>
+                                <MenuItem Icon="caret-right" OnClick="@(() => RunWorkflow(context))">
+                                    Run
+                                </MenuItem>
+                                <MenuItem Icon="edit" OnClick="@(() => EditWorkflow(context))">
+                                    Edit
+                                </MenuItem>
+                                <MenuItem Icon="delete" OnClick="@(() => DeleteWorkflow(context))">
+                                    Delete
+                                </MenuItem>
+                            </Menu>
+                        </Overlay>
+                        <ChildContent>
+                            <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
+                                <Icon Type="more" Theme="outline" />
+                            </a>
+                        </ChildContent>
+                    </Dropdown>
+                </div>
+            </ActionColumn>
+        </Table>
+    </Content>
+</Layout>
 
 <style>
     .new-button {

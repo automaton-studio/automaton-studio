@@ -23,7 +23,7 @@ namespace Automaton.Studio.Activity
         /// AntDesign modal service
         /// </summary>
         [Inject] 
-        ModalService ModalService { get; set; } = default!;
+        private ModalService ModalService { get; set; } = default!;
 
         protected override void OnInitialized()
         {
@@ -44,7 +44,7 @@ namespace Automaton.Studio.Activity
             };
         }
 
-        private void OnDelete(StudioActivity activity)
+        private static void OnDelete(StudioActivity activity)
         {
             activity.StudioWorkflow.RemoveActivity(activity);
         }
