@@ -1,4 +1,5 @@
 ﻿using Elsa.Persistence;
+using Elsa.Persistence.Specifications.WorkflowDefinitions;
 using Elsa.Services;
 using System.Threading.Tasks;
 
@@ -23,7 +24,7 @@ namespace Automaton.Runner.Services
         public async Task RunWorkflow(string workflowId)
         {
             // Retrieve workflow definition from store.
-            var workflowDefinition = await workflowDefinitionStore.FindAsync(new Elsa.Persistence.Specifications.WorkflowDefinitions.WorkflowDefinitionIdSpecification(workflowId));
+            var workflowDefinition = await workflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification(workflowId));
 
             // Create blueprint from wokflow definition.
             var workflowBlueprint = await workflowBlueprintMaterializer.CreateWorkflowBlueprintAsync(workflowDefinition);
