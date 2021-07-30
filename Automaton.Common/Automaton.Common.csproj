@@ -15,7 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\elsa-core\src\activities\Elsa.Activities.Console\Elsa.Activities.Console.csproj" />
     <ProjectReference Include="..\..\elsa-core\src\core\Elsa.Core\Elsa.Core.csproj" />
-    <ProjectReference Include="..\Automaton.Activities\Automaton.MessageBox\Automaton.MessageBox.csproj" />
+    <ProjectReference Include="..\Automaton.Activities\Automaton.MessageBox\Automaton.Elsa.Activities.csproj" />
   </ItemGroup>
 
 </Project>

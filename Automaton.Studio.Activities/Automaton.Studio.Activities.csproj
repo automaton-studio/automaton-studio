@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ant-design-blazor\components\AntDesign.csproj" />
-    <ProjectReference Include="..\Automaton.Activities\Automaton.MessageBox\Automaton.MessageBox.csproj" />
+    <ProjectReference Include="..\Automaton.Activities\Automaton.MessageBox\Automaton.Elsa.Activities.csproj" />
     <ProjectReference Include="..\Automaton.Studio.Activity\Automaton.Studio.Activity.csproj" />
   </ItemGroup>
 

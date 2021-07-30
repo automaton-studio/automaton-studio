@@ -79,7 +79,7 @@ namespace Automaton.Studio.Activity
             Description = attribute.Description ?? string.Empty;
         }
 
-        #region Public Properties
+        #region Public Methods
 
         public void Select()
         {
