@@ -26,7 +26,7 @@ namespace Automaton.Studio.Activities.Dialogs.MessageBox
 
         #region Public Properties
 
-        public Automaton.MessageBox.MessageBox Activity { get; set; }
+        public Elsa.Activities.Dialogs.MessageBox Activity { get; set; }
 
         public string Text
         {

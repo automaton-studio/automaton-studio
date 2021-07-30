@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\elsa-core\src\core\Elsa.Abstractions\Elsa.Abstractions.csproj" />
-    <ProjectReference Include="..\..\..\elsa-core\src\core\Elsa.Core\Elsa.Core.csproj" />
+    <ProjectReference Include="..\..\elsa-core\src\core\Elsa.Abstractions\Elsa.Abstractions.csproj" />
+    <ProjectReference Include="..\..\elsa-core\src\core\Elsa.Core\Elsa.Core.csproj" />
   </ItemGroup>
 
 </Project>

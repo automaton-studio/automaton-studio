@@ -2,10 +2,11 @@ using Elsa;
 using Elsa.ActivityResults;
 using Elsa.Attributes;
 using Elsa.Expressions;
+using Elsa.Services;
 using Elsa.Services.Models;
 using System;
 
-namespace Automaton.MessageBox
+namespace Automaton.Elsa.Activities.Dialogs
 {
     /// <summary>
     /// Writes a text string to a message box.
@@ -17,7 +18,7 @@ namespace Automaton.MessageBox
         Category = "Dialogs",
         Outcomes = new[] { OutcomeNames.Done }
     )]
-    public class MessageBox : Elsa.Services.Activity
+    public class MessageBox : Activity
     {
         [ActivityInput(Hint = "Message box text.", SupportedSyntaxes = new[] { SyntaxNames.Literal, SyntaxNames.JavaScript, SyntaxNames.Liquid })]
         public string? Text { get; set; }

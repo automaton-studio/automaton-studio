@@ -1,3 +1,4 @@
+using Automaton.Elsa.Activities.Dialogs;
 using Elsa;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,7 +14,7 @@ namespace Automaton.Common.Extensions
         public static ElsaOptionsBuilder AddElsaActivities(this ElsaOptionsBuilder options)
         {
             options.AddConsoleActivities()
-                .AddActivity<MessageBox.MessageBox>();
+                .AddActivity<MessageBox>();
 
             return options;
         }

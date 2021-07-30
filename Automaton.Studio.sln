@@ -11,11 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AntDesign", "..\ant-design-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio.Activities", "Automaton.Studio.Activities\Automaton.Studio.Activities.csproj", "{55428F30-8CFD-4014-8220-E3C58E211FA0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio.Core", "Automaton.Studio.Activity\Automaton.Studio.Core.csproj", "{AC66DD72-1713-4860-BD37-B616F65C3112}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdParty", "ThirdParty", "{F8B5E808-1FCA-4977-89E4-DCBC9F6D2173}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Elsa.Activities", "Automaton.Activities\Automaton.MessageBox\Automaton.Elsa.Activities.csproj", "{B20ADF96-8374-498E-9302-844C11B8D071}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elsa.Abstractions", "..\elsa-core\src\core\Elsa.Abstractions\Elsa.Abstractions.csproj", "{98A2E292-34C3-4D10-A97E-91A9E985796D}"
 EndProject
@@ -28,6 +24,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elsa.Persistence.EntityFramework.SqlServer", "..\elsa-core\src\persistence\Elsa.Persistence.EntityFramework\Elsa.Persistence.EntityFramework.SqlServer\Elsa.Persistence.EntityFramework.SqlServer.csproj", "{ED69AE81-405F-4B47-B5CD-BB6AC7E5C057}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elsa.Activities.Console", "..\elsa-core\src\activities\Elsa.Activities.Console\Elsa.Activities.Console.csproj", "{9D43D9D4-FEB4-4C6B-A59D-11D82E1E31D1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio.Core", "Automaton.Studio.Core\Automaton.Studio.Core.csproj", "{AF031154-B86D-4DA9-9E0D-FC4F57F74786}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Elsa.Activities", "Automaton.Elsa.Activities\Automaton.Elsa.Activities.csproj", "{9F781ED0-FC60-4007-B427-2CE4D4DC7697}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,14 +51,6 @@ Global
 		{55428F30-8CFD-4014-8220-E3C58E211FA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55428F30-8CFD-4014-8220-E3C58E211FA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55428F30-8CFD-4014-8220-E3C58E211FA0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AC66DD72-1713-4860-BD37-B616F65C3112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AC66DD72-1713-4860-BD37-B616F65C3112}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AC66DD72-1713-4860-BD37-B616F65C3112}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AC66DD72-1713-4860-BD37-B616F65C3112}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B20ADF96-8374-498E-9302-844C11B8D071}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B20ADF96-8374-498E-9302-844C11B8D071}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B20ADF96-8374-498E-9302-844C11B8D071}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B20ADF96-8374-498E-9302-844C11B8D071}.Release|Any CPU.Build.0 = Release|Any CPU
 		{98A2E292-34C3-4D10-A97E-91A9E985796D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{98A2E292-34C3-4D10-A97E-91A9E985796D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98A2E292-34C3-4D10-A97E-91A9E985796D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -83,6 +75,14 @@ Global
 		{9D43D9D4-FEB4-4C6B-A59D-11D82E1E31D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D43D9D4-FEB4-4C6B-A59D-11D82E1E31D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D43D9D4-FEB4-4C6B-A59D-11D82E1E31D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF031154-B86D-4DA9-9E0D-FC4F57F74786}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF031154-B86D-4DA9-9E0D-FC4F57F74786}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF031154-B86D-4DA9-9E0D-FC4F57F74786}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF031154-B86D-4DA9-9E0D-FC4F57F74786}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F781ED0-FC60-4007-B427-2CE4D4DC7697}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F781ED0-FC60-4007-B427-2CE4D4DC7697}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F781ED0-FC60-4007-B427-2CE4D4DC7697}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F781ED0-FC60-4007-B427-2CE4D4DC7697}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
