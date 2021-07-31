@@ -123,7 +123,7 @@ namespace Automaton.Studio.Core
             StudioWorkflow = workflow;
             PendingCreation = false;
 
-            AddNewConnection(); 
+            AddNewConnection();
         }
 
         public void Unselect()
@@ -150,19 +150,16 @@ namespace Automaton.Studio.Core
         #region Private Methods
 
         /// <summary>
-        /// Create a new connection for activity
+        /// Adds a new connection to this activity.
         /// </summary>
-        /// <param name="activity">Activity to create connection for</param>
         private void AddNewConnection()
         {
-            // TODO! Outcome should not be hardcoded.
-            var activityConnection = PreviousActivity != null ?
-                new ConnectionDefinition(PreviousActivity.ActivityId, ActivityId, OutcomeNames.Done) :
-                null;
-
-            // Add connection if there is a previous activity
-            if (activityConnection != null)
+            // If there is a previous activity create a connection and point to
+            // - the previous activity as its source
+            // - this activity as its destination
+            if (PreviousActivity != null)
             {
+                var activityConnection = new ConnectionDefinition(PreviousActivity.ActivityId, ActivityId, OutcomeNames.Done);
                 StudioWorkflow.Connections.Add(activityConnection);
             }
 
