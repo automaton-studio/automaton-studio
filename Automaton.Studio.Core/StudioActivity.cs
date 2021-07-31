@@ -123,7 +123,7 @@ namespace Automaton.Studio.Core
             StudioWorkflow = workflow;
             PendingCreation = false;
 
-            AddNewConnection();
+            NewConnection();
         }
 
         public void Unselect()
@@ -150,9 +150,9 @@ namespace Automaton.Studio.Core
         #region Private Methods
 
         /// <summary>
-        /// Adds a new connection to this activity.
+        /// Adds a new connection to previous activity and updates connection to previous activity
         /// </summary>
-        private void AddNewConnection()
+        private void NewConnection()
         {
             // If there is a previous activity create a connection and point to
             // - the previous activity as its source
@@ -161,8 +161,10 @@ namespace Automaton.Studio.Core
             {
                 var activityConnection = new ConnectionDefinition(PreviousActivity.ActivityId, ActivityId, OutcomeNames.Done);
                 StudioWorkflow.Connections.Add(activityConnection);
-            }
 
+                PreviousActivity.ConnectionAttached(activityConnection);
+            }
+            
             // If there is a next activity, update its connection to point to the new activity as its source
             if (NextActivity != null)
             {
@@ -170,8 +172,24 @@ namespace Automaton.Studio.Core
                 if (nextActivityConnection != null)
                 {
                     nextActivityConnection.SourceActivityId = ActivityId;
+
+                    NextActivity.ConnectionAttached(nextActivityConnection);
                 }
             }
+        }
+
+        /// <summary>
+        /// Called when a connection is atached to this activity
+        /// </summary>
+        /// <param name="connection">Connection being attached to this activity</param>
+        public virtual void ConnectionAttached(ConnectionDefinition connection)
+        {
+            // This is supposed to be implemented by activities that needs to
+            // update connection after being attached.
+
+            // As an example, Else activity needs to update the incoming conection and reattach it to
+            // the corresponding If activity for OutcomeNames.False. The Else activity itself does not
+            // have any connections pointing to it
         }
 
         #endregion
