@@ -1,4 +1,5 @@
 ﻿using Automaton.Studio.Core.Metadata;
+using Elsa;
 using Elsa.Models;
 using System;
 using System.Collections.Generic;
@@ -62,7 +63,31 @@ namespace Automaton.Studio.Core
         /// </summary>
         public string Class { get; set; }
 
+        /// <summary>
+        /// Activity index in the workflow's activities list
+        /// </summary>
+        public int Index => StudioWorkflow.Activities.IndexOf(this);
+
+        /// <summary>
+        /// Previous activity in the workflow's activities list
+        /// </summary>
+        public StudioActivity PreviousActivity => StudioWorkflow.GetActivity(Index - 1);
+
+        /// <summary>
+        /// Next activity in the workflow's activities list
+        /// </summary>
+        public StudioActivity NextActivity => StudioWorkflow.GetActivity(Index + 1);
+
         #endregion
+
+        #region Events
+
+        public event EventHandler<ActivityEventArgs> ConnectionAdded;
+        public event EventHandler<ActivityEventArgs> ConnectionRemoved;
+
+        #endregion
+
+        #region Constructors
 
         public StudioActivity(IActivityTypeDescriber activityDescriber)
         {
@@ -79,11 +104,26 @@ namespace Automaton.Studio.Core
             Description = attribute.Description ?? string.Empty;
         }
 
+        #endregion
+
         #region Public Methods
 
         public void Select()
         {
             Class = SelectedActivityClass;
+        }
+
+        public void Pending()
+        {
+            PendingCreation = true;
+        }
+
+        public void Finalize(StudioWorkflow workflow)
+        {
+            StudioWorkflow = workflow;
+            PendingCreation = false;
+
+            AddNewConnection(); 
         }
 
         public void Unselect()
@@ -98,7 +138,7 @@ namespace Automaton.Studio.Core
 
         #endregion
 
-        #region Protected Properties
+        #region Protected Methods
 
         protected ActivityDefinitionProperty GetProperty(string propertyName)
         {
@@ -107,16 +147,48 @@ namespace Automaton.Studio.Core
 
         #endregion
 
+        #region Private Methods
+
+        /// <summary>
+        /// Create a new connection for activity
+        /// </summary>
+        /// <param name="activity">Activity to create connection for</param>
+        private void AddNewConnection()
+        {
+            // TODO! Outcome should not be hardcoded.
+            var activityConnection = PreviousActivity != null ?
+                new ConnectionDefinition(PreviousActivity.ActivityId, ActivityId, OutcomeNames.Done) :
+                null;
+
+            // Add connection if there is a previous activity
+            if (activityConnection != null)
+            {
+                StudioWorkflow.Connections.Add(activityConnection);
+            }
+
+            // If there is a next activity, update its connection to point to the new activity as its source
+            if (NextActivity != null)
+            {
+                var nextActivityConnection = StudioWorkflow.Connections.SingleOrDefault(x => x.TargetActivityId == NextActivity.ActivityId);
+                if (nextActivityConnection != null)
+                {
+                    nextActivityConnection.SourceActivityId = ActivityId;
+                }
+            }
+        }
+
+        #endregion
+
         #region Abstracts
 
         /// <summary>
-        /// Abstract method to get the view component type to use
+        /// Get the view component type to use
         /// </summary>
         /// <returns></returns>
         public abstract Type GetDesignerComponent();
 
         /// <summary>
-        /// Abstract method to get the properties component type to use
+        /// Get the properties component type to use
         /// </summary>
         /// <returns></returns>
         public abstract Type GetPropertiesComponent();

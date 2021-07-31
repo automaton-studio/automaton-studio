@@ -121,7 +121,7 @@ namespace Automaton.Studio.ViewModels
         {
             var studioActivity = activityFactory.GetStudioActivity(treeActivity.Name);
 
-            studioWorkflow.PendingActivity(studioActivity);
+            StudioWorkflow.PendingActivity(studioActivity);
 
             DragActivity?.Invoke(this, new ActivityEventArgs(studioActivity));
         }
@@ -160,7 +160,7 @@ namespace Automaton.Studio.ViewModels
             foreach (var activityDefinition in ElsaWorkflow.Activities)
             {
                 var studioActivity = activityFactory.GetStudioActivity(activityDefinition);
-                StudioWorkflow.AddActivity(studioActivity);
+                StudioWorkflow.LoadActivity(studioActivity);
             }
         }
 

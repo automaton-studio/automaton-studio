@@ -59,6 +59,8 @@ namespace Automaton.Studio.Core
 
         #endregion
 
+        #region Constructors
+
         public StudioWorkflow()
         {
             Name = "Untitled";
@@ -67,7 +69,32 @@ namespace Automaton.Studio.Core
             Connections = new List<ConnectionDefinition>();
         }
 
+        #endregion
+
         #region Public Methods
+
+        /// <summary>
+        /// Retrieves activity by index
+        /// </summary>
+        /// <param name="index">Activity index</param>
+        /// <returns>Activity by index</returns>
+        public StudioActivity GetActivity(int index)
+        {
+            return index >= 0 && index < Activities.Count ? Activities[index] : null;
+        }
+
+        /// <summary>
+        /// Load activity to workflow.
+        /// The difference from AddActivity is that UI is not refreshed
+        /// (we don't call ActivityAdded event)
+        /// </summary>
+        /// <param name="activity">Activity to be Loaded to workflow</param>
+        public void LoadActivity(StudioActivity activity)
+        {
+            activity.StudioWorkflow = this;
+
+            Activities.Add(activity);
+        }
 
         /// <summary>
         /// Add activity to workflow
@@ -75,9 +102,7 @@ namespace Automaton.Studio.Core
         /// <param name="activity">Activity to be added to workflow</param>
         public void AddActivity(StudioActivity activity)
         {
-            activity.StudioWorkflow = this;
-
-            Activities.Add(activity);
+            LoadActivity(activity);
 
             ActivityAdded?.Invoke(this, new ActivityEventArgs(activity));
         }
@@ -88,8 +113,7 @@ namespace Automaton.Studio.Core
         /// <param name="activity"></param>
         public void PendingActivity(StudioActivity activity)
         {
-            activity.StudioWorkflow = this;
-            activity.PendingCreation = true;
+            activity.Pending();
         }
 
         /// <summary>
@@ -98,10 +122,7 @@ namespace Automaton.Studio.Core
         /// <param name="activity"></param>
         public void FinalizeActivity(StudioActivity activity)
         {
-            activity.StudioWorkflow = this;
-            activity.PendingCreation = false;
-
-            NewConnection(activity);
+            activity.Finalize(this);
 
             ActivityAdded?.Invoke(this, new ActivityEventArgs(activity));
         }
@@ -117,55 +138,6 @@ namespace Automaton.Studio.Core
             ActivityRemoved?.Invoke(this, new ActivityEventArgs(activity));
 
             return result;
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        /// <summary>
-        /// Create a new connection for activity
-        /// </summary>
-        /// <param name="activity">Activity to create connection for</param>
-        private void NewConnection(StudioActivity activity)
-        {
-            // Current activity
-            var activityIndex = Activities.IndexOf(activity);
-
-            // Return if not found
-            if (activityIndex < 0)
-            {
-                return;
-            }
-
-            // Previous activity
-            var previousActivityIndex = activityIndex > 0 ? activityIndex - 1 : -1;
-            var previousActivity = previousActivityIndex >= 0 ? Activities[previousActivityIndex] : null;
-
-            // Next activity
-            var nextActivityIndex = activityIndex < Activities.Count - 1 ? activityIndex + 1 : -1;
-            var nextActivity = nextActivityIndex >= 0 ? Activities[nextActivityIndex] : null;
-
-            // TODO! Outcome should not be hardcoded.
-            var activityConnection = previousActivity != null ?
-                new ConnectionDefinition(previousActivity.ActivityId, activity.ActivityId, OutcomeNames.Done) :
-                null;
-
-            // Add connection if there is a previous activity
-            if (activityConnection != null)
-            {
-                Connections.Add(activityConnection);
-            }
-
-            // If there is a next activity, update its connection to point to the new activity as its source
-            if (nextActivity != null)
-            {
-                var nextActivityConnection = Connections.SingleOrDefault(x => x.TargetActivityId == nextActivity.ActivityId);
-                if (nextActivityConnection != null)
-                {
-                    nextActivityConnection.SourceActivityId = activity.ActivityId;
-                }
-            }
         }
 
         #endregion
