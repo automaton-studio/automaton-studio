@@ -24,8 +24,10 @@ namespace Automaton.Studio.ViewModels
 
         #region Methods
 
-        void DragTreeActivity(TreeActivity activityModel);
-        void FinalizeActivity(StudioActivity activity);
+        void ActivityDrag(TreeActivity activityModel);
+        void FinalizeActivity(StudioActivity activity);       
+        void DeleteActivity(StudioActivity activity);
+
         Task LoadWorkflow(string workflowId);
         Task SaveWorkflow();
         Task RunWorkflow();

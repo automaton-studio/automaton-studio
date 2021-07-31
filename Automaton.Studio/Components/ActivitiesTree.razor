@@ -21,7 +21,7 @@
                   IsLeafExpression="x => x.DataItem.Activities == null || !x.DataItem.Activities.Any()"
                   KeyExpression="x => x.DataItem.Name"
                   Class="activities-tree"
-                  OnNodeDrag="@((i)=> { TreeActivityViewModel.DragActivity(i); })"
+                  OnNodeDrag="@((i)=> { TreeActivityViewModel.ActivityDrag(i); })"
                   TItem="TreeActivity">
             </Tree>
         </Col>

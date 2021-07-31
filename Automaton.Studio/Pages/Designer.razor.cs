@@ -90,6 +90,10 @@ namespace Automaton.Studio.Pages
             {
                 await NewActivityDialog(activity);
             }
+            else
+            {
+                activity.UpdateConnection();
+            }
         }
 
         /// <summary>
@@ -203,8 +207,7 @@ namespace Automaton.Studio.Pages
 
             result.OnCancel = () => {
 
-                // Activity is removed from workflow
-                DesignerViewModel.StudioWorkflow.Activities.Remove(activity);
+                DesignerViewModel.DeleteActivity(activity);
 
                 // TODO! It may be inneficient to update the state of the entire Designer control.
                 // A better alternative would be to update the state of the activity being updated.

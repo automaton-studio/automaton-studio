@@ -46,7 +46,7 @@ namespace Automaton.Studio.Core
 
         private static void OnDelete(StudioActivity activity)
         {
-            activity.StudioWorkflow.RemoveActivity(activity);
+            activity.StudioWorkflow.DeleteActivity(activity);
         }
 
         #endregion

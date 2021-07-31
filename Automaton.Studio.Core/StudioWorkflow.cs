@@ -126,11 +126,13 @@ namespace Automaton.Studio.Core
         }
 
         /// <summary>
-        /// Remove activity from workflow
+        /// Reletes activity from workflow
         /// </summary>
-        /// <param name="activity">Activity to be removed from workflow</param>
-        public bool RemoveActivity(StudioActivity activity)
+        /// <param name="activity">Activity to be deleted from workflow</param>
+        public bool DeleteActivity(StudioActivity activity)
         {
+            activity.DeleteConnection();
+
             var result = Activities.Remove(activity);
 
             ActivityRemoved?.Invoke(this, new ActivityEventArgs(activity));

@@ -122,7 +122,6 @@ namespace Automaton.Studio.Core
         {
             StudioWorkflow = workflow;
             PendingCreation = false;
-
             NewConnection();
         }
 
@@ -152,7 +151,7 @@ namespace Automaton.Studio.Core
         /// <summary>
         /// Adds a new connection to previous activity and updates connection to previous activity
         /// </summary>
-        private void NewConnection()
+        public void NewConnection()
         {
             // If there is a previous activity create a connection and point to
             // - the previous activity as its source
@@ -176,6 +175,22 @@ namespace Automaton.Studio.Core
                     NextActivity.ConnectionAttached(nextActivityConnection);
                 }
             }
+        }
+
+        /// <summary>
+        /// Adds a new connection to previous activity and updates connection to previous activity
+        /// </summary>
+        public void UpdateConnection()
+        {
+
+        }
+
+        /// <summary>
+        /// Adds a new connection to previous activity and updates connection to previous activity
+        /// </summary>
+        public void DeleteConnection()
+        {
+
         }
 
         /// <summary>

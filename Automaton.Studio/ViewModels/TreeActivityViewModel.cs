@@ -73,11 +73,11 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        public void DragActivity(TreeActivity activityModel)
+        public void ActivityDrag(TreeActivity activityModel)
         {
             if (!activityModel.IsCategory())
             {
-                designerViewModel.DragTreeActivity(activityModel);
+                designerViewModel.ActivityDrag(activityModel);
             }
         }
 

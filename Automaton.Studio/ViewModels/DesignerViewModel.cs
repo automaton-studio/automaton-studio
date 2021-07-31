@@ -117,7 +117,7 @@ namespace Automaton.Studio.ViewModels
         /// Activity isn't final until confirmed by user from activity dialog
         /// </summary>
         /// <param name="treeActivity"></param>
-        public void DragTreeActivity(TreeActivity treeActivity)
+        public void ActivityDrag(TreeActivity treeActivity)
         {
             var studioActivity = activityFactory.GetStudioActivity(treeActivity.Name);
 
@@ -142,6 +142,15 @@ namespace Automaton.Studio.ViewModels
         public void AddActivity(StudioActivity activity)
         {
             StudioWorkflow.AddActivity(activity);
+        }
+
+        /// <summary>
+        /// Deletes specified activity
+        /// </summary>
+        /// <param name="activity">Activity to delete</param>
+        public void DeleteActivity(StudioActivity activity)
+        {
+            StudioWorkflow.DeleteActivity(activity); 
         }
 
         /// <summary>
