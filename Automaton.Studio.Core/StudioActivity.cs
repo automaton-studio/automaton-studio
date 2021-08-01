@@ -163,7 +163,7 @@ namespace Automaton.Studio.Core
 
                 PreviousActivity.ConnectionAttached(activityConnection);
             }
-            
+
             // If there is a next activity, update its connection to point to the new activity as its source
             if (NextActivity != null)
             {
@@ -182,7 +182,68 @@ namespace Automaton.Studio.Core
         /// </summary>
         public void UpdateConnection()
         {
+            // 1. Handle the original position of the activity
 
+            var connectionTo = StudioWorkflow.Connections.SingleOrDefault(x => x.TargetActivityId == ActivityId);
+            var connectionFrom = StudioWorkflow.Connections.SingleOrDefault(x => x.SourceActivityId == ActivityId);
+
+            // If in between two activities
+            if (connectionTo != null && connectionFrom != null)
+            {
+                // Remove the two connections
+                StudioWorkflow.Connections.Remove(connectionTo);
+                StudioWorkflow.Connections.Remove(connectionFrom);
+
+                // Create a new one
+                var newConnection = new ConnectionDefinition(connectionTo.SourceActivityId, connectionFrom.TargetActivityId, OutcomeNames.Done);
+                StudioWorkflow.Connections.Add(newConnection);
+            }
+
+            // If on the start
+            if (connectionTo == null && connectionFrom != null)
+            {
+                StudioWorkflow.Connections.Remove(connectionFrom);
+            }
+
+            // If in the end
+            if (connectionFrom == null && connectionTo != null)
+            {
+                StudioWorkflow.Connections.Remove(connectionTo);
+            }
+
+            // 2. Handle the new position of the activity
+
+            // If in between two activities
+            if (PreviousActivity != null && NextActivity != null)
+            {
+                // Break existing connection between activities
+                var existingConnection = StudioWorkflow.Connections.SingleOrDefault(x => 
+                    x.SourceActivityId == PreviousActivity.ActivityId && 
+                    x.TargetActivityId == NextActivity.ActivityId);
+
+                StudioWorkflow.Connections.Remove(existingConnection);
+
+                // Create two new connections
+                var connection1 = new ConnectionDefinition(PreviousActivity.ActivityId, ActivityId, OutcomeNames.Done);
+                StudioWorkflow.Connections.Add(connection1);
+
+                var connection2 = new ConnectionDefinition(ActivityId, NextActivity.ActivityId, OutcomeNames.Done);
+                StudioWorkflow.Connections.Add(connection2);
+            }
+
+            // If on the start
+            if (PreviousActivity == null && NextActivity != null)
+            {
+                var connection = new ConnectionDefinition(ActivityId, NextActivity.ActivityId, OutcomeNames.Done);
+                StudioWorkflow.Connections.Add(connection);
+            }
+
+            // If in the end
+            if (NextActivity == null && PreviousActivity != null)
+            {
+                var connection = new ConnectionDefinition(PreviousActivity.ActivityId, ActivityId, OutcomeNames.Done);
+                StudioWorkflow.Connections.Add(connection);
+            }
         }
 
         /// <summary>
@@ -190,7 +251,6 @@ namespace Automaton.Studio.Core
         /// </summary>
         public void DeleteConnection()
         {
-
         }
 
         /// <summary>
