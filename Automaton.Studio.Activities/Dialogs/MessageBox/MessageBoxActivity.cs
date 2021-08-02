@@ -13,7 +13,7 @@ namespace Automaton.Studio.Activities.Dialogs.MessageBox
         DisplayName = "Message Box",
         Category = "Dialogs",
         Description = "Write text to MessageBox",
-        Icon = "field-string"
+        Icon = "info-circle"
     )]
     public class MessageBoxActivity : StudioActivity
     {

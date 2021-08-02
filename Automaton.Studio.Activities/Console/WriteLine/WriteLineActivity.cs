@@ -12,7 +12,7 @@ namespace Automaton.Studio.Activities.Console.WriteLine
         DisplayName = "Write Line",
         Category = "Console",
         Description = "Write text to console",
-        Icon = "field-string"
+        Icon = "code"
     )]
     public class WriteLineActivity : StudioActivity
     {
