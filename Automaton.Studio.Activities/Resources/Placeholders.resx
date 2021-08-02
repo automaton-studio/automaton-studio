@@ -120,6 +120,9 @@
   <data name="EnterCaption" xml:space="preserve">
     <value>Enter caption</value>
   </data>
+  <data name="EnterExpression" xml:space="preserve">
+    <value>Enter expression</value>
+  </data>
   <data name="EnterText" xml:space="preserve">
     <value>Enter text</value>
   </data>

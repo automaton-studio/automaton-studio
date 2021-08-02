@@ -1,5 +1,4 @@
-﻿using Automaton.Activities;
-using Automaton.Studio.Core;
+﻿using Automaton.Studio.Core;
 using Automaton.Studio.Core.Extensions;
 using Automaton.Studio.Core.Metadata;
 using Elsa.Models;
@@ -26,8 +25,6 @@ namespace Automaton.Studio.Activities.Dialogs.MessageBox
         #endregion
 
         #region Public Properties
-
-        public Automaton.Activities.MessageBox Activity { get; set; }
 
         public string Text
         {

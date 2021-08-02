@@ -70,6 +70,15 @@ namespace Automaton.Studio.Activities.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter expression.
+        /// </summary>
+        public static string EnterExpression {
+            get {
+                return ResourceManager.GetString("EnterExpression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter text.
         /// </summary>
         public static string EnterText {
