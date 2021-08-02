@@ -3,6 +3,7 @@ using Elsa.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.Core
@@ -26,27 +27,10 @@ namespace Automaton.Studio.Core
         public string TenantId { get; set; }
         public string VersionId { get; }
         public string DefinitionId { get; set; }
-        public Variables Variables { get; set; }
-        public ICollection<ConnectionDefinition> Connections { get; set; }
-        // Replaced Elsa Activities with own Studio Activities
-
-        #endregion
-
-        #region Public Properties
-
-        private IList<StudioActivity> activities = new List<StudioActivity>();
-
         [IgnoreMap]
-        public IList<StudioActivity> Activities
-        {
-            get => activities;
-
-            private set
-            {
-                activities = value;
-                OnPropertyChanged();
-            }
-        }
+        public IList<StudioActivity> Activities { get; set; }
+        public Variables Variables { get; set; }
+        public ICollection<StudioConnection> Connections { get; set; }
 
         #endregion
 
@@ -64,7 +48,8 @@ namespace Automaton.Studio.Core
             Name = "Untitled";
             DisplayName = "Untitled";
             Version = 1;
-            Connections = new List<ConnectionDefinition>();
+            Activities =  new List<StudioActivity>();
+            Connections = new List<StudioConnection>();
         }
 
         #endregion
@@ -79,6 +64,16 @@ namespace Automaton.Studio.Core
         public StudioActivity GetActivity(int index)
         {
             return index >= 0 && index < Activities.Count ? Activities[index] : null;
+        }
+
+        /// <summary>
+        /// Retrieves activity by id
+        /// </summary>
+        /// <param name="index">Activity Id</param>
+        /// <returns>Activity by Id</returns>
+        public StudioActivity GetActivity(string activityId)
+        {
+            return Activities.SingleOrDefault(x => x.ActivityId == activityId);
         }
 
         /// <summary>

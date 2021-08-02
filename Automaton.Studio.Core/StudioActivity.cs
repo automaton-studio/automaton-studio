@@ -167,8 +167,11 @@ namespace Automaton.Studio.Core
                 StudioWorkflow.Connections.Remove(connectionTo);
                 StudioWorkflow.Connections.Remove(connectionFrom);
 
+                var sourceActivity = StudioWorkflow.GetActivity(connectionTo.SourceActivityId);
+                var targetActivity = StudioWorkflow.GetActivity(connectionFrom.TargetActivityId);
+
                 // Create a new one
-                var newConnection = new ConnectionDefinition(connectionTo.SourceActivityId, connectionFrom.TargetActivityId, OutcomeNames.Done);
+                var newConnection = new StudioConnection(sourceActivity, targetActivity, OutcomeNames.Done);
                 StudioWorkflow.Connections.Add(newConnection);
             }
 
@@ -199,24 +202,24 @@ namespace Automaton.Studio.Core
                 StudioWorkflow.Connections.Remove(existingConnection);
 
                 // Create two new connections
-                var connection1 = new ConnectionDefinition(PreviousActivity.ActivityId, ActivityId, OutcomeNames.Done);
+                var connection1 = new StudioConnection(PreviousActivity, this, OutcomeNames.Done);
                 StudioWorkflow.Connections.Add(connection1);
 
-                var connection2 = new ConnectionDefinition(ActivityId, NextActivity.ActivityId, OutcomeNames.Done);
+                var connection2 = new StudioConnection(this, NextActivity, OutcomeNames.Done);
                 StudioWorkflow.Connections.Add(connection2);
             }
 
             // If on the start
             if (PreviousActivity == null && NextActivity != null)
             {
-                var connection = new ConnectionDefinition(ActivityId, NextActivity.ActivityId, OutcomeNames.Done);
+                var connection = new StudioConnection(this, NextActivity, OutcomeNames.Done);
                 StudioWorkflow.Connections.Add(connection);
             }
 
             // If in the end
             if (NextActivity == null && PreviousActivity != null)
             {
-                var connection = new ConnectionDefinition(PreviousActivity.ActivityId, ActivityId, OutcomeNames.Done);
+                var connection = new StudioConnection(PreviousActivity, this, OutcomeNames.Done);
                 StudioWorkflow.Connections.Add(connection);
             }
         }
@@ -236,8 +239,11 @@ namespace Automaton.Studio.Core
                 StudioWorkflow.Connections.Remove(connectionTo);
                 StudioWorkflow.Connections.Remove(connectionFrom);
 
+                var sourceActivity = StudioWorkflow.GetActivity(connectionTo.SourceActivityId);
+                var targetActivity = StudioWorkflow.GetActivity(connectionFrom.TargetActivityId);
+
                 // Create a new one
-                var newConnection = new ConnectionDefinition(connectionTo.SourceActivityId, connectionFrom.TargetActivityId, OutcomeNames.Done);
+                var newConnection = new StudioConnection(sourceActivity, targetActivity, OutcomeNames.Done);
                 StudioWorkflow.Connections.Add(newConnection);
             }
 
@@ -258,7 +264,7 @@ namespace Automaton.Studio.Core
         /// Called when a connection is atached to this activity
         /// </summary>
         /// <param name="connection">Connection being attached to this activity</param>
-        public virtual void ConnectionAttached(ConnectionDefinition connection)
+        public virtual void ConnectionAttached(StudioConnection connection)
         {
             // This is supposed to be implemented by activities that needs to
             // update connection after being attached.

@@ -18,6 +18,8 @@ namespace Automaton.Studio.Profiles
             CreateMap<StudioActivity, ActivityDefinition>();
             CreateMap<WorkflowDefinition, StudioWorkflow>();
             CreateMap<StudioWorkflow, WorkflowDefinition>();
+            CreateMap<StudioConnection, ConnectionDefinition>();
+            CreateMap<ConnectionDefinition, StudioConnection>();
             CreateMap<WorkflowDefinition, WorkflowInfo>();
         }
     }
