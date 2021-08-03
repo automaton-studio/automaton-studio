@@ -57,15 +57,22 @@
 
             <ActionColumn Title="Action">
                 <div class="designer-activity-icon-container">
+                    <Space>
+                        <SpaceItem>
+                            <Button Icon="caret-right" @onclick="@(() => RunWorkflow(context))">
+                                Run
+                            </Button>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Button Icon="edit" @onclick="@(() => EditWorkflow(context))">
+                                Edit
+                            </Button>
+                        </SpaceItem>
+                    </Space>
+
                     <Dropdown Placement="@PlacementType.Left" Trigger="@(new TriggerType[] { TriggerType.Click })">
                         <Overlay>
                             <Menu>
-                                <MenuItem Icon="caret-right" OnClick="@(() => RunWorkflow(context))">
-                                    Run
-                                </MenuItem>
-                                <MenuItem Icon="edit" OnClick="@(() => EditWorkflow(context))">
-                                    Edit
-                                </MenuItem>
                                 <MenuItem Icon="delete" OnClick="@(() => DeleteWorkflow(context))">
                                     Delete
                                 </MenuItem>
