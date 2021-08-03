@@ -92,7 +92,7 @@ namespace Automaton.Studio.Pages
             }
             else
             {
-                activity.UpdateConnection();
+                activity.UpdateConnections();
             }
         }
 

@@ -139,12 +139,44 @@ namespace Automaton.Studio.Core
         /// <summary>
         /// Updates workflow connections according with the changes of this activity
         /// </summary>
-        public void UpdateConnection()
+        public void UpdateConnections()
         {
-            //---------------------------------------------------
-            // 1. Handle the original position of the activity
-            //---------------------------------------------------
+            UpdateExistingConnections();
 
+            UpdateNewConnections();
+        }
+
+        /// <summary>
+        /// Updates activity connections when deleted.
+        /// </summary>
+        public void DeleteConnections()
+        {
+            UpdateExistingConnections();
+        }
+
+        /// <summary>
+        /// Called when a connection is atached to this activity
+        /// </summary>
+        /// <param name="connection">Connection being attached to this activity</param>
+        public virtual void ConnectionAttached(StudioConnection connection)
+        {
+            // This is supposed to be implemented by activities that needs to
+            // update connection after being attached.
+
+            // As an example, Else activity needs to update the incoming conection and reattach it to
+            // the corresponding If activity for OutcomeNames.False. The Else activity itself does not
+            // have any connections pointing to it
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        /// Updates workflow connections according to existing connections of this activity
+        /// </summary>
+        private void UpdateExistingConnections()
+        {
             var connectionTo = StudioWorkflow.Connections.SingleOrDefault(x => x.TargetActivityId == ActivityId);
             var connectionFrom = StudioWorkflow.Connections.SingleOrDefault(x => x.SourceActivityId == ActivityId);
 
@@ -174,17 +206,19 @@ namespace Automaton.Studio.Core
             {
                 StudioWorkflow.Connections.Remove(connectionTo);
             }
+        }
 
-            //---------------------------------------------------
-            // 2. Handle the new position of the activity
-            //---------------------------------------------------
-
+        /// <summary>
+        /// Updates workflow connections according to the new place of this activity
+        /// </summary>
+        private void UpdateNewConnections()
+        {
             // If in between two activities
             if (PreviousActivity != null && NextActivity != null)
             {
                 // Break existing connection between activities
-                var existingConnection = StudioWorkflow.Connections.SingleOrDefault(x => 
-                    x.SourceActivityId == PreviousActivity.ActivityId && 
+                var existingConnection = StudioWorkflow.Connections.SingleOrDefault(x =>
+                    x.SourceActivityId == PreviousActivity.ActivityId &&
                     x.TargetActivityId == NextActivity.ActivityId);
 
                 StudioWorkflow.Connections.Remove(existingConnection);
@@ -210,56 +244,6 @@ namespace Automaton.Studio.Core
                 var connection = new StudioConnection(PreviousActivity, this, OutcomeNames.Done);
                 StudioWorkflow.Connections.Add(connection);
             }
-        }
-
-        /// <summary>
-        /// Adds a new connection to previous activity and updates connection to previous activity
-        /// </summary>
-        public void DeleteConnection()
-        {
-            var connectionTo = StudioWorkflow.Connections.SingleOrDefault(x => x.TargetActivityId == ActivityId);
-            var connectionFrom = StudioWorkflow.Connections.SingleOrDefault(x => x.SourceActivityId == ActivityId);
-
-            // If in between two activities
-            if (connectionTo != null && connectionFrom != null)
-            {
-                // Remove the two connections
-                StudioWorkflow.Connections.Remove(connectionTo);
-                StudioWorkflow.Connections.Remove(connectionFrom);
-
-                var sourceActivity = StudioWorkflow.GetActivity(connectionTo.SourceActivityId);
-                var targetActivity = StudioWorkflow.GetActivity(connectionFrom.TargetActivityId);
-
-                // Create a new one
-                var newConnection = new StudioConnection(sourceActivity, targetActivity, OutcomeNames.Done);
-                StudioWorkflow.Connections.Add(newConnection);
-            }
-
-            // If on the start
-            if (connectionTo == null && connectionFrom != null)
-            {
-                StudioWorkflow.Connections.Remove(connectionFrom);
-            }
-
-            // If in the end
-            if (connectionFrom == null && connectionTo != null)
-            {
-                StudioWorkflow.Connections.Remove(connectionTo);
-            }
-        }
-
-        /// <summary>
-        /// Called when a connection is atached to this activity
-        /// </summary>
-        /// <param name="connection">Connection being attached to this activity</param>
-        public virtual void ConnectionAttached(StudioConnection connection)
-        {
-            // This is supposed to be implemented by activities that needs to
-            // update connection after being attached.
-
-            // As an example, Else activity needs to update the incoming conection and reattach it to
-            // the corresponding If activity for OutcomeNames.False. The Else activity itself does not
-            // have any connections pointing to it
         }
 
         #endregion

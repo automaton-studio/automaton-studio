@@ -107,7 +107,7 @@ namespace Automaton.Studio.Core
         public void FinalizeActivity(StudioActivity activity)
         {
             activity.PendingCreation = false;
-            activity.UpdateConnection();
+            activity.UpdateConnections();
 
             ActivityAdded?.Invoke(this, new ActivityEventArgs(activity));
         }
@@ -116,15 +116,13 @@ namespace Automaton.Studio.Core
         /// Reletes activity from workflow
         /// </summary>
         /// <param name="activity">Activity to be deleted from workflow</param>
-        public bool DeleteActivity(StudioActivity activity)
+        public void DeleteActivity(StudioActivity activity)
         {
-            activity.DeleteConnection();
+            activity.DeleteConnections();
 
-            var result = Activities.Remove(activity);
+            Activities.Remove(activity);
 
             ActivityRemoved?.Invoke(this, new ActivityEventArgs(activity));
-
-            return result;
         }
 
         #endregion
