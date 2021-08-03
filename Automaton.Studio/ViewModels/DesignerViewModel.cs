@@ -114,16 +114,25 @@ namespace Automaton.Studio.ViewModels
 
         /// <summary>
         /// Drag activity to the workflow.
-        /// Activity isn't final until confirmed by user from activity dialog
         /// </summary>
         /// <param name="treeActivity"></param>
         public void ActivityDrag(TreeActivity treeActivity)
         {
-            var studioActivity = activityFactory.GetStudioActivity(treeActivity.Name);
+            var activity = CreateActivity(treeActivity.Name);
 
-            StudioWorkflow.PendingActivity(studioActivity);
+            DragActivity?.Invoke(this, new ActivityEventArgs(activity));
+        }
 
-            DragActivity?.Invoke(this, new ActivityEventArgs(studioActivity));
+        private StudioActivity CreateActivity(string activityName)
+        {
+            var activity = activityFactory.GetStudioActivity(activityName);
+
+            // Activity isn't final until confirmed by user.
+            activity.PendingCreation = true;
+            // Set reference to StudioWorkflow
+            activity.StudioWorkflow = StudioWorkflow;
+
+            return activity;
         }
 
         /// <summary>

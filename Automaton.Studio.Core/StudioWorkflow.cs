@@ -57,16 +57,6 @@ namespace Automaton.Studio.Core
         #region Public Methods
 
         /// <summary>
-        /// Retrieves activity by index
-        /// </summary>
-        /// <param name="index">Activity index</param>
-        /// <returns>Activity by index</returns>
-        public StudioActivity GetActivity(int index)
-        {
-            return index >= 0 && index < Activities.Count ? Activities[index] : null;
-        }
-
-        /// <summary>
         /// Retrieves activity by id
         /// </summary>
         /// <param name="index">Activity Id</param>
@@ -74,6 +64,16 @@ namespace Automaton.Studio.Core
         public StudioActivity GetActivity(string activityId)
         {
             return Activities.SingleOrDefault(x => x.ActivityId == activityId);
+        }
+
+        /// <summary>
+        /// Retrieves activity by index
+        /// </summary>
+        /// <param name="index">Activity index</param>
+        /// <returns>Activity by index</returns>
+        public StudioActivity GetActivityByIndex(int index)
+        {
+            return index >= 0 && index < Activities.Count ? Activities[index] : null;
         }
 
         /// <summary>
@@ -101,21 +101,13 @@ namespace Automaton.Studio.Core
         }
 
         /// <summary>
-        /// Activity is pending and not final yet
-        /// </summary>
-        /// <param name="activity"></param>
-        public void PendingActivity(StudioActivity activity)
-        {
-            activity.Pending();
-        }
-
-        /// <summary>
         /// The activity was created and it's final
         /// </summary>
         /// <param name="activity"></param>
         public void FinalizeActivity(StudioActivity activity)
         {
-            activity.Finalize(this);
+            activity.PendingCreation = false;
+            activity.UpdateConnection();
 
             ActivityAdded?.Invoke(this, new ActivityEventArgs(activity));
         }

@@ -71,12 +71,12 @@ namespace Automaton.Studio.Core
         /// <summary>
         /// Previous activity in the workflow's activities list
         /// </summary>
-        public StudioActivity PreviousActivity => StudioWorkflow.GetActivity(Index - 1);
+        public StudioActivity PreviousActivity => StudioWorkflow.GetActivityByIndex(Index - 1);
 
         /// <summary>
         /// Next activity in the workflow's activities list
         /// </summary>
-        public StudioActivity NextActivity => StudioWorkflow.GetActivity(Index + 1);
+        public StudioActivity NextActivity => StudioWorkflow.GetActivityByIndex(Index + 1);
 
         #endregion
 
@@ -111,18 +111,6 @@ namespace Automaton.Studio.Core
         public void Select()
         {
             Class = SelectedActivityClass;
-        }
-
-        public void Pending()
-        {
-            PendingCreation = true;
-        }
-
-        public void Finalize(StudioWorkflow workflow)
-        {
-            StudioWorkflow = workflow;
-            PendingCreation = false;
-            UpdateConnection();
         }
 
         public void Unselect()
