@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using Elsa.Models;
+using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services
 {
     public interface IWorkflowService
     {
-        public Task RunWorkflow(string workflowId);
+        Task RunWorkflow(string workflowId);
+        Task RunWorkflow(WorkflowDefinition workflowDefinition);
     }
 }

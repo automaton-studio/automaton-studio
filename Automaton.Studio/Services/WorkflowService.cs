@@ -1,4 +1,5 @@
-﻿using Elsa.Persistence;
+﻿using Elsa.Models;
+using Elsa.Persistence;
 using Elsa.Persistence.Specifications.WorkflowDefinitions;
 using Elsa.Services;
 using System.Threading.Tasks;
@@ -30,7 +31,16 @@ namespace Automaton.Studio.Services
             var workflowBlueprint = await workflowBlueprintMaterializer.CreateWorkflowBlueprintAsync(workflowDefinition);
 
             // Start workflow.
-            var workflowInstance = await startsWorkflow.StartWorkflowAsync(workflowBlueprint);
+            await startsWorkflow.StartWorkflowAsync(workflowBlueprint);
+        }
+
+        public async Task RunWorkflow(WorkflowDefinition workflowDefinition)
+        {
+            // Create blueprint from wokflow definition.
+            var workflowBlueprint = await workflowBlueprintMaterializer.CreateWorkflowBlueprintAsync(workflowDefinition);
+
+            // Start workflow.
+            await startsWorkflow.StartWorkflowAsync(workflowBlueprint);
         }
     }
 }

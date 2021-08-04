@@ -202,8 +202,11 @@ namespace Automaton.Studio.ViewModels
         {
             if (env.IsDevelopment() && !SelectedRunnerIds.Any())
             {
+                // Update ElsaWorkflow with details from StudioWorkflow
+                mapper.Map(StudioWorkflow, ElsaWorkflow);
+
                 // Run on the server if in Development mode and there are no selected runners
-                await workflowService.RunWorkflow(StudioWorkflow.DefinitionId);
+                await workflowService.RunWorkflow(ElsaWorkflow);
             }
             else
             {
