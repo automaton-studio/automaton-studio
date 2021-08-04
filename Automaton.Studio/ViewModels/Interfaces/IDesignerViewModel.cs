@@ -1,6 +1,5 @@
 ﻿using Automaton.Studio.Core;
 using Automaton.Studio.Models;
-using Elsa.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,7 +11,6 @@ namespace Automaton.Studio.ViewModels
         #region Properties
 
         StudioWorkflow StudioWorkflow { get; set; }
-        WorkflowDefinition ElsaWorkflow { get; set; }
         IEnumerable<WorkflowRunner> Runners { get; set; }
         IEnumerable<Guid> SelectedRunnerIds { get; set; }
 

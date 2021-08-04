@@ -12,6 +12,7 @@ namespace Automaton.Studio.Core
     {
         #region Elsa Properties
 
+        public string Id { get; set; }
         public string Tag { get; set; }
         public bool IsLatest { get; set; }
         public bool IsPublished { get; set; }
