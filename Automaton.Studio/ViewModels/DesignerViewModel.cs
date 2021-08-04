@@ -3,9 +3,7 @@ using Automaton.Studio.Core;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services;
-using Elsa.Models;
 using Elsa.Persistence;
-using Elsa.Persistence.Specifications.WorkflowDefinitions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -26,7 +24,6 @@ namespace Automaton.Studio.ViewModels
         private readonly ActivityFactory activityFactory;
         private readonly IRunnerService runnerService;
         private readonly IWorkflowService workflowService;
-        private readonly IWorkflowDefinitionStore workflowDefinitionStore;
 
         #endregion
 
@@ -85,14 +82,15 @@ namespace Automaton.Studio.ViewModels
 
         #endregion
 
+        #region Constructors
+
         public DesignerViewModel
         (
             IMapper mapper,
             IWebHostEnvironment env,
             ActivityFactory activityFactory,
             IRunnerService runnerService,
-            IWorkflowService workflowService,
-            IWorkflowDefinitionStore workflowDefinitionStore
+            IWorkflowService workflowService
         )
         {
             this.mapper = mapper;
@@ -100,10 +98,11 @@ namespace Automaton.Studio.ViewModels
             this.activityFactory = activityFactory;
             this.runnerService = runnerService;
             this.workflowService = workflowService;
-            this.workflowDefinitionStore = workflowDefinitionStore;
 
             Runners = mapper.Map<IQueryable<Runner>, IEnumerable<WorkflowRunner>>(runnerService.List());
         }
+
+        #endregion
 
         #region Public Methods
 
@@ -118,6 +117,11 @@ namespace Automaton.Studio.ViewModels
             DragActivity?.Invoke(this, new ActivityEventArgs(activity));
         }
 
+        /// <summary>
+        /// Creates a Studio activity
+        /// </summary>
+        /// <param name="activityName">Activity name</param>
+        /// <returns>Studio activity</returns>
         private StudioActivity CreateActivity(string activityName)
         {
             var activity = activityFactory.GetStudioActivity(activityName);
@@ -158,23 +162,12 @@ namespace Automaton.Studio.ViewModels
         }
 
         /// <summary>
-        /// Load workflow
+        /// Loads workflow from database
         /// </summary>
         /// <param name="workflowId">Workflow identifier</param>
         public async Task LoadWorkflow(string workflowId)
         {
-            // Find WorkflowDefinition workflow based on workflow id
-            var workflowDefinition = await workflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification(workflowId));
-
-            // Map WorkflowDefinition to StudioWorkflow
-            StudioWorkflow = mapper.Map<WorkflowDefinition, StudioWorkflow>(workflowDefinition);
-
-            // Elsa to Studio activities are not easily mapped, so we are doing it separately
-            foreach (var activityDefinition in workflowDefinition.Activities)
-            {
-                var studioActivity = activityFactory.GetStudioActivity(activityDefinition);
-                StudioWorkflow.LoadActivity(studioActivity);
-            }
+            StudioWorkflow = await workflowService.LoadWorkflow(workflowId);
         }
 
         /// <summary>
@@ -182,32 +175,22 @@ namespace Automaton.Studio.ViewModels
         /// </summary>
         public async Task SaveWorkflow()
         {
-            var workflowDefinition = new WorkflowDefinition();
-
-            // Update WorkflowDefinition with details from StudioWorkflow
-            mapper.Map(StudioWorkflow, workflowDefinition);
-
-            await workflowDefinitionStore.SaveAsync(workflowDefinition);
+            await workflowService.SaveWorkflow(StudioWorkflow);
         }
 
         /// <summary>
-        /// Run workflow
+        /// Run current workflow
         /// </summary>
         public async Task RunWorkflow()
         {
             if (env.IsDevelopment() && !SelectedRunnerIds.Any())
             {
-                var workflowDefinition = new WorkflowDefinition();
-
-                // Update WorkflowDefinition with details from StudioWorkflow
-                mapper.Map(StudioWorkflow, workflowDefinition);
-
                 // Run on the server if in Development mode and there are no selected runners
-                await workflowService.RunWorkflow(workflowDefinition);
+                await workflowService.RunWorkflow(StudioWorkflow);
             }
             else
             {
-                // Run on specified runners if in Production
+                // Run workflow on specified runners if in Production
                 await runnerService.RunWorkflow(StudioWorkflow.DefinitionId, SelectedRunnerIds);
             }
         }
