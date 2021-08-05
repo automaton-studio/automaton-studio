@@ -54,7 +54,7 @@ namespace Automaton.Studio.Core
         public StudioWorkflow StudioWorkflow { get; set; }
 
         /// <summary>
-        /// Specifies if the activity is pending creation
+        /// Specifies if the activity is pending creation (not final)
         /// </summary>
         public bool PendingCreation { get; set; }
 
