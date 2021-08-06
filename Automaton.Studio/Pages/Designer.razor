@@ -7,8 +7,15 @@
 
 <Layout>
     <Layout Class="designer-container">
-        <Sider Theme="SiderTheme.Light">
-            <ActivitiesTree></ActivitiesTree>
+        <Sider Theme="SiderTheme.Light" Style="width: 300px">
+            <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="tabs">
+                <TabPane Key="1" Tab="Activities">
+                    <ActivitiesTree></ActivitiesTree>
+                </TabPane>
+                <TabPane Key="2" Tab="Workflows">
+                    Content of Tab Pane 2
+                </TabPane>
+            </Tabs>
         </Sider>
 
         <Content Class="dropzone-container">
@@ -87,17 +94,23 @@
     }
 
     .dropzone-container {
-        height: calc(100vh - 55px);
+        height: calc(100vh);
     }
 
     .dropzone {
-        height: calc(100vh - 55px);
+        height: calc(100vh);
         overflow: auto;
     }
 
     .runners-select {
         min-width: 140px;
         max-width: 140px;
+    }
+
+    .tabs {
+        padding-top: 10px;
+        background-color: #fafafa;
+        height: 100%;
     }
 
     .right-sider {
