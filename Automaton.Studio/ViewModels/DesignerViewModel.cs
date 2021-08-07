@@ -30,6 +30,21 @@ namespace Automaton.Studio.ViewModels
         #region Properties
 
         /// <summary>
+        /// Studio flow
+        /// </summary>
+        private StudioFlow studioFlow = new();
+        public StudioFlow StudioFlow
+        {
+            get => studioFlow;
+
+            set
+            {
+                studioFlow = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// Studio workflow
         /// </summary>
         private StudioWorkflow studioWorkflow = new();
