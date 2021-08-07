@@ -153,7 +153,7 @@ namespace Automaton.Studio
             {
                 entity.HasKey(e => e.Id);
 
-                entity.Property(e => e.Name).HasMaxLength(128);
+                entity.Property(e => e.Name).IsRequired().HasMaxLength(128);
 
                 entity.Property(e => e.ConnectionId).HasMaxLength(128);
 
