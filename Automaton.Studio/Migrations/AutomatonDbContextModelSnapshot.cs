@@ -17,7 +17,7 @@ namespace Automaton.Studio.Migrations
             modelBuilder
                 .HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.6")
+                .HasAnnotation("ProductVersion", "5.0.5")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Automaton.Studio.Entities.AspNetRole", b =>
@@ -215,207 +215,6 @@ namespace Automaton.Studio.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Automaton.Studio.Entities.Bookmark", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ActivityId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ActivityType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Hash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Model")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ModelType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TenantId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WorkflowInstanceId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Bookmarks", t => t.ExcludeFromMigrations());
-                });
-
-            modelBuilder.Entity("Automaton.Studio.Entities.Flow", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Flows");
-                });
-
-            modelBuilder.Entity("Automaton.Studio.Entities.FlowWorkflow", b =>
-                {
-                    b.Property<Guid>("FlowId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("WorkflowId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("FlowId", "WorkflowId");
-
-                    b.HasIndex("WorkflowId");
-
-                    b.HasIndex(new[] { "FlowId" }, "IX_FlowWorkflows_FlowId");
-
-                    b.ToTable("FlowWorkflows");
-                });
-
-            modelBuilder.Entity("Automaton.Studio.Entities.WorkflowDefinition", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Data")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DefinitionId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("DeleteCompletedInstances")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DisplayName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsLatest")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsPublished")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsSingleton")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PersistenceBehavior")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TenantId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Version")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WorkflowDefinitions", t => t.ExcludeFromMigrations());
-                });
-
-            modelBuilder.Entity("Automaton.Studio.Entities.WorkflowExecutionLogRecord", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ActivityId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ActivityType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Data")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Source")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TenantId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset>("Timestamp")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("WorkflowInstanceId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WorkflowExecutionLogRecords", t => t.ExcludeFromMigrations());
-                });
-
-            modelBuilder.Entity("Automaton.Studio.Entities.WorkflowInstance", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTimeOffset?>("CancelledAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("ContextId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ContextType")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CorrelationId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Data")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DefinitionId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("FaultedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("FinishedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset?>("LastExecutedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TenantId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Version")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WorkflowStatus")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("WorkflowInstances", t => t.ExcludeFromMigrations());
-                });
-
             modelBuilder.Entity("Automaton.Studio.Runner", b =>
                 {
                     b.Property<Guid>("Id")
@@ -504,34 +303,6 @@ namespace Automaton.Studio.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Automaton.Studio.Entities.Flow", b =>
-                {
-                    b.HasOne("Automaton.Studio.Entities.AspNetUser", "User")
-                        .WithMany("Flows")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Automaton.Studio.Entities.FlowWorkflow", b =>
-                {
-                    b.HasOne("Automaton.Studio.Entities.Flow", "Flow")
-                        .WithMany("FlowWorkflows")
-                        .HasForeignKey("FlowId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Automaton.Studio.Entities.WorkflowDefinition", "Workflow")
-                        .WithMany("FlowWorkflows")
-                        .HasForeignKey("WorkflowId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Flow");
-
-                    b.Navigation("Workflow");
-                });
-
             modelBuilder.Entity("Automaton.Studio.Runner", b =>
                 {
                     b.HasOne("Automaton.Studio.Entities.AspNetUser", "User")
@@ -558,19 +329,7 @@ namespace Automaton.Studio.Migrations
 
                     b.Navigation("AspNetUserTokens");
 
-                    b.Navigation("Flows");
-
                     b.Navigation("Runners");
-                });
-
-            modelBuilder.Entity("Automaton.Studio.Entities.Flow", b =>
-                {
-                    b.Navigation("FlowWorkflows");
-                });
-
-            modelBuilder.Entity("Automaton.Studio.Entities.WorkflowDefinition", b =>
-                {
-                    b.Navigation("FlowWorkflows");
                 });
 #pragma warning restore 612, 618
         }
