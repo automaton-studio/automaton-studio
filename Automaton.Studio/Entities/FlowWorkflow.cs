@@ -8,5 +8,6 @@ namespace Automaton.Studio.Entities
         public string WorkflowId { get; set; }
 
         public virtual Flow Flow { get; set; }
+        public virtual WorkflowDefinition Workflow { get; set; }
     }
 }

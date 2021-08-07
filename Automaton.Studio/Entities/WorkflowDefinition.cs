@@ -20,5 +20,7 @@ namespace Automaton.Studio.Entities
         public bool IsPublished { get; set; }
         public bool IsLatest { get; set; }
         public string Data { get; set; }
+
+        public virtual IEnumerable<FlowWorkflow> FlowWorkflows { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace Automaton.Studio
         {
         }
 
+        // Identity
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
@@ -23,6 +24,14 @@ namespace Automaton.Studio
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
+
+        // Elsa
+        public DbSet<WorkflowDefinition> WorkflowDefinitions { get; set; } = default!;
+        public DbSet<WorkflowInstance> WorkflowInstances { get; set; } = default!;
+        public DbSet<WorkflowExecutionLogRecord> WorkflowExecutionLogRecords { get; set; } = default!;
+        public DbSet<Bookmark> Bookmarks { get; set; } = default!;
+
+        // AUtomaton
         public virtual DbSet<Runner> Runners { get; set; }
         public virtual DbSet<Flow> Flows { get; set; }
         public virtual DbSet<FlowWorkflow> FlowWorkflows { get; set; }
@@ -38,6 +47,12 @@ namespace Automaton.Studio
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
+            // Exclude Elsa tables from Automaton migrations
+            modelBuilder.Entity<WorkflowDefinition>().Metadata.SetIsTableExcludedFromMigrations(true);
+            modelBuilder.Entity<WorkflowInstance>().Metadata.SetIsTableExcludedFromMigrations(true);
+            modelBuilder.Entity<WorkflowExecutionLogRecord>().Metadata.SetIsTableExcludedFromMigrations(true);
+            modelBuilder.Entity<Bookmark>().Metadata.SetIsTableExcludedFromMigrations(true);
 
             modelBuilder.Entity<AspNetRole>(entity =>
             {
@@ -138,7 +153,7 @@ namespace Automaton.Studio
             {
                 entity.HasKey(e => e.Id);
 
-                entity.Property(e => e.Name).IsRequired().HasMaxLength(128);
+                entity.Property(e => e.Name).HasMaxLength(128);
 
                 entity.Property(e => e.ConnectionId).HasMaxLength(128);
 
@@ -171,6 +186,10 @@ namespace Automaton.Studio
                 entity.HasOne(d => d.Flow)
                     .WithMany(p => p.FlowWorkflows)
                     .HasForeignKey(d => d.FlowId);
+
+                entity.HasOne(d => d.Workflow)
+                  .WithMany(p => p.FlowWorkflows)
+                  .HasForeignKey(d => d.WorkflowId);
             });
 
             OnModelCreatingPartial(modelBuilder);
