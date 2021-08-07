@@ -62,7 +62,8 @@ namespace Automaton.Studio
                 options.UseSqlServer(Configuration.GetConnectionString(DatabaseConnection)));
 
             services.AddDbContext<AutomatonDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString(DatabaseConnection)));
+                options.UseSqlServer(Configuration.GetConnectionString(DatabaseConnection),
+                db => db.MigrationsAssembly(typeof(Startup).Assembly.GetName().Name)));
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
