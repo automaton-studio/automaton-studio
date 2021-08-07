@@ -226,7 +226,6 @@ namespace Automaton.Studio.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
