@@ -24,6 +24,8 @@ namespace Automaton.Studio
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
         public virtual DbSet<Runner> Runners { get; set; }
+        public virtual DbSet<Flow> Flows { get; set; }
+        public virtual DbSet<FlowWorkflow> FlowWorkflows { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -136,13 +138,39 @@ namespace Automaton.Studio
             {
                 entity.HasKey(e => e.Id);
 
-                entity.Property(e => e.Name).HasMaxLength(128);
+                entity.Property(e => e.Name).IsRequired().HasMaxLength(128);
 
                 entity.Property(e => e.ConnectionId).HasMaxLength(128);
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Runners)
                     .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<Flow>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Name).IsRequired().HasMaxLength(128);
+
+                entity.HasMany(e => e.FlowWorkflows)
+                    .WithOne(w => w.Flow)
+                    .HasForeignKey(d => d.FlowId);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Flows)
+                    .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<FlowWorkflow>(entity =>
+            {
+                entity.HasKey(e => new { e.FlowId, e.WorkflowId });
+
+                entity.HasIndex(e => e.FlowId, "IX_FlowWorkflows_FlowId");
+
+                entity.HasOne(d => d.Flow)
+                    .WithMany(p => p.FlowWorkflows)
+                    .HasForeignKey(d => d.FlowId);
             });
 
             OnModelCreatingPartial(modelBuilder);

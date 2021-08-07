@@ -13,6 +13,8 @@ namespace Automaton.Studio.Entities
             AspNetUserLogins = new HashSet<AspNetUserLogin>();
             AspNetUserRoles = new HashSet<AspNetUserRole>();
             AspNetUserTokens = new HashSet<AspNetUserToken>();
+            Runners = new HashSet<Runner>();
+            Flows = new HashSet<Flow>();
         }
 
         public string Id { get; set; }
@@ -36,5 +38,6 @@ namespace Automaton.Studio.Entities
         public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual ICollection<AspNetUserToken> AspNetUserTokens { get; set; }
         public virtual ICollection<Runner> Runners { get; set; }
+        public virtual ICollection<Flow> Flows { get; set; }
     }
 }
