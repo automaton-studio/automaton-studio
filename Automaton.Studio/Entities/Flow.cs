@@ -8,6 +8,7 @@ namespace Automaton.Studio.Entities
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string UserId { get; set; }
+        public string StartupWorkflowId { get; set; }
 
         public virtual AspNetUser User { get; set; }
         public virtual IEnumerable<FlowWorkflow> FlowWorkflows { get; set; }
