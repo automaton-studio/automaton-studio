@@ -167,6 +167,7 @@ namespace Automaton.Studio
                 entity.HasKey(e => e.Id);
 
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(128);
+                entity.Property(e => e.StartupWorkflowId).IsRequired().HasMaxLength(128);
 
                 entity.HasMany(e => e.FlowWorkflows)
                     .WithOne(w => w.Flow)
