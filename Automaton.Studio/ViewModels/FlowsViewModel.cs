@@ -1,12 +1,10 @@
 ﻿using AntDesign;
 using AutoMapper;
+using Automaton.Studio.Entities;
 using Automaton.Studio.Models;
 using Automaton.Studio.Resources;
 using Automaton.Studio.Services;
-using Elsa.Models;
 using Elsa.Persistence;
-using Elsa.Persistence.Specifications;
-using Elsa.Persistence.Specifications.WorkflowDefinitions;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -15,12 +13,13 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.ViewModels
 {
-    public class WorkflowsViewModel : IWorkflowsViewModel, INotifyPropertyChanged
+    public class FlowsViewModel : IFlowsViewModel, INotifyPropertyChanged
     {
         #region Members
 
         private readonly IWorkflowDefinitionStore workflowDefinitionStore;
         private readonly IRunnerService runnerService;
+        private IFlowService flowService;
         private readonly MessageService messageService;
         private readonly IMapper mapper;
 
@@ -28,14 +27,14 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        private IList<WorkflowInfo> workflows;
-        public IList<WorkflowInfo> Workflows
+        private IList<FlowModel> flows;
+        public IList<FlowModel> Flows
         {
-            get => workflows;
+            get => flows;
 
             set
             {
-                workflows = value;
+                flows = value;
                 OnPropertyChanged();
             }
         }
@@ -52,71 +51,67 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        public NewWorkflow NewWorkflowDetails { get; set; } = new NewWorkflow();
+        public FlowModel NewFlow { get; set; }
 
         #endregion
 
-        public WorkflowsViewModel
+        public FlowsViewModel
         (
             IRunnerService runnerService,
+            IFlowService flowService,
             IWorkflowDefinitionStore workflowDefinitionStore,
             MessageService messageService,
             IMapper mapper
         )
         {
+            this.flowService = flowService;
             this.runnerService = runnerService;
             this.messageService = messageService;
             this.mapper = mapper;
             this.workflowDefinitionStore = workflowDefinitionStore;
         }
 
-        public async Task Initialize()
-        {
-            var workflowDefinitions = await workflowDefinitionStore.FindManyAsync(Specification<WorkflowDefinition>.Identity);
-            Workflows = mapper.Map<IEnumerable<WorkflowDefinition>, IList<WorkflowInfo>>(workflowDefinitions);     
+        public void Initialize()
+        {            
+            Flows = mapper.Map<IQueryable<Flow>, IEnumerable<FlowModel>>(flowService.List()).ToList();
             Runners = mapper.Map<IQueryable<Runner>, IEnumerable<WorkflowRunner>>(runnerService.List());
         }
 
-        public async Task<WorkflowDefinition> NewWorkflow()
+        public async Task<FlowModel> CreateNewFlow()
         {
             try
             {
-                var workflowDefinition = mapper.Map<NewWorkflow, WorkflowDefinition>(NewWorkflowDetails);
+                var newFlow = mapper.Map<FlowModel, Flow>(NewFlow);
+                flowService.Create(newFlow);
 
-                await workflowDefinitionStore.AddAsync(workflowDefinition);
+                var flowEntity = flowService.Get(newFlow.Name);
 
-                return workflowDefinition;
+                return mapper.Map<Flow, FlowModel>(flowEntity);
             }
             catch
             {
-                await messageService.Error(Errors.NewWorkflowError);
+                await messageService.Error(Errors.NewFlowError);
                 throw;
             }
             finally
             {
-                ClearNewWorkflowDetails();
+                NewFlow.Reset();
             }
         }
 
-        public async Task DeleteWorkflow(WorkflowInfo workflow)
+        public void DeleteFlow(FlowModel flow)
         {
-            // Delete Elsa workflow
-            var workflowDefinition = await workflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification(workflow.DefinitionId));
-            await workflowDefinitionStore.DeleteAsync(workflowDefinition);
+            // Delete flow entity
+            flowService.Delete(flow.Id);
 
-            // Delete Studio workflow
-            var studioWorkflow = Workflows.SingleOrDefault(x => x.DefinitionId == workflow.DefinitionId);
-            Workflows.Remove(studioWorkflow);
+            // Delete flow from table
+            var tableFlow = Flows.SingleOrDefault(x => x.Id == flow.Id);
+            Flows.Remove(tableFlow);
         }
 
-        public async Task RunWorkflow(WorkflowInfo workflow)
+        public async Task RunWorkflow(FlowModel flow)
         {
-            await runnerService.RunWorkflow(workflow.DefinitionId, workflow.RunnerIds);
-        }
-
-        private void ClearNewWorkflowDetails()
-        {
-            NewWorkflowDetails = new NewWorkflow();
+            await runnerService.RunWorkflow(flow.StartupWorkflowId, flow.RunnerIds);
         }
 
         #region INotifyPropertyChanged

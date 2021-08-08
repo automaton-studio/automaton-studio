@@ -1,14 +1,6 @@
-﻿using AutoMapper;
-using Automaton.Studio.Core;
-using Automaton.Studio.Entities;
-using Automaton.Studio.Factories;
-using Elsa.Models;
-using Elsa.Persistence;
-using Elsa.Persistence.Specifications.WorkflowDefinitions;
-using Elsa.Services;
+﻿using Automaton.Studio.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,20 +11,18 @@ namespace Automaton.Studio.Services
         #region Private Members
 
         private readonly AutomatonDbContext dbContext;
-        private readonly RunnerService runnerService;
 
         #endregion
 
-        public FlowService(AutomatonDbContext context, RunnerService workflowService)
+        public FlowService(AutomatonDbContext context)
         {
             this.dbContext = context ?? throw new ArgumentNullException("context");
-            this.runnerService = workflowService;
         }
 
         #region Public Methods
 
         /// <summary>
-        /// Retrieves the full list of runners
+        /// Retrieves the full list of flows
         /// </summary>
         /// <returns></returns>
         public IQueryable<Flow> List()
@@ -41,10 +31,10 @@ namespace Automaton.Studio.Services
         }
 
         /// <summary>
-        /// Retrieve runner by id
+        /// Retrieve flow by id
         /// </summary>
-        /// <param name="id">Runner id</param>
-        /// <returns>Runner by incoming id</returns>
+        /// <param name="id">Flow id</param>
+        /// <returns>Flow by id</returns>
         public Flow Get(Guid id)
         {
             var entity = dbContext.Flows.Find(id);
@@ -53,10 +43,22 @@ namespace Automaton.Studio.Services
         }
 
         /// <summary>
-        /// Adds a new runner to the database
+        /// Retrieve flow by name
         /// </summary>
-        /// <param name="flow">Runner to add</param>
-        /// <returns>Result of the runner create operation</returns>
+        /// <param name="id">Flow name</param>
+        /// <returns>Flow by name</returns>
+        public Flow Get(string name)
+        {
+            var flow = dbContext.Flows.SingleOrDefault(x => x.Name.ToLower() == name.ToLower());
+
+            return flow;
+        }
+
+        /// <summary>
+        /// Adds a new flow to the database
+        /// </summary>
+        /// <param name="flow">Flow to add</param>
+        /// <returns>Result of the flow create operation</returns>
         public int Create(Flow flow)
         {
             dbContext.Flows.Add(flow);
@@ -66,16 +68,16 @@ namespace Automaton.Studio.Services
         }
 
         /// <summary>
-        /// Update incoming runner into the database
+        /// Update incoming flow into the database
         /// </summary>
-        /// <param name="flow">Runner to update information for</param>
-        /// <returns>Result of the runner update operation</returns>
+        /// <param name="flow">Flow to update information for</param>
+        /// <returns>Result of the flow update operation</returns>
         public async Task Update(Flow flow)
         {
             var entity = dbContext.Flows.SingleOrDefault(x => x.Name == flow.Name && x.UserId == flow.UserId);
 
             if (entity == null)
-                throw new ArgumentException("Runner not found");
+                throw new ArgumentException("Flow not found");
 
             // Update entity properties
             entity.Name = flow.Name;
@@ -83,7 +85,7 @@ namespace Automaton.Studio.Services
             // Mark entity as modified
             dbContext.Entry(entity).State = EntityState.Modified;
 
-            // Update runner entity
+            // Update flow entity
             dbContext.Update(entity);
 
             // Save changes
@@ -91,10 +93,25 @@ namespace Automaton.Studio.Services
         }
 
         /// <summary>
-        /// Check if runner exists into the database
+        /// Deletes flow from the database
         /// </summary>
-        /// <param name="flow">Runner to check if exists</param>
-        /// <returns>True if runner exists, false if not</returns>
+        /// <param name="flowId">Flow Id to delete</param>
+        /// <returns>Result of the flow delete operation</returns>
+        public int Delete(Guid flowId)
+        {
+            var flow = Get(flowId);
+
+            dbContext.Flows.Remove(flow);
+            var result = dbContext.SaveChanges();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Check if flow exists into the database
+        /// </summary>
+        /// <param name="flow">Flow to check if exists</param>
+        /// <returns>True if flow exists, false if not</returns>
         public bool Exists(Flow flow)
         {
             // Note: OrdinalCase comparison not working with this version of LinQ
@@ -106,15 +123,18 @@ namespace Automaton.Studio.Services
         }
 
         /// <summary>
-        /// Runs a flow on specified runners
+        /// Check if flow exists into the database
         /// </summary>
-        /// <param name="flowId">Flow id to run</param>
-        /// <param name="runnerIds">Runner ids to run the flow on</param>
-        public async Task RunFlow(Guid flowId, IEnumerable<Guid> runnerIds)
+        /// <param name="name">Flow name</param>
+        /// <returns>True if flow exists, false if not</returns>
+        public bool Exists(string name)
         {
-            var flow = Get(flowId);
+            // Note: OrdinalCase comparison not working with this version of LinQ
+            var exists = dbContext.Flows.Any(x =>
+                x.Name.ToLower() == name.ToLower());
+            // TODO! Also check for current UserId
 
-            await runnerService.RunWorkflow(flow.StartupWorkflowId, runnerIds);
+            return exists;
         }
 
         #endregion

@@ -117,13 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NewWorkflowError" xml:space="preserve">
-    <value>An error occured when creating the workflow.</value>
+  <data name="FlowNameExists" xml:space="preserve">
+    <value>Flow with same name already exists.</value>
   </data>
-  <data name="WorkflowNameExists" xml:space="preserve">
-    <value>Workflow with same name already exists.</value>
-  </data>
-  <data name="WorkflowNameRequired" xml:space="preserve">
+  <data name="NameRequired" xml:space="preserve">
     <value>Name is required.</value>
+  </data>
+  <data name="NewFlowError" xml:space="preserve">
+    <value>An error occured when creating the workflow.</value>
   </data>
 </root>

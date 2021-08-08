@@ -61,29 +61,29 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occured when creating the workflow..
+        ///   Looks up a localized string similar to Flow with same name already exists..
         /// </summary>
-        public static string NewWorkflowError {
+        public static string FlowNameExists {
             get {
-                return ResourceManager.GetString("NewWorkflowError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Workflow with same name already exists..
-        /// </summary>
-        public static string WorkflowNameExists {
-            get {
-                return ResourceManager.GetString("WorkflowNameExists", resourceCulture);
+                return ResourceManager.GetString("FlowNameExists", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Name is required..
         /// </summary>
-        public static string WorkflowNameRequired {
+        public static string NameRequired {
             get {
-                return ResourceManager.GetString("WorkflowNameRequired", resourceCulture);
+                return ResourceManager.GetString("NameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occured when creating the workflow..
+        /// </summary>
+        public static string NewFlowError {
+            get {
+                return ResourceManager.GetString("NewFlowError", resourceCulture);
             }
         }
     }

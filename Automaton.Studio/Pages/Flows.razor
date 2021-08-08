@@ -26,20 +26,12 @@
     </Header>
 
     <Content>
-        <Table TItem="WorkflowInfo" @ref="workflowsTable" DataSource="@WorkflowsViewModel.Workflows">
+        <Table TItem="FlowModel" DataSource="@FlowsViewModel.Flows">
             <Column Title="Name" @bind-Field="@context.Name">
                 @context.Name
             </Column>
 
-            <Column @bind-Field="@context.Description"></Column>
-
-            <Column @bind-Field="@context.Version" Width="100">
-                <TitleTemplate>
-                    <span> <Icon Type="environment" /> Version </span>
-                </TitleTemplate>
-            </Column>
-
-            <Column Title="Runners" @bind-Field="@context.Description" Width="300">
+            <Column @bind-Field="@context.RunnerIds" Title="Runners" Width="300">
                 <Select Mode="multiple"
                         @bind-Values="context.RunnerIds"
                         Placeholder="Select runners..."
@@ -47,7 +39,7 @@
                         TItem="Guid"
                         AllowClear>
                     <SelectOptions>
-                        @foreach (var item in @WorkflowsViewModel.Runners)
+                        @foreach (var item in FlowsViewModel.Runners)
                         {
                             <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
                         }
