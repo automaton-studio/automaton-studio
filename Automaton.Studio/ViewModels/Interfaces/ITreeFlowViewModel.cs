@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace Automaton.Studio.ViewModels
 {
-    public interface ITreeWorkflowViewModel
+    public interface ITreeFlowViewModel
     {
         #region Events
 

@@ -107,7 +107,7 @@ namespace Automaton.Studio
             services.AddScoped<IWorkflowsViewModel, WorkflowsViewModel>();
             services.AddScoped<IDesignerViewModel, DesignerViewModel>();
             services.AddScoped<ITreeActivityViewModel, TreeActivityViewModel>();
-            services.AddScoped<ITreeWorkflowViewModel, TreeWorkflowViewModel>();
+            services.AddScoped<ITreeFlowViewModel, TreeFlowViewModel>();
 
             // Services
             services.AddScoped<IWorkflowService, WorkflowService>();

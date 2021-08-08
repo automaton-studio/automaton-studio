@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.ViewModels
 {
-    public class TreeWorkflowViewModel : ITreeWorkflowViewModel, INotifyPropertyChanged
+    public class TreeFlowViewModel : ITreeFlowViewModel, INotifyPropertyChanged
     {
         #region Members
 
@@ -34,7 +34,7 @@ namespace Automaton.Studio.ViewModels
 
         #endregion
 
-        public TreeWorkflowViewModel(
+        public TreeFlowViewModel(
             ActivityFactory activityFactory,
             IMapper mapper)
         {

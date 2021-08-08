@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Components
 {
-    partial class WorkflowsTree : ComponentBase
+    partial class FlowTree : ComponentBase
     {
         [Inject] 
-        private ITreeWorkflowViewModel TreeWorkflowViewModel { get; set; } = default!;
+        private ITreeFlowViewModel TreeFlowViewModel { get; set; } = default!;
 
         private string searchText { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            TreeWorkflowViewModel.Initialize();
+            TreeFlowViewModel.Initialize();
 
             await base.OnInitializedAsync();
         }
