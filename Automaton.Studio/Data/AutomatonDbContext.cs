@@ -181,15 +181,13 @@ namespace Automaton.Studio
             {
                 entity.HasKey(e => new { e.FlowId, e.WorkflowId });
 
-                entity.HasIndex(e => e.FlowId, "IX_FlowWorkflows_FlowId");
-
                 entity.HasOne(d => d.Flow)
                     .WithMany(p => p.FlowWorkflows)
                     .HasForeignKey(d => d.FlowId);
 
                 entity.HasOne(d => d.Workflow)
-                  .WithMany(p => p.FlowWorkflows)
-                  .HasForeignKey(d => d.WorkflowId);
+                    .WithMany(p => p.FlowWorkflows)
+                    .HasForeignKey(d => d.WorkflowId);
             });
 
             OnModelCreatingPartial(modelBuilder);

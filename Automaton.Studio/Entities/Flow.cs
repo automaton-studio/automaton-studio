@@ -1,5 +1,4 @@
-﻿using Automaton.Studio.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Automaton.Studio.Entities
