@@ -17,7 +17,6 @@ namespace Automaton.Studio.ViewModels
     {
         #region Members
 
-        private readonly IWorkflowDefinitionStore workflowDefinitionStore;
         private readonly IRunnerService runnerService;
         private IFlowService flowService;
         private readonly MessageService messageService;
@@ -51,7 +50,7 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        public FlowModel NewFlow { get; set; }
+        public FlowModel NewFlow { get; set; } = new();
 
         #endregion
 
@@ -59,7 +58,6 @@ namespace Automaton.Studio.ViewModels
         (
             IRunnerService runnerService,
             IFlowService flowService,
-            IWorkflowDefinitionStore workflowDefinitionStore,
             MessageService messageService,
             IMapper mapper
         )
@@ -68,7 +66,6 @@ namespace Automaton.Studio.ViewModels
             this.runnerService = runnerService;
             this.messageService = messageService;
             this.mapper = mapper;
-            this.workflowDefinitionStore = workflowDefinitionStore;
         }
 
         public void Initialize()

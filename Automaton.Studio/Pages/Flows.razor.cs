@@ -41,7 +41,7 @@ namespace Automaton.Studio.Pages
         {
             var modalConfig = new ModalOptions
             {
-                Title = Labels.NewWorkflowTitle,
+                Title = Labels.NewFlowTitle,
                 // Needed as a workaround to prevent dialog
                 // close imediatelly when clicking OK button
                 MaskClosable = false

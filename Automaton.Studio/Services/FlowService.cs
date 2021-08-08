@@ -1,8 +1,11 @@
 ﻿using Automaton.Studio.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
+using Automaton.Studio.Models;
 
 namespace Automaton.Studio.Services
 {
@@ -11,12 +14,16 @@ namespace Automaton.Studio.Services
         #region Private Members
 
         private readonly AutomatonDbContext dbContext;
+        private readonly ClaimsPrincipal principal;
+        private readonly string userId;
 
         #endregion
 
-        public FlowService(AutomatonDbContext context)
+        public FlowService(AutomatonDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             this.dbContext = context ?? throw new ArgumentNullException("context");
+            principal = httpContextAccessor.HttpContext.User;
+            userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
         #region Public Methods
@@ -59,8 +66,11 @@ namespace Automaton.Studio.Services
         /// </summary>
         /// <param name="flow">Flow to add</param>
         /// <returns>Result of the flow create operation</returns>
-        public int Create(Flow flow)
+        public int Create(FlowModel flow)
         {
+            // Update flow UserId
+            flow.UserId = userId;
+
             dbContext.Flows.Add(flow);
             var result = dbContext.SaveChanges();
 

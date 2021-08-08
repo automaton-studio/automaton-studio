@@ -54,7 +54,6 @@ namespace Automaton.Studio.Pages
             DesignerViewModel.DragActivity += OnDragActivity;
             DesignerViewModel.StudioWorkflow.ActivityAdded += OnActivityAdded;
             DesignerViewModel.StudioWorkflow.ActivityRemoved += OnActivityRemoved;
-
         }
 
         #endregion
