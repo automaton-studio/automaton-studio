@@ -11,6 +11,7 @@ namespace Automaton.Studio.Models
         public string Name { get; set; }
         public string UserId { get; set; }
         public string StartupWorkflowId { get; set; }
+        public virtual IList<FlowWorkflowModel> FlowWorkflows { get; set; } = new List<FlowWorkflowModel>();
 
         private IEnumerable<Guid> runnerIds = new List<Guid>();
         public IEnumerable<Guid> RunnerIds
@@ -32,6 +33,7 @@ namespace Automaton.Studio.Models
             Name = string.Empty;
             UserId = string.Empty;
             StartupWorkflowId = string.Empty;
+            FlowWorkflows.Clear();
         }
 
         #endregion

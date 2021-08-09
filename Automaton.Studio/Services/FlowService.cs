@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Automaton.Studio.Models;
+using Automaton.Studio.Core;
 
 namespace Automaton.Studio.Services
 {
@@ -15,12 +16,16 @@ namespace Automaton.Studio.Services
 
         private readonly AutomatonDbContext dbContext;
         private readonly ClaimsPrincipal principal;
+        private readonly IWorkflowService workflowService;
         private readonly string userId;
 
         #endregion
 
-        public FlowService(AutomatonDbContext context, IHttpContextAccessor httpContextAccessor)
+        public FlowService(AutomatonDbContext context, 
+            IHttpContextAccessor httpContextAccessor,
+            IWorkflowService workflowService)
         {
+            this.workflowService = workflowService;
             this.dbContext = context ?? throw new ArgumentNullException("context");
             principal = httpContextAccessor.HttpContext.User;
             userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -66,12 +71,27 @@ namespace Automaton.Studio.Services
         /// </summary>
         /// <param name="flow">Flow to add</param>
         /// <returns>Result of the flow create operation</returns>
-        public int Create(FlowModel flow)
-        {
-            // Update flow UserId
+        public async Task<int> Create(Flow flow)
+        {            
+            // Update flow UserId and add flow
             flow.UserId = userId;
-
             dbContext.Flows.Add(flow);
+
+            // Create default workflow
+            var defaultWorkflow = new StudioWorkflow();
+            await workflowService.SaveWorkflow(defaultWorkflow);
+
+            // Set flow's StartupWorkflowId
+            flow.StartupWorkflowId = defaultWorkflow.Id;
+
+            // Map workflow to parent flow
+            var flowWorkflow = new FlowWorkflow
+            {
+                WorkflowId = defaultWorkflow.Id,
+                FlowId = flow.Id
+            };
+            dbContext.FlowWorkflows.Add(flowWorkflow);
+
             var result = dbContext.SaveChanges();
 
             return result;
@@ -140,11 +160,19 @@ namespace Automaton.Studio.Services
         public bool Exists(string name)
         {
             // Note: OrdinalCase comparison not working with this version of LinQ
-            var exists = dbContext.Flows.Any(x =>
-                x.Name.ToLower() == name.ToLower());
-            // TODO! Also check for current UserId
+            var exists = dbContext.Flows.Any(x =>x.Name.ToLower() == name.ToLower() && x.UserId == userId);
 
             return exists;
+        }
+
+        /// <summary>
+        /// Check if flow name is unique for current user
+        /// </summary>
+        /// <param name="name">Flow name</param>
+        /// <returns>True if flow does not exists, false if exists</returns>
+        public bool IsUnique(string name)
+        {
+            return !Exists(name);
         }
 
         #endregion

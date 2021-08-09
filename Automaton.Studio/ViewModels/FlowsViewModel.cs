@@ -79,11 +79,9 @@ namespace Automaton.Studio.ViewModels
             try
             {
                 var newFlow = mapper.Map<FlowModel, Flow>(NewFlow);
-                flowService.Create(newFlow);
+                await flowService.Create(newFlow);
 
-                var flowEntity = flowService.Get(newFlow.Name);
-
-                return mapper.Map<Flow, FlowModel>(flowEntity);
+                return mapper.Map<Flow, FlowModel>(newFlow);
             }
             catch
             {

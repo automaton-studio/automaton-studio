@@ -21,6 +21,12 @@ namespace Automaton.Studio.Entities
         public bool IsLatest { get; set; }
         public string Data { get; set; }
 
+        public WorkflowDefinition()
+        {
+            Name = "Main";
+            DisplayName = "Main";
+        }
+
         public virtual IEnumerable<FlowWorkflow> FlowWorkflows { get; set; }
     }
 }

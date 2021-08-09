@@ -16,13 +16,13 @@ namespace Automaton.Studio.Validators
             RuleFor(x => x.Name).NotEmpty().MaximumLength(50).WithMessage(Errors.NameRequired);
 
             When(x => !string.IsNullOrEmpty(x.Name), () => {
-                RuleFor(x => x.Name).Must(HaveUniqueName).WithMessage(Errors.FlowNameExists);
+                RuleFor(x => x.Name).Must(HasUniqueName).WithMessage(Errors.FlowNameExists);
             });     
         }
 
-        private bool HaveUniqueName(string name)
+        private bool HasUniqueName(string name)
         {
-            return flowService.Exists(name);
+            return flowService.IsUnique(name);
         }
     }
 }

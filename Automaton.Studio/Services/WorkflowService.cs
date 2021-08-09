@@ -97,7 +97,10 @@ namespace Automaton.Studio.Services
             // Update WorkflowDefinition with details from StudioWorkflow
             mapper.Map(studioWorkflow, workflowDefinition);
 
+            await workflowDefinitionStore.AddAsync(workflowDefinition);
             await workflowDefinitionStore.SaveAsync(workflowDefinition);
+
+            studioWorkflow.Id = workflowDefinition.Id;
         }
     }
 }
