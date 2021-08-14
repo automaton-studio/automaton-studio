@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Automaton.Studio.Core
 {
@@ -10,10 +7,16 @@ namespace Automaton.Studio.Core
     {
         #region Public Properties
 
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public string StartupWorkflowId { get; set; }
+
         /// <summary>
         /// List of workflows
         /// </summary>
         public IList<StudioWorkflow> Workflows { get; set; }
+
+        public StudioWorkflow CurrentWorkflow { get; set; }
 
         #endregion
 
@@ -21,13 +24,11 @@ namespace Automaton.Studio.Core
 
         public StudioFlow()
         {
-            var defaultWorkflow = new StudioWorkflow();
-            Workflows = new List<StudioWorkflow> { defaultWorkflow };
+            Name = "Untitled";
+            CurrentWorkflow = new StudioWorkflow();
+            Workflows = new List<StudioWorkflow> { CurrentWorkflow };
         }
 
         #endregion
-
-
-
     }
 }
