@@ -1,9 +1,12 @@
-﻿using Automaton.Studio.Hubs;
+﻿using Automaton.Studio.Entities;
+using Automaton.Studio.Hubs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services
@@ -14,14 +17,19 @@ namespace Automaton.Studio.Services
 
         private readonly AutomatonDbContext dbContext;
         private readonly IHubContext<WorkflowHub> workflowHubContext;
+        private readonly ClaimsPrincipal principal;
+        private readonly string userId;
 
         #endregion
 
         public RunnerService(AutomatonDbContext context,
+            IHttpContextAccessor httpContextAccessor,
             IHubContext<WorkflowHub> workflowHubContext)
         {
             this.dbContext = context ?? throw new ArgumentNullException("context");
             this.workflowHubContext = workflowHubContext;
+            principal = httpContextAccessor.HttpContext.User;
+            userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
         #region Public Methods
@@ -69,9 +77,21 @@ namespace Automaton.Studio.Services
         /// </summary>
         /// <param name="runner">Runner to add</param>
         /// <returns>Result of the runner create operation</returns>
-        public int Create(Runner runner)
+        public int Create(string name)
         {
+            var runner = new Runner()
+            {
+                Name = name
+            };
             dbContext.Runners.Add(runner);
+
+            var runnerUser = new RunnerUser
+            {
+                RunnerId = runner.Id,
+                UserId = userId
+            };
+            dbContext.RunnerUsers.Add(runnerUser);
+
             var result = dbContext.SaveChanges();
 
             return result;
@@ -84,7 +104,7 @@ namespace Automaton.Studio.Services
         /// <returns>Result of the runner update operation</returns>
         public async Task Update(Runner runner)
         {
-            var runnerEntity = dbContext.Runners.SingleOrDefault(x => x.Name == runner.Name && x.UserId == runner.UserId);
+            var runnerEntity = dbContext.Runners.SingleOrDefault(x => x.Name == runner.Name && runner.RunnerUsers.Any(x => x.UserId == userId));
 
             if (runnerEntity == null)
                 throw new ArgumentException("Runner not found");
@@ -107,12 +127,12 @@ namespace Automaton.Studio.Services
         /// </summary>
         /// <param name="runner">Runner to check if exists</param>
         /// <returns>True if runner exists, false if not</returns>
-        public bool Exists(Runner runner)
+        public bool Exists(string name)
         {
             // Note: OrdinalCase comparison not working with this version of LinQ
             var exists = dbContext.Runners.Any(x =>
-                x.Name.ToLower() == runner.Name.ToLower() &&
-                x.UserId.ToLower() == runner.UserId.ToLower());
+                x.Name.ToLower() == name.ToLower() &&
+                x.RunnerUsers.Any(x => x.UserId == userId));
 
             return exists;
         }

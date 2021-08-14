@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
 namespace Automaton.Studio.Entities
 {
+    [Table("Bookmarks", Schema = "Elsa")]
     public partial class Bookmark
     {
         public string Id { get; set; }

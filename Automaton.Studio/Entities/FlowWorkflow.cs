@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Elsa.Models;
+using System;
 
 namespace Automaton.Studio.Entities
 {

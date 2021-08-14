@@ -31,10 +31,12 @@ namespace Automaton.Studio
         public DbSet<WorkflowExecutionLogRecord> WorkflowExecutionLogRecords { get; set; } = default!;
         public DbSet<Bookmark> Bookmarks { get; set; } = default!;
 
-        // AUtomaton
+        // Automaton
         public virtual DbSet<Runner> Runners { get; set; }
+        public virtual DbSet<RunnerUser> RunnerUsers { get; set; }
         public virtual DbSet<Flow> Flows { get; set; }
         public virtual DbSet<FlowWorkflow> FlowWorkflows { get; set; }
+        public virtual DbSet<FlowUser> FlowUsers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -47,6 +49,8 @@ namespace Automaton.Studio
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AutomatonDbContext).Assembly);
 
             // Exclude Elsa tables from Automaton migrations
             modelBuilder.Entity<WorkflowDefinition>().Metadata.SetIsTableExcludedFromMigrations(true);
@@ -147,48 +151,6 @@ namespace Automaton.Studio
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserTokens)
                     .HasForeignKey(d => d.UserId);
-            });
-
-            modelBuilder.Entity<Runner>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-
-                entity.Property(e => e.Name).HasMaxLength(128);
-
-                entity.Property(e => e.ConnectionId).HasMaxLength(128);
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Runners)
-                    .HasForeignKey(d => d.UserId);
-            });
-
-            modelBuilder.Entity<Flow>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-
-                entity.Property(e => e.Name).IsRequired().HasMaxLength(128);
-                entity.Property(e => e.StartupWorkflowId).IsRequired().HasMaxLength(128);
-
-                entity.HasMany(e => e.FlowWorkflows)
-                    .WithOne(w => w.Flow)
-                    .HasForeignKey(d => d.FlowId);
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Flows)
-                    .HasForeignKey(d => d.UserId);
-            });
-
-            modelBuilder.Entity<FlowWorkflow>(entity =>
-            {
-                entity.HasKey(e => new { e.FlowId, e.WorkflowId });
-
-                entity.HasOne(d => d.Flow)
-                    .WithMany(p => p.FlowWorkflows)
-                    .HasForeignKey(d => d.FlowId);
-
-                entity.HasOne(d => d.Workflow)
-                    .WithMany(p => p.FlowWorkflows)
-                    .HasForeignKey(d => d.WorkflowId);
             });
 
             OnModelCreatingPartial(modelBuilder);

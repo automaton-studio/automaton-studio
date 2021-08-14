@@ -17,7 +17,7 @@ namespace Automaton.Studio.Migrations
             modelBuilder
                 .HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.6")
+                .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Automaton.Studio.Entities.AspNetRole", b =>
@@ -243,7 +243,7 @@ namespace Automaton.Studio.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bookmarks", t => t.ExcludeFromMigrations());
+                    b.ToTable("Bookmarks", "Elsa", t => t.ExcludeFromMigrations());
                 });
 
             modelBuilder.Entity("Automaton.Studio.Entities.Flow", b =>
@@ -262,14 +262,24 @@ namespace Automaton.Studio.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
+                    b.HasKey("Id");
+
+                    b.ToTable("Flows");
+                });
+
+            modelBuilder.Entity("Automaton.Studio.Entities.FlowUser", b =>
+                {
+                    b.Property<Guid>("FlowId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("FlowId", "UserId");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Flows");
+                    b.ToTable("FlowUsers");
                 });
 
             modelBuilder.Entity("Automaton.Studio.Entities.FlowWorkflow", b =>
@@ -285,6 +295,21 @@ namespace Automaton.Studio.Migrations
                     b.HasIndex("WorkflowId");
 
                     b.ToTable("FlowWorkflows");
+                });
+
+            modelBuilder.Entity("Automaton.Studio.Entities.RunnerUser", b =>
+                {
+                    b.Property<Guid>("RunnerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("RunnerId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RunnerUsers");
                 });
 
             modelBuilder.Entity("Automaton.Studio.Entities.WorkflowDefinition", b =>
@@ -322,6 +347,9 @@ namespace Automaton.Studio.Migrations
                     b.Property<int>("PersistenceBehavior")
                         .HasColumnType("int");
 
+                    b.Property<string>("Tag")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TenantId")
                         .HasColumnType("nvarchar(max)");
 
@@ -330,7 +358,7 @@ namespace Automaton.Studio.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WorkflowDefinitions", t => t.ExcludeFromMigrations());
+                    b.ToTable("WorkflowDefinitions", "Elsa", t => t.ExcludeFromMigrations());
                 });
 
             modelBuilder.Entity("Automaton.Studio.Entities.WorkflowExecutionLogRecord", b =>
@@ -364,7 +392,7 @@ namespace Automaton.Studio.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WorkflowExecutionLogRecords", t => t.ExcludeFromMigrations());
+                    b.ToTable("WorkflowExecutionLogRecords", "Elsa", t => t.ExcludeFromMigrations());
                 });
 
             modelBuilder.Entity("Automaton.Studio.Entities.WorkflowInstance", b =>
@@ -416,7 +444,7 @@ namespace Automaton.Studio.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WorkflowInstances", t => t.ExcludeFromMigrations());
+                    b.ToTable("WorkflowInstances", "Elsa", t => t.ExcludeFromMigrations());
                 });
 
             modelBuilder.Entity("Automaton.Studio.Runner", b =>
@@ -433,12 +461,7 @@ namespace Automaton.Studio.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Runners");
                 });
@@ -506,11 +529,21 @@ namespace Automaton.Studio.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Automaton.Studio.Entities.Flow", b =>
+            modelBuilder.Entity("Automaton.Studio.Entities.FlowUser", b =>
                 {
+                    b.HasOne("Automaton.Studio.Entities.Flow", "Flow")
+                        .WithMany("FlowUsers")
+                        .HasForeignKey("FlowId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Automaton.Studio.Entities.AspNetUser", "User")
-                        .WithMany("Flows")
-                        .HasForeignKey("UserId");
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Flow");
 
                     b.Navigation("User");
                 });
@@ -524,7 +557,7 @@ namespace Automaton.Studio.Migrations
                         .IsRequired();
 
                     b.HasOne("Automaton.Studio.Entities.WorkflowDefinition", "Workflow")
-                        .WithMany("FlowWorkflows")
+                        .WithMany()
                         .HasForeignKey("WorkflowId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -534,11 +567,21 @@ namespace Automaton.Studio.Migrations
                     b.Navigation("Workflow");
                 });
 
-            modelBuilder.Entity("Automaton.Studio.Runner", b =>
+            modelBuilder.Entity("Automaton.Studio.Entities.RunnerUser", b =>
                 {
+                    b.HasOne("Automaton.Studio.Runner", "Runner")
+                        .WithMany("RunnerUsers")
+                        .HasForeignKey("RunnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Automaton.Studio.Entities.AspNetUser", "User")
-                        .WithMany("Runners")
-                        .HasForeignKey("UserId");
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Runner");
 
                     b.Navigation("User");
                 });
@@ -559,20 +602,18 @@ namespace Automaton.Studio.Migrations
                     b.Navigation("AspNetUserRoles");
 
                     b.Navigation("AspNetUserTokens");
-
-                    b.Navigation("Flows");
-
-                    b.Navigation("Runners");
                 });
 
             modelBuilder.Entity("Automaton.Studio.Entities.Flow", b =>
                 {
+                    b.Navigation("FlowUsers");
+
                     b.Navigation("FlowWorkflows");
                 });
 
-            modelBuilder.Entity("Automaton.Studio.Entities.WorkflowDefinition", b =>
+            modelBuilder.Entity("Automaton.Studio.Runner", b =>
                 {
-                    b.Navigation("FlowWorkflows");
+                    b.Navigation("RunnerUsers");
                 });
 #pragma warning restore 612, 618
         }
