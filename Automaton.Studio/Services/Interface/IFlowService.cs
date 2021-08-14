@@ -10,7 +10,7 @@ namespace Automaton.Studio.Services
         Flow Get(Guid id);
         Flow Get(string name);
         IQueryable<Flow> List();
-        Task<int> Create(Flow flow);
+        Task<int> Create(string name);
         bool Exists(Flow flow);
         bool Exists(string name);
         bool IsUnique(string name);

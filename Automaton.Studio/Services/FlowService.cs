@@ -69,34 +69,41 @@ namespace Automaton.Studio.Services
         /// <summary>
         /// Adds a new flow to the database
         /// </summary>
-        /// <param name="flow">Flow to add</param>
+        /// <param name="name">Flow name to create</param>
         /// <returns>Result of the flow create operation</returns>
-        public async Task<int> Create(Flow flow)
+        public async Task<int> Create(string name)
         {
-            throw new NotImplementedException();
+            // Create default workflow
+            var defaultWorkflow = new StudioWorkflow();
+            await workflowService.SaveWorkflow(defaultWorkflow);
 
-            //// Update flow UserId and add flow
-            //flow.UserId = userId;
-            //dbContext.Flows.Add(flow);
+            // Create flow
+            var flow = new Flow()
+            {
+                Name = name,
+                StartupWorkflowId = defaultWorkflow.Id
+            };
+            dbContext.Flows.Add(flow);
 
-            //// Create default workflow
-            //var defaultWorkflow = new StudioWorkflow();
-            //await workflowService.SaveWorkflow(defaultWorkflow);
+            // Map flow to user
+            var flowUser = new FlowUser
+            {
+                FlowId = flow.Id,
+                UserId = userId
+            };
+            dbContext.FlowUsers.Add(flowUser);
 
-            //// Set flow's StartupWorkflowId
-            //flow.StartupWorkflowId = defaultWorkflow.Id;
+            // Map workflow to parent flow
+            var flowWorkflow = new FlowWorkflow
+            {
+                WorkflowId = defaultWorkflow.Id,
+                FlowId = flow.Id
+            };
+            dbContext.FlowWorkflows.Add(flowWorkflow);
 
-            //// Map workflow to parent flow
-            //var flowWorkflow = new FlowWorkflow
-            //{
-            //    WorkflowId = defaultWorkflow.Id,
-            //    FlowId = flow.Id
-            //};
-            //dbContext.FlowWorkflows.Add(flowWorkflow);
+            var result = dbContext.SaveChanges();
 
-            //var result = dbContext.SaveChanges();
-
-            //return result;
+            return result;
         }
 
         /// <summary>

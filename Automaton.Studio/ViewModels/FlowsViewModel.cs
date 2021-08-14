@@ -79,7 +79,7 @@ namespace Automaton.Studio.ViewModels
             try
             {
                 var newFlow = mapper.Map<FlowModel, Flow>(NewFlow);
-                await flowService.Create(newFlow);
+                await flowService.Create(NewFlow.Name);
 
                 return mapper.Map<Flow, FlowModel>(newFlow);
             }
