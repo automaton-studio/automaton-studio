@@ -16,7 +16,7 @@ namespace Automaton.Studio.Core
         /// </summary>
         public IList<StudioWorkflow> Workflows { get; set; }
 
-        public StudioWorkflow CurrentWorkflow { get; set; }
+        public StudioWorkflow ActiveWorkflow { get; set; }
 
         #endregion
 
@@ -25,8 +25,8 @@ namespace Automaton.Studio.Core
         public StudioFlow()
         {
             Name = "Untitled";
-            CurrentWorkflow = new StudioWorkflow();
-            Workflows = new List<StudioWorkflow> { CurrentWorkflow };
+            ActiveWorkflow = new StudioWorkflow();
+            Workflows = new List<StudioWorkflow> { ActiveWorkflow };
         }
 
         #endregion

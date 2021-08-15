@@ -8,7 +8,7 @@
 <Layout>
     <Layout Class="designer-container">
         <Sider Theme="SiderTheme.Light" Style="width: 300px">
-            <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="tabs">
+            <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="explorer-tabs">
                 <TabPane Key="1" Tab="Activities">
                     <ActivitiesTree></ActivitiesTree>
                 </TabPane>
@@ -44,7 +44,7 @@
                                 <SelectOptions>
                                     @foreach (var item in @DesignerViewModel.Runners)
                                     {
-                                    <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
+                                        <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
                                     }
                                 </SelectOptions>
                             </Select>
@@ -62,14 +62,14 @@
                 </Row>
             </Header>
 
-            <Tabs Type="@TabType.EditableCard">
+            <Tabs Type="@TabType.EditableCard" Size="@TabSize.Small">
                 @foreach (var workflow in DesignerViewModel.Workflows)
                 {
                     <TabPane Key="@workflow.DefinitionId" Tab="@workflow.Name">
                         <Dropzone Class="dropzone"
                                     @ref="dropzone"
                                     TItem="StudioActivity"
-                                    Items="DesignerViewModel.CurrentWorkflow.Activities"
+                                    Items="workflow.Activities"
                                     InstantReplace="true"
                                     OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
                                     OnItemDrop="@((p)=>OnActivityDrop(p))"
@@ -79,8 +79,7 @@
                         </Dropzone>
                     </TabPane>
                 }
-            </Tabs>
-            
+            </Tabs>      
         </Content>
 
         <Sider Theme=SiderTheme.Light Collapsed=true Class="right-sider">
@@ -115,7 +114,7 @@
         max-width: 140px;
     }
 
-    .tabs {
+    .explorer-tabs {
         padding-top: 10px;
         background-color: #fafafa;
         height: 100%;

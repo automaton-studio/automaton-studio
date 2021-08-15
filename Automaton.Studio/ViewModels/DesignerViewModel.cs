@@ -43,9 +43,15 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
+        /// <summary>
+        /// Flow workflows
+        /// </summary>
         public IEnumerable<StudioWorkflow> Workflows => StudioFlow.Workflows;
 
-        public StudioWorkflow CurrentWorkflow => StudioFlow.CurrentWorkflow;
+        /// <summary>
+        /// Flow active workflow
+        /// </summary>
+        public StudioWorkflow ActiveWorkflow => StudioFlow.ActiveWorkflow;
 
         /// <summary>
         /// List of all runners
@@ -132,7 +138,7 @@ namespace Automaton.Studio.ViewModels
             // Activity isn't final until confirmed by user.
             activity.PendingCreation = true;
             // Set reference to StudioWorkflow
-            activity.StudioWorkflow = StudioFlow.CurrentWorkflow;
+            activity.StudioWorkflow = StudioFlow.ActiveWorkflow;
 
             return activity;
         }
@@ -143,7 +149,7 @@ namespace Automaton.Studio.ViewModels
         /// <param name="activity"></param>
         public void FinalizeActivity(StudioActivity activity)
         {
-            StudioFlow.CurrentWorkflow.FinalizeActivity(activity);
+            StudioFlow.ActiveWorkflow.FinalizeActivity(activity);
         }
 
         /// <summary>
@@ -152,7 +158,7 @@ namespace Automaton.Studio.ViewModels
         /// <param name="activity"></param>
         public void AddActivity(StudioActivity activity)
         {
-            StudioFlow.CurrentWorkflow.AddActivity(activity);
+            StudioFlow.ActiveWorkflow.AddActivity(activity);
         }
 
         /// <summary>
@@ -161,7 +167,7 @@ namespace Automaton.Studio.ViewModels
         /// <param name="activity">Activity to delete</param>
         public void DeleteActivity(StudioActivity activity)
         {
-            StudioFlow.CurrentWorkflow.DeleteActivity(activity); 
+            StudioFlow.ActiveWorkflow.DeleteActivity(activity); 
         }
 
         /// <summary>
@@ -170,7 +176,7 @@ namespace Automaton.Studio.ViewModels
         /// <param name="workflowId">Workflow identifier</param>
         public async Task LoadWorkflow(string workflowId)
         {
-            StudioFlow.CurrentWorkflow = await workflowService.LoadWorkflow(workflowId);
+            StudioFlow.ActiveWorkflow = await workflowService.LoadWorkflow(workflowId);
         }
 
         /// <summary>
@@ -178,7 +184,7 @@ namespace Automaton.Studio.ViewModels
         /// </summary>
         public async Task SaveWorkflow()
         {
-            await workflowService.SaveWorkflow(StudioFlow.CurrentWorkflow);
+            await workflowService.SaveWorkflow(StudioFlow.ActiveWorkflow);
         }
 
         /// <summary>
@@ -189,12 +195,12 @@ namespace Automaton.Studio.ViewModels
             if (env.IsDevelopment() && !SelectedRunnerIds.Any())
             {
                 // Run on the server if in Development mode and there are no selected runners
-                await workflowService.RunWorkflow(StudioFlow.CurrentWorkflow);
+                await workflowService.RunWorkflow(StudioFlow.ActiveWorkflow);
             }
             else
             {
                 // Run workflow on specified runners if in Production
-                await runnerService.RunWorkflow(StudioFlow.CurrentWorkflow.DefinitionId, SelectedRunnerIds);
+                await runnerService.RunWorkflow(StudioFlow.ActiveWorkflow.DefinitionId, SelectedRunnerIds);
             }
         }
 
