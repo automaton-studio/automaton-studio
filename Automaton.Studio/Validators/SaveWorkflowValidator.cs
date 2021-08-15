@@ -15,10 +15,10 @@ namespace Automaton.Studio.Validators
         {
             this.workflowDefinitionStore = workflowDefinitionStore;
 
-            RuleFor(x => x.Name).NotEmpty().MaximumLength(50).WithMessage(Errors.WorkflowNameRequired);
+            RuleFor(x => x.Name).NotEmpty().MaximumLength(50).WithMessage(Errors.NameRequired);
 
             When(x => !string.IsNullOrEmpty(x.Name), () => {
-                RuleFor(x => x.Name).Must(HaveUniqueName).WithMessage(Errors.WorkflowNameExists);
+                RuleFor(x => x.Name).Must(HaveUniqueName).WithMessage(Errors.FlowNameExists);
             });     
         }
 

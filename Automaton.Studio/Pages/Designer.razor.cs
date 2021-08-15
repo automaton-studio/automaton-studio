@@ -35,7 +35,7 @@ namespace Automaton.Studio.Pages
         #region Params
 
         [Parameter] 
-        public string WorkflowId { get; set; }
+        public string FlowId { get; set; }
 
         #endregion
 
@@ -45,16 +45,14 @@ namespace Automaton.Studio.Pages
         {
             await base.OnInitializedAsync();
 
-            if (!string.IsNullOrEmpty(WorkflowId))
-            {
-                await DesignerViewModel.LoadWorkflow(WorkflowId);
-            }
+            Guid.TryParse(FlowId, out Guid flowId);
+
+            //await DesignerViewModel.LoadWorkflow(FlowId);
 
             // Setup event handlers after workflow is loaded
             DesignerViewModel.DragActivity += OnDragActivity;
-            DesignerViewModel.StudioWorkflow.ActivityAdded += OnActivityAdded;
-            DesignerViewModel.StudioWorkflow.ActivityRemoved += OnActivityRemoved;
-
+            DesignerViewModel.StudioFlow.ActiveWorkflow.ActivityAdded += OnActivityAdded;
+            DesignerViewModel.StudioFlow.ActiveWorkflow.ActivityRemoved += OnActivityRemoved;
         }
 
         #endregion
@@ -222,7 +220,7 @@ namespace Automaton.Studio.Pages
         /// </summary>
         private void UnselectActivities()
         {
-            var selectedActivities = DesignerViewModel.StudioWorkflow.Activities.Where(x => x.IsSelected());
+            var selectedActivities = DesignerViewModel.StudioFlow.ActiveWorkflow.Activities.Where(x => x.IsSelected());
 
             if (selectedActivities != null)
             {
@@ -245,7 +243,7 @@ namespace Automaton.Studio.Pages
                 OffsetX = 50
             };
 
-            var drawerRef = await DrawerService.CreateAsync<WorkflowDetails, StudioWorkflow, bool>(options, DesignerViewModel.StudioWorkflow);
+            var drawerRef = await DrawerService.CreateAsync<WorkflowDetails, StudioWorkflow, bool>(options, DesignerViewModel.StudioFlow.ActiveWorkflow);
 
             drawerRef.OnClosed = async result =>
             {                   

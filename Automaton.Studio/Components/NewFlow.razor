@@ -1,9 +1,9 @@
 ﻿@using Automaton.Studio.Models
 @using Automaton.Studio.Resources
-@inherits FeedbackComponent<NewWorkflow>
+@inherits FeedbackComponent<FlowModel>
 
 <Form @ref="form"
-      Model="@workflowModel"
+      Model="@flowModel"
       LabelColSpan="4"
       WrapperColSpan="20">
     <Validator>
@@ -14,19 +14,19 @@
 
     <ChildContent>
         <FormItem Label="Name">
-            <Input @bind-Value="@context.Name" Placeholder=@Placeholders.EnterWorkflowName />
+            <Input @bind-Value="@context.Name" Placeholder=@Placeholders.EnterFlowName />
         </FormItem>
     </ChildContent>
 </Form>
 
 @code {
-    private Form<NewWorkflow> form;
-    private NewWorkflow workflowModel;
+    private Form<FlowModel> form;
+    private FlowModel flowModel;
     private FluentValidationValidator fluentValidationValidator;
 
     protected override void OnInitialized()
     {
-        workflowModel = this.Options;
+        flowModel = this.Options;
         base.OnInitialized();
     }
 

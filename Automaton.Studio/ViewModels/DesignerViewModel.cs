@@ -3,7 +3,6 @@ using Automaton.Studio.Core;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services;
-using Elsa.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -30,19 +29,29 @@ namespace Automaton.Studio.ViewModels
         #region Properties
 
         /// <summary>
-        /// Studio workflow
+        /// Studio flow
         /// </summary>
-        private StudioWorkflow studioWorkflow = new();
-        public StudioWorkflow StudioWorkflow
+        private StudioFlow studioFlow = new();
+        public StudioFlow StudioFlow
         {
-            get => studioWorkflow;
+            get => studioFlow;
 
             set
             {
-                studioWorkflow = value;
+                studioFlow = value;
                 OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Flow workflows
+        /// </summary>
+        public IEnumerable<StudioWorkflow> Workflows => StudioFlow.Workflows;
+
+        /// <summary>
+        /// Flow active workflow
+        /// </summary>
+        public StudioWorkflow ActiveWorkflow => StudioFlow.ActiveWorkflow;
 
         /// <summary>
         /// List of all runners
@@ -129,7 +138,7 @@ namespace Automaton.Studio.ViewModels
             // Activity isn't final until confirmed by user.
             activity.PendingCreation = true;
             // Set reference to StudioWorkflow
-            activity.StudioWorkflow = StudioWorkflow;
+            activity.StudioWorkflow = StudioFlow.ActiveWorkflow;
 
             return activity;
         }
@@ -140,7 +149,7 @@ namespace Automaton.Studio.ViewModels
         /// <param name="activity"></param>
         public void FinalizeActivity(StudioActivity activity)
         {
-            StudioWorkflow.FinalizeActivity(activity);
+            StudioFlow.ActiveWorkflow.FinalizeActivity(activity);
         }
 
         /// <summary>
@@ -149,7 +158,7 @@ namespace Automaton.Studio.ViewModels
         /// <param name="activity"></param>
         public void AddActivity(StudioActivity activity)
         {
-            StudioWorkflow.AddActivity(activity);
+            StudioFlow.ActiveWorkflow.AddActivity(activity);
         }
 
         /// <summary>
@@ -158,7 +167,7 @@ namespace Automaton.Studio.ViewModels
         /// <param name="activity">Activity to delete</param>
         public void DeleteActivity(StudioActivity activity)
         {
-            StudioWorkflow.DeleteActivity(activity); 
+            StudioFlow.ActiveWorkflow.DeleteActivity(activity); 
         }
 
         /// <summary>
@@ -167,7 +176,7 @@ namespace Automaton.Studio.ViewModels
         /// <param name="workflowId">Workflow identifier</param>
         public async Task LoadWorkflow(string workflowId)
         {
-            StudioWorkflow = await workflowService.LoadWorkflow(workflowId);
+            StudioFlow.ActiveWorkflow = await workflowService.LoadWorkflow(workflowId);
         }
 
         /// <summary>
@@ -175,7 +184,7 @@ namespace Automaton.Studio.ViewModels
         /// </summary>
         public async Task SaveWorkflow()
         {
-            await workflowService.SaveWorkflow(StudioWorkflow);
+            await workflowService.SaveWorkflow(StudioFlow.ActiveWorkflow);
         }
 
         /// <summary>
@@ -186,12 +195,12 @@ namespace Automaton.Studio.ViewModels
             if (env.IsDevelopment() && !SelectedRunnerIds.Any())
             {
                 // Run on the server if in Development mode and there are no selected runners
-                await workflowService.RunWorkflow(StudioWorkflow);
+                await workflowService.RunWorkflow(StudioFlow.ActiveWorkflow);
             }
             else
             {
                 // Run workflow on specified runners if in Production
-                await runnerService.RunWorkflow(StudioWorkflow.DefinitionId, SelectedRunnerIds);
+                await runnerService.RunWorkflow(StudioFlow.ActiveWorkflow.DefinitionId, SelectedRunnerIds);
             }
         }
 

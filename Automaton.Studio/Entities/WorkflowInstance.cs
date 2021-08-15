@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
 namespace Automaton.Studio.Entities
 {
+    [Table("WorkflowInstances", Schema = "Elsa")]
     public partial class WorkflowInstance
     {
         public string Id { get; set; }

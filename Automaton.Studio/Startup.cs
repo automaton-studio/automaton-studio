@@ -62,7 +62,8 @@ namespace Automaton.Studio
                 options.UseSqlServer(Configuration.GetConnectionString(DatabaseConnection)));
 
             services.AddDbContext<AutomatonDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString(DatabaseConnection)));
+                options.UseSqlServer(Configuration.GetConnectionString(DatabaseConnection),
+                db => db.MigrationsAssembly(typeof(Startup).Assembly.GetName().Name)));
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -103,13 +104,15 @@ namespace Automaton.Studio
 
             // ViewModels
             services.AddScoped<IMainLayoutViewModel, MainLayoutViewModel>();
-            services.AddScoped<IWorkflowsViewModel, WorkflowsViewModel>();
+            services.AddScoped<IFlowsViewModel, FlowsViewModel>();
             services.AddScoped<IDesignerViewModel, DesignerViewModel>();
             services.AddScoped<ITreeActivityViewModel, TreeActivityViewModel>();
+            services.AddScoped<ITreeFlowViewModel, TreeFlowViewModel>();
 
             // Services
             services.AddScoped<IWorkflowService, WorkflowService>();
             services.AddScoped<IRunnerService, RunnerService>();
+            services.AddScoped<IFlowService, FlowService>();    
 
             // Automaton
             services.AddAutomaton();

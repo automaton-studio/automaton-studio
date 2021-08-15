@@ -93,7 +93,6 @@ namespace Automaton.Studio.Hubs
             var runner = new Runner
             {
                 Name = GetRunnerName(),
-                UserId = GetUserId(),
                 ConnectionId = Context.ConnectionId
             };
 

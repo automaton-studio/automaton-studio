@@ -1,4 +1,5 @@
 ﻿using Automaton.Studio.Api.Models;
+using Automaton.Studio.Entities;
 using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Automaton.Studio.Api
@@ -42,18 +44,12 @@ namespace Automaton.Studio.Api
                 return BadRequest("Invalid runner name.");
             }
 
-            var runner = new Runner
-            {
-                Name = details.RunnerName,
-                UserId = GetUserId()
-            };
-
-            if (runnerService.Exists(runner))
+            if (runnerService.Exists(details.RunnerName))
             {
                 return BadRequest($"Runner already exists.");
             }
 
-            runnerService.Create(runner);
+            runnerService.Create(details.RunnerName);
 
             return Ok();
         }

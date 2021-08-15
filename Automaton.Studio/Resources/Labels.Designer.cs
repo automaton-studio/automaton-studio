@@ -61,11 +61,11 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New Workflow.
+        ///   Looks up a localized string similar to New Flow.
         /// </summary>
-        public static string NewWorkflowTitle {
+        public static string NewFlowTitle {
             get {
-                return ResourceManager.GetString("NewWorkflowTitle", resourceCulture);
+                return ResourceManager.GetString("NewFlowTitle", resourceCulture);
             }
         }
     }

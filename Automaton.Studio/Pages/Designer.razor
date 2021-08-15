@@ -1,5 +1,5 @@
 ﻿@page "/designer"
-@page "/designer/{WorkflowId}"
+@page "/designer/{FlowId}"
 @using AntDesign 
 @using Automaton.Studio.Core
 @using Automaton.Studio.Components
@@ -8,12 +8,12 @@
 <Layout>
     <Layout Class="designer-container">
         <Sider Theme="SiderTheme.Light" Style="width: 300px">
-            <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="tabs">
+            <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="explorer-tabs">
                 <TabPane Key="1" Tab="Activities">
                     <ActivitiesTree></ActivitiesTree>
                 </TabPane>
                 <TabPane Key="2" Tab="Workflows">
-                    Content of Tab Pane 2
+                    <FlowTree></FlowTree>
                 </TabPane>
             </Tabs>
         </Sider>
@@ -53,26 +53,33 @@
                     </Col>
 
                     @*<Col Class="right-actions">
-                        <Space Class="right-header-items">
-                            <SpaceItem>
-                                <Button Shape="circle" Type="ButtonType.Dashed" Icon="setting" Class="action-button"></Button>
-                            </SpaceItem>
-                        </Space>
-                    </Col>*@
+                    <Space Class="right-header-items">
+                        <SpaceItem>
+                            <Button Shape="circle" Type="ButtonType.Dashed" Icon="setting" Class="action-button"></Button>
+                        </SpaceItem>
+                    </Space>
+                </Col>*@
                 </Row>
             </Header>
 
-            <Dropzone Class="dropzone"
-                      @ref="dropzone"
-                      TItem="StudioActivity"
-                      Items="DesignerViewModel.StudioWorkflow.Activities"
-                      InstantReplace="true"
-                      OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
-                      OnItemDrop="@((p)=>OnActivityDrop(p))"
-                      OnItemMouseDown="@((p)=>OnActivityMouseDown(p))"
-                      OnItemDoubleClick="@((p)=>OnActivityDoubleClick(p))">
-                <StudioActivityComponent Activity="@context" />
-            </Dropzone>
+            <Tabs Type="@TabType.EditableCard" Size="@TabSize.Small">
+                @foreach (var workflow in DesignerViewModel.Workflows)
+                {
+                    <TabPane Key="@workflow.DefinitionId" Tab="@workflow.Name">
+                        <Dropzone Class="dropzone"
+                                    @ref="dropzone"
+                                    TItem="StudioActivity"
+                                    Items="workflow.Activities"
+                                    InstantReplace="true"
+                                    OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
+                                    OnItemDrop="@((p)=>OnActivityDrop(p))"
+                                    OnItemMouseDown="@((p)=>OnActivityMouseDown(p))"
+                                    OnItemDoubleClick="@((p)=>OnActivityDoubleClick(p))">
+                            <StudioActivityComponent Activity="@context" />
+                        </Dropzone>
+                    </TabPane>
+                }
+            </Tabs>      
         </Content>
 
         <Sider Theme=SiderTheme.Light Collapsed=true Class="right-sider">
@@ -107,9 +114,8 @@
         max-width: 140px;
     }
 
-    .tabs {
+    .explorer-tabs {
         padding-top: 10px;
-        background-color: #fafafa;
         height: 100%;
     }
 

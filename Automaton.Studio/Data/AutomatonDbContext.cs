@@ -16,6 +16,7 @@ namespace Automaton.Studio
         {
         }
 
+        // Identity
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
@@ -23,7 +24,19 @@ namespace Automaton.Studio
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
+
+        // Elsa
+        public DbSet<WorkflowDefinition> WorkflowDefinitions { get; set; } = default!;
+        public DbSet<WorkflowInstance> WorkflowInstances { get; set; } = default!;
+        public DbSet<WorkflowExecutionLogRecord> WorkflowExecutionLogRecords { get; set; } = default!;
+        public DbSet<Bookmark> Bookmarks { get; set; } = default!;
+
+        // Automaton
         public virtual DbSet<Runner> Runners { get; set; }
+        public virtual DbSet<RunnerUser> RunnerUsers { get; set; }
+        public virtual DbSet<Flow> Flows { get; set; }
+        public virtual DbSet<FlowWorkflow> FlowWorkflows { get; set; }
+        public virtual DbSet<FlowUser> FlowUsers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -36,6 +49,14 @@ namespace Automaton.Studio
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AutomatonDbContext).Assembly);
+
+            // Exclude Elsa tables from Automaton migrations
+            modelBuilder.Entity<WorkflowDefinition>().Metadata.SetIsTableExcludedFromMigrations(true);
+            modelBuilder.Entity<WorkflowInstance>().Metadata.SetIsTableExcludedFromMigrations(true);
+            modelBuilder.Entity<WorkflowExecutionLogRecord>().Metadata.SetIsTableExcludedFromMigrations(true);
+            modelBuilder.Entity<Bookmark>().Metadata.SetIsTableExcludedFromMigrations(true);
 
             modelBuilder.Entity<AspNetRole>(entity =>
             {
@@ -129,19 +150,6 @@ namespace Automaton.Studio
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserTokens)
-                    .HasForeignKey(d => d.UserId);
-            });
-
-            modelBuilder.Entity<Runner>(entity =>
-            {
-                entity.HasKey(e => e.Id);
-
-                entity.Property(e => e.Name).HasMaxLength(128);
-
-                entity.Property(e => e.ConnectionId).HasMaxLength(128);
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Runners)
                     .HasForeignKey(d => d.UserId);
             });
 

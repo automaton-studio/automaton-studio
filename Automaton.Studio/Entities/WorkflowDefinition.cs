@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
 namespace Automaton.Studio.Entities
 {
+    [Table("WorkflowDefinitions", Schema = "Elsa")]
     public partial class WorkflowDefinition
     {
         public string Id { get; set; }
@@ -20,5 +21,6 @@ namespace Automaton.Studio.Entities
         public bool IsPublished { get; set; }
         public bool IsLatest { get; set; }
         public string Data { get; set; }
+        public string Tag { get; set; }
     }
 }

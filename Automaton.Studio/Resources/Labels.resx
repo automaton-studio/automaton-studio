@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NewWorkflowTitle" xml:space="preserve">
-    <value>New Workflow</value>
+  <data name="NewFlowTitle" xml:space="preserve">
+    <value>New Flow</value>
   </data>
 </root>

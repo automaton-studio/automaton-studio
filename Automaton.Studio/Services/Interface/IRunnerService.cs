@@ -9,8 +9,8 @@ namespace Automaton.Studio.Services
     {
         Runner Get(Guid id);
         IQueryable<Runner> List();
-        int Create(Runner runner);
-        bool Exists(Runner runner);
+        int Create(string name);
+        bool Exists(string name);
         Task Update(Runner runner);
 
         Task RunWorkflow(string workflowId, IEnumerable<Guid> runnerIds);

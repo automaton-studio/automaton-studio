@@ -10,7 +10,9 @@ namespace Automaton.Studio.ViewModels
     {
         #region Properties
 
-        StudioWorkflow StudioWorkflow { get; set; }
+        StudioFlow StudioFlow { get; set; }
+        StudioWorkflow ActiveWorkflow { get; }
+        IEnumerable<StudioWorkflow> Workflows { get; }
         IEnumerable<WorkflowRunner> Runners { get; set; }
         IEnumerable<Guid> SelectedRunnerIds { get; set; }
 
