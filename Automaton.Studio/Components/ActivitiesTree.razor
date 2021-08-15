@@ -4,12 +4,14 @@
     <Row>
         <Col Span="24">
             <div class="activities-header">
-                <div>
-                    <h3>Activities</h3>
-                </div>
-                <Search Placeholder="Search activity" Size="@InputSize.Default" OnChange="(e)=>Handle(e)" @bind-Value="@searchText" OnSearch="OnSearch"></Search>
+                <h3>Activities</h3>
             </div>
         </Col>
+    </Row>
+    <Row>
+        <div class="activities-search">
+            <Search Placeholder="Search activity" Size="@InputSize.Default" OnChange="(e)=>Handle(e)" @bind-Value="@searchText" OnSearch="OnSearch"></Search>
+        </div>
     </Row>
     <Row>
         <Col Span="24">
@@ -35,8 +37,12 @@
     }
 
     .activities-header {
-        background-color: #fafafa;
-        padding: 5px 10px 5px 8px;
+        background-color: #fff;
+        padding: 0px 0px 4px 20px;
+    }
+
+    .activities-search {
+        padding: 5px 10px 5px 10px;
     }
 
     .activities-tree {

@@ -4,17 +4,19 @@
     <Row>
         <Col Span="24">
             <div class="workflows-header">
-                <div>
-                    <h3>Workflows</h3>
-                </div>
-                <Search @bind-Value="@searchText" 
-                        Placeholder="Search workflows" 
-                        Size="@InputSize.Default" 
-                        OnChange="(e)=>Handle(e)"
-                        OnSearch="OnSearch">
-                </Search>
+                <h3>Workflows</h3>
             </div>
         </Col>
+    </Row>
+    <Row>
+        <div class="workflows-search">
+            <Search @bind-Value="@searchText"
+                    Placeholder="Search workflows"
+                    Size="@InputSize.Default"
+                    OnChange="(e)=>Handle(e)"
+                    OnSearch="OnSearch">
+            </Search>
+        </div>
     </Row>
     <Row>
         <Col Span="24">
@@ -37,8 +39,12 @@
     }
 
     .workflows-header {
-        background-color: #fafafa;
-        padding: 5px 10px 5px 8px;
+        background-color: #fff;
+        padding: 0px 0px 4px 20px;
+    }
+
+    .workflows-search {
+        padding: 5px 10px 5px 10px;
     }
 
     .workflows-tree {
