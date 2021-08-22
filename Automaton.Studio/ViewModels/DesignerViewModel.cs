@@ -23,6 +23,7 @@ namespace Automaton.Studio.ViewModels
         private readonly ActivityFactory activityFactory;
         private readonly IRunnerService runnerService;
         private readonly IWorkflowService workflowService;
+        private readonly IFlowService flowService;
 
         #endregion
 
@@ -42,16 +43,6 @@ namespace Automaton.Studio.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        /// <summary>
-        /// Flow workflows
-        /// </summary>
-        public IEnumerable<StudioWorkflow> Workflows => StudioFlow.Workflows;
-
-        /// <summary>
-        /// Flow active workflow
-        /// </summary>
-        public StudioWorkflow ActiveWorkflow => StudioFlow.ActiveWorkflow;
 
         /// <summary>
         /// List of all runners
@@ -83,6 +74,16 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
+        /// <summary>
+        /// Flow workflows
+        /// </summary>
+        public IEnumerable<StudioWorkflow> Workflows => StudioFlow.Workflows;
+
+        /// <summary>
+        /// Active workflow
+        /// </summary>
+        public StudioWorkflow ActiveWorkflow => StudioFlow.ActiveWorkflow;
+
         #endregion
 
         #region Events
@@ -99,7 +100,8 @@ namespace Automaton.Studio.ViewModels
             IWebHostEnvironment env,
             ActivityFactory activityFactory,
             IRunnerService runnerService,
-            IWorkflowService workflowService
+            IWorkflowService workflowService,
+            IFlowService flowService
         )
         {
             this.mapper = mapper;
@@ -107,6 +109,7 @@ namespace Automaton.Studio.ViewModels
             this.activityFactory = activityFactory;
             this.runnerService = runnerService;
             this.workflowService = workflowService;
+            this.flowService = flowService;
 
             Runners = mapper.Map<IQueryable<Runner>, IEnumerable<WorkflowRunner>>(runnerService.List());
         }
@@ -171,12 +174,23 @@ namespace Automaton.Studio.ViewModels
         }
 
         /// <summary>
-        /// Loads workflow from database
+        /// Loads flow from database
         /// </summary>
-        /// <param name="workflowId">Workflow identifier</param>
-        public async Task LoadWorkflow(string workflowId)
+        /// <param name="flowId">Flow identifier</param>
+        public async Task LoadFlow(Guid flowId)
         {
-            StudioFlow.ActiveWorkflow = await workflowService.LoadWorkflow(workflowId);
+            StudioFlow = await flowService.GetAsync(flowId);
+        }
+
+        /// <summary>
+        /// Loads flow from database
+        /// </summary>
+        /// <param name="flowId">Flow identifier as string</param>
+        public async Task LoadFlow(string flowId)
+        {
+            Guid.TryParse(flowId, out Guid flowIdGuid);
+
+            StudioFlow = await flowService.GetAsync(flowIdGuid);
         }
 
         /// <summary>

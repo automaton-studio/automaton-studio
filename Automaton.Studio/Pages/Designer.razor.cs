@@ -15,16 +15,17 @@ namespace Automaton.Studio.Pages
     {
         #region Members
 
+        private Guid currentFlowId;
         private Dropzone<StudioActivity> dropzone;
 
         #endregion
 
         #region DI
 
-        [Inject] 
+        [Inject]
         private ModalService ModalService { get; set; } = default!;
 
-        [Inject] 
+        [Inject]
         private IDesignerViewModel DesignerViewModel { get; set; } = default!;
 
         [Inject]
@@ -34,7 +35,7 @@ namespace Automaton.Studio.Pages
 
         #region Params
 
-        [Parameter] 
+        [Parameter]
         public string FlowId { get; set; }
 
         #endregion
@@ -45,9 +46,10 @@ namespace Automaton.Studio.Pages
         {
             await base.OnInitializedAsync();
 
-            Guid.TryParse(FlowId, out Guid flowId);
-
-            //await DesignerViewModel.LoadWorkflow(FlowId);
+            if (!string.IsNullOrEmpty(FlowId))
+            {
+                await DesignerViewModel.LoadFlow(FlowId);
+            }
 
             // Setup event handlers after workflow is loaded
             DesignerViewModel.DragActivity += OnDragActivity;
@@ -115,7 +117,8 @@ namespace Automaton.Studio.Pages
         {
             var result = await activity.EditActivityDialog(ModalService);
 
-            result.OnOk = () => {
+            result.OnOk = () =>
+            {
 
                 StateHasChanged();
 
@@ -192,7 +195,8 @@ namespace Automaton.Studio.Pages
             // 3. Invoke the method and pass the required parameters
             var result = await generic.InvokeAsync(ModalService, new object[] { modalConfig, activity }) as ModalRef;
 
-            result.OnOk = () => {
+            result.OnOk = () =>
+            {
 
                 DesignerViewModel.FinalizeActivity(activity);
 
@@ -203,7 +207,8 @@ namespace Automaton.Studio.Pages
                 return Task.CompletedTask;
             };
 
-            result.OnCancel = () => {
+            result.OnCancel = () =>
+            {
 
                 DesignerViewModel.DeleteActivity(activity);
 
@@ -246,7 +251,7 @@ namespace Automaton.Studio.Pages
             var drawerRef = await DrawerService.CreateAsync<WorkflowDetails, StudioWorkflow, bool>(options, DesignerViewModel.StudioFlow.ActiveWorkflow);
 
             drawerRef.OnClosed = async result =>
-            {                   
+            {
                 await InvokeAsync(StateHasChanged);
             };
         }

@@ -1,5 +1,6 @@
 ﻿using AntDesign;
 using AutoMapper;
+using Automaton.Studio.Core;
 using Automaton.Studio.Entities;
 using Automaton.Studio.Models;
 using Automaton.Studio.Resources;
@@ -69,8 +70,9 @@ namespace Automaton.Studio.ViewModels
         }
 
         public void Initialize()
-        {            
-            Flows = mapper.Map<IQueryable<Flow>, IEnumerable<FlowModel>>(flowService.List()).ToList();
+        {
+            var flows = flowService.List();
+            Flows = mapper.Map<IEnumerable<StudioFlow>, IEnumerable<FlowModel>>(flows).ToList();
             Runners = mapper.Map<IQueryable<Runner>, IEnumerable<WorkflowRunner>>(runnerService.List());
         }
 

@@ -1,12 +1,13 @@
-﻿using Automaton.Studio.Entities;
+﻿using AutoMapper;
+using Automaton.Studio.Core;
+using Automaton.Studio.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Security.Claims;
-using Automaton.Studio.Models;
-using Automaton.Studio.Core;
+using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services
 {
@@ -17,18 +18,21 @@ namespace Automaton.Studio.Services
         private readonly AutomatonDbContext dbContext;
         private readonly ClaimsPrincipal principal;
         private readonly IWorkflowService workflowService;
+        private readonly IMapper mapper;
         private readonly string userId;
 
         #endregion
 
         public FlowService(AutomatonDbContext context, 
             IHttpContextAccessor httpContextAccessor,
-            IWorkflowService workflowService)
+            IWorkflowService workflowService,
+            IMapper mapper)
         {
             this.workflowService = workflowService;
             this.dbContext = context ?? throw new ArgumentNullException("context");
             principal = httpContextAccessor.HttpContext.User;
             userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
+            this.mapper = mapper;
         }
 
         #region Public Methods
@@ -37,9 +41,14 @@ namespace Automaton.Studio.Services
         /// Retrieves the full list of flows
         /// </summary>
         /// <returns></returns>
-        public IQueryable<Flow> List()
+        public IEnumerable<StudioFlow> List()
         {
-            return dbContext.Flows;
+            var flowIds = dbContext.FlowUsers.AsEnumerable().Where(x => x.UserId == userId).Select(x => x.FlowId);
+            var flows = dbContext.Flows.AsEnumerable().Where(x => flowIds.Contains(x.Id));
+
+            var studioFlows = mapper.Map<IEnumerable<Flow>, IEnumerable<StudioFlow>>(flows);
+
+            return studioFlows;
         }
 
         /// <summary>
@@ -47,23 +56,22 @@ namespace Automaton.Studio.Services
         /// </summary>
         /// <param name="id">Flow id</param>
         /// <returns>Flow by id</returns>
-        public Flow Get(Guid id)
+        public async Task<StudioFlow> GetAsync(Guid id)
         {
-            var entity = dbContext.Flows.Find(id);
+            var flow = await dbContext.Flows.FindAsync(id);
+            var studioFlow = mapper.Map<Flow, StudioFlow>(flow);
+            var flowWorkflows = dbContext.FlowWorkflows.AsQueryable().Where(x => x.FlowId == id);
 
-            return entity;
-        }
+            // StudioFLow has a default workflow we don't need when loading it from database
+            studioFlow.Workflows.Clear();
 
-        /// <summary>
-        /// Retrieve flow by name
-        /// </summary>
-        /// <param name="id">Flow name</param>
-        /// <returns>Flow by name</returns>
-        public Flow Get(string name)
-        {
-            var flow = dbContext.Flows.SingleOrDefault(x => x.Name.ToLower() == name.ToLower());
+            foreach (var flowWorkflow in flowWorkflows)
+            {
+                var studioWorkflow = await workflowService.LoadWorkflow(flowWorkflow.WorkflowId);
+                studioFlow.Workflows.Add(studioWorkflow);
+            }
 
-            return flow;
+            return studioFlow;
         }
 
         /// <summary>
@@ -111,21 +119,20 @@ namespace Automaton.Studio.Services
         /// </summary>
         /// <param name="flow">Flow to update information for</param>
         /// <returns>Result of the flow update operation</returns>
-        public async Task Update(Flow flow)
+        public async Task Update(StudioFlow studioFlow)
         {
-            var entity = dbContext.Flows.SingleOrDefault(x => x.Name == flow.Name && flow.FlowUsers.Any(x => x.UserId == userId));
+            var flowUser = dbContext.FlowUsers.SingleOrDefault(x => x.FlowId == studioFlow.Id && x.UserId == userId);
 
-            if (entity == null)
-                throw new ArgumentException("Flow not found");
+            var flow = await dbContext.Flows.FindAsync(flowUser.FlowId);
 
-            // Update entity properties
-            entity.Name = flow.Name;
+            // Update Flow with details from StudioFlow
+            mapper.Map(studioFlow, flow);
 
             // Mark entity as modified
-            dbContext.Entry(entity).State = EntityState.Modified;
+            dbContext.Entry(flow).State = EntityState.Modified;
 
             // Update flow entity
-            dbContext.Update(entity);
+            dbContext.Update(flow);
 
             // Save changes
             await dbContext.SaveChangesAsync();
@@ -136,29 +143,13 @@ namespace Automaton.Studio.Services
         /// </summary>
         /// <param name="flowId">Flow Id to delete</param>
         /// <returns>Result of the flow delete operation</returns>
-        public int Delete(Guid flowId)
+        public async Task Delete(Guid flowId)
         {
-            var flow = Get(flowId);
+            var flow = await dbContext.Flows.FindAsync(flowId);
 
             dbContext.Flows.Remove(flow);
-            var result = dbContext.SaveChanges();
 
-            return result;
-        }
-
-        /// <summary>
-        /// Check if flow exists into the database
-        /// </summary>
-        /// <param name="flow">Flow to check if exists</param>
-        /// <returns>True if flow exists, false if not</returns>
-        public bool Exists(Flow flow)
-        {
-            // Note: OrdinalCase comparison not working with this version of LinQ
-            var exists = dbContext.Flows.Any(x =>
-                x.Name.ToLower() == flow.Name.ToLower() &&
-                flow.FlowUsers.Any(x => x.UserId == userId));
-
-            return exists;
+            await dbContext.SaveChangesAsync();
         }
 
         /// <summary>

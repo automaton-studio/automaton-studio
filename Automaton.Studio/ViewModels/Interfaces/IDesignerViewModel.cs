@@ -30,7 +30,8 @@ namespace Automaton.Studio.ViewModels
         void FinalizeActivity(StudioActivity activity);       
         void DeleteActivity(StudioActivity activity);
 
-        Task LoadWorkflow(string workflowId);
+        Task LoadFlow(string flowId);
+        Task LoadFlow(Guid flowId);
         Task SaveWorkflow();
         Task RunWorkflow();
 

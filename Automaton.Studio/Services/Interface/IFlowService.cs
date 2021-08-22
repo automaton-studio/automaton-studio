@@ -1,20 +1,18 @@
-﻿using Automaton.Studio.Entities;
+﻿using Automaton.Studio.Core;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services
 {
     public interface IFlowService
     {
-        Flow Get(Guid id);
-        Flow Get(string name);
-        IQueryable<Flow> List();
+        Task<StudioFlow> GetAsync (Guid id);
+        IEnumerable<StudioFlow> List();
         Task<int> Create(string name);
-        bool Exists(Flow flow);
         bool Exists(string name);
         bool IsUnique(string name);
-        Task Update(Flow flow);
-        int Delete(Guid flowId);
+        Task Update(StudioFlow flow);
+        Task Delete(Guid flowId);
     }
 }
