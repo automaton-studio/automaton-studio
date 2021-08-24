@@ -9,7 +9,7 @@ namespace Automaton.Studio.Services
     {
         Task<StudioFlow> GetAsync (Guid id);
         IEnumerable<StudioFlow> List();
-        Task<int> Create(string name);
+        Task Create(string name);
         bool Exists(string name);
         bool IsUnique(string name);
         Task Update(StudioFlow flow);

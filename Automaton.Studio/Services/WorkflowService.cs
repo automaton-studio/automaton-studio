@@ -68,11 +68,11 @@ namespace Automaton.Studio.Services
         /// <summary>
         /// Load workflow from database
         /// </summary>
-        /// <param name="workflowId">Workflow identifier</param>
-        public async Task<StudioWorkflow> LoadWorkflow(string workflowId)
+        /// <param name="id">Workflow identifier</param>
+        public async Task<StudioWorkflow> LoadWorkflow(string id)
         {
             // Find WorkflowDefinition workflow based on workflow id
-            var workflowDefinition = await workflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification(workflowId));
+            var workflowDefinition = await workflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification(id));
 
             // Map WorkflowDefinition to StudioWorkflow
             var studioWorkflow = mapper.Map<WorkflowDefinition, StudioWorkflow>(workflowDefinition);
@@ -92,15 +92,14 @@ namespace Automaton.Studio.Services
         /// </summary>
         public async Task SaveWorkflow(StudioWorkflow studioWorkflow)
         {
-            var workflowDefinition = new WorkflowDefinition();
+            var workflowDefinition = mapper.Map<StudioWorkflow, WorkflowDefinition>(studioWorkflow);
 
-            // Update WorkflowDefinition with details from StudioWorkflow
-            mapper.Map(studioWorkflow, workflowDefinition);
-
-            await workflowDefinitionStore.AddAsync(workflowDefinition);
             await workflowDefinitionStore.SaveAsync(workflowDefinition);
 
-            studioWorkflow.Id = workflowDefinition.Id;
+            if (string.IsNullOrEmpty(studioWorkflow.Id))
+            {
+                studioWorkflow.Id = workflowDefinition.Id;
+            }
         }
     }
 }

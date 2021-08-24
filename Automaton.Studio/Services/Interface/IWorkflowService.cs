@@ -1,5 +1,4 @@
 ﻿using Automaton.Studio.Core;
-using Elsa.Models;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services

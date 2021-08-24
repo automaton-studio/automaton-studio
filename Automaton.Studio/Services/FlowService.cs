@@ -45,7 +45,6 @@ namespace Automaton.Studio.Services
         {
             var flowIds = dbContext.FlowUsers.AsEnumerable().Where(x => x.UserId == userId).Select(x => x.FlowId);
             var flows = dbContext.Flows.AsEnumerable().Where(x => flowIds.Contains(x.Id));
-
             var studioFlows = mapper.Map<IEnumerable<Flow>, IEnumerable<StudioFlow>>(flows);
 
             return studioFlows;
@@ -62,7 +61,7 @@ namespace Automaton.Studio.Services
             var studioFlow = mapper.Map<Flow, StudioFlow>(flow);
             var flowWorkflows = dbContext.FlowWorkflows.AsQueryable().Where(x => x.FlowId == id);
 
-            // StudioFLow has a default workflow we don't need when loading it from database
+            // StudioFlow has a default workflow we don't need when loading it from database
             studioFlow.Workflows.Clear();
 
             foreach (var flowWorkflow in flowWorkflows)
@@ -71,15 +70,18 @@ namespace Automaton.Studio.Services
                 studioFlow.Workflows.Add(studioWorkflow);
             }
 
+            // Init active workflow
+            studioFlow.ActiveWorkflow = studioFlow.Workflows.SingleOrDefault(x => x.Id == flow.StartupWorkflowId);
+
             return studioFlow;
         }
 
         /// <summary>
         /// Adds a new flow to the database
         /// </summary>
-        /// <param name="name">Flow name to create</param>
+        /// <param name="name">Flow name</param>
         /// <returns>Result of the flow create operation</returns>
-        public async Task<int> Create(string name)
+        public async Task Create(string name)
         {
             // Create default workflow
             var defaultWorkflow = new StudioWorkflow();
@@ -109,9 +111,7 @@ namespace Automaton.Studio.Services
             };
             dbContext.FlowWorkflows.Add(flowWorkflow);
 
-            var result = dbContext.SaveChanges();
-
-            return result;
+            dbContext.SaveChanges();
         }
 
         /// <summary>
