@@ -264,6 +264,21 @@ namespace Automaton.Studio.Pages
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Creates a new workflow tab
+        /// </summary>
+        private void OnWorkflowAddClick()
+        {
+            DesignerViewModel.Workflows.Add(new StudioWorkflow());
+        }
+
+        /// <summary>
+        /// Closes a workflow tab
+        /// </summary>
+        private void OnWorkflowTabClose(string key)
+        {
+        }
+
         #endregion
     }
 }

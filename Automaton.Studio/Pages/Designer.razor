@@ -62,7 +62,7 @@
                 </Row>
             </Header>
 
-            <Tabs Type="@TabType.EditableCard" Size="@TabSize.Small">
+            <Tabs Type="@TabType.EditableCard" Size="@TabSize.Small" OnAddClick="OnWorkflowAddClick" OnClose="OnWorkflowTabClose">
                 @foreach (var workflow in DesignerViewModel.Workflows)
                 {
                     <TabPane Key="@workflow.DefinitionId" Tab="@workflow.Name">

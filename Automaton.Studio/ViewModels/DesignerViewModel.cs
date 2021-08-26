@@ -77,7 +77,7 @@ namespace Automaton.Studio.ViewModels
         /// <summary>
         /// Flow workflows
         /// </summary>
-        public IEnumerable<StudioWorkflow> Workflows => StudioFlow.Workflows;
+        public IList<StudioWorkflow> Workflows => StudioFlow.Workflows;
 
         /// <summary>
         /// Active workflow

@@ -12,7 +12,7 @@ namespace Automaton.Studio.ViewModels
 
         StudioFlow StudioFlow { get; set; }
         StudioWorkflow ActiveWorkflow { get; }
-        IEnumerable<StudioWorkflow> Workflows { get; }
+        IList<StudioWorkflow> Workflows { get; }
         IEnumerable<WorkflowRunner> Runners { get; set; }
         IEnumerable<Guid> SelectedRunnerIds { get; set; }
 
