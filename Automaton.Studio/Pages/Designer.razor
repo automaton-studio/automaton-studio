@@ -1,6 +1,6 @@
 ﻿@page "/designer"
 @page "/designer/{FlowId}"
-@using AntDesign 
+@using AntDesign
 @using Automaton.Studio.Core
 @using Automaton.Studio.Components
 @using Automaton.Studio.DragDrop
@@ -53,12 +53,12 @@
                     </Col>
 
                     @*<Col Class="right-actions">
-                    <Space Class="right-header-items">
-                        <SpaceItem>
-                            <Button Shape="circle" Type="ButtonType.Dashed" Icon="setting" Class="action-button"></Button>
-                        </SpaceItem>
-                    </Space>
-                </Col>*@
+                            <Space Class="right-header-items">
+                                <SpaceItem>
+                                    <Button Shape="circle" Type="ButtonType.Dashed" Icon="setting" Class="action-button"></Button>
+                                </SpaceItem>
+                            </Space>
+                        </Col>*@
                 </Row>
             </Header>
 
@@ -67,19 +67,19 @@
                 {
                     <TabPane Key="@workflow.DefinitionId" Tab="@workflow.Name">
                         <Dropzone Class="dropzone"
-                                    @ref="dropzone"
-                                    TItem="StudioActivity"
-                                    Items="workflow.Activities"
-                                    InstantReplace="true"
-                                    OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
-                                    OnItemDrop="@((p)=>OnActivityDrop(p))"
-                                    OnItemMouseDown="@((p)=>OnActivityMouseDown(p))"
-                                    OnItemDoubleClick="@((p)=>OnActivityDoubleClick(p))">
+                                  @ref="dropzone"
+                                  TItem="StudioActivity"
+                                  Items="workflow.Activities"
+                                  InstantReplace="true"
+                                  OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
+                                  OnItemDrop="@((p)=>OnActivityDrop(p))"
+                                  OnItemMouseDown="@((p)=>OnActivityMouseDown(p))"
+                                  OnItemDoubleClick="@((p)=>OnActivityDoubleClick(p))">
                             <StudioActivityComponent Activity="@context" />
                         </Dropzone>
                     </TabPane>
                 }
-            </Tabs>      
+            </Tabs>
         </Content>
 
         <Sider Theme=SiderTheme.Light Collapsed=true Class="right-sider">
@@ -89,7 +89,7 @@
                 </MenuItem>
                 <MenuItem Key="2" OnClick="OpenWorkflowVariables" Icon="snippets">
                     Variables
-                </MenuItem>               
+                </MenuItem>
             </Menu>
         </Sider>
     </Layout>

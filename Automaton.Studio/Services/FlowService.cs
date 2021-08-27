@@ -23,7 +23,7 @@ namespace Automaton.Studio.Services
 
         #endregion
 
-        public FlowService(AutomatonDbContext context, 
+        public FlowService(AutomatonDbContext context,
             IHttpContextAccessor httpContextAccessor,
             IWorkflowService workflowService,
             IMapper mapper)
@@ -160,7 +160,7 @@ namespace Automaton.Studio.Services
         public bool Exists(string name)
         {
             // Note: OrdinalCase comparison not working with this version of LinQ
-            var exists = dbContext.Flows.Any(x =>x.Name.ToLower() == name.ToLower() && x.FlowUsers.Any(x => x.UserId == userId));
+            var exists = dbContext.Flows.Any(x => x.Name.ToLower() == name.ToLower() && x.FlowUsers.Any(x => x.UserId == userId));
 
             return exists;
         }
