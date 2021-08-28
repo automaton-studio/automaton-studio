@@ -32,7 +32,7 @@ namespace Automaton.Studio.ViewModels
 
         Task LoadFlow(string flowId);
         Task LoadFlow(Guid flowId);
-        Task SaveWorkflow();
+        Task SaveFlow();
         Task RunWorkflow();
 
         #endregion

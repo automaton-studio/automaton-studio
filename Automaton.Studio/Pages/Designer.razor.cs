@@ -168,9 +168,9 @@ namespace Automaton.Studio.Pages
         /// <summary>
         /// Save workflow
         /// </summary>
-        private async Task SaveWorkflow()
+        private async Task SaveFlow()
         {
-            await DesignerViewModel.SaveWorkflow();
+            await DesignerViewModel.SaveFlow();
         }
 
         #endregion

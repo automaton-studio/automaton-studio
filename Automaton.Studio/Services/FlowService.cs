@@ -81,7 +81,7 @@ namespace Automaton.Studio.Services
         /// </summary>
         /// <param name="name">Flow name</param>
         /// <returns>Result of the flow create operation</returns>
-        public async Task Create(string name)
+        public async Task<StudioFlow> Create(string name)
         {
             // Create default workflow
             var defaultWorkflow = new StudioWorkflow();
@@ -112,6 +112,10 @@ namespace Automaton.Studio.Services
             dbContext.FlowWorkflows.Add(flowWorkflow);
 
             dbContext.SaveChanges();
+
+            var studioFlow = mapper.Map<Flow, StudioFlow>(flow);
+
+            return studioFlow;
         }
 
         /// <summary>
@@ -125,14 +129,40 @@ namespace Automaton.Studio.Services
 
             var flow = await dbContext.Flows.FindAsync(flowUser.FlowId);
 
-            // Update Flow with details from StudioFlow
+            //public virtual IEnumerable<FlowUser> FlowUsers { get; set; }
+            //public virtual IEnumerable<FlowWorkflow> FlowWorkflows { get; set; }
+
+            foreach (var studioWorkflow in studioFlow.Workflows)
+            {
+                // Update workflow definition
+                var workflow = mapper.Map<StudioWorkflow, WorkflowDefinition>(studioWorkflow);
+
+                dbContext.Entry(workflow).State = string.IsNullOrEmpty(workflow.Id) ?
+                    EntityState.Added :
+                    EntityState.Modified;
+
+
+                var flowWorkflow = await dbContext.FlowWorkflows.FindAsync(flow.Id, workflow.Id);
+
+                // Update flow workflow
+                //var flowWorkflow = new FlowWorkflow
+                //{
+                //    WorkflowId = workflow.Id,
+                //    FlowId = flow.Id
+                //};
+
+                dbContext.Entry(flowWorkflow).State = flowWorkflow.FlowId == Guid.Empty || string.IsNullOrEmpty(flowWorkflow.WorkflowId) ?
+                    EntityState.Added :
+                    EntityState.Modified;
+            }
+
+            // Update Flow
             mapper.Map(studioFlow, flow);
 
-            // Mark entity as modified
             dbContext.Entry(flow).State = EntityState.Modified;
 
-            // Update flow entity
-            dbContext.Update(flow);
+            // Update flow entity. Needed?
+            //dbContext.Update(flow);
 
             // Save changes
             await dbContext.SaveChangesAsync();

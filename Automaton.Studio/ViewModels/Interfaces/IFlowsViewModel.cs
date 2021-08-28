@@ -11,7 +11,7 @@ namespace Automaton.Studio.ViewModels
         FlowModel NewFlow { get; set; }
 
         void Initialize();
-        Task<FlowModel> CreateNewFlow();
+        Task CreateNewFlow();
         Task RunWorkflow(FlowModel workflow);
         void DeleteFlow(FlowModel workflow);
     }

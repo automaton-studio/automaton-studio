@@ -1,11 +1,11 @@
 ﻿using AntDesign;
 using AutoMapper;
+using Automaton.Studio.Components;
 using Automaton.Studio.Core;
-using Automaton.Studio.Entities;
 using Automaton.Studio.Models;
 using Automaton.Studio.Resources;
 using Automaton.Studio.Services;
-using Elsa.Persistence;
+using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -18,6 +18,8 @@ namespace Automaton.Studio.ViewModels
     {
         #region Members
 
+        private readonly NavigationManager navigationManager;
+        private readonly ModalService modalService;
         private readonly IRunnerService runnerService;
         private IFlowService flowService;
         private readonly MessageService messageService;
@@ -57,12 +59,16 @@ namespace Automaton.Studio.ViewModels
 
         public FlowsViewModel
         (
+            NavigationManager navigationManager,
+            ModalService modalService,
             IRunnerService runnerService,
             IFlowService flowService,
             MessageService messageService,
             IMapper mapper
         )
         {
+            this.navigationManager = navigationManager;
+            this.modalService = modalService;
             this.flowService = flowService;
             this.runnerService = runnerService;
             this.messageService = messageService;
@@ -76,14 +82,37 @@ namespace Automaton.Studio.ViewModels
             Runners = mapper.Map<IQueryable<Runner>, IEnumerable<WorkflowRunner>>(runnerService.List());
         }
 
-        public async Task<FlowModel> CreateNewFlow()
+        public async Task CreateNewFlow()
+        {
+            var modalConfig = new ModalOptions
+            {
+                Title = Labels.NewFlowTitle,
+                // Needed as a workaround to prevent dialog
+                // close imediatelly when clicking OK button
+                MaskClosable = false
+            };
+
+            var modalRef = await modalService.CreateModalAsync<NewFlow, FlowModel>(modalConfig, NewFlow);
+
+            modalRef.OnOk = async () =>
+            {
+                // Needed to update OK button loading icon
+                modalRef.Config.ConfirmLoading = true;
+                await modalRef.UpdateConfigAsync();
+
+                var studioFlow = await CreateFlow();
+
+                navigationManager.NavigateTo($"designer/{studioFlow.Id}");
+            };
+        }
+
+        private async Task<StudioFlow> CreateFlow()
         {
             try
             {
-                var newFlow = mapper.Map<FlowModel, Flow>(NewFlow);
-                await flowService.Create(NewFlow.Name);
+                var studioFlow = await flowService.Create(NewFlow.Name);
 
-                return mapper.Map<Flow, FlowModel>(newFlow);
+                return studioFlow;
             }
             catch
             {
