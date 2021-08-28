@@ -29,8 +29,7 @@ namespace Automaton.Studio.Pages
 
         private void DeleteWorkflow(FlowModel flow)
         {
-            FlowsViewModel.DeleteFlow(flow);
-            //StateHasChanged();
+            FlowsViewModel.DeleteFlow(flow.Id);
         }
 
         private async Task ShowNewWorkflowDialog()

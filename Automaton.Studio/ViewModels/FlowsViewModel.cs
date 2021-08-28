@@ -6,6 +6,7 @@ using Automaton.Studio.Models;
 using Automaton.Studio.Resources;
 using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -53,8 +54,6 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        public FlowModel NewFlow { get; set; } = new();
-
         #endregion
 
         public FlowsViewModel
@@ -87,51 +86,45 @@ namespace Automaton.Studio.ViewModels
             var modalConfig = new ModalOptions
             {
                 Title = Labels.NewFlowTitle,
+                // Observation:
                 // Needed as a workaround to prevent dialog
                 // close imediatelly when clicking OK button
                 MaskClosable = false
             };
 
-            var modalRef = await modalService.CreateModalAsync<NewFlow, FlowModel>(modalConfig, NewFlow);
-
+            // Open NewFlow component as a modal dialog.
+            // When OK button is clicked, we create the flow.
+            var flowModel = new FlowModel();
+            var modalRef = await modalService.CreateModalAsync<NewFlow, FlowModel>(modalConfig, flowModel);
             modalRef.OnOk = async () =>
             {
                 // Needed to update OK button loading icon
                 modalRef.Config.ConfirmLoading = true;
                 await modalRef.UpdateConfigAsync();
 
-                var studioFlow = await CreateFlow();
-
-                navigationManager.NavigateTo($"designer/{studioFlow.Id}");
+                try
+                {
+                    var studioFlow = await flowService.Create(flowModel.Name);
+                    navigationManager.NavigateTo($"designer/{studioFlow.Id}");
+                }
+                catch
+                {
+                    await messageService.Error(Errors.NewFlowError);
+                }
             };
         }
 
-        private async Task<StudioFlow> CreateFlow()
+        /// <summary>
+        /// Deletes a flow
+        /// </summary>
+        /// <param name="flow">Flow Id to delete</param>
+        public void DeleteFlow(Guid flowId)
         {
-            try
-            {
-                var studioFlow = await flowService.Create(NewFlow.Name);
+            // Delete flow from DB
+            flowService.Delete(flowId);
 
-                return studioFlow;
-            }
-            catch
-            {
-                await messageService.Error(Errors.NewFlowError);
-                throw;
-            }
-            finally
-            {
-                NewFlow.Reset();
-            }
-        }
-
-        public void DeleteFlow(FlowModel flow)
-        {
-            // Delete flow entity
-            flowService.Delete(flow.Id);
-
-            // Delete flow from table
-            var tableFlow = Flows.SingleOrDefault(x => x.Id == flow.Id);
+            // Delete flow from UI
+            var tableFlow = Flows.SingleOrDefault(x => x.Id == flowId);
             Flows.Remove(tableFlow);
         }
 
