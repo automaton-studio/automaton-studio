@@ -14,7 +14,7 @@ namespace Automaton.Studio.Pages
         {
             base.OnInitializedAsync();
 
-            FlowsViewModel.Initialize();
+            FlowsViewModel.LoadFlows();
         }
 
         private async Task RunWorkflow(FlowModel flow)
@@ -34,7 +34,7 @@ namespace Automaton.Studio.Pages
 
         private async Task ShowNewWorkflowDialog()
         {
-            await FlowsViewModel.CreateNewFlow();
+            await FlowsViewModel.CreateFlow();
         }
     }
 }

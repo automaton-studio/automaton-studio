@@ -74,14 +74,20 @@ namespace Automaton.Studio.ViewModels
             this.mapper = mapper;
         }
 
-        public void Initialize()
+        /// <summary>
+        /// Load flows
+        /// </summary>
+        public void LoadFlows()
         {
             var flows = flowService.List();
             Flows = mapper.Map<IEnumerable<StudioFlow>, IEnumerable<FlowModel>>(flows).ToList();
             Runners = mapper.Map<IQueryable<Runner>, IEnumerable<WorkflowRunner>>(runnerService.List());
         }
 
-        public async Task CreateNewFlow()
+        /// <summary>
+        /// Creates a new flow
+        /// </summary>
+        public async Task CreateFlow()
         {
             var modalConfig = new ModalOptions
             {
@@ -128,6 +134,10 @@ namespace Automaton.Studio.ViewModels
             Flows.Remove(tableFlow);
         }
 
+        /// <summary>
+        /// Runs flow on its selected runners
+        /// </summary>
+        /// <param name="flow">Flow model to run</param>
         public async Task RunWorkflow(FlowModel flow)
         {
             await runnerService.RunWorkflow(flow.StartupWorkflowId, flow.RunnerIds);
