@@ -16,7 +16,6 @@ namespace Automaton.Studio.ViewModels
 
         #region Methods
 
-        void LoadFlows();
         Task CreateFlow();
         Task RunWorkflow(FlowModel workflow);
         void DeleteFlow(Guid flowId);

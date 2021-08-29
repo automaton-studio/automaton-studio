@@ -111,7 +111,7 @@ namespace Automaton.Studio.ViewModels
             this.workflowService = workflowService;
             this.flowService = flowService;
 
-            Runners = mapper.Map<IQueryable<Runner>, IEnumerable<WorkflowRunner>>(runnerService.List());
+            Runners = mapper.Map<IEnumerable<Runner>, IEnumerable<WorkflowRunner>>(runnerService.List());
         }
 
         #endregion

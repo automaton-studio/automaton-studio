@@ -38,7 +38,7 @@ namespace Automaton.Studio.Services
         /// Retrieves the full list of runners
         /// </summary>
         /// <returns></returns>
-        public IQueryable<Runner> List()
+        public IEnumerable<Runner> List()
         {
             return dbContext.Runners;
         }

@@ -13,8 +13,6 @@ namespace Automaton.Studio.Pages
         protected override void OnInitialized()
         {
             base.OnInitializedAsync();
-
-            FlowsViewModel.LoadFlows();
         }
 
         private async Task RunWorkflow(FlowModel flow)

@@ -72,16 +72,9 @@ namespace Automaton.Studio.ViewModels
             this.runnerService = runnerService;
             this.messageService = messageService;
             this.mapper = mapper;
-        }
 
-        /// <summary>
-        /// Load flows
-        /// </summary>
-        public void LoadFlows()
-        {
-            var flows = flowService.List();
-            Flows = mapper.Map<IEnumerable<StudioFlow>, IEnumerable<FlowModel>>(flows).ToList();
-            Runners = mapper.Map<IQueryable<Runner>, IEnumerable<WorkflowRunner>>(runnerService.List());
+            Flows = mapper.Map<IEnumerable<StudioFlow>, IList<FlowModel>>(flowService.List());
+            Runners = mapper.Map<IEnumerable<Runner>, IEnumerable<WorkflowRunner>>(runnerService.List());
         }
 
         /// <summary>
