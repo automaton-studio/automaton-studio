@@ -25,7 +25,6 @@ namespace Automaton.Studio.Profiles
             CreateMap<WorkflowDefinition, StudioWorkflow>();
 
             // Elsa mapping
-            CreateMap<Elsa.Models.WorkflowDefinition, WorkflowInfo>();
             CreateMap<Elsa.Models.WorkflowDefinition, StudioWorkflow>();
             CreateMap<StudioWorkflow, Elsa.Models.WorkflowDefinition>();
             CreateMap<Elsa.Models.ActivityDefinition, StudioActivity>();
