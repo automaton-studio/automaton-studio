@@ -95,6 +95,7 @@ namespace Automaton.Studio.ViewModels
             // When OK button is clicked, we create the flow.
             var flowModel = new FlowModel();
             var modalRef = await modalService.CreateModalAsync<NewFlow, FlowModel>(modalConfig, flowModel);
+
             modalRef.OnOk = async () =>
             {
                 // Needed to update OK button loading icon

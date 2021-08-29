@@ -20,8 +20,9 @@ namespace Automaton.Studio.Components
             await base.OnInitializedAsync();
         }
 
-        private void Handle(string value)
+        private void OnSearchChange(string text)
         {
+            throw new NotImplementedException();
         }
 
         public async Task OnSearch()
