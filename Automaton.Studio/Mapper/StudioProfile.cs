@@ -12,8 +12,8 @@ namespace Automaton.Studio.Profiles
         {
             // Automaton mapping
             CreateMap<Runner, WorkflowRunner>();
-            CreateMap<ActivityDescriptor, TreeActivity>();
-            CreateMap<TreeActivity, StudioActivity>();
+            CreateMap<ActivityDescriptor, ActivityModel>();
+            CreateMap<ActivityModel, StudioActivity>();
             CreateMap<StudioFlow, FlowModel>();
             CreateMap<FlowModel, StudioFlow>();
             CreateMap<Flow, FlowModel>();

@@ -16,15 +16,15 @@
     <Row>
         <Col Span="24">
             <Tree ShowIcon
-                  DataSource="@TreeActivityViewModel.TreeItems"
+                  DataSource="@ActivitiesViewModel.TreeItems"
                   TitleExpression="x => x.DataItem.DisplayName"
                   ChildrenExpression="x => x.DataItem.Activities"
                   IconExpression="x => x.DataItem.Icon"
                   IsLeafExpression="x => x.DataItem.Activities == null || !x.DataItem.Activities.Any()"
                   KeyExpression="x => x.DataItem.Name"
                   Class="activities-tree"
-                  OnNodeDrag="@((i)=> { TreeActivityViewModel.ActivityDrag(i); })"
-                  TItem="TreeActivity">
+                  OnNodeDrag="@((i)=> { ActivitiesViewModel.ActivityDrag(i); })"
+                  TItem="ActivityModel">
             </Tree>
         </Col>
     </Row>

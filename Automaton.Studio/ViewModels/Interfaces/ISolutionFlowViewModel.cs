@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace Automaton.Studio.ViewModels
 {
-    public interface ITreeActivityViewModel
+    public interface ISolutionFlowViewModel
     {
         #region Events
 
@@ -14,15 +14,13 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        IList<TreeActivity> TreeItems { get; set; }
+        IList<TreeWorkflow> TreeWorkflows { get; set; }
 
         #endregion
 
         #region Methods
 
         void Initialize();
-
-        void ActivityDrag(TreeActivity activityModel);
 
         #endregion
     }

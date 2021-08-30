@@ -122,7 +122,7 @@ namespace Automaton.Studio.ViewModels
         /// Drag activity to the workflow.
         /// </summary>
         /// <param name="treeActivity"></param>
-        public void ActivityDrag(TreeActivity treeActivity)
+        public void ActivityDrag(ActivityModel treeActivity)
         {
             var activity = CreateActivity(treeActivity.Name);
 

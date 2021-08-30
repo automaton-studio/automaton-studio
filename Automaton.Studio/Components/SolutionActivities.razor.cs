@@ -6,22 +6,23 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Components
 {
-    partial class FlowTree : ComponentBase
+    partial class SolutionActivities : ComponentBase
     {
         [Inject] 
-        private ITreeFlowViewModel TreeFlowViewModel { get; set; } = default!;
+        private ISolutionActivitiesViewModel ActivitiesViewModel { get; set; } = default!;
 
         private string searchText { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            TreeFlowViewModel.Initialize();
+            ActivitiesViewModel.Initialize();
 
             await base.OnInitializedAsync();
         }
 
-        private void Handle(string value)
+        private void OnSearchChange(string text)
         {
+            throw new NotImplementedException();
         }
 
         public async Task OnSearch()

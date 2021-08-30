@@ -26,7 +26,7 @@ namespace Automaton.Studio.ViewModels
 
         #region Methods
 
-        void ActivityDrag(TreeActivity activityModel);
+        void ActivityDrag(ActivityModel activityModel);
         void FinalizeActivity(StudioActivity activity);       
         void DeleteActivity(StudioActivity activity);
 

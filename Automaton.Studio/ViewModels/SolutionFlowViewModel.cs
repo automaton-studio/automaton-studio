@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.ViewModels
 {
-    public class TreeFlowViewModel : ITreeFlowViewModel, INotifyPropertyChanged
+    public class SolutionFlowViewModel : ISolutionFlowViewModel, INotifyPropertyChanged
     {
         #region Members
 
@@ -34,9 +34,11 @@ namespace Automaton.Studio.ViewModels
 
         #endregion
 
-        public TreeFlowViewModel(
+        public SolutionFlowViewModel
+        (
             ActivityFactory activityFactory,
-            IMapper mapper)
+            IMapper mapper
+        )
         {
             this.mapper = mapper;
             this.activityFactory = activityFactory;
@@ -47,7 +49,7 @@ namespace Automaton.Studio.ViewModels
         public void Initialize()
         {
             var activityDescriptors = activityFactory.GetActivityDescriptors();
-            var activityItems = mapper.Map<IEnumerable<ActivityDescriptor>, IList<TreeActivity>>(activityDescriptors);
+            var activityItems = mapper.Map<IEnumerable<ActivityDescriptor>, IList<ActivityModel>>(activityDescriptors);
             var categoryNames = activityItems.Select(x => x.Category).Distinct();
 
             TreeWorkflows = new List<TreeWorkflow>();

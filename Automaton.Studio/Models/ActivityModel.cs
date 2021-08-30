@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Automaton.Studio.Models
 {
-    public class TreeActivity
+    public class ActivityModel
     {
         private const string DefaultIcon = "file";
 
@@ -12,16 +12,16 @@ namespace Automaton.Studio.Models
         public string Description { get; set; }
         public string Category { get; set; }
         public string Icon { get; set; } = DefaultIcon;
-        public List<TreeActivity> Activities { get; set; }
+        public List<ActivityModel> Activities { get; set; }
 
-        public TreeActivity()
+        public ActivityModel()
         {
             Name = "Activity";
             Category = "Miscellaneous";
             DisplayName = "Activity";
         }
 
-        public TreeActivity(string name, string displayName)
+        public ActivityModel(string name, string displayName)
         {
             Name = name;
             DisplayName = displayName;

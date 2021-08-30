@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.ViewModels
 {
-    public class TreeActivityViewModel : ITreeActivityViewModel, INotifyPropertyChanged
+    public class SolutionActivitiesViewModel : ISolutionActivitiesViewModel, INotifyPropertyChanged
     {
         #region Members
 
@@ -21,8 +21,8 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        private IList<TreeActivity> activities;
-        public IList<TreeActivity> TreeItems
+        private IList<ActivityModel> activities;
+        public IList<ActivityModel> TreeItems
         {
             get => activities;
 
@@ -35,7 +35,7 @@ namespace Automaton.Studio.ViewModels
 
         #endregion
 
-        public TreeActivityViewModel(
+        public SolutionActivitiesViewModel(
             IDesignerViewModel designerViewModel,
             ActivityFactory activityFactory,
             IMapper mapper)
@@ -50,18 +50,18 @@ namespace Automaton.Studio.ViewModels
         public void Initialize()
         {
             var activityDescriptors = activityFactory.GetActivityDescriptors();
-            var activityItems = mapper.Map<IEnumerable<ActivityDescriptor>, IList<TreeActivity>>(activityDescriptors);
+            var activityItems = mapper.Map<IEnumerable<ActivityDescriptor>, IList<ActivityModel>>(activityDescriptors);
             var categoryNames = activityItems.Select(x => x.Category).Distinct();
 
-            TreeItems = new List<TreeActivity>();
+            TreeItems = new List<ActivityModel>();
 
             foreach (var categoryName in categoryNames)
             {
                 // Create category
-                var category = new TreeActivity
+                var category = new ActivityModel
                 {
                     DisplayName = categoryName,
-                    Activities = new List<TreeActivity>()
+                    Activities = new List<ActivityModel>()
                 };
 
                 // Prepare category activities
@@ -73,7 +73,7 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
-        public void ActivityDrag(TreeActivity activityModel)
+        public void ActivityDrag(ActivityModel activityModel)
         {
             if (!activityModel.IsCategory())
             {
