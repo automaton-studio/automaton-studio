@@ -47,8 +47,8 @@ namespace Automaton.Studio.ViewModels
         /// <summary>
         /// List of all runners
         /// </summary>
-        private IEnumerable<WorkflowRunner> runners;
-        public IEnumerable<WorkflowRunner> Runners
+        private IEnumerable<RunnerModel> runners;
+        public IEnumerable<RunnerModel> Runners
         {
             get => runners;
 
@@ -111,7 +111,7 @@ namespace Automaton.Studio.ViewModels
             this.workflowService = workflowService;
             this.flowService = flowService;
 
-            Runners = mapper.Map<IEnumerable<Runner>, IEnumerable<WorkflowRunner>>(runnerService.List());
+            Runners = mapper.Map<IEnumerable<Runner>, IEnumerable<RunnerModel>>(runnerService.List());
         }
 
         #endregion

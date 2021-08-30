@@ -1,6 +1,6 @@
 ﻿namespace Automaton.Studio.Models
 {
-    public class TreeWorkflow
+    public class WorkflowModel
     {
         private const string DefaultIcon = "file";
 
@@ -8,12 +8,12 @@
         public bool IsStartup { get; set; }
         public string Icon { get; set; } = DefaultIcon;
 
-        public TreeWorkflow()
+        public WorkflowModel()
         {
             Name = "Workflow";
         }
 
-        public TreeWorkflow(string name)
+        public WorkflowModel(string name)
         {
             Name = name;
         }

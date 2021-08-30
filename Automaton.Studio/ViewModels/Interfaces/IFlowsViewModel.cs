@@ -10,7 +10,7 @@ namespace Automaton.Studio.ViewModels
         #region Properties
 
         IList<FlowModel> Flows { get; set; }
-        IEnumerable<WorkflowRunner> Runners { get; set; }
+        IEnumerable<RunnerModel> Runners { get; set; }
 
         #endregion
 

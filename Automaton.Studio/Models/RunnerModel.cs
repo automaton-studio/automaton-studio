@@ -2,7 +2,7 @@
 
 namespace Automaton.Studio.Models
 {
-    public class WorkflowRunner
+    public class RunnerModel
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

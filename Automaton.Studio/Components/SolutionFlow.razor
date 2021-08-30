@@ -21,12 +21,12 @@
     <Row>
         <Col Span="24">
             <Tree ShowIcon
-                  DataSource="@FlowViewModel.TreeWorkflows"
+                  DataSource="@FlowViewModel.Workflows"
                   TitleExpression="x => x.DataItem.Name"
                   IconExpression="x => x.DataItem.Icon"
                   KeyExpression="x => x.DataItem.Name"
                   Class="workflows-tree"
-                  TItem="TreeWorkflow">
+                  TItem="WorkflowModel">
             </Tree>
         </Col>
     </Row>

@@ -20,8 +20,8 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        private IList<TreeWorkflow> treeWorkflows;
-        public IList<TreeWorkflow> TreeWorkflows
+        private IList<WorkflowModel> treeWorkflows;
+        public IList<WorkflowModel> Workflows
         {
             get => treeWorkflows;
 
@@ -52,7 +52,7 @@ namespace Automaton.Studio.ViewModels
             var activityItems = mapper.Map<IEnumerable<ActivityDescriptor>, IList<ActivityModel>>(activityDescriptors);
             var categoryNames = activityItems.Select(x => x.Category).Distinct();
 
-            TreeWorkflows = new List<TreeWorkflow>();
+            Workflows = new List<WorkflowModel>();
 
             // TODO: Init list of workflows
         }

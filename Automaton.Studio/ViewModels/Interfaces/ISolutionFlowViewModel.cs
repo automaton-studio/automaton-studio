@@ -14,7 +14,7 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        IList<TreeWorkflow> TreeWorkflows { get; set; }
+        IList<WorkflowModel> Workflows { get; set; }
 
         #endregion
 
