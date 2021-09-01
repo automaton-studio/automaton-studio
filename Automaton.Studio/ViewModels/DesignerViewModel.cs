@@ -202,9 +202,9 @@ namespace Automaton.Studio.ViewModels
         }
 
         /// <summary>
-        /// Save workflow to database
+        /// Save active workflow to database
         /// </summary>
-        public async Task SaveWorkflow2()
+        public async Task SaveWorkflow()
         {
             await workflowService.SaveWorkflow(StudioFlow.ActiveWorkflow);
         }
