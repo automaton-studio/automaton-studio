@@ -2,6 +2,7 @@
 using Automaton.Studio.Core.Metadata;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
+using Automaton.Studio.Services;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,21 +14,21 @@ namespace Automaton.Studio.ViewModels
     {
         #region Members
 
-        private readonly ActivityFactory activityFactory;
         private readonly IMapper mapper;
+        private readonly IFlowService flowService;
 
         #endregion
 
         #region Properties
 
-        private IList<WorkflowModel> treeWorkflows;
+        private IList<WorkflowModel> workflows;
         public IList<WorkflowModel> Workflows
         {
-            get => treeWorkflows;
+            get => workflows;
 
             set
             {
-                treeWorkflows = value;
+                workflows = value;
                 OnPropertyChanged();
             }
         }
@@ -36,22 +37,18 @@ namespace Automaton.Studio.ViewModels
 
         public SolutionFlowViewModel
         (
-            ActivityFactory activityFactory,
+            IFlowService flowService,
             IMapper mapper
         )
         {
             this.mapper = mapper;
-            this.activityFactory = activityFactory;
+            this.flowService = flowService;
         }
 
         #region Public Methods
 
         public void Initialize()
         {
-            var activityDescriptors = activityFactory.GetActivityDescriptors();
-            var activityItems = mapper.Map<IEnumerable<ActivityDescriptor>, IList<ActivityModel>>(activityDescriptors);
-            var categoryNames = activityItems.Select(x => x.Category).Distinct();
-
             Workflows = new List<WorkflowModel>();
 
             // TODO: Init list of workflows
