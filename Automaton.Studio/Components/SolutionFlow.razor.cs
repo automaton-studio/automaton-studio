@@ -11,11 +11,14 @@ namespace Automaton.Studio.Components
         [Inject] 
         private ISolutionFlowViewModel FlowViewModel { get; set; } = default!;
 
+        [CascadingParameter]
+        protected string FlowId { get; set; }
+
         private string searchText { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            FlowViewModel.Initialize();
+            FlowViewModel.LoadFlow(FlowId);
 
             await base.OnInitializedAsync();
         }

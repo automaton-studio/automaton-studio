@@ -8,14 +8,16 @@
 <Layout>
     <Layout Class="designer-container">
         <Sider Theme="SiderTheme.Light" Style="width: 300px">
-            <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="explorer-tabs">
-                <TabPane Key="1" Tab="Activities">
-                    <SolutionActivities></SolutionActivities>
-                </TabPane>
-                <TabPane Key="2" Tab="Workflows">
-                    <SolutionFlow></SolutionFlow>
-                </TabPane>
-            </Tabs>
+            <CascadingValue Value="FlowId">
+                <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="explorer-tabs">
+                    <TabPane Key="1" Tab="Activities">
+                        <SolutionActivities></SolutionActivities>
+                    </TabPane>
+                    <TabPane Key="2" Tab="Workflows">
+                        <SolutionFlow></SolutionFlow>
+                    </TabPane>
+                </Tabs>
+            </CascadingValue>
         </Sider>
 
         <Content Class="dropzone-container">

@@ -47,7 +47,7 @@ namespace Automaton.Studio.ViewModels
 
         #region Public Methods
 
-        public void Initialize()
+        public void LoadFlow(string flowId)
         {
             Workflows = new List<WorkflowModel>();
 

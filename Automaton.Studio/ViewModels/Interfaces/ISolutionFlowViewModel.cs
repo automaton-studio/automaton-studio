@@ -20,7 +20,7 @@ namespace Automaton.Studio.ViewModels
 
         #region Methods
 
-        void Initialize();
+        void LoadFlow(string flowId);
 
         #endregion
     }
