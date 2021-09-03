@@ -1,6 +1,7 @@
 ﻿using Automaton.Studio.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Automaton.Studio.ViewModels
 {
@@ -20,7 +21,7 @@ namespace Automaton.Studio.ViewModels
 
         #region Methods
 
-        void LoadFlow(string flowId);
+        Task LoadFlow(string flowId);
 
         #endregion
     }

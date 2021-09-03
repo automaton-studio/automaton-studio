@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
+using Automaton.Studio.Core;
 using Automaton.Studio.Core.Metadata;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Automaton.Studio.ViewModels
 {
@@ -47,11 +50,13 @@ namespace Automaton.Studio.ViewModels
 
         #region Public Methods
 
-        public void LoadFlow(string flowId)
+        public async Task LoadFlow(string flowId)
         {
-            Workflows = new List<WorkflowModel>();
+            Guid.TryParse(flowId, out Guid flowIdGuid);
 
-            // TODO: Init list of workflows
+            var flow = await flowService.GetAsync(flowIdGuid);
+
+            Workflows = mapper.Map<IEnumerable<StudioWorkflow>, IList<WorkflowModel>>(flow.Workflows);
         }
 
         #endregion
