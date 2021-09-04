@@ -8,13 +8,21 @@ namespace Automaton.Studio.Components
 {
     partial class SolutionFlow : ComponentBase
     {
-        [Inject] 
-        private ISolutionFlowViewModel FlowViewModel { get; set; } = default!;
-
-        [CascadingParameter]
-        protected string FlowId { get; set; }
+        #region Members
 
         private string searchText { get; set; }
+
+        #endregion
+
+        #region Properties
+
+        [CascadingParameter]
+        private string FlowId { get; set; }
+
+        [Inject]
+        private ISolutionFlowViewModel FlowViewModel { get; set; } = default!;
+
+        #endregion
 
         protected override async Task OnInitializedAsync()
         {
@@ -23,11 +31,13 @@ namespace Automaton.Studio.Components
             await base.OnInitializedAsync();
         }
 
+        #region Methods
+
         private void Handle(string value)
         {
         }
 
-        public async Task OnSearch()
+        private async Task OnSearch()
         {
             throw new NotImplementedException();
         }
@@ -36,5 +46,7 @@ namespace Automaton.Studio.Components
         {
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }
