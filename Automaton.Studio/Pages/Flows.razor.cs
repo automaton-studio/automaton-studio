@@ -17,7 +17,7 @@ namespace Automaton.Studio.Pages
 
         private async Task RunFlow(FlowModel flow)
         {
-            await FlowsViewModel.RunWorkflow(flow);
+            await FlowsViewModel.RunFlow(flow);
         }
 
         private void EditFlow(FlowModel flow)

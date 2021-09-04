@@ -132,7 +132,7 @@ namespace Automaton.Studio.ViewModels
         /// Runs flow on its selected runners
         /// </summary>
         /// <param name="flow">Flow model to run</param>
-        public async Task RunWorkflow(FlowModel flow)
+        public async Task RunFlow(FlowModel flow)
         {
             await runnerService.RunWorkflow(flow.StartupWorkflowId, flow.RunnerIds);
         }
