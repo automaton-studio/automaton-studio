@@ -11,7 +11,7 @@
                     <h3>Workflows</h3>
                 </SpaceItem>
                 <SpaceItem>
-                    <Button Class="new-button" Icon="plus" @onclick="@(() => ShowNewWorkflowDialog())">
+                    <Button Class="new-button" Icon="plus" @onclick="@(() => NewFlowDialog())">
                         New
                     </Button>
                 </SpaceItem>
@@ -51,12 +51,12 @@
                 <div class="designer-activity-icon-container">
                     <Space>
                         <SpaceItem>
-                            <Button Icon="caret-right" @onclick="@(() => RunWorkflow(context))">
+                            <Button Icon="caret-right" @onclick="@(() => RunFlow(context))">
                                 Run
                             </Button>
                         </SpaceItem>
                         <SpaceItem>
-                            <Button Icon="edit" @onclick="@(() => EditWorkflow(context))">
+                            <Button Icon="edit" @onclick="@(() => EditFlow(context))">
                                 Edit
                             </Button>
                         </SpaceItem>
@@ -65,7 +65,7 @@
                     <Dropdown Placement="@PlacementType.Left" Trigger="@(new TriggerType[] { TriggerType.Click })">
                         <Overlay>
                             <Menu>
-                                <MenuItem Icon="delete" OnClick="@(() => DeleteWorkflow(context))">
+                                <MenuItem Icon="delete" OnClick="@(() => DeleteFlow(context))">
                                     Delete
                                 </MenuItem>
                             </Menu>

@@ -15,22 +15,22 @@ namespace Automaton.Studio.Pages
             base.OnInitializedAsync();
         }
 
-        private async Task RunWorkflow(FlowModel flow)
+        private async Task RunFlow(FlowModel flow)
         {
             await FlowsViewModel.RunWorkflow(flow);
         }
 
-        private void EditWorkflow(FlowModel flow)
+        private void EditFlow(FlowModel flow)
         {
-            NavigationManager.NavigateTo($"designer/{flow.Id}");
+            NavigationManager.NavigateTo($"flow/{flow.Id}");
         }
 
-        private void DeleteWorkflow(FlowModel flow)
+        private void DeleteFlow(FlowModel flow)
         {
             FlowsViewModel.DeleteFlow(flow.Id);
         }
 
-        private async Task ShowNewWorkflowDialog()
+        private async Task NewFlowDialog()
         {
             await FlowsViewModel.CreateFlow();
         }

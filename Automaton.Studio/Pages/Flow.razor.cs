@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages
 {
-    partial class Designer : ComponentBase
+    partial class Flow : ComponentBase
     {
         #region Members
 
