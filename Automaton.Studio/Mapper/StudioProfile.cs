@@ -20,9 +20,9 @@ namespace Automaton.Studio.Profiles
             CreateMap<FlowModel, Flow>();
             CreateMap<Flow, StudioFlow>();
             CreateMap<StudioFlow, Flow>();
-
             CreateMap<StudioWorkflow, WorkflowDefinition>();
             CreateMap<WorkflowDefinition, StudioWorkflow>();
+            CreateMap<StudioWorkflow, WorkflowModel>();
 
             // Elsa mapping
             CreateMap<Elsa.Models.WorkflowDefinition, StudioWorkflow>();
