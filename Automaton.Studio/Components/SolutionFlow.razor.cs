@@ -18,7 +18,7 @@ namespace Automaton.Studio.Components
 
         protected override async Task OnInitializedAsync()
         {
-            FlowViewModel.LoadFlow(FlowId);
+            await FlowViewModel.LoadFlow(FlowId);
 
             await base.OnInitializedAsync();
         }
