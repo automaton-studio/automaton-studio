@@ -22,7 +22,7 @@ namespace Automaton.Studio.ViewModels
         #region Properties
 
         private IList<ActivityModel> activities;
-        public IList<ActivityModel> TreeItems
+        public IList<ActivityModel> Activities
         {
             get => activities;
 
@@ -53,7 +53,7 @@ namespace Automaton.Studio.ViewModels
             var activityItems = mapper.Map<IEnumerable<ActivityDescriptor>, IList<ActivityModel>>(activityDescriptors);
             var categoryNames = activityItems.Select(x => x.Category).Distinct();
 
-            TreeItems = new List<ActivityModel>();
+            Activities = new List<ActivityModel>();
 
             foreach (var categoryName in categoryNames)
             {
@@ -64,17 +64,18 @@ namespace Automaton.Studio.ViewModels
                     Activities = new List<ActivityModel>()
                 };
 
-                // Prepare category activities
+                // Category activities
                 var categoryActivities = activityItems.Where(x => x.Category == categoryName);
                 category.Activities.AddRange(categoryActivities);
 
                 // Add category to the tree
-                TreeItems.Add(category);
+                Activities.Add(category);
             }
         }
 
         public void ActivityDrag(ActivityModel activityModel)
         {
+            // Allow Drag only on activities, and not on categories
             if (!activityModel.IsCategory())
             {
                 designerViewModel.ActivityDrag(activityModel);

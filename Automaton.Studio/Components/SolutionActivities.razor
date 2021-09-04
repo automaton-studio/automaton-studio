@@ -16,7 +16,7 @@
     <Row>
         <Col Span="24">
             <Tree ShowIcon
-                  DataSource="@ActivitiesViewModel.TreeItems"
+                  DataSource="@ActivitiesViewModel.Activities"
                   TitleExpression="x => x.DataItem.DisplayName"
                   ChildrenExpression="x => x.DataItem.Activities"
                   IconExpression="x => x.DataItem.Icon"

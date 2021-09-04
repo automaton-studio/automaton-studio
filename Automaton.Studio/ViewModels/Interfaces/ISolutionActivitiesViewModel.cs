@@ -14,7 +14,7 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        IList<ActivityModel> TreeItems { get; set; }
+        IList<ActivityModel> Activities { get; set; }
 
         #endregion
 
