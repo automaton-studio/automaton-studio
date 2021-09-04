@@ -1,5 +1,5 @@
 using Automaton.Activities;
-using Elsa;
+using Elsa.Options;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Automaton.Common.Extensions
