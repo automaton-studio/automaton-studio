@@ -56,7 +56,15 @@ namespace Automaton.Studio.ViewModels
 
             var flow = await flowService.GetAsync(flowIdGuid);
 
-            Workflows = mapper.Map<IEnumerable<StudioWorkflow>, IList<WorkflowModel>>(flow.Workflows);
+            var rootFolder = new WorkflowModel
+            {
+                Name = $"Flow {flow.Name}",
+                Icon = "folder"
+            };
+
+            rootFolder.Workflows = mapper.Map<IEnumerable<StudioWorkflow>, IList<WorkflowModel>>(flow.Workflows);
+
+            Workflows = new List<WorkflowModel> { rootFolder };
         }
 
         #endregion
