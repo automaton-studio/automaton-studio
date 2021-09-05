@@ -5,96 +5,101 @@
 @using Automaton.Studio.Components
 @using Automaton.Studio.DragDrop
 
-<Layout>
-    <Layout Class="designer-container">
-        <Sider Theme="SiderTheme.Light" Style="width: 300px">
-            <CascadingValue Value="FlowId">
-                <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="explorer-tabs">
-                    <TabPane Key="1" Tab="Activities">
-                        <SolutionActivities></SolutionActivities>
-                    </TabPane>
-                    <TabPane Key="2" Tab="Workflows">
-                        <SolutionFlow></SolutionFlow>
-                    </TabPane>
-                </Tabs>
-            </CascadingValue>
-        </Sider>
+<Layout Class="designer-container">
+    <Sider Theme="SiderTheme.Light" Style="width: 300px">
+        <CascadingValue Value="FlowId">
+            <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="explorer-tabs">
+                <TabPane Key="1" Tab="Workflows">
+                    <SolutionFlow @ref="solutionFlow"></SolutionFlow>
+                </TabPane>
+                <TabPane Key="2" Tab="Activities">
+                    <SolutionActivities></SolutionActivities>
+                </TabPane>
+            </Tabs>
+        </CascadingValue>
+    </Sider>
 
-        <Content Class="dropzone-container">
-            <Header Class="header">
-                <Row>
-                    <Col Flex=@("none")>
-                    <Space Class="actions-bar">
-                        <SpaceItem>
-                            <Button Icon="save" OnClick="SaveFlow">
-                                Save
-                            </Button>
-                        </SpaceItem>
-                        <SpaceItem>
-                            <Button Icon="caret-right" OnClick="RunWorkflow">
-                                Run
-                            </Button>
-                        </SpaceItem>
-                        <SpaceItem>
-                            <Select Mode="multiple"
-                                    @bind-Values="@DesignerViewModel.SelectedRunnerIds"
-                                    Placeholder="Select runners..."
-                                    TItemValue="Guid"
-                                    TItem="Guid"
-                                    Class="runners-select"
-                                    AllowClear>
-                                <SelectOptions>
-                                    @foreach (var item in @DesignerViewModel.Runners)
-                                    {
-                                        <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
-                                    }
-                                </SelectOptions>
-                            </Select>
-                        </SpaceItem>
-                    </Space>
-                    </Col>
+    <Content Class="dropzone-container">
+        <Header Class="header">
+            <Row>
+                <Col Flex=@("none")>
+                <Space Class="actions-bar">
+                    <SpaceItem>
+                        <Button Icon="save" OnClick="SaveFlow">
+                            Save
+                        </Button>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Button Icon="caret-right" OnClick="RunWorkflow">
+                            Run
+                        </Button>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Select Mode="multiple"
+                                @bind-Values="@DesignerViewModel.SelectedRunnerIds"
+                                Placeholder="Select runners..."
+                                TItemValue="Guid"
+                                TItem="Guid"
+                                Class="runners-select"
+                                AllowClear>
+                            <SelectOptions>
+                                @foreach (var item in @DesignerViewModel.Runners)
+                                {
+                                    <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
+                                }
+                            </SelectOptions>
+                        </Select>
+                    </SpaceItem>
+                </Space>
+                </Col>
 
-                    @*<Col Class="right-actions">
-                            <Space Class="right-header-items">
-                                <SpaceItem>
-                                    <Button Shape="circle" Type="ButtonType.Dashed" Icon="setting" Class="action-button"></Button>
-                                </SpaceItem>
-                            </Space>
-                        </Col>*@
-                </Row>
-            </Header>
+                @*<Col Class="right-actions">
+                        <Space Class="right-header-items">
+                            <SpaceItem>
+                                <Button Shape="circle" Type="ButtonType.Dashed" Icon="setting" Class="action-button"></Button>
+                            </SpaceItem>
+                        </Space>
+                    </Col>*@
+            </Row>
+        </Header>
 
-            <Tabs Type="@TabType.EditableCard" Size="@TabSize.Small" OnAddClick="OnWorkflowAddClick" OnClose="OnWorkflowTabClose">
+        @if(DesignerViewModel.Workflows != null)
+        { 
+            <Tabs Type="@TabType.EditableCard" 
+                    Size="@TabSize.Small"
+                    DefaultActiveKey="DesignerViewModel.ActiveWorkflow.DefinitionId"
+                    OnAddClick="OnWorkflowAddClick" 
+                    OnClose="OnWorkflowTabClose">
                 @foreach (var workflow in DesignerViewModel.Workflows)
                 {
                     <TabPane Key="@workflow.DefinitionId" Tab="@workflow.Name">
                         <Dropzone Class="dropzone"
-                                  @ref="dropzone"
-                                  TItem="StudioActivity"
-                                  Items="workflow.Activities"
-                                  InstantReplace="true"
-                                  OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
-                                  OnItemDrop="@((p)=>OnActivityDrop(p))"
-                                  OnItemMouseDown="@((p)=>OnActivityMouseDown(p))"
-                                  OnItemDoubleClick="@((p)=>OnActivityDoubleClick(p))">
+                                    @ref="dropzone"
+                                    TItem="StudioActivity"
+                                    Items="workflow.Activities"
+                                    InstantReplace="true"
+                                    OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
+                                    OnItemDrop="@((p)=>OnActivityDrop(p))"
+                                    OnItemMouseDown="@((p)=>OnActivityMouseDown(p))"
+                                    OnItemDoubleClick="@((p)=>OnActivityDoubleClick(p))">
                             <StudioActivityComponent Activity="@context" />
                         </Dropzone>
                     </TabPane>
                 }
             </Tabs>
-        </Content>
+        }
+    </Content>
 
-        <Sider Theme=SiderTheme.Light Collapsed=true Class="right-sider">
-            <Menu Mode=MenuMode.Inline Theme=MenuTheme.Light Selectable=true Class="right-sider">
-                <MenuItem Key="1" Icon="setting" OnClick="OpenWorkflowSettings">
-                    Settings
-                </MenuItem>
-                <MenuItem Key="2" OnClick="OpenWorkflowVariables" Icon="snippets">
-                    Variables
-                </MenuItem>
-            </Menu>
-        </Sider>
-    </Layout>
+    <Sider Theme=SiderTheme.Light Collapsed=true Class="right-sider">
+        <Menu Mode=MenuMode.Inline Theme=MenuTheme.Light Selectable=true Class="right-sider">
+            <MenuItem Key="1" Icon="setting" OnClick="OpenWorkflowSettings">
+                Settings
+            </MenuItem>
+            <MenuItem Key="2" OnClick="OpenWorkflowVariables" Icon="snippets">
+                Variables
+            </MenuItem>
+        </Menu>
+    </Sider>
 </Layout>
 
 <style>

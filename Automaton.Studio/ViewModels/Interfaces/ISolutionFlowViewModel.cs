@@ -24,6 +24,7 @@ namespace Automaton.Studio.ViewModels
 
         Task LoadFlow(string flowId);
         void RenameWorkflow(string workflowId, string workflowName);
+        void AddWorkflow(WorkflowModel workflowModel);
 
         #endregion
     }

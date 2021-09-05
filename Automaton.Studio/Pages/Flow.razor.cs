@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Automaton.Studio.Models;
+using Automaton.Studio.Components.Dialogs.WorkflowName;
+using Automaton.Studio.Resources;
 
 namespace Automaton.Studio.Pages
 {
@@ -17,6 +20,7 @@ namespace Automaton.Studio.Pages
 
         private Guid currentFlowId;
         private Dropzone<StudioActivity> dropzone;
+        private SolutionFlow solutionFlow;
 
         #endregion
 
@@ -27,6 +31,9 @@ namespace Automaton.Studio.Pages
 
         [Inject]
         private IDesignerViewModel DesignerViewModel { get; set; } = default!;
+
+        [Inject]
+        private ISolutionFlowViewModel SolutionFlowViewModel { get; set; }
 
         [Inject]
         private DrawerService DrawerService { get; set; } = default!;
@@ -44,17 +51,20 @@ namespace Automaton.Studio.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            await base.OnInitializedAsync();
-
             if (!string.IsNullOrEmpty(FlowId))
             {
                 await DesignerViewModel.LoadFlow(FlowId);
+
+                // Setup event handlers after workflow is loaded
+                DesignerViewModel.DragActivity += OnDragActivity;
+                if (DesignerViewModel.StudioFlow.ActiveWorkflow != null)
+                {
+                    DesignerViewModel.ActivityAdded += OnActivityAdded;
+                    DesignerViewModel.ActivityRemoved += OnActivityRemoved;
+                }
             }
 
-            // Setup event handlers after workflow is loaded
-            DesignerViewModel.DragActivity += OnDragActivity;
-            DesignerViewModel.StudioFlow.ActiveWorkflow.ActivityAdded += OnActivityAdded;
-            DesignerViewModel.StudioFlow.ActiveWorkflow.ActivityRemoved += OnActivityRemoved;
+            await base.OnInitializedAsync();
         }
 
         #endregion
@@ -267,9 +277,39 @@ namespace Automaton.Studio.Pages
         /// <summary>
         /// Creates a new workflow tab
         /// </summary>
-        private void OnWorkflowAddClick()
+        private async Task OnWorkflowAddClick()
         {
-            DesignerViewModel.Workflows.Add(new StudioWorkflow());
+            var workflowNameModel = new WorkflowNameModel
+            {
+                ExistingNames = SolutionFlowViewModel.WorkflowNames
+            };
+
+            var modalRef = await ModalService.CreateModalAsync<WorkflowNameDialog, WorkflowNameModel>
+            (
+                new ModalOptions { Title = Labels.RenameWorkflow }, workflowNameModel
+            );
+
+            modalRef.OnOk = async () =>
+            {
+                // Add a new workflow to DesignerViewModel
+                var newStudioWorkflow = new StudioWorkflow { Name = workflowNameModel.Name };
+                DesignerViewModel.AddWorkflow(newStudioWorkflow);
+                DesignerViewModel.ActivityAdded += OnActivityAdded;
+                DesignerViewModel.ActivityRemoved += OnActivityRemoved;
+
+                // Add a new workflow to SolutionFlowViewModel
+                var newWorkflowModel = new WorkflowModel { Name = workflowNameModel.Name, IsStartup = true };
+                SolutionFlowViewModel.AddWorkflow(newWorkflowModel);
+
+                // Refresh Flow page otherwise tabs are not updated
+                StateHasChanged();
+
+                if (solutionFlow != null)
+                {
+                    // Refresh SolutionFlow component otherwise the new workflow isn't displayed
+                    solutionFlow.UpdateState();
+                }
+            };
         }
 
         /// <summary>

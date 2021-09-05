@@ -89,6 +89,31 @@ namespace Automaton.Studio.ViewModels
         #region Events
 
         public event EventHandler<ActivityEventArgs> DragActivity;
+        public event EventHandler<ActivityEventArgs> ActivityAdded
+        {
+            add
+            {
+                StudioFlow.ActiveWorkflow.ActivityAdded += value;
+            }
+            remove
+            {
+
+                StudioFlow.ActiveWorkflow.ActivityAdded -= value;
+            }
+        }
+
+        public event EventHandler<ActivityEventArgs> ActivityRemoved
+        {
+            add
+            {
+                StudioFlow.ActiveWorkflow.ActivityRemoved += value;
+            }
+            remove
+            {
+
+                StudioFlow.ActiveWorkflow.ActivityRemoved -= value;
+            }
+        }
 
         #endregion
 
@@ -207,6 +232,12 @@ namespace Automaton.Studio.ViewModels
         public async Task SaveWorkflow()
         {
             await workflowService.SaveWorkflow(StudioFlow.ActiveWorkflow);
+        }
+
+        public void AddWorkflow(StudioWorkflow studioWorkflow)
+        {
+            StudioFlow.Workflows.Add(studioWorkflow);
+            StudioFlow.ActiveWorkflow = studioWorkflow;
         }
 
         /// <summary>

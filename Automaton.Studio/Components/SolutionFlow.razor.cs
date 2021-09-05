@@ -40,6 +40,11 @@ namespace Automaton.Studio.Components
 
         #region Methods
 
+        public void UpdateState()
+        {
+            StateHasChanged();
+        }
+
         private async Task RenameWorkflow(WorkflowModel workflowModel)
         {
             var workflowNameModel = new WorkflowNameModel()

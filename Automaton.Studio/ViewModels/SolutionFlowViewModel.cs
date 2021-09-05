@@ -75,6 +75,11 @@ namespace Automaton.Studio.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public void AddWorkflow(WorkflowModel workflowModel)
+        {
+            Workflows.Add(workflowModel);
+        }
+
         #endregion
     }
 }

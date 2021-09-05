@@ -21,6 +21,8 @@ namespace Automaton.Studio.ViewModels
         #region Events
 
         event EventHandler<ActivityEventArgs> DragActivity;
+        event EventHandler<ActivityEventArgs> ActivityAdded;
+        event EventHandler<ActivityEventArgs> ActivityRemoved;
 
         #endregion
 
@@ -34,6 +36,7 @@ namespace Automaton.Studio.ViewModels
         Task LoadFlow(Guid flowId);
         Task SaveFlow();
         Task RunWorkflow();
+        void AddWorkflow(StudioWorkflow newStudioWorkflow);
 
         #endregion
     }

@@ -57,14 +57,10 @@ namespace Automaton.Studio.Services
         /// <returns>Flow by id</returns>
         public async Task<StudioFlow> GetAsync(Guid id)
         {
-            var flow = await dbContext.Flows.FindAsync(id);
+            var flow = dbContext.Flows.Include(x => x.FlowWorkflows).SingleOrDefault(x => x.Id == id);
             var studioFlow = mapper.Map<Flow, StudioFlow>(flow);
-            var flowWorkflows = dbContext.FlowWorkflows.AsQueryable().Where(x => x.FlowId == id);
 
-            // StudioFlow has a default workflow we don't need when loading it from database
-            studioFlow.Workflows.Clear();
-
-            foreach (var flowWorkflow in flowWorkflows)
+            foreach (var flowWorkflow in flow.FlowWorkflows)
             {
                 var studioWorkflow = await workflowService.LoadWorkflow(flowWorkflow.WorkflowId);
                 studioFlow.Workflows.Add(studioWorkflow);
@@ -83,15 +79,10 @@ namespace Automaton.Studio.Services
         /// <returns>Result of the flow create operation</returns>
         public async Task<StudioFlow> Create(string name)
         {
-            // Create default workflow
-            var defaultWorkflow = new StudioWorkflow();
-            await workflowService.SaveWorkflow(defaultWorkflow);
-
             // Create flow
-            var flow = new Flow()
+            var flow = new Flow
             {
-                Name = name,
-                StartupWorkflowId = defaultWorkflow.Id
+                Name = name
             };
             dbContext.Flows.Add(flow);
 
@@ -103,15 +94,7 @@ namespace Automaton.Studio.Services
             };
             dbContext.FlowUsers.Add(flowUser);
 
-            // Map workflow to parent flow
-            var flowWorkflow = new FlowWorkflow
-            {
-                WorkflowId = defaultWorkflow.Id,
-                FlowId = flow.Id
-            };
-            dbContext.FlowWorkflows.Add(flowWorkflow);
-
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             var studioFlow = mapper.Map<Flow, StudioFlow>(flow);
 
