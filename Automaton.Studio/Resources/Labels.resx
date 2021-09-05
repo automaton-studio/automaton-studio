@@ -120,4 +120,7 @@
   <data name="NewFlowTitle" xml:space="preserve">
     <value>New Flow</value>
   </data>
+  <data name="RenameWorkflow" xml:space="preserve">
+    <value>Rename Workflow</value>
+  </data>
 </root>

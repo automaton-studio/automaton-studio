@@ -16,12 +16,14 @@ namespace Automaton.Studio.ViewModels
         #region Properties
 
         IList<WorkflowModel> Workflows { get; set; }
+        IEnumerable<string> WorkflowNames { get; }
 
         #endregion
 
         #region Methods
 
         Task LoadFlow(string flowId);
+        void RenameWorkflow(string workflowId, string workflowName);
 
         #endregion
     }

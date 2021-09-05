@@ -3,6 +3,7 @@ using Automaton.Studio.Core;
 using Automaton.Studio.Factories;
 using Elsa.Models;
 using Elsa.Persistence;
+using Elsa.Persistence.Specifications;
 using Elsa.Persistence.Specifications.WorkflowDefinitions;
 using Elsa.Services;
 using System.Threading.Tasks;
@@ -72,7 +73,7 @@ namespace Automaton.Studio.Services
         public async Task<StudioWorkflow> LoadWorkflow(string id)
         {
             // Find WorkflowDefinition workflow based on workflow id
-            var workflowDefinition = await workflowDefinitionStore.FindAsync(new WorkflowDefinitionIdSpecification(id));
+            var workflowDefinition = await workflowDefinitionStore.FindAsync(new EntityIdSpecification<WorkflowDefinition>(id));
 
             // Map WorkflowDefinition to StudioWorkflow
             var studioWorkflow = mapper.Map<WorkflowDefinition, StudioWorkflow>(workflowDefinition);

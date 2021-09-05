@@ -5,6 +5,7 @@ using Automaton.Studio.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -33,6 +34,8 @@ namespace Automaton.Studio.ViewModels
             }
         }
 
+        public IEnumerable<string> WorkflowNames => Workflows.Select(x => x.Name);
+
         #endregion
 
         public SolutionFlowViewModel
@@ -53,6 +56,12 @@ namespace Automaton.Studio.ViewModels
             var flow = await flowService.GetAsync(flowIdGuid);
 
             workflows = mapper.Map<IEnumerable<StudioWorkflow>, IList<WorkflowModel>>(flow.Workflows);
+        }
+
+        public void RenameWorkflow(string workflowId, string workflowName)
+        {
+            var workflow = Workflows.SingleOrDefault(x => x.Id == workflowId);
+            workflow.Name = workflowName;
         }
 
         #endregion

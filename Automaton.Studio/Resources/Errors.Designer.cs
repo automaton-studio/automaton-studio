@@ -61,7 +61,7 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Flow with same name already exists..
+        ///   Looks up a localized string similar to A flow with the same name already exists..
         /// </summary>
         public static string FlowNameExists {
             get {
@@ -84,6 +84,15 @@ namespace Automaton.Studio.Resources {
         public static string NewFlowError {
             get {
                 return ResourceManager.GetString("NewFlowError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An workflow with the same name already exists..
+        /// </summary>
+        public static string WorkflowNameExists {
+            get {
+                return ResourceManager.GetString("WorkflowNameExists", resourceCulture);
             }
         }
     }

@@ -13,7 +13,7 @@
             <Search @bind-Value="@searchText"
                     Placeholder="Search workflows"
                     Size="@InputSize.Default"
-                    OnChange="(e)=>Handle(e)"
+                    OnChange="(e)=>OnSearchTextChange(e)"
                     OnSearch="OnSearch">
             </Search>
         </div>
@@ -27,6 +27,20 @@
                   KeyExpression="x => x.DataItem.Name"
                   Class="workflows-tree"
                   TItem="WorkflowModel">
+                <TitleTemplate>
+                    <Dropdown Placement="@PlacementType.BottomCenter" Trigger="@(new TriggerType[] { TriggerType.ContextMenu })">
+                        <Overlay>
+                            <Menu>
+                                <MenuItem Icon="edit" @onclick="@(() => RenameWorkflow(context.DataItem))">
+                                    Rename
+                                </MenuItem>
+                            </Menu>
+                        </Overlay>
+                        <ChildContent>
+                            @context.DataItem.Name
+                        </ChildContent>
+                    </Dropdown>
+                </TitleTemplate>
             </Tree>
         </Col>
     </Row>

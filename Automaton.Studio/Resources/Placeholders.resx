@@ -120,4 +120,7 @@
   <data name="EnterFlowName" xml:space="preserve">
     <value>Enter flow name</value>
   </data>
+  <data name="EnterWorkflowName" xml:space="preserve">
+    <value>Enter workflow name</value>
+  </data>
 </root>
