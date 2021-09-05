@@ -6,7 +6,6 @@ using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Components

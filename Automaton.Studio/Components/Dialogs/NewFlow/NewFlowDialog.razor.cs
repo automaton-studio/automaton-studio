@@ -3,9 +3,9 @@ using Automaton.Studio.Models;
 using Blazored.FluentValidation;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Components
+namespace Automaton.Studio.Components.Dialogs.NewFlow
 {
-    public partial class NewFlow : FeedbackComponent<FlowModel>
+    public partial class NewFlowDialog : FeedbackComponent<FlowModel>
     {
         private Form<FlowModel> form;
         private FlowModel flowModel;

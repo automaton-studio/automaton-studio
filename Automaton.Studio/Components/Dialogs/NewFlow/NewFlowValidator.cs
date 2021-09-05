@@ -3,7 +3,7 @@ using Automaton.Studio.Resources;
 using Automaton.Studio.Services;
 using FluentValidation;
 
-namespace Automaton.Studio.Validators
+namespace Automaton.Studio.Components.Dialogs.NewFlow
 {
     public class NewFlowValidator : AbstractValidator<FlowModel>
     {

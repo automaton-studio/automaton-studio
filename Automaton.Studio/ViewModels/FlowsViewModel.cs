@@ -1,11 +1,7 @@
-﻿using AntDesign;
-using AutoMapper;
-using Automaton.Studio.Components;
+﻿using AutoMapper;
 using Automaton.Studio.Core;
 using Automaton.Studio.Models;
-using Automaton.Studio.Resources;
 using Automaton.Studio.Services;
-using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,11 +15,8 @@ namespace Automaton.Studio.ViewModels
     {
         #region Members
 
-        private readonly NavigationManager navigationManager;
-        private readonly ModalService modalService;
         private readonly IRunnerService runnerService;
         private IFlowService flowService;
-        private readonly MessageService messageService;
         private readonly IMapper mapper;
 
         #endregion
@@ -58,19 +51,13 @@ namespace Automaton.Studio.ViewModels
 
         public FlowsViewModel
         (
-            NavigationManager navigationManager,
-            ModalService modalService,
             IRunnerService runnerService,
             IFlowService flowService,
-            MessageService messageService,
             IMapper mapper
         )
         {
-            this.navigationManager = navigationManager;
-            this.modalService = modalService;
             this.flowService = flowService;
             this.runnerService = runnerService;
-            this.messageService = messageService;
             this.mapper = mapper;
 
             Flows = mapper.Map<IEnumerable<StudioFlow>, IList<FlowModel>>(flowService.List());
@@ -80,38 +67,14 @@ namespace Automaton.Studio.ViewModels
         /// <summary>
         /// Creates a new flow
         /// </summary>
-        public async Task CreateFlow()
+        public async Task<FlowModel> CreateFlow(string flowName)
         {
-            var modalConfig = new ModalOptions
-            {
-                Title = Labels.NewFlowTitle,
-                // Observation:
-                // Needed as a workaround to prevent dialog
-                // close imediatelly when clicking OK button
-                MaskClosable = false
-            };
+            var flow = await flowService.Create(flowName);
+            var flowModel = mapper.Map<StudioFlow, FlowModel>(flow);
 
-            // Open NewFlow component as a modal dialog.
-            // When OK button is clicked, we create the flow.
-            var flowModel = new FlowModel();
-            var modalRef = await modalService.CreateModalAsync<NewFlow, FlowModel>(modalConfig, flowModel);
+            Flows.Add(flowModel);
 
-            modalRef.OnOk = async () =>
-            {
-                // Needed to update OK button loading icon
-                modalRef.Config.ConfirmLoading = true;
-                await modalRef.UpdateConfigAsync();
-
-                try
-                {
-                    var studioFlow = await flowService.Create(flowModel.Name);
-                    navigationManager.NavigateTo($"designer/{studioFlow.Id}");
-                }
-                catch
-                {
-                    await messageService.Error(Errors.NewFlowError);
-                }
-            };
+            return flowModel;
         }
 
         /// <summary>

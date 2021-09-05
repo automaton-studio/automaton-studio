@@ -1,4 +1,7 @@
-﻿using Automaton.Studio.Models;
+﻿using AntDesign;
+using Automaton.Studio.Components.Dialogs.NewFlow;
+using Automaton.Studio.Models;
+using Automaton.Studio.Resources;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
@@ -9,6 +12,8 @@ namespace Automaton.Studio.Pages
     {
         [Inject] private NavigationManager NavigationManager { get; set; } = default!;
         [Inject] private IFlowsViewModel FlowsViewModel { get; set; } = default!;
+        [Inject] private ModalService ModalService { get; set; }
+        [Inject] private MessageService MessageService { get; set; }
 
         protected override void OnInitialized()
         {
@@ -32,7 +37,28 @@ namespace Automaton.Studio.Pages
 
         private async Task NewFlowDialog()
         {
-            await FlowsViewModel.CreateFlow();
+            var flowModel = new FlowModel();
+            var modalRef = await ModalService.CreateModalAsync<NewFlowDialog, FlowModel>
+            (
+                new ModalOptions
+                {
+                    Title = Labels.NewFlowTitle
+                }, 
+                flowModel
+            );
+
+            modalRef.OnOk = async () =>
+            {
+                try
+                {
+                    await FlowsViewModel.CreateFlow(flowModel.Name);
+                    StateHasChanged();
+                }
+                catch
+                {
+                    await MessageService.Error(Errors.NewFlowError);
+                }
+            };
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Automaton.Studio.Models;
+﻿using Automaton.Studio.Core;
+using Automaton.Studio.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace Automaton.Studio.ViewModels
 
         #region Methods
 
-        Task CreateFlow();
+        Task<FlowModel> CreateFlow(string flowName);
         Task RunFlow(FlowModel workflow);
         void DeleteFlow(Guid flowId);
 
