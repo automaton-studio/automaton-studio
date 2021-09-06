@@ -33,7 +33,10 @@ namespace Automaton.Studio.Components
 
         protected override async Task OnInitializedAsync()
         {
-            await FlowViewModel.LoadFlow(FlowId);
+            if (!string.IsNullOrEmpty(FlowId))
+            {
+                await FlowViewModel.LoadFlow(FlowId); 
+            }
 
             await base.OnInitializedAsync();
         }
