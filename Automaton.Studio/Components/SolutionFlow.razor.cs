@@ -24,7 +24,7 @@ namespace Automaton.Studio.Components
         private string FlowId { get; set; }
 
         [Inject]
-        private ISolutionFlowViewModel FlowViewModel { get; set; }
+        private ISolutionFlowViewModel SolutionFlowViewModel { get; set; }
 
         [Inject]
         private ModalService ModalService { get; set; }
@@ -35,7 +35,7 @@ namespace Automaton.Studio.Components
         {
             if (!string.IsNullOrEmpty(FlowId))
             {
-                await FlowViewModel.LoadFlow(FlowId); 
+                await SolutionFlowViewModel.LoadFlow(FlowId); 
             }
 
             await base.OnInitializedAsync();
@@ -53,7 +53,7 @@ namespace Automaton.Studio.Components
             var workflowNameModel = new WorkflowNameModel()
             {
                 Name = workflowModel.Name,
-                ExistingNames = FlowViewModel.WorkflowNames
+                ExistingNames = SolutionFlowViewModel.WorkflowNames
             };
 
             var modalRef = await ModalService.CreateModalAsync<WorkflowNameDialog, WorkflowNameModel>
@@ -64,7 +64,7 @@ namespace Automaton.Studio.Components
 
             modalRef.OnOk = async () =>
             {
-                FlowViewModel.RenameWorkflow(workflowModel.Id, workflowNameModel.Name);
+                SolutionFlowViewModel.RenameWorkflow(workflowModel.Id, workflowNameModel.Name);
                 StateHasChanged();
             };  
         }
