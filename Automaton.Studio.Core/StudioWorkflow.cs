@@ -50,7 +50,7 @@ namespace Automaton.Studio.Core
             DisplayName = "Untitled";
             DefinitionId = Guid.NewGuid().ToString();
             Version = 1;
-            Activities =  new List<StudioActivity>();
+            Activities = new List<StudioActivity>();
             Connections = new List<StudioConnection>();
         }
 

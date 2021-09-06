@@ -111,21 +111,27 @@ namespace Automaton.Studio.Services
             var flowUser = await dbContext.FlowUsers.FindAsync(studioFlow.Id, userId);
             var flow = await dbContext.Flows.FindAsync(flowUser.FlowId);
 
-            foreach (var studioWorkflow in studioFlow.Workflows)
+            foreach (var workflow in studioFlow.Workflows)
             {
-                await workflowService.SaveWorkflow(studioWorkflow);
+                await workflowService.SaveWorkflow(workflow);
 
-                var flowWorkflow = await dbContext.FlowWorkflows.FindAsync(flow.Id, studioWorkflow.Id);
+                var flowWorkflow = await dbContext.FlowWorkflows.FindAsync(flow.Id, workflow.Id);
 
                 if (flowWorkflow == null)
                 {
                     flowWorkflow = new FlowWorkflow
                     {
-                        WorkflowId = studioWorkflow.Id,
+                        WorkflowId = workflow.Id,
                         FlowId = flow.Id
                     };
 
                     dbContext.FlowWorkflows.Add(flowWorkflow);
+                }
+
+                // Set StartupWorkflowId
+                if (studioFlow.ActiveWorkflow.DefinitionId == workflow.DefinitionId)
+                {
+                    studioFlow.StartupWorkflowId = workflow.Id;
                 }
             }
 

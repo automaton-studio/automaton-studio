@@ -234,6 +234,10 @@ namespace Automaton.Studio.ViewModels
             await workflowService.SaveWorkflow(StudioFlow.ActiveWorkflow);
         }
 
+        /// <summary>
+        /// Add workflow to current Flow
+        /// </summary>
+        /// <param name="studioWorkflow">Workflow to add</param>
         public void AddWorkflow(StudioWorkflow studioWorkflow)
         {
             StudioFlow.Workflows.Add(studioWorkflow);
