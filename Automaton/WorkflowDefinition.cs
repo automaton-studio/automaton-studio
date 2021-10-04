@@ -14,6 +14,7 @@ namespace Automaton
         public string DisplayName { get; set; }
         public string Description { get; set; }
         public bool IsPublished { get; set; }
+        public string Data { get; set; }
 
         public Variables Variables { get; set; }
         public ICollection<ActivityDefinition> Activities { get; set; }

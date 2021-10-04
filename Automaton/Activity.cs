@@ -29,9 +29,6 @@ namespace Automaton
         /// </summary>
         public string Description { get; set; }
 
-        public void Execute()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void Execute();
     }
 }
