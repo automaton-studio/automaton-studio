@@ -21,6 +21,7 @@ namespace Automaton.Studio.Web
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddAntDesign();
             services.AddSingleton<AppState>();
         }
 

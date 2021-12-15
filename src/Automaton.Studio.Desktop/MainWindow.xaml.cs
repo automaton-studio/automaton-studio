@@ -17,6 +17,7 @@ namespace Automaton.Studio.Desktop
         {
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddBlazorWebView();
+            serviceCollection.AddAntDesign();
             serviceCollection.AddSingleton<AppState>(_appState);
             Resources.Add("services", serviceCollection.BuildServiceProvider());
 
