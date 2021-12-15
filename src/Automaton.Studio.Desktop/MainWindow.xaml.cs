@@ -1,10 +1,8 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
-using Automaton.Studio;
-using Automaton.Studio.Data;
+using System.Windows;
 
 namespace Automaton.Studio.Desktop
 {
@@ -20,7 +18,6 @@ namespace Automaton.Studio.Desktop
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddBlazorWebView();
             serviceCollection.AddSingleton<AppState>(_appState);
-            serviceCollection.AddSingleton<WeatherForecastService>();
             Resources.Add("services", serviceCollection.BuildServiceProvider());
 
             InitializeComponent();
