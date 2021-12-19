@@ -1,7 +1,9 @@
 // Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using Automaton.Studio.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 using System.Windows;
 
 namespace Automaton.Studio.Desktop
@@ -15,12 +17,6 @@ namespace Automaton.Studio.Desktop
 
         public MainWindow()
         {
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.AddBlazorWebView();
-            serviceCollection.AddAntDesign();
-            serviceCollection.AddSingleton<AppState>(_appState);
-            Resources.Add("services", serviceCollection.BuildServiceProvider());
-
             InitializeComponent();
         }
 

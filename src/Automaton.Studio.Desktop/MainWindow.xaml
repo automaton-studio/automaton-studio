@@ -4,16 +4,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:shared="clr-namespace:Automaton.Studio;assembly=Automaton.Studio"
-        xmlns:local="clr-namespace:Automaton.Studio.Desktop"
+        xmlns:ViewModels="clr-namespace:Automaton.Studio.Desktop.ViewModels"
         xmlns:blazor="clr-namespace:Microsoft.AspNetCore.Components.WebView.Wpf;assembly=Microsoft.AspNetCore.Components.WebView.Wpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
+    <Window.Resources>
+        <ViewModels:ViewModelLocator x:Key="viewModelLocator" />
+    </Window.Resources>
+    
+    <Window.DataContext>
+        <Binding Source="{StaticResource viewModelLocator}" Path="DefinitionsViewModel" />
+    </Window.DataContext>
+
     <DockPanel>
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="CadetBlue">
+        <!--<StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="CadetBlue">
             <Label>This is native WPF UI</Label>
             <Button Click="Button_Click" Margin="4" Padding="4">Check counter</Button>
-        </StackPanel>
-        <blazor:BlazorWebView HostPage="wwwroot\index.html" Services="{StaticResource services}">
+        </StackPanel>-->
+        <blazor:BlazorWebView HostPage="wwwroot\index.html">
             <blazor:BlazorWebView.RootComponents>
                 <blazor:RootComponent Selector="#app" ComponentType="{x:Type shared:App}" />
             </blazor:BlazorWebView.RootComponents>
