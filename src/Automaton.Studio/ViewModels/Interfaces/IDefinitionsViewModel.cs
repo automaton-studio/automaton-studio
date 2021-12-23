@@ -7,12 +7,6 @@ namespace Automaton.Studio.ViewModels
 {
     public interface IDefinitionsViewModel
     {
-        #region Properties
-
-        IEnumerable<DefinitionModel> Definitions { get; set; }
-
-        #endregion
-
         #region Methods
 
         Task<IEnumerable<DefinitionModel>> GetDefinitions();

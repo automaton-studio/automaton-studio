@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace Automaton.Runner.Core.Config
+namespace Automaton.Studio.Config
 {
     public static class ConfigurationExtensions
     {
@@ -16,7 +16,7 @@ namespace Automaton.Runner.Core.Config
             services.AddSingleton<IDefinitionService, DefinitionService>();
 
             // ViewModels
-            services.AddScoped<DefinitionsViewModel>();
+            services.AddScoped<IDefinitionsViewModel, DefinitionsViewModel>();
         }
     }
 }

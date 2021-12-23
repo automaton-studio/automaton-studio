@@ -7,12 +7,10 @@
 
   <ItemGroup>
     <Compile Remove="Pages\Flow.razor.cs" />
-    <Compile Remove="Pages\Flows.razor.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Remove="Pages\Flow.razor" />
-    <Content Remove="Pages\Flows.razor" />
   </ItemGroup>
 
   <ItemGroup>

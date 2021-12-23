@@ -1,6 +1,5 @@
-using Automaton.Runner.Core.Config;
+using Automaton.Studio.Config;
 using Automaton.Studio.Services;
-using Automaton.Studio.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
