@@ -16,6 +16,7 @@ namespace Automaton.Studio.Config
             services.AddSingleton<IDefinitionService, DefinitionService>();
 
             // ViewModels
+            services.AddScoped<DefinitionsViewModel>();
             services.AddScoped<IDefinitionsViewModel, DefinitionsViewModel>();
         }
     }
