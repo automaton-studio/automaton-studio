@@ -13,10 +13,11 @@ namespace Automaton.Studio.Desktop
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly AppState _appState = new();
 
         public MainWindow()
-        {
+        {            
+            Resources.Add("services", App.ServiceCollection.BuildServiceProvider());
+
             InitializeComponent();
         }
 
@@ -24,7 +25,7 @@ namespace Automaton.Studio.Desktop
         {
             MessageBox.Show(
                 owner: this,
-                messageBoxText: $"Current counter value is: {_appState.Counter}",
+                messageBoxText: $"Current counter value is: {App.AppState.Counter}",
                 caption: "Counter");
         }
     }

@@ -16,6 +16,9 @@ namespace Automaton.Studio.Desktop
 
         public static IServiceProvider ServiceProvider { get; private set; }
         public static IConfiguration Configuration { get; private set; }
+        public static IServiceCollection ServiceCollection { get; private set; }
+
+        public static AppState AppState => new();
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -24,16 +27,12 @@ namespace Automaton.Studio.Desktop
                 .AddJsonFile(AppSettings, false, true);
 
             Configuration = builder.Build();
-
-            var service = new ServiceCollection();
-            ConfigureServices(service);
-
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
-            ServiceProvider = service.BuildServiceProvider();
+            ServiceCollection = new ServiceCollection();
+            ConfigureServices(ServiceCollection);
+            ServiceProvider = ServiceCollection.BuildServiceProvider();
         }
 
-        private static void ConfigureServices(ServiceCollection services)
+        private static void ConfigureServices(IServiceCollection services)
         {
             // Application
             services.AddHttpClient();
@@ -44,11 +43,13 @@ namespace Automaton.Studio.Desktop
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             // Main window
+            services.AddSingleton<AppState>(AppState);
             services.AddTransient(typeof(MainWindow));
         }
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+
             AppDomain.CurrentDomain.UnhandledException += (sender, error) =>
             {
                 MessageBox.Show(error.ExceptionObject.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
