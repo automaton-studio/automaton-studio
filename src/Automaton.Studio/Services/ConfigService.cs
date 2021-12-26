@@ -18,6 +18,8 @@ namespace Automaton.Studio.Services
 
         public ConductorConfig ConductorConfig { get; private set; } = new ConductorConfig();
 
+        public string ConductorUrl => ConductorConfig.ConductorUrl;
+
         #endregion
 
         public ConfigService(IConfiguration configuration)

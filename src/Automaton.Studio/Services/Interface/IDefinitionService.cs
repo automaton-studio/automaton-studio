@@ -7,8 +7,8 @@ namespace Automaton.Studio.Services
 {
     public interface IDefinitionService
     {
-        Task<Definition> Get (Guid id);
         Task<IEnumerable<Definition>> List();
+        Task<Definition> Get (string id);
         Task<Definition> Create(string name);
         Task Update(Definition flow);
         Task Delete(Guid flowId);

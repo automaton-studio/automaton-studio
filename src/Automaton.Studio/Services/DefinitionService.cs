@@ -27,65 +27,36 @@ namespace Automaton.Studio.Services
 
         #region Public Methods
 
-        /// <summary>
-        /// Retrieves the full list of flows
-        /// </summary>
-        /// <returns></returns>
         public async Task<IEnumerable<Definition>> List()
         {
-            try
-            {
-                var response = await httpClient.GetAsync($"{configService.ConductorConfig.ConductorUrl}/api/definition");
+            var response = await httpClient.GetAsync($"{configService.ConductorUrl}/api/definition");
 
-                var definitions = await response.Content.ReadAsAsync<IEnumerable<Definition>>();
+            var definitions = await response.Content.ReadAsAsync<IEnumerable<Definition>>();
 
-                return definitions;
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-           
+            return definitions;
         }
 
-        /// <summary>
-        /// Retrieve flow by id
-        /// </summary>
-        /// <param name="id">Flow id</param>
-        /// <returns>Flow by id</returns>
-        public async Task<Definition> Get(Guid id)
+        public async Task<Definition> Get(string id)
         {
-            throw new NotImplementedException();
+            var response = await httpClient.GetAsync($"{configService.ConductorUrl}/api/definition/{id}");
+
+            var definition = await response.Content.ReadAsAsync<Definition>();
+
+            return definition;
         }
 
-        /// <summary>
-        /// Adds a new flow to the database
-        /// </summary>
-        /// <param name="name">Flow name</param>
-        /// <returns>Result of the flow create operation</returns>
         public async Task<Definition> Create(string name)
         {
             throw new NotImplementedException();
 
         }
 
-        /// <summary>
-        /// Update incoming flow into the database
-        /// </summary>
-        /// <param name="flow">Flow to update information for</param>
-        /// <returns>Result of the flow update operation</returns>
         public async Task Update(Definition studioFlow)
         {
             throw new NotImplementedException();
 
         }
 
-        /// <summary>
-        /// Deletes flow from the database
-        /// </summary>
-        /// <param name="flowId">Flow Id to delete</param>
-        /// <returns>Result of the flow delete operation</returns>
         public async Task Delete(Guid flowId)
         {
             throw new NotImplementedException();
