@@ -31,6 +31,55 @@ namespace Automaton.Studio.Conductor
         public Dictionary<string, string> Outputs { get; set; } = new Dictionary<string, string>();
 
         public Dictionary<string, string> SelectNextStep { get; set; } = new Dictionary<string, string>();
-        
+
+        #region Custom properties
+
+        private const string ActivityClass = "designer-activity";
+        private const string SelectedActivityClass = "designer-activity-selected";
+        private const string DisabledActivityClass = "designer-activity-disabled";
+
+        public Definition StudioWorkflow { get; set; }
+
+        public bool PendingCreation { get; set; }
+
+        /// <summary>
+        /// Activity designer class
+        /// </summary>
+        public string Class { get; set; }
+
+        public void Select()
+        {
+            Class = SelectedActivityClass;
+        }
+
+        public void Unselect()
+        {
+            Class = ActivityClass;
+        }
+
+        public bool IsSelected()
+        {
+            return Class == SelectedActivityClass;
+        }
+
+        /// <summary>
+        /// Updates workflow connections according with the changes of this activity
+        /// </summary>
+        public void UpdateConnections()
+        {
+            //UpdateExistingConnections();
+
+            //UpdateNewConnections();
+        }
+
+        /// <summary>
+        /// Updates activity connections when deleted.
+        /// </summary>
+        public void DeleteConnections()
+        {
+            //UpdateExistingConnections();
+        }
+
+        #endregion
     }
 }

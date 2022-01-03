@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Automaton.Studio.Events;
+using System;
 using System.Collections.Generic;
 
 namespace Automaton.Studio.Conductor
@@ -15,6 +16,9 @@ namespace Automaton.Studio.Conductor
 
         public TimeSpan? DefaultErrorRetryInterval { get; set; }
 
-        public List<Step> Steps { get; set; } = new List<Step>();    
+        public List<Step> Steps { get; set; } = new List<Step>();
+
+        public event EventHandler<StepEventArgs> ActivityAdded;
+        public event EventHandler<StepEventArgs> ActivityRemoved;
     }
 }

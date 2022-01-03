@@ -1,0 +1,156 @@
+﻿@page "/designer"
+@using AntDesign
+@using Automaton.Studio.Components
+@using ConductorStep = Automaton.Studio.Conductor.Step;
+
+<Layout Class="designer-container">
+    <Sider Theme="SiderTheme.Light" Style="width: 300px">
+        <CascadingValue Value="FlowId">
+            <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="explorer-tabs">
+                <TabPane Key="1" Tab="Workflows">
+                    <SolutionActivities></SolutionActivities>
+                </TabPane>
+                <TabPane Key="2" Tab="Activities">
+                    @*<SolutionFlow @ref="solutionFlow"></SolutionFlow>*@
+                </TabPane>
+            </Tabs>
+        </CascadingValue>
+    </Sider>
+
+    <Content Class="dropzone-container">
+        <Header Class="header">
+            <Row>
+                <Col Flex=@("none")>
+                <Space Class="actions-bar">
+                    <SpaceItem>
+                        <Button Icon="save" OnClick="SaveFlow">
+                            Save
+                        </Button>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Button Icon="caret-right" OnClick="RunWorkflow">
+                            Run
+                        </Button>
+                    </SpaceItem>
+                </Space>
+                </Col>
+
+                @*<Col Class="right-actions">
+                        <Space Class="right-header-items">
+                            <SpaceItem>
+                                <Button Shape="circle" Type="ButtonType.Dashed" Icon="setting" Class="action-button"></Button>
+                            </SpaceItem>
+                        </Space>
+                    </Col>*@
+            </Row>
+        </Header>
+
+        @*@if(DesignerViewModel.Workflows != null)*@
+        @*{ *@
+            <Tabs Type="@TabType.EditableCard" 
+                    Size="@TabSize.Small"
+                    DefaultActiveKey="DesignerViewModel.ActiveWorkflow.DefinitionId"
+                    OnAddClick="OnWorkflowAddClick" 
+                    OnClose="OnWorkflowTabClose">
+                @*@foreach (var workflow in DesignerViewModel.Workflows)
+                {
+                    <TabPane Key="@workflow.DefinitionId" Tab="@workflow.Name">
+                        <Dropzone Class="dropzone"
+                                    @ref="dropzone"
+                                    TItem="ConductorStep"
+                                    Items="workflow.Activities"
+                                    InstantReplace="true"
+                                    OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
+                                    OnItemDrop="@((p)=>OnActivityDrop(p))"
+                                    OnItemMouseDown="@((p)=>OnActivityMouseDown(p))"
+                                    OnItemDoubleClick="@((p)=>OnActivityDoubleClick(p))">
+                            <StudioActivityComponent Activity="@context" />
+                        </Dropzone>
+                    </TabPane>
+                }*@
+
+                <TabPane Key="@DesignerViewModel.StudioFlow.Id" Tab="@DesignerViewModel.StudioFlow.Id">
+                        <Dropzone Class="dropzone"
+                                    @ref="dropzone"
+                                    TItem="ConductorStep"
+                                    Items="DesignerViewModel.StudioFlow.Steps"
+                                    InstantReplace="true"
+                                    OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
+                                    OnItemDrop="@((p)=>OnActivityDrop(p))"
+                                    OnItemMouseDown="@((p)=>OnActivityMouseDown(p))"
+                                    OnItemDoubleClick="@((p)=>OnActivityDoubleClick(p))">
+                            @*<StudioActivityComponent Activity="@context" />*@
+                        </Dropzone>
+                    </TabPane>
+            </Tabs>
+        @*}*@
+    </Content>
+
+    <Sider Theme=SiderTheme.Light Collapsed=true Class="right-sider">
+        <Menu Mode=MenuMode.Inline Theme=MenuTheme.Light Selectable=true Class="right-sider">
+            <MenuItem Key="1" Icon="setting" OnClick="OpenWorkflowSettings">
+                Settings
+            </MenuItem>
+            <MenuItem Key="2" OnClick="OpenWorkflowVariables" Icon="snippets">
+                Variables
+            </MenuItem>
+        </Menu>
+    </Sider>
+</Layout>
+
+<style>
+    .designer-container {
+        background-color: #FFF
+    }
+
+    .dropzone-container {
+        height: calc(100vh);
+    }
+
+    .dropzone {
+        height: calc(100vh);
+        overflow: auto;
+    }
+
+    .runners-select {
+        min-width: 140px;
+        max-width: 140px;
+    }
+
+    .explorer-tabs {
+        padding-top: 10px;
+        height: 100%;
+    }
+
+     .header {
+        background: #fff;
+        margin-bottom: 5px;
+        height: 48px;
+        line-height: 48px;
+        width: 100%;
+        box-shadow: 0 0px 1.5px rgba(0, 0, 0, 0.004), 0 0px 9px rgba(0, 0, 0, 0.07);
+        padding: 0 20px 0 0;
+    }
+
+        .header .right-header-items {
+            float: right;
+            padding-right: 10px;
+        }
+
+        .header .page-title {
+            padding-left: 20px;
+        }
+
+    .right-sider {
+        max-width: 50px !important;
+        min-width: 50px !important;
+        background-color: #fafafa;
+    }
+
+        .right-sider .ant-menu-item {
+            padding-left: 15px !important;
+        }
+</style>
+
+
+
