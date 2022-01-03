@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Conductor;
+using Automaton.Studio.Models;
 using System;
 using System.Collections.Generic;
 
@@ -7,40 +8,32 @@ namespace Automaton.Studio.Factories
 {
     public class StepFactory
     {
-        private readonly IMapper mapper;
-        private readonly IServiceProvider serviceProvider;
+        private IDictionary<string, SolutionStep> solutionSteps;
 
-        public StepFactory(
-            IMapper mapper,
-            IServiceProvider serviceProvider)
+        public StepFactory()
         {
-            this.mapper = mapper;
-            this.serviceProvider = serviceProvider;
         }
 
-        public IEnumerable<Step> GetSteps()
+        public IEnumerable<SolutionStep> GetSteps()
         {
-            var steps = new List<Step>();
-
-            foreach (var types in GetActivityTypes())
+            if (solutionSteps == null)
             {
-                var activityDescriptor = CreateActivity(types);
-                steps.Add(activityDescriptor);
+                solutionSteps = new Dictionary<string, SolutionStep>();
+
+                var console = new SolutionStep { Name = "Console" };
+                var writeLine = new SolutionStep { Name = "WriteLine", Type = "WriteLine" };
+
+                console.AddStep(writeLine);
+                solutionSteps.Add(console.Name, console);
             }
 
-            return steps;
+            return solutionSteps.Values;
         }
 
         public Step GetStep(string name)
         {
-            return new Step { StepType = "EmitLog" };
+            var step = new Step { Name = name };
+            return step;
         }
-
-        private Step CreateActivity(string type)
-        {
-            return new Step { StepType = "EmitLog" };
-        }
-
-        private IEnumerable<string> GetActivityTypes() => new List<string> { "EmitLog" };  
     }
 }

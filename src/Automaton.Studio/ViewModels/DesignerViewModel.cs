@@ -2,6 +2,7 @@
 using Automaton.Studio.Conductor;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
+using Automaton.Studio.Models;
 using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Hosting;
 using System;
@@ -16,7 +17,6 @@ namespace Automaton.Studio.ViewModels
         #region Members
 
         private readonly IMapper mapper;
-        private readonly IWebHostEnvironment env;
         private readonly StepFactory stepFactory;
         private readonly IDefinitionService workflowService;
 
@@ -77,13 +77,11 @@ namespace Automaton.Studio.ViewModels
         public DesignerViewModel
         (
             IMapper mapper,
-            IWebHostEnvironment env,
             StepFactory stepFactory,
             IDefinitionService workflowService
         )
         {
             this.mapper = mapper;
-            this.env = env;
             this.stepFactory = stepFactory;
             this.workflowService = workflowService;
         }
@@ -96,7 +94,7 @@ namespace Automaton.Studio.ViewModels
         /// Drag activity to the workflow.
         /// </summary>
         /// <param name="treeActivity"></param>
-        public void ActivityDrag(Step treeActivity)
+        public void ActivityDrag(SolutionStep treeActivity)
         {
             var activity = CreateActivity(treeActivity.Name);
 

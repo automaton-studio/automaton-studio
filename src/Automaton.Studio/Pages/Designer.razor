@@ -8,10 +8,10 @@
         <CascadingValue Value="FlowId">
             <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="explorer-tabs">
                 <TabPane Key="1" Tab="Workflows">
-                    @*<SolutionFlow @ref="solutionFlow"></SolutionFlow>*@
+                    <SolutionActivities></SolutionActivities>
                 </TabPane>
                 <TabPane Key="2" Tab="Activities">
-                    @*<SolutionActivities></SolutionActivities>*@
+                    @*<SolutionFlow @ref="solutionFlow"></SolutionFlow>*@
                 </TabPane>
             </Tabs>
         </CascadingValue>
@@ -121,6 +121,25 @@
         padding-top: 10px;
         height: 100%;
     }
+
+     .header {
+        background: #fff;
+        margin-bottom: 5px;
+        height: 48px;
+        line-height: 48px;
+        width: 100%;
+        box-shadow: 0 0px 1.5px rgba(0, 0, 0, 0.004), 0 0px 9px rgba(0, 0, 0, 0.07);
+        padding: 0 20px 0 0;
+    }
+
+        .header .right-header-items {
+            float: right;
+            padding-right: 10px;
+        }
+
+        .header .page-title {
+            padding-left: 20px;
+        }
 
     .right-sider {
         max-width: 50px !important;

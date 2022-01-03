@@ -1,7 +1,7 @@
 ﻿using Automaton.Studio.Conductor;
 using Automaton.Studio.Events;
+using Automaton.Studio.Models;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.ViewModels
@@ -24,7 +24,7 @@ namespace Automaton.Studio.ViewModels
 
         #region Methods
 
-        void ActivityDrag(Step activityModel);
+        void ActivityDrag(SolutionStep activityModel);
         void DeleteActivity(Step activity);
 
         Task LoadFlow(string flowId);
