@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Conductor;
+using Automaton.Studio.Errors;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -14,11 +16,19 @@ namespace Automaton.Studio.Services
         private readonly ConfigService configService;
         private HttpClient httpClient;
         private readonly IMapper mapper;
+        private readonly ILogger<DefinitionService> logger;
 
         #endregion
 
-        public DefinitionService(ConfigService configService, IMapper mapper, HttpClient httpClient)
+        public DefinitionService
+        (
+            ConfigService configService, 
+            IMapper mapper, 
+            HttpClient httpClient,
+            ILogger<DefinitionService> logger
+        )
         {
+            this.logger = logger;
             this.configService = configService;
             this.httpClient = httpClient;
             this.httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
@@ -29,11 +39,20 @@ namespace Automaton.Studio.Services
 
         public async Task<IEnumerable<Definition>> List()
         {
-            var response = await httpClient.GetAsync($"{configService.ConductorUrl}/api/definition");
+            try
+            {
+                var response = await httpClient.GetAsync($"{configService.ConductorUrl}/api/definition");
 
-            var definitions = await response.Content.ReadAsAsync<IEnumerable<Definition>>();
+                var definitions = await response.Content.ReadAsAsync<IEnumerable<Definition>>();
 
-            return definitions;
+                return definitions;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(AppLogEvents.Error, ex, "Failed to load definitions list");
+                
+                return new List<Definition>();
+            }
         }
 
         public async Task<Definition> Get(string id)
