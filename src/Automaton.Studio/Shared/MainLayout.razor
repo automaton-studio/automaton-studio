@@ -4,7 +4,7 @@
 
 <Layout Class="layout">
 
-    <Sider Theme="SiderTheme.Dark" Collapsed="true" Class="left-sider">
+    <Sider Theme="SiderTheme.Light" Collapsed="true" Class="left-sider">
         <NavMenu/>
     </Sider>
 
@@ -20,34 +20,11 @@
         padding: 3px 3px 3px 3px;
     }
 
-    .sidebar {
-        z-index: 1;
-        top: 0;
-        left: 0;
-        padding-top: 48px;
-        overflow: hidden;
-    }
-
-        .sidebar a {
-            padding: 6px 14px 10px 14px;
-            text-decoration: none;
-            display: block;
-            color: #fff;
-        }
-
-            .sidebar a:hover {
-                background-color: #666;
-            }
-
-            .sidebar a:active {
-                color: #ddd;
-            }
-
     .left-sider {
         overflow: auto;
         height: 100vh;
-        max-width: 55px !important;
-        min-width: 55px !important;
+        max-width: 50px !important;
+        min-width: 50px !important;
     }
 
         .left-sider .ant-menu-item {
@@ -55,7 +32,11 @@
         }
 
         .left-sider .ant-menu .ant-menu-root {
-            max-width: 55px !important;
+            max-width: 50px !important;
+        }
+
+        .left-sider .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
+            border-right: 1px solid #fff;
         }
     
 </style>
