@@ -15,15 +15,18 @@
     </Row>
     <Row>
         <Col Span="24">
-            <Tree ShowIcon
-                  DataSource="@ActivitiesViewModel.Activities"
-                  TitleExpression="x => x.DataItem.Type"
-                  ChildrenExpression="x => x.DataItem.Activities"
-                  IconExpression="x => x.DataItem.Icon"
-                  IsLeafExpression="x => x.DataItem.Activities == null || !x.DataItem.Activities.Any()"
-                  KeyExpression="x => x.DataItem.Name"
-                  Class="activities-tree"
-                  TItem="SolutionStep">
+            <Tree 
+                ShowIcon
+                Draggable
+                DataSource="@ActivitiesViewModel.Activities"
+                TitleExpression="x => x.DataItem.Type"
+                ChildrenExpression="x => x.DataItem.Activities"
+                IconExpression="x => x.DataItem.Icon"
+                IsLeafExpression="x => x.DataItem.Activities == null || !x.DataItem.Activities.Any()"
+                KeyExpression="x => x.DataItem.Name"
+                OnDragStart="@((i)=> { ActivitiesViewModel.ActivityDrag(i); })"
+                Class="activities-tree"
+                TItem="SolutionStep">
             </Tree>
         </Col>
     </Row>

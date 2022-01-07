@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AntDesign;
+using AutoMapper;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
 using System.Collections.Generic;
@@ -51,12 +52,14 @@ namespace Automaton.Studio.ViewModels
             Activities = activityFactory.GetSteps();
         }
 
-        public void ActivityDrag(SolutionStep activityModel)
+        public void ActivityDrag(TreeEventArgs<SolutionStep> args)
         {
-            // Allow Drag only on activities, and not on categories
-            if (!activityModel.IsCategory())
+            var step = args.Node.DataItem;
+
+            //Allow Drag only on activities, and not on categories
+            if (!step.IsCategory())
             {
-                designerViewModel.ActivityDrag(activityModel);
+                designerViewModel.ActivityDrag(step);
             }
         }
 

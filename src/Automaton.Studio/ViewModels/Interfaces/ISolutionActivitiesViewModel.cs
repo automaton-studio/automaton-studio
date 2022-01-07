@@ -1,4 +1,5 @@
-﻿using Automaton.Studio.Models;
+﻿using AntDesign;
+using Automaton.Studio.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -22,7 +23,7 @@ namespace Automaton.Studio.ViewModels
 
         void Initialize();
 
-        void ActivityDrag(SolutionStep activityModel);
+        void ActivityDrag(TreeEventArgs<SolutionStep> solutionStep);
 
         #endregion
     }
