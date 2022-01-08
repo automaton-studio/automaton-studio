@@ -84,6 +84,8 @@ namespace Automaton.Studio.ViewModels
             this.mapper = mapper;
             this.stepFactory = stepFactory;
             this.workflowService = workflowService;
+
+            StudioFlow = new Definition();
         }
 
         #endregion

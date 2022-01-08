@@ -1,4 +1,5 @@
-﻿using Automaton.Studio.Factories;
+﻿using Automaton.Studio.Conductor;
+using Automaton.Studio.Factories;
 using Automaton.Studio.Services;
 using Automaton.Studio.ViewModels;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,7 @@ namespace Automaton.Studio.Config
             services.AddScoped<IDefinitionsViewModel, DefinitionsViewModel>();
             services.AddScoped<IDesignerViewModel, DesignerViewModel>();
             services.AddScoped<ISolutionActivitiesViewModel, SolutionActivitiesViewModel>();
+            services.AddSingleton<IActivityTypeDescriber, ActivityTypeDescriber>();
             services.AddTransient<StepFactory>();
             services.AddScoped(typeof(DragDropService<>));
         }

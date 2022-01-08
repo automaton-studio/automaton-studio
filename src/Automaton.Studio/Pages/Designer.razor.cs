@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ConductorStep = Automaton.Studio.Conductor.Step;
 
 namespace Automaton.Studio.Pages
 {
@@ -16,7 +15,7 @@ namespace Automaton.Studio.Pages
         #region Members
 
         private Guid currentFlowId;
-        private Dropzone<ConductorStep> dropzone;
+        private Dropzone<Conductor.Step> dropzone;
         private Definition solutionFlow;
 
         #endregion
@@ -48,14 +47,14 @@ namespace Automaton.Studio.Pages
             if (!string.IsNullOrEmpty(FlowId))
             {
                 await DesignerViewModel.LoadFlow(FlowId);
+            }
 
-                // Setup event handlers after workflow is loaded
-                DesignerViewModel.DragActivity += OnDragActivity;
-                if (DesignerViewModel.StudioFlow != null)
-                {
-                    DesignerViewModel.ActivityAdded += OnActivityAdded;
-                    DesignerViewModel.ActivityRemoved += OnActivityRemoved;
-                }
+            // Setup event handlers after workflow is loaded
+            DesignerViewModel.DragActivity += OnDragActivity;
+            if (DesignerViewModel.StudioFlow != null)
+            {
+                DesignerViewModel.ActivityAdded += OnActivityAdded;
+                DesignerViewModel.ActivityRemoved += OnActivityRemoved;
             }
 
             await base.OnInitializedAsync();
@@ -87,7 +86,7 @@ namespace Automaton.Studio.Pages
         /// Occurs when a new activity is dropped on designer
         /// </summary>
         /// <param name="activity">Activity dropped on designer</param>
-        private async Task OnActivityDrop(ConductorStep activity)
+        private async Task OnActivityDrop(Conductor.Step activity)
         {
             // When activity was already created don't display create dialog when OnDrop event occurs
             if (activity.PendingCreation)
@@ -104,7 +103,7 @@ namespace Automaton.Studio.Pages
         /// Occurs when mouse is down on activity.
         /// </summary>
         /// <param name="activity">Activity dropped on designer</param>
-        private void OnActivityMouseDown(ConductorStep activity)
+        private void OnActivityMouseDown(Conductor.Step activity)
         {
             // Unselect all the previous selected activities
             UnselectActivities();
@@ -117,7 +116,7 @@ namespace Automaton.Studio.Pages
         /// Occurs when double click over an activity.
         /// </summary>
         /// <param name="activity">Clicked activity</param>
-        private async Task OnActivityDoubleClick(ConductorStep activity)
+        private async Task OnActivityDoubleClick(Conductor.Step activity)
         {
             //var result = await activity.EditActivityDialog(ModalService);
 
@@ -183,7 +182,7 @@ namespace Automaton.Studio.Pages
         /// Display new activity dialog
         /// </summary>
         /// <param name="activity"></param>
-        private async Task NewActivityDialog(ConductorStep activity)
+        private async Task NewActivityDialog(Conductor.Step activity)
         {
             var modalConfig = new ModalOptions
             {

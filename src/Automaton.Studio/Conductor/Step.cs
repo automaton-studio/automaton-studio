@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Dynamic;
+using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.Conductor
 {
-    public class Step
+    public abstract class Step : INotifyPropertyChanged
     {
         public string StepType { get; set; }
 
@@ -34,6 +36,10 @@ namespace Automaton.Studio.Conductor
 
         #region Custom properties
 
+        public Step()
+        {
+        }
+
         private const string ActivityClass = "designer-activity";
         private const string SelectedActivityClass = "designer-activity-selected";
         private const string DisabledActivityClass = "designer-activity-disabled";
@@ -46,6 +52,19 @@ namespace Automaton.Studio.Conductor
         /// Activity designer class
         /// </summary>
         public string Class { get; set; }
+
+        /// <summary>
+        /// Get the view component type to use
+        /// </summary>
+        /// <returns></returns>
+        public abstract Type GetDesignerComponent();
+
+        /// <summary>
+        /// Get the properties component type to use
+        /// </summary>
+        /// <returns></returns>
+        public abstract Type GetPropertiesComponent();
+
 
         public void Select()
         {
@@ -78,6 +97,17 @@ namespace Automaton.Studio.Conductor
         public void DeleteConnections()
         {
             //UpdateExistingConnections();
+        }
+
+        #endregion
+
+        #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

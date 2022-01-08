@@ -1,0 +1,19 @@
+﻿<DesignerActivityComponent Activity=@Activity>
+    <div>
+        <b>@Activity.Name</b>
+    </div>
+    <div>
+        Write <a href="" @onclick:preventDefault>'@Activity.Text'</a> to console
+    </div>
+</DesignerActivityComponent>
+
+@code {
+    [Parameter]
+    public EmitLogActivity Activity { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+}
+
