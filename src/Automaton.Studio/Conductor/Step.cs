@@ -42,6 +42,8 @@ namespace Automaton.Studio.Conductor
 
         public IStepDescriptor Descriptor { get; set; }
 
+        public IDictionary<string, object>  InputsDictionary  => Inputs;
+
         public Step(IStepDescriptor descriptor)
         {
             Descriptor = descriptor;

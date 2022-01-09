@@ -14,7 +14,20 @@ namespace Automaton.Studio.Steps.EmitLog
     )]
     public class EmitLogStep : Step
     {
-        public string Text { get; set; }
+        private string message;
+        public string Message
+        {
+            get
+            {
+                return message;
+            }
+
+            set
+            {
+                message = value;
+                InputsDictionary[nameof(Message)] = Message;
+            }
+        }
 
         public EmitLogStep(IStepDescriptor descriptor) : base(descriptor)
         {
