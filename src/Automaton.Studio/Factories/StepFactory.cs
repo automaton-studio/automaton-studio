@@ -58,7 +58,9 @@ namespace Automaton.Studio.Factories
 
         public Step GetStep(string name)
         {
-            var step = new EmitLogActivity { Name = name };
+            var descriptor = activityTypeDescriber.Describe(typeof(EmitLogActivity));
+            var step = new EmitLogActivity(descriptor) { Name = name };
+
             return step;
         }
     }

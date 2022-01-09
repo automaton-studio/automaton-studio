@@ -16,7 +16,7 @@ namespace Automaton.Studio.Steps.EmitLog
     {
         public string Text { get; set; }
 
-        public EmitLogActivity() : base()
+        public EmitLogActivity(IActivityDescriptor descriptor) : base(descriptor)
         {
         }
 

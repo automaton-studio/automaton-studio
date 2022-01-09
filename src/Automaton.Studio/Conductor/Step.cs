@@ -8,6 +8,8 @@ namespace Automaton.Studio.Conductor
 {
     public abstract class Step : INotifyPropertyChanged
     {
+        #region Conductor
+
         public string StepType { get; set; }
 
         public string Id { get; set; }
@@ -34,10 +36,15 @@ namespace Automaton.Studio.Conductor
 
         public Dictionary<string, string> SelectNextStep { get; set; } = new Dictionary<string, string>();
 
+        #endregion
+
         #region Custom properties
 
-        public Step()
+        public IActivityDescriptor Descriptor { get; set; }
+
+        public Step(IActivityDescriptor descriptor)
         {
+            Descriptor = descriptor;
         }
 
         private const string ActivityClass = "designer-activity";
