@@ -33,7 +33,10 @@ namespace Automaton.Studio.Factories
             return solutionSteps.Values;
         }
 
-        public void AddActivitiesFrom(Assembly assembly) => AddActivitiesFrom(new[] { assembly });
+        public void AddActivitiesFrom(Assembly assembly)
+        {
+            AddActivitiesFrom(new[] { assembly });
+        }
 
         public void AddActivitiesFrom(IEnumerable<Assembly> assemblies)
         {
