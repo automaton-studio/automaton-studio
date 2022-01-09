@@ -12,11 +12,11 @@ namespace Automaton.Studio.Steps.EmitLog
         Description = "Emit log to console",
         Icon = "code"
     )]
-    public class EmitLogActivity : Step
+    public class EmitLogStep : Step
     {
         public string Text { get; set; }
 
-        public EmitLogActivity(IActivityDescriptor descriptor) : base(descriptor)
+        public EmitLogStep(IStepDescriptor descriptor) : base(descriptor)
         {
         }
 

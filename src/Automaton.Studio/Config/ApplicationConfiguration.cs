@@ -21,8 +21,8 @@ namespace Automaton.Studio.Config
             services.AddScoped<DefinitionsViewModel>();
             services.AddScoped<IDefinitionsViewModel, DefinitionsViewModel>();
             services.AddScoped<IDesignerViewModel, DesignerViewModel>();
-            services.AddScoped<ISolutionActivitiesViewModel, SolutionActivitiesViewModel>();
-            services.AddSingleton<IActivityTypeDescriber, ActivityTypeDescriber>();
+            services.AddScoped<ISolutionStepsViewModel, SolutionStepsViewModel>();
+            services.AddSingleton<IStepTypeDescriprot, StepTypeDescriptor>();
             services.AddTransient<StepFactory>();
             services.AddScoped(typeof(DragDropService<>));
         }

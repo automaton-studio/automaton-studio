@@ -4,9 +4,9 @@ using System.Reflection;
 
 namespace Automaton.Studio.Conductor
 {
-    public class ActivityTypeDescriber : IActivityTypeDescriber
+    public class StepTypeDescriptor : IStepTypeDescriprot
     {
-        public ActivityDescriptor Describe(Type automatonActivityType)
+        public StepDescriptor Describe(Type automatonActivityType)
         {
             var attribute = automatonActivityType.GetCustomAttribute<StepDescriptionAttribute>(false);
 
@@ -16,7 +16,7 @@ namespace Automaton.Studio.Conductor
             var category = attribute?.Category ?? "Miscellaneous";
             var icon = attribute?.Icon;
 
-            return new ActivityDescriptor
+            return new StepDescriptor
             {
                 Name = name,
                 DisplayName = displayName,

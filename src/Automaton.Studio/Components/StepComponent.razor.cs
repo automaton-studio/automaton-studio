@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Components
 {
-    public partial class DesignerActivityComponent : ComponentBase
+    public partial class StepComponent : ComponentBase
     {
         /// <summary>
         /// Associated studio activity

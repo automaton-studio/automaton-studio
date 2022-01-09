@@ -1,17 +1,17 @@
 ﻿@using Automaton.Studio.Components
 
-<DesignerActivityComponent Activity=@Activity>
+<StepComponent Activity=@Activity>
     <div>
         <b>@Activity.Descriptor.DisplayName</b>
     </div>
     <div>
         Write <a href="" @onclick:preventDefault>'@Activity.Text'</a> to console
     </div>
-</DesignerActivityComponent>
+</StepComponent>
 
 @code {
     [Parameter]
-    public EmitLogActivity Activity { get; set; }
+    public EmitLogStep Activity { get; set; }
 
     protected override void OnInitialized()
     {

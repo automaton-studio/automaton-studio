@@ -13,9 +13,9 @@ namespace Automaton.Studio.Factories
     public class StepFactory
     {
         private IDictionary<string, SolutionStep> solutionSteps;
-        private IActivityTypeDescriber activityTypeDescriber;
+        private IStepTypeDescriprot activityTypeDescriber;
 
-        public StepFactory(IActivityTypeDescriber activityTypeDescriber)
+        public StepFactory(IStepTypeDescriprot activityTypeDescriber)
         {
             this.activityTypeDescriber = activityTypeDescriber;
             solutionSteps = new Dictionary<string, SolutionStep>();
@@ -58,8 +58,8 @@ namespace Automaton.Studio.Factories
 
         public Step GetStep(string name)
         {
-            var descriptor = activityTypeDescriber.Describe(typeof(EmitLogActivity));
-            var step = new EmitLogActivity(descriptor) { Name = name };
+            var descriptor = activityTypeDescriber.Describe(typeof(EmitLogStep));
+            var step = new EmitLogStep(descriptor) { Name = name };
 
             return step;
         }

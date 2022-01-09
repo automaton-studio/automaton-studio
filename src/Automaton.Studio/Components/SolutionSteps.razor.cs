@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Components
 {
-    partial class SolutionActivities : ComponentBase
+    partial class SolutionSteps : ComponentBase
     {
         [Inject] 
-        private ISolutionActivitiesViewModel ActivitiesViewModel { get; set; } = default!;
+        private ISolutionStepsViewModel ActivitiesViewModel { get; set; } = default!;
 
         private string searchText { get; set; }
 

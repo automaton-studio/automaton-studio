@@ -40,9 +40,9 @@ namespace Automaton.Studio.Conductor
 
         #region Custom properties
 
-        public IActivityDescriptor Descriptor { get; set; }
+        public IStepDescriptor Descriptor { get; set; }
 
-        public Step(IActivityDescriptor descriptor)
+        public Step(IStepDescriptor descriptor)
         {
             Descriptor = descriptor;
         }

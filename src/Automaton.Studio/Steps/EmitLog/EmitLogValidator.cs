@@ -2,7 +2,7 @@
 
 namespace Automaton.Studio.Steps.EmitLog
 {
-    public class EmitLogValidator : AbstractValidator<EmitLogActivity>
+    public class EmitLogValidator : AbstractValidator<EmitLogStep>
     {
         public EmitLogValidator()
         {

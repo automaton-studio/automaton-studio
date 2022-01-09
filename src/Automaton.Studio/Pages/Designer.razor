@@ -8,7 +8,7 @@
         <CascadingValue Value="FlowId">
             <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="explorer-tabs">
                 <TabPane Key="1" Tab="Workflows">
-                    <SolutionActivities></SolutionActivities>
+                    <SolutionSteps></SolutionSteps>
                 </TabPane>
                 <TabPane Key="2" Tab="Activities">
                     @*<SolutionFlow @ref="solutionFlow"></SolutionFlow>*@
@@ -79,7 +79,7 @@
                                     OnItemDrop="@((p)=>OnActivityDrop(p))"
                                     OnItemMouseDown="@((p)=>OnActivityMouseDown(p))"
                                     OnItemDoubleClick="@((p)=>OnActivityDoubleClick(p))">
-                            <StudioActivityComponent Activity="@context" />
+                            <DropzoneStep Step="@context" />
                         </Dropzone>
                     </TabPane>
             </Tabs>
