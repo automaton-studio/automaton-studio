@@ -15,7 +15,7 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        IEnumerable<SolutionStep> Activities { get; set; }
+        IEnumerable<SolutionStep> Steps { get; set; }
 
         #endregion
 
@@ -23,7 +23,7 @@ namespace Automaton.Studio.ViewModels
 
         void Initialize();
 
-        void ActivityDrag(TreeEventArgs<SolutionStep> solutionStep);
+        void StepDrag(TreeEventArgs<SolutionStep> solutionStep);
 
         #endregion
     }

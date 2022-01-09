@@ -16,16 +16,16 @@ namespace Automaton.Studio.ViewModels
 
         #region Events
 
-        event EventHandler<StepEventArgs> DragActivity;
-        event EventHandler<StepEventArgs> ActivityAdded;
-        event EventHandler<StepEventArgs> ActivityRemoved;
+        event EventHandler<StepEventArgs> DragStep;
+        event EventHandler<StepEventArgs> StepAdded;
+        event EventHandler<StepEventArgs> StepRemoved;
 
         #endregion
 
         #region Methods
 
-        void ActivityDrag(SolutionStep activityModel);
-        void DeleteActivity(Step activity);
+        void StepDrag(SolutionStep solutionSTep);
+        void DeleteStep(Step step);
 
         Task LoadFlow(string flowId);
         Task SaveFlow();

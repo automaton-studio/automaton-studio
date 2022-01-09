@@ -13,11 +13,11 @@ namespace Automaton.Studio.Factories
     public class StepFactory
     {
         private IDictionary<string, SolutionStep> solutionSteps;
-        private IStepTypeDescriprot activityTypeDescriber;
+        private IStepTypeDescriptor stepTypeDescriber;
 
-        public StepFactory(IStepTypeDescriprot activityTypeDescriber)
+        public StepFactory(IStepTypeDescriptor stepTypeDescriber)
         {
-            this.activityTypeDescriber = activityTypeDescriber;
+            this.stepTypeDescriber = stepTypeDescriber;
             solutionSteps = new Dictionary<string, SolutionStep>();
             var assembly = Assembly.Load("Automaton.Studio");
             AddActivitiesFrom(assembly);
@@ -36,21 +36,21 @@ namespace Automaton.Studio.Factories
 
             foreach (var type in types)
             {
-                AddActivity(type);
+                AddStep(type);
             }
         }
 
-        public void AddActivity(Type activityType)
+        public void AddStep(Type stepType)
         {
-            var activityDescription = activityTypeDescriber.Describe(activityType);
+            var stepDescriptor = stepTypeDescriber.Describe(stepType);
 
             var solutionStep = new SolutionStep 
             { 
-                Name = activityDescription.Name, 
-                Type = activityDescription.Name,
-                Description = activityDescription.Description,
-                Category = activityDescription.Category,
-                Icon = activityDescription.Icon
+                Name = stepDescriptor.Name, 
+                Type = stepDescriptor.Name,
+                Description = stepDescriptor.Description,
+                Category = stepDescriptor.Category,
+                Icon = stepDescriptor.Icon
             };
 
             solutionSteps.Add(solutionStep.Name, solutionStep);
@@ -58,7 +58,7 @@ namespace Automaton.Studio.Factories
 
         public Step GetStep(string name)
         {
-            var descriptor = activityTypeDescriber.Describe(typeof(EmitLogStep));
+            var descriptor = stepTypeDescriber.Describe(typeof(EmitLogStep));
             var step = new EmitLogStep(descriptor) { Name = name };
 
             return step;

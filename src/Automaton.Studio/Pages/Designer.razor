@@ -76,9 +76,9 @@
                                     Items="DesignerViewModel.StudioFlow.Steps"
                                     InstantReplace="true"
                                     OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
-                                    OnItemDrop="@((p)=>OnActivityDrop(p))"
-                                    OnItemMouseDown="@((p)=>OnActivityMouseDown(p))"
-                                    OnItemDoubleClick="@((p)=>OnActivityDoubleClick(p))">
+                                    OnItemDrop="@((p)=>OnStepDrop(p))"
+                                    OnItemMouseDown="@((p)=>OnStepMouseDown(p))"
+                                    OnItemDoubleClick="@((p)=>OnStepDoubleClick(p))">
                             <DropzoneStep Step="@context" />
                         </Dropzone>
                     </TabPane>

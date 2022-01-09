@@ -50,11 +50,11 @@ namespace Automaton.Studio.Pages
             }
 
             // Setup event handlers after workflow is loaded
-            DesignerViewModel.DragActivity += OnDragActivity;
+            DesignerViewModel.DragStep += OnDragStep;
             if (DesignerViewModel.StudioFlow != null)
             {
-                DesignerViewModel.ActivityAdded += OnActivityAdded;
-                DesignerViewModel.ActivityRemoved += OnActivityRemoved;
+                DesignerViewModel.StepAdded += OnStepAdded;
+                DesignerViewModel.StepRemoved += OnStepRemoved;
             }
 
             await base.OnInitializedAsync();
@@ -66,59 +66,42 @@ namespace Automaton.Studio.Pages
 
         #region Event Handlers
 
-        /// <summary>
-        /// Occurs when an activity is dragged
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnDragActivity(object sender, StepEventArgs e)
+        private void OnDragStep(object sender, StepEventArgs e)
         {
-            dropzone.ActiveItem = e.Activity;
+            dropzone.ActiveItem = e.Step;
 
             // Unselect all the previous selected activities
-            UnselectActivities();
+            UnselectSteps();
 
-            // Select the activity being dragged
+            // Select the step being dragged
             dropzone.ActiveItem.Select();
         }
 
-        /// <summary>
-        /// Occurs when a new activity is dropped on designer
-        /// </summary>
-        /// <param name="activity">Activity dropped on designer</param>
-        private async Task OnActivityDrop(Conductor.Step activity)
+        private async Task OnStepDrop(Conductor.Step step)
         {
-            // When activity was already created don't display create dialog when OnDrop event occurs
-            if (activity.PendingCreation)
+            // When step was already created don't display create dialog when OnDrop event occurs
+            if (step.PendingCreation)
             {
-                await NewActivityDialog(activity);
+                await NewStepDialog(step);
             }
             else
             {
-                activity.UpdateConnections();
+                step.UpdateConnections();
             }
         }
 
-        /// <summary>
-        /// Occurs when mouse is down on activity.
-        /// </summary>
-        /// <param name="activity">Activity dropped on designer</param>
-        private void OnActivityMouseDown(Conductor.Step activity)
+        private void OnStepMouseDown(Conductor.Step step)
         {
             // Unselect all the previous selected activities
-            UnselectActivities();
+            UnselectSteps();
 
             // Select the one under the mouse cursor
-            activity.Select();
+            step.Select();
         }
 
-        /// <summary>
-        /// Occurs when double click over an activity.
-        /// </summary>
-        /// <param name="activity">Clicked activity</param>
-        private async Task OnActivityDoubleClick(Conductor.Step activity)
+        private async Task OnStepDoubleClick(Conductor.Step step)
         {
-            //var result = await activity.EditActivityDialog(ModalService);
+            //var result = await step.EditActivityDialog(ModalService);
 
             //result.OnOk = () =>
             //{
@@ -129,20 +112,13 @@ namespace Automaton.Studio.Pages
             //};
         }
 
-        /// <summary>
-        /// Occurs when a new activity is dropped on designer
-        /// </summary>
-        /// <param name="activity">Activity dropped on designer</param>
         private void OnDropzoneMouseDown()
         {
             // Unselect all the previous selected activities
-            UnselectActivities();
+            UnselectSteps();
         }
 
-        /// <summary>
-        /// Occurs when an activity is added to the workflow
-        /// </summary>
-        private void OnActivityAdded(object sender, StepEventArgs e)
+        private void OnStepAdded(object sender, StepEventArgs e)
         {
             StateHasChanged();
         }
@@ -150,7 +126,7 @@ namespace Automaton.Studio.Pages
         /// <summary>
         /// Occurs when an activity is removed from the workflow
         /// </summary>
-        private void OnActivityRemoved(object sender, StepEventArgs e)
+        private void OnStepRemoved(object sender, StepEventArgs e)
         {
             StateHasChanged();
         }
@@ -181,12 +157,12 @@ namespace Automaton.Studio.Pages
         /// <summary>
         /// Display new activity dialog
         /// </summary>
-        /// <param name="activity"></param>
-        private async Task NewActivityDialog(Conductor.Step activity)
+        /// <param name="step"></param>
+        private async Task NewStepDialog(Conductor.Step step)
         {
             var modalConfig = new ModalOptions
             {
-                Title = activity.Id
+                Title = step.Id
             };
 
             //// Launch the Properties dialog using reflection to dynamically load the activity properties component.
@@ -226,15 +202,15 @@ namespace Automaton.Studio.Pages
         /// <summary>
         /// Unselect all selected activities
         /// </summary>
-        private void UnselectActivities()
+        private void UnselectSteps()
         {
-            var selectedActivities = DesignerViewModel.StudioFlow.Steps.Where(x => x.IsSelected());
+            var selectedSteps = DesignerViewModel.StudioFlow.Steps.Where(x => x.IsSelected());
 
-            if (selectedActivities != null)
+            if (selectedSteps != null)
             {
-                foreach (var selectedActivity in selectedActivities)
+                foreach (var selectedStep in selectedSteps)
                 {
-                    selectedActivity.Unselect();
+                    selectedStep.Unselect();
                 }
             }
         }

@@ -5,11 +5,11 @@ namespace Automaton.Studio.Events
 {
     public class StepEventArgs : EventArgs
     {
-        public StepEventArgs(Step activity)
-        {
-            Activity = activity;
-        }
+        public Step Step { get; set; }
 
-        public Step Activity { get; set; }
+        public StepEventArgs(Step step)
+        {
+            Step = step;
+        }
     }
 }

@@ -18,8 +18,8 @@ namespace Automaton.Studio.Models
 
         public SolutionStep()
         {
-            Name = "Activity";
-            Type = "Activity";
+            Name = "Step";
+            Type = "Step";
         }
 
         public SolutionStep(string name, string displayName)

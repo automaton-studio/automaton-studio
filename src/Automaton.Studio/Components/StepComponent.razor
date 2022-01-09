@@ -1,10 +1,10 @@
 ﻿@using AntDesign
 
-<div class="@Activity.Class">
+<div class="@Step.Class">
     <Row Align="middle">
         <Col Flex=@("none")>
         <div class="designer-activity-icon-container">
-            <Icon Type="@Activity.Descriptor.Icon" Theme="outline" />
+            <Icon Type="@Step.Descriptor.Icon" Theme="outline" />
         </div>
         </Col>
 
@@ -17,10 +17,10 @@
             <Dropdown Placement="@Placement.Left" Trigger="@(new Trigger[] { Trigger.Click })">
                 <Overlay>
                     <Menu>
-                        <MenuItem Icon="edit" OnClick="@(() => OnEdit(Activity))">
+                        <MenuItem Icon="edit" OnClick="@(() => OnEdit(Step))">
                             Edit
                         </MenuItem>
-                        <MenuItem Icon="delete" OnClick="@(() => OnDelete(Activity))">
+                        <MenuItem Icon="delete" OnClick="@(() => OnDelete(Step))">
                             Delete
                         </MenuItem>
                     </Menu>

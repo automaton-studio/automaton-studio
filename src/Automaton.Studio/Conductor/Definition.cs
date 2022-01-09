@@ -22,20 +22,16 @@ namespace Automaton.Studio.Conductor
 
         #endregion
 
-        public event EventHandler<StepEventArgs> ActivityAdded;
-        public event EventHandler<StepEventArgs> ActivityRemoved;
+        public event EventHandler<StepEventArgs> StepAdded;
+        public event EventHandler<StepEventArgs> StepRemoved;
 
-        /// <summary>
-        /// Reletes activity from workflow
-        /// </summary>
-        /// <param name="activity">Activity to be deleted from workflow</param>
-        public void DeleteActivity(Step activity)
+        public void DeleteStep(Step step)
         {
-            activity.DeleteConnections();
+            step.DeleteConnections();
 
-            Steps.Remove(activity);
+            Steps.Remove(step);
 
-            ActivityRemoved?.Invoke(this, new StepEventArgs(activity));
+            StepRemoved?.Invoke(this, new StepEventArgs(step));
         }
     }
 }

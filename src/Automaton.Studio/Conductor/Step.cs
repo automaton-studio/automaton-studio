@@ -47,50 +47,35 @@ namespace Automaton.Studio.Conductor
             Descriptor = descriptor;
         }
 
-        private const string ActivityClass = "designer-activity";
-        private const string SelectedActivityClass = "designer-activity-selected";
-        private const string DisabledActivityClass = "designer-activity-disabled";
+        private const string StepClass = "designer-activity";
+        private const string SelectedStepClass = "designer-activity-selected";
+        private const string DisabledStepClass = "designer-activity-disabled";
 
         public Definition StudioWorkflow { get; set; }
 
         public bool PendingCreation { get; set; }
 
-        /// <summary>
-        /// Activity designer class
-        /// </summary>
         public string Class { get; set; }
 
-        /// <summary>
-        /// Get the view component type to use
-        /// </summary>
-        /// <returns></returns>
         public abstract Type GetDesignerComponent();
 
-        /// <summary>
-        /// Get the properties component type to use
-        /// </summary>
-        /// <returns></returns>
         public abstract Type GetPropertiesComponent();
-
 
         public void Select()
         {
-            Class = SelectedActivityClass;
+            Class = SelectedStepClass;
         }
 
         public void Unselect()
         {
-            Class = ActivityClass;
+            Class = StepClass;
         }
 
         public bool IsSelected()
         {
-            return Class == SelectedActivityClass;
+            return Class == SelectedStepClass;
         }
 
-        /// <summary>
-        /// Updates workflow connections according with the changes of this activity
-        /// </summary>
         public void UpdateConnections()
         {
             //UpdateExistingConnections();
@@ -98,9 +83,6 @@ namespace Automaton.Studio.Conductor
             //UpdateNewConnections();
         }
 
-        /// <summary>
-        /// Updates activity connections when deleted.
-        /// </summary>
         public void DeleteConnections()
         {
             //UpdateExistingConnections();

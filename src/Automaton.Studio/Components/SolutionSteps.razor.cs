@@ -9,13 +9,13 @@ namespace Automaton.Studio.Components
     partial class SolutionSteps : ComponentBase
     {
         [Inject] 
-        private ISolutionStepsViewModel ActivitiesViewModel { get; set; } = default!;
+        private ISolutionStepsViewModel StepsViewModel { get; set; } = default!;
 
         private string searchText { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            ActivitiesViewModel.Initialize();
+            StepsViewModel.Initialize();
 
             await base.OnInitializedAsync();
         }

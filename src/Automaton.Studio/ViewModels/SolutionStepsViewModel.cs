@@ -14,21 +14,21 @@ namespace Automaton.Studio.ViewModels
         #region Members
 
         private readonly IDesignerViewModel designerViewModel;
-        private readonly StepFactory activityFactory;
+        private readonly StepFactory stepFactory;
         private readonly IMapper mapper;
 
         #endregion
 
         #region Properties
 
-        private IEnumerable<SolutionStep> activities;
-        public IEnumerable<SolutionStep> Activities
+        private IEnumerable<SolutionStep> steps;
+        public IEnumerable<SolutionStep> Steps
         {
-            get => activities;
+            get => steps;
 
             set
             {
-                activities = value;
+                steps = value;
                 OnPropertyChanged();
             }
         }
@@ -37,29 +37,29 @@ namespace Automaton.Studio.ViewModels
 
         public SolutionStepsViewModel(
             IDesignerViewModel designerViewModel,
-            StepFactory activityFactory,
+            StepFactory stepFactory,
             IMapper mapper)
         {
             this.mapper = mapper;
             this.designerViewModel = designerViewModel;
-            this.activityFactory = activityFactory;
+            this.stepFactory = stepFactory;
         }
 
         #region Public Methods
 
         public void Initialize()
         {
-            Activities = activityFactory.GetSteps();
+            Steps = stepFactory.GetSteps();
         }
 
-        public void ActivityDrag(TreeEventArgs<SolutionStep> args)
+        public void StepDrag(TreeEventArgs<SolutionStep> args)
         {
             var step = args.Node.DataItem;
 
             //Allow Drag only on activities, and not on categories
             if (!step.IsCategory())
             {
-                designerViewModel.ActivityDrag(step);
+                designerViewModel.StepDrag(step);
             }
         }
 

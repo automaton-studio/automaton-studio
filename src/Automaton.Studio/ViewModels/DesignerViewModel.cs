@@ -4,7 +4,6 @@ using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services;
-using Microsoft.AspNetCore.Hosting;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -24,9 +23,6 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        /// <summary>
-        /// Studio flow
-        /// </summary>
         private Definition studioFlow = new();
         public Definition StudioFlow
         {
@@ -43,30 +39,30 @@ namespace Automaton.Studio.ViewModels
 
         #region Events
 
-        public event EventHandler<StepEventArgs> DragActivity;
-        public event EventHandler<StepEventArgs> ActivityAdded
+        public event EventHandler<StepEventArgs> DragStep;
+        public event EventHandler<StepEventArgs> StepAdded
         {
             add
             {
-                StudioFlow.ActivityAdded += value;
+                StudioFlow.StepAdded += value;
             }
             remove
             {
 
-                StudioFlow.ActivityAdded -= value;
+                StudioFlow.StepAdded -= value;
             }
         }
 
-        public event EventHandler<StepEventArgs> ActivityRemoved
+        public event EventHandler<StepEventArgs> StepRemoved
         {
             add
             {
-                StudioFlow.ActivityRemoved += value;
+                StudioFlow.StepRemoved += value;
             }
             remove
             {
 
-                StudioFlow.ActivityRemoved -= value;
+                StudioFlow.StepRemoved -= value;
             }
         }
 
@@ -92,64 +88,40 @@ namespace Automaton.Studio.ViewModels
 
         #region Public Methods
 
-        /// <summary>
-        /// Drag activity to the workflow.
-        /// </summary>
-        /// <param name="treeActivity"></param>
-        public void ActivityDrag(SolutionStep treeActivity)
+        public void StepDrag(SolutionStep solutionStep)
         {
-            var activity = CreateActivity(treeActivity.Name);
+            var step = CreateStep(solutionStep.Name);
 
-            DragActivity?.Invoke(this, new StepEventArgs(activity));
+            DragStep?.Invoke(this, new StepEventArgs(step));
         }
 
-        /// <summary>
-        /// Creates a Studio activity
-        /// </summary>
-        /// <param name="activityName">Activity name</param>
-        /// <returns>Studio activity</returns>
-        private Step CreateActivity(string activityName)
+        private Step CreateStep(string name)
         {
-            var activity = stepFactory.GetStep(activityName);
+            var step = stepFactory.GetStep(name);
 
-            // Activity isn't final until confirmed by user.
-            activity.PendingCreation = true;
+            // Step isn't final until confirmed by user.
+            step.PendingCreation = true;
             // Set reference to StudioWorkflow
-            activity.StudioWorkflow = StudioFlow;
+            step.StudioWorkflow = StudioFlow;
 
-            return activity;
+            return step;
         }
 
-        /// <summary>
-        /// Adds activity to workflow
-        /// </summary>
-        /// <param name="activity"></param>
-        public void AddActivity(Step activity)
+        public void AddStep(Step step)
         {
-            StudioFlow.Steps.Add(activity);
+            StudioFlow.Steps.Add(step);
         }
 
-        /// <summary>
-        /// Deletes specified activity
-        /// </summary>
-        /// <param name="activity">Activity to delete</param>
-        public void DeleteActivity(Step activity)
+        public void DeleteStep(Step step)
         {
-            StudioFlow.Steps.Remove(activity); 
+            StudioFlow.Steps.Remove(step); 
         }
 
-        /// <summary>
-        /// Loads flow from database
-        /// </summary>
-        /// <param name="flowId">Flow identifier as string</param>
         public async Task LoadFlow(string flowId)
         {
             StudioFlow = await workflowService.Get(flowId);
         }
 
-        /// <summary>
-        /// Save flow to database
-        /// </summary>
         public async Task SaveFlow()
         {
             await workflowService.Update(StudioFlow);

@@ -10,8 +10,8 @@ namespace Automaton.Studio.Conductor
 
         public StepDescriptor()
         {
-            Name = "Activity";
-            DisplayName = "Activity";
+            Name = "Step";
+            DisplayName = "Step";
             Category = "Category";
             Icon = "Icon";
         }

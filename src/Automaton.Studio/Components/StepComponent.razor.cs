@@ -7,21 +7,12 @@ namespace Automaton.Studio.Components
 {
     public partial class StepComponent : ComponentBase
     {
-        /// <summary>
-        /// Associated studio activity
-        /// </summary>
         [Parameter]
-        public Conductor.Step Activity { get; set; }
+        public Conductor.Step Step { get; set; }
 
-        /// <summary>
-        /// Child content
-        /// </summary>
         [Parameter] 
         public RenderFragment ChildContent { get; set; }
 
-        /// <summary>
-        /// AntDesign modal service
-        /// </summary>
         [Inject] 
         private ModalService ModalService { get; set; } = default!;
 
@@ -32,9 +23,9 @@ namespace Automaton.Studio.Components
 
         #region Event Handlers
 
-        private async Task OnEdit(Conductor.Step activity)
+        private async Task OnEdit(Conductor.Step step)
         {
-            var result = await activity.EditActivityDialog(ModalService);
+            var result = await step.EditStepDialog(ModalService);
 
             result.OnOk = () => {
 
@@ -44,9 +35,9 @@ namespace Automaton.Studio.Components
             };
         }
 
-        private static void OnDelete(Conductor.Step activity)
+        private static void OnDelete(Conductor.Step step)
         {
-            activity.StudioWorkflow.DeleteActivity(activity);
+            step.StudioWorkflow.DeleteStep(step);
         }
 
         #endregion

@@ -4,13 +4,13 @@
     <Row>
         <Col Span="24">
             <div class="activities-header">
-                <h3>Activities</h3>
+                <h3>Steps</h3>
             </div>
         </Col>
     </Row>
     <Row>
         <div class="activities-search">
-            <Search Placeholder="Search activity" Size="@InputSize.Default" OnChange="(e)=>OnSearchChange(e)" @bind-Value="@searchText" OnSearch="OnSearch"></Search>
+            <Search Placeholder="Search steps" Size="@InputSize.Default" OnChange="(e)=>OnSearchChange(e)" @bind-Value="@searchText" OnSearch="OnSearch"></Search>
         </div>
     </Row>
     <Row>
@@ -18,13 +18,13 @@
             <Tree 
                 ShowIcon
                 Draggable
-                DataSource="@ActivitiesViewModel.Activities"
+                DataSource="@StepsViewModel.Steps"
                 TitleExpression="x => x.DataItem.Type"
                 ChildrenExpression="x => x.DataItem.Activities"
                 IconExpression="x => x.DataItem.Icon"
                 IsLeafExpression="x => x.DataItem.Activities == null || !x.DataItem.Activities.Any()"
                 KeyExpression="x => x.DataItem.Name"
-                OnDragStart="@((i)=> { ActivitiesViewModel.ActivityDrag(i); })"
+                OnDragStart="@((i)=> { StepsViewModel.StepDrag(i); })"
                 Class="activities-tree"
                 TItem="SolutionStep">
             </Tree>
