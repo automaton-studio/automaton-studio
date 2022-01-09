@@ -3,6 +3,7 @@ namespace Automaton.Studio.Conductor
     public class StepDescriptor : IStepDescriptor
     {
         public string Name { get; set; }
+        public string Type { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
         public string Category { get; set; }
@@ -11,6 +12,7 @@ namespace Automaton.Studio.Conductor
         public StepDescriptor()
         {
             Name = "Step";
+            Type = "Step";
             DisplayName = "Step";
             Category = "Category";
             Icon = "Icon";

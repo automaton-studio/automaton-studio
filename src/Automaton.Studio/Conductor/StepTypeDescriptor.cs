@@ -11,6 +11,7 @@ namespace Automaton.Studio.Conductor
             var attribute = stepType.GetCustomAttribute<StepDescriptionAttribute>(false);
 
             var name = attribute?.Name ?? stepType.Name;
+            var type = attribute?.Type;
             var displayName = attribute?.DisplayName;
             var description = attribute?.Description;
             var category = attribute?.Category ?? "Miscellaneous";
@@ -19,6 +20,7 @@ namespace Automaton.Studio.Conductor
             return new StepDescriptor
             {
                 Name = name,
+                Type = type,
                 DisplayName = displayName,
                 Description = description,
                 Category = category,

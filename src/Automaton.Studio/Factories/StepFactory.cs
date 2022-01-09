@@ -12,14 +12,19 @@ namespace Automaton.Studio.Factories
 {
     public class StepFactory
     {
+        private const string StepsAssembly = "Automaton.Studio";
+
         private IDictionary<string, SolutionStep> solutionSteps;
+        private IDictionary<string, Type> solutionTypes;
         private IStepTypeDescriptor stepTypeDescriber;
 
         public StepFactory(IStepTypeDescriptor stepTypeDescriber)
         {
             this.stepTypeDescriber = stepTypeDescriber;
             solutionSteps = new Dictionary<string, SolutionStep>();
-            var assembly = Assembly.Load("Automaton.Studio");
+            solutionTypes = new Dictionary<string, Type>();
+
+            var assembly = Assembly.Load(StepsAssembly);
             AddActivitiesFrom(assembly);
         }
 
@@ -47,19 +52,20 @@ namespace Automaton.Studio.Factories
             var solutionStep = new SolutionStep 
             { 
                 Name = stepDescriptor.Name, 
-                Type = stepDescriptor.Name,
+                Type = stepDescriptor.Type,
                 Description = stepDescriptor.Description,
                 Category = stepDescriptor.Category,
                 Icon = stepDescriptor.Icon
             };
 
             solutionSteps.Add(solutionStep.Name, solutionStep);
+            solutionTypes.Add(solutionStep.Name, stepType);
         }
 
         public Step GetStep(string name)
         {
-            var descriptor = stepTypeDescriber.Describe(typeof(EmitLogStep));
-            var step = new EmitLogStep(descriptor) { Name = name };
+            var descriptor = stepTypeDescriber.Describe(solutionTypes[name]);
+            var step = Activator.CreateInstance(solutionTypes[name], descriptor) as Step;
 
             return step;
         }
