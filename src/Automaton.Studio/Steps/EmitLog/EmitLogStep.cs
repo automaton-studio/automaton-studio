@@ -25,7 +25,7 @@ namespace Automaton.Studio.Steps.EmitLog
             set
             {
                 message = value;
-                InputsDictionary[nameof(Message)] = Message;
+                InputsDictionary[nameof(Message)] = message;
             }
         }
 
