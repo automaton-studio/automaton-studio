@@ -127,6 +127,11 @@ namespace Automaton.Studio.ViewModels
             await workflowService.Update(StudioFlow);
         }
 
+        public void FinalizeStep(Step step)
+        {
+            StudioFlow.FinalizeStep(step);
+        }
+
         #endregion
 
         #region INotifyPropertyChanged

@@ -2,6 +2,7 @@
 using Automaton.Studio.Components;
 using Automaton.Studio.Conductor;
 using Automaton.Studio.Events;
+using Automaton.Studio.Extensions;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -154,10 +155,6 @@ namespace Automaton.Studio.Pages
 
         #endregion
 
-        /// <summary>
-        /// Display new activity dialog
-        /// </summary>
-        /// <param name="step"></param>
         private async Task NewStepDialog(Conductor.Step step)
         {
             var modalConfig = new ModalOptions
@@ -165,38 +162,31 @@ namespace Automaton.Studio.Pages
                 Title = step.Id
             };
 
-            //// Launch the Properties dialog using reflection to dynamically load the activity properties component.
+            var result = await step.EditStepDialog(ModalService);
 
-            //// 1. Select the method to be executed
-            //var method = typeof(ModalService).GetMethod(nameof(ModalService.CreateDynamicModalAsync));
-            //// 2. Make the metod generic because CreateDynamicModalAsync is using generics
-            //var generic = method.MakeGenericMethod(activity.GetPropertiesComponent(), activity.GetType());
-            //// 3. Invoke the method and pass the required parameters
-            //var result = await generic.InvokeAsync(ModalService, new object[] { modalConfig, activity }) as ModalRef;
+            result.OnOk = () =>
+            {
 
-            //result.OnOk = () =>
-            //{
+                DesignerViewModel.FinalizeStep(step);
 
-            //    DesignerViewModel.FinalizeActivity(activity);
+                // TODO! It may be inneficient to update the state of the entire Designer control.
+                // A better alternative would be to update the state of the activity being updated.
+                StateHasChanged();
 
-            //    // TODO! It may be inneficient to update the state of the entire Designer control.
-            //    // A better alternative would be to update the state of the activity being updated.
-            //    StateHasChanged();
+                return Task.CompletedTask;
+            };
 
-            //    return Task.CompletedTask;
-            //};
+            result.OnCancel = () =>
+            {
 
-            //result.OnCancel = () =>
-            //{
+                //DesignerViewModel.DeleteActivity(activity);
 
-            //    DesignerViewModel.DeleteActivity(activity);
+                // TODO! It may be inneficient to update the state of the entire Designer control.
+                // A better alternative would be to update the state of the activity being updated.
+                StateHasChanged();
 
-            //    // TODO! It may be inneficient to update the state of the entire Designer control.
-            //    // A better alternative would be to update the state of the activity being updated.
-            //    StateHasChanged();
-
-            //    return Task.CompletedTask;
-            //};
+                return Task.CompletedTask;
+            };
         }
 
         /// <summary>

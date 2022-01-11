@@ -25,6 +25,7 @@ namespace Automaton.Studio.ViewModels
         #region Methods
 
         void StepDrag(SolutionStep solutionSTep);
+        void FinalizeStep(Step step);
         void DeleteStep(Step step);
 
         Task LoadFlow(string flowId);

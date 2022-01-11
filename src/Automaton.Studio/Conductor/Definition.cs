@@ -33,5 +33,12 @@ namespace Automaton.Studio.Conductor
 
             StepRemoved?.Invoke(this, new StepEventArgs(step));
         }
+
+        public void FinalizeStep(Conductor.Step step)
+        {
+            step.PendingCreation = false;
+
+            StepAdded?.Invoke(this, new StepEventArgs(step));
+        }
     }
 }
