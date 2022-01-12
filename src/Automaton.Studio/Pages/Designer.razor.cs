@@ -80,10 +80,9 @@ namespace Automaton.Studio.Pages
 
         private async Task OnStepDrop(Conductor.Step step)
         {
-            // When step was already created don't display create dialog when OnDrop event occurs
-            if (step.PendingCreation)
+            if (step.IsPendingCreation())
             {
-                await NewStepDialog(step);
+                await NewStep(step);
             }
             else
             {
@@ -155,14 +154,14 @@ namespace Automaton.Studio.Pages
 
         #endregion
 
-        private async Task NewStepDialog(Conductor.Step step)
+        private async Task NewStep(Conductor.Step step)
         {
             var modalConfig = new ModalOptions
             {
                 Title = step.Id
             };
 
-            var result = await step.EditStepDialog(ModalService);
+            var result = await step.DisplayStepDialog(ModalService);
 
             result.OnOk = () =>
             {

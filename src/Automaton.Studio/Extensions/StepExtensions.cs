@@ -1,6 +1,4 @@
 ﻿using AntDesign;
-using Microsoft.AspNetCore.Components;
-using System;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Extensions
@@ -20,7 +18,7 @@ namespace Automaton.Studio.Extensions
            return modalService.CreateModalAsync<TComponent, TComponentOptions>(config, componentOptions);  
         }
 
-        public static async Task<ModalRef> EditStepDialog(this Conductor.Step step, ModalService modalService)
+        public static async Task<ModalRef> DisplayStepDialog(this Conductor.Step step, ModalService modalService)
         {
             var modalConfig = new ModalOptions
             {

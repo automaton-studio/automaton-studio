@@ -25,7 +25,7 @@ namespace Automaton.Studio.Components
 
         private async Task OnEdit(Conductor.Step step)
         {
-            var result = await step.EditStepDialog(ModalService);
+            var result = await step.DisplayStepDialog(ModalService);
 
             result.OnOk = () => {
 

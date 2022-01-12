@@ -8,6 +8,8 @@ namespace Automaton.Studio.Conductor
 {
     public abstract class Step : INotifyPropertyChanged
     {
+        private bool pendingCreation = true;
+
         #region Conductor
 
         public string StepType { get; set; }
@@ -38,8 +40,6 @@ namespace Automaton.Studio.Conductor
 
         #endregion
 
-        #region Custom properties
-
         public IStepDescriptor Descriptor { get; set; }
 
         public IDictionary<string, object>  InputsDictionary  => Inputs;
@@ -54,8 +54,6 @@ namespace Automaton.Studio.Conductor
         private const string DisabledStepClass = "designer-activity-disabled";
 
         public Definition StudioWorkflow { get; set; }
-
-        public bool PendingCreation { get; set; }
 
         public string Class { get; set; }
 
@@ -90,7 +88,15 @@ namespace Automaton.Studio.Conductor
             //UpdateExistingConnections();
         }
 
-        #endregion
+        public void MarkAsCreated()
+        {
+            pendingCreation = false;
+        }
+
+        public bool IsPendingCreation()
+        {
+            return pendingCreation;
+        }
 
         #region INotifyPropertyChanged
 

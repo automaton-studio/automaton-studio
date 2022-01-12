@@ -99,8 +99,6 @@ namespace Automaton.Studio.ViewModels
         {
             var step = stepFactory.GetStep(name);
 
-            // Step isn't final until confirmed by user.
-            step.PendingCreation = true;
             // Set reference to StudioWorkflow
             step.StudioWorkflow = StudioFlow;
 
