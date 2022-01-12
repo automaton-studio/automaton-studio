@@ -8,9 +8,37 @@ namespace Automaton.Studio.Conductor
 {
     public abstract class Step : INotifyPropertyChanged
     {
+        #region Constants
+
+        private const string StepClass = "designer-activity";
+        private const string SelectedStepClass = "designer-activity-selected";
+        private const string DisabledStepClass = "designer-activity-disabled";
+
+        #endregion
+
+        #region Members
+
         private bool pendingCreation = true;
 
-        #region Conductor
+        #endregion
+
+        #region Properties
+
+        public IStepDescriptor Descriptor { get; set; }
+
+        public IDictionary<string, object> InputsDictionary => Inputs;
+
+        public Definition StudioWorkflow { get; set; }
+
+        public string Class { get; set; }
+
+        public string DisplayName { get; set; }
+
+        public string Type { get; set; }
+
+        #endregion
+
+        #region Conductor Properties
 
         public string StepType { get; set; }
 
@@ -40,22 +68,14 @@ namespace Automaton.Studio.Conductor
 
         #endregion
 
-        public IStepDescriptor Descriptor { get; set; }
-
-        public IDictionary<string, object>  InputsDictionary  => Inputs;
-
         public Step(IStepDescriptor descriptor)
         {
             Descriptor = descriptor;
+            Name = descriptor.Name;
+            DisplayName = descriptor.DisplayName;
+            Type = descriptor.Type;
+            StepType = descriptor.Type;
         }
-
-        private const string StepClass = "designer-activity";
-        private const string SelectedStepClass = "designer-activity-selected";
-        private const string DisabledStepClass = "designer-activity-disabled";
-
-        public Definition StudioWorkflow { get; set; }
-
-        public string Class { get; set; }
 
         public abstract Type GetDesignerComponent();
 

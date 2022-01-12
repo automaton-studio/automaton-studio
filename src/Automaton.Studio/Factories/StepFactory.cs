@@ -16,11 +16,11 @@ namespace Automaton.Studio.Factories
 
         private IDictionary<string, SolutionStep> solutionSteps;
         private IDictionary<string, Type> solutionTypes;
-        private IStepTypeDescriptor stepTypeDescriber;
+        private IStepTypeDescriptor stepTypeDescriptor;
 
         public StepFactory(IStepTypeDescriptor stepTypeDescriber)
         {
-            this.stepTypeDescriber = stepTypeDescriber;
+            this.stepTypeDescriptor = stepTypeDescriber;
             solutionSteps = new Dictionary<string, SolutionStep>();
             solutionTypes = new Dictionary<string, Type>();
 
@@ -50,7 +50,7 @@ namespace Automaton.Studio.Factories
 
         public void AddStep(Type stepType)
         {
-            var stepDescriptor = stepTypeDescriber.Describe(stepType);
+            var stepDescriptor = stepTypeDescriptor.Describe(stepType);
 
             var solutionStep = new SolutionStep 
             { 
@@ -67,7 +67,7 @@ namespace Automaton.Studio.Factories
 
         public Step GetStep(string name)
         {
-            var descriptor = stepTypeDescriber.Describe(solutionTypes[name]);
+            var descriptor = stepTypeDescriptor.Describe(solutionTypes[name]);
             var step = Activator.CreateInstance(solutionTypes[name], descriptor) as Step;
 
             return step;

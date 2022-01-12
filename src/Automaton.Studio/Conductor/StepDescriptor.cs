@@ -12,10 +12,11 @@ namespace Automaton.Studio.Conductor
         public StepDescriptor()
         {
             Name = "Step";
-            Type = "Step";
-            DisplayName = "Step";
-            Category = "Category";
-            Icon = "Icon";
+            Type = "StepType";
+            DisplayName = "StepDisplayName";
+            Description = "StepDescription";
+            Category = "StepCategory";
+            Icon = "StepIcon";
         }
     }
 }

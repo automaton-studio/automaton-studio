@@ -56,7 +56,6 @@ namespace Automaton.Studio.ViewModels
         {
             var step = args.Node.DataItem;
 
-            //Allow Drag only on activities, and not on categories
             if (!step.IsCategory())
             {
                 designerViewModel.StepDrag(step);

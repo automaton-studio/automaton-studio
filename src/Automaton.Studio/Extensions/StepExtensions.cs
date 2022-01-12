@@ -22,10 +22,8 @@ namespace Automaton.Studio.Extensions
         {
             var modalConfig = new ModalOptions
             {
-                Title = step.Name
+                Title = step.DisplayName
             };
-
-            // Launch the Properties dialog using reflection to dynamically load the activity properties component.
 
             // 1. Select the method to be executed
             var method = typeof(StepExtensions).GetMethod(nameof(CreateDynamicModalAsync));

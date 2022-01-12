@@ -82,7 +82,7 @@ namespace Automaton.Studio.Pages
         {
             if (step.IsPendingCreation())
             {
-                await NewStep(step);
+                await DisplayStepDialog(step);
             }
             else
             {
@@ -154,18 +154,12 @@ namespace Automaton.Studio.Pages
 
         #endregion
 
-        private async Task NewStep(Conductor.Step step)
+        private async Task DisplayStepDialog(Conductor.Step step)
         {
-            var modalConfig = new ModalOptions
-            {
-                Title = step.Id
-            };
-
             var result = await step.DisplayStepDialog(ModalService);
 
             result.OnOk = () =>
             {
-
                 DesignerViewModel.FinalizeStep(step);
 
                 // TODO! It may be inneficient to update the state of the entire Designer control.
