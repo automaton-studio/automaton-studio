@@ -5,7 +5,9 @@ using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -122,12 +124,27 @@ namespace Automaton.Studio.ViewModels
 
         public async Task SaveFlow()
         {
-            await workflowService.Update(StudioFlow);
+            await workflowService.Save(StudioFlow);
         }
 
         public void FinalizeStep(Step step)
         {
             StudioFlow.FinalizeStep(step);
+        }
+
+        public IList<Step> GetSteps()
+        {
+            return StudioFlow.Steps;
+        }
+
+        public IEnumerable<Step> GetSelectedSteps()
+        {
+            return StudioFlow.Steps.Where(x => x.IsSelected());
+        }
+
+        public string GetDefinitionId()
+        {
+            return StudioFlow.Id;
         }
 
         #endregion

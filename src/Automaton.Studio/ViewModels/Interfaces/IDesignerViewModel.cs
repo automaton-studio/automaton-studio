@@ -2,18 +2,13 @@
 using Automaton.Studio.Events;
 using Automaton.Studio.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.ViewModels
 {
     public interface IDesignerViewModel
     {
-        #region Properties
-
-        Definition StudioFlow { get; set; }
-
-        #endregion
-
         #region Events
 
         event EventHandler<StepEventArgs> DragStep;
@@ -23,6 +18,10 @@ namespace Automaton.Studio.ViewModels
         #endregion
 
         #region Methods
+
+        string GetDefinitionId();
+        IList<Step> GetSteps();
+        IEnumerable<Step> GetSelectedSteps();
 
         void StepDrag(SolutionStep solutionSTep);
         void FinalizeStep(Step step);

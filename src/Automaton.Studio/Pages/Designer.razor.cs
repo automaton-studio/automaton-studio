@@ -52,11 +52,8 @@ namespace Automaton.Studio.Pages
 
             // Setup event handlers after workflow is loaded
             DesignerViewModel.DragStep += OnDragStep;
-            if (DesignerViewModel.StudioFlow != null)
-            {
-                DesignerViewModel.StepAdded += OnStepAdded;
-                DesignerViewModel.StepRemoved += OnStepRemoved;
-            }
+            DesignerViewModel.StepAdded += OnStepAdded;
+            DesignerViewModel.StepRemoved += OnStepRemoved;
 
             await base.OnInitializedAsync();
         }
@@ -113,7 +110,6 @@ namespace Automaton.Studio.Pages
 
         private void OnDropzoneMouseDown()
         {
-            // Unselect all the previous selected activities
             UnselectSteps();
         }
 
@@ -122,9 +118,6 @@ namespace Automaton.Studio.Pages
             StateHasChanged();
         }
 
-        /// <summary>
-        /// Occurs when an activity is removed from the workflow
-        /// </summary>
         private void OnStepRemoved(object sender, StepEventArgs e)
         {
             StateHasChanged();
@@ -134,18 +127,11 @@ namespace Automaton.Studio.Pages
 
         #region Workflow Actions
 
-        /// <summary>
-        /// Run workflow
-        /// </summary>
-        /// <returns></returns>
         public async Task RunWorkflow()
         {
             //await DesignerViewModel.RunWorkflow();
         }
 
-        /// <summary>
-        /// Save workflow
-        /// </summary>
         private async Task SaveFlow()
         {
             await DesignerViewModel.SaveFlow();
@@ -170,7 +156,6 @@ namespace Automaton.Studio.Pages
 
             result.OnCancel = () =>
             {
-
                 //DesignerViewModel.DeleteActivity(activity);
 
                 // TODO! It may be inneficient to update the state of the entire Designer control.
@@ -186,7 +171,7 @@ namespace Automaton.Studio.Pages
         /// </summary>
         private void UnselectSteps()
         {
-            var selectedSteps = DesignerViewModel.StudioFlow.Steps.Where(x => x.IsSelected());
+            var selectedSteps = DesignerViewModel.GetSelectedSteps(); ;
 
             if (selectedSteps != null)
             {

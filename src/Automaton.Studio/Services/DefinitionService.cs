@@ -70,7 +70,7 @@ namespace Automaton.Studio.Services
 
         }
 
-        public async Task Update(Definition studioFlow)
+        public async Task Save(Definition studioFlow)
         {
             throw new NotImplementedException();
 

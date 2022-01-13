@@ -1,7 +1,7 @@
 ﻿@page "/designer"
 @using AntDesign
 @using Automaton.Studio.Components
-@using ConductorStep = Automaton.Studio.Conductor.Step;
+@using Automaton.Studio.Conductor;
 
 <Layout Class="designer-container">
     <Sider Theme="SiderTheme.Light" Style="width: 300px">
@@ -69,16 +69,16 @@
                     </TabPane>
                 }*@
 
-                <TabPane Key="@DesignerViewModel.StudioFlow.Id" Tab="@DesignerViewModel.StudioFlow.Id">
+                <TabPane Key="@DesignerViewModel.GetDefinitionId()" Tab="@DesignerViewModel.GetDefinitionId()">
                         <Dropzone Class="dropzone"
-                                    @ref="dropzone"
-                                    TItem="ConductorStep"
-                                    Items="DesignerViewModel.StudioFlow.Steps"
-                                    InstantReplace="true"
-                                    OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
-                                    OnItemDrop="@((p)=>OnStepDrop(p))"
-                                    OnItemMouseDown="@((p)=>OnStepMouseDown(p))"
-                                    OnItemDoubleClick="@((p)=>OnStepDoubleClick(p))">
+                            @ref="dropzone"
+                            TItem="Conductor.Step"
+                            Items="DesignerViewModel.GetSteps()"
+                            InstantReplace="true"
+                            OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
+                            OnItemDrop="@((p)=>OnStepDrop(p))"
+                            OnItemMouseDown="@((p)=>OnStepMouseDown(p))"
+                            OnItemDoubleClick="@((p)=>OnStepDoubleClick(p))">
                             <DropzoneStep Step="@context" />
                         </Dropzone>
                     </TabPane>
