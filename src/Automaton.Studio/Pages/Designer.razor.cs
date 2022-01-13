@@ -82,7 +82,7 @@ namespace Automaton.Studio.Pages
         {
             if (step.IsPendingCreation())
             {
-                await DisplayStepDialog(step);
+                await NewStepDialog(step);
             }
             else
             {
@@ -101,15 +101,14 @@ namespace Automaton.Studio.Pages
 
         private async Task OnStepDoubleClick(Conductor.Step step)
         {
-            //var result = await step.EditActivityDialog(ModalService);
+            var result = await step.DisplayPropertiesDialog(ModalService);
 
-            //result.OnOk = () =>
-            //{
+            result.OnOk = () =>
+            {
+                StateHasChanged();
 
-            //    StateHasChanged();
-
-            //    return Task.CompletedTask;
-            //};
+                return Task.CompletedTask;
+            };
         }
 
         private void OnDropzoneMouseDown()
@@ -154,9 +153,9 @@ namespace Automaton.Studio.Pages
 
         #endregion
 
-        private async Task DisplayStepDialog(Conductor.Step step)
+        private async Task NewStepDialog(Conductor.Step step)
         {
-            var result = await step.DisplayStepDialog(ModalService);
+            var result = await step.DisplayPropertiesDialog(ModalService);
 
             result.OnOk = () =>
             {

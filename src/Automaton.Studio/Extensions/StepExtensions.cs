@@ -5,20 +5,12 @@ namespace Automaton.Studio.Extensions
 {
     public static class StepExtensions
     {
-        /// <summary>
-        /// Create and open a Modal with template
-        /// </summary>
-        /// <typeparam name="TComponent"></typeparam>
-        /// <typeparam name="TComponentOptions"></typeparam>
-        /// <param name="config"></param>
-        /// <param name="componentOptions"></param>
-        /// <returns></returns>
         public static Task<ModalRef> CreateDynamicModalAsync<TComponent, TComponentOptions>(this ModalService modalService, ModalOptions config, TComponentOptions componentOptions) where TComponent : FeedbackComponent<TComponentOptions>
         {
            return modalService.CreateModalAsync<TComponent, TComponentOptions>(config, componentOptions);  
         }
 
-        public static async Task<ModalRef> DisplayStepDialog(this Conductor.Step step, ModalService modalService)
+        public static async Task<ModalRef> DisplayPropertiesDialog(this Conductor.Step step, ModalService modalService)
         {
             var modalConfig = new ModalOptions
             {
