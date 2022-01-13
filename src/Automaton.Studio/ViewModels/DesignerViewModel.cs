@@ -20,22 +20,7 @@ namespace Automaton.Studio.ViewModels
         private readonly IMapper mapper;
         private readonly StepFactory stepFactory;
         private readonly IDefinitionService workflowService;
-
-        #endregion
-
-        #region Properties
-
         private Definition studioFlow = new();
-        public Definition StudioFlow
-        {
-            get => studioFlow;
-
-            set
-            {
-                studioFlow = value;
-                OnPropertyChanged();
-            }
-        }
 
         #endregion
 
@@ -46,12 +31,12 @@ namespace Automaton.Studio.ViewModels
         {
             add
             {
-                StudioFlow.StepAdded += value;
+                studioFlow.StepAdded += value;
             }
             remove
             {
 
-                StudioFlow.StepAdded -= value;
+                studioFlow.StepAdded -= value;
             }
         }
 
@@ -59,12 +44,12 @@ namespace Automaton.Studio.ViewModels
         {
             add
             {
-                StudioFlow.StepRemoved += value;
+                studioFlow.StepRemoved += value;
             }
             remove
             {
 
-                StudioFlow.StepRemoved -= value;
+                studioFlow.StepRemoved -= value;
             }
         }
 
@@ -83,7 +68,7 @@ namespace Automaton.Studio.ViewModels
             this.stepFactory = stepFactory;
             this.workflowService = workflowService;
 
-            StudioFlow = new Definition();
+            studioFlow = new Definition();
         }
 
         #endregion
@@ -102,49 +87,49 @@ namespace Automaton.Studio.ViewModels
             var step = stepFactory.GetStep(name);
 
             // Set reference to StudioWorkflow
-            step.StudioWorkflow = StudioFlow;
+            step.StudioWorkflow = studioFlow;
 
             return step;
         }
 
         public void AddStep(Step step)
         {
-            StudioFlow.Steps.Add(step);
+            studioFlow.Steps.Add(step);
         }
 
         public void DeleteStep(Step step)
         {
-            StudioFlow.Steps.Remove(step); 
+            studioFlow.Steps.Remove(step); 
         }
 
         public async Task LoadFlow(string flowId)
         {
-            StudioFlow = await workflowService.Get(flowId);
+            studioFlow = await workflowService.Get(flowId);
         }
 
         public async Task SaveFlow()
         {
-            await workflowService.Save(StudioFlow);
+            await workflowService.Save(studioFlow);
         }
 
         public void FinalizeStep(Step step)
         {
-            StudioFlow.FinalizeStep(step);
+            studioFlow.FinalizeStep(step);
         }
 
         public IList<Step> GetSteps()
         {
-            return StudioFlow.Steps;
+            return studioFlow.Steps;
         }
 
         public IEnumerable<Step> GetSelectedSteps()
         {
-            return StudioFlow.Steps.Where(x => x.IsSelected());
+            return studioFlow.Steps.Where(x => x.IsSelected());
         }
 
         public string GetDefinitionId()
         {
-            return StudioFlow.Id;
+            return studioFlow.Id;
         }
 
         #endregion
