@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.ViewModels
 {
-    public class SolutionStepsViewModel : ISolutionStepsViewModel, INotifyPropertyChanged
+    public class StepsViewModel : IStepsViewModel, INotifyPropertyChanged
     {
         #region Members
 
@@ -35,7 +35,7 @@ namespace Automaton.Studio.ViewModels
 
         #endregion
 
-        public SolutionStepsViewModel(
+        public StepsViewModel(
             IDesignerViewModel designerViewModel,
             StepFactory stepFactory,
             IMapper mapper)

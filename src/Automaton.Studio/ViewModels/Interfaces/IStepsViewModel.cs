@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace Automaton.Studio.ViewModels
 {
-    public interface ISolutionStepsViewModel
+    public interface IStepsViewModel
     {
         #region Events
 
