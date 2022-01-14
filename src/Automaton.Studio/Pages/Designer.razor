@@ -45,31 +45,15 @@
             </Row>
         </Header>
 
-        @*@if(DesignerViewModel.Workflows != null)*@
-        @*{ *@
             <Tabs Type="@TabType.EditableCard" 
                     Size="@TabSize.Small"
                     DefaultActiveKey="DesignerViewModel.ActiveWorkflow.DefinitionId"
                     OnAddClick="OnWorkflowAddClick" 
                     OnClose="OnWorkflowTabClose">
-                @*@foreach (var workflow in DesignerViewModel.Workflows)
-                {
-                    <TabPane Key="@workflow.DefinitionId" Tab="@workflow.Name">
-                        <Dropzone Class="dropzone"
-                                    @ref="dropzone"
-                                    TItem="ConductorStep"
-                                    Items="workflow.Activities"
-                                    InstantReplace="true"
-                                    OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
-                                    OnItemDrop="@((p)=>OnActivityDrop(p))"
-                                    OnItemMouseDown="@((p)=>OnActivityMouseDown(p))"
-                                    OnItemDoubleClick="@((p)=>OnActivityDoubleClick(p))">
-                            <StudioActivityComponent Activity="@context" />
-                        </Dropzone>
-                    </TabPane>
-                }*@
 
-                <TabPane Key="@DesignerViewModel.GetDefinitionId()" Tab="@DesignerViewModel.GetDefinitionId()">
+                @foreach (var workflow in DesignerViewModel.Workflows)
+                {
+                    <TabPane Key="@workflow.Id" Tab="@workflow.Name">
                         <Dropzone Class="dropzone"
                             @ref="dropzone"
                             TItem="Conductor.Step"
@@ -82,8 +66,9 @@
                             <DropzoneStep Step="@context" />
                         </Dropzone>
                     </TabPane>
+                }
             </Tabs>
-        @*}*@
+
     </Content>
 
     <Sider Theme=SiderTheme.Light Collapsed=true Class="right-sider">

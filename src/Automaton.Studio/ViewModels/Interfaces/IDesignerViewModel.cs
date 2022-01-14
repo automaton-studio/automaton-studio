@@ -9,17 +9,12 @@ namespace Automaton.Studio.ViewModels
 {
     public interface IDesignerViewModel
     {
-        #region Events
-
         event EventHandler<StepEventArgs> DragStep;
         event EventHandler<StepEventArgs> StepAdded;
         event EventHandler<StepEventArgs> StepRemoved;
 
-        #endregion
+        IList<Definition> Workflows { get; }
 
-        #region Methods
-
-        string GetDefinitionId();
         IList<Step> GetSteps();
         IEnumerable<Step> GetSelectedSteps();
 
@@ -29,7 +24,5 @@ namespace Automaton.Studio.ViewModels
 
         Task LoadFlow(string flowId);
         Task SaveFlow();
-
-        #endregion
     }
 }
