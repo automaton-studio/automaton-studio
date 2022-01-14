@@ -15,52 +15,25 @@ namespace Automaton.Studio.ViewModels
 {
     public class DesignerViewModel : IDesignerViewModel, INotifyPropertyChanged
     {
-        #region Members
-
         private readonly IMapper mapper;
         private readonly StepFactory stepFactory;
-        private readonly IDefinitionService workflowService;
-        private StudioFlow studioFlow = new();
+        private readonly IDefinitionService definitionService;
+        private readonly Flow flow = new();
 
-        #endregion
-
-        #region Events
+        public IList<Definition> Definitions => flow.Definitions;
 
         public event EventHandler<StepEventArgs> DragStep;
         public event EventHandler<StepEventArgs> StepAdded
         {
-            add
-            {
-                studioFlow.ActiveWorkflow.StepAdded += value;
-            }
-            remove
-            {
-
-                studioFlow.ActiveWorkflow.StepAdded -= value;
-            }
+            add { flow.ActiveDefinition.StepAdded += value; }
+            remove { flow.ActiveDefinition.StepAdded -= value; }
         }
 
         public event EventHandler<StepEventArgs> StepRemoved
         {
-            add
-            {
-                studioFlow.ActiveWorkflow.StepRemoved += value;
-            }
-            remove
-            {
-
-                studioFlow.ActiveWorkflow.StepRemoved -= value;
-            }
+            add { flow.ActiveDefinition.StepRemoved += value; }
+            remove { flow.ActiveDefinition.StepRemoved -= value; }
         }
-
-        /// <summary>
-        /// Flow workflows
-        /// </summary>
-        public IList<Definition> Workflows => studioFlow.Workflows;
-
-        #endregion
-
-        #region Constructors
 
         public DesignerViewModel
         (
@@ -71,12 +44,8 @@ namespace Automaton.Studio.ViewModels
         {
             this.mapper = mapper;
             this.stepFactory = stepFactory;
-            this.workflowService = workflowService;
+            this.definitionService = workflowService;
         }
-
-        #endregion
-
-        #region Public Methods
 
         public void StepDrag(SolutionStep solutionStep)
         {
@@ -90,19 +59,19 @@ namespace Automaton.Studio.ViewModels
             var step = stepFactory.GetStep(name);
 
             // Set reference to StudioWorkflow
-            step.StudioWorkflow = studioFlow.ActiveWorkflow;
+            step.StudioWorkflow = flow.ActiveDefinition;
 
             return step;
         }
 
         public void AddStep(Step step)
         {
-            studioFlow.ActiveWorkflow.Steps.Add(step);
+            flow.ActiveDefinition.Steps.Add(step);
         }
 
         public void DeleteStep(Step step)
         {
-            studioFlow.ActiveWorkflow.Steps.Remove(step); 
+            flow.ActiveDefinition.Steps.Remove(step); 
         }
 
         public async Task LoadFlow(string flowId)
@@ -112,25 +81,23 @@ namespace Automaton.Studio.ViewModels
 
         public async Task SaveFlow()
         {
-            await workflowService.Save(studioFlow.ActiveWorkflow);
+            await definitionService.Save(flow.ActiveDefinition);
         }
 
         public void FinalizeStep(Step step)
         {
-            studioFlow.ActiveWorkflow.FinalizeStep(step);
+            flow.ActiveDefinition.FinalizeStep(step);
         }
 
         public IList<Step> GetSteps()
         {
-            return studioFlow.ActiveWorkflow.Steps;
+            return flow.ActiveDefinition.Steps;
         }
 
         public IEnumerable<Step> GetSelectedSteps()
         {
-            return studioFlow.ActiveWorkflow.Steps.Where(x => x.IsSelected());
+            return flow.ActiveDefinition.Steps.Where(x => x.IsSelected());
         }
-
-        #endregion
 
         #region INotifyPropertyChanged
 

@@ -51,7 +51,7 @@
                     OnAddClick="OnWorkflowAddClick" 
                     OnClose="OnWorkflowTabClose">
 
-                @foreach (var workflow in DesignerViewModel.Workflows)
+                @foreach (var workflow in DesignerViewModel.Definitions)
                 {
                     <TabPane Key="@workflow.Id" Tab="@workflow.Name">
                         <Dropzone Class="dropzone"

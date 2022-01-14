@@ -3,15 +3,16 @@ using System.Collections.Generic;
 
 namespace Automaton.Studio.Conductor
 {
-    public class StudioFlow
+    public class Flow
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string StartupWorkflowId { get; set; }
-        public IList<Definition> Workflows { get; set; } = new List<Definition>();
-        public Definition ActiveWorkflow { get; set; }
 
-        public StudioFlow()
+        public IList<Definition> Definitions { get; set; } = new List<Definition>();
+        public Definition ActiveDefinition { get; set; }
+        public string StartupDefinitionId { get; set; }
+
+        public Flow()
         {
             Name = "Untitled";
 
@@ -20,8 +21,8 @@ namespace Automaton.Studio.Conductor
                 Name = "Untitled"
             };
 
-            Workflows.Add(defaultDefinition);
-            ActiveWorkflow = defaultDefinition;
+            Definitions.Add(defaultDefinition);
+            ActiveDefinition = defaultDefinition;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Automaton.Studio.ViewModels
         event EventHandler<StepEventArgs> StepAdded;
         event EventHandler<StepEventArgs> StepRemoved;
 
-        IList<Definition> Workflows { get; }
+        IList<Definition> Definitions { get; }
 
         IList<Step> GetSteps();
         IEnumerable<Step> GetSelectedSteps();
