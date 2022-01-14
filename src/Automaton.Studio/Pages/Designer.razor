@@ -7,10 +7,10 @@
     <Sider Theme="SiderTheme.Light" Style="width: 300px">
         <CascadingValue Value="FlowId">
             <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="explorer-tabs">
-                <TabPane Key="1" Tab="Workflows">
+                <TabPane Key="1" Tab="Steps">
                     <SolutionSteps></SolutionSteps>
                 </TabPane>
-                <TabPane Key="2" Tab="Activities">
+                <TabPane Key="2" Tab="Solution">
                     @*<SolutionFlow @ref="solutionFlow"></SolutionFlow>*@
                 </TabPane>
             </Tabs>
@@ -85,12 +85,12 @@
 
 <style>
     .designer-container {
-        background-color: #FFF
+        background-color: #FFF;
     }
 
     .dropzone {
         overflow: auto;
-        height: calc(100vh - 110px);
+        height: calc(100vh - 115px);
     }
 
     .runners-select {
