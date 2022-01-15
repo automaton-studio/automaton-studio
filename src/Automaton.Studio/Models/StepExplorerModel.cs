@@ -13,8 +13,7 @@ namespace Automaton.Studio.Models
         public string Description { get; set; }
         public string Icon { get; set; } = DefaultIcon;
         public string Category { get; set; }
-
-        public List<StepExplorerModel> Activities { get; set; } = new List<StepExplorerModel>();
+        public IList<StepExplorerModel> Activities { get; set; } = new List<StepExplorerModel>();
 
         public StepExplorerModel()
         {

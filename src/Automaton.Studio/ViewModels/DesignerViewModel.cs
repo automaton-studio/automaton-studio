@@ -3,7 +3,7 @@ using Automaton.Studio.Conductor;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
-using Automaton.Studio.Services;
+using Automaton.Studio.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

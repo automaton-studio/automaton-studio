@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Services
+namespace Automaton.Studio.Services.Interfaces
 {
     public interface IDefinitionService
     {

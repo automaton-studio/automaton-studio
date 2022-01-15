@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Conductor;
 using Automaton.Studio.Errors;
+using Automaton.Studio.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

@@ -2,6 +2,7 @@
 using Automaton.Studio.Conductor.Interfaces;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Services;
+using Automaton.Studio.Services.Interfaces;
 using Automaton.Studio.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,7 @@ namespace Automaton.Studio.Config
 
             // Services
             services.AddSingleton<IDefinitionService, DefinitionService>();
+            services.AddSingleton<ISolutionService, SolutionService>();
 
             // ViewModels
             services.AddScoped<DefinitionsViewModel>();
