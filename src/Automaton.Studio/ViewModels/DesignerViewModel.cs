@@ -47,7 +47,7 @@ namespace Automaton.Studio.ViewModels
             this.definitionService = workflowService;
         }
 
-        public void StepDrag(SolutionStep solutionStep)
+        public void StepDrag(StepExplorerModel solutionStep)
         {
             var step = CreateStep(solutionStep.Name);
 

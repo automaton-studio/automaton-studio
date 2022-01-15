@@ -18,7 +18,7 @@ namespace Automaton.Studio.ViewModels
         IList<Step> GetSteps();
         IEnumerable<Step> GetSelectedSteps();
 
-        void StepDrag(SolutionStep solutionSTep);
+        void StepDrag(StepExplorerModel solutionSTep);
         void FinalizeStep(Step step);
         void DeleteStep(Step step);
 

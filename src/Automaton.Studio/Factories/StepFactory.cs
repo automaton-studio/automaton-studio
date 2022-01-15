@@ -15,21 +15,21 @@ namespace Automaton.Studio.Factories
     {
         private const string StepsAssembly = "Automaton.Studio";
 
-        private IDictionary<string, SolutionStep> solutionSteps;
+        private IDictionary<string, StepExplorerModel> solutionSteps;
         private IDictionary<string, Type> solutionTypes;
         private IStepTypeDescriptor stepTypeDescriptor;
 
         public StepFactory(IStepTypeDescriptor stepTypeDescriber)
         {
             this.stepTypeDescriptor = stepTypeDescriber;
-            solutionSteps = new Dictionary<string, SolutionStep>();
+            solutionSteps = new Dictionary<string, StepExplorerModel>();
             solutionTypes = new Dictionary<string, Type>();
 
             var assembly = Assembly.Load(StepsAssembly);
             AddActivitiesFrom(assembly);
         }
 
-        public IEnumerable<SolutionStep> GetSteps()
+        public IEnumerable<StepExplorerModel> GetSteps()
         {
             return solutionSteps.Values;
         }
@@ -53,7 +53,7 @@ namespace Automaton.Studio.Factories
         {
             var stepDescriptor = stepTypeDescriptor.Describe(stepType);
 
-            var solutionStep = new SolutionStep 
+            var solutionStep = new StepExplorerModel 
             { 
                 Name = stepDescriptor.Name, 
                 Type = stepDescriptor.Type,

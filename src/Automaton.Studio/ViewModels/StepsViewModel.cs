@@ -21,8 +21,8 @@ namespace Automaton.Studio.ViewModels
 
         #region Properties
 
-        private IEnumerable<SolutionStep> steps;
-        public IEnumerable<SolutionStep> Steps
+        private IEnumerable<StepExplorerModel> steps;
+        public IEnumerable<StepExplorerModel> Steps
         {
             get => steps;
 
@@ -52,7 +52,7 @@ namespace Automaton.Studio.ViewModels
             Steps = stepFactory.GetSteps();
         }
 
-        public void StepDrag(TreeEventArgs<SolutionStep> args)
+        public void StepDrag(TreeEventArgs<StepExplorerModel> args)
         {
             var step = args.Node.DataItem;
 

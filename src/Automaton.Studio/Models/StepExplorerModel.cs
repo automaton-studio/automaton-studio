@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Automaton.Studio.Models
 {
-    public class SolutionStep
+    public class StepExplorerModel
     {
         private const string DefaultIcon = "file";
 
@@ -14,21 +14,21 @@ namespace Automaton.Studio.Models
         public string Icon { get; set; } = DefaultIcon;
         public string Category { get; set; }
 
-        public List<SolutionStep> Activities { get; set; } = new List<SolutionStep>();
+        public List<StepExplorerModel> Activities { get; set; } = new List<StepExplorerModel>();
 
-        public SolutionStep()
+        public StepExplorerModel()
         {
             Name = "Step";
             Type = "Step";
         }
 
-        public SolutionStep(string name, string displayName)
+        public StepExplorerModel(string name, string displayName)
         {
             Name = name;
             Type = displayName;
         }
 
-        public void AddStep(SolutionStep step)
+        public void AddStep(StepExplorerModel step)
         {
             Activities.Add(step);  
         }
