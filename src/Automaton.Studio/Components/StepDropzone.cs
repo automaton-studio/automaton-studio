@@ -5,7 +5,7 @@ using Automaton.Studio.Conductor;
 
 namespace Automaton.Studio.Components
 {
-    public class DropzoneStep : ComponentBase
+    public class StepDropzone : ComponentBase
     {
         [Parameter]
         public Step Step { get; set; }

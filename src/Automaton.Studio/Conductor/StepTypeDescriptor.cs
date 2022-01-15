@@ -1,4 +1,5 @@
 using Automaton.Studio.Attributes;
+using Automaton.Studio.Conductor.Interfaces;
 using System;
 using System.Reflection;
 

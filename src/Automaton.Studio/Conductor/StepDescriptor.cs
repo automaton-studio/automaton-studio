@@ -1,3 +1,5 @@
+using Automaton.Studio.Conductor.Interfaces;
+
 namespace Automaton.Studio.Conductor
 {
     public class StepDescriptor : IStepDescriptor

@@ -1,6 +1,6 @@
 ﻿namespace Automaton.Studio.Conductor
 {
-    public enum WorkflowErrorHandling
+    public enum DefinitionErrorHandling
     {
         Retry,
         Suspend,

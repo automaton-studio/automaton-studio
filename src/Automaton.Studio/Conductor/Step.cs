@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Automaton.Studio.Conductor.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
@@ -48,7 +49,7 @@ namespace Automaton.Studio.Conductor
 
         public string CancelCondition { get; set; }
 
-        public WorkflowErrorHandling? ErrorBehavior { get; set; }
+        public DefinitionErrorHandling? ErrorBehavior { get; set; }
 
         public TimeSpan? RetryInterval { get; set; }
 

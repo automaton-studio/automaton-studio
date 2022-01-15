@@ -1,6 +1,6 @@
 using System;
 
-namespace Automaton.Studio.Conductor
+namespace Automaton.Studio.Conductor.Interfaces
 {
     public interface IStepTypeDescriptor
     {

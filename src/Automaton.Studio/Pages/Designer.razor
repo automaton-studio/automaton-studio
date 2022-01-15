@@ -8,7 +8,7 @@
         <CascadingValue Value="FlowId">
             <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="explorer-tabs">
                 <TabPane Key="1" Tab="Steps">
-                    <StepsExplorer></StepsExplorer>
+                    <StepExplorer></StepExplorer>
                 </TabPane>
                 <TabPane Key="2" Tab="Solution">
                     @*<SolutionFlow @ref="solutionFlow"></SolutionFlow>*@
@@ -63,7 +63,7 @@
                             OnItemDrop="@((p)=>OnStepDrop(p))"
                             OnItemMouseDown="@((p)=>OnStepMouseDown(p))"
                             OnItemDoubleClick="@((p)=>OnStepDoubleClick(p))">
-                            <DropzoneStep Step="@context" />
+                            <StepDropzone Step="@context" />
                         </Dropzone>
                     </TabPane>
                 }

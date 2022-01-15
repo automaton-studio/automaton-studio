@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Components
 {
-    public partial class StepComponent : ComponentBase
+    public partial class StepDesigner : ComponentBase
     {
         [Parameter]
         public Conductor.Step Step { get; set; }

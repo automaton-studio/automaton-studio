@@ -16,7 +16,7 @@ namespace Automaton.Studio.Conductor
 
         public string Description { get; set; }
 
-        public WorkflowErrorHandling DefaultErrorBehavior { get; set; }
+        public DefinitionErrorHandling DefaultErrorBehavior { get; set; }
 
         public TimeSpan? DefaultErrorRetryInterval { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Conductor;
+using Automaton.Studio.Conductor.Interfaces;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Models;
 using Automaton.Studio.Steps.EmitLog;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Components
 {
-    partial class StepsExplorer : ComponentBase
+    partial class StepExplorer : ComponentBase
     {
         [Inject] 
         private IStepsViewModel StepsViewModel { get; set; } = default!;
