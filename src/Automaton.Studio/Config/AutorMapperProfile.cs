@@ -4,9 +4,9 @@ using Automaton.Studio.Models;
 
 namespace Automaton.Studio.Mapper
 {
-    public class StudioProfile : Profile
+    public class AutorMapperProfile : Profile
     {
-        public StudioProfile()
+        public AutorMapperProfile()
         {
             CreateMap<Definition, DefinitionModel>();
         }
