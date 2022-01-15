@@ -11,9 +11,9 @@ namespace Automaton.Studio.Conductor
     {
         #region Constants
 
-        private const string StepClass = "designer-activity";
-        private const string SelectedStepClass = "designer-activity-selected";
-        private const string DisabledStepClass = "designer-activity-disabled";
+        private const string StepClass = "designer-step";
+        private const string SelectedStepClass = "designer-step-selected";
+        private const string DisabledStepClass = "designer-step-disabled";
 
         #endregion
 

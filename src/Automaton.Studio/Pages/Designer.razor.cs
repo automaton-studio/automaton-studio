@@ -148,7 +148,7 @@ namespace Automaton.Studio.Pages
                 DesignerViewModel.FinalizeStep(step);
 
                 // TODO! It may be inneficient to update the state of the entire Designer control.
-                // A better alternative would be to update the state of the activity being updated.
+                // A better alternative would be to update the state of the step being updated.
                 StateHasChanged();
 
                 return Task.CompletedTask;
