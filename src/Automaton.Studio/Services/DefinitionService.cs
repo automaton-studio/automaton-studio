@@ -14,8 +14,8 @@ namespace Automaton.Studio.Services
     {
         #region Private Members
 
-        private readonly ConfigService configService;
         private HttpClient httpClient;
+        private readonly ConfigService configService;
         private readonly IMapper mapper;
         private readonly ILogger<DefinitionService> logger;
 

@@ -18,7 +18,8 @@ namespace Automaton.Studio.ViewModels
         private readonly IMapper mapper;
         private readonly StepFactory stepFactory;
         private readonly IDefinitionService definitionService;
-        private readonly Flow flow = new();
+        private readonly IFlowService solutionService;
+        private Flow flow = new();
 
         public IList<Definition> Definitions => flow.Definitions;
 
@@ -39,12 +40,14 @@ namespace Automaton.Studio.ViewModels
         (
             IMapper mapper,
             StepFactory stepFactory,
-            IDefinitionService workflowService
+            IDefinitionService definitionService,
+            IFlowService solutionService
         )
         {
             this.mapper = mapper;
             this.stepFactory = stepFactory;
-            this.definitionService = workflowService;
+            this.definitionService = definitionService;
+            this.solutionService = solutionService;
         }
 
         public void StepDrag(StepExplorerModel solutionStep)
@@ -59,7 +62,7 @@ namespace Automaton.Studio.ViewModels
             var step = stepFactory.GetStep(name);
 
             // Set reference to StudioWorkflow
-            step.StudioWorkflow = flow.ActiveDefinition;
+            step.Definition = flow.ActiveDefinition;
 
             return step;
         }
@@ -76,12 +79,12 @@ namespace Automaton.Studio.ViewModels
 
         public async Task LoadFlow(string flowId)
         {
-            //studioFlow = await workflowService.Get(flowId);
+            flow = await solutionService.Load(flowId);
         }
 
         public async Task SaveFlow()
         {
-            await definitionService.Save(flow.ActiveDefinition);
+            await solutionService.Save(flow);
         }
 
         public void FinalizeStep(Step step)

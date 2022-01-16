@@ -37,7 +37,7 @@ namespace Automaton.Studio.Components
 
         private static void OnDelete(Conductor.Step step)
         {
-            step.StudioWorkflow.DeleteStep(step);
+            step.Definition.DeleteStep(step);
         }
 
         #endregion

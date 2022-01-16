@@ -18,7 +18,7 @@ namespace Automaton.Studio.Config
 
             // Services
             services.AddSingleton<IDefinitionService, DefinitionService>();
-            services.AddSingleton<ISolutionService, SolutionService>();
+            services.AddSingleton<IFlowService, FlowService>();
 
             // ViewModels
             services.AddScoped<DefinitionsViewModel>();

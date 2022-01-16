@@ -3,10 +3,9 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services.Interfaces
 {
-    public interface ISolutionService
+    public interface IFlowService
     {
-        Task<Flow> Load(string filePath);
+        Task<Flow> Load(string flowId);
         Task Save(Flow flow);
-        Task SaveAs(Flow flow, string filePath);
     }
 }

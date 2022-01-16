@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 
 namespace Automaton.Studio.Conductor
 {
@@ -25,16 +26,19 @@ namespace Automaton.Studio.Conductor
 
         #region Properties
 
+        [JsonIgnore]
+        public Definition ActiveDefinition { get; set; }
+        [JsonIgnore]
         public IStepDescriptor Descriptor { get; set; }
-
+        [JsonIgnore]
         public IDictionary<string, object> InputsDictionary => Inputs;
-
-        public Definition StudioWorkflow { get; set; }
-
+        [JsonIgnore]
+        public Definition Definition { get; set; }
+        [JsonIgnore]
         public string Class { get; set; }
-
+        [JsonIgnore]
         public string DisplayName { get; set; }
-
+        [JsonIgnore]
         public string Type { get; set; }
 
         #endregion
