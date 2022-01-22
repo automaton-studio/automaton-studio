@@ -15,12 +15,10 @@ namespace Automaton.Studio.ViewModels
 
         IList<Definition> Definitions { get; }
 
-        IList<Step> GetSteps();
-        IEnumerable<Step> GetSelectedSteps();
-
         void StepDrag(StepExplorerModel solutionSTep);
         void FinalizeStep(Step step);
         void DeleteStep(Step step);
+        IEnumerable<Step> GetSelectedSteps();
 
         Task LoadFlow(string flowId);
         Task SaveFlow();

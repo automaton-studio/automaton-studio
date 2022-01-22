@@ -51,13 +51,13 @@
                     OnAddClick="OnWorkflowAddClick" 
                     OnClose="OnWorkflowTabClose">
 
-                @foreach (var workflow in DesignerViewModel.Definitions)
+                @foreach (var definition in DesignerViewModel.Definitions)
                 {
-                    <TabPane Key="@workflow.Id" Tab="@workflow.Name">
+                    <TabPane Key="@definition.Id" Tab="@definition.Name">
                         <Dropzone Class="dropzone"
                             @ref="dropzone"
                             TItem="Conductor.Step"
-                            Items="DesignerViewModel.GetSteps()"
+                            Items="definition.Steps"
                             InstantReplace="true"
                             OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
                             OnItemDrop="@((p)=>OnStepDrop(p))"

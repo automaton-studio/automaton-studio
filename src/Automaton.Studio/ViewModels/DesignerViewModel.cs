@@ -61,15 +61,10 @@ namespace Automaton.Studio.ViewModels
         {
             var step = stepFactory.GetStep(name);
 
-            // Set reference to StudioWorkflow
+            // Set reference to active definition
             step.Definition = flow.ActiveDefinition;
 
             return step;
-        }
-
-        public void AddStep(Step step)
-        {
-            flow.ActiveDefinition.Steps.Add(step);
         }
 
         public void DeleteStep(Step step)
@@ -90,11 +85,6 @@ namespace Automaton.Studio.ViewModels
         public void FinalizeStep(Step step)
         {
             flow.ActiveDefinition.FinalizeStep(step);
-        }
-
-        public IList<Step> GetSteps()
-        {
-            return flow.ActiveDefinition.Steps;
         }
 
         public IEnumerable<Step> GetSelectedSteps()
