@@ -16,15 +16,17 @@ namespace Automaton.Studio.Conductor
 
         public Flow()
         {
-            Name = "Untitled";
-
             var defaultDefinition = new Definition
             {
+                Id = Guid.NewGuid().ToString(),
                 Name = "Untitled"
             };
-
             Definitions.Add(defaultDefinition);
+
+            Name = "Untitled";
+            Id = Guid.NewGuid().ToString();
             ActiveDefinition = defaultDefinition;
+            StartupDefinitionId = defaultDefinition.Id;
         }
     }
 }
