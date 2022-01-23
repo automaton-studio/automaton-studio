@@ -70,6 +70,7 @@ namespace Automaton.Studio.Factories
         {
             var descriptor = stepTypeDescriptor.Describe(solutionTypes[name]);
             var step = Activator.CreateInstance(solutionTypes[name], descriptor) as Step;
+            step.Id = Guid.NewGuid().ToString();
 
             return step;
         }
