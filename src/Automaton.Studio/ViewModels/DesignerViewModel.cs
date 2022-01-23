@@ -6,18 +6,15 @@ using Automaton.Studio.Models;
 using Automaton.Studio.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.ViewModels
 {
-    public class DesignerViewModel : IDesignerViewModel, INotifyPropertyChanged
+    public class DesignerViewModel : IDesignerViewModel
     {
         private readonly IMapper mapper;
         private readonly StepFactory stepFactory;
-        private readonly IDefinitionService definitionService;
         private readonly IFlowService solutionService;
         private Flow flow = new();
 
@@ -47,15 +44,12 @@ namespace Automaton.Studio.ViewModels
         {
             this.mapper = mapper;
             this.stepFactory = stepFactory;
-            this.definitionService = definitionService;
             this.solutionService = solutionService;
         }
 
         public void CreateStep(StepExplorerModel solutionStep)
         {
             var step = stepFactory.GetStep(solutionStep.Name);
-
-            // Set reference to active definition
             step.Definition = ActiveDefinition;
 
             DragStep?.Invoke(this, new StepEventArgs(step));
@@ -91,16 +85,5 @@ namespace Automaton.Studio.ViewModels
         {
             ActiveDefinition.UpdateStepConnections();
         }
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
     }
 }
