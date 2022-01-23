@@ -101,18 +101,6 @@ namespace Automaton.Studio.Conductor
             return Class == SelectedStepClass;
         }
 
-        public void UpdateConnections()
-        {
-            //UpdateExistingConnections();
-
-            //UpdateNewConnections();
-        }
-
-        public void DeleteConnections()
-        {
-            //UpdateExistingConnections();
-        }
-
         public void MarkAsCreated()
         {
             pendingCreation = false;

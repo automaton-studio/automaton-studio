@@ -58,7 +58,7 @@ namespace Automaton.Studio.ViewModels
 
             if (!step.IsCategory())
             {
-                designerViewModel.StepDrag(step);
+                designerViewModel.CreateStep(step);
             }
         }
 

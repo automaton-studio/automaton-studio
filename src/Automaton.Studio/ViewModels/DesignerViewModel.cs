@@ -22,18 +22,19 @@ namespace Automaton.Studio.ViewModels
         private Flow flow = new();
 
         public IList<Definition> Definitions => flow.Definitions;
+        public Definition ActiveDefinition => flow.ActiveDefinition;
 
         public event EventHandler<StepEventArgs> DragStep;
         public event EventHandler<StepEventArgs> StepAdded
         {
-            add { flow.ActiveDefinition.StepAdded += value; }
-            remove { flow.ActiveDefinition.StepAdded -= value; }
+            add { ActiveDefinition.StepAdded += value; }
+            remove { ActiveDefinition.StepAdded -= value; }
         }
 
         public event EventHandler<StepEventArgs> StepRemoved
         {
-            add { flow.ActiveDefinition.StepRemoved += value; }
-            remove { flow.ActiveDefinition.StepRemoved -= value; }
+            add { ActiveDefinition.StepRemoved += value; }
+            remove { ActiveDefinition.StepRemoved -= value; }
         }
 
         public DesignerViewModel
@@ -50,26 +51,19 @@ namespace Automaton.Studio.ViewModels
             this.solutionService = solutionService;
         }
 
-        public void StepDrag(StepExplorerModel solutionStep)
+        public void CreateStep(StepExplorerModel solutionStep)
         {
-            var step = CreateStep(solutionStep.Name);
+            var step = stepFactory.GetStep(solutionStep.Name);
+
+            // Set reference to active definition
+            step.Definition = ActiveDefinition;
 
             DragStep?.Invoke(this, new StepEventArgs(step));
         }
 
-        private Step CreateStep(string name)
-        {
-            var step = stepFactory.GetStep(name);
-
-            // Set reference to active definition
-            step.Definition = flow.ActiveDefinition;
-
-            return step;
-        }
-
         public void DeleteStep(Step step)
         {
-            flow.ActiveDefinition.Steps.Remove(step); 
+            ActiveDefinition.Steps.Remove(step); 
         }
 
         public async Task LoadFlow(string flowId)
@@ -84,12 +78,18 @@ namespace Automaton.Studio.ViewModels
 
         public void FinalizeStep(Step step)
         {
-            flow.ActiveDefinition.FinalizeStep(step);
+            ActiveDefinition.FinalizeStep(step);
+            ActiveDefinition.UpdateStepConnections();
         }
 
         public IEnumerable<Step> GetSelectedSteps()
         {
-            return flow.ActiveDefinition.Steps.Where(x => x.IsSelected());
+            return ActiveDefinition.Steps.Where(x => x.IsSelected());
+        }
+
+        public void UpdateStepConnections(Step step)
+        {
+            ActiveDefinition.UpdateStepConnections();
         }
 
         #region INotifyPropertyChanged

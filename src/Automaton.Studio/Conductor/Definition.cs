@@ -1,6 +1,7 @@
 ﻿using Automaton.Studio.Events;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Automaton.Studio.Conductor
 {
@@ -29,7 +30,7 @@ namespace Automaton.Studio.Conductor
 
         public void DeleteStep(Step step)
         {
-            step.DeleteConnections();
+            //step.DeleteConnections();
 
             Steps.Remove(step);
 
@@ -41,6 +42,18 @@ namespace Automaton.Studio.Conductor
             step.MarkAsCreated();
 
             StepAdded?.Invoke(this, new StepEventArgs(step));
+        }
+
+        public void UpdateStepConnections()
+        {
+            for(var i = 0; i < Steps.Count - 1; i++)
+            {
+                var step = Steps[i];
+                step.NextStepId = Steps[i + 1].Id;
+            }
+
+            var lastStep = Steps.Last();
+            lastStep.NextStepId = null;
         }
     }
 }
