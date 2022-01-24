@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using Automaton.Studio.Conductor;
 using Automaton.Studio.Models;
-using Automaton.Studio.Services;
 using Automaton.Studio.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,53 +9,53 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.ViewModels
 {
-    public class DefinitionsViewModel : IDefinitionsViewModel, INotifyPropertyChanged
+    public class FlowViewModel : IFlowViewModel, INotifyPropertyChanged
     {
         #region Members
 
         private readonly IMapper mapper;
-        private IDefinitionService definitionService;
+        private IFlowService flowService;
 
         #endregion
 
         #region Properties
 
-        private IEnumerable<DefinitionModel> definitions;
-        public IEnumerable<DefinitionModel> Definitions
+        private IEnumerable<FlowModel> flows;
+        public IEnumerable<FlowModel> Flows
         {
-            get => definitions;
+            get => flows;
 
             set
             {
-                definitions = value;
+                flows = value;
                 OnPropertyChanged();
             }
         }
 
         #endregion
 
-        public DefinitionsViewModel
+        public FlowViewModel
         (
-            IDefinitionService definitionService,
+            IFlowService flowService,
             IMapper mapper
         )
         {
-            this.definitionService = definitionService;
+            this.flowService = flowService;
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<DefinitionModel>> GetDefinitions()
+        public async Task<IEnumerable<FlowModel>> GetFlows()
         {
-            var definitions = await this.definitionService.List();
-            Definitions = mapper.Map<IEnumerable<Definition>, IEnumerable<DefinitionModel>>(definitions);
+            var Flows = await this.flowService.List();
+            //Flows = mapper.Map<IEnumerable<Flow>, IEnumerable<DefinitionModel>>(flows);
 
-            return Definitions;
+            return Flows;
         }
 
         /// <summary>
         /// Creates a new flow
         /// </summary>
-        public async Task<DefinitionModel> CreateFlow(string flowName)
+        public async Task<FlowModel> CreateFlow(string name)
         {
             throw new NotImplementedException();
         }
@@ -75,7 +73,7 @@ namespace Automaton.Studio.ViewModels
         /// Runs flow on its selected runners
         /// </summary>
         /// <param name="flow">Flow model to run</param>
-        public async Task RunFlow(DefinitionModel flow)
+        public async Task RunFlow(FlowModel flow)
         {
             throw new NotImplementedException();
         }

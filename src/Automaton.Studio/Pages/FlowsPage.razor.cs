@@ -8,33 +8,33 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages
 {
-    partial class Flows : ComponentBase
+    partial class FlowsPage : ComponentBase
     {
         [Inject] private NavigationManager NavigationManager { get; set; } = default!;
-        [Inject] private IDefinitionsViewModel FlowsViewModel { get; set; } = default!;
+        [Inject] private IFlowViewModel FlowsViewModel { get; set; } = default!;
         [Inject] private ModalService ModalService { get; set; }
         [Inject] private MessageService MessageService { get; set; }
 
-        private IEnumerable<DefinitionModel> Definitions { get; set; }
+        private IEnumerable<FlowModel> Flows { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            Definitions = await FlowsViewModel.GetDefinitions();
+            Flows = await FlowsViewModel.GetFlows();
 
             base.OnInitializedAsync();
         }
 
-        private async Task RunFlow(DefinitionModel flow)
+        private async Task RunFlow(FlowModel flow)
         {
             await FlowsViewModel.RunFlow(flow);
         }
 
-        private void EditFlow(DefinitionModel flow)
+        private void EditFlow(FlowModel flow)
         {
             NavigationManager.NavigateTo($"flow/{flow.Id}");
         }
 
-        private void DeleteFlow(DefinitionModel flow)
+        private void DeleteFlow(FlowModel flow)
         {
             FlowsViewModel.DeleteFlow(flow.Id);
         }

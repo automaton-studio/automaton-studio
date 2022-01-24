@@ -8,7 +8,7 @@
             <Col Flex=@("none") Class="page-title">
             <Space Size="@AntSizeLDSType.Large">
                 <SpaceItem>
-                    <h3>Workflows</h3>
+                    <h3>Flows</h3>
                 </SpaceItem>
                 <SpaceItem>
                     <Button Class="new-button" Icon="plus" @onclick="@(() => NewFlowDialog())">
@@ -26,9 +26,9 @@
     </Header>
 
     <Content>
-        <Table TItem="DefinitionModel" DataSource="@Definitions">
+        <Table TItem="FlowModel" DataSource="@Flows">
             <Column Title="Name" @bind-Field="@context.Id">
-                @context.Id
+                @context.Name
             </Column>
 
             <ActionColumn Title="Action">

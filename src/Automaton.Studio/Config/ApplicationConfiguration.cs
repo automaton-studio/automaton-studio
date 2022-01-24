@@ -21,8 +21,8 @@ namespace Automaton.Studio.Config
             services.AddSingleton<IFlowService, FlowService>();
 
             // ViewModels
-            services.AddScoped<DefinitionsViewModel>();
-            services.AddScoped<IDefinitionsViewModel, DefinitionsViewModel>();
+            services.AddScoped<FlowViewModel>();
+            services.AddScoped<IFlowViewModel, FlowViewModel>();
             services.AddScoped<IDesignerViewModel, DesignerViewModel>();
             services.AddScoped<IStepsViewModel, StepsViewModel>();
             services.AddSingleton<IStepTypeDescriptor, StepTypeDescriptor>();

@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Conductor;
+using Automaton.Studio.Errors;
+using Automaton.Studio.Models;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -28,6 +32,24 @@ namespace Automaton.Studio.Services.Interfaces
             this.httpClient = httpClient;
             this.httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
             this.mapper = mapper;
+        }
+
+        public async Task<IEnumerable<FlowModel>> List()
+        {
+            try
+            {
+                var response = await httpClient.GetAsync($"{configService.ConductorUrl}/api/flow");
+
+                var flows = await response.Content.ReadAsAsync<IEnumerable<FlowModel>>();
+
+                return flows;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(AppLogEvents.Error, ex, "Failed to load flows list");
+
+                return new List<FlowModel>();
+            }
         }
 
         public async Task<Flow> Load(string id)
