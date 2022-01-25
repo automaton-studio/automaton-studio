@@ -31,7 +31,7 @@ namespace Automaton.Studio.Pages
 
         private void EditFlow(FlowModel flow)
         {
-            NavigationManager.NavigateTo($"flow/{flow.Id}");
+            NavigationManager.NavigateTo($"designer/{flow.Id}");
         }
 
         private void DeleteFlow(FlowModel flow)
