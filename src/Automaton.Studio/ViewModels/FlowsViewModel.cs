@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.ViewModels
 {
-    public class FlowViewModel : IFlowViewModel, INotifyPropertyChanged
+    public class FlowsViewModel : IFlowViewModel, INotifyPropertyChanged
     {
         #region Members
 
@@ -34,7 +34,7 @@ namespace Automaton.Studio.ViewModels
 
         #endregion
 
-        public FlowViewModel
+        public FlowsViewModel
         (
             IFlowsService flowsService,
             IMapper mapper
