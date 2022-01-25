@@ -14,7 +14,7 @@ namespace Automaton.Studio.ViewModels
         #region Members
 
         private readonly IMapper mapper;
-        private IFlowService flowService;
+        private IFlowsService flowsService;
 
         #endregion
 
@@ -36,18 +36,17 @@ namespace Automaton.Studio.ViewModels
 
         public FlowViewModel
         (
-            IFlowService flowService,
+            IFlowsService flowsService,
             IMapper mapper
         )
         {
-            this.flowService = flowService;
+            this.flowsService = flowsService;
             this.mapper = mapper;
         }
 
         public async Task<IEnumerable<FlowModel>> GetFlows()
         {
-            var Flows = await this.flowService.List();
-            //Flows = mapper.Map<IEnumerable<Flow>, IEnumerable<DefinitionModel>>(flows);
+            var Flows = await this.flowsService.List();
 
             return Flows;
         }
