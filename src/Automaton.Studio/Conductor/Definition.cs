@@ -1,5 +1,4 @@
-﻿using Automaton.Studio.Conductor;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Automaton.Studio.Conductor
@@ -12,7 +11,7 @@ namespace Automaton.Studio.Conductor
 
         public string Description { get; set; }
 
-        public DefinitionErrorHandling DefaultErrorBehavior { get; set; }
+        public WorkflowErrorHandling DefaultErrorBehavior { get; set; }
 
         public TimeSpan? DefaultErrorRetryInterval { get; set; }
 
