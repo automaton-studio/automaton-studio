@@ -1,4 +1,4 @@
-namespace Automaton.Studio.Conductor.Interfaces
+namespace Automaton.Studio.Domain.Interfaces
 {
     public interface IStepDescriptor
     {

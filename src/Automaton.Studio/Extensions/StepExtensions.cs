@@ -10,7 +10,7 @@ namespace Automaton.Studio.Extensions
            return modalService.CreateModalAsync<TComponent, TComponentOptions>(config, componentOptions);  
         }
 
-        public static async Task<ModalRef> DisplayPropertiesDialog(this Conductor.Step step, ModalService modalService)
+        public static async Task<ModalRef> DisplayPropertiesDialog(this Domain.Step step, ModalService modalService)
         {
             var modalConfig = new ModalOptions
             {

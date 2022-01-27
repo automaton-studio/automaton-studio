@@ -1,4 +1,4 @@
-﻿using Automaton.Studio.Conductor;
+﻿using Automaton.Studio.Domain;
 using System;
 
 namespace Automaton.Studio.Events

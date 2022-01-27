@@ -1,7 +1,8 @@
-﻿@page "/designer/{FlowId}"
+﻿@page "/designer"
+@page "/designer/{FlowId}"
 @using AntDesign
 @using Automaton.Studio.Components
-@using Automaton.Studio.Conductor;
+@using Automaton.Studio.Domain;
 
 <Layout Class="designer-container">
     <Sider Theme="SiderTheme.Light" Style="width: 300px">
@@ -56,7 +57,7 @@
                     <TabPane Key="@definition.Id" Tab="@definition.Name">
                         <Dropzone Class="dropzone"
                             @ref="dropzone"
-                            TItem="Conductor.Step"
+                            TItem="Domain.Step"
                             Items="definition.Steps"
                             InstantReplace="true"
                             OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"

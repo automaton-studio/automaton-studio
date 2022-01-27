@@ -1,6 +1,6 @@
 ﻿using AntDesign;
 using Automaton.Studio.Components;
-using Automaton.Studio.Conductor;
+using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.ViewModels;
@@ -16,7 +16,7 @@ namespace Automaton.Studio.Pages
         #region Members
 
         private Guid currentFlowId;
-        private Dropzone<Conductor.Step> dropzone;
+        private Dropzone<Domain.Step> dropzone;
         private Definition solutionFlow;
 
         #endregion
@@ -75,7 +75,7 @@ namespace Automaton.Studio.Pages
             dropzone.ActiveItem.Select();
         }
 
-        private async Task OnStepDrop(Conductor.Step step)
+        private async Task OnStepDrop(Domain.Step step)
         {
             if (step.IsPendingCreation())
             {
@@ -87,7 +87,7 @@ namespace Automaton.Studio.Pages
             }
         }
 
-        private void OnStepMouseDown(Conductor.Step step)
+        private void OnStepMouseDown(Domain.Step step)
         {
             // Unselect all the previous selected activities
             UnselectSteps();
@@ -96,7 +96,7 @@ namespace Automaton.Studio.Pages
             step.Select();
         }
 
-        private async Task OnStepDoubleClick(Conductor.Step step)
+        private async Task OnStepDoubleClick(Domain.Step step)
         {
             var result = await step.DisplayPropertiesDialog(ModalService);
 
@@ -139,7 +139,7 @@ namespace Automaton.Studio.Pages
 
         #endregion
 
-        private async Task NewStepDialog(Conductor.Step step)
+        private async Task NewStepDialog(Domain.Step step)
         {
             var result = await step.DisplayPropertiesDialog(ModalService);
 

@@ -1,5 +1,5 @@
-﻿using Automaton.Studio.Conductor;
-using Automaton.Studio.Conductor.Interfaces;
+﻿using Automaton.Studio.Domain;
+using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Services;
 using Automaton.Studio.Services.Interfaces;

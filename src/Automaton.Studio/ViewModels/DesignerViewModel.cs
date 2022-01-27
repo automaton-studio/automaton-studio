@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Automaton.Studio.Conductor;
+using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Models;

@@ -1,4 +1,4 @@
-﻿using Automaton.Studio.Conductor;
+﻿using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Models;
 using System;

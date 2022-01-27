@@ -8,7 +8,7 @@ namespace Automaton.Studio.Components
     public partial class StepDesigner : ComponentBase
     {
         [Parameter]
-        public Conductor.Step Step { get; set; }
+        public Domain.Step Step { get; set; }
 
         [Parameter] 
         public RenderFragment ChildContent { get; set; }
@@ -23,7 +23,7 @@ namespace Automaton.Studio.Components
 
         #region Event Handlers
 
-        private async Task OnEdit(Conductor.Step step)
+        private async Task OnEdit(Domain.Step step)
         {
             var result = await step.DisplayPropertiesDialog(ModalService);
 
@@ -35,7 +35,7 @@ namespace Automaton.Studio.Components
             };
         }
 
-        private static void OnDelete(Conductor.Step step)
+        private static void OnDelete(Domain.Step step)
         {
             step.Definition.DeleteStep(step);
         }

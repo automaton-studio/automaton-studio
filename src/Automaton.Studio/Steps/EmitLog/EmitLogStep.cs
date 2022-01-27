@@ -1,6 +1,6 @@
 ﻿using Automaton.Studio.Attributes;
-using Automaton.Studio.Conductor;
-using Automaton.Studio.Conductor.Interfaces;
+using Automaton.Studio.Domain;
+using Automaton.Studio.Domain.Interfaces;
 using System;
 
 namespace Automaton.Studio.Steps.EmitLog

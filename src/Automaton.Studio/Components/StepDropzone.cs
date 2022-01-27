@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using System;
-using Automaton.Studio.Conductor;
+using Automaton.Studio.Domain;
 
 namespace Automaton.Studio.Components
 {

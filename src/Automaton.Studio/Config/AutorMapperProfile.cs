@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Automaton.Studio.Conductor;
+using Automaton.Studio.Domain;
 using Automaton.Studio.Models;
 
 namespace Automaton.Studio.Mapper
