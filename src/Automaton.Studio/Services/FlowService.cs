@@ -55,8 +55,9 @@ namespace Automaton.Studio.Services.Interfaces
         public async Task<Flow> Load(string id)
         {
             var response = await httpClient.GetAsync($"{configService.ConductorUrl}/api/flow/{id}");
-            var flow = await response.Content.ReadAsAsync<Flow>();
-
+            var conductorFlow = await response.Content.ReadAsAsync<Conductor.Flow>();
+            var flow = mapper.Map<Flow>(conductorFlow);
+            
             return flow;
         }
 
