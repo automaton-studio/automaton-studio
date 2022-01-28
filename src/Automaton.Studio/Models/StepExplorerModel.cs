@@ -13,7 +13,8 @@ namespace Automaton.Studio.Models
         public string Description { get; set; }
         public string Icon { get; set; } = DefaultIcon;
         public string Category { get; set; }
-        public IList<StepExplorerModel> Activities { get; set; } = new List<StepExplorerModel>();
+
+        public IList<StepExplorerModel> Steps { get; set; } = new List<StepExplorerModel>();
 
         public StepExplorerModel()
         {
@@ -29,12 +30,12 @@ namespace Automaton.Studio.Models
 
         public void AddStep(StepExplorerModel step)
         {
-            Activities.Add(step);  
+            Steps.Add(step);  
         }
 
         public bool IsCategory()
         {
-            return Activities != null && Activities.Any();
+            return Steps != null && Steps.Any();
         }
     }
 }

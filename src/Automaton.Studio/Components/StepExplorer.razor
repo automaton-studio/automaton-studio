@@ -20,9 +20,9 @@
                 Draggable
                 DataSource="@StepsViewModel.Steps"
                 TitleExpression="x => x.DataItem.Type"
-                ChildrenExpression="x => x.DataItem.Activities"
+                ChildrenExpression="x => x.DataItem.Steps"
                 IconExpression="x => x.DataItem.Icon"
-                IsLeafExpression="x => x.DataItem.Activities == null || !x.DataItem.Activities.Any()"
+                IsLeafExpression="x => x.DataItem.Steps == null || !x.DataItem.Steps.Any()"
                 KeyExpression="x => x.DataItem.Name"
                 OnDragStart="@((i)=> { StepsViewModel.StepDrag(i); })"
                 Class="activities-tree"
