@@ -48,6 +48,7 @@ namespace Automaton.Studio.Pages
             if (!string.IsNullOrEmpty(FlowId))
             {
                 await DesignerViewModel.LoadFlow(FlowId);
+                StateHasChanged();
             }
 
             // Setup event handlers after workflow is loaded

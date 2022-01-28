@@ -1,5 +1,6 @@
 ﻿using Automaton.Studio.Conductor;
 using Automaton.Studio.Events;
+using Automaton.Studio.Factories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +27,12 @@ namespace Automaton.Studio.Domain
 
         #endregion
 
+        #region Events
+
         public event EventHandler<StepEventArgs> StepAdded;
         public event EventHandler<StepEventArgs> StepRemoved;
+
+        #endregion
 
         public void DeleteStep(Step step)
         {

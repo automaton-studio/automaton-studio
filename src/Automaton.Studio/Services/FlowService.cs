@@ -5,6 +5,7 @@ using Automaton.Studio.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -56,7 +57,9 @@ namespace Automaton.Studio.Services.Interfaces
         {
             var response = await httpClient.GetAsync($"{configService.ConductorUrl}/api/flow/{id}");
             var conductorFlow = await response.Content.ReadAsAsync<Conductor.Flow>();
+            
             var flow = mapper.Map<Flow>(conductorFlow);
+            flow.ActiveDefinition = flow.Definitions.SingleOrDefault(x => x.Id == flow.StartupDefinitionId);
             
             return flow;
         }
