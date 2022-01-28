@@ -49,7 +49,7 @@ namespace Automaton.Studio.ViewModels
 
         public void CreateStep(StepExplorerModel solutionStep)
         {
-            var step = stepFactory.GetStep(solutionStep.Name);
+            var step = stepFactory.CreateStep(solutionStep.Name);
             step.Definition = ActiveDefinition;
 
             DragStep?.Invoke(this, new StepEventArgs(step));

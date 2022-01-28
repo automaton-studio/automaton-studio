@@ -64,7 +64,7 @@ namespace Automaton.Studio.Factories
             solutionTypes.Add(solutionStep.Name, stepType);
         }
 
-        public Step GetStep(string name)
+        public Step CreateStep(string name)
         {
             var descriptor = stepTypeDescriptor.Describe(solutionTypes[name]);
             var step = Activator.CreateInstance(solutionTypes[name], descriptor) as Step;
