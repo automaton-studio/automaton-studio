@@ -15,18 +15,17 @@ namespace Automaton.Studio.Steps.EmitLog
     )]
     public class EmitLogStep : Step
     {
-        private string message;
         public string Message
         {
             get
             {
-                return message;
+                return InputsDictionary.ContainsKey(nameof(Message)) ?
+                    InputsDictionary[nameof(Message)] as string : string.Empty;
             }
 
             set
             {
-                message = value;
-                InputsDictionary[nameof(Message)] = message;
+                InputsDictionary[nameof(Message)] = value;
             }
         }
 
