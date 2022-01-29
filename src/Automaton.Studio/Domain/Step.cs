@@ -81,6 +81,7 @@ namespace Automaton.Studio.Domain
             DisplayName = descriptor.DisplayName;
             Type = descriptor.Type;
             StepType = descriptor.Type;
+            Class = StepClass;
         }
 
         public abstract Type GetDesignerComponent();
