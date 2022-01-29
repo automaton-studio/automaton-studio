@@ -21,7 +21,7 @@ namespace Automaton.Studio.Domain
 
         #region Members
 
-        private bool isFinal = true;
+        private bool isFinal;
 
         #endregion
 
