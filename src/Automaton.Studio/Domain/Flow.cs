@@ -13,28 +13,20 @@ namespace Automaton.Studio.Domain
         public IList<Definition> Definitions { get; set; }
 
         [JsonIgnore]
-        public Definition ActiveDefinition { get; set; }
+        public Definition ActiveDefinition => Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);
 
         public Flow()
         {
-            Definitions = new List<Definition>();
-
             var defaultDefinition = new Definition
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = "Untitled"
             };
-            Definitions.Add(defaultDefinition);
 
             Name = "Untitled";
             Id = Guid.NewGuid().ToString();
-            ActiveDefinition = defaultDefinition;
             StartupDefinitionId = defaultDefinition.Id;
-        }
-
-        public void SetupActiveDefinition()
-        {
-            ActiveDefinition = Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);
+            Definitions = new List<Definition> { defaultDefinition };
         }
     }
 }

@@ -57,9 +57,7 @@ namespace Automaton.Studio.Services.Interfaces
         {
             var response = await httpClient.GetAsync($"{configService.ConductorUrl}/api/flow/{id}");
             var conductorFlow = await response.Content.ReadAsAsync<Conductor.Flow>();
-            
             var flow = mapper.Map<Flow>(conductorFlow);
-            flow.SetupActiveDefinition();
             
             return flow;
         }
