@@ -59,7 +59,7 @@ namespace Automaton.Studio.Services.Interfaces
             var conductorFlow = await response.Content.ReadAsAsync<Conductor.Flow>();
             
             var flow = mapper.Map<Flow>(conductorFlow);
-            flow.ActiveDefinition = flow.Definitions.SingleOrDefault(x => x.Id == flow.StartupDefinitionId);
+            flow.SetupActiveDefinition();
             
             return flow;
         }

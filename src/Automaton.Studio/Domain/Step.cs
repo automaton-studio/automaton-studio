@@ -1,5 +1,4 @@
-﻿using Automaton.Studio.Conductor;
-using Automaton.Studio.Domain.Interfaces;
+﻿using Automaton.Studio.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
