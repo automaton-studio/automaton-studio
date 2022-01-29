@@ -29,10 +29,12 @@ namespace Automaton.Studio.Config
          
             foreach (var conductorStep in conductorSteps)
             {
-                // Create domain step
+                // Use Conductor step name to create Domain step
                 var step = stepFactory.CreateStep(conductorStep.Name);
+                // All deserialized steps are marked as final 
+                step.MarkAsFinal();
 
-                // Update step properties using mapper
+                // Update step properties using AutoMapper
                 mapper.Map(conductorStep, step);
 
                 yield return step;

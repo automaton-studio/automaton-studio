@@ -45,7 +45,7 @@ namespace Automaton.Studio.Domain
 
         public void FinalizeStep(Step step)
         {
-            step.MarkAsCreated();
+            step.MarkAsFinal();
 
             StepAdded?.Invoke(this, new StepEventArgs(step));
         }

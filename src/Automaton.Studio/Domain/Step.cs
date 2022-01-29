@@ -21,7 +21,7 @@ namespace Automaton.Studio.Domain
 
         #region Members
 
-        private bool pendingCreation = true;
+        private bool isFinal = true;
 
         #endregion
 
@@ -103,14 +103,14 @@ namespace Automaton.Studio.Domain
             return Class == SelectedStepClass;
         }
 
-        public void MarkAsCreated()
+        public void MarkAsFinal()
         {
-            pendingCreation = false;
+            isFinal = true;
         }
 
-        public bool IsPendingCreation()
+        public bool IsFinal()
         {
-            return pendingCreation;
+            return isFinal;
         }
 
         #region INotifyPropertyChanged

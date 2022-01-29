@@ -78,7 +78,7 @@ namespace Automaton.Studio.Pages
 
         private async Task OnStepDrop(Domain.Step step)
         {
-            if (step.IsPendingCreation())
+            if (!step.IsFinal())
             {
                 await NewStepDialog(step);
             }
