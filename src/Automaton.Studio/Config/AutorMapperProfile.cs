@@ -14,31 +14,41 @@ namespace Automaton.Studio.Config
             CreateMap<Conductor.Step, Step>();
             CreateMap<Conductor.Flow, Flow>();
             CreateMap<Conductor.Definition, Definition>()
-                .ForMember(source => source.Steps, target => target.MapFrom(entity => DeserializeSteps(entity.Steps)));       
+                .ForMember(source => source.Steps, target => target.MapFrom(entity => DeserializeSteps(entity.Steps)));
         }
 
         public IEnumerable<Step> DeserializeSteps(IEnumerable<Conductor.Step> conductorSteps)
         {
-            // I know this is a bit unusual, but we can't use the static Mapper version here.
-            // Because we really need a maper instance, we create it like below.
+            foreach (var conductorStep in conductorSteps)
+            {
+                // Use Conductor step name to create Domain step
+                var step = stepFactory.CreateStep(conductorStep.Name);
+
+                // Deserialized steps are marked as final 
+                step.MarkAsFinal();
+
+                // Update step properties using AutoMapper
+                var mapper = GetMapperInstance();
+                mapper.Map(conductorStep, step);
+
+                yield return step;
+            }
+        }
+
+        /// <summary>
+        /// This is a bit unusual, but we can't use the static Mapper version in this class.
+        /// Because we really need a maper instance, we create it like below.
+        /// </summary>
+        /// <returns>IMapper instance</returns>
+        private static IMapper GetMapperInstance()
+        {
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new AutorMapperProfile());
             });
             var mapper = mappingConfig.CreateMapper();
-         
-            foreach (var conductorStep in conductorSteps)
-            {
-                // Use Conductor step name to create Domain step
-                var step = stepFactory.CreateStep(conductorStep.Name);
-                // All deserialized steps are marked as final 
-                step.MarkAsFinal();
 
-                // Update step properties using AutoMapper
-                mapper.Map(conductorStep, step);
-
-                yield return step;
-            }
+            return mapper;
         }
     }
 }
