@@ -17,14 +17,9 @@ namespace Automaton.Studio.Domain
 
         public Flow()
         {
-            var defaultDefinition = new Definition
-            {
-                Id = Guid.NewGuid().ToString(),
-                Name = "Untitled"
-            };
-
             Name = "Untitled";
             Id = Guid.NewGuid().ToString();
+            var defaultDefinition = new Definition();
             StartupDefinitionId = defaultDefinition.Id;
             Definitions = new List<Definition> { defaultDefinition };
         }

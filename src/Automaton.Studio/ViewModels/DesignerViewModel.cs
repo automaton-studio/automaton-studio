@@ -47,6 +47,20 @@ namespace Automaton.Studio.ViewModels
             this.solutionService = solutionService;
         }
 
+        public Definition NewDefinition(string name)
+        {
+            // Add a new workflow to DesignerViewModel
+            var definition = new Definition { Name = name };
+            Definitions.Add(definition);
+            flow.StartupDefinitionId = definition.Id;
+
+            // Add a new workflow to SolutionFlowViewModel
+            //var newWorkflowModel = new WorkflowModel { Name = newDefinitionModel.Name, IsStartup = true };
+            //SolutionFlowViewModel.AddWorkflow(newWorkflowModel);
+
+            return definition;
+        }
+
         public void CreateStep(StepExplorerModel solutionStep)
         {
             var step = stepFactory.CreateStep(solutionStep.Name);
@@ -84,6 +98,11 @@ namespace Automaton.Studio.ViewModels
         public void UpdateStepConnections(Step step)
         {
             ActiveDefinition.UpdateStepConnections();
+        }
+
+        public IEnumerable<string> GetDefinitionNames()
+        {
+            return Definitions.Select(x => x.Name);
         }
     }
 }

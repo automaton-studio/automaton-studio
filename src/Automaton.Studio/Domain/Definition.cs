@@ -1,6 +1,4 @@
-﻿using Automaton.Studio.Conductor;
-using Automaton.Studio.Events;
-using Automaton.Studio.Factories;
+﻿using Automaton.Studio.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +31,12 @@ namespace Automaton.Studio.Domain
         public event EventHandler<StepEventArgs> StepRemoved;
 
         #endregion
+
+        public Definition()
+        {
+            Id = Guid.NewGuid().ToString();
+            Name = "Untitled";
+        }
 
         public void DeleteStep(Step step)
         {

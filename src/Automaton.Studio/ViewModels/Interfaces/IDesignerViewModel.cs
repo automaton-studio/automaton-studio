@@ -21,6 +21,9 @@ namespace Automaton.Studio.ViewModels
         IEnumerable<Step> GetSelectedSteps();
         void UpdateStepConnections(Step step);
 
+        Definition NewDefinition(string name);
+        IEnumerable<string> GetDefinitionNames();
+
         Task LoadFlow(string flowId);
         Task SaveFlow();
     }

@@ -1,8 +1,10 @@
 ﻿using AntDesign;
 using Automaton.Studio.Components;
+using Automaton.Studio.Components.NewDefinition;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
+using Automaton.Studio.Resources;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -215,37 +217,27 @@ namespace Automaton.Studio.Pages
         /// </summary>
         private async Task OnWorkflowAddClick()
         {
-            //var workflowNameModel = new WorkflowNameModel
-            //{
-            //    ExistingNames = SolutionFlowViewModel.WorkflowNames
-            //};
+            var newDefinitionModel = new NewDefinitionModel
+            {
+                ExistingNames = DesignerViewModel.GetDefinitionNames()
+            };
 
-            //var modalRef = await ModalService.CreateModalAsync<WorkflowNameDialog, WorkflowNameModel>
-            //(
-            //    new ModalOptions { Title = Labels.RenameWorkflow }, workflowNameModel
-            //);
+            var newDefinitionDialog = await ModalService.CreateModalAsync<NewDefinitionDialog, NewDefinitionModel>
+            (
+                new ModalOptions { Title = Labels.DefinitionName }, newDefinitionModel
+            );
 
-            //modalRef.OnOk = async () =>
-            //{
-            //    // Add a new workflow to DesignerViewModel
-            //    var newStudioWorkflow = new StudioWorkflow { Name = workflowNameModel.Name };
-            //    DesignerViewModel.AddWorkflow(newStudioWorkflow);
-            //    DesignerViewModel.ActivityAdded += OnActivityAdded;
-            //    DesignerViewModel.ActivityRemoved += OnActivityRemoved;
+            newDefinitionDialog.OnOk = () =>
+            {
+                var newStudioWorkflow = DesignerViewModel.NewDefinition(newDefinitionModel.Name);
 
-            //    // Add a new workflow to SolutionFlowViewModel
-            //    var newWorkflowModel = new WorkflowModel { Name = workflowNameModel.Name, IsStartup = true };
-            //    SolutionFlowViewModel.AddWorkflow(newWorkflowModel);
+                DesignerViewModel.StepAdded += OnStepAdded;
+                DesignerViewModel.StepRemoved += OnStepRemoved;
 
-            //    // Refresh Flow page otherwise tabs are not updated
-            //    StateHasChanged();
+                StateHasChanged();
 
-            //    if (solutionFlow != null)
-            //    {
-            //        // Refresh SolutionFlow component otherwise the new workflow isn't displayed
-            //        solutionFlow.UpdateState();
-            //    }
-            //};
+                return Task.CompletedTask;
+            };
         }
 
         /// <summary>
