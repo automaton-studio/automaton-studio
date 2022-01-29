@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Automaton.Studio.Models
+namespace Automaton.Studio.Components.NewFlow
 {
     public class NewFlowModel
     {

@@ -1,5 +1,5 @@
 ﻿using AntDesign;
-using Automaton.Studio.Components;
+using Automaton.Studio.Components.NewFlow;
 using Automaton.Studio.Models;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
@@ -21,7 +21,7 @@ namespace Automaton.Studio.Pages
         {
             Flows = await FlowsViewModel.GetFlows();
 
-            base.OnInitializedAsync();
+            await base.OnInitializedAsync();
         }
 
         private async Task RunFlow(FlowModel flow)

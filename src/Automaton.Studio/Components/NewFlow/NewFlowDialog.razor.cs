@@ -3,7 +3,7 @@ using Automaton.Studio.Models;
 using Blazored.FluentValidation;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Components
+namespace Automaton.Studio.Components.NewFlow
 {
     public partial class NewFlowDialog : FeedbackComponent<NewFlowModel>
     {
