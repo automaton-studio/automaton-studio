@@ -6,16 +6,16 @@
     <Header Class="header">
         <Row>
             <Col Flex=@("none") Class="page-title">
-            <Space Size="@AntSizeLDSType.Large">
-                <SpaceItem>
-                    <h3>Flows</h3>
-                </SpaceItem>
-                <SpaceItem>
-                    <Button Class="new-button" Icon="plus" @onclick="@(() => NewFlowDialog())">
-                        New
-                    </Button>
-                </SpaceItem>
-            </Space>
+                <Space Size="@AntSizeLDSType.Large">
+                    <SpaceItem>
+                        <h3>Flows</h3>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Button Class="new-button" Icon="plus" @onclick="@(() => NewFlowDialog())">
+                            New
+                        </Button>
+                    </SpaceItem>
+                </Space>
             </Col>
 
             <Col Class="right-actions">
@@ -27,11 +27,11 @@
 
     <Content>
         <Table TItem="FlowModel" DataSource="@Flows">
-            <Column Title="Name" @bind-Field="@context.Id">
+            <Column Title="Name" @bind-Field="@context.Name" Width="70%">
                 @context.Name
             </Column>
 
-            <ActionColumn Title="Action">
+            <ActionColumn Title="Action" Width="20%">
                 <div>
                     <Space>
                         <SpaceItem>
