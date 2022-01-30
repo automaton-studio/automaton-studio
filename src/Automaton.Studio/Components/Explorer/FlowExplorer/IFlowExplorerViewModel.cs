@@ -1,17 +1,16 @@
-﻿using Automaton.Studio.Models;
+﻿using Automaton.Studio.Domain;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Automaton.Studio.Components.Explorer.FlowExplorer
 {
     public interface IFlowExplorerViewModel
     {
-        IList<FlowExplorerDefinition> Definitions { get; set; }
         IEnumerable<string> DefinitionNames { get; }
+        IList<FlowExplorerDefinition> ExplorerDefinitions { get; set; }
 
-        Task LoadFlow(string flowId);
-        void RenameWorkflow(string workflowId, string workflowName);
-        void AddWorkflow(FlowExplorerDefinition workflowModel);
-
+        void Initialize(Flow flow);
+        void RenameDefinition(string workflowId, string workflowName);
+        void SetStartupDefinition();
+        void RefreshDefinitions();
     }
 }

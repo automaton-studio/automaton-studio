@@ -1,5 +1,6 @@
 ﻿using AntDesign;
 using Automaton.Studio.Components.NewDefinition;
+using Automaton.Studio.Domain;
 using Automaton.Studio.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -19,7 +20,7 @@ namespace Automaton.Studio.Components.Explorer.FlowExplorer
         #region Properties
 
         [CascadingParameter]
-        private string FlowId { get; set; }
+        private Flow Flow { get; set; }
 
         [Inject]
         private IFlowExplorerViewModel FlowExplorerViewModel { get; set; }
@@ -29,14 +30,14 @@ namespace Automaton.Studio.Components.Explorer.FlowExplorer
 
         #endregion
 
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
-            if (!string.IsNullOrEmpty(FlowId))
+            if (Flow != null)
             {
-                await FlowExplorerViewModel.LoadFlow(FlowId); 
+                FlowExplorerViewModel.Initialize(Flow); 
             }
 
-            await base.OnInitializedAsync();
+            base.OnInitializedAsync();
         }
 
         #region Methods
@@ -46,23 +47,23 @@ namespace Automaton.Studio.Components.Explorer.FlowExplorer
             StateHasChanged();
         }
 
-        private async Task RenameWorkflow(FlowExplorerDefinition workflowModel)
+        private async Task RenameWorkflow(FlowExplorerDefinition ExplorerDefinition)
         {
-            var workflowNameModel = new NewDefinitionModel()
+            var definitionModel = new NewDefinitionModel()
             {
-                Name = workflowModel.Name,
+                Name = ExplorerDefinition.Name,
                 ExistingNames = FlowExplorerViewModel.DefinitionNames
             };
 
             var modalRef = await ModalService.CreateModalAsync<NewDefinitionDialog, NewDefinitionModel>
             (
                 new ModalOptions { Title = Labels.RenameWorkflow }, 
-                workflowNameModel
+                definitionModel
             );
 
             modalRef.OnOk = () =>
             {
-                FlowExplorerViewModel.RenameWorkflow(workflowModel.Id, workflowNameModel.Name);
+                FlowExplorerViewModel.RenameDefinition(ExplorerDefinition.Id, definitionModel.Name);
                 StateHasChanged();
 
                 return Task.CompletedTask;

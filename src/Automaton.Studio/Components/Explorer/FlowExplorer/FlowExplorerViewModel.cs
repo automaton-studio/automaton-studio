@@ -1,42 +1,50 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Domain;
-using Automaton.Studio.Models;
-using Automaton.Studio.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Automaton.Studio.Components.Explorer.FlowExplorer
 {
     public class FlowExplorerViewModel : IFlowExplorerViewModel
     {
+        private Flow flow;
         private readonly IMapper mapper;
-        private readonly IFlowService flowService;
 
-        public IList<FlowExplorerDefinition> Definitions { get; set; }
-        public IEnumerable<string> DefinitionNames => Definitions.Select(x => x.Name);
+        public IList<FlowExplorerDefinition> ExplorerDefinitions { get; set; }
+        public IEnumerable<string> DefinitionNames => ExplorerDefinitions.Select(x => x.Name);
 
-        public FlowExplorerViewModel(IFlowService flowService, IMapper mapper)
+        public FlowExplorerViewModel(IMapper mapper)
         {
             this.mapper = mapper;
-            this.flowService = flowService;
         }
 
-        public async Task LoadFlow(string flowId)
+        public void Initialize(Flow flow)
         {
-            var flow = await flowService.Load(flowId);
-            Definitions = mapper.Map<IEnumerable<Definition>, IList<FlowExplorerDefinition>>(flow.Definitions);
+            this.flow = flow;
+            SetExplorerDefinitions();
+            SetStartupDefinition();
         }
 
-        public void RenameWorkflow(string workflowId, string workflowName)
+        public void RenameDefinition(string definitionId, string workflowName)
         {
-            var workflow = Definitions.SingleOrDefault(x => x.Id == workflowId);
+            var workflow = ExplorerDefinitions.SingleOrDefault(x => x.Id == definitionId);
             workflow.Name = workflowName;
         }
 
-        public void AddWorkflow(FlowExplorerDefinition workflowModel)
+        public void RefreshDefinitions()
         {
-            Definitions.Add(workflowModel);
+            mapper.Map(flow.Definitions, ExplorerDefinitions);
+        }
+
+        public void SetStartupDefinition()
+        {
+            var startupDefinition = ExplorerDefinitions.SingleOrDefault(x => x.Id == flow.StartupDefinitionId);
+            startupDefinition.IsStartup = true;
+        }
+
+        private void SetExplorerDefinitions()
+        {
+            ExplorerDefinitions = mapper.Map<IEnumerable<Definition>, IList<FlowExplorerDefinition>>(flow.Definitions);
         }
     }
 }

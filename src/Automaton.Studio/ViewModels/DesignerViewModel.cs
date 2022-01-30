@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Automaton.Studio.Components.Explorer.FlowExplorer;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
@@ -16,10 +17,10 @@ namespace Automaton.Studio.ViewModels
         private readonly IMapper mapper;
         private readonly StepFactory stepFactory;
         private readonly IFlowService solutionService;
-        private Flow flow = new();
 
-        public IList<Definition> Definitions => flow.Definitions;
-        public Definition ActiveDefinition => flow.ActiveDefinition;
+        public Flow Flow { get; set; } = new();
+        public Definition ActiveDefinition => Flow.ActiveDefinition;
+        public IList<Definition> Definitions => Flow.Definitions;
 
         public event EventHandler<StepEventArgs> DragStep;
         public event EventHandler<StepEventArgs> StepAdded
@@ -47,18 +48,9 @@ namespace Automaton.Studio.ViewModels
             this.solutionService = solutionService;
         }
 
-        public Definition NewDefinition(string name)
+        public void NewDefinition(string name)
         {
-            // Add a new workflow to DesignerViewModel
-            var definition = new Definition { Name = name };
-            Definitions.Add(definition);
-            flow.StartupDefinitionId = definition.Id;
-
-            // Add a new workflow to SolutionFlowViewModel
-            //var newWorkflowModel = new WorkflowModel { Name = newDefinitionModel.Name, IsStartup = true };
-            //SolutionFlowViewModel.AddWorkflow(newWorkflowModel);
-
-            return definition;
+            Definitions.Add(new Definition { Name = name });
         }
 
         public void CreateStep(StepExplorerModel solutionStep)
@@ -76,12 +68,12 @@ namespace Automaton.Studio.ViewModels
 
         public async Task LoadFlow(string flowId)
         {
-            flow = await solutionService.Load(flowId);
+            Flow = await solutionService.Load(flowId);
         }
 
         public async Task SaveFlow()
         {
-            await solutionService.Save(flow);
+            await solutionService.Save(Flow);
         }
 
         public void FinalizeStep(Step step)

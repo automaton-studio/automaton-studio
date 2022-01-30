@@ -13,6 +13,7 @@ namespace Automaton.Studio.ViewModels
         event EventHandler<StepEventArgs> StepAdded;
         event EventHandler<StepEventArgs> StepRemoved;
 
+        Flow Flow { get; set; }
         IList<Definition> Definitions { get; }
 
         void FinalizeStep(Step step);
@@ -21,7 +22,7 @@ namespace Automaton.Studio.ViewModels
         IEnumerable<Step> GetSelectedSteps();
         void UpdateStepConnections(Step step);
 
-        Definition NewDefinition(string name);
+        void NewDefinition(string name);
         IEnumerable<string> GetDefinitionNames();
 
         Task LoadFlow(string flowId);

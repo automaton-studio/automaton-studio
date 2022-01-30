@@ -1,5 +1,6 @@
 ﻿using AntDesign;
 using Automaton.Studio.Components;
+using Automaton.Studio.Components.Explorer.FlowExplorer;
 using Automaton.Studio.Components.NewDefinition;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
@@ -28,6 +29,9 @@ namespace Automaton.Studio.Pages
 
         [Inject]
         private IDesignerViewModel DesignerViewModel { get; set; } = default!;
+
+        [Inject]
+        private IFlowExplorerViewModel FlowExplorerViewModel { get; set; } = default!;
 
         [Inject]
         private DrawerService DrawerService { get; set; } = default!;
@@ -227,7 +231,8 @@ namespace Automaton.Studio.Pages
 
             newDefinitionDialog.OnOk = () =>
             {
-                var newStudioWorkflow = DesignerViewModel.NewDefinition(newDefinitionModel.Name);
+                DesignerViewModel.NewDefinition(newDefinitionModel.Name);
+                FlowExplorerViewModel.RefreshDefinitions();
 
                 DesignerViewModel.StepAdded += OnStepAdded;
                 DesignerViewModel.StepRemoved += OnStepRemoved;
