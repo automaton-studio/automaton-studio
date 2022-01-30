@@ -1,13 +1,9 @@
 ﻿<Menu Mode=MenuMode.Inline Theme=MenuTheme.Light Selectable=true DefaultSelectedKeys=@(new[]{"1"})>
-    <MenuItem Key="1" Icon="profile">
-        <MenuLink Href="/" Class="menu-link">
-            Flows
-        </MenuLink>
+    <MenuItem Key="1" Icon="profile" RouterLink="/"> 
+        Flows
     </MenuItem>
-    <MenuItem Key="2" Icon="desktop">
-        <MenuLink Href="designer" Class="menu-link">
-            Designer
-        </MenuLink>
+    <MenuItem Key="2" Icon="desktop" RouterMatch="NavLinkMatch.Prefix" RouterLink="/designer/">
+        Designer
     </MenuItem>
 </Menu>
 
