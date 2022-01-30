@@ -9,7 +9,7 @@
     <Row>
         <div class="workflows-search">
             <Search @bind-Value="@searchText"
-                    Placeholder="Search workflows"
+                    Placeholder="Search definitions"
                     Size="@InputSize.Default"
                     OnChange="(e)=>OnSearchTextChange(e)"
                     OnSearch="OnSearch">
@@ -35,7 +35,9 @@
                             </Menu>
                         </Overlay>
                         <ChildContent>
-                            @context.DataItem.Name
+                            <span class="@GetClassForDefinition(context.DataItem)">
+                                @context.DataItem.Name
+                            </span>
                         </ChildContent>
                     </Dropdown>
                 </TitleTemplate>
@@ -64,5 +66,9 @@
         background-color: #fafafa;
         height: calc(100vh - 150px);
         overflow: auto
+    }
+
+    .selected-definition {
+        font-weight: bold;
     }
 </style>
