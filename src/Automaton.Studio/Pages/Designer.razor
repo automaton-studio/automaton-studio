@@ -54,21 +54,24 @@
                     OnAddClick="OnWorkflowAddClick" 
                     OnClose="OnWorkflowTabClose">
 
-                @foreach (var definition in DesignerViewModel.Definitions)
+                @if (DesignerViewModel.FlowInitialized())
                 {
-                    <TabPane Key="@definition.Id" Tab="@definition.Name">
-                        <Dropzone Class="dropzone"
-                            @ref="dropzone"
-                            TItem="Domain.Step"
-                            Items="definition.Steps"
-                            InstantReplace="true"
-                            OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
-                            OnItemDrop="@((p)=>OnStepDrop(p))"
-                            OnItemMouseDown="@((p)=>OnStepMouseDown(p))"
-                            OnItemDoubleClick="@((p)=>OnStepDoubleClick(p))">
-                            <StepDropzone Step="@context" />
-                        </Dropzone>
-                    </TabPane>
+                    @foreach (var definition in DesignerViewModel.Definitions)
+                    {
+                        <TabPane Key="@definition.Id" Tab="@definition.Name">
+                            <Dropzone Class="dropzone"
+                                @ref="dropzone"
+                                TItem="Domain.Step"
+                                Items="definition.Steps"
+                                InstantReplace="true"
+                                OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
+                                OnItemDrop="@((p)=>OnStepDrop(p))"
+                                OnItemMouseDown="@((p)=>OnStepMouseDown(p))"
+                                OnItemDoubleClick="@((p)=>OnStepDoubleClick(p))">
+                                <StepDropzone Step="@context" />
+                            </Dropzone>
+                        </TabPane>
+                    }
                 }
             </Tabs>
 

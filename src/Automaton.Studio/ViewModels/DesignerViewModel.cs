@@ -18,9 +18,9 @@ namespace Automaton.Studio.ViewModels
         private readonly StepFactory stepFactory;
         private readonly IFlowService solutionService;
 
-        public Flow Flow { get; set; } = new();
-        public Definition ActiveDefinition => Flow.ActiveDefinition;
-        public IList<Definition> Definitions => Flow.Definitions;
+        public Flow Flow { get; set; }
+        public Definition ActiveDefinition { get; set;  }
+        public IList<Definition> Definitions { get; set; }
 
         public event EventHandler<StepEventArgs> DragStep;
         public event EventHandler<StepEventArgs> StepAdded
@@ -69,6 +69,14 @@ namespace Automaton.Studio.ViewModels
         public async Task LoadFlow(string flowId)
         {
             Flow = await solutionService.Load(flowId);
+
+            Definitions = Flow.Definitions;
+            ActiveDefinition = Flow.ActiveDefinition;
+        }
+
+        public bool FlowInitialized()
+        {
+            return Flow != null;
         }
 
         public async Task SaveFlow()

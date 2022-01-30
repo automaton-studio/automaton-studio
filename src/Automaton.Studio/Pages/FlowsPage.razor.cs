@@ -1,6 +1,7 @@
 ﻿using AntDesign;
 using Automaton.Studio.Components.NewFlow;
 using Automaton.Studio.Models;
+using Automaton.Studio.Services.Interfaces;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace Automaton.Studio.Pages
         [Inject] private IFlowViewModel FlowsViewModel { get; set; } = default!;
         [Inject] private ModalService ModalService { get; set; }
         [Inject] private MessageService MessageService { get; set; }
+        [Inject] public INavMenuService NavMenuService { get; set; }
 
         private IEnumerable<FlowModel> Flows { get; set; }
 
@@ -31,6 +33,7 @@ namespace Automaton.Studio.Pages
 
         private void EditFlow(FlowModel flow)
         {
+            NavMenuService.EnableDesignerMenu();
             NavigationManager.NavigateTo($"designer/{flow.Id}");
         }
 

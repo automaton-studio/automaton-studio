@@ -1,9 +1,16 @@
-﻿<Menu Mode=MenuMode.Inline Theme=MenuTheme.Light Selectable=true DefaultSelectedKeys=@(new[]{"1"})>
+﻿@using Automaton.Studio.Services.Interfaces
+
+<Menu Mode=MenuMode.Inline Theme=MenuTheme.Light Selectable=true DefaultSelectedKeys=@(new[]{"1"})>
     <MenuItem Key="1" Icon="profile" RouterLink="/"> 
         Flows
     </MenuItem>
-    <MenuItem Key="2" Icon="desktop" RouterMatch="NavLinkMatch.Prefix" RouterLink="/designer/">
+    <MenuItem Key="2" Icon="desktop" RouterMatch="NavLinkMatch.Prefix" RouterLink="/designer/" Disabled=NavMenuService.IsDesignerDisabled()>
         Designer
     </MenuItem>
 </Menu>
+
+@code
+{
+    [Inject] public INavMenuService NavMenuService { get; set; }
+}
 

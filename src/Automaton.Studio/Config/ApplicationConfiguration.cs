@@ -22,6 +22,7 @@ namespace Automaton.Studio.Config
             services.AddSingleton<IDefinitionService, DefinitionService>();
             services.AddSingleton<IFlowService, FlowService>();
             services.AddSingleton<IFlowsService, FlowsService>();
+            services.AddSingleton<INavMenuService, NavMenuService>();
 
             // ViewModels
             services.AddScoped<FlowsViewModel>();

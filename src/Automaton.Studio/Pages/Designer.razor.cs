@@ -17,7 +17,6 @@ namespace Automaton.Studio.Pages
     {
         #region Members
 
-        private Guid currentFlowId;
         private Dropzone<Domain.Step> dropzone;
 
         #endregion
@@ -49,15 +48,15 @@ namespace Automaton.Studio.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            if (!string.IsNullOrEmpty(FlowId))
+            if (!DesignerViewModel.FlowInitialized())
             {
                 await DesignerViewModel.LoadFlow(FlowId);
-            }
 
-            // Setup event handlers after workflow is loaded
-            DesignerViewModel.DragStep += OnDragStep;
-            DesignerViewModel.StepAdded += OnStepAdded;
-            DesignerViewModel.StepRemoved += OnStepRemoved;
+                // Setup event handlers after workflow is loaded
+                DesignerViewModel.DragStep += OnDragStep;
+                DesignerViewModel.StepAdded += OnStepAdded;
+                DesignerViewModel.StepRemoved += OnStepRemoved;
+            }
 
             await base.OnInitializedAsync();
         }
