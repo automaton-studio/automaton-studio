@@ -120,4 +120,7 @@
   <data name="DefinitionName" xml:space="preserve">
     <value>Definition name</value>
   </data>
+  <data name="RenameWorkflow" xml:space="preserve">
+    <value>Rename workflow</value>
+  </data>
 </root>

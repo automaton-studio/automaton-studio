@@ -2,12 +2,13 @@
 using AutoMapper;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
+using Automaton.Studio.ViewModels;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Automaton.Studio.ViewModels
+namespace Automaton.Studio.Components.Explorer.StepExplorer
 {
     public class StepsViewModel : IStepsViewModel, INotifyPropertyChanged
     {

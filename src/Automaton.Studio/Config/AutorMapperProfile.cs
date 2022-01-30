@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Automaton.Studio.Components.Explorer.FlowExplorer;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Factories;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace Automaton.Studio.Config
             CreateMap<Conductor.Flow, Flow>();
             CreateMap<Conductor.Definition, Definition>()
                 .ForMember(source => source.Steps, target => target.MapFrom(entity => DeserializeSteps(entity.Steps)));
+            CreateMap<Definition, FlowExplorerDefinition>();           
         }
 
         public IEnumerable<Step> DeserializeSteps(IEnumerable<Conductor.Step> conductorSteps)

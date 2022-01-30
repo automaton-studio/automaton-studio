@@ -18,7 +18,6 @@ namespace Automaton.Studio.Pages
 
         private Guid currentFlowId;
         private Dropzone<Domain.Step> dropzone;
-        private Definition solutionFlow;
 
         #endregion
 

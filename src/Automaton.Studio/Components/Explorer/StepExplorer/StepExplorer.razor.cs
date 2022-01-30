@@ -1,10 +1,9 @@
-﻿using Automaton.Studio.ViewModels;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Components
+namespace Automaton.Studio.Components.Explorer.StepExplorer
 {
     partial class StepExplorer : ComponentBase
     {

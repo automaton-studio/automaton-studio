@@ -68,5 +68,14 @@ namespace Automaton.Studio.Resources {
                 return ResourceManager.GetString("DefinitionName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename workflow.
+        /// </summary>
+        internal static string RenameWorkflow {
+            get {
+                return ResourceManager.GetString("RenameWorkflow", resourceCulture);
+            }
+        }
     }
 }

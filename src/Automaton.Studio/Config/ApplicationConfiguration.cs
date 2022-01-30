@@ -1,4 +1,6 @@
-﻿using Automaton.Studio.Domain;
+﻿using Automaton.Studio.Components.Explorer.FlowExplorer;
+using Automaton.Studio.Components.Explorer.StepExplorer;
+using Automaton.Studio.Domain;
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Services;
@@ -26,6 +28,9 @@ namespace Automaton.Studio.Config
             services.AddScoped<IFlowViewModel, FlowsViewModel>();
             services.AddScoped<IDesignerViewModel, DesignerViewModel>();
             services.AddScoped<IStepsViewModel, StepsViewModel>();
+            services.AddScoped<IFlowExplorerViewModel, FlowExplorerViewModel>();
+
+            // Other
             services.AddSingleton<IStepTypeDescriptor, StepTypeDescriptor>();
             services.AddTransient<StepFactory>();
             services.AddScoped(typeof(DragDropService<>));

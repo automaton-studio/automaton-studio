@@ -2,6 +2,8 @@
 @page "/designer/{FlowId}"
 @using AntDesign
 @using Automaton.Studio.Components
+@using Automaton.Studio.Components.Explorer.FlowExplorer
+@using Automaton.Studio.Components.Explorer.StepExplorer
 @using Automaton.Studio.Domain;
 
 <Layout Class="designer-container">
@@ -11,8 +13,8 @@
                 <TabPane Key="1" Tab="Steps">
                     <StepExplorer></StepExplorer>
                 </TabPane>
-                <TabPane Key="2" Tab="Solution">
-                    @*<SolutionFlow @ref="solutionFlow"></SolutionFlow>*@
+                <TabPane Key="2" Tab="Flow">
+                    <FlowExplorer></FlowExplorer>
                 </TabPane>
             </Tabs>
         </CascadingValue>
