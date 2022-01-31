@@ -48,7 +48,8 @@ namespace Automaton.Studio.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            if (!DesignerViewModel.FlowInitialized())
+            if (!string.IsNullOrEmpty(FlowId) && 
+                DesignerViewModel.Flow.Id != FlowId)
             {
                 await DesignerViewModel.LoadFlow(FlowId);
 

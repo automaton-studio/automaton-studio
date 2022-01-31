@@ -26,7 +26,6 @@ namespace Automaton.Studio.ViewModels
         void NewDefinition(string name);
         IEnumerable<string> GetDefinitionNames();
 
-        bool FlowInitialized();
         Task LoadFlow(string flowId);
         Task SaveFlow();
     }

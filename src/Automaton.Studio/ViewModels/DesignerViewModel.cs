@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Automaton.Studio.Components.Explorer.FlowExplorer;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
@@ -46,6 +45,9 @@ namespace Automaton.Studio.ViewModels
             this.mapper = mapper;
             this.stepFactory = stepFactory;
             this.solutionService = solutionService;
+
+            Flow = new Flow();
+            Definitions = new List<Definition>();
         }
 
         public void NewDefinition(string name)
@@ -72,11 +74,6 @@ namespace Automaton.Studio.ViewModels
 
             Definitions = Flow.Definitions;
             ActiveDefinition = Flow.ActiveDefinition;
-        }
-
-        public bool FlowInitialized()
-        {
-            return Flow != null;
         }
 
         public async Task SaveFlow()
