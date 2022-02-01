@@ -15,7 +15,6 @@ namespace Automaton.Studio.ViewModels
 
         Flow Flow { get; set; }
         IList<Definition> Definitions { get; set; }
-        Definition ActiveDefinition { get; set; }
 
         void FinalizeStep(Step step);
         void DeleteStep(Step step);
@@ -25,6 +24,11 @@ namespace Automaton.Studio.ViewModels
 
         void NewDefinition(string name);
         IEnumerable<string> GetDefinitionNames();
+        void SetActiveDefinition(Definition definition);
+        void SetActiveDefinition(string id);
+        Definition GetActiveDefinition();
+        string GetActiveDefinitionId();
+        string GetStartupDefinitionId();
 
         Task LoadFlow(string flowId);
         Task SaveFlow();

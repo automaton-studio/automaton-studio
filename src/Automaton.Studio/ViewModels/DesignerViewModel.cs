@@ -18,20 +18,20 @@ namespace Automaton.Studio.ViewModels
         private readonly IFlowService solutionService;
 
         public Flow Flow { get; set; }
-        public Definition ActiveDefinition { get; set;  }
+        public Definition activeDefinition { get; set;  }
         public IList<Definition> Definitions { get; set; }
 
         public event EventHandler<StepEventArgs> DragStep;
         public event EventHandler<StepEventArgs> StepAdded
         {
-            add { ActiveDefinition.StepAdded += value; }
-            remove { ActiveDefinition.StepAdded -= value; }
+            add { activeDefinition.StepAdded += value; }
+            remove { activeDefinition.StepAdded -= value; }
         }
 
         public event EventHandler<StepEventArgs> StepRemoved
         {
-            add { ActiveDefinition.StepRemoved += value; }
-            remove { ActiveDefinition.StepRemoved -= value; }
+            add { activeDefinition.StepRemoved += value; }
+            remove { activeDefinition.StepRemoved -= value; }
         }
 
         public DesignerViewModel
@@ -58,14 +58,14 @@ namespace Automaton.Studio.ViewModels
         public void CreateStep(StepExplorerModel solutionStep)
         {
             var step = stepFactory.CreateStep(solutionStep.Name);
-            step.Definition = ActiveDefinition;
+            step.Definition = activeDefinition;
 
             DragStep?.Invoke(this, new StepEventArgs(step));
         }
 
         public void DeleteStep(Step step)
         {
-            ActiveDefinition.Steps.Remove(step); 
+            activeDefinition.Steps.Remove(step); 
         }
 
         public async Task LoadFlow(string flowId)
@@ -73,7 +73,7 @@ namespace Automaton.Studio.ViewModels
             Flow = await solutionService.Load(flowId);
 
             Definitions = Flow.Definitions;
-            ActiveDefinition = Flow.ActiveDefinition;
+            activeDefinition = Flow.GetStartupDefinition();
         }
 
         public async Task SaveFlow()
@@ -83,23 +83,48 @@ namespace Automaton.Studio.ViewModels
 
         public void FinalizeStep(Step step)
         {
-            ActiveDefinition.FinalizeStep(step);
-            ActiveDefinition.UpdateStepConnections();
+            activeDefinition.FinalizeStep(step);
+            activeDefinition.UpdateStepConnections();
         }
 
         public IEnumerable<Step> GetSelectedSteps()
         {
-            return ActiveDefinition.Steps.Where(x => x.IsSelected());
+            return activeDefinition.Steps.Where(x => x.IsSelected());
         }
 
         public void UpdateStepConnections(Step step)
         {
-            ActiveDefinition.UpdateStepConnections();
+            activeDefinition.UpdateStepConnections();
         }
 
         public IEnumerable<string> GetDefinitionNames()
         {
             return Definitions.Select(x => x.Name);
+        }
+
+        public void SetActiveDefinition(Definition definition)
+        {
+            activeDefinition = definition;
+        }
+
+        public void SetActiveDefinition(string id)
+        {
+            activeDefinition = Definitions.SingleOrDefault(x => x.Id == id);
+        }
+
+        public Definition GetActiveDefinition()
+        {
+            return activeDefinition;
+        }
+
+        public string GetActiveDefinitionId()
+        {
+            return activeDefinition != null ? activeDefinition.Id : string.Empty;
+        }
+
+        public string GetStartupDefinitionId()
+        {
+            return Flow.StartupDefinitionId;
         }
     }
 }

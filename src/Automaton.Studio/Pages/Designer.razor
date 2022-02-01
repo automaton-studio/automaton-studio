@@ -50,9 +50,11 @@
 
             <Tabs Type="@TabType.EditableCard" 
                     Size="@TabSize.Small"
-                    DefaultActiveKey="DesignerViewModel.ActiveWorkflow.DefinitionId"
-                    OnAddClick="OnWorkflowAddClick" 
-                    OnClose="OnWorkflowTabClose">
+                    ActiveKey="@DesignerViewModel.GetActiveDefinitionId()"
+                    DefaultActiveKey="@DesignerViewModel.GetStartupDefinitionId()"
+                    OnAddClick="OnWorkflowAddClick"
+                    OnTabClick="OnTabClick"
+                    OnClose="OnTabClose">
 
                     @foreach (var definition in DesignerViewModel.Definitions)
                     {

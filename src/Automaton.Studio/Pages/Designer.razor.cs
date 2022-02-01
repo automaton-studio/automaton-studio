@@ -9,6 +9,7 @@ using Automaton.Studio.Resources;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages
@@ -48,7 +49,7 @@ namespace Automaton.Studio.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            if (!string.IsNullOrEmpty(FlowId) && 
+            if (!string.IsNullOrEmpty(FlowId) &&
                 DesignerViewModel.Flow.Id != FlowId)
             {
                 await DesignerViewModel.LoadFlow(FlowId);
@@ -129,8 +130,6 @@ namespace Automaton.Studio.Pages
 
         #endregion
 
-        #region Workflow Actions
-
         public async Task RunWorkflow()
         {
             //await DesignerViewModel.RunWorkflow();
@@ -140,8 +139,6 @@ namespace Automaton.Studio.Pages
         {
             await DesignerViewModel.SaveFlow();
         }
-
-        #endregion
 
         private async Task NewStepDialog(Domain.Step step)
         {
@@ -175,7 +172,7 @@ namespace Automaton.Studio.Pages
         /// </summary>
         private void UnselectSteps()
         {
-            var selectedSteps = DesignerViewModel.GetSelectedSteps(); ;
+            var selectedSteps = DesignerViewModel.GetSelectedSteps();
 
             if (selectedSteps != null)
             {
@@ -243,11 +240,13 @@ namespace Automaton.Studio.Pages
             };
         }
 
-        /// <summary>
-        /// Closes a workflow tab
-        /// </summary>
-        private void OnWorkflowTabClose(string key)
+        private void OnTabClose(string key)
         {
+        }
+
+        private void OnTabClick(string key)
+        {
+            DesignerViewModel.SetActiveDefinition(key);  
         }
 
         #endregion

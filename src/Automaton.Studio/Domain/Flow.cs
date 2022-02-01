@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json.Serialization;
 
 namespace Automaton.Studio.Domain
 {
@@ -12,9 +11,6 @@ namespace Automaton.Studio.Domain
         public string StartupDefinitionId { get; set; }
         public IList<Definition> Definitions { get; set; }
 
-        [JsonIgnore]
-        public Definition ActiveDefinition => Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);
-
         public Flow()
         {
             Name = "Untitled";
@@ -22,6 +18,11 @@ namespace Automaton.Studio.Domain
             var defaultDefinition = new Definition();
             StartupDefinitionId = defaultDefinition.Id;
             Definitions = new List<Definition> { defaultDefinition };
+        }
+
+        public Definition GetStartupDefinition()
+        {
+            return Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);
         }
     }
 }
