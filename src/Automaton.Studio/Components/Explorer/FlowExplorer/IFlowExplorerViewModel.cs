@@ -8,7 +8,7 @@ namespace Automaton.Studio.Components.Explorer.FlowExplorer
         IEnumerable<string> DefinitionNames { get; }
         IList<FlowExplorerDefinition> ExplorerDefinitions { get; set; }
 
-        void Initialize(Flow flow);
+        void LoadDefinitions(Flow flow);
         void RenameDefinition(string workflowId, string workflowName);
         void SetStartupDefinition();
         void RefreshDefinitions();

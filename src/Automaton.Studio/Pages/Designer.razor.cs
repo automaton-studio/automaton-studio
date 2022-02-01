@@ -49,10 +49,11 @@ namespace Automaton.Studio.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            if (!string.IsNullOrEmpty(FlowId) &&
-                DesignerViewModel.Flow.Id != FlowId)
+            if (!string.IsNullOrEmpty(FlowId) && DesignerViewModel.Flow.Id != FlowId)
             {
                 await DesignerViewModel.LoadFlow(FlowId);
+
+                FlowExplorerViewModel.LoadDefinitions(DesignerViewModel.Flow);
 
                 // Setup event handlers after workflow is loaded
                 DesignerViewModel.DragStep += OnDragStep;

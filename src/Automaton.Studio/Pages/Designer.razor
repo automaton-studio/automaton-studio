@@ -10,11 +10,11 @@
     <Sider Theme="SiderTheme.Light" Style="width: 300px">
         <CascadingValue Value="DesignerViewModel.Flow">
             <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="explorer-tabs">
-                <TabPane Key="1" Tab="Steps">
-                    <StepExplorer></StepExplorer>
-                </TabPane>
-                <TabPane Key="2" Tab="Flow">
+                <TabPane Key="1" Tab="Flow">
                     <FlowExplorer></FlowExplorer>
+                </TabPane>
+                <TabPane Key="2" Tab="Steps">
+                    <StepExplorer></StepExplorer>
                 </TabPane>
             </Tabs>
         </CascadingValue>
@@ -39,40 +39,40 @@
                 </Col>
 
                 @*<Col Class="right-actions">
-                        <Space Class="right-header-items">
-                            <SpaceItem>
-                                <Button Shape="circle" Type="ButtonType.Dashed" Icon="setting" Class="action-button"></Button>
-                            </SpaceItem>
-                        </Space>
+                    <Space Class="right-header-items">
+                    <SpaceItem>
+                    <Button Shape="circle" Type="ButtonType.Dashed" Icon="setting" Class="action-button"></Button>
+                    </SpaceItem>
+                    </Space>
                     </Col>*@
             </Row>
         </Header>
 
-            <Tabs Type="@TabType.EditableCard" 
-                    Size="@TabSize.Small"
-                    ActiveKey="@DesignerViewModel.GetActiveDefinitionId()"
-                    DefaultActiveKey="@DesignerViewModel.GetStartupDefinitionId()"
-                    OnAddClick="OnWorkflowAddClick"
-                    OnTabClick="OnTabClick"
-                    OnClose="OnTabClose">
+        <Tabs Type="@TabType.EditableCard"
+              Size="@TabSize.Small"
+              ActiveKey="@DesignerViewModel.GetActiveDefinitionId()"
+              DefaultActiveKey="@DesignerViewModel.GetStartupDefinitionId()"
+              OnAddClick="OnWorkflowAddClick"
+              OnTabClick="OnTabClick"
+              OnClose="OnTabClose">
 
-                    @foreach (var definition in DesignerViewModel.Definitions)
-                    {
-                        <TabPane Key="@definition.Id" Tab="@definition.Name">
-                            <Dropzone Class="dropzone"
-                                @ref="dropzone"
-                                TItem="Domain.Step"
-                                Items="definition.Steps"
-                                InstantReplace="true"
-                                OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
-                                OnItemDrop="@((p)=>OnStepDrop(p))"
-                                OnItemMouseDown="@((p)=>OnStepMouseDown(p))"
-                                OnItemDoubleClick="@((p)=>OnStepDoubleClick(p))">
-                                <StepDropzone Step="@context" />
-                            </Dropzone>
-                        </TabPane>
-                    }
-            </Tabs>
+            @foreach (var definition in DesignerViewModel.Definitions)
+            {
+                <TabPane Key="@definition.Id" Tab="@definition.Name">
+                    <Dropzone Class="dropzone"
+                          @ref="dropzone"
+                          TItem="Domain.Step"
+                          Items="definition.Steps"
+                          InstantReplace="true"
+                          OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
+                          OnItemDrop="@((p)=>OnStepDrop(p))"
+                          OnItemMouseDown="@((p)=>OnStepMouseDown(p))"
+                          OnItemDoubleClick="@((p)=>OnStepDoubleClick(p))">
+                        <StepDropzone Step="@context" />
+                    </Dropzone>
+                </TabPane>
+            }
+        </Tabs>
 
     </Content>
 
@@ -108,7 +108,7 @@
         height: 100%;
     }
 
-     .header {
+    .header {
         background: #fff;
         margin-bottom: 5px;
         height: 48px;

@@ -32,11 +32,6 @@ namespace Automaton.Studio.Components.Explorer.FlowExplorer
 
         protected override void OnInitialized()
         {
-            if (Flow != null)
-            {
-                FlowExplorerViewModel.Initialize(Flow); 
-            }
-
             base.OnInitializedAsync();
         }
 

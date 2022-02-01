@@ -18,7 +18,7 @@ namespace Automaton.Studio.Components.Explorer.FlowExplorer
             this.mapper = mapper;
         }
 
-        public void Initialize(Flow flow)
+        public void LoadDefinitions(Flow flow)
         {
             this.flow = flow;
             SetExplorerDefinitions();
