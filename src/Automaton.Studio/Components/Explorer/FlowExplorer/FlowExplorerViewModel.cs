@@ -9,7 +9,6 @@ namespace Automaton.Studio.Components.Explorer.FlowExplorer
     {
         private Flow flow;
         private readonly IMapper mapper;
-        FlowExplorerDefinition startupDefinition;
 
         public IList<FlowExplorerDefinition> ExplorerDefinitions { get; set; }
         public IEnumerable<string> DefinitionNames => ExplorerDefinitions.Select(x => x.Name);
@@ -60,6 +59,12 @@ namespace Automaton.Studio.Components.Explorer.FlowExplorer
         {
             var startupDefinition = ExplorerDefinitions.SingleOrDefault(x => x.Id == flow.StartupDefinitionId);
             startupDefinition.IsStartup = true;
+        }
+
+        public void DeleteDefinition(FlowExplorerDefinition definition)
+        {
+            ExplorerDefinitions.Remove(definition);
+            flow.RemoveDefinition(definition.Id);
         }
     }
 }

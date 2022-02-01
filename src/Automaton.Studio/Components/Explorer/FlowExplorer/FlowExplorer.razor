@@ -35,6 +35,9 @@
                                 <MenuItem @onclick="@(() => SetStartupDefinition(context.DataItem))">
                                     Set As Startup
                                 </MenuItem>
+                                <MenuItem @onclick="@(() => DeleteDefinition(context.DataItem))">
+                                    Delete
+                                </MenuItem>
                             </Menu>
                         </Overlay>
                         <ChildContent>

@@ -12,5 +12,6 @@ namespace Automaton.Studio.Components.Explorer.FlowExplorer
         void RenameDefinition(string workflowId, string workflowName);
         void SetStartupDefinition(string definitionId);
         void RefreshDefinitions();
+        void DeleteDefinition(FlowExplorerDefinition definition);
     }
 }

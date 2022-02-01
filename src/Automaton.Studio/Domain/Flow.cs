@@ -24,5 +24,11 @@ namespace Automaton.Studio.Domain
         {
             return Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);
         }
+
+        public void RemoveDefinition(string id)
+        {
+            var definition = Definitions.SingleOrDefault(x => x.Id.Equals(id));
+            Definitions.Remove(definition);
+        }
     }
 }

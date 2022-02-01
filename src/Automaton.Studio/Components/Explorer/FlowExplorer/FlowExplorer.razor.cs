@@ -70,6 +70,11 @@ namespace Automaton.Studio.Components.Explorer.FlowExplorer
             FlowExplorerViewModel.SetStartupDefinition(definition.Id);
         }
 
+        private void DeleteDefinition(FlowExplorerDefinition definition)
+        {
+            FlowExplorerViewModel.DeleteDefinition(definition);
+        }
+
         private string GetClassForDefinition(FlowExplorerDefinition definition)
         {
             return definition.IsStartup ? "selected-definition" : string.Empty;
