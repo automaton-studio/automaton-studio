@@ -10,7 +10,7 @@ namespace Automaton.Studio.Components.Explorer.FlowExplorer
 
         void LoadDefinitions(Flow flow);
         void RenameDefinition(string workflowId, string workflowName);
-        void SetStartupDefinition();
+        void SetStartupDefinition(string definitionId);
         void RefreshDefinitions();
     }
 }

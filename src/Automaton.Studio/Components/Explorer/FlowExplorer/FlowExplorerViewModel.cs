@@ -9,6 +9,7 @@ namespace Automaton.Studio.Components.Explorer.FlowExplorer
     {
         private Flow flow;
         private readonly IMapper mapper;
+        FlowExplorerDefinition startupDefinition;
 
         public IList<FlowExplorerDefinition> ExplorerDefinitions { get; set; }
         public IEnumerable<string> DefinitionNames => ExplorerDefinitions.Select(x => x.Name);
@@ -36,15 +37,29 @@ namespace Automaton.Studio.Components.Explorer.FlowExplorer
             mapper.Map(flow.Definitions, ExplorerDefinitions);
         }
 
-        public void SetStartupDefinition()
+        public void SetStartupDefinition(string definitionId)
         {
-            var startupDefinition = ExplorerDefinitions.SingleOrDefault(x => x.Id == flow.StartupDefinitionId);
-            startupDefinition.IsStartup = true;
+            var startupDefinition = ExplorerDefinitions.SingleOrDefault(x => x.IsStartup);
+            if (startupDefinition != null)
+            {
+                startupDefinition.IsStartup = false;
+            }
+
+            var newSartupDefinition = ExplorerDefinitions.SingleOrDefault(x => x.Id == definitionId);
+            newSartupDefinition.IsStartup = true;
+
+            flow.StartupDefinitionId = definitionId;
         }
 
         private void SetExplorerDefinitions()
         {
             ExplorerDefinitions = mapper.Map<IEnumerable<Definition>, IList<FlowExplorerDefinition>>(flow.Definitions);
+        }
+
+        private void SetStartupDefinition()
+        {
+            var startupDefinition = ExplorerDefinitions.SingleOrDefault(x => x.Id == flow.StartupDefinitionId);
+            startupDefinition.IsStartup = true;
         }
     }
 }

@@ -42,11 +42,11 @@ namespace Automaton.Studio.Components.Explorer.FlowExplorer
             StateHasChanged();
         }
 
-        private async Task RenameWorkflow(FlowExplorerDefinition explorerDefinition)
+        private async Task RenameDefinition(FlowExplorerDefinition definition)
         {
             var definitionModel = new NewDefinitionModel()
             {
-                Name = explorerDefinition.Name,
+                Name = definition.Name,
                 ExistingNames = FlowExplorerViewModel.DefinitionNames
             };
 
@@ -58,16 +58,21 @@ namespace Automaton.Studio.Components.Explorer.FlowExplorer
 
             modalRef.OnOk = () =>
             {
-                FlowExplorerViewModel.RenameDefinition(explorerDefinition.Id, definitionModel.Name);
+                FlowExplorerViewModel.RenameDefinition(definition.Id, definitionModel.Name);
                 StateHasChanged();
 
                 return Task.CompletedTask;
             };  
         }
 
-        private string GetClassForDefinition(FlowExplorerDefinition explorerDefinition)
+        private void SetStartupDefinition(FlowExplorerDefinition definition)
         {
-            return explorerDefinition.IsStartup ? "selected-definition" : string.Empty;
+            FlowExplorerViewModel.SetStartupDefinition(definition.Id);
+        }
+
+        private string GetClassForDefinition(FlowExplorerDefinition definition)
+        {
+            return definition.IsStartup ? "selected-definition" : string.Empty;
         }
 
         private async Task OnSearchTextChange(string value)

@@ -29,8 +29,11 @@
                     <Dropdown Placement="@Placement.BottomCenter" Trigger="@(new Trigger[] { Trigger.ContextMenu })">
                         <Overlay>
                             <Menu>
-                                <MenuItem Icon="edit" @onclick="@(() => RenameWorkflow(context.DataItem))">
+                                <MenuItem @onclick="@(() => RenameDefinition(context.DataItem))">
                                     Rename
+                                </MenuItem>
+                                <MenuItem @onclick="@(() => SetStartupDefinition(context.DataItem))">
+                                    Set As Startup
                                 </MenuItem>
                             </Menu>
                         </Overlay>
