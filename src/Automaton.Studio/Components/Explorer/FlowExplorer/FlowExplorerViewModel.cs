@@ -27,8 +27,8 @@ namespace Automaton.Studio.Components.Explorer.FlowExplorer
 
         public void RenameDefinition(string definitionId, string workflowName)
         {
-            var workflow = ExplorerDefinitions.SingleOrDefault(x => x.Id == definitionId);
-            workflow.Name = workflowName;
+            var definition = ExplorerDefinitions.SingleOrDefault(x => x.Id == definitionId);
+            definition.Name = workflowName;
         }
 
         public void RefreshDefinitions()
