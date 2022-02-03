@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Automaton.Studio.Domain;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services.Interfaces;
 using System;
@@ -15,6 +16,7 @@ namespace Automaton.Studio.ViewModels
 
         private readonly IMapper mapper;
         private IFlowsService flowsService;
+        private IFlowService flowService;
 
         #endregion
 
@@ -37,26 +39,28 @@ namespace Automaton.Studio.ViewModels
         public FlowsViewModel
         (
             IFlowsService flowsService,
+            IFlowService flowService,
             IMapper mapper
         )
         {
             this.flowsService = flowsService;
+            this.flowService = flowService;
             this.mapper = mapper;
         }
 
         public async Task<IEnumerable<FlowModel>> GetFlows()
         {
-            var Flows = await this.flowsService.List();
-
-            return Flows;
+            return await flowsService.List();
         }
 
         /// <summary>
         /// Creates a new flow
         /// </summary>
-        public async Task<FlowModel> CreateFlow(string name)
+        public async Task CreateFlow(string name)
         {
-            throw new NotImplementedException();
+            var flow = new Flow() { Name = name };
+
+            await flowService.Save(flow);
         }
 
         /// <summary>
