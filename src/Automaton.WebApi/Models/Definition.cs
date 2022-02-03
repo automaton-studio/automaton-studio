@@ -1,0 +1,21 @@
+﻿using Automaton.WebApi.Enums;
+
+namespace Automaton.WebApi.Models
+{
+    public class Definition
+    {
+        public string Id { get; set; }
+
+        public string Name { get; set; }
+
+        public int Version { get; set; }
+
+        public string? Description { get; set; }
+
+        public DefinitionErrorHandling DefaultErrorBehavior { get; set; }
+
+        public TimeSpan? DefaultErrorRetryInterval { get; set; }
+
+        public List<Step> Steps { get; set; } = new List<Step>();
+    }
+}
