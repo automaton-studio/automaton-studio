@@ -17,11 +17,9 @@ namespace Automaton.Studio.Pages
         [Inject] private MessageService MessageService { get; set; }
         [Inject] public INavMenuService NavMenuService { get; set; }
 
-        private IEnumerable<FlowModel> Flows { get; set; }
-
         protected override async Task OnInitializedAsync()
         {
-            Flows = await FlowsViewModel.GetFlows();
+            await FlowsViewModel.GetFlows();
 
             await base.OnInitializedAsync();
         }
@@ -37,33 +35,34 @@ namespace Automaton.Studio.Pages
             NavigationManager.NavigateTo($"designer/{flow.Id}");
         }
 
-        private void DeleteFlow(FlowModel flow)
+        private async Task DeleteFlow(FlowModel flow)
         {
-            FlowsViewModel.DeleteFlow(flow.Id);
+            await FlowsViewModel.DeleteFlow(flow);
+            StateHasChanged();
         }
 
         private async Task NewFlowDialog()
         {
-            var flowModel = new NewFlowModel();
+            var newFlowModel = new NewFlowModel();
             var modalRef = await ModalService.CreateModalAsync<NewFlowDialog, NewFlowModel>
             (
                 new ModalOptions
                 {
                     Title = "New Flow"
                 },
-                flowModel
+                newFlowModel
             );
 
             modalRef.OnOk = async () =>
             {
                 try
                 {
-                    await FlowsViewModel.CreateFlow(flowModel.Name);
+                    await FlowsViewModel.CreateFlow(newFlowModel.Name);
                     StateHasChanged();
                 }
                 catch
                 {
-                    await MessageService.Error("Error");
+                    await MessageService.Error($"Flow {newFlowModel.Name} could not be created");
                 }
             };
         }

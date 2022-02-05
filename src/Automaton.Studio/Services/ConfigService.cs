@@ -16,9 +16,9 @@ namespace Automaton.Studio.Services
 
         #region Properties
 
-        public ConductorConfig ConductorConfig { get; private set; } = new ConductorConfig();
-
-        public string ConductorUrl => ConductorConfig.ConductorUrl;
+        public WebApiConfig WebApiConfig { get; private set; } = new WebApiConfig();
+        public string WebApiUrl => WebApiConfig.WebApiUrl;
+        public string FlowsUrl =>$"{WebApiConfig.WebApiUrl}/api/flows";
 
         #endregion
 
@@ -33,7 +33,7 @@ namespace Automaton.Studio.Services
 
         private void LoadConductorConfig()
         {
-            configuration.GetSection(nameof(ConductorConfig)).Bind(ConductorConfig);
+            configuration.GetSection(nameof(WebApiConfig)).Bind(WebApiConfig);
         }
 
         #endregion

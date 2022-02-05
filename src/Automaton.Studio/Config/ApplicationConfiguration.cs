@@ -19,7 +19,6 @@ namespace Automaton.Studio.Config
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             // Services
-            services.AddSingleton<IDefinitionService, DefinitionService>();
             services.AddSingleton<IFlowService, FlowService>();
             services.AddSingleton<IFlowsService, FlowsService>();
             services.AddSingleton<INavMenuService, NavMenuService>();

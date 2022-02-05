@@ -6,6 +6,6 @@ namespace Automaton.Studio.Services.Interfaces
 {
     public interface IFlowsService
     {
-        Task<IEnumerable<FlowModel>> List();
+        Task<ICollection<FlowModel>> List();
     }
 }

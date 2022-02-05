@@ -19,14 +19,14 @@
             </Col>
 
             <Col Class="right-actions">
-            <Space Class="right-header-items"></Space>
+                <Space Class="right-header-items"></Space>
             </Col>
         </Row>
 
     </Header>
 
     <Content>
-        <Table TItem="FlowModel" DataSource="@Flows">
+        <Table TItem="FlowModel" DataSource="@FlowsViewModel.Flows">
             <Column Title="Name" @bind-Field="@context.Name" Width="70%">
                 @context.Name
             </Column>
@@ -46,7 +46,7 @@
                         </SpaceItem>
                     </Space>
 
-                    <Dropdown Placement="@Placement.Left" Trigger="@(new Trigger[] { Trigger.Click })">
+                    <Dropdown Placement="@Placement.BottomCenter" Trigger="@(new Trigger[] { Trigger.Click })">
                         <Overlay>
                             <Menu>
                                 <MenuItem Icon="delete" OnClick="@(() => DeleteFlow(context))">

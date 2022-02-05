@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Automaton.WebApi.Middleware
-{    
+{
     public class RequestObjectFilter : IActionFilter
     {
         public void OnActionExecuting(ActionExecutingContext context)

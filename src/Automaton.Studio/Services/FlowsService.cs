@@ -14,14 +14,14 @@ namespace Automaton.Studio.Services.Interfaces
         private HttpClient httpClient;
         private readonly ConfigService configService;
         private readonly IMapper mapper;
-        private readonly ILogger<DefinitionService> logger;
+        private readonly ILogger<FlowsService> logger;
 
         public FlowsService
         (
             ConfigService configService,
             IMapper mapper,
             HttpClient httpClient,
-            ILogger<DefinitionService> logger
+            ILogger<FlowsService> logger
         )
         {
             this.logger = logger;
@@ -31,13 +31,13 @@ namespace Automaton.Studio.Services.Interfaces
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<FlowModel>> List()
+        public async Task<ICollection<FlowModel>> List()
         {
             try
             {
-                var response = await httpClient.GetAsync($"{configService.ConductorUrl}/api/flow");
+                var response = await httpClient.GetAsync(configService.FlowsUrl);
 
-                var flows = await response.Content.ReadAsAsync<IEnumerable<FlowModel>>();
+                var flows = await response.Content.ReadAsAsync<ICollection<FlowModel>>();
 
                 return flows;
             }

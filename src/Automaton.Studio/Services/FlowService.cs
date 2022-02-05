@@ -17,14 +17,14 @@ namespace Automaton.Studio.Services.Interfaces
         private HttpClient httpClient;
         private readonly ConfigService configService;
         private readonly IMapper mapper;
-        private readonly ILogger<DefinitionService> logger;
+        private readonly ILogger<FlowService> logger;
 
         public FlowService
         (
             ConfigService configService,
             IMapper mapper,
             HttpClient httpClient,
-            ILogger<DefinitionService> logger
+            ILogger<FlowService> logger
         )
         {
             this.logger = logger;
@@ -38,7 +38,7 @@ namespace Automaton.Studio.Services.Interfaces
         {
             try
             {
-                var response = await httpClient.GetAsync($"{configService.ConductorUrl}/api/flow");
+                var response = await httpClient.GetAsync($"{configService.FlowsUrl}");
 
                 var flows = await response.Content.ReadAsAsync<IEnumerable<FlowModel>>();
 
@@ -54,19 +54,32 @@ namespace Automaton.Studio.Services.Interfaces
 
         public async Task<Flow> Load(string id)
         {
-            var response = await httpClient.GetAsync($"{configService.ConductorUrl}/api/flow/{id}");
+            var response = await httpClient.GetAsync($"{configService.FlowsUrl}/{id}");
             var conductorFlow = await response.Content.ReadAsAsync<Conductor.Flow>();
             var flow = mapper.Map<Flow>(conductorFlow);
             
             return flow;
         }
 
-        public async Task Save(Flow flow)
+        public async Task Create(Flow flow)
         {
             var json = JsonSerializer.Serialize(flow);
             var requestContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            await httpClient.PostAsync($"{configService.ConductorUrl}/api/flow", requestContent);
+            await httpClient.PostAsync(configService.FlowsUrl, requestContent);
+        }
+
+        public async Task Update(Flow flow)
+        {
+            var json = JsonSerializer.Serialize(flow);
+            var requestContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            await httpClient.PutAsync($"{configService.FlowsUrl}/{flow.Id}", requestContent);
+        }
+
+        public async Task Delete(string flowId)
+        {
+            await httpClient.DeleteAsync($"{configService.FlowsUrl}/{flowId}");
         }
     }
 }

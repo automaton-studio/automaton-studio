@@ -14,6 +14,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio.Desktop", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio.Web", "src\Automaton.Studio.Web\Automaton.Studio.Web.csproj", "{F41E1704-AABD-4B9C-9951-C71263C82036}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Core", "src\Automaton.Core\Automaton.Core.csproj", "{943DB182-7B55-45A7-B6B9-42113129D76C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{F41E1704-AABD-4B9C-9951-C71263C82036}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F41E1704-AABD-4B9C-9951-C71263C82036}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F41E1704-AABD-4B9C-9951-C71263C82036}.Release|Any CPU.Build.0 = Release|Any CPU
+		{943DB182-7B55-45A7-B6B9-42113129D76C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{943DB182-7B55-45A7-B6B9-42113129D76C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{943DB182-7B55-45A7-B6B9-42113129D76C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{943DB182-7B55-45A7-B6B9-42113129D76C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

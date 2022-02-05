@@ -1,7 +1,6 @@
 using Automaton.WebApi.Config;
 using Automaton.WebApi.Middleware;
 using Automaton.WebApi.Services;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 

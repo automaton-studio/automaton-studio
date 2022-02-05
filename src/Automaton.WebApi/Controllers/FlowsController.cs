@@ -19,7 +19,7 @@ namespace Conductor.Controllers
         public async Task<List<Flow>> Get() =>
             await flowsService.GetAsync();
 
-        [HttpGet("{id:length(24)}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Flow>> Get(string id)
         {
             var flow = await flowsService.GetAsync(id);
@@ -40,7 +40,7 @@ namespace Conductor.Controllers
             return CreatedAtAction(nameof(Get), new { id = newFlow.Id }, newFlow);
         }
 
-        [HttpPut("{id:length(24)}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(string id, Flow updatedFlow)
         {
             var flow = await flowsService.GetAsync(id);
@@ -57,7 +57,7 @@ namespace Conductor.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id:length(24)}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             var flow = await flowsService.GetAsync(id);

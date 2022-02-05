@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.32002.185
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.WebApi", "src\Automaton.WebApi\Automaton.WebApi.csproj", "{C8872CC8-DD18-4CB7-93DF-6A2ACCB1F8F1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Core", "src\Automaton.Core\Automaton.Core.csproj", "{1E18D1BF-1A0D-46A6-9734-B82CFF067348}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C8872CC8-DD18-4CB7-93DF-6A2ACCB1F8F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8872CC8-DD18-4CB7-93DF-6A2ACCB1F8F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8872CC8-DD18-4CB7-93DF-6A2ACCB1F8F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E18D1BF-1A0D-46A6-9734-B82CFF067348}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E18D1BF-1A0D-46A6-9734-B82CFF067348}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E18D1BF-1A0D-46A6-9734-B82CFF067348}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E18D1BF-1A0D-46A6-9734-B82CFF067348}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

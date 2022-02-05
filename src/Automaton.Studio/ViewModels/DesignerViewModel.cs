@@ -38,7 +38,6 @@ namespace Automaton.Studio.ViewModels
         (
             IMapper mapper,
             StepFactory stepFactory,
-            IDefinitionService definitionService,
             IFlowService solutionService
         )
         {
@@ -78,7 +77,7 @@ namespace Automaton.Studio.ViewModels
 
         public async Task SaveFlow()
         {
-            await solutionService.Save(Flow);
+            await solutionService.Update(Flow);
         }
 
         public void FinalizeStep(Step step)

@@ -6,9 +6,11 @@ namespace Automaton.Studio.ViewModels
 {
     public interface IFlowViewModel
     {
-        Task<IEnumerable<FlowModel>> GetFlows();
+        public ICollection<FlowModel> Flows { get; }
+
+        Task GetFlows();
         Task CreateFlow(string name);
         Task RunFlow(FlowModel flow);
-        void DeleteFlow(string id);
+        Task DeleteFlow(FlowModel flow);
     }
 }
