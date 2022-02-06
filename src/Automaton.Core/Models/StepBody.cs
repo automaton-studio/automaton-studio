@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Automaton.Core.Interfaces;
-using WorkflowCore.Models;
 
 namespace Automaton.Core.Models
 {

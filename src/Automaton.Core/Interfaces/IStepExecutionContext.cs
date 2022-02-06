@@ -1,5 +1,4 @@
 ﻿using Automaton.Core.Models;
-using WorkflowCore.Models;
 
 namespace Automaton.Core.Interfaces
 {
@@ -7,7 +6,7 @@ namespace Automaton.Core.Interfaces
     {
         WorkflowStep Step { get; set; }
 
-        WorkflowInstance Workflow { get; set; }
+        WorkflowDefinition WorkflowDefinition { get; set; }
 
         CancellationToken CancellationToken { get; set; }
     }

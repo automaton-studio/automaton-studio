@@ -1,7 +1,6 @@
 ﻿using Automaton.Core.Interfaces;
 using Automaton.Core.Models;
 using Microsoft.Extensions.Logging;
-using WorkflowCore.Models;
 
 namespace Automaton.Steps
 {
@@ -20,7 +19,7 @@ namespace Automaton.Steps
 
         public override Task<ExecutionResult> RunAsync(IStepExecutionContext context)
         {
-            var logger = _loggerFactory.CreateLogger(context.Workflow.WorkflowDefinitionId);
+            var logger = _loggerFactory.CreateLogger(context.WorkflowDefinition.Id);
             logger.Log(Level, default(EventId), Message, null, (state, ex) => state);
             return Task.FromResult(ExecutionResult.Next());
         }

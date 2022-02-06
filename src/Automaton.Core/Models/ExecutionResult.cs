@@ -1,4 +1,4 @@
-﻿namespace WorkflowCore.Models
+﻿namespace Automaton.Core.Models
 {
     public class ExecutionResult
     {
