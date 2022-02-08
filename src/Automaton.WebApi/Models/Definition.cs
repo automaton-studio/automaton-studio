@@ -12,6 +12,8 @@ namespace Automaton.WebApi.Models
 
         public string? Description { get; set; }
 
+        public string DataType { get; set; }
+
         public DefinitionErrorHandling DefaultErrorBehavior { get; set; }
 
         public TimeSpan? DefaultErrorRetryInterval { get; set; }
