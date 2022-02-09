@@ -10,7 +10,9 @@ namespace Automaton.Core.Models
 
         public string Description { get; set; }
 
-        public WorkflowStepCollection Steps { get; set; } = new WorkflowStepCollection();
+        public Type DataType { get; set; }
+
+        public List<WorkflowStep> Steps { get; set; } = new List<WorkflowStep>();
 
         public WorkflowErrorHandling DefaultErrorBehavior { get; set; }
 

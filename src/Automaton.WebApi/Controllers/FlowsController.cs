@@ -1,4 +1,7 @@
-﻿using Automaton.WebApi.Models;
+﻿using AutoMapper;
+using Automaton.Core.Models;
+using Automaton.WebApi.Interfaces;
+using Automaton.WebApi.Models;
 using Automaton.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,15 +11,19 @@ namespace Conductor.Controllers
     [ApiController]
     public class FlowsController : ControllerBase
     {
+        private readonly IMapper mapper;
+        private readonly IDefinitionLoader definitionLoader;
         private readonly FlowsService flowsService;
-
-        public FlowsController(FlowsService service)
+        
+        public FlowsController(FlowsService flowsService, IDefinitionLoader definitionLoader, IMapper mapper)
         {
-            flowsService = service;
+            this.flowsService = flowsService;
+            this.definitionLoader = definitionLoader;
+            this.mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<List<Flow>> Get() =>
+        public async Task<IEnumerable<Flow>> Get() =>
             await flowsService.GetAsync();
 
         [HttpGet("{id}")]
@@ -29,7 +36,25 @@ namespace Conductor.Controllers
                 return NotFound();
             }
 
-            return flow;
+            return Ok(flow);
+        }
+
+        [HttpGet]
+        [Route("run/{id}")]
+        public async Task<ActionResult<Flow>> Run(string id)
+        {
+            var flow = await flowsService.GetAsync(id);
+
+            if (flow is null)
+            {
+                return NotFound();
+            }
+
+            var definition = flow.GetStartupDefinition();
+
+            var workflowDefinition = definitionLoader.LoadDefinition(definition);
+
+            return Ok(flow);
         }
 
         [HttpPost]

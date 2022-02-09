@@ -1,4 +1,4 @@
-﻿using Automaton.WebApi.Enums;
+﻿using Automaton.Core.Enums;
 
 namespace Automaton.WebApi.Models
 {
@@ -14,7 +14,7 @@ namespace Automaton.WebApi.Models
 
         public string DataType { get; set; }
 
-        public DefinitionErrorHandling DefaultErrorBehavior { get; set; }
+        public WorkflowErrorHandling DefaultErrorBehavior { get; set; }
 
         public TimeSpan? DefaultErrorRetryInterval { get; set; }
 

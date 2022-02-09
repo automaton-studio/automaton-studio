@@ -51,23 +51,7 @@ namespace Automaton.Core.Services
 
             _logger.LogDebug("Starting step {0} on workflow {1}", step.Name, workflow.Id);
 
-            var body = step.ConstructBody(_serviceProvider);
-            var stepExecutor = _serviceProvider.GetService(typeof(IStepExecutor)) as IStepExecutor;
-
-            if (body == null)
-            {
-                _logger.LogError("Unable to construct step body {0}", step.BodyType.ToString());
-
-                wfResult.Errors.Add(new ExecutionError
-                {
-                    WorkflowId = workflow.Id,
-                    ErrorTime = DateTime.UtcNow,
-                    Message = $"Unable to construct step body {step.BodyType}"
-                });
-                return;
-            }
-
-            var result = await stepExecutor.ExecuteStep(context, body);
+            await step.RunAsync(context);
         }
     }
 }

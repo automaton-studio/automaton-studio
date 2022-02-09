@@ -22,10 +22,10 @@ namespace Automaton.WebApi.Services
                 bookStoreDatabaseSettings.Value.FlowsCollectionName);
         }
 
-        public async Task<List<Flow>> GetAsync() =>
+        public async Task<IEnumerable<Flow>> GetAsync() =>
             await flowsCollection.Find(_ => true).ToListAsync();
 
-        public async Task<Flow?> GetAsync(string id) =>
+        public async Task<Flow> GetAsync(string id) =>
             await flowsCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
         public async Task CreateAsync(Flow newBook) =>

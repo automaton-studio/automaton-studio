@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Automaton.Steps
 {
-    public class EmitLog : StepBodyAsync
+    public class EmitLog : WorkflowStep
     {
         private readonly ILoggerFactory _loggerFactory;
 

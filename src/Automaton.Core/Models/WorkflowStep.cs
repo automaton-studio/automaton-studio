@@ -6,15 +6,13 @@ namespace Automaton.Core.Models
 {
     public abstract class WorkflowStep
     {
-        public abstract Type BodyType { get; }
-
-        public virtual int Id { get; set; }
+        public virtual string Id { get; set; }
 
         public virtual string Name { get; set; }
 
-        public virtual string ExternalId { get; set; }
+        public string StepType { get; set; }
 
-        public virtual List<int> Children { get; set; } = new List<int>();
+        public virtual List<string> Children { get; set; } = new List<string>();
 
         public virtual List<IStepParameter> Inputs { get; set; } = new List<IStepParameter>();
 
@@ -24,7 +22,7 @@ namespace Automaton.Core.Models
 
         public virtual TimeSpan? RetryInterval { get; set; }
 
-        public virtual int? CompensationStepId { get; set; }
+        public virtual string? CompensationStepId { get; set; }
 
         public virtual bool ResumeChildrenAfterCompensation => true;
 
@@ -34,22 +32,6 @@ namespace Automaton.Core.Models
 
         public bool ProceedOnCancel { get; set; } = false;
 
-        public virtual IStepBody ConstructBody(IServiceProvider serviceProvider)
-        {
-            IStepBody body = (serviceProvider.GetService(BodyType) as IStepBody);
-            if (body == null)
-            {
-                var stepCtor = BodyType.GetConstructor(new Type[] { });
-                if (stepCtor != null)
-                    body = (stepCtor.Invoke(null) as IStepBody);
-            }
-            return body;
-        }
-    }
-
-    public class WorkflowStep<TStepBody> : WorkflowStep
-        where TStepBody : IStepBody 
-    {
-        public override Type BodyType => typeof(TStepBody);
+        public abstract Task<ExecutionResult> RunAsync(IStepExecutionContext context);
     }
 }

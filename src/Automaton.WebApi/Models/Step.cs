@@ -1,4 +1,4 @@
-﻿using Automaton.WebApi.Enums;
+﻿using Automaton.Core.Enums;
 using System.Dynamic;
 
 namespace Automaton.WebApi.Models
@@ -13,7 +13,7 @@ namespace Automaton.WebApi.Models
 
         public string? CancelCondition { get; set; }
 
-        public DefinitionErrorHandling? ErrorBehavior { get; set; }
+        public WorkflowErrorHandling? ErrorBehavior { get; set; }
 
         public TimeSpan? RetryInterval { get; set; }
 

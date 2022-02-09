@@ -1,12 +1,15 @@
 using Automaton.WebApi.Config;
+using Automaton.WebApi.Interfaces;
 using Automaton.WebApi.Middleware;
 using Automaton.WebApi.Services;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddSingleton<FlowsService>();
+builder.Services.AddTransient<IDefinitionLoader, DefinitionLoader>();
 
 // Configure services
 builder.Services.Configure<AutomatonDatabaseSettings>(builder.Configuration.GetSection("AutomatonDatabase"));
@@ -21,6 +24,11 @@ builder.Services.AddMvc(options =>
     options.EnableEndpointRouting = false;
 })
 .AddNewtonsoftJson();
+
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+builder.Services.AddSteps();
+builder.Services.AddWorkflow();
 
 var app = builder.Build();
 
