@@ -13,6 +13,5 @@ namespace Automaton.Core.Models
         public WorkflowErrorHandling DefaultErrorBehavior { get; set; }
 
         public TimeSpan? DefaultErrorRetryInterval { get; set; }
-
     }
 }
