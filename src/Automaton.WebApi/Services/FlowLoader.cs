@@ -1,6 +1,7 @@
 ﻿using Automaton.Core.Models;
 using Automaton.WebApi.Interfaces;
 using Automaton.WebApi.Models;
+using System.Linq.Dynamic.Core;
 
 namespace Automaton.WebApi.Services
 {
@@ -53,11 +54,12 @@ namespace Automaton.WebApi.Services
 
             foreach (var step in steps)
             {
-                var stepType = FindType(step.Name);
-                var workflowStep = serviceProvider.GetService(stepType) as WorkflowStep;
+                var stepType = FindType(step.Type);
 
+                var workflowStep = serviceProvider.GetService(stepType) as WorkflowStep;
                 workflowStep.Id = step.Id;
                 workflowStep.Name = step.Name;
+                workflowStep.Type = step.Type;
                 workflowStep.ErrorBehavior = step.ErrorBehavior;
                 workflowStep.RetryInterval = step.RetryInterval;
 
@@ -71,7 +73,21 @@ namespace Automaton.WebApi.Services
 
         private void AttachInputs(Step step, Type stepType, WorkflowStep workflowStep)
         {
-            throw new NotImplementedException();
+            foreach (var input in step.Inputs)
+            {
+                var inputProperty = stepType.GetProperty(input.Key);
+
+                if (inputProperty == null)
+                {
+                    throw new ArgumentException($"Unknown property for input {input.Key} on {step.Name}");
+                }
+
+                var expresion = Convert.ToString(input.Value);
+                var lambdaExpresion = DynamicExpressionParser.ParseLambda(typeof(object), expresion);
+                var value = lambdaExpresion.Compile().DynamicInvoke();
+
+                inputProperty.SetValue(workflowStep, value);
+            }
         }
 
         private static Type FindType(string name)
