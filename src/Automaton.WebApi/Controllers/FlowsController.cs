@@ -12,10 +12,10 @@ namespace Conductor.Controllers
     public class FlowsController : ControllerBase
     {
         private readonly IMapper mapper;
-        private readonly IDefinitionLoader definitionLoader;
+        private readonly IFlowLoader definitionLoader;
         private readonly FlowsService flowsService;
         
-        public FlowsController(FlowsService flowsService, IDefinitionLoader definitionLoader, IMapper mapper)
+        public FlowsController(FlowsService flowsService, IFlowLoader definitionLoader, IMapper mapper)
         {
             this.flowsService = flowsService;
             this.definitionLoader = definitionLoader;
@@ -50,9 +50,7 @@ namespace Conductor.Controllers
                 return NotFound();
             }
 
-            var definition = flow.GetStartupDefinition();
-
-            var workflowDefinition = definitionLoader.LoadDefinition(definition);
+            var workflow = definitionLoader.LoadFlow(flow);
 
             return Ok(flow);
         }

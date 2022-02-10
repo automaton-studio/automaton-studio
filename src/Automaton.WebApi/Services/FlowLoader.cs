@@ -11,36 +11,48 @@ using System.Reflection;
 
 namespace Automaton.WebApi.Services
 {
-    public class DefinitionLoader : IDefinitionLoader
+    public class FlowLoader : IFlowLoader
     {
         private readonly IServiceProvider serviceProvider;
 
-        public DefinitionLoader(IServiceProvider serviceProvider)
+        public FlowLoader(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
         }
 
-        public WorkflowDefinition LoadDefinition(string source, Func<string, Definition> deserializer)
+        public Workflow LoadFlow(string source, Func<string, Flow> deserializer)
         {
             var sourceObj = deserializer(source);
-            var def = LoadDefinition(sourceObj);
+            var def = LoadFlow(sourceObj);
+
             return def;
         }
 
-        public WorkflowDefinition LoadDefinition(Definition source)
+        public Workflow LoadFlow(Flow flow)
         {
-            var result = new WorkflowDefinition
+            var worklow = new Workflow
             {
-                Id = source.Id,
-                Steps = ConvertSteps(source.Steps),
-                DefaultErrorBehavior = source.DefaultErrorBehavior,
-                DefaultErrorRetryInterval = source.DefaultErrorRetryInterval,
-                Description = source.Description
+                Id = flow.Id,
+                Name = flow.Name,
+                StartupDefinitionId = flow.StartupDefinitionId,
             };
 
-            return result;
-        }
+            foreach(var definition in flow.Definitions)
+            {
+                var workflowDefinition = new WorkflowDefinition
+                {
+                    Id = definition.Id,
+                    Steps = ConvertSteps(definition.Steps),
+                    DefaultErrorBehavior = definition.DefaultErrorBehavior,
+                    DefaultErrorRetryInterval = definition.DefaultErrorRetryInterval,
+                    Description = definition.Description
+                };
 
+                worklow.Definitions.Add(workflowDefinition);
+            }
+            
+            return worklow;
+        }
 
         private List<WorkflowStep> ConvertSteps(ICollection<Step> source)
         {

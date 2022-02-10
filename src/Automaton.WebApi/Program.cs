@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddSingleton<FlowsService>();
-builder.Services.AddTransient<IDefinitionLoader, DefinitionLoader>();
+builder.Services.AddTransient<IFlowLoader, FlowLoader>();
 
 // Configure services
 builder.Services.Configure<AutomatonDatabaseSettings>(builder.Configuration.GetSection("AutomatonDatabase"));
