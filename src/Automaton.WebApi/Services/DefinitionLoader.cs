@@ -29,129 +29,48 @@ namespace Automaton.WebApi.Services
 
         public WorkflowDefinition LoadDefinition(Definition source)
         {
-            var dataType = typeof(object);
-            if (!string.IsNullOrEmpty(source.DataType))
-                dataType = FindType(source.DataType);
-
             var result = new WorkflowDefinition
             {
                 Id = source.Id,
-                Version = source.Version,
-                Steps = ConvertSteps(source.Steps, dataType),
+                Steps = ConvertSteps(source.Steps),
                 DefaultErrorBehavior = source.DefaultErrorBehavior,
                 DefaultErrorRetryInterval = source.DefaultErrorRetryInterval,
-                Description = source.Description,
-                DataType = dataType
+                Description = source.Description
             };
 
             return result;
         }
 
 
-        private List<WorkflowStep> ConvertSteps(ICollection<Step> source, Type dataType)
+        private List<WorkflowStep> ConvertSteps(ICollection<Step> source)
         {
-            var result = new List<WorkflowStep>();
-            int i = 0;
-            var stack = new Stack<Step>(source.Reverse<Step>());
-            var parents = new List<Step>();
-            var compensatables = new List<Step>();
+            var workflowSteps = new List<WorkflowStep>();
 
-            while (stack.Count > 0)
+            foreach (var step in source)
             {
-                var nextStep = stack.Pop();
-
-                var stepType = FindType(nextStep.Name);
-
-                Type containerType;
-
+                var stepType = FindType(step.Name);
                 var targetStep = serviceProvider.GetService(stepType) as WorkflowStep;
+                targetStep.Id = step.Id;
+                targetStep.Name = step.Name;
+                targetStep.ErrorBehavior = step.ErrorBehavior;
+                targetStep.RetryInterval = step.RetryInterval;
 
-                if (!string.IsNullOrEmpty(nextStep.CancelCondition))
-                {
-                    var cancelExprType = typeof(Expression<>).MakeGenericType(typeof(Func<,>).MakeGenericType(dataType, typeof(bool)));
-                    var dataParameter = Expression.Parameter(dataType, "data");
-                    var cancelExpr = DynamicExpressionParser.ParseLambda(new[] { dataParameter }, typeof(bool), nextStep.CancelCondition);
-                    targetStep.CancelCondition = cancelExpr;
-                }
+                AttachInputs(step, stepType, targetStep);
+                AttachOutputs(step, stepType, targetStep);
 
-                targetStep.Id = nextStep.Id;
-                targetStep.Name = nextStep.Name;
-                targetStep.ErrorBehavior = nextStep.ErrorBehavior;
-                targetStep.RetryInterval = nextStep.RetryInterval;
-
-                AttachInputs(nextStep, dataType, stepType, targetStep);
-                AttachOutputs(nextStep, dataType, stepType, targetStep);
-
-                if (nextStep.Do != null)
-                {
-                    foreach (var branch in nextStep.Do)
-                    {
-                        foreach (var child in branch.Reverse<Step>())
-                            stack.Push(child);
-                    }
-
-                    if (nextStep.Do.Count > 0)
-                        parents.Add(nextStep);
-                }
-
-                if (nextStep.CompensateWith != null)
-                {
-                    foreach (var compChild in nextStep.CompensateWith.Reverse<Step>())
-                        stack.Push(compChild);
-
-                    if (nextStep.CompensateWith.Count > 0)
-                        compensatables.Add(nextStep);
-                }
-
-                result.Add(targetStep);
-
-                i++;
+                workflowSteps.Add(targetStep);
             }
 
-            foreach (var step in result)
-            {
-                if (result.Any(x => x.Id != step.Id))
-                    throw new WorkflowDefinitionLoadException($"Duplicate step Id {step.Id}");
-
-            }
-
-            foreach (var parent in parents)
-            {
-                var target = result.Single(x => x.Id == parent.Id);
-                foreach (var branch in parent.Do)
-                {
-                    var childTags = branch.Select(x => x.Id).ToList();
-                    target.Children.AddRange(result
-                        .Where(x => childTags.Contains(x.Id))
-                        .OrderBy(x => x.Id)
-                        .Select(x => x.Id)
-                        .Take(1)
-                        .ToList());
-                }
-            }
-
-            foreach (var item in compensatables)
-            {
-                var target = result.Single(x => x.Id == item.Id);
-                var tag = item.CompensateWith.Select(x => x.Id).FirstOrDefault();
-                if (tag != null)
-                {
-                    var compStep = result.FirstOrDefault(x => x.Id == tag);
-                    if (compStep != null)
-                        target.CompensationStepId = compStep.Id;
-                }
-            }
-
-            return result;
+            return workflowSteps;
         }
 
-        private void AttachInputs(Step source, Type dataType, Type stepType, WorkflowStep step)
+        private void AttachInputs(Step source, Type stepType, WorkflowStep step)
         {
             try
             {
                 foreach (var input in source.Inputs)
                 {
-                    var dataParameter = Expression.Parameter(dataType, "data");
+                    var dataParameter = Expression.Parameter(stepType, input.Key);
                     var contextParameter = Expression.Parameter(typeof(IStepExecutionContext), "context");
                     var environmentVarsParameter = Expression.Parameter(typeof(IDictionary), "environment");
                     var stepProperty = stepType.GetProperty(input.Key);
@@ -164,14 +83,14 @@ namespace Automaton.WebApi.Services
                     if (input.Value is string)
                     {
                         var acn = BuildScalarInputAction(input, dataParameter, contextParameter, environmentVarsParameter, stepProperty);
-                        step.Inputs.Add(new ActionParameter<IStepBody, object>(acn));
+                        step.Inputs.Add(new ActionParameter<WorkflowStep, object>(acn));
                         continue;
                     }
 
                     if ((input.Value is IDictionary<string, object>) || (input.Value is IDictionary<object, object>))
                     {
                         var acn = BuildObjectInputAction(input, dataParameter, contextParameter, environmentVarsParameter, stepProperty);
-                        step.Inputs.Add(new ActionParameter<IStepBody, object>(acn));
+                        step.Inputs.Add(new ActionParameter<WorkflowStep, object>(acn));
                         continue;
                     }
 
@@ -183,27 +102,28 @@ namespace Automaton.WebApi.Services
 
                 throw;
             }
-            
+
         }
 
-        private void AttachOutputs(Step source, Type dataType, Type stepType, WorkflowStep step)
+        private void AttachOutputs(Step source, Type stepType, WorkflowStep step)
         {
-            foreach (var output in source.Outputs)
-            {
-                var stepParameter = Expression.Parameter(stepType, "step");
-                var sourceExpr = DynamicExpressionParser.ParseLambda(new[] { stepParameter }, typeof(object), output.Value);
+            //foreach (var output in source.Outputs)
+            //{
+            //    var stepParameter = Expression.Parameter(stepType, "step");
+            //    var sourceExpr = DynamicExpressionParser.ParseLambda(new[] { stepParameter }, typeof(object), output.Value);
 
-                var dataParameter = Expression.Parameter(dataType, "data");
+            //    var dataParameter = Expression.Parameter(dataType, "data");
 
 
-                if(output.Key.Contains(".") || output.Key.Contains("["))
-                {
-                    AttachNestedOutput(output, step, source, sourceExpr, dataParameter);
-                }else
-                {
-                    AttachDirectlyOutput(output, step, dataType, sourceExpr, dataParameter);
-                }
-            }
+            //    if (output.Key.Contains(".") || output.Key.Contains("["))
+            //    {
+            //        AttachNestedOutput(output, step, source, sourceExpr, dataParameter);
+            //    }
+            //    else
+            //    {
+            //        AttachDirectlyOutput(output, step, dataType, sourceExpr, dataParameter);
+            //    }
+            //}
         }
 
         private void AttachDirectlyOutput(KeyValuePair<string, string> output, WorkflowStep step, Type dataType, LambdaExpression sourceExpr, ParameterExpression dataParameter)
@@ -234,11 +154,11 @@ namespace Automaton.WebApi.Services
             }
         }
 
-        private void AttachNestedOutput( KeyValuePair<string, string> output, WorkflowStep step, Step source, LambdaExpression sourceExpr, ParameterExpression dataParameter)
+        private void AttachNestedOutput(KeyValuePair<string, string> output, WorkflowStep step, Step source, LambdaExpression sourceExpr, ParameterExpression dataParameter)
         {
             PropertyInfo propertyInfo = null;
             var paths = output.Key.Split('.');
-         
+
             Expression targetProperty = dataParameter;
 
             bool hasAddOutput = false;
@@ -311,14 +231,14 @@ namespace Automaton.WebApi.Services
             return Type.GetType($"Automaton.Steps.{name}, Automaton.Steps", true, true);
         }
 
-        private static Action<IStepBody, object, IStepExecutionContext> BuildScalarInputAction(KeyValuePair<string, object> input, ParameterExpression dataParameter, ParameterExpression contextParameter, ParameterExpression environmentVarsParameter, PropertyInfo stepProperty)
+        private static Action<WorkflowStep, object, IStepExecutionContext> BuildScalarInputAction(KeyValuePair<string, object> input, ParameterExpression dataParameter, ParameterExpression contextParameter, ParameterExpression environmentVarsParameter, PropertyInfo stepProperty)
         {
             try
             {
-                var expr = System.Convert.ToString(input.Value);
+                var expr = System.Convert.ToString(input.Key);
                 var sourceExpr = DynamicExpressionParser.ParseLambda(new[] { dataParameter, contextParameter, environmentVarsParameter }, typeof(object), expr);
 
-                void acn(IStepBody pStep, object pData, IStepExecutionContext pContext)
+                void acn(WorkflowStep pStep, object pData, IStepExecutionContext pContext)
                 {
                     object resolvedValue = sourceExpr.Compile().DynamicInvoke(pData, pContext, Environment.GetEnvironmentVariables());
                     if (stepProperty.PropertyType.IsEnum)
@@ -338,12 +258,12 @@ namespace Automaton.WebApi.Services
 
                 throw;
             }
-            
+
         }
 
-        private static Action<IStepBody, object, IStepExecutionContext> BuildObjectInputAction(KeyValuePair<string, object> input, ParameterExpression dataParameter, ParameterExpression contextParameter, ParameterExpression environmentVarsParameter, PropertyInfo stepProperty)
+        private static Action<WorkflowStep, object, IStepExecutionContext> BuildObjectInputAction(KeyValuePair<string, object> input, ParameterExpression dataParameter, ParameterExpression contextParameter, ParameterExpression environmentVarsParameter, PropertyInfo stepProperty)
         {
-            void acn(IStepBody pStep, object pData, IStepExecutionContext pContext)
+            void acn(WorkflowStep pStep, object pData, IStepExecutionContext pContext)
             {
                 var stack = new Stack<JObject>();
                 var destObj = JObject.FromObject(input.Value);

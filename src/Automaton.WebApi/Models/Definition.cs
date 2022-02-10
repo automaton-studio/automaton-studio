@@ -8,11 +8,7 @@ namespace Automaton.WebApi.Models
 
         public string Name { get; set; }
 
-        public int Version { get; set; }
-
         public string? Description { get; set; }
-
-        public string DataType { get; set; }
 
         public WorkflowErrorHandling DefaultErrorBehavior { get; set; }
 
