@@ -15,29 +15,31 @@ namespace Automaton.Core.Services
             _logger = loggerFactory.CreateLogger<WorkflowExecutor>();
         }
 
-        public async Task<WorkflowExecutorResult> Execute(WorkflowDefinition workflowDefinition, CancellationToken cancellationToken = default)
+        public async Task<WorkflowExecutorResult> Execute(Workflow workflow, CancellationToken cancellationToken = default)
         {
-            var wfResult = new WorkflowExecutorResult();
+            var result = new WorkflowExecutorResult();
 
-            foreach (WorkflowStep step in workflowDefinition.Steps)
+            var definition = workflow.GetStartupDefinition();
+
+            foreach (WorkflowStep step in definition.Steps)
             {
                 try
                 {
-                    await ExecuteStep(workflowDefinition, step, wfResult, workflowDefinition, cancellationToken);
+                    await ExecuteStep(definition, step, result, definition, cancellationToken);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Workflow {0} raised error on step {1} Message: {2}", workflowDefinition.Id, step.Id, ex.Message);
-                    wfResult.Errors.Add(new ExecutionError
+                    _logger.LogError(ex, "Workflow {0} raised error on step {1} Message: {2}", definition.Id, step.Id, ex.Message);
+                    result.Errors.Add(new ExecutionError
                     {
-                        WorkflowId = workflowDefinition.Id,
+                        WorkflowId = definition.Id,
                         ErrorTime = DateTime.UtcNow,
                         Message = ex.Message
                     });
                 }
             }
 
-            return wfResult;
+            return result;
         }
 
         private async Task ExecuteStep(WorkflowDefinition workflow, WorkflowStep step, WorkflowExecutorResult wfResult, WorkflowDefinition def, CancellationToken cancellationToken = default)

@@ -21,6 +21,7 @@ namespace Automaton.Steps
         {
             var logger = _loggerFactory.CreateLogger(context.WorkflowDefinition.Id);
             logger.Log(Level, default(EventId), Message, null, (state, ex) => state);
+
             return Task.FromResult(ExecutionResult.Next());
         }
     }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Automaton.Core.Interfaces;
 using Automaton.Core.Models;
 using Automaton.WebApi.Interfaces;
 using Automaton.WebApi.Models;
@@ -13,12 +14,20 @@ namespace Conductor.Controllers
     {
         private readonly IMapper mapper;
         private readonly IFlowLoader definitionLoader;
+        private readonly IWorkflowExecutor workflowExecutor;
         private readonly FlowsService flowsService;
-        
-        public FlowsController(FlowsService flowsService, IFlowLoader definitionLoader, IMapper mapper)
+
+        public FlowsController
+        (
+            FlowsService flowsService,
+            IWorkflowExecutor workflowExecutor,
+            IFlowLoader definitionLoader,
+            IMapper mapper
+        )
         {
             this.flowsService = flowsService;
             this.definitionLoader = definitionLoader;
+            this.workflowExecutor = workflowExecutor;
             this.mapper = mapper;
         }
 
@@ -51,6 +60,8 @@ namespace Conductor.Controllers
             }
 
             var workflow = definitionLoader.LoadFlow(flow);
+
+            workflowExecutor.Execute(workflow);
 
             return Ok(flow);
         }
