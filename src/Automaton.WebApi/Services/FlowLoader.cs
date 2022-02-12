@@ -91,9 +91,13 @@ namespace Automaton.WebApi.Services
             }
         }
 
-        private static Type FindType(string name)
+        private static Type? FindType(string name)
         {
-            return Type.GetType($"Automaton.Steps.{name}, Automaton.Steps", true, true);
+            var fullClassName = $"Automaton.Steps.{name}, Automaton.Steps";
+
+            var type = Type.GetType(fullClassName, true, true);
+
+            return type;
         }
     }
 }
