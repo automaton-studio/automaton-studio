@@ -14,7 +14,7 @@ namespace Automaton.Studio.Services.Interfaces
 {
     public class FlowService : IFlowService
     {
-        private HttpClient httpClient;
+        private readonly HttpClient httpClient;
         private readonly ConfigService configService;
         private readonly IMapper mapper;
         private readonly ILogger<FlowService> logger;
