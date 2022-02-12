@@ -1,4 +1,5 @@
-﻿using Automaton.Studio.Domain;
+﻿using Automaton.Core.Models;
+using Automaton.Studio.Domain;
 using Automaton.Studio.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,5 +13,6 @@ namespace Automaton.Studio.Services.Interfaces
         Task Create(Flow flow);
         Task Update(Flow flow);
         Task Delete (string flowId);
+        public Workflow ConvertFlow(Flow flow);
     }
 }

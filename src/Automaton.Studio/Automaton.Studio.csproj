@@ -19,6 +19,12 @@
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebView" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="6.0.101-preview.11.2349" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.15" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Automaton.Core\Automaton.Core.csproj" />
+    <ProjectReference Include="..\Automaton.Steps\Automaton.Steps.csproj" />
   </ItemGroup>
 
   

@@ -1,4 +1,5 @@
-﻿using Automaton.Studio.Events;
+﻿using Automaton.Core.Enums;
+using Automaton.Studio.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Automaton.Studio.Domain
 
         public string Description { get; set; }
 
-        public DefinitionErrorHandling DefaultErrorBehavior { get; set; }
+        public WorkflowErrorHandling DefaultErrorBehavior { get; set; }
 
         public TimeSpan? DefaultErrorRetryInterval { get; set; }
 

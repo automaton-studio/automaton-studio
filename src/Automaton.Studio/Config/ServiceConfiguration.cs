@@ -1,4 +1,6 @@
-﻿using Automaton.Studio.Components.Explorer.FlowExplorer;
+﻿using Automaton.Core.Interfaces;
+using Automaton.Core.Services;
+using Automaton.Studio.Components.Explorer.FlowExplorer;
 using Automaton.Studio.Components.Explorer.StepExplorer;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Domain.Interfaces;
@@ -22,6 +24,7 @@ namespace Automaton.Studio.Config
             services.AddSingleton<IFlowService, FlowService>();
             services.AddSingleton<IFlowsService, FlowsService>();
             services.AddSingleton<INavMenuService, NavMenuService>();
+            services.AddSingleton<IWorkflowExecutor, WorkflowExecutor>();
 
             // ViewModels
             services.AddScoped<FlowsViewModel>();
@@ -29,6 +32,9 @@ namespace Automaton.Studio.Config
             services.AddScoped<IDesignerViewModel, DesignerViewModel>();
             services.AddScoped<IStepsViewModel, StepsViewModel>();
             services.AddScoped<IFlowExplorerViewModel, FlowExplorerViewModel>();
+
+            // Steps
+            services.AddSteps();
 
             // Other
             services.AddSingleton<IStepTypeDescriptor, StepTypeDescriptor>();

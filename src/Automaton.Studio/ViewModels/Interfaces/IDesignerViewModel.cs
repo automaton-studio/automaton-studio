@@ -32,5 +32,6 @@ namespace Automaton.Studio.ViewModels
 
         Task LoadFlow(string flowId);
         Task SaveFlow();
+        Task RunFlow();
     }
 }

@@ -7,7 +7,7 @@ namespace Automaton.Studio.Steps.EmitLog
 {
     [StepDescription(
         Name = "EmitLog",
-        Type = "EmitLogStep",
+        Type = "EmitLog",
         DisplayName = "Emit Log",
         Category = "Console",
         Description = "Emit log to console",

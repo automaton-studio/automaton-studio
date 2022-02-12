@@ -131,9 +131,9 @@ namespace Automaton.Studio.Pages
 
         #endregion
 
-        public async Task RunWorkflow()
+        public async Task RunFlow()
         {
-            //await DesignerViewModel.RunWorkflow();
+            await DesignerViewModel.RunFlow();
         }
 
         private async Task SaveFlow()

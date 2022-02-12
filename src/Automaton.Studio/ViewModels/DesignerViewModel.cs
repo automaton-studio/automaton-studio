@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Automaton.Core.Interfaces;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
@@ -15,7 +16,8 @@ namespace Automaton.Studio.ViewModels
     {
         private readonly IMapper mapper;
         private readonly StepFactory stepFactory;
-        private readonly IFlowService solutionService;
+        private readonly IFlowService flowService;
+        private readonly IWorkflowExecutor workflowExecutor;
 
         public Flow Flow { get; set; }
         public Definition activeDefinition { get; set;  }
@@ -38,12 +40,14 @@ namespace Automaton.Studio.ViewModels
         (
             IMapper mapper,
             StepFactory stepFactory,
-            IFlowService solutionService
+            IFlowService solutionService,
+            IWorkflowExecutor workflowExecutor
         )
         {
             this.mapper = mapper;
             this.stepFactory = stepFactory;
-            this.solutionService = solutionService;
+            this.flowService = solutionService;
+            this.workflowExecutor = workflowExecutor;
 
             Flow = new Flow();
             Definitions = new List<Definition>();
@@ -69,7 +73,7 @@ namespace Automaton.Studio.ViewModels
 
         public async Task LoadFlow(string flowId)
         {
-            Flow = await solutionService.Load(flowId);
+            Flow = await flowService.Load(flowId);
 
             Definitions = Flow.Definitions;
             activeDefinition = Flow.GetStartupDefinition();
@@ -77,7 +81,13 @@ namespace Automaton.Studio.ViewModels
 
         public async Task SaveFlow()
         {
-            await solutionService.Update(Flow);
+            await flowService.Update(Flow);
+        }
+
+        public async Task RunFlow()
+        {
+            var workflow = flowService.ConvertFlow(Flow);
+            await workflowExecutor.Execute(workflow);
         }
 
         public void FinalizeStep(Step step)

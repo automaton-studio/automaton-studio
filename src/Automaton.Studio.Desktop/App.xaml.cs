@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Windows;
 
 namespace Automaton.Studio.Desktop

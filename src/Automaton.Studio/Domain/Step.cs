@@ -1,4 +1,5 @@
-﻿using Automaton.Studio.Domain.Interfaces;
+﻿using Automaton.Core.Enums;
+using Automaton.Studio.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -43,7 +44,7 @@ namespace Automaton.Studio.Domain
 
         #endregion
 
-        #region Conductor Properties
+        #region Automaton.Core Properties
 
         public string StepType { get; set; }
 
@@ -53,7 +54,7 @@ namespace Automaton.Studio.Domain
 
         public string CancelCondition { get; set; }
 
-        public DefinitionErrorHandling? ErrorBehavior { get; set; }
+        public WorkflowErrorHandling? ErrorBehavior { get; set; }
 
         public TimeSpan? RetryInterval { get; set; }
 
