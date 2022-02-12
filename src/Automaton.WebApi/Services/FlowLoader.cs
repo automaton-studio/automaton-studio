@@ -36,7 +36,7 @@ namespace Automaton.WebApi.Services
                 var workflowDefinition = new WorkflowDefinition
                 {
                     Id = definition.Id,
-                    Steps = ConvertSteps(definition.Steps, worklow),
+                    StepsDictionary = ConvertSteps(definition.Steps),
                     DefaultErrorBehavior = definition.DefaultErrorBehavior,
                     DefaultErrorRetryInterval = definition.DefaultErrorRetryInterval,
                     Description = definition.Description
@@ -48,9 +48,9 @@ namespace Automaton.WebApi.Services
             return worklow;
         }
 
-        private List<WorkflowStep> ConvertSteps(ICollection<Step> steps, Workflow workflow)
+        private IDictionary<string, WorkflowStep> ConvertSteps(ICollection<Step> steps)
         {
-            var workflowSteps = new List<WorkflowStep>();
+            var workflowSteps = new Dictionary<string, WorkflowStep>();
 
             foreach (var step in steps)
             {
@@ -60,12 +60,13 @@ namespace Automaton.WebApi.Services
                 workflowStep.Id = step.Id;
                 workflowStep.Name = step.Name;
                 workflowStep.Type = step.Type;
+                workflowStep.NextStepId = step.NextStepId;
                 workflowStep.ErrorBehavior = step.ErrorBehavior;
                 workflowStep.RetryInterval = step.RetryInterval;
 
                 AttachInputs(step, stepType, workflowStep);
 
-                workflowSteps.Add(workflowStep);
+                workflowSteps.Add(step.Id, workflowStep);
             }
 
             return workflowSteps;

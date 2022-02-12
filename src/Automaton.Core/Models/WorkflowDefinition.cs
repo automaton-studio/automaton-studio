@@ -8,10 +8,17 @@ namespace Automaton.Core.Models
 
         public string Description { get; set; }
 
-        public List<WorkflowStep> Steps { get; set; } = new List<WorkflowStep>();
+        public IEnumerable<WorkflowStep> Steps => StepsDictionary.Values;
+
+        public IDictionary<string, WorkflowStep> StepsDictionary { get; set; } = new Dictionary<string, WorkflowStep>();
 
         public WorkflowErrorHandling DefaultErrorBehavior { get; set; }
 
         public TimeSpan? DefaultErrorRetryInterval { get; set; }
+
+        public WorkflowStep GetFirstStep()
+        {
+            return StepsDictionary.First().Value;
+        }
     }
 }

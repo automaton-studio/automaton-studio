@@ -12,6 +12,8 @@ namespace Automaton.Core.Models
 
         public string Type { get; set; }
 
+        public string? NextStepId { get; set; }
+
         public virtual List<WorkflowStep> Children { get; set; } = new List<WorkflowStep>();
 
         public ExpandoObject Inputs { get; set; } = new ExpandoObject();

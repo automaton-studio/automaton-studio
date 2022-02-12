@@ -21,7 +21,9 @@ namespace Automaton.Core.Services
 
             var definition = workflow.GetStartupDefinition();
 
-            foreach (WorkflowStep step in definition.Steps)
+            var step = definition.GetFirstStep();
+
+            while (step != null)
             {
                 try
                 {
@@ -37,6 +39,8 @@ namespace Automaton.Core.Services
                         Message = ex.Message
                     });
                 }
+
+                step = step.NextStepId != null ? definition.StepsDictionary[step.NextStepId] : null;
             }
 
             return result;
