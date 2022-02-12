@@ -27,7 +27,7 @@ namespace Automaton.Studio.Web
             services.AddAntDesign();
             services.AddHttpClient();
             services.AddSingleton(service => new ConfigService(Configuration));
-            services.AddApplication(Configuration);
+            services.AddStudio(Configuration);
             services.AddSingleton<AppState>();
         }
 

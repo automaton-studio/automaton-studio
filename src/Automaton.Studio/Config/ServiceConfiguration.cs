@@ -14,7 +14,7 @@ namespace Automaton.Studio.Config
 {
     public static class ConfigurationExtensions
     {
-        public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
+        public static void AddStudio(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 

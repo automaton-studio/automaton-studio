@@ -39,7 +39,7 @@ namespace Automaton.Studio.Desktop
             services.AddBlazorWebView();
             services.AddAntDesign();
             services.AddSingleton(service => new ConfigService(Configuration));
-            services.AddApplication(Configuration);
+            services.AddStudio(Configuration);
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             // Main window
