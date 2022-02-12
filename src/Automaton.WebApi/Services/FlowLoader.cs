@@ -36,7 +36,7 @@ namespace Automaton.WebApi.Services
                 var workflowDefinition = new WorkflowDefinition
                 {
                     Id = definition.Id,
-                    StepsDictionary = ConvertSteps(definition.Steps),
+                    Steps = ConvertSteps(definition.Steps),
                     DefaultErrorBehavior = definition.DefaultErrorBehavior,
                     DefaultErrorRetryInterval = definition.DefaultErrorRetryInterval,
                     Description = definition.Description

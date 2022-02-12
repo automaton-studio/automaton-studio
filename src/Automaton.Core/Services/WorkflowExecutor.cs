@@ -40,7 +40,7 @@ namespace Automaton.Core.Services
                     });
                 }
 
-                step = step.NextStepId != null ? definition.StepsDictionary[step.NextStepId] : null;
+                step = definition.GetNextStep(step);
             }
 
             return result;

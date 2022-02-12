@@ -8,9 +8,7 @@ namespace Automaton.Core.Models
 
         public string Description { get; set; }
 
-        public IEnumerable<WorkflowStep> Steps => StepsDictionary.Values;
-
-        public IDictionary<string, WorkflowStep> StepsDictionary { get; set; } = new Dictionary<string, WorkflowStep>();
+        public IDictionary<string, WorkflowStep> Steps { get; set; } = new Dictionary<string, WorkflowStep>();
 
         public WorkflowErrorHandling DefaultErrorBehavior { get; set; }
 
@@ -18,7 +16,12 @@ namespace Automaton.Core.Models
 
         public WorkflowStep GetFirstStep()
         {
-            return StepsDictionary.First().Value;
+            return Steps.First().Value;
+        }
+
+        public WorkflowStep? GetNextStep(WorkflowStep step)
+        {
+            return step.NextStepId != null ? Steps[step.NextStepId] : null;
         }
     }
 }
