@@ -48,24 +48,6 @@ namespace Conductor.Controllers
             return Ok(flow);
         }
 
-        [HttpGet]
-        [Route("run/{id}")]
-        public async Task<ActionResult<Flow>> Run(string id)
-        {
-            var flow = await flowsService.GetAsync(id);
-
-            if (flow is null)
-            {
-                return NotFound();
-            }
-
-            var workflow = definitionLoader.LoadFlow(flow);
-
-            workflowExecutor.Execute(workflow);
-
-            return Ok(flow);
-        }
-
         [HttpPost]
         public async Task<IActionResult> Post(Flow newFlow)
         {
