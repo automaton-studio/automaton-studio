@@ -4,6 +4,7 @@ using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
+using Automaton.Studio.Services;
 using Automaton.Studio.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,13 @@ namespace Automaton.Studio.ViewModels
     {
         private readonly IMapper mapper;
         private readonly StepFactory stepFactory;
+
         private readonly IFlowService flowService;
+        private readonly ConfigService configService;
         private readonly IWorkflowExecutor workflowExecutor;
 
         public Flow Flow { get; set; }
-        public Definition activeDefinition { get; set;  }
+        public Definition activeDefinition { get; set; }
         public IList<Definition> Definitions { get; set; }
 
         public event EventHandler<StepEventArgs> DragStep;
@@ -36,16 +39,30 @@ namespace Automaton.Studio.ViewModels
             remove { activeDefinition.StepRemoved -= value; }
         }
 
+        public bool CanExecuteFlow
+        {
+            get
+            {
+#if DEBUG
+                return true;
+#else
+                return configService.IsDesktop;
+#endif
+            }
+        }
+
         public DesignerViewModel
         (
             IMapper mapper,
             StepFactory stepFactory,
+            ConfigService configService,
             IFlowService solutionService,
             IWorkflowExecutor workflowExecutor
         )
         {
             this.mapper = mapper;
             this.stepFactory = stepFactory;
+            this.configService = configService;
             this.flowService = solutionService;
             this.workflowExecutor = workflowExecutor;
 
@@ -86,8 +103,11 @@ namespace Automaton.Studio.ViewModels
 
         public async Task RunFlow()
         {
-            var workflow = flowService.ConvertFlow(Flow);
-            await workflowExecutor.Execute(workflow);
+            if (CanExecuteFlow)
+            {
+                var workflow = flowService.ConvertFlow(Flow);
+                await workflowExecutor.Execute(workflow);
+            }
         }
 
         public void FinalizeStep(Step step)

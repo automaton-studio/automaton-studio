@@ -15,6 +15,7 @@ namespace Automaton.Studio.ViewModels
 
         Flow Flow { get; set; }
         IList<Definition> Definitions { get; set; }
+        bool CanExecuteFlow { get; }
 
         void FinalizeStep(Step step);
         void DeleteStep(Step step);

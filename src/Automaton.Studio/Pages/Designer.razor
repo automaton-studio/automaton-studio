@@ -30,11 +30,14 @@
                             Save
                         </Button>
                     </SpaceItem>
-                    <SpaceItem>
+                    @if (DesignerViewModel.CanExecuteFlow)
+                    {
+                        <SpaceItem>
                         <Button Icon="caret-right" OnClick="RunFlow">
                             Run
                         </Button>
-                    </SpaceItem>
+                        </SpaceItem>
+                    }
                 </Space>
                 </Col>
 
