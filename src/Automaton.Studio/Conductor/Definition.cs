@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Automaton.Core.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace Automaton.Studio.Conductor
