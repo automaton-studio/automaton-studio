@@ -22,6 +22,7 @@ namespace Automaton.Studio.Config
 
             // Services
             services.AddSingleton<IFlowService, FlowService>();
+            services.AddSingleton<IFlowConvertService, FlowConvertService>();
             services.AddSingleton<IFlowsService, FlowsService>();
             services.AddSingleton<INavMenuService, NavMenuService>();
             services.AddSingleton<IWorkflowExecutor, WorkflowExecutor>();

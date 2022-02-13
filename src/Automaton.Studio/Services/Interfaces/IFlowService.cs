@@ -13,6 +13,5 @@ namespace Automaton.Studio.Services.Interfaces
         Task Create(Flow flow);
         Task Update(Flow flow);
         Task Delete (string flowId);
-        public Workflow ConvertFlow(Flow flow);
     }
 }

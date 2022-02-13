@@ -189,6 +189,8 @@ namespace Automaton.Studio.Pages
         /// </summary>
         private async Task OpenWorkflowSettings()
         {
+            throw new NotImplementedException();
+
             //var options = new DrawerOptions()
             //{
             //    Title = "Workflow Settings",

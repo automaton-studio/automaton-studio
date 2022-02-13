@@ -17,9 +17,8 @@ namespace Automaton.Studio.ViewModels
     {
         private readonly IMapper mapper;
         private readonly StepFactory stepFactory;
-
         private readonly IFlowService flowService;
-        private readonly ConfigService configService;
+        private readonly IFlowConvertService flowConvertService;
         private readonly IWorkflowExecutor workflowExecutor;
 
         public Flow Flow { get; set; }
@@ -55,15 +54,15 @@ namespace Automaton.Studio.ViewModels
         (
             IMapper mapper,
             StepFactory stepFactory,
-            ConfigService configService,
             IFlowService solutionService,
+            IFlowConvertService flowConvertService,
             IWorkflowExecutor workflowExecutor
         )
         {
             this.mapper = mapper;
             this.stepFactory = stepFactory;
-            this.configService = configService;
             this.flowService = solutionService;
+            this.flowConvertService = flowConvertService;
             this.workflowExecutor = workflowExecutor;
 
             Flow = new Flow();
@@ -105,7 +104,7 @@ namespace Automaton.Studio.ViewModels
         {
             if (CanExecuteFlow)
             {
-                var workflow = flowService.ConvertFlow(Flow);
+                var workflow = flowConvertService.ConvertFlow(Flow);
                 await workflowExecutor.Execute(workflow);
             }
         }
