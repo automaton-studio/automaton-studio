@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Automaton.Studio.Conductor
+namespace Automaton.Studio.Dto
 {
     public class Definition
     {
@@ -10,15 +10,12 @@ namespace Automaton.Studio.Conductor
 
         public string Name { get; set; }
 
-        public int Version { get; set; }
-
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public WorkflowErrorHandling DefaultErrorBehavior { get; set; }
 
         public TimeSpan? DefaultErrorRetryInterval { get; set; }
 
         public List<Step> Steps { get; set; } = new List<Step>();
-        
     }
 }

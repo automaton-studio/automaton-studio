@@ -12,14 +12,23 @@ namespace Automaton.Studio.Config
 
         public AutorMapperProfile()
         {
-            CreateMap<Conductor.Step, Step>();
-            CreateMap<Conductor.Flow, Flow>();
-            CreateMap<Conductor.Definition, Definition>()
-                .ForMember(source => source.Steps, target => target.MapFrom(entity => DeserializeSteps(entity.Steps)));
+            CreateMap<Step, Dto.Step>();
+            CreateMap<Flow, Dto.Flow>();
+            CreateMap<Definition, Dto.Definition>();
+            
+            CreateMap<Dto.Step, Step>();
+            CreateMap<Dto.Flow, Flow>();
+            CreateMap<Dto.Definition, Definition>()
+                .ForMember
+                (
+                    source => source.Steps, 
+                    target => target.MapFrom(entity => DeserializeSteps(entity.Steps))
+                );
+
             CreateMap<Definition, FlowExplorerDefinition>();           
         }
 
-        public IEnumerable<Step> DeserializeSteps(IEnumerable<Conductor.Step> conductorSteps)
+        public IEnumerable<Step> DeserializeSteps(IEnumerable<Dto.Step> conductorSteps)
         {
             foreach (var conductorStep in conductorSteps)
             {
