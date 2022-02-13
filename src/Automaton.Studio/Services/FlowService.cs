@@ -55,7 +55,7 @@ namespace Automaton.Studio.Services.Interfaces
         public async Task<Flow> Load(string id)
         {
             var response = await httpClient.GetAsync($"{configService.FlowsUrl}/{id}");
-            var conductorFlow = await response.Content.ReadAsAsync<Conductor.Flow>();
+            var conductorFlow = await response.Content.ReadAsAsync<Dto.Flow>();
             var flow = mapper.Map<Flow>(conductorFlow);
             
             return flow;
@@ -63,7 +63,8 @@ namespace Automaton.Studio.Services.Interfaces
 
         public async Task Create(Flow flow)
         {
-            var json = JsonSerializer.Serialize(flow);
+            var flowDto = mapper.Map<Dto.Flow>(flow);
+            var json = JsonSerializer.Serialize(flowDto);
             var requestContent = new StringContent(json, Encoding.UTF8, "application/json");
 
             await httpClient.PostAsync(configService.FlowsUrl, requestContent);
@@ -71,7 +72,8 @@ namespace Automaton.Studio.Services.Interfaces
 
         public async Task Update(Flow flow)
         {
-            var json = JsonSerializer.Serialize(flow);
+            var flowDto = mapper.Map<Dto.Flow>(flow);
+            var json = JsonSerializer.Serialize(flowDto);
             var requestContent = new StringContent(json, Encoding.UTF8, "application/json");
 
             await httpClient.PutAsync($"{configService.FlowsUrl}/{flow.Id}", requestContent);
