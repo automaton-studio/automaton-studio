@@ -57,7 +57,7 @@ namespace Conductor.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(string id, Flow updatedFlow)
+        public async Task<IActionResult> Put(string id, Flow updatedFlow)
         {
             var flow = await flowsService.GetAsync(id);
 
