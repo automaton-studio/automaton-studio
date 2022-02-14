@@ -14,6 +14,8 @@ namespace Automaton.Studio.Services.Interfaces
 {
     public class FlowService : IFlowService
     {
+        private const string ApplicationJson = "application/json";
+
         private readonly HttpClient httpClient;
         private readonly ConfigService configService;
         private readonly IMapper mapper;
@@ -30,7 +32,6 @@ namespace Automaton.Studio.Services.Interfaces
             this.logger = logger;
             this.configService = configService;
             this.httpClient = httpClient;
-            this.httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
             this.mapper = mapper;
         }
 
@@ -65,7 +66,7 @@ namespace Automaton.Studio.Services.Interfaces
         {
             var flowDto = mapper.Map<Dto.Flow>(flow);
             var json = JsonSerializer.Serialize(flowDto);
-            var requestContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var requestContent = new StringContent(json, Encoding.UTF8, ApplicationJson);
 
             await httpClient.PostAsync(configService.FlowsUrl, requestContent);
         }
@@ -74,7 +75,7 @@ namespace Automaton.Studio.Services.Interfaces
         {
             var flowDto = mapper.Map<Dto.Flow>(flow);
             var json = JsonSerializer.Serialize(flowDto);
-            var requestContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var requestContent = new StringContent(json, Encoding.UTF8, ApplicationJson);
 
             await httpClient.PutAsync($"{configService.FlowsUrl}/{flow.Id}", requestContent);
         }
