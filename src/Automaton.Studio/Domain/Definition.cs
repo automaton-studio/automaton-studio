@@ -8,8 +8,6 @@ namespace Automaton.Studio.Domain
 {
     public class Definition
     {
-        #region Conductor
-
         public string Id { get; set; }
 
         public int Version { get; set; }
@@ -23,8 +21,6 @@ namespace Automaton.Studio.Domain
         public TimeSpan? DefaultErrorRetryInterval { get; set; }
 
         public List<Step> Steps { get; set; } = new List<Step>();
-
-        #endregion
 
         #region Events
 

@@ -28,19 +28,19 @@ namespace Automaton.Studio.Config
             CreateMap<Definition, FlowExplorerDefinition>();           
         }
 
-        public IEnumerable<Step> DeserializeSteps(IEnumerable<Dto.Step> conductorSteps)
+        public IEnumerable<Step> DeserializeSteps(IEnumerable<Dto.Step> stepDtos)
         {
-            foreach (var conductorStep in conductorSteps)
+            foreach (var stepDto in stepDtos)
             {
                 // Use Conductor step name to create Domain step
-                var step = stepFactory.CreateStep(conductorStep.Name);
+                var step = stepFactory.CreateStep(stepDto.Name);
 
                 // Deserialized steps are marked as final 
                 step.MarkAsFinal();
 
                 // Update step properties using AutoMapper
                 var mapper = GetMapperInstance();
-                mapper.Map(conductorStep, step);
+                mapper.Map(stepDto, step);
 
                 yield return step;
             }
