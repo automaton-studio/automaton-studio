@@ -1,4 +1,5 @@
-﻿using Automaton.Core.Models;
+﻿using AutoMapper;
+using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Services.Interfaces;
 using System;
@@ -11,15 +12,18 @@ namespace Automaton.Studio.Services
     {
         private readonly ConfigService configService;
         private readonly IServiceProvider serviceProvider;
+        private readonly IMapper mapper;
 
         public FlowConvertService
         (
             IServiceProvider serviceProvider, 
-            ConfigService configService
+            ConfigService configService,
+            IMapper mapper
         )
         {
             this.serviceProvider = serviceProvider;
             this.configService = configService;
+            this.mapper = mapper;
         }
 
         public Workflow ConvertFlow(Flow flow)
@@ -98,6 +102,21 @@ namespace Automaton.Studio.Services
             var type = Type.GetType(fullClassName, true, true);
 
             return type;
+        }
+
+        public Flow ConvertFlow(Dto.Flow flowDto)
+        {
+            var flow = mapper.Map<Flow>(flowDto);
+
+            foreach(var definition in flow.Definitions)
+            {
+                foreach (var step in definition.Steps)
+                {
+                    step.Definition = definition;
+                }
+            }
+
+            return flow;
         }
     }
 }

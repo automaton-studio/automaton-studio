@@ -18,17 +18,20 @@ namespace Automaton.Studio.Services.Interfaces
 
         private readonly HttpClient httpClient;
         private readonly ConfigService configService;
+        private readonly IFlowConvertService flowConverterService;
         private readonly IMapper mapper;
         private readonly ILogger<FlowService> logger;
 
         public FlowService
         (
             ConfigService configService,
+            IFlowConvertService flowConverterService,
             IMapper mapper,
             HttpClient httpClient,
             ILogger<FlowService> logger
         )
         {
+            this.flowConverterService = flowConverterService;
             this.logger = logger;
             this.configService = configService;
             this.httpClient = httpClient;
@@ -56,9 +59,10 @@ namespace Automaton.Studio.Services.Interfaces
         public async Task<Flow> Load(string id)
         {
             var response = await httpClient.GetAsync($"{configService.FlowsUrl}/{id}");
-            var conductorFlow = await response.Content.ReadAsAsync<Dto.Flow>();
-            var flow = mapper.Map<Flow>(conductorFlow);
-            
+            var flowDto = await response.Content.ReadAsAsync<Dto.Flow>();
+
+            var flow = flowConverterService.ConvertFlow(flowDto);
+
             return flow;
         }
 
