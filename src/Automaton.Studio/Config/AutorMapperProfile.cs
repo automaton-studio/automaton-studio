@@ -22,14 +22,14 @@ namespace Automaton.Studio.Config
                 .ForMember
                 (
                     source => source.Steps, 
-                    target => target.MapFrom(entity => DeserializeSteps(entity.Steps))
+                    target => target.MapFrom(entity => SetupSteps(entity.Steps))
                 )
-                .AfterMap((src, dest) => SetupDefinition(src, dest));
+                .AfterMap((source, target) => SetupDefinition(source, target));
 
             CreateMap<Definition, FlowExplorerDefinition>();           
         }
 
-        public IEnumerable<Step> DeserializeSteps(IEnumerable<Dto.Step> stepDtos)
+        public IEnumerable<Step> SetupSteps(IEnumerable<Dto.Step> stepDtos)
         {
             foreach (var stepDto in stepDtos)
             {
@@ -47,7 +47,7 @@ namespace Automaton.Studio.Config
             }
         }
 
-        public static void SetupDefinition(Dto.Definition source, Definition target)
+        private static void SetupDefinition(Dto.Definition source, Definition target)
         {
             foreach (var step in target.Steps)
             {
