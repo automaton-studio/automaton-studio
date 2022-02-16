@@ -23,7 +23,8 @@ namespace Automaton.Studio.Config
                 (
                     source => source.Steps, 
                     target => target.MapFrom(entity => DeserializeSteps(entity.Steps))
-                );
+                )
+                .AfterMap((src, dest) => SetupDefinition(src, dest));
 
             CreateMap<Definition, FlowExplorerDefinition>();           
         }
@@ -43,6 +44,14 @@ namespace Automaton.Studio.Config
                 mapper.Map(stepDto, step);
 
                 yield return step;
+            }
+        }
+
+        public static void SetupDefinition(Dto.Definition source, Definition target)
+        {
+            foreach (var step in target.Steps)
+            {
+                step.Definition = target;
             }
         }
 

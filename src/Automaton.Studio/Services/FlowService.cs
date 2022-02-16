@@ -61,7 +61,7 @@ namespace Automaton.Studio.Services.Interfaces
             var response = await httpClient.GetAsync($"{configService.FlowsUrl}/{id}");
             var flowDto = await response.Content.ReadAsAsync<Dto.Flow>();
 
-            var flow = flowConverterService.ConvertFlow(flowDto);
+            var flow = mapper.Map<Flow>(flowDto);
 
             return flow;
         }

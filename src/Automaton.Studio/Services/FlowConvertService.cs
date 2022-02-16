@@ -76,7 +76,7 @@ namespace Automaton.Studio.Services
             return workflowSteps;
         }
 
-        private void AttachInputs(Step step, Type stepType, WorkflowStep workflowStep)
+        private static void AttachInputs(Step step, Type stepType, WorkflowStep workflowStep)
         {
             foreach (var input in step.Inputs)
             {
@@ -102,21 +102,6 @@ namespace Automaton.Studio.Services
             var type = Type.GetType(fullClassName, true, true);
 
             return type;
-        }
-
-        public Flow ConvertFlow(Dto.Flow flowDto)
-        {
-            var flow = mapper.Map<Flow>(flowDto);
-
-            foreach(var definition in flow.Definitions)
-            {
-                foreach (var step in definition.Steps)
-                {
-                    step.Definition = definition;
-                }
-            }
-
-            return flow;
         }
     }
 }
