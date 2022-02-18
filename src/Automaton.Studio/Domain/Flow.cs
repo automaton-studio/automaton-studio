@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Automaton.Studio.Domain
 {
@@ -10,14 +12,20 @@ namespace Automaton.Studio.Domain
         public string Name { get; set; }
         public string StartupDefinitionId { get; set; }
         public IList<Definition> Definitions { get; set; }
+        public ExpandoObject Variables { get; set; }
+
+        [JsonIgnore]
+        public IDictionary<string, object> VariablesDictionary => Variables;
 
         public Flow()
         {
+            var defaultDefinition = new Definition();
+
             Name = "Untitled";
             Id = Guid.NewGuid().ToString();
-            var defaultDefinition = new Definition();
             StartupDefinitionId = defaultDefinition.Id;
             Definitions = new List<Definition> { defaultDefinition };
+            Variables = new ExpandoObject();
         }
 
         public Definition GetStartupDefinition()
