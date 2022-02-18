@@ -27,11 +27,20 @@ namespace Automaton.Core.Services
             {
                 try
                 {
-                    await ExecuteStep(definition, step, result, definition, cancellationToken);
+                    var context = new StepExecutionContext
+                    {
+                        Workflow = workflow,
+                        Definition = definition,
+                        Step = step,
+                        CancellationToken = cancellationToken
+                    };
+
+                    await ExecuteStep(context, result);
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Workflow {0} raised error on step {1} Message: {2}", definition.Id, step.Id, ex.Message);
+
                     result.Errors.Add(new ExecutionError
                     {
                         WorkflowId = definition.Id,
@@ -46,18 +55,11 @@ namespace Automaton.Core.Services
             return result;
         }
 
-        private async Task ExecuteStep(WorkflowDefinition workflow, WorkflowStep step, WorkflowExecutorResult wfResult, WorkflowDefinition def, CancellationToken cancellationToken = default)
+        private async Task ExecuteStep(StepExecutionContext context, WorkflowExecutorResult result)
         {
-            var context = new StepExecutionContext
-            {
-                WorkflowDefinition = workflow,
-                Step = step,
-                CancellationToken = cancellationToken
-            };
+            _logger.LogDebug("Starting step {0} on workflow {1}", context.Step.Name, context.Definition.Id);
 
-            _logger.LogDebug("Starting step {0} on workflow {1}", step.Name, workflow.Id);
-
-            await step.RunAsync(context);
+            await context.Step.RunAsync(context);
         }
     }
 }

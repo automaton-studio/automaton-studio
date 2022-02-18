@@ -19,7 +19,7 @@ namespace Automaton.Steps
 
         public override Task<ExecutionResult> RunAsync(IStepExecutionContext context)
         {
-            var logger = _loggerFactory.CreateLogger(context.WorkflowDefinition.Id);
+            var logger = _loggerFactory.CreateLogger(context.Definition.Id);
             logger.Log(Level, default(EventId), Message, null, (state, ex) => state);
 
             return Task.FromResult(ExecutionResult.Next());

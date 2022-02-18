@@ -4,7 +4,9 @@ namespace Automaton.Core.Models
 {
     public class StepExecutionContext : IStepExecutionContext
     {
-        public WorkflowDefinition WorkflowDefinition { get; set; }
+        public Workflow Workflow { get; set; }
+
+        public WorkflowDefinition Definition { get; set; }
 
         public WorkflowStep Step { get; set; }
 
