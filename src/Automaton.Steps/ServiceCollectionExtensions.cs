@@ -7,6 +7,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static void AddSteps(this IServiceCollection services)
         {
             services.AddTransient<EmitLog>();
+            services.AddTransient<AddVariable>();
         }
     }
 }
