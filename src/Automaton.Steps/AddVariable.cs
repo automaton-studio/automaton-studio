@@ -5,16 +5,12 @@ namespace Automaton.Steps
 {
     public class AddVariable : WorkflowStep
     {
-        public string Name { get; set; }
-        public object Value { get; set; }
-
-        public AddVariable()
-        {
-        }
+        public string VariableName { get; set; }
+        public string VariableValue { get; set; }
 
         public override Task<ExecutionResult> RunAsync(IStepExecutionContext context)
         {
-            context.Workflow.VariablesDictionary.Add(Name, Value);
+            context.Workflow.VariablesDictionary.Add(VariableName, VariableValue);
 
             return Task.FromResult(ExecutionResult.Next());
         }

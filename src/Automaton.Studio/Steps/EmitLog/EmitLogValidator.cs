@@ -6,7 +6,7 @@ namespace Automaton.Studio.Steps.EmitLog
     {
         public EmitLogValidator()
         {
-            RuleFor(x => x.Message).NotEmpty().MaximumLength(50).WithMessage("Text required");
+            RuleFor(x => x.Message).NotEmpty().MaximumLength(4000).WithMessage("Message required");
         }
     }
 }
