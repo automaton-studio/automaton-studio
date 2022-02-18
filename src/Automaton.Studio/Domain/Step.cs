@@ -66,11 +66,9 @@ namespace Automaton.Studio.Domain
 
         public string NextStepId { get; set; }
 
-        public ExpandoObject Inputs { get; set; } = new ExpandoObject();
+        public ExpandoObject Inputs { get; set; }
 
-        public Dictionary<string, string> Outputs { get; set; } = new Dictionary<string, string>();
-
-        public Dictionary<string, string> SelectNextStep { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> Outputs { get; set; }
 
         #endregion
 
@@ -81,6 +79,8 @@ namespace Automaton.Studio.Domain
             DisplayName = descriptor.DisplayName;
             Type = descriptor.Type;
             StepType = descriptor.Type;
+            Inputs = new ExpandoObject();
+            Outputs = new Dictionary<string, string>();
             Class = StepClass;
         }
 
