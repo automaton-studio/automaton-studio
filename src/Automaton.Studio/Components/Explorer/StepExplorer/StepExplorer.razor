@@ -19,7 +19,7 @@
                 ShowIcon
                 Draggable
                 DataSource="@StepsViewModel.Steps"
-                TitleExpression="x => x.DataItem.Type"
+                TitleExpression="x => x.DataItem.DisplayName"
                 ChildrenExpression="x => x.DataItem.Steps"
                 IconExpression="x => x.DataItem.Icon"
                 IsLeafExpression="x => x.DataItem.Steps == null || !x.DataItem.Steps.Any()"

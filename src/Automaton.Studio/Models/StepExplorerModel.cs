@@ -8,6 +8,7 @@ namespace Automaton.Studio.Models
         private const string DefaultIcon = "file";
 
         public string Name { get; set; }
+        public string DisplayName { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
         public string Icon { get; set; } = DefaultIcon;
@@ -24,7 +25,7 @@ namespace Automaton.Studio.Models
         public StepExplorerModel(string name, string displayName)
         {
             Name = name;
-            Type = displayName;
+            DisplayName = displayName;
         }
 
         public void AddStep(StepExplorerModel step)

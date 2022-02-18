@@ -56,6 +56,7 @@ namespace Automaton.Studio.Factories
                 Name = stepDescriptor.Name, 
                 Type = stepDescriptor.Type,
                 Description = stepDescriptor.Description,
+                DisplayName = stepDescriptor.DisplayName,
                 Category = stepDescriptor.Category,
                 Icon = stepDescriptor.Icon
             };
