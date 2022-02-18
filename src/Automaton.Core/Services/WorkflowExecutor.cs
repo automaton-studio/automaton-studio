@@ -18,9 +18,7 @@ namespace Automaton.Core.Services
         public async Task<WorkflowExecutorResult> Execute(Workflow workflow, CancellationToken cancellationToken = default)
         {
             var result = new WorkflowExecutorResult();
-
             var definition = workflow.GetStartupDefinition();
-
             var step = definition.GetFirstStep();
 
             while (step != null)
