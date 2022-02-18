@@ -39,8 +39,6 @@ namespace Automaton.Studio.Domain
         public string Class { get; set; }
         [JsonIgnore]
         public string DisplayName { get; set; }
-        [JsonIgnore]
-        public string Type { get; set; }
 
         #endregion
 
@@ -49,6 +47,8 @@ namespace Automaton.Studio.Domain
         public string Id { get; set; }
 
         public string Name { get; set; }
+
+        public string Type { get; set; }
 
         public string CancelCondition { get; set; }
 
