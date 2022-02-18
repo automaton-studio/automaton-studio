@@ -44,9 +44,7 @@ namespace Automaton.Studio.Domain
 
         #endregion
 
-        #region Automaton.Core Properties
-
-        public string StepType { get; set; }
+        #region Automaton.Core
 
         public string Id { get; set; }
 
@@ -78,7 +76,6 @@ namespace Automaton.Studio.Domain
             Name = descriptor.Name;
             DisplayName = descriptor.DisplayName;
             Type = descriptor.Type;
-            StepType = descriptor.Type;
             Inputs = new ExpandoObject();
             Outputs = new Dictionary<string, string>();
             Class = StepClass;
