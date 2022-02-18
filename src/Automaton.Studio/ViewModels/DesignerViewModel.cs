@@ -20,9 +20,9 @@ namespace Automaton.Studio.ViewModels
         private readonly IFlowService flowService;
         private readonly IFlowConvertService flowConvertService;
         private readonly IWorkflowExecutor workflowExecutor;
+        private Definition activeDefinition;
 
         public Flow Flow { get; set; }
-        public Definition activeDefinition { get; set; }
         public IList<Definition> Definitions { get; set; }
 
         public event EventHandler<StepEventArgs> DragStep;
@@ -112,17 +112,11 @@ namespace Automaton.Studio.ViewModels
         public void FinalizeStep(Step step)
         {
             activeDefinition.FinalizeStep(step);
-            activeDefinition.UpdateStepConnections();
         }
 
         public IEnumerable<Step> GetSelectedSteps()
         {
             return activeDefinition.Steps.Where(x => x.IsSelected());
-        }
-
-        public void UpdateStepConnections(Step step)
-        {
-            activeDefinition.UpdateStepConnections();
         }
 
         public IEnumerable<string> GetDefinitionNames()
@@ -153,6 +147,11 @@ namespace Automaton.Studio.ViewModels
         public string GetStartupDefinitionId()
         {
             return Flow.StartupDefinitionId;
+        }
+
+        public void UpdateStepConnections()
+        {
+            activeDefinition.UpdateStepConnections();
         }
     }
 }

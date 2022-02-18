@@ -89,7 +89,7 @@ namespace Automaton.Studio.Pages
             }
             else
             {
-                DesignerViewModel.UpdateStepConnections(step);
+                DesignerViewModel.UpdateStepConnections();
             }
         }
 

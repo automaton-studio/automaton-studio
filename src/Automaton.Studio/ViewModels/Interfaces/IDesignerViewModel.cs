@@ -21,7 +21,7 @@ namespace Automaton.Studio.ViewModels
         void DeleteStep(Step step);
         void CreateStep(StepExplorerModel solutionStep);
         IEnumerable<Step> GetSelectedSteps();
-        void UpdateStepConnections(Step step);
+        void UpdateStepConnections();
 
         void NewDefinition(string name);
         IEnumerable<string> GetDefinitionNames();

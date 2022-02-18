@@ -37,9 +37,9 @@ namespace Automaton.Studio.Domain
 
         public void DeleteStep(Step step)
         {
-            //step.DeleteConnections();
-
             Steps.Remove(step);
+
+            UpdateStepConnections();
 
             StepRemoved?.Invoke(this, new StepEventArgs(step));
         }
@@ -47,6 +47,8 @@ namespace Automaton.Studio.Domain
         public void FinalizeStep(Step step)
         {
             step.MarkAsFinal();
+
+            UpdateStepConnections();
 
             StepAdded?.Invoke(this, new StepEventArgs(step));
         }
