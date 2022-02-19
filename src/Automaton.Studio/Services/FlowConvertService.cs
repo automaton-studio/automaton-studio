@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Automaton.Core.Models;
 using Automaton.Studio.Domain;
+using Automaton.Studio.Extensions;
 using Automaton.Studio.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
 
 namespace Automaton.Studio.Services
 {
@@ -33,6 +35,7 @@ namespace Automaton.Studio.Services
                 Id = flow.Id,
                 Name = flow.Name,
                 StartupDefinitionId = flow.StartupDefinitionId,
+                Variables = flow.Variables
             };
 
             foreach (var definition in flow.Definitions)
@@ -40,7 +43,7 @@ namespace Automaton.Studio.Services
                 var workflowDefinition = new WorkflowDefinition
                 {
                     Id = definition.Id,
-                    Steps = ConvertSteps(definition.Steps),
+                    Steps = ConvertSteps(definition.Steps, worklow),
                     DefaultErrorBehavior = definition.DefaultErrorBehavior,
                     DefaultErrorRetryInterval = definition.DefaultErrorRetryInterval,
                     Description = definition.Description
@@ -52,15 +55,13 @@ namespace Automaton.Studio.Services
             return worklow;
         }
 
-        private IDictionary<string, WorkflowStep> ConvertSteps(ICollection<Step> steps)
+        private IDictionary<string, WorkflowStep> ConvertSteps(ICollection<Step> steps, Workflow workflow)
         {
             var workflowSteps = new Dictionary<string, WorkflowStep>();
 
             foreach (var step in steps)
             {
-                var stepType = FindType(step.Type);
-
-                var workflowStep = serviceProvider.GetService(stepType) as WorkflowStep;
+                var workflowStep = serviceProvider.GetService(step.FindType()) as WorkflowStep;
                 workflowStep.Id = step.Id;
                 workflowStep.Name = step.Name;
                 workflowStep.Type = step.Type;
@@ -68,7 +69,7 @@ namespace Automaton.Studio.Services
                 workflowStep.ErrorBehavior = step.ErrorBehavior;
                 workflowStep.RetryInterval = step.RetryInterval;
 
-                AttachInputs(step, stepType, workflowStep);
+                AttachInputs(step, workflowStep, workflow);
 
                 workflowSteps.Add(step.Id, workflowStep);
             }
@@ -76,10 +77,19 @@ namespace Automaton.Studio.Services
             return workflowSteps;
         }
 
-        private static void AttachInputs(Step step, Type stepType, WorkflowStep workflowStep)
+        private static void AttachInputs(Step step, WorkflowStep workflowStep, Workflow workflow)
         {
+            var variableParameters = new List<ParameterExpression>();
+
+            foreach (var variable in workflow.VariablesDictionary)
+            {
+                var parameter = Expression.Parameter(variable.Value.GetType(), variable.Key);
+                variableParameters.Add(parameter);
+            }
+
             foreach (var input in step.Inputs)
             {
+                var stepType = input.GetType();
                 var inputProperty = stepType.GetProperty(input.Key);
 
                 if (inputProperty == null)
@@ -88,20 +98,15 @@ namespace Automaton.Studio.Services
                 }
 
                 var expresion = Convert.ToString(input.Value);
-                var lambdaExpresion = DynamicExpressionParser.ParseLambda(typeof(object), expresion);
-                var value = lambdaExpresion.Compile().DynamicInvoke();
+                var lambdaExpresion = DynamicExpressionParser.ParseLambda(variableParameters.ToArray(), typeof(object), expresion);
+                var value = workflow.VariablesDictionary.Count > 0 ?
+                    lambdaExpresion.Compile().DynamicInvoke(workflow.VariablesDictionary.Values) :
+                    lambdaExpresion.Compile().DynamicInvoke();
 
                 inputProperty.SetValue(workflowStep, value);
             }
         }
 
-        private static Type? FindType(string name)
-        {
-            var fullClassName = $"Automaton.Steps.{name}, Automaton.Steps";
-
-            var type = Type.GetType(fullClassName, true, true);
-
-            return type;
-        }
+       
     }
 }
