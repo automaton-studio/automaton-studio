@@ -55,14 +55,10 @@ namespace Automaton.Studio.Domain
 
         public void UpdateStepConnections()
         {
-            for(var i = 0; i < Steps.Count - 1; i++)
+            for(var i = 0; i < Steps.Count; i++)
             {
-                var step = Steps[i];
-                step.NextStepId = Steps[i + 1].Id;
+                Steps[i].NextStepId = i != Steps.Count - 1 ? Steps[i + 1].Id : null;
             }
-
-            var lastStep = Steps.Last();
-            lastStep.NextStepId = null;
         }
     }
 }
