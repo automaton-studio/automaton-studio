@@ -79,17 +79,9 @@ namespace Automaton.Studio.Services
 
         private static void AttachInputs(Step step, WorkflowStep workflowStep, Workflow workflow)
         {
-            var variableParameters = new List<ParameterExpression>();
-
-            foreach (var variable in workflow.VariablesDictionary)
-            {
-                var parameter = Expression.Parameter(variable.Value.GetType(), variable.Key);
-                variableParameters.Add(parameter);
-            }
-
             foreach (var input in step.Inputs)
             {
-                var stepType = input.GetType();
+                var stepType = step.FindType();
                 var inputProperty = stepType.GetProperty(input.Key);
 
                 if (inputProperty == null)
@@ -98,9 +90,9 @@ namespace Automaton.Studio.Services
                 }
 
                 var expresion = Convert.ToString(input.Value);
-                var lambdaExpresion = DynamicExpressionParser.ParseLambda(variableParameters.ToArray(), typeof(object), expresion);
-                var value = workflow.VariablesDictionary.Count > 0 ?
-                    lambdaExpresion.Compile().DynamicInvoke(workflow.VariablesDictionary.Values) :
+                var lambdaExpresion = DynamicExpressionParser.ParseLambda(workflow.VariableExpressions.ToArray(), typeof(object), expresion);
+                var value = workflow.HasVariables() ?
+                    lambdaExpresion.Compile().DynamicInvoke(workflow.GetVariableValues()) :
                     lambdaExpresion.Compile().DynamicInvoke();
 
                 inputProperty.SetValue(workflowStep, value);

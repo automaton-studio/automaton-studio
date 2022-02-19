@@ -10,7 +10,7 @@ namespace Automaton.Steps
 
         public override Task<ExecutionResult> RunAsync(IStepExecutionContext context)
         {
-            context.Workflow.VariablesDictionary.Add(VariableName, VariableValue);
+            context.Workflow.AddVariable(VariableName, VariableValue);
 
             return Task.FromResult(ExecutionResult.Next());
         }
