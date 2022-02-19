@@ -2,14 +2,12 @@
 using Automaton.Studio.Components;
 using Automaton.Studio.Components.Explorer.FlowExplorer;
 using Automaton.Studio.Components.NewDefinition;
-using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Resources;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages
@@ -231,7 +229,7 @@ namespace Automaton.Studio.Pages
 
             newDefinitionDialog.OnOk = () =>
             {
-                DesignerViewModel.NewDefinition(newDefinitionModel.Name);
+                DesignerViewModel.CreateDefinition(newDefinitionModel.Name);
                 FlowExplorerViewModel.RefreshDefinitions();
 
                 DesignerViewModel.StepAdded += OnStepAdded;

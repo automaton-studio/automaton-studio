@@ -2,6 +2,7 @@
 using Automaton.Studio.Components.Explorer.FlowExplorer;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Factories;
+using System;
 using System.Collections.Generic;
 
 namespace Automaton.Studio.Config
@@ -17,16 +18,34 @@ namespace Automaton.Studio.Config
             CreateMap<Definition, Dto.Definition>();
             
             CreateMap<Dto.Step, Step>();
-            CreateMap<Dto.Flow, Flow>();
+            CreateMap<Dto.Flow, Flow>()
+                .AfterMap((source, target) => FlowCreated(source, target));
+
             CreateMap<Dto.Definition, Definition>()
                 .ForMember
                 (
                     source => source.Steps, 
                     target => target.MapFrom(entity => SetupSteps(entity.Steps))
                 )
-                .AfterMap((source, target) => SetupDefinition(source, target));
+                .AfterMap((source, target) => DefinitionCreated(source, target));
 
             CreateMap<Definition, FlowExplorerDefinition>();           
+        }
+
+        private static void FlowCreated(Dto.Flow source, Flow target)
+        {
+            foreach(var definition in target.Definitions)
+            {
+                definition.Flow = target;
+            }
+        }
+
+        private static void DefinitionCreated(Dto.Definition source, Definition target)
+        {
+            foreach (var step in target.Steps)
+            {
+                step.Definition = target;
+            }
         }
 
         public IEnumerable<Step> SetupSteps(IEnumerable<Dto.Step> stepDtos)
@@ -44,14 +63,6 @@ namespace Automaton.Studio.Config
                 mapper.Map(stepDto, step);
 
                 yield return step;
-            }
-        }
-
-        private static void SetupDefinition(Dto.Definition source, Definition target)
-        {
-            foreach (var step in target.Steps)
-            {
-                step.Definition = target;
             }
         }
 

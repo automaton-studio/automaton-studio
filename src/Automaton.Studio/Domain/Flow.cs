@@ -19,7 +19,7 @@ namespace Automaton.Studio.Domain
 
         public Flow()
         {
-            var defaultDefinition = new Definition();
+            var defaultDefinition = new Definition { Flow = this };
 
             Name = "Untitled";
             Id = Guid.NewGuid().ToString();

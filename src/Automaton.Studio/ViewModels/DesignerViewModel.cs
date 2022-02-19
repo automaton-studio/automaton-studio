@@ -69,9 +69,13 @@ namespace Automaton.Studio.ViewModels
             Definitions = new List<Definition>();
         }
 
-        public void NewDefinition(string name)
+        public void CreateDefinition(string name)
         {
-            Definitions.Add(new Definition { Name = name });
+            Definitions.Add(new Definition 
+            { 
+                Name = name, 
+                Flow = this.Flow 
+            });
         }
 
         public void CreateStep(StepExplorerModel solutionStep)

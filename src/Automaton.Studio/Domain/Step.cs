@@ -68,6 +68,8 @@ namespace Automaton.Studio.Domain
 
         public Dictionary<string, string> Outputs { get; set; }
 
+        public Dictionary<string, object> Variables { get; set; }
+
         #endregion
 
         public Step(IStepDescriptor descriptor)
@@ -78,6 +80,7 @@ namespace Automaton.Studio.Domain
             Type = descriptor.Type;
             Inputs = new ExpandoObject();
             Outputs = new Dictionary<string, string>();
+            Variables = new Dictionary<string, object>();
             Class = StepClass;
         }
 

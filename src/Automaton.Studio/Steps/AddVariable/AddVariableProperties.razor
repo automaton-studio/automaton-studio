@@ -3,7 +3,7 @@
 @inherits FeedbackComponent<AddVariableStep>
 
 <Form @ref="form"
-      Model="@activity"
+      Model="@step"
       LabelColSpan="4"
       WrapperColSpan="20">
     <Validator>
@@ -25,12 +25,12 @@
 
 @code {
     private Form<AddVariableStep> form;
-    private AddVariableStep activity;
+    private AddVariableStep step;
     private FluentValidationValidator fluentValidationValidator;
 
     protected override void OnInitialized()
     {
-        activity = this.Options;
+        step = this.Options;
         base.OnInitialized();
     }
 

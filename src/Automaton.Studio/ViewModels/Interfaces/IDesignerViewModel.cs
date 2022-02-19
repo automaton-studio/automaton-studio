@@ -23,7 +23,7 @@ namespace Automaton.Studio.ViewModels
         IEnumerable<Step> GetSelectedSteps();
         void UpdateStepConnections();
 
-        void NewDefinition(string name);
+        void CreateDefinition(string name);
         IEnumerable<string> GetDefinitionNames();
         void SetActiveDefinition(Definition definition);
         void SetActiveDefinition(string id);

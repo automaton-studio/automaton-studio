@@ -22,6 +22,8 @@ namespace Automaton.Core.Models
 
         public virtual TimeSpan? RetryInterval { get; set; }
 
+        public Dictionary<string, object>? Variables { get; set; }
+
         public abstract Task<ExecutionResult> RunAsync(IStepExecutionContext context);
     }
 }
