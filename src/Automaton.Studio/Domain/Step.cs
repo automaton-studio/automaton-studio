@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Runtime.CompilerServices;
-using System.Text.Json.Serialization;
 
 namespace Automaton.Studio.Domain
 {
@@ -27,17 +26,16 @@ namespace Automaton.Studio.Domain
 
         #region Properties
 
-        [JsonIgnore]
         public Definition ActiveDefinition { get; set; }
-        [JsonIgnore]
+
         public IStepDescriptor Descriptor { get; set; }
-        [JsonIgnore]
+
         public IDictionary<string, object> InputsDictionary => Inputs;
-        [JsonIgnore]
+
         public Definition Definition { get; set; }
-        [JsonIgnore]
+
         public string Class { get; set; }
-        [JsonIgnore]
+
         public string DisplayName { get; set; }
 
         #endregion

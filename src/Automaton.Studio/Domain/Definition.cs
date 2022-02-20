@@ -2,8 +2,6 @@
 using Automaton.Studio.Events;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
 
 namespace Automaton.Studio.Domain
 {
@@ -23,7 +21,6 @@ namespace Automaton.Studio.Domain
 
         public List<Step> Steps { get; set; } = new List<Step>();
 
-        [JsonIgnore]
         public Flow Flow { get; set; }
 
         #region Events

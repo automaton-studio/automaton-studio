@@ -1,6 +1,5 @@
 ﻿using System.Dynamic;
 using System.Linq.Expressions;
-using System.Text.Json.Serialization;
 
 namespace Automaton.Core.Models
 {
@@ -16,7 +15,6 @@ namespace Automaton.Core.Models
 
         public IDictionary<string, object> VariablesDictionary => Variables;
 
-        [JsonIgnore]
         public List<ParameterExpression> VariableExpressions { get; set; }
 
         public List<WorkflowDefinition> Definitions { get; set; }
