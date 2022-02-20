@@ -45,5 +45,7 @@
         await Task.Delay(50);
 
         args.Cancel = !fluentValidationValidator.Validate(options => options.IncludeAllRuleSets());
+
+        step.AddVariable(step.VariableName, step.VariableValue);
     }
 }

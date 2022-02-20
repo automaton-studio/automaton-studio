@@ -12,10 +12,8 @@ namespace Automaton.Studio.Domain
         public string Name { get; set; }
         public string StartupDefinitionId { get; set; }
         public ExpandoObject Variables { get; set; }
-        public IList<Definition> Definitions { get; set; }
-
-        [JsonIgnore]
         public IDictionary<string, object> VariablesDictionary => Variables;
+        public IList<Definition> Definitions { get; set; }
 
         public Flow()
         {
@@ -37,6 +35,12 @@ namespace Automaton.Studio.Domain
         {
             var definition = Definitions.SingleOrDefault(x => x.Id.Equals(id));
             Definitions.Remove(definition);
+        }
+
+        public void AddVariable(string key, object value)
+        {
+            if(!VariablesDictionary.ContainsKey(key))
+                VariablesDictionary.Add(key, value);
         }
     }
 }

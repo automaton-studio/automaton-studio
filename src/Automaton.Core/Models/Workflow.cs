@@ -14,7 +14,6 @@ namespace Automaton.Core.Models
 
         public ExpandoObject Variables { get; set; }
 
-        [JsonIgnore]
         public IDictionary<string, object> VariablesDictionary => Variables;
 
         [JsonIgnore]

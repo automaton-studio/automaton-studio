@@ -68,7 +68,7 @@ namespace Automaton.Studio.Domain
 
         public Dictionary<string, string> Outputs { get; set; }
 
-        public Dictionary<string, object> Variables { get; set; }
+        public IList<string> Variables { get; set; }
 
         #endregion
 
@@ -80,13 +80,21 @@ namespace Automaton.Studio.Domain
             Type = descriptor.Type;
             Inputs = new ExpandoObject();
             Outputs = new Dictionary<string, string>();
-            Variables = new Dictionary<string, object>();
+            Variables = new List<string>();
             Class = StepClass;
         }
 
         public abstract Type GetDesignerComponent();
 
         public abstract Type GetPropertiesComponent();
+
+        public void AddVariable(string key, object value)
+        {
+            if (!Variables.Contains(key))
+                Variables.Add(key);
+
+            Definition.Flow.AddVariable(key, value);
+        }
 
         public void Select()
         {

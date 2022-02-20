@@ -19,6 +19,8 @@ namespace Automaton.Studio.Dto
 
         public ExpandoObject Inputs { get; set; } = new ExpandoObject();
 
+        public IList<string> Variables { get; set; }
+
         public string? NextStepId { get; set; }
 
         public List<Step> Children { get; set; } = new List<Step>();
