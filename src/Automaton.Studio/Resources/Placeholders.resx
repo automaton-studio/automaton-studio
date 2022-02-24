@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="EnterWorkflowName" xml:space="preserve">
-    <value>Enter workflow name</value>
+  <data name="EnterFlowName" xml:space="preserve">
+    <value>Enter flow name</value>
+  </data>
+  <data name="EnterVariableName" xml:space="preserve">
+    <value>Enter variable name</value>
+  </data>
+  <data name="EnterVariableValue" xml:space="preserve">
+    <value>Enter variable value</value>
   </data>
 </root>

@@ -91,9 +91,8 @@ namespace Automaton.Studio.Services
 
                 var expresion = Convert.ToString(input.Value);
                 var lambdaExpresion = DynamicExpressionParser.ParseLambda(workflow.VariableExpressions.ToArray(), typeof(object), expresion);
-                var value = workflow.HasVariables() ?
-                    lambdaExpresion.Compile().DynamicInvoke(workflow.GetVariableValues()) :
-                    lambdaExpresion.Compile().DynamicInvoke();
+
+                var value = lambdaExpresion.Compile().DynamicInvoke(workflow.GetVariableValues());
 
                 inputProperty.SetValue(workflowStep, value);
             }

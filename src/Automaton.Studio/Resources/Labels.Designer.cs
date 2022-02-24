@@ -61,6 +61,15 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Variable.
+        /// </summary>
+        internal static string AddVariable {
+            get {
+                return ResourceManager.GetString("AddVariable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Definition name.
         /// </summary>
         internal static string DefinitionName {
@@ -75,6 +84,15 @@ namespace Automaton.Studio.Resources {
         internal static string RenameWorkflow {
             get {
                 return ResourceManager.GetString("RenameWorkflow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Variable.
+        /// </summary>
+        internal static string Variable {
+            get {
+                return ResourceManager.GetString("Variable", resourceCulture);
             }
         }
     }

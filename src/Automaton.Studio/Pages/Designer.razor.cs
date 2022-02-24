@@ -1,7 +1,9 @@
 ﻿using AntDesign;
 using Automaton.Studio.Components;
+using Automaton.Studio.Components.Drawer;
 using Automaton.Studio.Components.Explorer.FlowExplorer;
 using Automaton.Studio.Components.NewDefinition;
+using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Resources;
@@ -182,34 +184,38 @@ namespace Automaton.Studio.Pages
             }
         }
 
-        /// <summary>
-        /// Open workflow settings drawer
-        /// </summary>
-        private async Task OpenWorkflowSettings()
+        private async Task OpenFlowSettings()
         {
-            throw new NotImplementedException();
+            var options = new DrawerOptions()
+            {
+                Title = "Flow Settings",
+                Width = 350,
+                OffsetX = 50
+            };
 
-            //var options = new DrawerOptions()
-            //{
-            //    Title = "Workflow Settings",
-            //    Width = 350,
-            //    OffsetX = 50
-            //};
+            var drawerRef = await DrawerService.CreateAsync<FlowSettings, Flow, bool>(options, DesignerViewModel.Flow);
 
-            //var drawerRef = await DrawerService.CreateAsync<WorkflowDetails, StudioWorkflow, bool>(options, DesignerViewModel.StudioFlow.ActiveWorkflow);
-
-            //drawerRef.OnClosed = async result =>
-            //{
-            //    await InvokeAsync(StateHasChanged);
-            //};
+            drawerRef.OnClosed = async result =>
+            {
+                await InvokeAsync(StateHasChanged);
+            };
         }
 
-        /// <summary>
-        /// Open workflow settings drawer
-        /// </summary>
-        private async Task OpenWorkflowVariables()
+        private async Task OpenFlowVariables()
         {
-            throw new NotImplementedException();
+            var options = new DrawerOptions()
+            {
+                Title = "Flow Variables",
+                Width = 350,
+                OffsetX = 50
+            };
+
+            var drawerRef = await DrawerService.CreateAsync<FlowVariables, Flow, bool>(options, DesignerViewModel.Flow);
+
+            drawerRef.OnClosed = async result =>
+            {
+                await InvokeAsync(StateHasChanged);
+            };
         }
 
         /// <summary>

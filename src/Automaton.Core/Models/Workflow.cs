@@ -5,15 +5,29 @@ namespace Automaton.Core.Models
 {
     public class Workflow
     {
+        private ExpandoObject variables;
+
         public string Id { get; set; }
 
         public string Name { get; set; }
 
         public string StartupDefinitionId { get; set; }
 
-        public ExpandoObject Variables { get; set; }
+        public ExpandoObject Variables
+        {
+            get { return variables; }
 
-        public IDictionary<string, object> VariablesDictionary => Variables;
+            set 
+            { 
+                variables = value;
+
+                foreach (var variable in variables)
+                {
+                    var variableExpression = Expression.Parameter(variable.Value.GetType(), variable.Key);
+                    VariableExpressions.Add(variableExpression);
+                }
+            }
+        }
 
         public List<ParameterExpression> VariableExpressions { get; set; }
 
@@ -31,32 +45,27 @@ namespace Automaton.Core.Models
             return Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);    
         }
 
-        public void SetVariables(ExpandoObject variables)
-        {
-            Variables = variables;
-
-            foreach(var variable in Variables)
-            {
-                var variableExpression = Expression.Parameter(variable.Value.GetType(), variable.Key);
-                VariableExpressions.Add(variableExpression);
-            }
-        }
-
         public void AddVariable(string key, object value)
         {
             var variableExpression = Expression.Parameter(value.GetType(), key);
             VariableExpressions.Add(variableExpression);
-            VariablesDictionary.Add(key, value);
+
+            var variablesDictionary = variables as IDictionary<string, object>;
+            variablesDictionary.Add(key, value);
         }
 
         public bool HasVariables()
         {
-            return VariablesDictionary.Count > 0;
+            var variablesDictionary = variables as IDictionary<string, object>;
+
+            return variablesDictionary.Count > 0;
         }
 
         public IEnumerable<object> GetVariableValues()
         {
-            return VariablesDictionary.Values;
+            var variablesDictionary = (IDictionary<string, object>)variables;
+
+            return variablesDictionary.Values;
         }
     }
 }

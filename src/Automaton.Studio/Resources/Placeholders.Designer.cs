@@ -61,11 +61,29 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter workflow name.
+        ///   Looks up a localized string similar to Enter flow name.
         /// </summary>
-        public static string EnterWorkflowName {
+        public static string EnterFlowName {
             get {
-                return ResourceManager.GetString("EnterWorkflowName", resourceCulture);
+                return ResourceManager.GetString("EnterFlowName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter variable name.
+        /// </summary>
+        public static string EnterVariableName {
+            get {
+                return ResourceManager.GetString("EnterVariableName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter variable value.
+        /// </summary>
+        public static string EnterVariableValue {
+            get {
+                return ResourceManager.GetString("EnterVariableValue", resourceCulture);
             }
         }
     }

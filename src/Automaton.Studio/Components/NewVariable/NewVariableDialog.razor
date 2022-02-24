@@ -1,6 +1,6 @@
 ﻿@using Automaton.Studio.Resources
 @using Blazored.FluentValidation;
-@inherits FeedbackComponent<NewDefinitionModel>
+@inherits FeedbackComponent<NewVariableModel>
 
 <Form Model="@model"
       LabelColSpan="4"
@@ -13,7 +13,10 @@
 
     <ChildContent>
         <FormItem Label="Name">
-            <Input @bind-Value="@context.Name" Placeholder=@Placeholders.EnterFlowName />
+            <Input @bind-Value="@context.Name" Placeholder=@Placeholders.EnterVariableName />
+        </FormItem>
+        <FormItem Label="Value">
+            <Input @bind-Value="@context.Value" Placeholder=@Placeholders.EnterVariableValue />
         </FormItem>
     </ChildContent>
 </Form>
