@@ -6,6 +6,8 @@ using Automaton.Studio.Domain;
 using Automaton.Studio.Resources;
 using Blazored.FluentValidation;
 using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Components.Drawer
@@ -20,6 +22,14 @@ namespace Automaton.Studio.Components.Drawer
 
         [Inject]
         private ModalService ModalService { get; set; } = default!;
+
+        private IEnumerable<VariableModel> FlowNames
+        {
+            get
+            {
+                return flow.VariablesDictionary.Keys.Select(x => new VariableModel { Name = x });
+            }
+        }
 
         protected override async Task OnInitializedAsync()
         {
@@ -54,6 +64,11 @@ namespace Automaton.Studio.Components.Drawer
         {
             // Close drawer
             await CloseFeedbackAsync();
+        }
+
+        public class VariableModel
+        {
+            public string Name { get; set; }
         }
     }
 }
