@@ -32,16 +32,18 @@ namespace Automaton.Studio.Components.Drawer
         {
             var newDefinitionModel = new NewVariableModel
             {
-                //ExistingNames = DesignerViewModel.GetDefinitionNames()
+                ExistingNames = flow.VariablesDictionary.Keys
             };
 
-            var newvariableDialog = await ModalService.CreateModalAsync<NewVariableDialog, NewVariableModel>
+            var newVariableDialog = await ModalService.CreateModalAsync<NewVariableDialog, NewVariableModel>
             (
                 new ModalOptions { Title = Labels.Variable }, newDefinitionModel
             );
 
-            newvariableDialog.OnOk = () =>
+            newVariableDialog.OnOk = () =>
             {
+                flow.AddVariable(newDefinitionModel.Name, newDefinitionModel.Value);
+
                 StateHasChanged();
 
                 return Task.CompletedTask;
