@@ -10,7 +10,7 @@ namespace Automaton.Studio.Components.NewVariable
             RuleFor(x => x.Name).NotEmpty().MaximumLength(50).WithMessage(Resources.Errors.NameRequired);
 
             When(x => !string.IsNullOrEmpty(x.Name), () => {
-                RuleFor(x => x).Must(NameIsUnique).WithMessage(Resources.Errors.DefinitionNameExists);
+                RuleFor(x => x).Must(NameIsUnique).WithMessage(Resources.Errors.VariableNameExists);
             });     
         }
 
