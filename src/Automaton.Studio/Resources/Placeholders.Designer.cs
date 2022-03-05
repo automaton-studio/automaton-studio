@@ -61,6 +61,15 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter definition name.
+        /// </summary>
+        public static string EnterDefinitionName {
+            get {
+                return ResourceManager.GetString("EnterDefinitionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter flow name.
         /// </summary>
         public static string EnterFlowName {
