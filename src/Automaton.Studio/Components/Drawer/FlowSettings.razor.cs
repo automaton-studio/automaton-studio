@@ -27,7 +27,6 @@ namespace Automaton.Studio.Components.Drawer
         {
             if (fluentValidationValidator.Validate(options => options.IncludeAllRuleSets()))
             {
-                // Close drawer and return true
                 var drawerRef = base.FeedbackRef as DrawerRef<bool>;
                 await drawerRef!.CloseAsync(true);
             }
@@ -35,7 +34,6 @@ namespace Automaton.Studio.Components.Drawer
 
         public async Task Cancel()
         {
-            // Close drawer
             await CloseFeedbackAsync();
         }
     }
