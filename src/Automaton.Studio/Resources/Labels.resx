@@ -126,7 +126,13 @@
   <data name="RenameWorkflow" xml:space="preserve">
     <value>Rename workflow</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
   <data name="Variable" xml:space="preserve">
     <value>Variable</value>
+  </data>
+  <data name="Variables" xml:space="preserve">
+    <value>Variables</value>
   </data>
 </root>

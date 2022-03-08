@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace Automaton.Studio.Components.NewVariable
 {
-    public class NewVariableValidator : AbstractValidator<NewVariableModel>
+    public class VariableValidator : AbstractValidator<VariableModel>
     {
-        public NewVariableValidator()
+        public VariableValidator()
         {
             RuleFor(x => x.Name).NotEmpty().MaximumLength(50).WithMessage(Resources.Errors.NameRequired);
 
@@ -14,7 +14,7 @@ namespace Automaton.Studio.Components.NewVariable
             });     
         }
 
-        private bool NameIsUnique(NewVariableModel model)
+        private bool NameIsUnique(VariableModel model)
         {
             return !model.ExistingNames.Any(x => x.ToLower() == model.Name.ToLower());
         }

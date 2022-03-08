@@ -91,7 +91,7 @@ namespace Automaton.Studio.Domain
             if (!Variables.Contains(key))
                 Variables.Add(key);
 
-            Definition.Flow.AddVariable(key, value);
+            Definition.Flow.SetVariable(key, value);
         }
 
         public void Select()

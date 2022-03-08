@@ -89,6 +89,11 @@ namespace Automaton.Studio.Services
                     throw new ArgumentException($"Unknown property for input {input.Key} on {step.Name}");
                 }
 
+                foreach (var variable in workflow.Variables)
+                {
+                    var variableExpression = Expression.Parameter(variable.Value.GetType(), variable.Key);
+                }
+
                 var expresion = Convert.ToString(input.Value);
                 var lambdaExpresion = DynamicExpressionParser.ParseLambda(workflow.VariableExpressions.ToArray(), typeof(object), expresion);
 
@@ -96,8 +101,6 @@ namespace Automaton.Studio.Services
 
                 inputProperty.SetValue(workflowStep, value);
             }
-        }
-
-       
+        }       
     }
 }

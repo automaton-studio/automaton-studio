@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Components.NewVariable
 {
-    public partial class NewVariableDialog : FeedbackComponent<NewVariableModel>
+    public partial class VariableDialog : FeedbackComponent<VariableModel>
     {
-        private NewVariableModel model;
+        private VariableModel model;
         private FluentValidationValidator validator;
 
         protected override void OnInitialized()

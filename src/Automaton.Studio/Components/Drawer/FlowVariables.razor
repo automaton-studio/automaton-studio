@@ -5,9 +5,9 @@
 
 <Row Gutter="16">
     <AntDesign.Col Span="24">
-        <AntList Bordered DataSource="@FlowNames">
+        <AntList Bordered DataSource="@Variables">
             <ChildContent Context="item">
-                <ListItem>
+                <ListItem OnClick="@(() => EditVariable(item))">
                     <a>@item.Name</a>
                 </ListItem>
             </ChildContent>
@@ -21,7 +21,7 @@
         <Space>
             <SpaceItem>
                 <Tooltip Title="@Labels.AddVariable">
-                    <Button Type="@ButtonType.Primary" Shape="@ButtonShape.Circle" Icon="plus" Size="@ButtonSize.Small" OnClick="OpenAddVariableDialog"></Button>
+                    <Button Type="@ButtonType.Primary" Shape="@ButtonShape.Circle" Icon="plus" Size="@ButtonSize.Small" OnClick="AddVariable"></Button>
                 </Tooltip>
             </SpaceItem>
         </Space>

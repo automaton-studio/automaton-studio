@@ -2,7 +2,7 @@
 
 namespace Automaton.Studio.Components.NewVariable
 {
-    public class NewVariableModel
+    public class VariableModel
     {
         public string Name { get; set; }
         public string Value { get; set; }

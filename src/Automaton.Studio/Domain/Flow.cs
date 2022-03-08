@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Automaton.Studio.Components.NewVariable;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text.Json.Serialization;
 
 namespace Automaton.Studio.Domain
 {
@@ -37,10 +37,35 @@ namespace Automaton.Studio.Domain
             Definitions.Remove(definition);
         }
 
-        public void AddVariable(string key, object value)
+        public void SetVariable(string key, object value)
         {
-            if(!VariablesDictionary.ContainsKey(key))
+            if (VariablesDictionary.ContainsKey(key))
+            {
+                VariablesDictionary[key] = value;
+            }
+            else
+            {
                 VariablesDictionary.Add(key, value);
+            }
+        }
+
+        public void DeleteVariable(string key)
+        {
+            VariablesDictionary.Remove(key);
+        }
+
+        public IEnumerable<Variable> GetVariables()
+        {
+            return VariablesDictionary.Select(x => new Variable
+            {
+                Name = x.Key,
+                Value = x.Value.ToString()
+            });
+        }
+
+        public IEnumerable<string> GetVariableNames()
+        {
+            return VariablesDictionary.Keys;
         }
     }
 }

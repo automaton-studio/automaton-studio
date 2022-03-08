@@ -16,11 +16,7 @@ namespace Automaton.Studio.Pages
 {
     partial class Designer : ComponentBase
     {
-        #region Members
-
         private Dropzone<Domain.Step> dropzone;
-
-        #endregion
 
         #region DI
 
@@ -45,8 +41,6 @@ namespace Automaton.Studio.Pages
 
         #endregion
 
-        #region Overrides
-
         protected override async Task OnInitializedAsync()
         {
             if (!string.IsNullOrEmpty(FlowId) && DesignerViewModel.Flow.Id != FlowId)
@@ -55,7 +49,7 @@ namespace Automaton.Studio.Pages
 
                 FlowExplorerViewModel.LoadDefinitions(DesignerViewModel.Flow);
 
-                // Setup event handlers after workflow is loaded
+                // Setup event handlers after flow is loaded
                 DesignerViewModel.DragStep += OnDragStep;
                 DesignerViewModel.StepAdded += OnStepAdded;
                 DesignerViewModel.StepRemoved += OnStepRemoved;
@@ -64,9 +58,10 @@ namespace Automaton.Studio.Pages
             await base.OnInitializedAsync();
         }
 
-        #endregion
-
-        #region Private Methods
+        public async Task RunFlow()
+        {
+            await DesignerViewModel.RunFlow();
+        }
 
         #region Event Handlers
 
@@ -131,11 +126,6 @@ namespace Automaton.Studio.Pages
 
         #endregion
 
-        public async Task RunFlow()
-        {
-            await DesignerViewModel.RunFlow();
-        }
-
         private async Task SaveFlow()
         {
             await DesignerViewModel.SaveFlow();
@@ -188,7 +178,7 @@ namespace Automaton.Studio.Pages
         {
             var options = new DrawerOptions()
             {
-                Title = "Flow Settings",
+                Title = Labels.Settings,
                 Width = 350,
                 OffsetX = 50
             };
@@ -205,7 +195,7 @@ namespace Automaton.Studio.Pages
         {
             var options = new DrawerOptions()
             {
-                Title = "Flow Variables",
+                Title = Labels.Variables,
                 Width = 350,
                 OffsetX = 50
             };
@@ -255,7 +245,5 @@ namespace Automaton.Studio.Pages
         {
             DesignerViewModel.SetActiveDefinition(key);  
         }
-
-        #endregion
     }
 }
