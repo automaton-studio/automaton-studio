@@ -25,7 +25,11 @@ namespace Automaton.Studio.Components.Drawer
         {
             get
             {
-                return flow.GetVariables().OrderBy(x => x.Name);
+                return flow.VariablesDictionary.Select(x => new Variable
+                {
+                    Name = x.Key,
+                    Value = x.Value.ToString()
+                }).OrderBy(x => x.Name);
             }
         }
 

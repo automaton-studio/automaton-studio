@@ -1,5 +1,4 @@
 ﻿using System.Dynamic;
-using System.Linq.Expressions;
 
 namespace Automaton.Core.Models
 {
@@ -13,20 +12,23 @@ namespace Automaton.Core.Models
 
         public ExpandoObject Variables { get; set; }
 
-        public List<ParameterExpression> VariableExpressions { get; set; }
-
         public List<WorkflowDefinition> Definitions { get; set; }
 
         public Workflow()
         {
             Variables = new ExpandoObject();
-            VariableExpressions = new List<ParameterExpression>();
             Definitions = new List<WorkflowDefinition>();
         }
 
         public WorkflowDefinition GetStartupDefinition()
         {
             return Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);    
+        }
+
+        public KeyValuePair<string, object> GetVariable(string key)
+        {
+            var dictionary = Variables as IDictionary<string, object>;
+            return new KeyValuePair<string, object>(key, dictionary[key]);
         }
 
         public void AddVariable(string key, object value)
@@ -42,11 +44,13 @@ namespace Automaton.Core.Models
             return variablesDictionary.Count > 0;
         }
 
-        public IEnumerable<object> GetVariableValues()
+        public IEnumerable<KeyValuePair<string, object>> GetVariables(IEnumerable<string> names)
         {
             var variablesDictionary = (IDictionary<string, object>)Variables;
 
-            return variablesDictionary.Values;
+            var variables = variablesDictionary.Where(x => names.Contains(x.Key)).Select(x => new KeyValuePair<string, object>(x.Key, x.Value));
+
+            return variables;
         }
     }
 }

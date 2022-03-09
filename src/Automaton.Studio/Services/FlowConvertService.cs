@@ -5,6 +5,7 @@ using Automaton.Studio.Extensions;
 using Automaton.Studio.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 
@@ -89,15 +90,26 @@ namespace Automaton.Studio.Services
                     throw new ArgumentException($"Unknown property for input {input.Key} on {step.Name}");
                 }
 
-                foreach (var variable in workflow.Variables)
+                var inputString = input.Value.ToString();
+                var variableNames = inputString.Split()
+                    .Where(x => x.StartsWith("%") && x.EndsWith("%"))
+                    .Select(x => x.Replace("%", string.Empty));
+
+                var variableExpressions = new List<ParameterExpression>();
+
+                foreach (var variableName in variableNames)
                 {
-                    var variableExpression = Expression.Parameter(variable.Value.GetType(), variable.Key);
+                    var variable = workflow.GetVariable(variableName);
+                    var variableExpression = Expression.Parameter(variable.Value.GetType(), $"{variable.Key}");
+                    variableExpressions.Add(variableExpression);
                 }
 
-                var expresion = Convert.ToString(input.Value);
-                var lambdaExpresion = DynamicExpressionParser.ParseLambda(workflow.VariableExpressions.ToArray(), typeof(object), expresion);
+                var expresion = Convert.ToString(input.Value).Replace("%", string.Empty);
+                var lambdaExpresion = DynamicExpressionParser.ParseLambda(variableExpressions.ToArray(), null, expresion);
 
-                var value = lambdaExpresion.Compile().DynamicInvoke(workflow.GetVariableValues());
+                var variables = workflow.GetVariables(variableNames);
+                var variableValues = variables.Select(x => x.Value);
+                var value = lambdaExpresion.Compile().DynamicInvoke(variableValues.ToArray());
 
                 inputProperty.SetValue(workflowStep, value);
             }

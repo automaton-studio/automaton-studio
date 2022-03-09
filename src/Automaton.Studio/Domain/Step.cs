@@ -86,14 +86,6 @@ namespace Automaton.Studio.Domain
 
         public abstract Type GetPropertiesComponent();
 
-        public void AddVariable(string key, object value)
-        {
-            if (!Variables.Contains(key))
-                Variables.Add(key);
-
-            Definition.Flow.SetVariable(key, value);
-        }
-
         public void Select()
         {
             Class = SelectedStepClass;
