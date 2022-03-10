@@ -83,6 +83,7 @@ namespace Automaton.Studio.Services
             foreach (var input in step.Inputs)
             {
                 var stepType = step.FindType();
+
                 var inputProperty = stepType.GetProperty(input.Key);
 
                 if (inputProperty == null)
@@ -90,19 +91,8 @@ namespace Automaton.Studio.Services
                     throw new ArgumentException($"Unknown property for input {input.Key} on {step.Name}");
                 }
 
-                var inputString = input.Value.ToString();
-                var variableNames = inputString.Split()
-                    .Where(x => x.StartsWith("%") && x.EndsWith("%"))
-                    .Select(x => x.Replace("%", string.Empty));
-
-                var variableExpressions = new List<ParameterExpression>();
-
-                foreach (var variableName in variableNames)
-                {
-                    var variable = workflow.GetVariable(variableName);
-                    var variableExpression = Expression.Parameter(variable.Value.GetType(), $"{variable.Key}");
-                    variableExpressions.Add(variableExpression);
-                }
+                var variableNames = GetVariableNames(input);
+                var variableExpressions = GetVariableParameterExpressions(workflow, variableNames);
 
                 var expresion = Convert.ToString(input.Value).Replace("%", string.Empty);
                 var lambdaExpresion = DynamicExpressionParser.ParseLambda(variableExpressions.ToArray(), null, expresion);
@@ -113,6 +103,32 @@ namespace Automaton.Studio.Services
 
                 inputProperty.SetValue(workflowStep, value);
             }
-        }       
+        }
+
+        private static IEnumerable<string> GetVariableNames(KeyValuePair<string, object> input)
+        {
+            var inputString = input.Value.ToString();
+
+            var variableNames = inputString.Split()
+                .Where(x => x.StartsWith("%") && x.EndsWith("%"))
+                .Select(x => x.Replace("%", string.Empty));
+
+            return variableNames;
+        }
+
+        private static IEnumerable<ParameterExpression> GetVariableParameterExpressions(Workflow workflow, IEnumerable<string> variableNames)
+        {
+            var variableExpressions = new List<ParameterExpression>();
+
+            foreach (var variableName in variableNames)
+            {
+                var variable = workflow.GetVariable(variableName);
+                var variableExpression = Expression.Parameter(variable.Value.GetType(), variable.Key);
+
+                variableExpressions.Add(variableExpression);
+            }
+
+            return variableExpressions;
+        }
     }
 }
