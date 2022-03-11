@@ -148,7 +148,7 @@ namespace Automaton.Studio.Pages
 
             result.OnCancel = () =>
             {
-                //DesignerViewModel.DeleteActivity(activity);
+                DesignerViewModel.DeleteStep(step);
 
                 // TODO! It may be inneficient to update the state of the entire Designer control.
                 // A better alternative would be to update the state of the activity being updated.
