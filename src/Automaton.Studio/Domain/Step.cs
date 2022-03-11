@@ -26,13 +26,13 @@ namespace Automaton.Studio.Domain
 
         #region Properties
 
+        public Definition Definition { get; set; }
+
         public Definition ActiveDefinition { get; set; }
 
         public IStepDescriptor Descriptor { get; set; }
 
         public IDictionary<string, object> InputsDictionary => Inputs;
-
-        public Definition Definition { get; set; }
 
         public string Class { get; set; }
 
