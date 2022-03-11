@@ -10,11 +10,11 @@
     <Sider Theme="SiderTheme.Light" Style="width: 300px">
         <CascadingValue Value="DesignerViewModel.Flow">
             <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="explorer-tabs">
-                <TabPane Key="1" Tab="Flow">
-                    <FlowExplorer></FlowExplorer>
-                </TabPane>
-                <TabPane Key="2" Tab="Steps">
+                <TabPane Key="1" Tab="Steps">
                     <StepExplorer></StepExplorer>
+                </TabPane>
+                <TabPane Key="2" Tab="Flow">
+                    <FlowExplorer></FlowExplorer>
                 </TabPane>
             </Tabs>
         </CascadingValue>
