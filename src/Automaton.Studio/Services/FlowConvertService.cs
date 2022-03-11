@@ -86,19 +86,15 @@ namespace Automaton.Studio.Services
 
                 var inputProperty = stepType.GetProperty(input.Key);
 
-                if (inputProperty == null)
-                {
-                    throw new ArgumentException($"Unknown property for input {input.Key} on {step.Name}");
-                }
-
                 var variableNames = GetVariableNames(input);
-                var variableExpressions = GetVariableParameterExpressions(workflow, variableNames);
+                var parameterExpressions = GetParameterExpressions(workflow, variableNames);
 
                 var expresion = Convert.ToString(input.Value).Replace("%", string.Empty);
-                var lambdaExpresion = DynamicExpressionParser.ParseLambda(variableExpressions.ToArray(), null, expresion);
+                var lambdaExpresion = DynamicExpressionParser.ParseLambda(parameterExpressions.ToArray(), null, expresion);
 
                 var variables = workflow.GetVariables(variableNames);
                 var variableValues = variables.Select(x => x.Value);
+
                 var value = lambdaExpresion.Compile().DynamicInvoke(variableValues.ToArray());
 
                 inputProperty.SetValue(workflowStep, value);
@@ -116,7 +112,7 @@ namespace Automaton.Studio.Services
             return variableNames;
         }
 
-        private static IEnumerable<ParameterExpression> GetVariableParameterExpressions(Workflow workflow, IEnumerable<string> variableNames)
+        private static IEnumerable<ParameterExpression> GetParameterExpressions(Workflow workflow, IEnumerable<string> variableNames)
         {
             var variableExpressions = new List<ParameterExpression>();
 
