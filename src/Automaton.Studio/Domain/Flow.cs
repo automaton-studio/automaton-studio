@@ -1,4 +1,5 @@
 ﻿using Automaton.Studio.Components.NewVariable;
+using Automaton.Studio.Events;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -49,9 +50,18 @@ namespace Automaton.Studio.Domain
             }
         }
 
-        public void DeleteVariable(string key)
+        public void DeleteVariable(string variable)
         {
-            VariablesDictionary.Remove(key);
+            VariablesDictionary.Remove(variable);
+        }
+
+
+        public void DeleteVariables(IEnumerable<string> variables)
+        {
+            foreach (var variable in variables)
+            {
+                VariablesDictionary.Remove(variable);
+            }
         }
 
         public IEnumerable<string> GetVariableNames()

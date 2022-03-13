@@ -40,6 +40,8 @@ namespace Automaton.Studio.Domain
         {
             Steps.Remove(step);
 
+            Flow.DeleteVariables(step.Variables);
+
             UpdateStepConnections();
 
             StepRemoved?.Invoke(this, new StepEventArgs(step));

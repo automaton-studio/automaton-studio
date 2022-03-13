@@ -36,7 +36,7 @@ namespace Automaton.Studio.Domain
 
         public string Class { get; set; }
 
-        public string DisplayName { get; set; }
+        public string DisplayName { get; set; }      
 
         #endregion
 
@@ -109,6 +109,16 @@ namespace Automaton.Studio.Domain
         public bool IsFinal()
         {
             return isFinal;
+        }
+
+        public void SetVariable(string key, object value)
+        {
+            if (!Variables.Contains(key))
+            {
+                Variables.Add(key);
+            }            
+
+            Flow.SetVariable(key, value);
         }
 
         #region INotifyPropertyChanged
