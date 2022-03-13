@@ -63,10 +63,5 @@ namespace Automaton.Studio.Domain
                 VariablesDictionary.Remove(variable);
             }
         }
-
-        public IEnumerable<string> GetVariableNames()
-        {
-            return VariablesDictionary.Keys;
-        }
     }
 }
