@@ -28,7 +28,7 @@ namespace Automaton.Studio.Domain
 
         public Definition Definition { get; set; }
 
-        public Definition ActiveDefinition { get; set; }
+        public Flow Flow => Definition.Flow;
 
         public IStepDescriptor Descriptor { get; set; }
 

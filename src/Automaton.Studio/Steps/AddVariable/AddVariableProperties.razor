@@ -44,6 +44,13 @@
         await InvokeAsync(StateHasChanged);
         await Task.Delay(50);
 
-        args.Cancel = !fluentValidationValidator.Validate(options => options.IncludeAllRuleSets());
+        var valid = fluentValidationValidator.Validate(options => options.IncludeAllRuleSets());
+
+        if (valid)
+        {
+            step.Flow.SetVariable(step.VariableName, step.VariableValue);
+        }
+
+        args.Cancel = !valid;
     }
 }
