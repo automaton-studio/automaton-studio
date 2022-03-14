@@ -13,7 +13,9 @@ namespace Automaton.Studio.Domain
         public string Name { get; set; }
         public string StartupDefinitionId { get; set; }
         public ExpandoObject Variables { get; set; }
+        public ExpandoObject OutputVariables { get; set; }
         public IDictionary<string, object> VariablesDictionary => Variables;
+        public IDictionary<string, object> OutputVariablesDictionary => OutputVariables;
         public IList<Definition> Definitions { get; set; }
 
         public Flow()
@@ -25,6 +27,7 @@ namespace Automaton.Studio.Domain
             StartupDefinitionId = defaultDefinition.Id;
             Definitions = new List<Definition> { defaultDefinition };
             Variables = new ExpandoObject();
+            OutputVariables = new ExpandoObject();
         }
 
         public Definition GetStartupDefinition()
@@ -50,11 +53,37 @@ namespace Automaton.Studio.Domain
             }
         }
 
+        public void SetOutputVariable(string key, object value)
+        {
+            if (OutputVariablesDictionary.ContainsKey(key))
+            {
+                OutputVariablesDictionary[key] = value;
+            }
+            else
+            {
+                OutputVariablesDictionary.Add(key, value);
+            }
+        }
+
+        public IEnumerable<string> GetVariableNames()
+        {
+            return VariablesDictionary.Keys;
+        }
+
+        public IEnumerable<string> GetOutputVariableNames()
+        {
+            return OutputVariablesDictionary.Keys;
+        }
+
         public void DeleteVariable(string variable)
         {
             VariablesDictionary.Remove(variable);
         }
 
+        public void DeleteOutputVariable(string variable)
+        {
+            OutputVariablesDictionary.Remove(variable);
+        }
 
         public void DeleteVariables(IEnumerable<string> variables)
         {

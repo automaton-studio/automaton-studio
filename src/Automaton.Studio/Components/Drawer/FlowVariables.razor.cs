@@ -33,6 +33,18 @@ namespace Automaton.Studio.Components.Drawer
             }
         }
 
+        private IEnumerable<Variable> OutputVariables
+        {
+            get
+            {
+                return flow.OutputVariablesDictionary.Select(x => new Variable
+                {
+                    Name = x.Key,
+                    Value = x.Value.ToString()
+                }).OrderBy(x => x.Name);
+            }
+        }
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -40,11 +52,11 @@ namespace Automaton.Studio.Components.Drawer
             flow = this.Options;
         }
 
-        public async Task AddVariable()
+        public async Task AddOutputVariable()
         {
             var newDefinitionModel = new VariableModel
             {
-                ExistingNames = flow.VariablesDictionary.Keys
+                ExistingNames = flow.GetVariableNames()
             };
 
             var newVariableDialog = await ModalService.CreateModalAsync<VariableDialog, VariableModel>
@@ -54,7 +66,7 @@ namespace Automaton.Studio.Components.Drawer
 
             newVariableDialog.OnOk = () =>
             {
-                flow.SetVariable(newDefinitionModel.Name, newDefinitionModel.Value);
+                flow.SetOutputVariable(newDefinitionModel.Name, newDefinitionModel.Value);
 
                 StateHasChanged();
 
@@ -62,13 +74,14 @@ namespace Automaton.Studio.Components.Drawer
             };
         }
 
-        public async Task EditVariable(Variable variable)
+        public async Task EditOutputVariable(Variable variable)
         {
-            var existingVariables = flow.VariablesDictionary.Keys.Where(x => !x.Equals(variable.Name, StringComparison.OrdinalIgnoreCase));
+            var outputVariableNames = flow.GetOutputVariableNames();
+            var existingOutputVariables = outputVariableNames.Where(x => !x.Equals(variable.Name, StringComparison.OrdinalIgnoreCase));
 
             var updatedVariable = new VariableModel
             {
-                ExistingNames = existingVariables,
+                ExistingNames = existingOutputVariables,
                 Name = variable.Name,
                 Value = variable.Value
             };
@@ -82,10 +95,10 @@ namespace Automaton.Studio.Components.Drawer
             {
                 if (!variable.Name.Equals(updatedVariable.Name, StringComparison.OrdinalIgnoreCase))
                 {
-                    flow.DeleteVariable(variable.Name);
+                    flow.DeleteOutputVariable(variable.Name);
                 }
 
-                flow.SetVariable(updatedVariable.Name, updatedVariable.Value);
+                flow.SetOutputVariable(updatedVariable.Name, updatedVariable.Value);
 
                 StateHasChanged();
 

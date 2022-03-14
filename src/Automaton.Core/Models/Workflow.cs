@@ -12,11 +12,14 @@ namespace Automaton.Core.Models
 
         public ExpandoObject Variables { get; set; }
 
+        public ExpandoObject OutputVariables { get; set; }
+
         public List<WorkflowDefinition> Definitions { get; set; }
 
         public Workflow()
         {
             Variables = new ExpandoObject();
+            OutputVariables = new ExpandoObject();
             Definitions = new List<WorkflowDefinition>();
         }
 

@@ -5,25 +5,57 @@
 
 <Row Gutter="16">
     <AntDesign.Col Span="24">
+        <h4>Flow</h4>
+    </AntDesign.Col>
+</Row>
+
+<Row Gutter="16">
+    <AntDesign.Col Span="24">
         <AntList Bordered DataSource="@Variables">
             <ChildContent Context="item">
-                <ListItem OnClick="@(() => EditVariable(item))">
+                <ListItem>
                     <a>@item.Name</a>
                 </ListItem>
             </ChildContent>
         </AntList>
     </AntDesign.Col>
 </Row>
+
 <br />
+
+<Row Gutter="16">
+    <AntDesign.Col Span="24">
+        <h4>Output</h4>
+    </AntDesign.Col>
+</Row>
+
+<Row Gutter="16">
+    <AntDesign.Col Span="24">
+        <AntList Bordered DataSource="@OutputVariables">
+            <ChildContent Context="item">
+                <ListItem OnClick="@(() => EditOutputVariable(item))">
+                    <a>@item.Name</a>
+                </ListItem>
+            </ChildContent>
+        </AntList>
+    </AntDesign.Col>
+</Row>
+
+<br />
+
 <Row>
-    <AntDesign.Col Span="11"></AntDesign.Col>
+    <AntDesign.Col Span="11">
+    </AntDesign.Col>
+
     <AntDesign.Col Span="13">
         <Space>
             <SpaceItem>
                 <Tooltip Title="@Labels.AddVariable">
-                    <Button Type="@ButtonType.Primary" Shape="@ButtonShape.Circle" Icon="plus" Size="@ButtonSize.Small" OnClick="AddVariable"></Button>
+                    <Button Type="@ButtonType.Primary" Shape="@ButtonShape.Circle" Icon="plus" Size="@ButtonSize.Small" OnClick="AddOutputVariable"></Button>
                 </Tooltip>
             </SpaceItem>
         </Space>
     </AntDesign.Col>
 </Row>
+
+
