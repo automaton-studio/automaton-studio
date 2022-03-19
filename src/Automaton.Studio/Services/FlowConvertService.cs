@@ -102,7 +102,7 @@ namespace Automaton.Studio.Services
             var variables = GetInputVariables(input);
             var parameterExpressions = GetParameterExpressions(workflow, variables);
 
-            var expresion = Convert.ToString(input.Value).Replace("%", string.Empty);
+            var expresion = input.Value.ToString().Replace("%", string.Empty);
             var lambdaExpresion = DynamicExpressionParser.ParseLambda(parameterExpressions.ToArray(), null, expresion);
 
             var workflowVariables = workflow.GetVariables(variables);
@@ -117,8 +117,7 @@ namespace Automaton.Studio.Services
         {
             var inputString = input.Value.ToString();
 
-            var result = inputString.Split()
-                .Any(x => x.StartsWith("%") && x.EndsWith("%"));
+            var result = inputString.Split().Any(x => x.StartsWith("%") && x.EndsWith("%"));
 
             return result;
         }
