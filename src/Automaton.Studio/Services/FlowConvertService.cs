@@ -99,13 +99,13 @@ namespace Automaton.Studio.Services
 
         private static object ParseInputValue(KeyValuePair<string, object> input, Workflow workflow)
         {
-            var variables = GetInputVariables(input);
-            var parameterExpressions = GetParameterExpressions(workflow, variables);
+            var variableNames = GetVariableNames(input);
+            var parameterExpressions = GetVariableExpressions(variableNames, workflow);
 
             var expresion = input.Value.ToString().Replace("%", string.Empty);
             var lambdaExpresion = DynamicExpressionParser.ParseLambda(parameterExpressions.ToArray(), null, expresion);
 
-            var workflowVariables = workflow.GetVariables(variables);
+            var workflowVariables = workflow.GetVariables(variableNames);
             var variableValues = workflowVariables.Select(x => x.Value);
 
             var value = lambdaExpresion.Compile().DynamicInvoke(variableValues.ToArray());
@@ -122,7 +122,7 @@ namespace Automaton.Studio.Services
             return result;
         }
 
-        private static IEnumerable<string> GetInputVariables(KeyValuePair<string, object> input)
+        private static IEnumerable<string> GetVariableNames(KeyValuePair<string, object> input)
         {
             var inputString = input.Value.ToString();
 
@@ -133,15 +133,14 @@ namespace Automaton.Studio.Services
             return variableNames;
         }
 
-        private static IEnumerable<ParameterExpression> GetParameterExpressions(Workflow workflow, IEnumerable<string> variableNames)
+        private static IEnumerable<ParameterExpression> GetVariableExpressions(IEnumerable<string> variableNames, Workflow workflow)
         {
             var variableExpressions = new List<ParameterExpression>();
 
-            foreach (var variableName in variableNames)
+            foreach (var name in variableNames)
             {
-                var variable = workflow.GetVariable(variableName);
+                var variable = workflow.GetVariable(name);
                 var variableExpression = Expression.Parameter(variable.Value.GetType(), variable.Key);
-
                 variableExpressions.Add(variableExpression);
             }
 
