@@ -13,20 +13,14 @@ namespace Automaton.Studio.Services
 {
     public class FlowConvertService : IFlowConvertService
     {
-        private readonly ConfigService configService;
         private readonly IServiceProvider serviceProvider;
-        private readonly IMapper mapper;
 
         public FlowConvertService
         (
-            IServiceProvider serviceProvider, 
-            ConfigService configService,
-            IMapper mapper
+            IServiceProvider serviceProvider
         )
         {
             this.serviceProvider = serviceProvider;
-            this.configService = configService;
-            this.mapper = mapper;
         }
 
         public Workflow ConvertFlow(Flow flow)
