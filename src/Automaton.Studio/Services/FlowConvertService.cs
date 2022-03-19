@@ -85,23 +85,45 @@ namespace Automaton.Studio.Services
                 var stepType = step.FindType();
 
                 var inputProperty = stepType.GetProperty(input.Key);
+                
+                var inputValue = GetInputValue(input, workflow);
 
-                var variableNames = GetVariableNames(input);
-                var parameterExpressions = GetParameterExpressions(workflow, variableNames);
-
-                var expresion = Convert.ToString(input.Value).Replace("%", string.Empty);
-                var lambdaExpresion = DynamicExpressionParser.ParseLambda(parameterExpressions.ToArray(), null, expresion);
-
-                var variables = workflow.GetVariables(variableNames);
-                var variableValues = variables.Select(x => x.Value);
-
-                var value = lambdaExpresion.Compile().DynamicInvoke(variableValues.ToArray());
-
-                inputProperty.SetValue(workflowStep, value);
+                inputProperty.SetValue(workflowStep, inputValue);
             }
         }
 
-        private static IEnumerable<string> GetVariableNames(KeyValuePair<string, object> input)
+        private static object GetInputValue(KeyValuePair<string, object> input, Workflow workflow)
+        {
+            return InputHasVariables(input) ? ParseInputValue(input, workflow) : input.Value;
+        }
+
+        private static object ParseInputValue(KeyValuePair<string, object> input, Workflow workflow)
+        {
+            var variables = GetInputVariables(input);
+            var parameterExpressions = GetParameterExpressions(workflow, variables);
+
+            var expresion = Convert.ToString(input.Value).Replace("%", string.Empty);
+            var lambdaExpresion = DynamicExpressionParser.ParseLambda(parameterExpressions.ToArray(), null, expresion);
+
+            var workflowVariables = workflow.GetVariables(variables);
+            var variableValues = workflowVariables.Select(x => x.Value);
+
+            var value = lambdaExpresion.Compile().DynamicInvoke(variableValues.ToArray());
+
+            return value;
+        }
+
+        private static bool InputHasVariables(KeyValuePair<string, object> input)
+        {
+            var inputString = input.Value.ToString();
+
+            var result = inputString.Split()
+                .Any(x => x.StartsWith("%") && x.EndsWith("%"));
+
+            return result;
+        }
+
+        private static IEnumerable<string> GetInputVariables(KeyValuePair<string, object> input)
         {
             var inputString = input.Value.ToString();
 
