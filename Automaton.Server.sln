@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32002.185
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.WebApi", "src\Automaton.WebApi\Automaton.WebApi.csproj", "{C8872CC8-DD18-4CB7-93DF-6A2ACCB1F8F1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Core", "src\Automaton.Core\Automaton.Core.csproj", "{1E18D1BF-1A0D-46A6-9734-B82CFF067348}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Steps", "src\Automaton.Steps\Automaton.Steps.csproj", "{2668B7B6-4410-4433-AB86-388A5671CAD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automaton.Studio.Server", "src\Automaton.Studio.Server\Automaton.Studio.Server.csproj", "{D6140B93-4232-4845-B10B-F41DDD8A61EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio.Server", "src\Automaton.Studio.Server\Automaton.Studio.Server.csproj", "{D6140B93-4232-4845-B10B-F41DDD8A61EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C8872CC8-DD18-4CB7-93DF-6A2ACCB1F8F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C8872CC8-DD18-4CB7-93DF-6A2ACCB1F8F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C8872CC8-DD18-4CB7-93DF-6A2ACCB1F8F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C8872CC8-DD18-4CB7-93DF-6A2ACCB1F8F1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1E18D1BF-1A0D-46A6-9734-B82CFF067348}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1E18D1BF-1A0D-46A6-9734-B82CFF067348}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E18D1BF-1A0D-46A6-9734-B82CFF067348}.Release|Any CPU.ActiveCfg = Release|Any CPU
