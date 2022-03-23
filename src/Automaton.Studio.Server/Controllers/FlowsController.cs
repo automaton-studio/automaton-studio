@@ -4,6 +4,7 @@ using Automaton.Studio.Server.Models;
 using Automaton.Studio.Server.Services;
 using Automaton.Studio.Server.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace Automaton.Studio.Server.Controllers
 {
@@ -31,11 +32,13 @@ namespace Automaton.Studio.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Flow>> Get() =>
-            await flowsService.GetAsync();
+        public IEnumerable<Flow> Get()
+        {
+            return flowsService.Get();
+        }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Flow>> Get(string id)
+        public async Task<ActionResult<Flow>> Get(Guid id)
         {
             var flow = await flowsService.GetAsync(id);
 
@@ -44,7 +47,9 @@ namespace Automaton.Studio.Server.Controllers
                 return NotFound();
             }
 
-            return Ok(flow);
+            var str = JsonSerializer.Serialize(flow);
+
+            return Ok(str);
         }
 
         [HttpPost]
@@ -56,33 +61,17 @@ namespace Automaton.Studio.Server.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id, Flow updatedFlow)
+        public async Task<IActionResult> Put(Guid id, Flow flow)
         {
-            var flow = await flowsService.GetAsync(id);
-
-            if (flow is null)
-            {
-                return NotFound();
-            }
-
-            updatedFlow.Id = flow.Id;
-
-            await flowsService.UpdateAsync(id, updatedFlow);
+            await flowsService.UpdateAsync(id, flow);
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var flow = await flowsService.GetAsync(id);
-
-            if (flow is null)
-            {
-                return NotFound();
-            }
-
-            await flowsService.RemoveAsync(flow.Id);
+            await flowsService.RemoveAsync(id);
 
             return NoContent();
         }

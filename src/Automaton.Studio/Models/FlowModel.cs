@@ -1,8 +1,10 @@
-﻿namespace Automaton.Studio.Models
+﻿using System;
+
+namespace Automaton.Studio.Models
 {
     public class FlowModel
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
     }
 }

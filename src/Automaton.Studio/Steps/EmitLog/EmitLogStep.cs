@@ -20,7 +20,7 @@ namespace Automaton.Studio.Steps.EmitLog
             get
             {
                 return InputsDictionary.ContainsKey(nameof(Message)) ?
-                    InputsDictionary[nameof(Message)] as string : string.Empty;
+                    InputsDictionary[nameof(Message)].ToString() : string.Empty;
             }
 
             set

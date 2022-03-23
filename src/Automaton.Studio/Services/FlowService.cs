@@ -3,11 +3,11 @@ using Automaton.Studio.Domain;
 using Automaton.Studio.Errors;
 using Automaton.Studio.Models;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services.Interfaces
@@ -56,11 +56,11 @@ namespace Automaton.Studio.Services.Interfaces
             }
         }
 
-        public async Task<Flow> Load(string id)
+        public async Task<Flow> Load(Guid id)
         {
             var response = await httpClient.GetAsync($"{configService.FlowsUrl}/{id}");
-            var flowDto = await response.Content.ReadAsAsync<Dto.Flow>();
-
+            var flowString = await response.Content.ReadAsStringAsync();
+            var flowDto = JsonConvert.DeserializeObject<Dto.Flow>(flowString);
             var flow = mapper.Map<Flow>(flowDto);
 
             return flow;
@@ -69,7 +69,7 @@ namespace Automaton.Studio.Services.Interfaces
         public async Task Create(Flow flow)
         {
             var flowDto = mapper.Map<Dto.Flow>(flow);
-            var json = JsonSerializer.Serialize(flowDto);
+            var json = JsonConvert.SerializeObject(flowDto);
             var requestContent = new StringContent(json, Encoding.UTF8, ApplicationJson);
 
             await httpClient.PostAsync(configService.FlowsUrl, requestContent);
@@ -78,13 +78,13 @@ namespace Automaton.Studio.Services.Interfaces
         public async Task Update(Flow flow)
         {
             var flowDto = mapper.Map<Dto.Flow>(flow);
-            var json = JsonSerializer.Serialize(flowDto);
+            var json = JsonConvert.SerializeObject(flowDto);
             var requestContent = new StringContent(json, Encoding.UTF8, ApplicationJson);
 
             await httpClient.PutAsync($"{configService.FlowsUrl}/{flow.Id}", requestContent);
         }
 
-        public async Task Delete(string flowId)
+        public async Task Delete(Guid flowId)
         {
             await httpClient.DeleteAsync($"{configService.FlowsUrl}/{flowId}");
         }

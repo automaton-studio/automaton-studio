@@ -7,7 +7,7 @@ namespace Automaton.Studio.Server.Middleware
     public class RequestObjectFilter : IActionFilter
     {
         public void OnActionExecuting(ActionExecutingContext context)
-        {            
+        {
             foreach (var key in context.ActionArguments.Keys.ToList())
             {
                 if (context.ActionArguments[key] is JObject)

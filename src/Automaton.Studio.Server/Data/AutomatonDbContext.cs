@@ -25,8 +25,8 @@ namespace Automaton.Studio.Server.Data
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
 
-        //public virtual DbSet<Flow> Flows { get; set; }
-        //public virtual DbSet<FlowUser> FlowUsers { get; set; }
+        public virtual DbSet<Flow> Flows { get; set; }
+        public virtual DbSet<FlowUser> FlowUsers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -137,19 +137,22 @@ namespace Automaton.Studio.Server.Data
                     .HasForeignKey(d => d.UserId);
             });
 
+            modelBuilder.Entity<FlowUser>(entity =>
+            {
+                entity.HasKey(e => new { e.FlowId, e.UserId });
 
-            //modelBuilder.Entity<FlowUser>(entity =>
-            //{
-            //    entity.HasKey(e => new { e.FlowId, e.UserId });
+                entity.HasIndex(e => e.FlowId, "IX_FlowUser_FlowId");
 
-            //    entity.HasIndex(e => e.FlowId, "IX_FlowUser_FlowId");
+                entity.Property(e => e.FlowId).IsRequired();
 
-            //    entity.Property(e => e.FlowId).IsRequired();
+                entity.HasOne(d => d.Flow)
+                    .WithMany(p => p.FlowUsers)
+                    .HasForeignKey(d => d.FlowId);
 
-            //    entity.HasOne(d => d.Flow)
-            //        .WithMany(p => p.FlowUsers)
-            //        .HasForeignKey(d => d.FlowId);
-            //});
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.FlowUsers)
+                    .HasForeignKey(d => d.UserId);
+            });
 
             OnModelCreatingPartial(modelBuilder);
         }

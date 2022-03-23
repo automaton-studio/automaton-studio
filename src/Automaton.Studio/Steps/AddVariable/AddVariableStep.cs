@@ -18,14 +18,14 @@ namespace Automaton.Studio.Steps.AddVariable
         public string VariableName
         {
             get => InputsDictionary.ContainsKey(nameof(VariableName)) ?
-                   InputsDictionary[nameof(VariableName)] as string : string.Empty;
+                   InputsDictionary[nameof(VariableName)].ToString() : string.Empty;
             set => InputsDictionary[nameof(VariableName)] = value;
         }
 
         public string VariableValue
         {
             get => InputsDictionary.ContainsKey(nameof(VariableValue)) ?
-                   InputsDictionary[nameof(VariableValue)] as string : string.Empty;
+                   InputsDictionary[nameof(VariableValue)].ToString() : string.Empty;
             set => InputsDictionary[nameof(VariableValue)] = value;
         }
 

@@ -9,7 +9,7 @@ namespace Automaton.Studio.Domain
 {
     public class Flow
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string StartupDefinitionId { get; set; }
         public ExpandoObject Variables { get; set; }
@@ -23,7 +23,7 @@ namespace Automaton.Studio.Domain
             var defaultDefinition = new Definition { Flow = this };
 
             Name = "Untitled";
-            Id = Guid.NewGuid().ToString();
+            Id = Guid.NewGuid();
             StartupDefinitionId = defaultDefinition.Id;
             Definitions = new List<Definition> { defaultDefinition };
             Variables = new ExpandoObject();

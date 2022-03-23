@@ -31,7 +31,7 @@ namespace Automaton.Studio.ViewModels
         string GetActiveDefinitionId();
         string GetStartupDefinitionId();
 
-        Task LoadFlow(string flowId);
+        Task LoadFlow(Guid flowId);
         Task SaveFlow();
         Task RunFlow();
     }

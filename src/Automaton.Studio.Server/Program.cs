@@ -32,7 +32,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 builder.Services.AddSingleton<WeatherForecastService>();
 
 builder.Services.AddControllers();
-builder.Services.AddSingleton<FlowsService>();
+builder.Services.AddScoped<FlowsService>();
 builder.Services.AddTransient<IFlowLoader, FlowLoader>();
 
 // Configure services

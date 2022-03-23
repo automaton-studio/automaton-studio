@@ -91,7 +91,7 @@ namespace Automaton.Studio.ViewModels
             activeDefinition.Steps.Remove(step); 
         }
 
-        public async Task LoadFlow(string flowId)
+        public async Task LoadFlow(Guid flowId)
         {
             Flow = await flowService.Load(flowId);
 
