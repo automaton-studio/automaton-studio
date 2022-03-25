@@ -1,4 +1,5 @@
 using Automaton.Studio.Server.Areas.Identity;
+using Automaton.Studio.Server.Auth;
 using Automaton.Studio.Server.Config;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Middleware;
@@ -26,6 +27,16 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddDbContext<AutomatonDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+{
+    builder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+}));
+
+builder.Services.AddJwtAuthentication();
+
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
@@ -50,7 +61,6 @@ builder.Services.AddMvc(options =>
 .AddNewtonsoftJson();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
 builder.Services.AddSteps();
 builder.Services.AddWorkflow();
 

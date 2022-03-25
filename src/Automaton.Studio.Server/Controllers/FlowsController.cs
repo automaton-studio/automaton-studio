@@ -3,6 +3,8 @@ using Automaton.Core.Interfaces;
 using Automaton.Studio.Server.Models;
 using Automaton.Studio.Server.Services;
 using Automaton.Studio.Server.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -10,6 +12,7 @@ namespace Automaton.Studio.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize(JwtBearerDefaults.AuthenticationScheme)]
     public class FlowsController : ControllerBase
     {
         private readonly IMapper mapper;
