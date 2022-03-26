@@ -59,8 +59,7 @@ namespace Automaton.Studio.Services.Interfaces
         public async Task<Flow> Load(Guid id)
         {
             var response = await httpClient.GetAsync($"{configService.FlowsUrl}/{id}");
-            var flowString = await response.Content.ReadAsStringAsync();
-            var flowDto = JsonConvert.DeserializeObject<Dto.Flow>(flowString);
+            var flowDto = await response.Content.ReadAsAsync<Dto.Flow>();
             var flow = mapper.Map<Flow>(flowDto);
 
             return flow;
