@@ -3,11 +3,9 @@ using Automaton.Studio.Domain;
 using Automaton.Studio.Errors;
 using Automaton.Studio.Models;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services.Interfaces
@@ -65,22 +63,19 @@ namespace Automaton.Studio.Services.Interfaces
             return flow;
         }
 
-        public async Task Create(Flow flow)
+        public async Task<Flow> Create(Flow flow)
         {
             var flowDto = mapper.Map<Dto.Flow>(flow);
-            var json = JsonConvert.SerializeObject(flowDto);
-            var requestContent = new StringContent(json, Encoding.UTF8, ApplicationJson);
-
-            await httpClient.PostAsync(configService.FlowsUrl, requestContent);
+            var response = await httpClient.PostAsJsonAsync(configService.FlowsUrl, flowDto);
+            var newFlowDto = await response.Content.ReadAsAsync<Dto.Flow>();
+            var newFlow = mapper.Map<Flow>(newFlowDto);
+            return newFlow;
         }
 
         public async Task Update(Flow flow)
         {
             var flowDto = mapper.Map<Dto.Flow>(flow);
-            var json = JsonConvert.SerializeObject(flowDto);
-            var requestContent = new StringContent(json, Encoding.UTF8, ApplicationJson);
-
-            await httpClient.PutAsync($"{configService.FlowsUrl}/{flow.Id}", requestContent);
+            await httpClient.PutAsJsonAsync($"{configService.FlowsUrl}/{flow.Id}", flowDto);
         }
 
         public async Task Delete(Guid flowId)

@@ -51,11 +51,11 @@ namespace Automaton.Studio.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Flow newFlow)
+        public async Task<IActionResult> Post(Flow flow)
         {
-            await flowsService.CreateAsync(newFlow);
+            await flowsService.CreateAsync(flow);
 
-            return CreatedAtAction(nameof(Get), new { id = newFlow.Id }, newFlow);
+            return CreatedAtAction(nameof(Get), new { id = flow.Id }, flow);
         }
 
         [HttpPut("{id}")]

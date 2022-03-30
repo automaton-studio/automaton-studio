@@ -23,7 +23,6 @@ namespace Automaton.Studio.Domain
             var defaultDefinition = new Definition { Flow = this };
 
             Name = "Untitled";
-            Id = Guid.NewGuid();
             StartupDefinitionId = defaultDefinition.Id;
             Definitions = new List<Definition> { defaultDefinition };
             Variables = new ExpandoObject();

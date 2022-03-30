@@ -10,7 +10,7 @@ namespace Automaton.Studio.Services.Interfaces
     {
         Task<IEnumerable<FlowModel>> List();
         Task<Flow> Load(Guid flowId);
-        Task Create(Flow flow);
+        Task<Flow> Create(Flow flow);
         Task Update(Flow flow);
         Task Delete (Guid flowId);
     }
