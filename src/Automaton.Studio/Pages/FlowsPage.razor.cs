@@ -4,6 +4,7 @@ using Automaton.Studio.Models;
 using Automaton.Studio.Services.Interfaces;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -26,18 +27,18 @@ namespace Automaton.Studio.Pages
 
         private async Task RunFlow(FlowModel flow)
         {
-            await FlowsViewModel.RunFlow(flow);
+            await FlowsViewModel.RunFlow(flow.Id);
         }
 
-        private void EditFlow(FlowModel flow)
+        private void EditFlow(Guid id)
         {
             NavMenuService.EnableDesignerMenu();
-            NavigationManager.NavigateTo($"designer/{flow.Id}");
+            NavigationManager.NavigateTo($"designer/{id}");
         }
 
-        private async Task DeleteFlow(FlowModel flow)
+        private async Task DeleteFlow(Guid id)
         {
-            await FlowsViewModel.DeleteFlow(flow);
+            await FlowsViewModel.DeleteFlow(id);
             StateHasChanged();
         }
 

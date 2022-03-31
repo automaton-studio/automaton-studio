@@ -17,5 +17,11 @@ namespace Automaton.Studio.Dto
         public TimeSpan? DefaultErrorRetryInterval { get; set; }
 
         public List<Step> Steps { get; set; } = new List<Step>();
+
+        public Definition()
+        {
+            Id = Guid.NewGuid().ToString();
+            Name = "Untitled";
+        }
     }
 }

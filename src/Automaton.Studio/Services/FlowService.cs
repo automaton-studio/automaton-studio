@@ -63,12 +63,16 @@ namespace Automaton.Studio.Services.Interfaces
             return flow;
         }
 
-        public async Task<Flow> Create(Flow flow)
+        public async Task<Flow> Create(string name)
         {
+            var flow = new Flow { Name = name };
             var flowDto = mapper.Map<Dto.Flow>(flow);
+
             var response = await httpClient.PostAsJsonAsync(configService.FlowsUrl, flowDto);
-            var newFlowDto = await response.Content.ReadAsAsync<Dto.Flow>();
-            var newFlow = mapper.Map<Flow>(newFlowDto);
+            var result = await response.Content.ReadAsAsync<Dto.Flow>();
+                
+            var newFlow = mapper.Map<Flow>(result);
+
             return newFlow;
         }
 

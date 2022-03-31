@@ -40,7 +40,7 @@
                             </Button>
                         </SpaceItem>
                         <SpaceItem>
-                            <Button Icon="edit" @onclick="@(() => EditFlow(context))">
+                            <Button Icon="edit" @onclick="@(() => EditFlow(context.Id))">
                                 Edit
                             </Button>
                         </SpaceItem>
@@ -49,7 +49,7 @@
                     <Dropdown Placement="@Placement.BottomCenter" Trigger="@(new Trigger[] { Trigger.Click })">
                         <Overlay>
                             <Menu>
-                                <MenuItem Icon="delete" OnClick="@(() => DeleteFlow(context))">
+                                <MenuItem Icon="delete" OnClick="@(() => DeleteFlow(context.Id))">
                                     Delete
                                 </MenuItem>
                             </Menu>

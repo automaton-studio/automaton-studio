@@ -4,6 +4,7 @@ using Automaton.Studio.Models;
 using Automaton.Studio.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.ViewModels
@@ -35,33 +36,29 @@ namespace Automaton.Studio.ViewModels
 
         public async Task CreateFlow(string name)
         {
-            var flow = new Flow { Name = name };
-            await flowService.Create(flow);
+            var flow = await flowService.Create(name);
 
-            AddFlowModel(flow);
+            var flowModel = new FlowModel
+            {
+                Id = flow.Id,
+                Name = flow.Name
+            };
+
+            Flows.Add(flowModel);
         }
 
-        public async Task DeleteFlow(FlowModel flow)
+        public async Task DeleteFlow(Guid id)
         {
-            await flowService.Delete(flow.Id);
+            await flowService.Delete(id);
+
+            var flow = Flows.SingleOrDefault(x => x.Id == id);
 
             Flows.Remove(flow);
         }
 
-        public async Task RunFlow(FlowModel flow)
+        public async Task RunFlow(Guid id)
         {
             throw new NotImplementedException();
-        }
-
-        private void AddFlowModel(Flow flow)
-        {
-            var flowModel = new FlowModel 
-            { 
-                Id = flow.Id, 
-                Name = flow.Name 
-            };
-
-            Flows.Add(flowModel);
         }
     }
 }

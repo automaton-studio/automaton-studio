@@ -1,4 +1,5 @@
 ﻿using Automaton.Studio.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace Automaton.Studio.ViewModels
 
         Task GetFlows();
         Task CreateFlow(string name);
-        Task RunFlow(FlowModel flow);
-        Task DeleteFlow(FlowModel flow);
+        Task RunFlow(Guid id);
+        Task DeleteFlow(Guid id);
     }
 }

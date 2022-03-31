@@ -48,7 +48,7 @@ namespace Automaton.Studio.Server.Services
             return flow;
         }
 
-        public async Task CreateAsync(Flow flow)
+        public async Task<Guid> CreateAsync(Flow flow)
         {
             flow.Id = Guid.NewGuid();
 
@@ -72,6 +72,8 @@ namespace Automaton.Studio.Server.Services
             dbContext.FlowUsers.Add(flowUser);
 
             await dbContext.SaveChangesAsync();
+
+            return flowEntity.Id;
         }
 
         public async Task UpdateAsync(Guid id, Flow flow)
