@@ -12,11 +12,8 @@ namespace Automaton.Studio.Services.Interfaces
 {
     public class FlowService : IFlowService
     {
-        private const string ApplicationJson = "application/json";
-
         private readonly HttpClient httpClient;
         private readonly ConfigService configService;
-        private readonly IFlowConvertService flowConverterService;
         private readonly IMapper mapper;
         private readonly ILogger<FlowService> logger;
 
@@ -29,7 +26,6 @@ namespace Automaton.Studio.Services.Interfaces
             ILogger<FlowService> logger
         )
         {
-            this.flowConverterService = flowConverterService;
             this.logger = logger;
             this.configService = configService;
             this.httpClient = httpClient;
@@ -58,6 +54,7 @@ namespace Automaton.Studio.Services.Interfaces
         {
             var response = await httpClient.GetAsync($"{configService.FlowsUrl}/{id}");
             var flowDto = await response.Content.ReadAsAsync<Dto.Flow>();
+
             var flow = mapper.Map<Flow>(flowDto);
 
             return flow;
@@ -79,6 +76,7 @@ namespace Automaton.Studio.Services.Interfaces
         public async Task Update(Flow flow)
         {
             var flowDto = mapper.Map<Dto.Flow>(flow);
+
             await httpClient.PutAsJsonAsync($"{configService.FlowsUrl}/{flow.Id}", flowDto);
         }
 
