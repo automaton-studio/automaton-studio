@@ -26,14 +26,16 @@ namespace Automaton.Studio.Config
             services.AddSingleton<IFlowsService, FlowsService>();
             services.AddSingleton<INavMenuService, NavMenuService>();
             services.AddSingleton<IWorkflowExecutor, WorkflowExecutor>();
-
+            services.AddSingleton<ILoginService, LoginService>();
+            
             // ViewModels
             services.AddScoped<FlowsViewModel>();
             services.AddScoped<IFlowViewModel, FlowsViewModel>();
             services.AddScoped<IDesignerViewModel, DesignerViewModel>();
             services.AddScoped<IStepsViewModel, StepsViewModel>();
             services.AddScoped<IFlowExplorerViewModel, FlowExplorerViewModel>();
-
+            services.AddScoped<ILoginViewModel, LoginViewModel>();
+            
             // Steps
             services.AddSteps();
 
