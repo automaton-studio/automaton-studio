@@ -9,15 +9,8 @@ namespace Automaton.Studio.Server.Auth
 {
     public static class AuthenticationServiceCollectionExtensions
     {
-        public static void AddJwtAuthentication(this IServiceCollection services, TokenValidationParameters parameters = null)
+        public static void AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration, TokenValidationParameters parameters = null)
         {
-            IConfiguration configuration;
-
-            using (var serviceProvider = services.BuildServiceProvider())
-            {
-                configuration = serviceProvider.GetService<IConfiguration>();
-            }
-
             services.AddHttpContextAccessor();
 
             var authSettings = new AuthenticationSettings();
