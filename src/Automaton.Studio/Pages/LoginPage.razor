@@ -3,11 +3,10 @@
 @using AntDesign
 
 <Layout>
-    <Content>
+    <Content Class="middle">
         <Form Loading="loading" 
             Model="@Model"
-            LabelColSpan="8"
-            WrapperColSpan="16"
+            Layout="@FormLayout.Vertical"
             OnFinish="OnFinish"
             OnFinishFailed="OnFinishFailed">
             <FormItem Label="Username">
@@ -16,10 +15,10 @@
             <FormItem Label="Password">
                 <InputPassword @bind-Value="@context.Password" />
             </FormItem>
-            <FormItem WrapperColOffset="8" WrapperColSpan="16">
+            <FormItem WrapperColSpan="15">
                 <Checkbox @bind-Value="context.RememberMe">Remember me</Checkbox>
             </FormItem>
-            <FormItem WrapperColOffset="8" WrapperColSpan="16">
+            <FormItem WrapperColSpan="16">
                 <Button Type="@ButtonType.Primary" HtmlType="submit">
                     Submit
                 </Button>
@@ -27,6 +26,16 @@
         </Form>
     </Content>
 </Layout>
+
+<style>
+.middle{
+    height: 100vh;
+    position:absolute;
+    left:50%;
+    top:50%;
+    margin:-120px 0 0 -80px;
+}
+</style>
 
 
 
