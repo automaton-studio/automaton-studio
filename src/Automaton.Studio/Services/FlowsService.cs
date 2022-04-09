@@ -35,9 +35,11 @@ namespace Automaton.Studio.Services.Interfaces
         {
             try
             {
-                var response = await httpClient.GetAsync(configService.FlowsUrl);
+                var result = await httpClient.GetAsync(configService.FlowsUrl);
 
-                var flows = await response.Content.ReadAsAsync<ICollection<FlowModel>>();
+                result.EnsureSuccessStatusCode();
+
+                var flows = await result.Content.ReadAsAsync<ICollection<FlowModel>>();
 
                 return flows;
             }
@@ -45,8 +47,8 @@ namespace Automaton.Studio.Services.Interfaces
             {
                 logger.LogError(AppLogEvents.Error, ex, "Failed to load flows list");
 
-                return new List<FlowModel>();
-            }
+                throw ex;
+            } 
         }
     }
 }

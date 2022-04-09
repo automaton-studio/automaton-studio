@@ -25,7 +25,6 @@ namespace Automaton.Studio.Web
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddAntDesign();
-            services.AddHttpClient();
             services.AddSingleton(service => new ConfigService(Configuration));
             services.AddStudio(Configuration);
             services.AddSingleton<AppState>();

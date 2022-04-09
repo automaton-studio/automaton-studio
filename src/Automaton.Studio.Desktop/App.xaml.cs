@@ -34,7 +34,6 @@ namespace Automaton.Studio.Desktop
         private static void ConfigureServices(IServiceCollection services)
         {
             // Application
-            services.AddHttpClient();
             services.AddBlazorWebView();
             services.AddAntDesign();
             services.AddSingleton(service => new ConfigService(Configuration));

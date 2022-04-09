@@ -17,6 +17,7 @@ namespace Automaton.Studio.Services
         public string WebApiUrl => AppConfig.WebApiUrl;
         public bool IsDesktop => AppConfig.IsDesktop;
         public string FlowsUrl =>$"{AppConfig.WebApiUrl}/api/flows";
+        public string TokenUrl => $"/api/token";
 
         #endregion
 

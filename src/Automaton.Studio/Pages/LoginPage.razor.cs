@@ -1,12 +1,8 @@
-﻿using AntDesign;
-using Automaton.Studio.Components.NewFlow;
-using Automaton.Studio.Models;
+﻿using Automaton.Studio.Models;
 using Automaton.Studio.Services.Interfaces;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages
@@ -18,6 +14,8 @@ namespace Automaton.Studio.Pages
         [Inject] private NavigationManager NavigationManager { get; set; } = default!;
         [Inject] private ILoginViewModel LoginViewModel { get; set; } = default!;
         [Inject] public INavMenuService NavMenuService { get; set; }
+        [Inject] public IAuthenticationService AuthenticationService { get; set; }
+
 
         public LoginModel Model => LoginViewModel.Model;
 
@@ -26,9 +24,14 @@ namespace Automaton.Studio.Pages
             await base.OnInitializedAsync();
         }
 
-        private void OnFinish(EditContext editContext)
+        private async Task OnFinish(EditContext editContext)
         {
-            NavigationManager.NavigateTo($"flows");
+            var result = await AuthenticationService.Login(Model);
+
+            if (result)
+            {
+                NavigationManager.NavigateTo($"flows");
+            }
         }
 
         private void OnFinishFailed(EditContext editContext)
