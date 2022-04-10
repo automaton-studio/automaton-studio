@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
+using System;
 
 namespace Automaton.Studio.AuthProviders
 {
@@ -22,13 +23,26 @@ namespace Automaton.Studio.AuthProviders
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var token = await _localStorage.GetItemAsync<string>("authToken");
-            if (string.IsNullOrWhiteSpace(token))
+            try
+            {
+                var token = await _localStorage.GetItemAsync<string>("authToken");
+
+                if (string.IsNullOrWhiteSpace(token))
+                    return _anonymous;
+
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+
+                return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), "jwtAuthType")));
+            }
+            catch (Exception ex)
+            {
+                // JavaScript interop calls cannot be issued at this time.
+                // This is because the component is being statically rendered.
+                // When prerendering is enabled, JavaScript interop calls can only
+                // be performed during the OnAfterRenderAsync lifecycle method.
+
                 return _anonymous;
-
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
-
-            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), "jwtAuthType")));
+            }
         }
 
         public void NotifyUserAuthentication(string token)

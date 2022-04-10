@@ -5,7 +5,6 @@ using Automaton.Studio.Services.Interfaces;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages

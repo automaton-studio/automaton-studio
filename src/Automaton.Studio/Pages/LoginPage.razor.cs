@@ -30,7 +30,7 @@ namespace Automaton.Studio.Pages
 
             if (result)
             {
-                NavigationManager.NavigateTo($"flows");
+                NavigationManager.NavigateTo($"/");
             }
         }
 
