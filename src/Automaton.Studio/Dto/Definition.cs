@@ -10,7 +10,7 @@ namespace Automaton.Studio.Dto
 
         public string Name { get; set; }
 
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         public WorkflowErrorHandling DefaultErrorBehavior { get; set; }
 
