@@ -1,5 +1,7 @@
-﻿using Automaton.Studio.Server.Entities;
+﻿using Automaton.Studio.Server.Auth;
+using Automaton.Studio.Server.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 #nullable disable
 
@@ -7,6 +9,8 @@ namespace Automaton.Studio.Server.Data
 {
     public partial class AutomatonDbContext : DbContext
     {
+        private IDbContextTransaction _transaction;
+
         public AutomatonDbContext()
         {
         }
@@ -24,7 +28,7 @@ namespace Automaton.Studio.Server.Data
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
-
+        public DbSet<RefreshToken<Guid>> RefreshTokens { get; set; }
         public virtual DbSet<Flow> Flows { get; set; }
         public virtual DbSet<FlowUser> FlowUsers { get; set; }
 
@@ -154,9 +158,79 @@ namespace Automaton.Studio.Server.Data
                     .HasForeignKey(d => d.UserId);
             });
 
+            modelBuilder.Entity<RefreshToken<Guid>>()
+                .ToTable("RefreshTokens");
+
+            modelBuilder.Entity<RefreshToken<Guid>>()
+                .HasKey(x => x.Id);
+
+            modelBuilder.Entity<RefreshToken<Guid>>().Property(x => x.UserId);
+
+            modelBuilder.Entity<RefreshToken<Guid>>()
+                .Property(s => s.Id)
+                .HasDefaultValueSql("NEWID()")
+                .IsRequired();
+
+            modelBuilder.Entity<RefreshToken<Guid>>()
+                .Property(s => s.Token)
+                .IsRequired();
+
+            modelBuilder.Entity<RefreshToken<Guid>>()
+                .Property(s => s.RevokedAt)
+                .IsRequired(false);
+
+            modelBuilder.Entity<RefreshToken<Guid>>()
+                .Property(s => s.CreatedAt)
+                .IsRequired()
+                .HasDefaultValue(DateTime.Now);
+
+            modelBuilder.Entity<RefreshToken<Guid>>()
+                .Property(s => s.Expires)
+                .IsRequired();
+
             OnModelCreatingPartial(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+
+        public void BeginTransaction()
+        {
+            _transaction = Database.BeginTransaction();
+        }
+
+        public int Commit()
+        {
+            try
+            {
+                var saveChanges = SaveChanges();
+                _transaction.Commit();
+                return saveChanges;
+            }
+            finally
+            {
+                _transaction.Dispose();
+            }
+        }
+
+        public void Rollback()
+        {
+            _transaction.Rollback();
+            _transaction.Dispose();
+        }
+
+        public Task<int> CommitAsync()
+        {
+            try
+            {
+                var saveChangesAsync = SaveChangesAsync();
+                _transaction.Commit();
+                return saveChangesAsync;
+            }
+            finally
+            {
+                _transaction.Dispose();
+            }
+        }
     }
 }
