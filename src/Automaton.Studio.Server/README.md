@@ -18,7 +18,7 @@ This change allows us to ship dotnet ef as a regular .NET CLI tool that can be i
 
 ### Add migration
 
-dotnet ef migrations add MigrationName --context AutomatonDbContext
+``dotnet ef migrations add MigrationName --context AutomatonDbContext``
 
 
 
