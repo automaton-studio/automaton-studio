@@ -11,16 +11,22 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddDbContext<AutomatonDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddDefaultIdentity<IdentityUser>(options => {
+    // TODO! Refine credentials requirements
+    //options.SignIn.RequireConfirmedAccount = false;
+    //options.Password.RequireDigit = false;
+    //options.Password.RequiredLength = 8;
+    //options.Password.RequireNonAlphanumeric = false;
+    //options.Password.RequireUppercase = false;
+    //options.Password.RequireLowercase = false;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
 {
