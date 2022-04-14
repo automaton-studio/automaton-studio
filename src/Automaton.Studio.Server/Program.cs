@@ -1,9 +1,9 @@
 using Automaton.Studio.Server.Areas.Identity;
 using Automaton.Studio.Server.Auth;
-using Automaton.Studio.Server.Config;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Services;
 using Automaton.Studio.Server.Services.Interfaces;
+using MediatR;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -47,14 +47,13 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<FlowsService>();
 builder.Services.AddTransient<IFlowLoader, FlowLoader>();
 
-// Configure services
-builder.Services.Configure<AutomatonDatabaseSettings>(builder.Configuration.GetSection("AutomatonDatabase"));
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+
 builder.Services.AddSteps();
 builder.Services.AddWorkflow();
 
