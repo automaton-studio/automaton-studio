@@ -4,6 +4,7 @@ using Automaton.Studio.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Automaton.Studio.Server.Migrations
 {
     [DbContext(typeof(AutomatonDbContext))]
-    partial class AutomatonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220414154202_AuthenticationUpdates")]
+    partial class AuthenticationUpdates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

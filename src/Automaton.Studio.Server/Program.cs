@@ -1,8 +1,12 @@
+using AuthServer.Application;
+using AuthServer.Core.Domains;
+using AuthServer.Core.Services;
 using Automaton.Studio.Server.Areas.Identity;
-using Automaton.Studio.Server.Auth;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Services;
 using Automaton.Studio.Server.Services.Interfaces;
+using Common.Authentication;
+using Common.EF;
 using MediatR;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,16 +21,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddDbContext<AutomatonDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDefaultIdentity<IdentityUser>(options => {
-    // TODO! Refine credentials requirements
-    //options.SignIn.RequireConfirmedAccount = false;
-    //options.Password.RequireDigit = false;
-    //options.Password.RequiredLength = 8;
-    //options.Password.RequireNonAlphanumeric = false;
-    //options.Password.RequireUppercase = false;
-    //options.Password.RequireLowercase = false;
-})
-.AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
 
 builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
 {
@@ -36,16 +33,19 @@ builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
         .AllowAnyHeader();
 }));
 
+builder.Services.AddAccessTokenValidator();
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddScoped<IDataContext>(sp => sp.GetRequiredService<AutomatonDbContext>());
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<FlowsService>();
 builder.Services.AddTransient<IFlowLoader, FlowLoader>();
+builder.Services.AddTransient<IUserManagerService, UserManagerService>();
+builder.Services.AddTransient<IRoleManagerService, RoleManagerService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
