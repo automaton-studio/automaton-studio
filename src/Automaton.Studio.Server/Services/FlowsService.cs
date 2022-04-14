@@ -8,19 +8,19 @@ namespace Automaton.Studio.Server.Services
 {
     public class FlowsService
     {
-        private readonly AutomatonDbContext dbContext;
+        private readonly ApplicationDbContext dbContext;
         private readonly ClaimsPrincipal principal;
         private readonly IMapper mapper;
-        private readonly string userId;
+        private readonly Guid userId;
 
-        public FlowsService(AutomatonDbContext context,
+        public FlowsService(ApplicationDbContext context,
             IHttpContextAccessor httpContextAccessor,
             IMapper mapper)
         {
             this.dbContext = context ?? throw new ArgumentNullException("context");
             principal = httpContextAccessor.HttpContext.User;
             //userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
-            userId = "13347f27-1f70-497a-b251-5aaacb3fda2e";
+            userId = Guid.NewGuid();
             this.mapper = mapper;
         }
 

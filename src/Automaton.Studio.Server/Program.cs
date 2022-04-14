@@ -18,9 +18,9 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
-builder.Services.AddDbContext<AutomatonDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
@@ -39,7 +39,7 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-builder.Services.AddScoped<IDataContext>(sp => sp.GetRequiredService<AutomatonDbContext>());
+builder.Services.AddScoped<IDataContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<FlowsService>();
