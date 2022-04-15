@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Automaton.Studio.Server.Controllers
 {
     [ApiController]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public abstract class BaseController : ControllerBase
     {
         private IMediator _mediator;

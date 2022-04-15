@@ -1,12 +1,11 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AuthServer.Core.Commands;
+﻿using AuthServer.Core.Commands;
 using Common.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Automaton.Studio.Server.Controllers
 {
+    [Route("api/[controller]/[action]")]
     public class AccountController : BaseController
     {
         /// <summary>
@@ -26,7 +25,7 @@ namespace Automaton.Studio.Server.Controllers
             }
 
             await Mediator.Send(registerUserCommand, ct);
-            return CreatedAtRoute("Default", new {controller = "User", userId = registerUserCommand.Id},
+            return CreatedAtRoute("User", new {controller = "User", userId = registerUserCommand.Id},
                 registerUserCommand.Id);
         }
 
