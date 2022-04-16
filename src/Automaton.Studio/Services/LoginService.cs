@@ -24,7 +24,6 @@ namespace Automaton.Studio.Services.Interfaces
             this.logger = logger;
             this.configService = configService;
             this.httpClient = httpClient;
-            this.httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
             this.mapper = mapper;
         }
 
