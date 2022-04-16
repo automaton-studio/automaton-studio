@@ -26,23 +26,20 @@ namespace Automaton.Studio.Config
             var configService = new ConfigService(configuration);
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddSingleton(sp => new HttpClient
-            {
-                BaseAddress = new Uri(configService.WebApiUrl)
-            });
 
             // Authentication & Authorization
             services.AddBlazoredLocalStorage();
             services.AddAuthorizationCore();
             services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+            services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(configService.WebApiUrl) });
 
             // Services
-            services.AddSingleton<IFlowService, FlowService>();
-            services.AddSingleton<IFlowConvertService, FlowConvertService>();
-            services.AddSingleton<IFlowsService, FlowsService>();
-            services.AddSingleton<INavMenuService, NavMenuService>();
-            services.AddSingleton<IWorkflowExecutor, WorkflowExecutor>();
-            services.AddSingleton<ILoginService, LoginService>();
+            services.AddScoped<IFlowService, FlowService>();
+            services.AddScoped<IFlowConvertService, FlowConvertService>();
+            services.AddScoped<IFlowsService, FlowsService>();
+            services.AddScoped<INavMenuService, NavMenuService>();
+            services.AddScoped<IWorkflowExecutor, WorkflowExecutor>();
+            services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
 
