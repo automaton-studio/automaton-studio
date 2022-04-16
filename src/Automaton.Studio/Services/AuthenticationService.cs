@@ -66,7 +66,7 @@ namespace Automaton.Studio.Services
             var refreshToken = await _localStorage.GetItemAsync<string>("refreshToken");
             var tokenDto = JsonSerializer.Serialize(new JsonWebToken { AccessToken = token, RefreshToken = refreshToken });
             var bodyContent = new StringContent(tokenDto, Encoding.UTF8, "application/json");
-            var refreshResult = await _client.PostAsync("token/refresh", bodyContent);
+            var refreshResult = await _client.PostAsync("api/token/refreshaccesstoken", bodyContent);
             var refreshContent = await refreshResult.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<JsonWebToken>(refreshContent, _options);
             if (!refreshResult.IsSuccessStatusCode)

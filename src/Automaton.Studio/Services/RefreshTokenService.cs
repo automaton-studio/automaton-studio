@@ -1,8 +1,6 @@
-﻿using Automaton.Studio.AuthProviders;
-using Automaton.Studio.Models;
+﻿using Automaton.Studio.Models;
 using Automaton.Studio.Services.Interfaces;
 using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components.Authorization;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -12,26 +10,39 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services
 {
-    public class RefreshTokenService
+    public class RefreshTokenService : IRefreshTokenService
     {
-        private readonly AuthenticationStateProvider _authProvider;
-        private readonly IAuthenticationService _authService;
-        public RefreshTokenService(AuthenticationStateProvider authProvider, IAuthenticationService authService)
+        private readonly HttpClient _client;
+        private readonly JsonSerializerOptions _options;
+        private readonly ConfigService _configService;
+        private readonly ILocalStorageService _localStorage;
+
+        public RefreshTokenService(HttpClient client, 
+            ConfigService configService,
+            ILocalStorageService localStorage)
         {
-            _authProvider = authProvider;
-            _authService = authService;
+            _client = client;
+            _options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            _configService = configService;
+            _localStorage = localStorage;
         }
-        public async Task<string> TryRefreshToken()
+
+        public async Task<string> RefreshToken()
         {
-            var authState = await _authProvider.GetAuthenticationStateAsync();
-            var user = authState.User;
-            var exp = user.FindFirst(c => c.Type.Equals("exp")).Value;
-            var expTime = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(exp));
-            var timeUTC = DateTime.UtcNow;
-            var diff = expTime - timeUTC;
-            if (diff.TotalMinutes <= 2)
-                return await _authService.RefreshToken();
-            return string.Empty;
+            var token = await _localStorage.GetItemAsync<string>("authToken");
+            var refreshToken = await _localStorage.GetItemAsync<string>("refreshToken");
+            var tokenDto = JsonSerializer.Serialize(new JsonWebToken { AccessToken = token, RefreshToken = refreshToken });
+            var bodyContent = new StringContent(tokenDto, Encoding.UTF8, "application/json");
+            var refreshResult = await _client.PostAsync("api/token/refreshaccesstoken", bodyContent);
+            var refreshContent = await refreshResult.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<JsonWebToken>(refreshContent, _options);
+            if (!refreshResult.IsSuccessStatusCode)
+                throw new ApplicationException("Something went wrong during the refresh token action");
+            await _localStorage.SetItemAsync("authToken", result.AccessToken);
+            await _localStorage.SetItemAsync("refreshToken", result.RefreshToken);
+
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", result.AccessToken);
+            return result.AccessToken;
         }
     }
 }

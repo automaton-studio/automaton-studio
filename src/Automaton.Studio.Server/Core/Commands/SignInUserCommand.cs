@@ -8,13 +8,13 @@ namespace AuthServer.Core.Commands
     public class SignInUserCommand : IRequest<JsonWebToken>
     {
         public string Password { get; }
-        public string EmailOrUserName { get; }
+        public string UserName { get; }
 
         [JsonConstructor]
-        public SignInUserCommand(string password, string emailOrUserName)
+        public SignInUserCommand(string password, string userName)
         {
             Password = password;
-            EmailOrUserName = emailOrUserName;
+            UserName = userName;
         }
     }
 }
