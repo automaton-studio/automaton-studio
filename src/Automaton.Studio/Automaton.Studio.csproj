@@ -21,6 +21,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebView" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="6.0.101-preview.11.2349" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.15" />
+    <PackageReference Include="Toolbelt.Blazor.HttpClientInterceptor" Version="10.1.0" />
   </ItemGroup>
 
   <ItemGroup>

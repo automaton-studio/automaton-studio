@@ -1,10 +1,10 @@
 ﻿namespace Automaton.Studio.Models
 {
-    public class AuthenticationResult
+    public class JsonWebToken
     {
-        public string ErrorMessage { get; set; }
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
-        public int Expires { get; set; }
+        public long Expires { get; set; }
+        public string UserId { get; set; }
     }
 }

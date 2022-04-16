@@ -7,16 +7,17 @@ namespace Automaton.Studio.Server.Services
 {
     public class FlowsService
     {
+
         private readonly ApplicationDbContext dbContext;
         private readonly Guid userId;
 
         public FlowsService(ApplicationDbContext context,
             IHttpContextAccessor httpContextAccessor)
         {
+            dbContext = context;
+
             var userIdString = httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             Guid.TryParse(userIdString, out Guid userIdGuid);
-
-            dbContext = context;
             userId = userIdGuid;
         }
 
@@ -78,7 +79,7 @@ namespace Automaton.Studio.Server.Services
             flowEntity.Body = JsonSerializer.Serialize(flow);
             flowEntity.Updated = DateTime.UtcNow;
 
-            dbContext.SaveChangesAsync();
+            dbContext.SaveChanges();
         }
 
         public void Remove(Guid id)

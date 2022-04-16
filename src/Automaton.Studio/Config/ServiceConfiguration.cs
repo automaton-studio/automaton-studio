@@ -14,8 +14,12 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Threading.Tasks;
+using Toolbelt.Blazor;
+using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 namespace Automaton.Studio.Config
 {
@@ -27,7 +31,17 @@ namespace Automaton.Studio.Config
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(configService.WebApiUrl) });
+            services.AddHttpClientInterceptor();
+
+            //services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(configService.WebApiUrl) }
+            //    .EnableIntercept(sp));
+
+            services.AddScoped(sp => new HttpClient
+            {
+                BaseAddress = new Uri(configService.WebApiUrl)
+            }
+            .EnableIntercept(sp));
+
 
             // Authentication & Authorization
             services.AddBlazoredLocalStorage();
@@ -41,7 +55,9 @@ namespace Automaton.Studio.Config
             services.AddSingleton<INavMenuService, NavMenuService>();
             services.AddSingleton<IWorkflowExecutor, WorkflowExecutor>();
             services.AddSingleton<ILoginService, LoginService>();
-            services.AddScoped<IAuthenticationService, AuthenticationService>();          
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<RefreshTokenService>();
+            services.AddScoped<HttpInterceptorService>();
 
             // ViewModels
             services.AddScoped<FlowsViewModel>();
