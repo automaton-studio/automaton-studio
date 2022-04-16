@@ -3,16 +3,11 @@ using Automaton.Core.Interfaces;
 using Automaton.Studio.Server.Models;
 using Automaton.Studio.Server.Services;
 using Automaton.Studio.Server.Services.Interfaces;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Automaton.Studio.Server.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [Authorize(JwtBearerDefaults.AuthenticationScheme)]
-    public class FlowsController : ControllerBase
+    public class FlowsController : BaseController
     {
         private readonly IMapper mapper;
         private readonly IFlowLoader definitionLoader;
@@ -40,9 +35,9 @@ namespace Automaton.Studio.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Flow>> Get(Guid id)
+        public ActionResult<Flow> Get(Guid id)
         {
-            var flow = await flowsService.GetAsync(id);
+            var flow = flowsService.Get(id);
 
             if (flow is null)
             {
@@ -53,27 +48,27 @@ namespace Automaton.Studio.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Flow flow)
+        public IActionResult Post(Flow flow)
         {
-            var flowId = await flowsService.CreateAsync(flow);
+            var flowId = flowsService.Create(flow);
 
-            var newFlow = await flowsService.GetAsync(flowId);
+            var newFlow = flowsService.Get(flowId);
 
             return CreatedAtAction(nameof(Get), new { id = newFlow.Id }, newFlow);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, Flow flow)
+        public IActionResult Put(Guid id, Flow flow)
         {
-            await flowsService.UpdateAsync(id, flow);
+            flowsService.Update(id, flow);
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public IActionResult Delete(Guid id)
         {
-            await flowsService.RemoveAsync(id);
+            flowsService.Remove(id);
 
             return NoContent();
         }

@@ -1,54 +1,70 @@
+using AuthServer.Application;
+using AuthServer.Core.Domains;
+using AuthServer.Core.Services;
 using Automaton.Studio.Server.Areas.Identity;
-using Automaton.Studio.Server.Auth;
-using Automaton.Studio.Server.Config;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Services;
 using Automaton.Studio.Server.Services.Interfaces;
+using Common.Authentication;
+using Common.EF;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
-builder.Services.AddDbContext<AutomatonDbContext>(options => options.UseSqlServer(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddCors(options => 
+    options.AddPolicy("CorsPolicy", builder =>
+    {
+        builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    }));
+
+builder.Services.AddMvc(options =>
 {
-    builder
-        .AllowAnyOrigin()
-        .AllowAnyMethod()
-        .AllowAnyHeader();
-}));
+    var policy = new AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+    options.Filters.Add(new AuthorizeFilter(policy));
+});
 
+builder.Services.AddAccessTokenValidator();
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddScoped<IDataContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<FlowsService>();
 builder.Services.AddTransient<IFlowLoader, FlowLoader>();
-
-// Configure services
-builder.Services.Configure<AutomatonDatabaseSettings>(builder.Configuration.GetSection("AutomatonDatabase"));
+builder.Services.AddTransient<IUserManagerService, UserManagerService>();
+builder.Services.AddTransient<IRoleManagerService, RoleManagerService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+
 builder.Services.AddSteps();
 builder.Services.AddWorkflow();
 
@@ -69,11 +85,8 @@ else
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
 

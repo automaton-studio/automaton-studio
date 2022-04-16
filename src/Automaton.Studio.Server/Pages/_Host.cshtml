@@ -1,6 +1,9 @@
 ﻿@page "/"
 @namespace Automaton.Studio.Server.Pages
+@using Microsoft.AspNetCore.Authorization
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@attribute [AllowAnonymous]
+
 @{
     Layout = "_Layout";
 }

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Automaton.Studio.Server.Data;
+﻿using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Models;
 using System.Security.Claims;
 using System.Text.Json;
@@ -8,47 +7,44 @@ namespace Automaton.Studio.Server.Services
 {
     public class FlowsService
     {
-        private readonly AutomatonDbContext dbContext;
-        private readonly ClaimsPrincipal principal;
-        private readonly IMapper mapper;
-        private readonly string userId;
 
-        public FlowsService(AutomatonDbContext context,
-            IHttpContextAccessor httpContextAccessor,
-            IMapper mapper)
+        private readonly ApplicationDbContext dbContext;
+        private readonly Guid userId;
+
+        public FlowsService(ApplicationDbContext context,
+            IHttpContextAccessor httpContextAccessor)
         {
-            this.dbContext = context ?? throw new ArgumentNullException("context");
-            principal = httpContextAccessor.HttpContext.User;
-            //userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
-            userId = "13347f27-1f70-497a-b251-5aaacb3fda2e";
-            this.mapper = mapper;
+            dbContext = context;
+
+            var userIdString = httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            Guid.TryParse(userIdString, out Guid userIdGuid);
+            userId = userIdGuid;
         }
 
         public IEnumerable<Flow> Get()
         {
-            var flowIds = dbContext.FlowUsers.AsEnumerable().Where(x => x.UserId == userId).Select(x => x.FlowId);
-            var flowEntities = dbContext.Flows.AsEnumerable().Where(x => flowIds.Contains(x.Id));
-
-            var flows = new List<Flow>();
-
-            foreach (var flowEntity in flowEntities)
-            {
-                var flow = JsonSerializer.Deserialize<Flow>(flowEntity.Body);
-                flows.Add(flow);
-            }
+            var flows = from flow in dbContext.Flows
+                join flowUser in dbContext.FlowUsers
+                on flow.Id equals flowUser.FlowId
+                where flowUser.UserId == userId
+                select DeserializeFlow(flow.Body);
 
             return flows;
         }
 
-        public async Task<Flow> GetAsync(Guid id)
+        public Flow Get(Guid id)
         {
-            var entity = await dbContext.Flows.FindAsync(id);
-            var flow = JsonSerializer.Deserialize<Flow>(entity.Body);
+            var flow = (from _flow in dbContext.Flows
+                join _flowUser in dbContext.FlowUsers
+                on _flow.Id equals _flowUser.FlowId
+                where _flow.Id == id && _flowUser.UserId == userId
+                select DeserializeFlow(_flow.Body))
+                .SingleOrDefault();
 
             return flow;
         }
 
-        public async Task<Guid> CreateAsync(Flow flow)
+        public Guid Create(Flow flow)
         {
             flow.Id = Guid.NewGuid();
 
@@ -71,29 +67,46 @@ namespace Automaton.Studio.Server.Services
 
             dbContext.FlowUsers.Add(flowUser);
 
-            await dbContext.SaveChangesAsync();
+            dbContext.SaveChanges();
 
             return flowEntity.Id;
         }
 
-        public async Task UpdateAsync(Guid id, Flow flow)
+        public void Update(Guid id, Flow flow)
         {
-            var existingFlow = await dbContext.Flows.FindAsync(id);
+            var flowEntity = GetFlowEntity(id);
+            flowEntity.Name = flow.Name;
+            flowEntity.Body = JsonSerializer.Serialize(flow);
+            flowEntity.Updated = DateTime.UtcNow;
 
-            existingFlow.Name = flow.Name;
-            existingFlow.Body = JsonSerializer.Serialize(flow);
-            existingFlow.Updated = DateTime.UtcNow;
-
-            await dbContext.SaveChangesAsync();
+            dbContext.SaveChanges();
         }
 
-        public async Task RemoveAsync(Guid id)
+        public void Remove(Guid id)
         {
-            var flow = await dbContext.Flows.FindAsync(id);
+            var flow = GetFlowEntity(id);
 
             dbContext.Flows.Remove(flow);
 
-            await dbContext.SaveChangesAsync();
+            dbContext.SaveChanges();
+        }
+
+        private static Flow DeserializeFlow(string jsonFlow)
+        {
+            var flow = JsonSerializer.Deserialize<Flow>(jsonFlow);
+
+            return flow;
+        }
+
+        private Entities.Flow GetFlowEntity(Guid id)
+        {
+            var flow = (from _flow in dbContext.Flows
+                join _flowUser in dbContext.FlowUsers
+                on _flow.Id equals _flowUser.FlowId
+                where _flow.Id == id && _flowUser.UserId == userId
+                select _flow).SingleOrDefault();
+
+            return flow;
         }
     }
 }
