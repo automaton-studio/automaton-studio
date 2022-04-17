@@ -1,10 +1,8 @@
 using Automaton.Studio.Config;
-using Automaton.Studio.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
-using System.Reflection;
 using System.Windows;
 
 namespace Automaton.Studio.Desktop
@@ -36,9 +34,7 @@ namespace Automaton.Studio.Desktop
             // Application
             services.AddBlazorWebView();
             services.AddAntDesign();
-            services.AddSingleton(service => new ConfigService(Configuration));
             services.AddStudio(Configuration);
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             // Main window
             services.AddSingleton<AppState>(AppState);
