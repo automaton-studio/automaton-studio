@@ -6,7 +6,7 @@ namespace Automaton.Studio.ViewModels
     public interface ILoginViewModel
     {
         LoginModel Model { get; set; }
-        Task Login();
+        Task<bool> Login();
     }
 }
     

@@ -1,35 +1,29 @@
-﻿using AutoMapper;
-using Automaton.Studio.Domain;
-using Automaton.Studio.Models;
+﻿using Automaton.Studio.Models;
 using Automaton.Studio.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.ViewModels
 {
     public class LoginViewModel : ILoginViewModel
     {
-        private readonly IMapper mapper;
-        private ILoginService loginService;
+        private readonly IAuthenticationService authenticationService;
 
         public LoginModel Model { get; set;  }
       
         public LoginViewModel
         (
-            ILoginService loginService,
-            IMapper mapper
+            IAuthenticationService authenticationService
         )
         {
-            this.loginService = loginService;
-            this.mapper = mapper;
+            this.authenticationService = authenticationService;
             this.Model = new LoginModel();
         }
 
-        public Task Login()
+        public async Task<bool> Login()
         {
-            throw new NotImplementedException();
+            var result = await authenticationService.Login(Model);
+
+            return result;
         }
     }
 }
