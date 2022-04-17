@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using System;
 using Automaton.Studio.Services.Interfaces;
+using Automaton.Studio.Services;
 
 namespace Automaton.Studio.AuthProviders
 {
@@ -14,13 +15,18 @@ namespace Automaton.Studio.AuthProviders
         private readonly HttpClient httpClient;
         private readonly ILocalStorageService localStorage;
         private readonly IRefreshTokenService refreshTokenService;
+        private readonly ConfigService configService;
         private readonly AuthenticationState anonymous;
 
-        public AuthStateProvider(HttpClient httpClient, ILocalStorageService localStorage, IRefreshTokenService refreshTokenService)
+        public AuthStateProvider(HttpClient httpClient, 
+            ILocalStorageService localStorage, 
+            IRefreshTokenService refreshTokenService, 
+            ConfigService configService)
         {
             this.httpClient = httpClient;
             this.localStorage = localStorage;
             this.refreshTokenService = refreshTokenService;
+            this.configService = configService;
             this.anonymous = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         }
 
@@ -84,7 +90,10 @@ namespace Automaton.Studio.AuthProviders
             var expTime = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(exp));
             var timeUTC = DateTime.UtcNow;
             var diff = expTime - timeUTC;
-            var token = diff.TotalMinutes <= 2 ? await refreshTokenService.RefreshToken() : authToken;
+
+            var token = diff.TotalMinutes <= configService.RefreshTokenExpirationMinutesCheck ? 
+                await refreshTokenService.RefreshToken() : 
+                authToken;
 
             return token;
         }

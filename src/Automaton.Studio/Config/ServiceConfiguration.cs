@@ -58,7 +58,7 @@ namespace Automaton.Studio.Config
 
             // Other
             services.AddScoped(typeof(DragDropService<>));
-            services.AddSingleton(service => new ConfigService(configuration));
+            services.AddScoped(service => new ConfigService(configuration));
         }
     }
 }
