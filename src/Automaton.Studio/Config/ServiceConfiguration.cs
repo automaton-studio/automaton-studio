@@ -39,9 +39,9 @@ namespace Automaton.Studio.Config
             services.AddScoped<IFlowsService, FlowsService>();
             services.AddScoped<INavMenuService, NavMenuService>();
             services.AddScoped<IWorkflowExecutor, WorkflowExecutor>();
-            services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IRefreshTokenService, RefreshTokenService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IStorageService, LocalStorageService>();       
 
             // ViewModels
             services.AddScoped<FlowsViewModel>();
