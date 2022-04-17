@@ -5,11 +5,6 @@ namespace AuthServer.Core.Commands
 {
     public class RefreshAccessTokenCommand : IRequest<JsonWebToken>
     {
-        public string Token { get; }
-
-        public RefreshAccessTokenCommand(string token)
-        {
-            Token = token;
-        }
+        public string Token { get; set; }
     }
 }

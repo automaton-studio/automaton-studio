@@ -10,7 +10,9 @@ namespace Automaton.Studio.Server.Controllers
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> RefreshAccessToken(RefreshAccessTokenCommand command, CancellationToken ct)
-            => Ok(await Mediator.Send(command, ct));
+        {
+            return Ok(await Mediator.Send(command, ct));
+        }
 
 
         [HttpPost]
