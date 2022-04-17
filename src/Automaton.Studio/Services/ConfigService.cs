@@ -18,6 +18,8 @@ namespace Automaton.Studio.Services
         public bool IsDesktop => AppConfig.IsDesktop;
         public string FlowsUrl => AppConfig.FlowsUrl;
         public string LoginUserUrl => AppConfig.LoginUserUrl;
+        public string RefreshAccessTokenUrl => AppConfig.RefreshAccessTokenUrl;
+        
         public int RefreshTokenExpirationMinutesCheck => AppConfig.RefreshTokenExpirationMinutesCheck;
 
         #endregion

@@ -14,8 +14,6 @@ namespace Automaton.Studio.Pages
         [Inject] private NavigationManager NavigationManager { get; set; } = default!;
         [Inject] private ILoginViewModel LoginViewModel { get; set; } = default!;
         [Inject] public INavMenuService NavMenuService { get; set; }
-        [Inject] public IAuthenticationService AuthenticationService { get; set; }
-
 
         public LoginModel Model => LoginViewModel.Model;
 
@@ -26,7 +24,7 @@ namespace Automaton.Studio.Pages
 
         private async Task OnFinish(EditContext editContext)
         {
-            var result = await AuthenticationService.Login(Model);
+            var result = await LoginViewModel.Login();
 
             if (result)
             {

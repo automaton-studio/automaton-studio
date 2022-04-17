@@ -6,7 +6,6 @@ namespace Automaton.Studio.Services.Interfaces
     public interface IAuthenticationService
     {
         Task<bool> Login(LoginModel userCredentials);
-        Task<string> RefreshToken();
         Task Logout();
     }
 }

@@ -17,13 +17,13 @@ namespace Automaton.Studio.AuthProviders
         private const string ClaimJwtAuthType = "jwtAuthType";
 
         private readonly HttpClient httpClient;
-        private readonly ILocalStorageService localStorage;
+        private readonly IStorageService localStorage;
         private readonly IRefreshTokenService refreshTokenService;
         private readonly ConfigService configService;
         private readonly AuthenticationState anonymous;
 
         public AuthStateProvider(HttpClient httpClient, 
-            ILocalStorageService localStorage, 
+            IStorageService localStorage, 
             IRefreshTokenService refreshTokenService, 
             ConfigService configService)
         {
@@ -57,14 +57,14 @@ namespace Automaton.Studio.AuthProviders
             }
             catch
             {
-                // 1. The following error is triggered first time the application is accessed:
+                // The following error is triggered first time the application is accessed:
 
                 // "JavaScript interop calls cannot be issued at this time.
                 // This is because the component is being statically rendered.
                 // When prerendering is enabled, JavaScript interop calls can only
                 // be performed during the OnAfterRenderAsync lifecycle method."
 
-                // 2. If any other exception is triggered, return anonymous
+                // No matter what other exceptions may be triggered, always return anonymous.
 
                 return anonymous;
             }
@@ -87,7 +87,8 @@ namespace Automaton.Studio.AuthProviders
 
         private async Task<string> GetAuthToken()
         {
-            var authToken = await localStorage.GetItemAsync<string>("authToken");
+            var authToken = await localStorage.GetAuthToken();
+
             var claims = JwtParser.ParseClaimsFromJwt(authToken);
             var claimsIdentity = new ClaimsIdentity(claims, ClaimJwtAuthType);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
