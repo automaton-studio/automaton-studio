@@ -2,6 +2,8 @@
 using Automaton.Studio.Components.Explorer.FlowExplorer;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Factories;
+using Automaton.Studio.Models;
+using Automaton.Studio.Pages.Login;
 using System;
 using System.Collections.Generic;
 
@@ -29,7 +31,9 @@ namespace Automaton.Studio.Config
                 )
                 .AfterMap((source, target) => DefinitionCreated(source, target));
 
-            CreateMap<Definition, FlowExplorerDefinition>();           
+            CreateMap<Definition, FlowExplorerDefinition>();
+
+            CreateMap<LoginModel, LoginCredentials>();
         }
 
         private static void FlowCreated(Dto.Flow source, Flow target)

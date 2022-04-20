@@ -123,6 +123,12 @@
   <data name="NameRequired" xml:space="preserve">
     <value>Name is required</value>
   </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Password is required</value>
+  </data>
+  <data name="UserNameRequired" xml:space="preserve">
+    <value>User name is required</value>
+  </data>
   <data name="VariableNameExists" xml:space="preserve">
     <value>Variable name already exists</value>
   </data>

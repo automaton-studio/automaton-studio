@@ -1,0 +1,53 @@
+﻿@attribute [AllowAnonymous]
+@page "/login"
+
+@using AntDesign
+@using Blazored.FluentValidation
+
+<Layout>
+    <Content Class="login">
+        <Form Loading="loading" 
+            Model="@Model"
+            Layout="@FormLayout.Vertical"
+            OnFinish="OnFinish"
+            OnFinishFailed="OnFinishFailed">
+
+            <Validator>
+                <FluentValidationValidator @ref="fluentValidator" />
+                @*We don't need a validation summary here because all validation is related to the Name field*@
+                @*<ValidationSummary />*@
+            </Validator>
+
+            <ChildContent>
+                <FormItem Label="Username">
+                    <Input @bind-Value="@context.UserName" />
+                </FormItem>
+                <FormItem Label="Password">
+                    <InputPassword @bind-Value="@context.Password" />
+                </FormItem>
+                <FormItem WrapperColSpan="16">
+                    <Checkbox @bind-Value="context.RememberMe">Remember me</Checkbox>
+                </FormItem>
+                <FormItem WrapperColSpan="16">
+                    <Button Type="@ButtonType.Primary" HtmlType="submit">
+                        Submit
+                    </Button>
+                </FormItem>
+            </ChildContent>
+
+        </Form>
+    </Content>
+</Layout>
+
+<style>
+    .login {
+        position:absolute;
+        left:50%;
+        top:50%;
+        margin:-120px 0 0 -80px;
+    }
+</style>
+
+
+
+

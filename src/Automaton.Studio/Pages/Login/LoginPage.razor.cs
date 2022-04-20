@@ -1,21 +1,22 @@
-﻿using Automaton.Studio.Models;
+﻿using Automaton.Studio.Pages.Login;
 using Automaton.Studio.Services.Interfaces;
-using Automaton.Studio.ViewModels;
+using Blazored.FluentValidation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages
+namespace Automaton.Studio.Pages.Login
 {
     partial class LoginPage : ComponentBase
     {
-        private bool loading = false;
+        private readonly bool loading = false;
+        private FluentValidationValidator fluentValidator;
 
         [Inject] private NavigationManager NavigationManager { get; set; } = default!;
         [Inject] private ILoginViewModel LoginViewModel { get; set; } = default!;
         [Inject] public INavMenuService NavMenuService { get; set; }
 
-        public LoginModel Model => LoginViewModel.Model;
+        public LoginModel Model => LoginViewModel.LoginModel;
 
         protected override async Task OnInitializedAsync()
         {
@@ -34,7 +35,6 @@ namespace Automaton.Studio.Pages
 
         private void OnFinishFailed(EditContext editContext)
         {
-            
         }
     }
 }

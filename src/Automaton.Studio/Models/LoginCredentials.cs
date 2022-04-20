@@ -2,7 +2,7 @@
 
 namespace Automaton.Studio.Models
 {
-    public class LoginModel
+    public class LoginCredentials
     {
         [Required]
         public string UserName { get; set; }

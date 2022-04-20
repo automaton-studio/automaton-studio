@@ -33,9 +33,9 @@ namespace Automaton.Studio.Services
             _localStorage = localStorage;
         }
 
-        public async Task<bool> Login(LoginModel userCredentials)
+        public async Task<bool> Login(LoginCredentials loginCredentials)
         {
-            var content = JsonSerializer.Serialize(userCredentials);
+            var content = JsonSerializer.Serialize(loginCredentials);
             var bodyContent = new StringContent(content, Encoding.UTF8, ApplicationJson);
 
             var result = await _client.PostAsync(_configService.LoginUserUrl, bodyContent);
