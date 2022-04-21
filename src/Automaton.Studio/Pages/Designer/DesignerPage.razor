@@ -1,9 +1,9 @@
 ﻿@page "/designer"
 @page "/designer/{FlowId}"
 @using AntDesign
-@using Automaton.Studio.Components
-@using Automaton.Studio.Components.Explorer.FlowExplorer
-@using Automaton.Studio.Components.Explorer.StepExplorer
+@using Automaton.Studio.Pages.Designer.Components.FlowExplorer
+@using Automaton.Studio.Pages.Designer.Components.StepExplorer
+@using Automaton.Studio.Pages.Designer.Components;
 @using Automaton.Studio.Domain;
 
 <Layout Class="designer-container">
@@ -63,15 +63,17 @@
             {
                 <TabPane Key="@definition.Id" Tab="@definition.Name">
                     <Dropzone Class="dropzone"
-                          @ref="dropzone"
-                          TItem="Domain.Step"
-                          Items="definition.Steps"
-                          InstantReplace="true"
-                          OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
-                          OnItemDrop="@((p)=>OnStepDrop(p))"
-                          OnItemMouseDown="@((p)=>OnStepMouseDown(p))"
-                          OnItemDoubleClick="@((p)=>OnStepDoubleClick(p))">
-                        <StepDropzone Step="@context" />
+                        @ref="dropzone"
+                        TItem="Domain.Step"
+                        Items="definition.Steps"
+                        InstantReplace="true"
+                        OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
+                        OnItemDrop="@((p)=>OnStepDrop(p))"
+                        OnItemMouseDown="@((p)=>OnStepMouseDown(p))"
+                        OnItemDoubleClick="@((p)=>OnStepDoubleClick(p))">
+
+                        <DropzoneStep Step="@context" />
+
                     </Dropzone>
                 </TabPane>
             }

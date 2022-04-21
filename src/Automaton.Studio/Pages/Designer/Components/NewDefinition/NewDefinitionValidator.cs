@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using System.Linq;
 
-namespace Automaton.Studio.Components.NewDefinition
+namespace Automaton.Studio.Pages.Designer.Components.NewDefinition
 {
     public class NewDefinitionValidator : AbstractValidator<NewDefinitionModel>
     {

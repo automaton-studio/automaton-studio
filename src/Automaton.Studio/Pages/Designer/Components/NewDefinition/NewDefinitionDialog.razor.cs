@@ -2,7 +2,7 @@
 using Blazored.FluentValidation;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Components.NewDefinition
+namespace Automaton.Studio.Pages.Designer.Components.NewDefinition
 {
     public partial class NewDefinitionDialog : FeedbackComponent<NewDefinitionModel>
     {

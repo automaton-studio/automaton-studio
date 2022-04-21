@@ -1,20 +1,20 @@
 ﻿using AntDesign;
-using Automaton.Studio.Components;
 using Automaton.Studio.Components.Drawer;
-using Automaton.Studio.Components.Explorer.FlowExplorer;
-using Automaton.Studio.Components.NewDefinition;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
+using Automaton.Studio.Pages.Designer.Components;
+using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
+using Automaton.Studio.Pages.Designer.Components.NewDefinition;
 using Automaton.Studio.Resources;
 using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages
+namespace Automaton.Studio.Pages.Designer
 {
-    partial class Designer : ComponentBase
+    partial class DesignerPage : ComponentBase
     {
         private Dropzone<Domain.Step> dropzone;
 

@@ -1,4 +1,4 @@
-﻿namespace Automaton.Studio.Components.Explorer.FlowExplorer
+﻿namespace Automaton.Studio.Pages.Designer.Components.FlowExplorer
 {
     public class FlowExplorerDefinition
     {

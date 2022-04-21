@@ -1,11 +1,11 @@
 ﻿using Automaton.Core.Interfaces;
 using Automaton.Core.Services;
 using Automaton.Studio.AuthProviders;
-using Automaton.Studio.Components.Explorer.FlowExplorer;
-using Automaton.Studio.Components.Explorer.StepExplorer;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Factories;
+using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
+using Automaton.Studio.Pages.Designer.Components.StepExplorer;
 using Automaton.Studio.Pages.Login;
 using Automaton.Studio.Services;
 using Automaton.Studio.Services.Interfaces;

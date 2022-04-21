@@ -3,7 +3,7 @@ using Automaton.Studio.Extensions;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Components
+namespace Automaton.Studio.Steps
 {
     public partial class StepDesigner : ComponentBase
     {

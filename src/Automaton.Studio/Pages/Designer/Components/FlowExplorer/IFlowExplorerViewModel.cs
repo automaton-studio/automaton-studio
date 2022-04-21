@@ -1,7 +1,7 @@
 ﻿using Automaton.Studio.Domain;
 using System.Collections.Generic;
 
-namespace Automaton.Studio.Components.Explorer.FlowExplorer
+namespace Automaton.Studio.Pages.Designer.Components.FlowExplorer
 {
     public interface IFlowExplorerViewModel
     {

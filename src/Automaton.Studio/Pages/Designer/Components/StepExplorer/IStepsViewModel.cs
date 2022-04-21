@@ -3,7 +3,7 @@ using Automaton.Studio.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace Automaton.Studio.Components.Explorer.StepExplorer
+namespace Automaton.Studio.Pages.Designer.Components.StepExplorer
 {
     public interface IStepsViewModel
     {

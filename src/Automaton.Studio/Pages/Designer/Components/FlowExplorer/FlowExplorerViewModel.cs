@@ -3,7 +3,7 @@ using Automaton.Studio.Domain;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Automaton.Studio.Components.Explorer.FlowExplorer
+namespace Automaton.Studio.Pages.Designer.Components.FlowExplorer
 {
     public class FlowExplorerViewModel : IFlowExplorerViewModel
     {

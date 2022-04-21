@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Components.Rendering;
 using System;
 using Automaton.Studio.Domain;
 
-namespace Automaton.Studio.Components
+namespace Automaton.Studio.Pages.Designer.Components
 {
-    public class StepDropzone : ComponentBase
+    public class DropzoneStep : ComponentBase
     {
         [Parameter]
         public Step Step { get; set; }

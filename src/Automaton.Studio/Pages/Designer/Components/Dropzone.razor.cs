@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Automaton.Studio.Components
+namespace Automaton.Studio.Pages.Designer.Components
 {
     public partial class Dropzone<TItem> : ComponentBase
     {
@@ -22,7 +22,7 @@ namespace Automaton.Studio.Components
 
             var activeItem = DragDropService.ActiveItem;
             var oldIndex = Items.IndexOf(activeItem);
-            var sameDropZone = false;
+
             if (oldIndex == -1) // item not present in target dropzone
             {
                 if (DragDropService.Items != null)
@@ -30,7 +30,6 @@ namespace Automaton.Studio.Components
             }
             else // same dropzone drop
             {
-                sameDropZone = true;
                 Items.RemoveAt(oldIndex);
                 // the actual index could have shifted due to the removal
                 if (newIndex > oldIndex)

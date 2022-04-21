@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Automaton.Studio.Components.Explorer.StepExplorer
+namespace Automaton.Studio.Pages.Designer.Components.StepExplorer
 {
     public class StepsViewModel : IStepsViewModel, INotifyPropertyChanged
     {
