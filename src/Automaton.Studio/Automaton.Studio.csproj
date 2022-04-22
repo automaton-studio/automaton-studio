@@ -68,11 +68,6 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  
-  <ItemGroup>
-    <Folder Include="Pages\Designer\Components\DesignerDropzone\" />
-  </ItemGroup>
-
  
 
 </Project>

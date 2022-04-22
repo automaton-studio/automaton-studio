@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages
+namespace Automaton.Studio.Pages.Flows
 {
     partial class FlowsPage : ComponentBase
     {

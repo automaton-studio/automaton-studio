@@ -27,11 +27,19 @@
 
     <Content>
         <Table TItem="FlowModel" DataSource="@FlowsViewModel.Flows">
-            <Column Title="Name" @bind-Field="@context.Name" Width="70%">
+            <Column Title="Name" @bind-Field="@context.Name">
                 @context.Name
             </Column>
 
-            <ActionColumn Title="Action" Width="20%">
+            <Column Title="Created" @bind-Field="@context.Created">
+                @context.Created
+            </Column>
+
+            <Column Title="Updated" @bind-Field="@context.Updated">
+                @context.Updated
+            </Column>
+
+            <ActionColumn Title="Action">
                 <div>
                     <Space>
                         <SpaceItem>

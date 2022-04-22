@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Domain;
-using Automaton.Studio.Errors;
-using Automaton.Studio.Models;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -30,24 +27,6 @@ namespace Automaton.Studio.Services.Interfaces
             this.configService = configService;
             this.httpClient = httpClient;
             this.mapper = mapper;
-        }
-
-        public async Task<IEnumerable<FlowModel>> List()
-        {
-            try
-            {
-                var response = await httpClient.GetAsync($"{configService.FlowsUrl}");
-
-                var flows = await response.Content.ReadAsAsync<IEnumerable<FlowModel>>();
-
-                return flows;
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(AppLogEvents.Error, ex, "Failed to load flows list");
-
-                return new List<FlowModel>();
-            }
         }
 
         public async Task<Flow> Load(Guid id)

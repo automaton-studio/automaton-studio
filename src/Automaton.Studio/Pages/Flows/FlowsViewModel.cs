@@ -1,19 +1,17 @@
 ﻿using AutoMapper;
-using Automaton.Studio.Domain;
-using Automaton.Studio.Models;
 using Automaton.Studio.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.ViewModels
+namespace Automaton.Studio.Pages.Flows
 {
     public class FlowsViewModel : IFlowViewModel
     {
         private readonly IMapper mapper;
-        private IFlowsService flowsService;
-        private IFlowService flowService;
+        private readonly IFlowsService flowsService;
+        private readonly IFlowService flowService;
 
         public ICollection<FlowModel> Flows { get; set;  } = new List<FlowModel>();
       
@@ -31,7 +29,9 @@ namespace Automaton.Studio.ViewModels
 
         public async Task GetFlows()
         {
-            Flows = await flowsService.List();
+            var flows = await flowsService.List();
+
+            Flows = mapper.Map<ICollection<FlowModel>>(flows);
         }
 
         public async Task CreateFlow(string name)

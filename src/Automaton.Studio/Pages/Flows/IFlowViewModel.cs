@@ -1,9 +1,8 @@
-﻿using Automaton.Studio.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.ViewModels
+namespace Automaton.Studio.Pages.Flows
 {
     public interface IFlowViewModel
     {

@@ -7,7 +7,6 @@ namespace Automaton.Studio.Server.Services
 {
     public class FlowsService
     {
-
         private readonly ApplicationDbContext dbContext;
         private readonly Guid userId;
 
@@ -21,25 +20,28 @@ namespace Automaton.Studio.Server.Services
             userId = userIdGuid;
         }
 
-        public IEnumerable<Flow> Get()
+        public IEnumerable<Entities.Flow> List()
         {
             var flows = from flow in dbContext.Flows
                 join flowUser in dbContext.FlowUsers
                 on flow.Id equals flowUser.FlowId
                 where flowUser.UserId == userId
-                select DeserializeFlow(flow.Body);
+                select flow;
 
             return flows;
         }
 
         public Flow Get(Guid id)
         {
-            var flow = (from _flow in dbContext.Flows
+            var flow = 
+            (
+                from _flow in dbContext.Flows
                 join _flowUser in dbContext.FlowUsers
                 on _flow.Id equals _flowUser.FlowId
                 where _flow.Id == id && _flowUser.UserId == userId
-                select DeserializeFlow(_flow.Body))
-                .SingleOrDefault();
+                select DeserializeFlow(_flow.Body)
+            )
+            .SingleOrDefault();
 
             return flow;
         }
@@ -91,20 +93,24 @@ namespace Automaton.Studio.Server.Services
             dbContext.SaveChanges();
         }
 
-        private static Flow DeserializeFlow(string jsonFlow)
+        private static Flow DeserializeFlow(string flowBody)
         {
-            var flow = JsonSerializer.Deserialize<Flow>(jsonFlow);
+            var flow = JsonSerializer.Deserialize<Flow>(flowBody);
 
             return flow;
         }
 
         private Entities.Flow GetFlowEntity(Guid id)
         {
-            var flow = (from _flow in dbContext.Flows
+            var flow = 
+            (
+                from _flow in dbContext.Flows
                 join _flowUser in dbContext.FlowUsers
                 on _flow.Id equals _flowUser.FlowId
                 where _flow.Id == id && _flowUser.UserId == userId
-                select _flow).SingleOrDefault();
+                select _flow
+            )
+            .SingleOrDefault();
 
             return flow;
         }

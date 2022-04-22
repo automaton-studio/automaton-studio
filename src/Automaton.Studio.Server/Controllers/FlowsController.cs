@@ -29,9 +29,9 @@ namespace Automaton.Studio.Server.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Flow> Get()
+        public IEnumerable<Entities.Flow> Get()
         {
-            return flowsService.Get();
+            return flowsService.List();
         }
 
         [HttpGet("{id}")]

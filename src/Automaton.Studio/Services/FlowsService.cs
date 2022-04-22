@@ -30,7 +30,7 @@ namespace Automaton.Studio.Services.Interfaces
             this.mapper = mapper;
         }
 
-        public async Task<ICollection<FlowModel>> List()
+        public async Task<ICollection<FlowDetails>> List()
         {
             try
             {
@@ -38,7 +38,7 @@ namespace Automaton.Studio.Services.Interfaces
 
                 result.EnsureSuccessStatusCode();
 
-                var flows = await result.Content.ReadAsAsync<ICollection<FlowModel>>();
+                var flows = await result.Content.ReadAsAsync<ICollection<FlowDetails>>();
 
                 return flows;
             }
