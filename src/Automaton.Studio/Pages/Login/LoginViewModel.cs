@@ -11,7 +11,7 @@ namespace Automaton.Studio.Pages.Login
         private readonly IMapper mapper;
         private readonly AuthenticationService authenticationService;
 
-        public LoginModel LoginModel { get; set;  } = new LoginModel();
+        public LoginModel LoginCredentials { get; set;  } = new LoginModel();
         public Dictionary<string, List<string>> Errors { get; set; } = new Dictionary<string, List<string>>();
 
         public LoginViewModel
@@ -28,8 +28,8 @@ namespace Automaton.Studio.Pages.Login
         {
             ClearErrors();
 
-            var loginDetails = mapper.Map<LoginCredentials>(LoginModel);
-            var result = await authenticationService.Login(loginDetails);
+            var loginCredentials = mapper.Map<LoginCredentials>(LoginCredentials);
+            var result = await authenticationService.Login(loginCredentials);
 
             if (!result)
             {

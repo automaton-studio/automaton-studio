@@ -15,7 +15,7 @@ namespace Automaton.Studio.Pages.Login
         [Inject] private LoginViewModel LoginViewModel { get; set; } = default!;
         [Inject] public NavMenuService NavMenuService { get; set; }
 
-        public LoginModel Model => LoginViewModel.LoginModel;
+        public LoginModel Model => LoginViewModel.LoginCredentials;
 
         protected override async Task OnInitializedAsync()
         {
