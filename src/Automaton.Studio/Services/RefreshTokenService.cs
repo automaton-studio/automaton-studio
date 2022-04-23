@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services
 {
-    public class RefreshTokenService : IRefreshTokenService
+    public class RefreshTokenService
     {
         private const string Bearer = "bearer";
         private const string ApplicationJson = "application/json";
@@ -17,11 +17,11 @@ namespace Automaton.Studio.Services
         private readonly HttpClient _client;
         private readonly JsonSerializerOptions _options;
         private readonly ConfigService _configService;
-        private readonly IStorageService _localStorage;
+        private readonly LocalStorageService _localStorage;
 
         public RefreshTokenService(HttpClient client, 
             ConfigService configService,
-            IStorageService localStorage)
+            LocalStorageService localStorage)
         {
             _client = client;
             _options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };

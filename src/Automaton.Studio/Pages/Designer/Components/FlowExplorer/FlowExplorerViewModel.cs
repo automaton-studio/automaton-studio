@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Automaton.Studio.Pages.Designer.Components.FlowExplorer
 {
-    public class FlowExplorerViewModel : IFlowExplorerViewModel
+    public class FlowExplorerViewModel
     {
         private Flow flow;
         private readonly IMapper mapper;

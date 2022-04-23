@@ -1,21 +1,21 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Models;
-using Automaton.Studio.Services.Interfaces;
+using Automaton.Studio.Services;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Login
 {
-    public class LoginViewModel : ILoginViewModel
+    public class LoginViewModel
     {
         private readonly IMapper mapper;
-        private readonly IAuthenticationService authenticationService;
+        private readonly AuthenticationService authenticationService;
 
         public LoginModel LoginModel { get; set;  }
       
         public LoginViewModel
         (
             IMapper mapper,
-            IAuthenticationService authenticationService
+            AuthenticationService authenticationService
         )
         {
             this.mapper = mapper;

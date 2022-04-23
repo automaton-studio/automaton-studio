@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services.Interfaces
 {
-    public class FlowsService : IFlowsService
+    public class FlowsService
     {
         private HttpClient httpClient;
         private readonly ConfigService configService;

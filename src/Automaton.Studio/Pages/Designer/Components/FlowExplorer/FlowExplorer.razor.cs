@@ -23,7 +23,7 @@ namespace Automaton.Studio.Pages.Designer.Components.FlowExplorer
         private Flow Flow { get; set; }
 
         [Inject]
-        private IFlowExplorerViewModel FlowExplorerViewModel { get; set; }
+        private FlowExplorerViewModel FlowExplorerViewModel { get; set; }
 
         [Inject]
         private ModalService ModalService { get; set; }

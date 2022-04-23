@@ -11,7 +11,7 @@ using System.Linq.Expressions;
 
 namespace Automaton.Studio.Services
 {
-    public class FlowConvertService : IFlowConvertService
+    public class FlowConvertService
     {
         private readonly IServiceProvider serviceProvider;
 

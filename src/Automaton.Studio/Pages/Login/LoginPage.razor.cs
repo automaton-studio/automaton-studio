@@ -1,5 +1,4 @@
-﻿using Automaton.Studio.Pages.Login;
-using Automaton.Studio.Services.Interfaces;
+﻿using Automaton.Studio.Services;
 using Blazored.FluentValidation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -13,8 +12,8 @@ namespace Automaton.Studio.Pages.Login
         private FluentValidationValidator fluentValidator;
 
         [Inject] private NavigationManager NavigationManager { get; set; } = default!;
-        [Inject] private ILoginViewModel LoginViewModel { get; set; } = default!;
-        [Inject] public INavMenuService NavMenuService { get; set; }
+        [Inject] private LoginViewModel LoginViewModel { get; set; } = default!;
+        [Inject] public NavMenuService NavMenuService { get; set; }
 
         public LoginModel Model => LoginViewModel.LoginModel;
 

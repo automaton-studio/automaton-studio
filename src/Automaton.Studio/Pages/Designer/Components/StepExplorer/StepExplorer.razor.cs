@@ -8,7 +8,7 @@ namespace Automaton.Studio.Pages.Designer.Components.StepExplorer
     partial class StepExplorer : ComponentBase
     {
         [Inject] 
-        private IStepsViewModel StepsViewModel { get; set; } = default!;
+        private StepsViewModel StepsViewModel { get; set; } = default!;
 
         private string searchText { get; set; }
 

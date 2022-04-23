@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services.Interfaces
 {
-    public class LocalStorageService : IStorageService
+    public class LocalStorageService
     {
         private const string AuthToken = "authToken";
         private const string RefreshToken = "refreshToken";

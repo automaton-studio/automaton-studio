@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services
 {
-    public class AuthenticationService : IAuthenticationService
+    public class AuthenticationService
     {
         private const string Bearer = "bearer";
         private const string ApplicationJson = "application/json";
@@ -19,12 +19,12 @@ namespace Automaton.Studio.Services
         private readonly JsonSerializerOptions _options;
         private readonly AuthenticationStateProvider _authStateProvider;
         private readonly ConfigService _configService;
-        private readonly IStorageService _localStorage;
+        private readonly LocalStorageService _localStorage;
 
         public AuthenticationService(HttpClient client, 
             AuthenticationStateProvider authStateProvider,
             ConfigService configService,
-            IStorageService localStorage)
+            LocalStorageService localStorage)
         {
             _client = client;
             _options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };

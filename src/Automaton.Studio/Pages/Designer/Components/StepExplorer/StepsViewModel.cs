@@ -2,19 +2,17 @@
 using AutoMapper;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
-using Automaton.Studio.ViewModels;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.Pages.Designer.Components.StepExplorer
 {
-    public class StepsViewModel : IStepsViewModel, INotifyPropertyChanged
+    public class StepsViewModel : INotifyPropertyChanged
     {
         #region Members
 
-        private readonly IDesignerViewModel designerViewModel;
+        private readonly DesignerViewModel designerViewModel;
         private readonly StepFactory stepFactory;
         private readonly IMapper mapper;
 
@@ -37,7 +35,7 @@ namespace Automaton.Studio.Pages.Designer.Components.StepExplorer
         #endregion
 
         public StepsViewModel(
-            IDesignerViewModel designerViewModel,
+            DesignerViewModel designerViewModel,
             StepFactory stepFactory,
             IMapper mapper)
         {

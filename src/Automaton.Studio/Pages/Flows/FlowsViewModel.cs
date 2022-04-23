@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Flows
 {
-    public class FlowsViewModel : IFlowViewModel
+    public class FlowsViewModel
     {
         private readonly IMapper mapper;
-        private readonly IFlowsService flowsService;
-        private readonly IFlowService flowService;
+        private readonly FlowsService flowsService;
+        private readonly FlowService flowService;
 
         public ICollection<FlowModel> Flows { get; set;  } = new List<FlowModel>();
       
         public FlowsViewModel
         (
-            IFlowsService flowsService,
-            IFlowService flowService,
+            FlowsService flowsService,
+            FlowService flowService,
             IMapper mapper
         )
         {

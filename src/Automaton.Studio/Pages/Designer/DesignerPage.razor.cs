@@ -7,7 +7,6 @@ using Automaton.Studio.Pages.Designer.Components;
 using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
 using Automaton.Studio.Pages.Designer.Components.NewDefinition;
 using Automaton.Studio.Resources;
-using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Threading.Tasks;
@@ -24,10 +23,10 @@ namespace Automaton.Studio.Pages.Designer
         private ModalService ModalService { get; set; } = default!;
 
         [Inject]
-        private IDesignerViewModel DesignerViewModel { get; set; } = default!;
+        private DesignerViewModel DesignerViewModel { get; set; } = default!;
 
         [Inject]
-        private IFlowExplorerViewModel FlowExplorerViewModel { get; set; } = default!;
+        private FlowExplorerViewModel FlowExplorerViewModel { get; set; } = default!;
 
         [Inject]
         private DrawerService DrawerService { get; set; } = default!;

@@ -1,4 +1,4 @@
-﻿@using Automaton.Studio.Services.Interfaces
+﻿@using Automaton.Studio.Services
 
 <Menu Mode=MenuMode.Inline Theme=MenuTheme.Light Selectable=true DefaultSelectedKeys=@(new[]{"1"})>
     <MenuItem Key="1" Icon="profile" RouterLink="/"> 
@@ -11,6 +11,6 @@
 
 @code
 {
-    [Inject] public INavMenuService NavMenuService { get; set; }
+    [Inject] public NavMenuService NavMenuService { get; set; }
 }
 

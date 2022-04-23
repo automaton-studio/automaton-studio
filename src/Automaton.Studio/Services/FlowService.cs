@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services.Interfaces
 {
-    public class FlowService : IFlowService
+    public class FlowService
     {
         private readonly HttpClient httpClient;
         private readonly ConfigService configService;
@@ -17,7 +17,7 @@ namespace Automaton.Studio.Services.Interfaces
         public FlowService
         (
             ConfigService configService,
-            IFlowConvertService flowConverterService,
+            FlowConvertService flowConverterService,
             IMapper mapper,
             HttpClient httpClient,
             ILogger<FlowService> logger

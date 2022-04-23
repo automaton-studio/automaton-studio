@@ -11,14 +11,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.ViewModels
+namespace Automaton.Studio.Pages.Designer
 {
-    public class DesignerViewModel : IDesignerViewModel
+    public class DesignerViewModel
     {
         private readonly IMapper mapper;
         private readonly StepFactory stepFactory;
-        private readonly IFlowService flowService;
-        private readonly IFlowConvertService flowConvertService;
+        private readonly FlowService flowService;
+        private readonly FlowConvertService flowConvertService;
         private readonly IWorkflowExecutor workflowExecutor;
         private Definition activeDefinition;
 
@@ -54,8 +54,8 @@ namespace Automaton.Studio.ViewModels
         (
             IMapper mapper,
             StepFactory stepFactory,
-            IFlowService solutionService,
-            IFlowConvertService flowConvertService,
+            FlowService solutionService,
+            FlowConvertService flowConvertService,
             IWorkflowExecutor workflowExecutor
         )
         {

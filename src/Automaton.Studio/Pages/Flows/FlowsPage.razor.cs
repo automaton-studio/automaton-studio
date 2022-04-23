@@ -1,8 +1,7 @@
 ﻿using AntDesign;
 using Automaton.Studio.Components.NewFlow;
-using Automaton.Studio.Models;
+using Automaton.Studio.Services;
 using Automaton.Studio.Services.Interfaces;
-using Automaton.Studio.ViewModels;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Threading.Tasks;
@@ -12,10 +11,10 @@ namespace Automaton.Studio.Pages.Flows
     partial class FlowsPage : ComponentBase
     {
         [Inject] private NavigationManager NavigationManager { get; set; } = default!;
-        [Inject] private IFlowViewModel FlowsViewModel { get; set; } = default!;
+        [Inject] private FlowsViewModel FlowsViewModel { get; set; } = default!;
         [Inject] private ModalService ModalService { get; set; }
         [Inject] private MessageService MessageService { get; set; }
-        [Inject] public INavMenuService NavMenuService { get; set; }
+        [Inject] public NavMenuService NavMenuService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
