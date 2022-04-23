@@ -39,11 +39,12 @@ namespace Automaton.Studio.Services
             var bodyContent = new StringContent(content, Encoding.UTF8, ApplicationJson);
 
             var result = await _client.PostAsync(_configService.LoginUserUrl, bodyContent);
-            var jsonToken = await result.Content.ReadAsStringAsync();
-            var token = JsonSerializer.Deserialize<JsonWebToken>(jsonToken, _options);
 
             if (!result.IsSuccessStatusCode)
                 return false;
+
+            var jsonToken = await result.Content.ReadAsStringAsync();
+            var token = JsonSerializer.Deserialize<JsonWebToken>(jsonToken, _options);
 
             await _localStorage.SetAuthAndRefreshTokens(token);
 

@@ -1,5 +1,5 @@
-﻿using Automaton.Studio.Services;
-using Blazored.FluentValidation;
+﻿using Automaton.Studio.Components;
+using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ namespace Automaton.Studio.Pages.Login
     partial class LoginPage : ComponentBase
     {
         private readonly bool loading = false;
-        private FluentValidationValidator fluentValidator;
+        private ServerSideValidator serverSideValidator;
 
         [Inject] private NavigationManager NavigationManager { get; set; } = default!;
         [Inject] private LoginViewModel LoginViewModel { get; set; } = default!;
@@ -24,16 +24,19 @@ namespace Automaton.Studio.Pages.Login
 
         private async Task OnFinish(EditContext editContext)
         {
-            var result = await LoginViewModel.Login();
+            var success = await LoginViewModel.Login();
 
-            if (result)
+            if (success)
             {
                 NavigationManager.NavigateTo($"/");
             }
+
+            serverSideValidator.DisplayErrors(LoginViewModel.Errors);
         }
 
         private void OnFinishFailed(EditContext editContext)
         {
+            // Do nothing if form validation fails
         }
     }
 }

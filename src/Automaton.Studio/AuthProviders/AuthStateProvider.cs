@@ -87,8 +87,7 @@ namespace Automaton.Studio.AuthProviders
 
         private async Task<string> GetAuthToken()
         {
-            var authToken = await localStorage.GetAuthToken();
-
+            var authToken = await localStorage.GetAuthToken()??string.Empty;
             var claims = JwtParser.ParseClaimsFromJwt(authToken);
             var claimsIdentity = new ClaimsIdentity(claims, ClaimJwtAuthType);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);

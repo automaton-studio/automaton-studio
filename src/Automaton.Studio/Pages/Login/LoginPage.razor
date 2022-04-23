@@ -2,6 +2,7 @@
 @page "/login"
 
 @using AntDesign
+@using Automaton.Studio.Components
 @using Blazored.FluentValidation
 
 <Layout>
@@ -13,9 +14,9 @@
             OnFinishFailed="OnFinishFailed">
 
             <Validator>
-                <FluentValidationValidator @ref="fluentValidator" />
-                @*We don't need a validation summary here because all validation is related to the Name field*@
-                @*<ValidationSummary />*@
+                <FluentValidationValidator/>
+                <ServerSideValidator @ref="serverSideValidator"/>
+                <ValidationSummary />
             </Validator>
 
             <ChildContent>
