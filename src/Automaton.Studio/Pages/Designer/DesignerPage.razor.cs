@@ -44,17 +44,7 @@ namespace Automaton.Studio.Pages.Designer
         {
             Guid.TryParse(FlowId, out var flowId);
 
-            if (DesignerViewModel.Flow.Id != flowId)
-            {
-                await DesignerViewModel.LoadFlow(flowId);
-
-                FlowExplorerViewModel.LoadDefinitions(DesignerViewModel.Flow);
-
-                // Setup event handlers after flow is loaded
-                DesignerViewModel.DragStep += OnDragStep;
-                DesignerViewModel.StepAdded += OnStepAdded;
-                DesignerViewModel.StepRemoved += OnStepRemoved;
-            }
+            await LoadFlow(flowId);
 
             await base.OnInitializedAsync();
         }
@@ -126,6 +116,21 @@ namespace Automaton.Studio.Pages.Designer
         }
 
         #endregion
+
+        private async Task LoadFlow(Guid flowId)
+        {
+            if (flowId != Guid.Empty && DesignerViewModel.Flow.Id != flowId)
+            {
+                await DesignerViewModel.LoadFlow(flowId);
+
+                FlowExplorerViewModel.LoadDefinitions(DesignerViewModel.Flow);
+
+                // Setup event handlers after flow is loaded
+                DesignerViewModel.DragStep += OnDragStep;
+                DesignerViewModel.StepAdded += OnStepAdded;
+                DesignerViewModel.StepRemoved += OnStepRemoved;
+            }
+        }
 
         private async Task SaveFlow()
         {
