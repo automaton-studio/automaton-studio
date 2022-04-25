@@ -24,6 +24,8 @@ namespace Automaton.Studio.Pages.Login
 
         private async Task OnFinish(EditContext editContext)
         {
+            serverSideValidator.ClearErrors();
+
             var success = await LoginViewModel.Login();
 
             if (success)
@@ -31,7 +33,11 @@ namespace Automaton.Studio.Pages.Login
                 NavigationManager.NavigateTo($"/");
             }
 
-            serverSideValidator.DisplayErrors(LoginViewModel.Errors);
+            if (!success)
+            {
+                serverSideValidator.AddError(nameof(Resources.Errors.LoginFailed), Resources.Errors.LoginFailed);
+                serverSideValidator.DisplayErrors();
+            }
         }
 
         private void OnFinishFailed(EditContext editContext)

@@ -1,7 +1,6 @@
 ﻿using AntDesign;
 using Automaton.Studio.Components.NewFlow;
 using Automaton.Studio.Services;
-using Automaton.Studio.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Threading.Tasks;
@@ -31,25 +30,24 @@ namespace Automaton.Studio.Pages.Flows
         private void EditFlow(Guid id)
         {
             NavMenuService.EnableDesignerMenu();
+
             NavigationManager.NavigateTo($"designer/{id}");
         }
 
         private async Task DeleteFlow(Guid id)
         {
             await FlowsViewModel.DeleteFlow(id);
+
             StateHasChanged();
         }
 
         private async Task NewFlowDialog()
         {
             var newFlowModel = new NewFlowModel();
+
             var modalRef = await ModalService.CreateModalAsync<NewFlowDialog, NewFlowModel>
             (
-                new ModalOptions
-                {
-                    Title = "New Flow"
-                },
-                newFlowModel
+                new ModalOptions { Title = "New Flow" }, newFlowModel
             );
 
             modalRef.OnOk = async () =>

@@ -43,6 +43,7 @@ namespace AuthServer.Application.Commands.Handlers
         {
             if (string.IsNullOrWhiteSpace(request.UserName) || string.IsNullOrWhiteSpace(request.Password))
                 throw new Exception("Invalid credentials.");
+
             ApplicationUser user = await _userManagerService.GetUserByEmailOrUserName(request.UserName);
 
             if (user == null || await _userManagerService.ValidatePasswordAsync(user, request.Password) == false)

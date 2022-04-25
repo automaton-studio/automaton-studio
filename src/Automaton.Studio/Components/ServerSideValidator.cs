@@ -8,6 +8,7 @@ namespace Automaton.Studio.Components
     public class ServerSideValidator : ComponentBase
     {
         private ValidationMessageStore _messageStore;
+        private Dictionary<string, List<string>> _errors { get; set; } = new Dictionary<string, List<string>>();
 
         [CascadingParameter] EditContext CurrentEditContext { get; set; }
 
@@ -26,14 +27,28 @@ namespace Automaton.Studio.Components
             CurrentEditContext.OnFieldChanged += (s, e) => _messageStore.Clear(e.FieldIdentifier);
         }
 
-        public void DisplayErrors(Dictionary<string, List<string>> errors)
+        public void AddError(string key, string error)
         {
-            foreach (var err in errors)
+            if (!_errors.ContainsKey(key))
             {
-                _messageStore.Add(CurrentEditContext.Field(err.Key), err.Value);
+                _errors.Add(key, new List<string> { error });
+            }
+        }
+
+        public void DisplayErrors()
+        {
+            foreach (var error in _errors)
+            {
+                _messageStore.Add(CurrentEditContext.Field(error.Key), error.Value);
             }
 
             CurrentEditContext.NotifyValidationStateChanged();
+        }
+
+        public void ClearErrors()
+        {
+            _errors.Clear();
+            _messageStore.Clear();
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Login
@@ -12,7 +11,6 @@ namespace Automaton.Studio.Pages.Login
         private readonly AuthenticationService authenticationService;
 
         public LoginModel LoginCredentials { get; set;  } = new LoginModel();
-        public Dictionary<string, List<string>> Errors { get; set; } = new Dictionary<string, List<string>>();
 
         public LoginViewModel
         (
@@ -26,30 +24,10 @@ namespace Automaton.Studio.Pages.Login
 
         public async Task<bool> Login()
         {
-            ClearErrors();
-
             var loginCredentials = mapper.Map<LoginCredentials>(LoginCredentials);
-            var result = await authenticationService.Login(loginCredentials);
+            var success = await authenticationService.Login(loginCredentials);
 
-            if (!result)
-            {
-                AddError(nameof(Resources.Errors.LoginFailed), Resources.Errors.LoginFailed);
-            }
-
-            return result;
-        }
-
-        private void AddError(string key, string error)
-        {
-            if (!Errors.ContainsKey(key))
-            {
-                Errors.Add(key, new List<string> { error });
-            }
-        }
-
-        private void ClearErrors()
-        {
-            Errors.Clear();
+            return success;
         }
     }
 }

@@ -1,15 +1,8 @@
-﻿using Automaton.Studio.Services.Interfaces;
-
-namespace Automaton.Studio.Services
+﻿namespace Automaton.Studio.Services
 {
     public class NavMenuService
     {
         private bool designerDisabled = true;
-
-        public void DisableDesignerMenu()
-        {
-            designerDisabled = true;
-        }
 
         public void EnableDesignerMenu()
         {
