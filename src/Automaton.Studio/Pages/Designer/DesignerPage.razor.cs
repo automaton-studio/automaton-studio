@@ -7,6 +7,7 @@ using Automaton.Studio.Pages.Designer.Components;
 using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
 using Automaton.Studio.Pages.Designer.Components.NewDefinition;
 using Automaton.Studio.Resources;
+using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Threading.Tasks;
@@ -19,17 +20,15 @@ namespace Automaton.Studio.Pages.Designer
 
         #region DI
 
-        [Inject]
-        private ModalService ModalService { get; set; } = default!;
+        [Inject] private ModalService ModalService { get; set; } = default!;
 
-        [Inject]
-        private DesignerViewModel DesignerViewModel { get; set; } = default!;
+        [Inject] private DesignerViewModel DesignerViewModel { get; set; } = default!;
 
-        [Inject]
-        private FlowExplorerViewModel FlowExplorerViewModel { get; set; } = default!;
+        [Inject] private FlowExplorerViewModel FlowExplorerViewModel { get; set; } = default!;
 
-        [Inject]
-        private DrawerService DrawerService { get; set; } = default!;
+        [Inject] private DrawerService DrawerService { get; set; } = default!;
+
+        [Inject] public NavMenuService NavMenuService { get; set; }
 
         #endregion
 

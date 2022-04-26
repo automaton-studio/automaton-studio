@@ -4,6 +4,7 @@ using Automaton.Studio.AuthProviders;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Factories;
+using Automaton.Studio.Pages.Account;
 using Automaton.Studio.Pages.Designer;
 using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
 using Automaton.Studio.Pages.Designer.Components.StepExplorer;
@@ -39,11 +40,11 @@ namespace Automaton.Studio.Config
             services.AddScoped<FlowService>();
             services.AddScoped<FlowConvertService>();
             services.AddScoped<FlowsService>();
-            services.AddScoped<NavMenuService>();
             services.AddScoped<IWorkflowExecutor, WorkflowExecutor>();
             services.AddScoped<RefreshTokenService>();
             services.AddScoped<AuthenticationService>();
-            services.AddScoped<LocalStorageService>();       
+            services.AddScoped<LocalStorageService>();
+            services.AddSingleton<NavMenuService>();
 
             // ViewModels
             services.AddScoped<FlowsViewModel>();
@@ -51,8 +52,9 @@ namespace Automaton.Studio.Config
             services.AddScoped<DesignerViewModel>();
             services.AddScoped<StepsViewModel>();
             services.AddScoped<FlowExplorerViewModel>();
-            services.AddScoped<LoginViewModel, LoginViewModel>();
-            
+            services.AddScoped<LoginViewModel>();
+            services.AddScoped<AccountViewModel>();      
+
             // Steps
             services.AddSingleton<IStepTypeDescriptor, StepTypeDescriptor>();
             services.AddTransient<StepFactory>();

@@ -9,6 +9,11 @@
             designerDisabled = false;
         }
 
+        public void DisableDesignerMenu()
+        {
+            designerDisabled = true;
+        }
+
         public bool IsDesignerDisabled()
         {
             return designerDisabled;

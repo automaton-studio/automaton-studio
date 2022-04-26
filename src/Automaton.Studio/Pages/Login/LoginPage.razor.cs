@@ -13,7 +13,6 @@ namespace Automaton.Studio.Pages.Login
 
         [Inject] private NavigationManager NavigationManager { get; set; } = default!;
         [Inject] private LoginViewModel LoginViewModel { get; set; } = default!;
-        [Inject] public NavMenuService NavMenuService { get; set; }
 
         public LoginModel Model => LoginViewModel.LoginCredentials;
 

@@ -15,6 +15,7 @@ namespace Automaton.Studio.Pages.Flows
         [Inject] private MessageService MessageService { get; set; }
         [Inject] public NavMenuService NavMenuService { get; set; }
 
+
         protected override async Task OnInitializedAsync()
         {
             await FlowsViewModel.GetFlows();
