@@ -1,4 +1,5 @@
-﻿using Automaton.Studio.Components;
+﻿using AntDesign;
+using Automaton.Studio.Components;
 using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -9,10 +10,10 @@ namespace Automaton.Studio.Pages.Login
     partial class LoginPage : ComponentBase
     {
         private readonly bool loading = false;
-        private ServerSideValidator serverSideValidator;
 
         [Inject] private NavigationManager NavigationManager { get; set; } = default!;
         [Inject] private LoginViewModel LoginViewModel { get; set; } = default!;
+        [Inject] private MessageService MessageService { get; set; }
 
         public LoginModel Model => LoginViewModel.LoginCredentials;
 
@@ -23,8 +24,6 @@ namespace Automaton.Studio.Pages.Login
 
         private async Task OnFinish(EditContext editContext)
         {
-            serverSideValidator.ClearErrors();
-
             var success = await LoginViewModel.Login();
 
             if (success)
@@ -34,8 +33,7 @@ namespace Automaton.Studio.Pages.Login
 
             if (!success)
             {
-                serverSideValidator.AddError(nameof(Resources.Errors.LoginFailed), Resources.Errors.LoginFailed);
-                serverSideValidator.DisplayErrors();
+                await MessageService.Error(Resources.Errors.LoginFailed);
             }
         }
 
