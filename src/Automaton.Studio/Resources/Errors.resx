@@ -121,7 +121,7 @@
     <value>Definition name already exists</value>
   </data>
   <data name="LoginFailed" xml:space="preserve">
-    <value>Login failed</value>
+    <value>Invalid login attempt</value>
   </data>
   <data name="NameRequired" xml:space="preserve">
     <value>Name is required</value>

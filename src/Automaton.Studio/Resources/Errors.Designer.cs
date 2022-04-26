@@ -70,7 +70,7 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Login failed.
+        ///   Looks up a localized string similar to Invalid login attempt.
         /// </summary>
         public static string LoginFailed {
             get {
