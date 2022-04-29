@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Automaton.Core.Interfaces;
+using Automaton.Core.Services;
 using Automaton.Studio.Server.Models;
 using Automaton.Studio.Server.Services;
 using Automaton.Studio.Server.Services.Interfaces;
@@ -11,13 +11,13 @@ namespace Automaton.Studio.Server.Controllers
     {
         private readonly IMapper mapper;
         private readonly IFlowLoader definitionLoader;
-        private readonly IWorkflowExecutor workflowExecutor;
+        private readonly WorkflowExecutor workflowExecutor;
         private readonly FlowsService flowsService;
 
         public FlowsController
         (
             FlowsService flowsService,
-            IWorkflowExecutor workflowExecutor,
+            WorkflowExecutor workflowExecutor,
             IFlowLoader definitionLoader,
             IMapper mapper
         )

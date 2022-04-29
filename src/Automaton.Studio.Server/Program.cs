@@ -66,7 +66,7 @@ builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 builder.Services.AddSteps();
-builder.Services.AddWorkflow();
+builder.Services.AddAutomatonCore();
 
 var app = builder.Build();
 
