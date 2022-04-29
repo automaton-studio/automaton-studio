@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Automaton.Studio.Components.NewVariable
+namespace Automaton.Studio.Pages.Designer.Components.NewVariable
 {
     public class VariableModel
     {

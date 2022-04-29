@@ -1,10 +1,9 @@
-﻿using Automaton.Core.Interfaces;
-using Automaton.Core.Models;
+﻿using Automaton.Core.Models;
 using Microsoft.Extensions.Logging;
 
 namespace Automaton.Core.Services
 {
-    public class WorkflowExecutor : IWorkflowExecutor
+    public class WorkflowExecutor
     {
         protected readonly ILogger _logger;
         protected readonly IServiceProvider _serviceProvider;
@@ -51,6 +50,11 @@ namespace Automaton.Core.Services
             }
 
             return result;
+        }
+
+        public async Task<WorkflowExecutorResult> Execute(Guid workflowId, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
 
         private async Task ExecuteStep(StepExecutionContext context, WorkflowExecutorResult result)

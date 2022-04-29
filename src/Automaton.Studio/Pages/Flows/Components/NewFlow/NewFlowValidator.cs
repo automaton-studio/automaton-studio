@@ -1,7 +1,6 @@
-﻿using Automaton.Studio.Models;
-using FluentValidation;
+﻿using FluentValidation;
 
-namespace Automaton.Studio.Components.NewFlow
+namespace Automaton.Studio.Pages.Flows.Components.NewFlow
 {
     public class NewFlowValidator : AbstractValidator<NewFlowModel>
     {

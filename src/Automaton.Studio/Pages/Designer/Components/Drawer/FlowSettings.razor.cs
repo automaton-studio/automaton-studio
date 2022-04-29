@@ -1,20 +1,15 @@
 ﻿
 using AntDesign;
-using AutoMapper;
 using Automaton.Studio.Domain;
 using Blazored.FluentValidation;
-using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Components.Drawer
+namespace Automaton.Studio.Pages.Designer.Components.Drawer
 {
     public partial class FlowSettings
     {
         private Flow flow;
         private FluentValidationValidator fluentValidationValidator;
-
-        [Inject]
-        private IMapper Mapper { get; set; }
 
         protected override async Task OnInitializedAsync()
         {

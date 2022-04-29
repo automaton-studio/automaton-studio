@@ -1,5 +1,5 @@
 ﻿using AntDesign;
-using Automaton.Studio.Components.NewFlow;
+using Automaton.Studio.Pages.Flows.Components.NewFlow;
 using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
 using System;

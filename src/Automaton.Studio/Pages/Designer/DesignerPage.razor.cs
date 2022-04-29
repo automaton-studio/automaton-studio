@@ -1,9 +1,9 @@
 ﻿using AntDesign;
-using Automaton.Studio.Components.Drawer;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Pages.Designer.Components;
+using Automaton.Studio.Pages.Designer.Components.Drawer;
 using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
 using Automaton.Studio.Pages.Designer.Components.NewDefinition;
 using Automaton.Studio.Resources;

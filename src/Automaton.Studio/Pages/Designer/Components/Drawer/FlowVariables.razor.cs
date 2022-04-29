@@ -1,8 +1,7 @@
 ﻿
 using AntDesign;
-using AutoMapper;
-using Automaton.Studio.Components.NewVariable;
 using Automaton.Studio.Domain;
+using Automaton.Studio.Pages.Designer.Components.NewVariable;
 using Automaton.Studio.Resources;
 using Blazored.FluentValidation;
 using Microsoft.AspNetCore.Components;
@@ -11,15 +10,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Components.Drawer
+namespace Automaton.Studio.Pages.Designer.Components.Drawer
 {
     public partial class FlowVariables
     {
         private Flow flow;
         private FluentValidationValidator fluentValidationValidator;
 
-        [Inject]
-        private ModalService ModalService { get; set; } = default!;
+        [Inject] private ModalService ModalService { get; set; } = default!;
 
         private IEnumerable<Variable> Variables
         {

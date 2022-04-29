@@ -1,9 +1,8 @@
 ﻿using AntDesign;
-using Automaton.Studio.Models;
 using Blazored.FluentValidation;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Components.NewFlow
+namespace Automaton.Studio.Pages.Flows.Components.NewFlow
 {
     public partial class NewFlowDialog : FeedbackComponent<NewFlowModel>
     {

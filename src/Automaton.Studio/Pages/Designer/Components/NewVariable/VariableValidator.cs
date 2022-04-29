@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using System.Linq;
 
-namespace Automaton.Studio.Components.NewVariable
+namespace Automaton.Studio.Pages.Designer.Components.NewVariable
 {
     public class VariableValidator : AbstractValidator<VariableModel>
     {

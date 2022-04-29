@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Automaton.Core.Interfaces;
+using Automaton.Core.Services;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
@@ -19,7 +19,7 @@ namespace Automaton.Studio.Pages.Designer
         private readonly StepFactory stepFactory;
         private readonly FlowService flowService;
         private readonly FlowConvertService flowConvertService;
-        private readonly IWorkflowExecutor workflowExecutor;
+        private readonly WorkflowExecutor workflowExecutor;
         private Definition activeDefinition;
 
         public Flow Flow { get; set; }
@@ -56,7 +56,7 @@ namespace Automaton.Studio.Pages.Designer
             StepFactory stepFactory,
             FlowService solutionService,
             FlowConvertService flowConvertService,
-            IWorkflowExecutor workflowExecutor
+            WorkflowExecutor workflowExecutor
         )
         {
             this.mapper = mapper;

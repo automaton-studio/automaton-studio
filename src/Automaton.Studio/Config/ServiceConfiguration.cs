@@ -1,6 +1,4 @@
-﻿using Automaton.Core.Interfaces;
-using Automaton.Core.Services;
-using Automaton.Studio.AuthProviders;
+﻿using Automaton.Studio.AuthProviders;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Factories;
@@ -40,8 +38,6 @@ namespace Automaton.Studio.Config
             services.AddScoped<FlowService>();
             services.AddScoped<FlowConvertService>();
             services.AddScoped<FlowsService>();
-            services.AddScoped<IWorkflowExecutor, WorkflowExecutor>();
-            services.AddScoped<RefreshTokenService>();
             services.AddScoped<AuthenticationService>();
             services.AddScoped<LocalStorageService>();
             services.AddSingleton<NavMenuService>();
@@ -61,6 +57,7 @@ namespace Automaton.Studio.Config
             services.AddSteps();
 
             // Other
+            services.AddAutomatonCore();
             services.AddScoped(typeof(DragDropService<>));
             services.AddScoped(service => new ConfigService(configuration));
         }

@@ -1,13 +1,12 @@
-﻿using Automaton.Core.Interfaces;
-using Automaton.Core.Services;
+﻿using Automaton.Core.Services;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddWorkflow(this IServiceCollection services)
+        public static IServiceCollection AddAutomatonCore(this IServiceCollection services)
         {
-            services.AddTransient<IWorkflowExecutor, WorkflowExecutor>();
+            services.AddTransient<WorkflowExecutor>();
             
             return services;
         }

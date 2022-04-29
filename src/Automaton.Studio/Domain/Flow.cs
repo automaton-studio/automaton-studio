@@ -1,6 +1,4 @@
-﻿using Automaton.Studio.Components.NewVariable;
-using Automaton.Studio.Events;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;

@@ -2,7 +2,7 @@
 using Blazored.FluentValidation;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Components.NewVariable
+namespace Automaton.Studio.Pages.Designer.Components.NewVariable
 {
     public partial class VariableDialog : FeedbackComponent<VariableModel>
     {
