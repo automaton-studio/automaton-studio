@@ -40,6 +40,7 @@ namespace Automaton.Studio.Config
             services.AddScoped<FlowsService>();
             services.AddScoped<AuthenticationService>();
             services.AddScoped<LocalStorageService>();
+            services.AddScoped<RefreshTokenService>();
             services.AddSingleton<NavMenuService>();
 
             // ViewModels
