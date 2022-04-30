@@ -1,12 +1,11 @@
-﻿using Blazored.LocalStorage;
+﻿using Automaton.Studio.Services;
+using Automaton.Studio.Services.Interfaces;
 using Microsoft.AspNetCore.Components.Authorization;
+using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Net.Http.Headers;
-using System;
-using Automaton.Studio.Services.Interfaces;
-using Automaton.Studio.Services;
 
 namespace Automaton.Studio.AuthProviders
 {

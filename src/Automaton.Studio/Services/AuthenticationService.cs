@@ -15,22 +15,22 @@ namespace Automaton.Studio.Services
         private const string Bearer = "bearer";
         private const string ApplicationJson = "application/json";
 
-        private readonly HttpClient _client;
-        private readonly JsonSerializerOptions _options;
-        private readonly AuthenticationStateProvider _authStateProvider;
-        private readonly ConfigService _configService;
-        private readonly LocalStorageService _localStorage;
+        private readonly HttpClient client;
+        private readonly JsonSerializerOptions options;
+        private readonly AuthenticationStateProvider authStateProvider;
+        private readonly ConfigService configService;
+        private readonly LocalStorageService localStorage;
 
         public AuthenticationService(HttpClient client, 
             AuthenticationStateProvider authStateProvider,
             ConfigService configService,
             LocalStorageService localStorage)
         {
-            _client = client;
-            _options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-            _authStateProvider = authStateProvider;
-            _configService = configService;
-            _localStorage = localStorage;
+            this.client = client;
+            this.authStateProvider = authStateProvider;
+            this.configService = configService;
+            this.localStorage = localStorage;
+            this.options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
 
         public async Task<bool> Login(LoginCredentials loginCredentials)
@@ -38,28 +38,28 @@ namespace Automaton.Studio.Services
             var content = JsonSerializer.Serialize(loginCredentials);
             var bodyContent = new StringContent(content, Encoding.UTF8, ApplicationJson);
 
-            var result = await _client.PostAsync(_configService.LoginUserUrl, bodyContent);
+            var result = await client.PostAsync(configService.LoginUserUrl, bodyContent);
 
             if (!result.IsSuccessStatusCode)
                 return false;
 
             var jsonToken = await result.Content.ReadAsStringAsync();
-            var token = JsonSerializer.Deserialize<JsonWebToken>(jsonToken, _options);
+            var token = JsonSerializer.Deserialize<JsonWebToken>(jsonToken, options);
 
-            await _localStorage.SetAuthAndRefreshTokens(token);
+            await localStorage.SetAuthAndRefreshTokens(token);
 
-            ((AuthStateProvider)_authStateProvider).NotifyUserAuthentication(token.AccessToken);
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, token.AccessToken);
+            ((AuthStateProvider)authStateProvider).NotifyUserAuthentication(token.AccessToken);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, token.AccessToken);
             
             return true;
         }
 
         public async Task Logout()
         {
-            await _localStorage.DeleteAuthAndRefreshTokens();
+            await localStorage.DeleteAuthAndRefreshTokens();
 
-            ((AuthStateProvider)_authStateProvider).NotifyUserLogout();
-            _client.DefaultRequestHeaders.Authorization = null;
+            ((AuthStateProvider)authStateProvider).NotifyUserLogout();
+            client.DefaultRequestHeaders.Authorization = null;
         }
     }
 }
