@@ -1,0 +1,26 @@
+﻿<Window x:Class="Automaton.Runner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ViewModels="clr-namespace:Automaton.Runner.ViewModels"
+        mc:Ignorable="d"
+        Title="Automaton Runner"
+        Height="450"
+        Width="380"
+        ResizeMode="NoResize"
+        MouseDown="WindowMouseDown">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <ViewModels:ViewModelLocator x:Key="viewModelLocator" />
+    </Window.Resources>
+
+    <Window.DataContext>
+        <Binding Source="{StaticResource viewModelLocator}" Path="MainWindowViewModel" />
+    </Window.DataContext>
+    
+    <Grid>
+        <Frame x:Name="frame" Source="Controls/LoginControl.xaml" NavigationUIVisibility="Hidden" />
+    </Grid>
+</Window>
