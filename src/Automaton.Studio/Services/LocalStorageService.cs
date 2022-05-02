@@ -1,14 +1,11 @@
-﻿using AutoMapper;
-using Automaton.Studio.Models;
+﻿using Automaton.Client.Auth.Interfaces;
+using Automaton.Client.Auth.Models;
 using Blazored.LocalStorage;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Services.Interfaces
+namespace Automaton.Studio.Services
 {
-    public class LocalStorageService
+    public class LocalStorageService : IStorageService
     {
         private const string AuthToken = "authToken";
         private const string RefreshToken = "refreshToken";

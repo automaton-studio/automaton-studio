@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Automaton.Client.Auth.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Models;

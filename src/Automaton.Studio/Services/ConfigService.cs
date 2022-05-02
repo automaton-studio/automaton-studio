@@ -1,4 +1,4 @@
-﻿using Automaton.Runner.Core.Config;
+﻿using Automaton.Studio.Config;
 using Microsoft.Extensions.Configuration;
 
 namespace Automaton.Studio.Services

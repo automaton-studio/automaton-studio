@@ -26,6 +26,7 @@ namespace Automaton.Studio.Web
             services.AddServerSideBlazor();
             services.AddAntDesign();
             services.AddStudio(Configuration);
+            services.AddStudioAuthenication<LocalStorageService>();
             services.AddSingleton<AppState>();
         }
 

@@ -1,5 +1,4 @@
-﻿using Automaton.Studio.AuthProviders;
-using Automaton.Studio.Domain;
+﻿using Automaton.Studio.Domain;
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Pages.Account;
@@ -11,7 +10,6 @@ using Automaton.Studio.Pages.Login;
 using Automaton.Studio.Services;
 using Automaton.Studio.Services.Interfaces;
 using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -31,16 +29,13 @@ namespace Automaton.Studio.Config
             // Authentication & Authorization
             services.AddBlazoredLocalStorage();
             services.AddAuthorizationCore();
-            services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
             services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(configService.WebApiUrl) });
 
             // Services
             services.AddScoped<FlowService>();
             services.AddScoped<FlowConvertService>();
             services.AddScoped<FlowsService>();
-            services.AddScoped<AuthenticationService>();
             services.AddScoped<LocalStorageService>();
-            services.AddScoped<RefreshTokenService>();
             services.AddSingleton<NavMenuService>();
 
             // ViewModels
