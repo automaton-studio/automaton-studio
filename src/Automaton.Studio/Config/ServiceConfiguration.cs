@@ -30,7 +30,8 @@ namespace Automaton.Studio.Config
             // Authentication & Authorization
             services.AddBlazoredLocalStorage();
             services.AddAuthorizationCore();
-            services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(configService.WebApiUrl) });
+            services.AddAutomatonCore();
+            services.AddStudioAuthenication<LocalStorageService>();
 
             // Services
             services.AddScoped<FlowService>();
@@ -57,7 +58,7 @@ namespace Automaton.Studio.Config
             services.AddScoped<AppConfiguration>();
 
             // Other
-            services.AddAutomatonCore();
+            services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(configService.WebApiUrl) });
             services.AddScoped(typeof(DragDropService<>));
             services.AddScoped(service => new ConfigurationService(configuration));
         }

@@ -36,7 +36,6 @@ namespace Automaton.Studio.Desktop
             services.AddBlazorWebView();
             services.AddAntDesign();
             services.AddStudio(Configuration);
-            services.AddStudioAuthenication<LocalStorageService>();
 
             // Main window
             services.AddSingleton<AppState>(AppState);
