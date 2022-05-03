@@ -1,13 +1,11 @@
-﻿using Automaton.Studio.Services;
-using Automaton.Studio.Services.Interfaces;
+﻿using Automaton.Client.Auth.Interfaces;
+using Automaton.Client.Auth.Jwt;
+using Automaton.Client.Auth.Services;
 using Microsoft.AspNetCore.Components.Authorization;
-using System;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
-namespace Automaton.Studio.AuthProviders
+namespace Automaton.Client.Auth.Providers
 {
     public class AuthStateProvider : AuthenticationStateProvider
     {
@@ -16,15 +14,15 @@ namespace Automaton.Studio.AuthProviders
         private const string ClaimJwtAuthType = "jwtAuthType";
 
         private readonly HttpClient httpClient;
-        private readonly LocalStorageService localStorage;
+        private readonly IStorageService localStorage;
         private readonly RefreshTokenService refreshTokenService;
-        private readonly ConfigService configService;
+        private readonly ConfigurationService configService;
         private readonly AuthenticationState anonymous;
 
         public AuthStateProvider(HttpClient httpClient,
-            LocalStorageService localStorage, 
-            RefreshTokenService refreshTokenService, 
-            ConfigService configService)
+            IStorageService localStorage, 
+            RefreshTokenService refreshTokenService,
+            ConfigurationService configService)
         {
             this.httpClient = httpClient;
             this.localStorage = localStorage;

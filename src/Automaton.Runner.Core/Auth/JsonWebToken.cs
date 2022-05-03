@@ -1,4 +1,4 @@
-﻿namespace Automaton.Studio.Models
+namespace Automaton.Runner.Core
 {
     public class JsonWebToken
     {

@@ -1,4 +1,4 @@
-﻿using Automaton.Studio.Services;
+﻿using Automaton.Client.Auth.Services;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Account

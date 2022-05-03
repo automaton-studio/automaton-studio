@@ -1,14 +1,12 @@
-﻿using Automaton.Studio.AuthProviders;
-using Automaton.Studio.Models;
-using Automaton.Studio.Services.Interfaces;
+﻿using Automaton.Client.Auth.Interfaces;
+using Automaton.Client.Auth.Models;
+using Automaton.Client.Auth.Providers;
 using Microsoft.AspNetCore.Components.Authorization;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
-namespace Automaton.Studio.Services
+namespace Automaton.Client.Auth.Services
 {
     public class AuthenticationService
     {
@@ -18,13 +16,13 @@ namespace Automaton.Studio.Services
         private readonly HttpClient client;
         private readonly JsonSerializerOptions options;
         private readonly AuthenticationStateProvider authStateProvider;
-        private readonly ConfigService configService;
-        private readonly LocalStorageService localStorage;
+        private readonly ConfigurationService configService;
+        private readonly IStorageService localStorage;
 
         public AuthenticationService(HttpClient client, 
             AuthenticationStateProvider authStateProvider,
-            ConfigService configService,
-            LocalStorageService localStorage)
+            ConfigurationService configService,
+            IStorageService localStorage)
         {
             this.client = client;
             this.authStateProvider = authStateProvider;
@@ -41,7 +39,9 @@ namespace Automaton.Studio.Services
             var result = await client.PostAsync(configService.LoginUserUrl, bodyContent);
 
             if (!result.IsSuccessStatusCode)
+            {
                 return false;
+            }
 
             var jsonToken = await result.Content.ReadAsStringAsync();
             var token = JsonSerializer.Deserialize<JsonWebToken>(jsonToken, options);

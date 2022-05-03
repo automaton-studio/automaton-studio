@@ -1,7 +1,7 @@
-﻿using Automaton.Studio.AuthProviders;
-using Automaton.Studio.Domain;
+﻿using Automaton.Studio.Domain;
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Factories;
+using Automaton.Studio.Models;
 using Automaton.Studio.Pages.Account;
 using Automaton.Studio.Pages.Designer;
 using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
@@ -11,7 +11,6 @@ using Automaton.Studio.Pages.Login;
 using Automaton.Studio.Services;
 using Automaton.Studio.Services.Interfaces;
 using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -20,27 +19,24 @@ using System.Reflection;
 
 namespace Automaton.Studio.Config
 {
-    public static class ConfigurationExtensions
+    public static class ServiceConfiguration
     {
         public static void AddStudio(this IServiceCollection services, IConfiguration configuration)
         {
-            var configService = new ConfigService(configuration);
+            var configService = new ConfigurationService(configuration);
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             // Authentication & Authorization
             services.AddBlazoredLocalStorage();
             services.AddAuthorizationCore();
-            services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
             services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(configService.WebApiUrl) });
 
             // Services
             services.AddScoped<FlowService>();
             services.AddScoped<FlowConvertService>();
             services.AddScoped<FlowsService>();
-            services.AddScoped<AuthenticationService>();
             services.AddScoped<LocalStorageService>();
-            services.AddScoped<RefreshTokenService>();
             services.AddSingleton<NavMenuService>();
 
             // ViewModels
@@ -57,10 +53,13 @@ namespace Automaton.Studio.Config
             services.AddTransient<StepFactory>();
             services.AddSteps();
 
+            // Models
+            services.AddScoped<AppConfiguration>();
+
             // Other
             services.AddAutomatonCore();
             services.AddScoped(typeof(DragDropService<>));
-            services.AddScoped(service => new ConfigService(configuration));
+            services.AddScoped(service => new ConfigurationService(configuration));
         }
     }
 }

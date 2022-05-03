@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Text.Json;
-using System.Threading.Tasks;
 
-namespace Automaton.Studio.AuthProviders
+namespace Automaton.Client.Auth.Jwt
 {
     public static class JwtParser
     {

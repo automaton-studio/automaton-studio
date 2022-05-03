@@ -1,13 +1,10 @@
-﻿using Automaton.Studio.Models;
-using Automaton.Studio.Services.Interfaces;
-using System;
-using System.Net.Http;
+﻿using Automaton.Client.Auth.Interfaces;
+using Automaton.Client.Auth.Models;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
-namespace Automaton.Studio.Services
+namespace Automaton.Client.Auth.Services
 {
     public class RefreshTokenService
     {
@@ -16,12 +13,12 @@ namespace Automaton.Studio.Services
 
         private readonly HttpClient _client;
         private readonly JsonSerializerOptions _options;
-        private readonly ConfigService _configService;
-        private readonly LocalStorageService _localStorage;
+        private readonly ConfigurationService _configService;
+        private readonly IStorageService _localStorage;
 
-        public RefreshTokenService(HttpClient client, 
-            ConfigService configService,
-            LocalStorageService localStorage)
+        public RefreshTokenService(HttpClient client,
+            ConfigurationService configService,
+            IStorageService localStorage)
         {
             _client = client;
             _options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };

@@ -12,13 +12,13 @@ namespace Automaton.Studio.Services.Interfaces
     public class FlowsService
     {
         private HttpClient httpClient;
-        private readonly ConfigService configService;
+        private readonly ConfigurationService configService;
         private readonly IMapper mapper;
         private readonly ILogger<FlowsService> logger;
 
         public FlowsService
         (
-            ConfigService configService,
+            ConfigurationService configService,
             IMapper mapper,
             HttpClient httpClient,
             ILogger<FlowsService> logger

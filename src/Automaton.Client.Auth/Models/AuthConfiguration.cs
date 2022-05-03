@@ -1,11 +1,9 @@
-﻿namespace Automaton.Runner.Core.Config
+﻿namespace Automaton.Client.Auth.Models
 {
-    public class AppConfiguration
+    public class AuthConfiguration
     {
         public string WebApiUrl { get; set; }
-        public string FlowsUrl { get; set; }
         public string LoginUserUrl { get; set; }
-        public bool IsDesktop { get; set; }
         public int RefreshTokenExpirationMinutesCheck { get; set; }
         public string RefreshAccessTokenUrl { get; set; }
     }

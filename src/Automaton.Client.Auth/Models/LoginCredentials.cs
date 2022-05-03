@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Automaton.Studio.Models
+namespace Automaton.Client.Auth.Models
 {
     public class LoginCredentials
     {
