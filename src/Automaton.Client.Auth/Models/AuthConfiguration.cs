@@ -1,4 +1,4 @@
-﻿namespace Automaton.Client.Auth.Config
+﻿namespace Automaton.Client.Auth.Models
 {
     public class AuthConfiguration
     {

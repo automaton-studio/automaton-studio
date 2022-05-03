@@ -16,13 +16,13 @@ namespace Automaton.Client.Auth.Providers
         private readonly HttpClient httpClient;
         private readonly IStorageService localStorage;
         private readonly RefreshTokenService refreshTokenService;
-        private readonly AuthConfigService configService;
+        private readonly ConfigurationService configService;
         private readonly AuthenticationState anonymous;
 
         public AuthStateProvider(HttpClient httpClient,
             IStorageService localStorage, 
             RefreshTokenService refreshTokenService,
-            AuthConfigService configService)
+            ConfigurationService configService)
         {
             this.httpClient = httpClient;
             this.localStorage = localStorage;

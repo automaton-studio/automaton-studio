@@ -16,12 +16,12 @@ namespace Automaton.Client.Auth.Services
         private readonly HttpClient client;
         private readonly JsonSerializerOptions options;
         private readonly AuthenticationStateProvider authStateProvider;
-        private readonly AuthConfigService configService;
+        private readonly ConfigurationService configService;
         private readonly IStorageService localStorage;
 
         public AuthenticationService(HttpClient client, 
             AuthenticationStateProvider authStateProvider,
-            AuthConfigService configService,
+            ConfigurationService configService,
             IStorageService localStorage)
         {
             this.client = client;

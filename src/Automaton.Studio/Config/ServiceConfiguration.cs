@@ -1,6 +1,7 @@
 ﻿using Automaton.Studio.Domain;
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Factories;
+using Automaton.Studio.Models;
 using Automaton.Studio.Pages.Account;
 using Automaton.Studio.Pages.Designer;
 using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
@@ -18,11 +19,11 @@ using System.Reflection;
 
 namespace Automaton.Studio.Config
 {
-    public static class ConfigurationExtensions
+    public static class ServiceConfiguration
     {
         public static void AddStudio(this IServiceCollection services, IConfiguration configuration)
         {
-            var configService = new ConfigService(configuration);
+            var configService = new ConfigurationService(configuration);
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
@@ -52,10 +53,13 @@ namespace Automaton.Studio.Config
             services.AddTransient<StepFactory>();
             services.AddSteps();
 
+            // Models
+            services.AddScoped<AppConfiguration>();
+
             // Other
             services.AddAutomatonCore();
             services.AddScoped(typeof(DragDropService<>));
-            services.AddScoped(service => new ConfigService(configuration));
+            services.AddScoped(service => new ConfigurationService(configuration));
         }
     }
 }
