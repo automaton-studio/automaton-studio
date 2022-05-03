@@ -14,10 +14,10 @@ namespace Automaton.Client.Auth.Services
         #region Properties
 
         public AuthConfiguration AuthConfig { get; private set; } = new AuthConfiguration();
+
         public string WebApiUrl => AuthConfig.WebApiUrl;
         public string LoginUserUrl => AuthConfig.LoginUserUrl;
         public string RefreshAccessTokenUrl => AuthConfig.RefreshAccessTokenUrl;
-        
         public int RefreshTokenExpirationMinutesCheck => AuthConfig.RefreshTokenExpirationMinutesCheck;
 
         #endregion

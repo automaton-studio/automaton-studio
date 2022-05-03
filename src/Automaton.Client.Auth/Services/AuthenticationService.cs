@@ -39,7 +39,9 @@ namespace Automaton.Client.Auth.Services
             var result = await client.PostAsync(configService.LoginUserUrl, bodyContent);
 
             if (!result.IsSuccessStatusCode)
+            {
                 return false;
+            }
 
             var jsonToken = await result.Content.ReadAsStringAsync();
             var token = JsonSerializer.Deserialize<JsonWebToken>(jsonToken, options);

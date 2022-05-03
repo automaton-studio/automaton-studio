@@ -6,7 +6,6 @@ using Automaton.Studio.Models;
 using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
 using Automaton.Studio.Pages.Flows;
 using Automaton.Studio.Pages.Login;
-using System;
 using System.Collections.Generic;
 
 namespace Automaton.Studio.Config

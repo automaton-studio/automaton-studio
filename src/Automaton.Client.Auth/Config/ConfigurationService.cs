@@ -1,4 +1,5 @@
-﻿using Automaton.Client.Auth.Interfaces;
+﻿using Automaton.Client.Auth.Config;
+using Automaton.Client.Auth.Interfaces;
 using Automaton.Client.Auth.Providers;
 using Automaton.Client.Auth.Services;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -13,9 +14,14 @@ namespace Automaton.Studio.Config
             services.AddScoped<T>();
             services.AddScoped<IStorageService>(sp => sp.GetService<T>());
             services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+
+            // Services
             services.AddScoped<AuthConfigService>();
             services.AddScoped<RefreshTokenService>();
             services.AddScoped<AuthenticationService>();
+
+            // Models
+            services.AddScoped<AuthConfiguration>();
         }
     }
 }
