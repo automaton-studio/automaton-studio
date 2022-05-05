@@ -1,13 +1,12 @@
-﻿using Automaton.Runner.Core;
-using Automaton.Runner.Core.Resources;
+﻿using Automaton.Client.Auth.Models;
+using Automaton.Client.Auth.Services;
 using Automaton.Runner.Core.Services;
 using Automaton.Runner.Enums;
-using Automaton.Runner.Services;
+using Automaton.Runner.Resources;
 using Automaton.Runner.Validators;
 using Automaton.Runner.ViewModels.Common;
 using System;
 using System.Linq;
-using System.Net.Http;
 using System.Security.Authentication;
 using System.Threading.Tasks;
 
@@ -16,8 +15,8 @@ namespace Automaton.Runner.ViewModels
     public class LoginViewModel
     {
         private readonly ConfigService configService;
-        private readonly IAuthService authService;
-        private readonly IHubService hubService;
+        private readonly HubService hubService;
+        private readonly AuthenticationService authenticationService;
         private readonly LoginValidator loginValidator;
 
         #region Properties
@@ -33,13 +32,13 @@ namespace Automaton.Runner.ViewModels
 
         public LoginViewModel(
             ConfigService configService,
-            IAuthService authService,
-            IHubService hubService,
+            AuthenticationService authenticationService,
+            HubService hubService,
             IViewModelLoader loader,
             LoginValidator loginValidator)
         {
             this.configService = configService;
-            this.authService = authService;
+            this.authenticationService = authenticationService;
             this.hubService = hubService;
             this.Loader = loader;
             this.loginValidator = loginValidator;
@@ -56,15 +55,13 @@ namespace Automaton.Runner.ViewModels
                     return RunnerNavigation.None;
                 }
 
-                Loader.StartLoading();
+                await authenticationService.Login(new LoginCredentials(UserName, Password));
 
-                // Authenticate before connecting to the hub service
-                await authService.SignIn(UserName, Password);
+                Loader.StartLoading();
 
                 if (configService.UserConfig.IsRunnerRegistered())
                 {
-                    // Connect to the hub service
-                    await hubService.Connect(authService.Token, configService.UserConfig.RunnerName);
+                    await hubService.Connect(configService.UserConfig.RunnerName);
 
                     return RunnerNavigation.Dashboard;
                 }

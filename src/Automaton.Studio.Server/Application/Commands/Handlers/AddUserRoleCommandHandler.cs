@@ -1,11 +1,9 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AuthServer.Core.Commands;
-using AuthServer.Core.Services;
+﻿using Automaton.Studio.Server.Core.Commands;
 using Common.EF;
 using MediatR;
+using Automaton.Studio.Server.Services.Interfaces;
 
-namespace AuthServer.Application.Commands.Handlers
+namespace Automaton.Studio.Server.Application.Commands.Handlers
 {
     public class AddUserRoleCommandHandler : IRequestHandler<AddUserRoleCommand>
     {

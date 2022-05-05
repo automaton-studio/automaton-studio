@@ -1,4 +1,4 @@
-﻿using AuthServer.Core.Commands;
+﻿using Automaton.Studio.Server.Core.Commands;
 using AuthServer.Core.Events;
 using AutoMapper;
 

@@ -1,6 +1,6 @@
-﻿using Automaton.Runner.Core.Resources;
-using Automaton.Runner.Core.Services;
+﻿using Automaton.Runner.Core.Services;
 using Automaton.Runner.Enums;
+using Automaton.Runner.Resources;
 using Automaton.Runner.Services;
 using Automaton.Runner.Validators;
 using Automaton.Runner.ViewModels.Common;
@@ -13,9 +13,8 @@ namespace Automaton.Runner.ViewModels
 {
     public class RegistrationViewModel
     {
-        private readonly IHubService hubService;
-        private readonly IAuthService authService;
-        private readonly IRegistrationService registrationService;
+        private readonly HubService hubService;
+        private readonly RegisterService registrationService;
         private readonly RegistrationValidator registrationValidator;
         private readonly ConfigService configService;
 
@@ -28,16 +27,14 @@ namespace Automaton.Runner.ViewModels
 
         public RegistrationViewModel
         (
-            IHubService hubService, 
-            IAuthService authService,
             IViewModelLoader loader,
-            IRegistrationService registrationService,
+            HubService hubService,
+            RegisterService registrationService,
             ConfigService configService,
             RegistrationValidator registrationValidator
         )
         {
             this.hubService = hubService;
-            this.authService = authService;
             this.Loader = loader;
             this.configService = configService;
             this.registrationService = registrationService;
@@ -59,7 +56,7 @@ namespace Automaton.Runner.ViewModels
 
                 configService.RegisterRunner(RunnerName);
 
-                await hubService.Connect(authService.Token, RunnerName);
+                await hubService.Connect(RunnerName);
 
                 return RunnerNavigation.Dashboard;
             }

@@ -2,20 +2,19 @@
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner.Services
 {
-    public class RegisterService : IRegistrationService
+    public class RegisterService
     {
         private readonly ConfigService configService;
-        private readonly IAuthService authService;
+        private readonly HttpClient httpClient;
 
-        public RegisterService(IAuthService authService, ConfigService configService)
+        public RegisterService(HttpClient httpClient, ConfigService configService)
         {
-            this.authService = authService;
+            this.httpClient = httpClient;
             this.configService = configService;
         }
 
@@ -24,8 +23,6 @@ namespace Automaton.Runner.Services
             var runnerNameJson = JsonConvert.SerializeObject(new { RunnerName = runnerName });
             var runnerNameContent = new StringContent(runnerNameJson, Encoding.UTF8, "application/json");
 
-            using var httpClient = new HttpClient();
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authService.Token.AccessToken);
             var response = await httpClient.PostAsync(configService.StudioConfig.RegistrationApiUrl, runnerNameContent);
 
             if (response.StatusCode != HttpStatusCode.OK)

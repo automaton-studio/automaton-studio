@@ -1,7 +1,6 @@
-using System;
 using MediatR;
 
-namespace AuthServer.Core.Commands
+namespace Automaton.Studio.Server.Core.Commands
 {
     public class RevokeRefreshTokenCommand : IRequest
     {

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using MediatR;
 using Newtonsoft.Json;
 
-namespace AuthServer.Core.Commands
+namespace Automaton.Studio.Server.Core.Commands
 {
     public class AddUserRoleCommand : IRequest
     {

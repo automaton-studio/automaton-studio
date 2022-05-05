@@ -1,13 +1,10 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AuthServer.Core.Commands;
-using AuthServer.Core.Events;
-using AuthServer.Core.Services;
+﻿using AuthServer.Core.Events;
+using Automaton.Studio.Server.Core.Commands;
+using Automaton.Studio.Server.Services.Interfaces;
 using Common.EF;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
-namespace AuthServer.Application.Commands.Handlers
+namespace Automaton.Studio.Server.Application.Commands.Handlers
 {
     public class UpdateUserPasswordCommandHandler : IRequestHandler<UpdateUserPasswordCommand>
     {

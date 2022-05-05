@@ -1,4 +1,4 @@
-﻿using AuthServer.Core.Commands;
+﻿using Automaton.Studio.Server.Core.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +13,6 @@ namespace Automaton.Studio.Server.Controllers
         {
             return Ok(await Mediator.Send(command, ct));
         }
-
 
         [HttpPost]
         public async Task<IActionResult> RevokeAccessToken(RevokeAccessTokenCommand command, CancellationToken ct)

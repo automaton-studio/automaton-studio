@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using AuthServer.Core.Queries;
-using AuthServer.Core.Services;
+﻿using AuthServer.Core.Queries;
+using Automaton.Studio.Server.Services.Interfaces;
 using MediatR;
 
 namespace AuthServer.Application.Queries.Handlers

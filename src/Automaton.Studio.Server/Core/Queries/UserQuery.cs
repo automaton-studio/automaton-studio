@@ -1,5 +1,4 @@
-﻿using System;
-using AuthServer.Core.Dtos;
+﻿using AuthServer.Core.Dtos;
 using MediatR;
 
 namespace AuthServer.Core.Queries

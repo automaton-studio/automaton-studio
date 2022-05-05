@@ -1,49 +1,45 @@
-﻿using Automaton.Runner.Services;
+﻿using Automaton.Client.Auth.Interfaces;
+using Automaton.Runner.Services;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner.Core.Services
 {
-    public class HubService : IHubService
+    public class HubService
     {
-        #region Constants
-
         private const string RunnerNameHeader = "RunnerName";
         private const string RunWorkflowMethod = "RunWorkflow";
         private const string WelcomeRunnerMethod = "WelcomeRunner";
         private const string PingMethod = "Ping";
 
-        #endregion
-
-        #region Private Members
-
         private HubConnection connection;
         private readonly WorkflowService workflowService;
         private readonly ConfigService configService;
-
-        #endregion
+        private readonly IStorageService storageService;
 
         #region Constructors
 
-        public HubService(ConfigService configService, WorkflowService workflowService)
+        public HubService(ConfigService configService, WorkflowService workflowService, IStorageService storageService)
         {
             this.configService = configService;
             this.workflowService = workflowService;
+            this.storageService = storageService;
         }
 
         #endregion
 
         #region Public Methods
 
-        public async Task Connect(JsonWebToken token, string runnerName)
+        public async Task Connect(string runnerName)
         {
             var studioConfig = configService.StudioConfig;
+            var token = await storageService.GetAuthToken();
 
             connection = new HubConnectionBuilder()
                 .WithUrl(studioConfig.WorkflowHubUrl, options =>
                 {
-                    options.AccessTokenProvider = () => Task.FromResult(token.AccessToken);
+                    options.AccessTokenProvider = () => Task.FromResult(token);
                     options.Headers.Add(RunnerNameHeader, runnerName);
                 })
                 .Build();

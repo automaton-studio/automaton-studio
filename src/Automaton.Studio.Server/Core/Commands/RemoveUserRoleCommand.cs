@@ -1,16 +1,15 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using MediatR;
+﻿using MediatR;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
-namespace AuthServer.Core.Commands
+namespace Automaton.Studio.Server.Core.Commands
 {
     public class RemoveUserRoleCommand : IRequest
     {
         [JsonIgnore] public Guid UserId { get; }
-        [Required] public String RoleName { get; }
+        [Required] public string RoleName { get; }
 
-        public RemoveUserRoleCommand(Guid userId, String roleName)
+        public RemoveUserRoleCommand(Guid userId, string roleName)
         {
             UserId = userId;
             RoleName = roleName;

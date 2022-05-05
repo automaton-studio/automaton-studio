@@ -45,6 +45,7 @@ namespace Automaton.Runner
         {
             // Application
             services.AddApplication(Configuration);
+            services.AddLogging();
 
             // MediateR
             services.AddMediatR(typeof(App));
@@ -63,7 +64,6 @@ namespace Automaton.Runner
             services.AddScoped<RegistrationValidator>();
 
             // Other
-            services.AddAutomatonCore();
             services.AddScoped<IViewModelLoader, ViewModelLoader>();
         }
     }

@@ -8,8 +8,7 @@ namespace Automaton.Runner.Services
     {
         private readonly WorkflowExecutor workflowExecutor;
 
-        public WorkflowService(
-            WorkflowExecutor workflowDefinitionStore)
+        public WorkflowService(WorkflowExecutor workflowDefinitionStore)
         {
             this.workflowExecutor = workflowDefinitionStore;
         }

@@ -1,7 +1,7 @@
 using Common.Authentication;
 using MediatR;
 
-namespace AuthServer.Core.Commands
+namespace Automaton.Studio.Server.Core.Commands
 {
     public class RefreshAccessTokenCommand : IRequest<JsonWebToken>
     {

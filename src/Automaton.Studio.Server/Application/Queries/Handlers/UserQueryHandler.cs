@@ -1,9 +1,7 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AuthServer.Core.Dtos;
+﻿using AuthServer.Core.Dtos;
 using AuthServer.Core.Queries;
-using AuthServer.Core.Services;
 using AutoMapper;
+using Automaton.Studio.Server.Services.Interfaces;
 using MediatR;
 
 namespace AuthServer.Application.Queries.Handlers

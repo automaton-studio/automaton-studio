@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Automaton.Client.Auth.Models;
 using Automaton.Client.Auth.Services;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Login
@@ -24,10 +25,17 @@ namespace Automaton.Studio.Pages.Login
 
         public async Task<bool> Login()
         {
-            var loginCredentials = mapper.Map<LoginCredentials>(LoginCredentials);
-            var success = await authenticationService.Login(loginCredentials);
+            try
+            {
+                var loginCredentials = mapper.Map<LoginCredentials>(LoginCredentials);
+                await authenticationService.Login(loginCredentials);
+            }
+            catch (AuthenticationException ex)
+            {
+                return false;
+            }           
 
-            return success;
+            return true;
         }
     }
 }

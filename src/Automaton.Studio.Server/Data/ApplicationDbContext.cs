@@ -15,6 +15,8 @@ namespace Automaton.Studio.Server.Data
         public virtual DbSet<RefreshToken<Guid>> RefreshTokens { get; set; }
         public virtual DbSet<Flow> Flows { get; set; }
         public virtual DbSet<FlowUser> FlowUsers { get; set; }
+        public virtual DbSet<Runner> Runners { get; set; }
+        public virtual DbSet<RunnerUser> RunnerUsers { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -41,10 +43,22 @@ namespace Automaton.Studio.Server.Data
             modelBuilder.Entity<FlowUser>(entity =>
             {
                 entity.HasKey(e => new { e.FlowId, e.UserId });
-
                 entity.HasIndex(e => e.FlowId, "IX_FlowUser_FlowId");
-
+                entity.Property(e => e.UserId).IsRequired();
                 entity.Property(e => e.FlowId).IsRequired();
+            });
+
+            modelBuilder.Entity<Runner>(entity =>
+            {
+                entity.HasKey(e => new { e.Id });
+            });
+
+            modelBuilder.Entity<RunnerUser>(entity =>
+            {
+                entity.HasKey(e => new { e.RunnerId, e.UserId });
+                entity.HasIndex(e => e.RunnerId, "IX_RunnerUser_RunnerId");
+                entity.Property(e => e.UserId).IsRequired();
+                entity.Property(e => e.RunnerId).IsRequired();
             });
 
             modelBuilder.Entity<RefreshToken<Guid>>()

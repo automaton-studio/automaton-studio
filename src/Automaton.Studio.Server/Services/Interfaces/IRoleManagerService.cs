@@ -1,7 +1,6 @@
 ﻿using AuthServer.Core.Domains;
-using Microsoft.AspNetCore.Identity;
 
-namespace AuthServer.Core.Services
+namespace Automaton.Studio.Server.Services.Interfaces
 {
     public interface IRoleManagerService
     {

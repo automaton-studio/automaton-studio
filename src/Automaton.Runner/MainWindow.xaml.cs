@@ -11,11 +11,11 @@ namespace Automaton.Runner
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly IHubService hubService;
+        private readonly HubService hubService;
 
         public MainWindowViewModel ViewModel => DataContext as MainWindowViewModel;
 
-        public MainWindow(IHubService hubService)
+        public MainWindow(HubService hubService)
         {
             this.hubService = hubService;
 

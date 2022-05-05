@@ -1,12 +1,11 @@
-using AuthServer.Application;
 using AuthServer.Core.Domains;
-using AuthServer.Core.Services;
 using Automaton.Studio.Server.Areas.Identity;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Services;
 using Automaton.Studio.Server.Services.Interfaces;
 using Common.Authentication;
 using Common.EF;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -16,27 +15,26 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var services = builder.Services;
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
+services.AddIdentity<ApplicationUser, ApplicationRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddCors(options => 
-    options.AddPolicy("CorsPolicy", builder =>
-    {
-        builder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-    }));
+services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+{
+    builder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+}));
 
-builder.Services.AddMvc(options =>
+services.AddMvc(options =>
 {
     var policy = new AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
@@ -44,29 +42,31 @@ builder.Services.AddMvc(options =>
     options.Filters.Add(new AuthorizeFilter(policy));
 });
 
-builder.Services.AddAccessTokenValidator();
-builder.Services.AddJwtAuthentication(builder.Configuration);
+services.AddAccessTokenValidator();
+services.AddJwtAuthentication(builder.Configuration);
 
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-builder.Services.AddScoped<IDataContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
+services.AddRazorPages();
+services.AddServerSideBlazor();
+services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+services.AddScoped<IDataContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
-builder.Services.AddControllers();
-builder.Services.AddScoped<FlowsService>();
-builder.Services.AddTransient<IFlowLoader, FlowLoader>();
-builder.Services.AddTransient<IUserManagerService, UserManagerService>();
-builder.Services.AddTransient<IRoleManagerService, RoleManagerService>();
+services.AddControllers();
+services.AddScoped<FlowsService>();
+services.AddScoped<RunnerService>();
+services.AddTransient<IFlowLoader, FlowLoader>();
+services.AddTransient<IUserManagerService, UserManagerService>();
+services.AddTransient<IRoleManagerService, RoleManagerService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
 
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+services.AddAutoMapper(Assembly.GetExecutingAssembly());
+services.AddMediatR(Assembly.GetExecutingAssembly());
+services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Program>());
 
-builder.Services.AddSteps();
-builder.Services.AddAutomatonCore();
+services.AddSteps();
+services.AddAutomatonCore();
 
 var app = builder.Build();
 

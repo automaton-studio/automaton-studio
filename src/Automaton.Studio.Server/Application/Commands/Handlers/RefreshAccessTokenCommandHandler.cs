@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Threading;
-using System.Threading.Tasks;
-using AuthServer.Core.Commands;
-using AuthServer.Core.Events;
-using AuthServer.Core.Services;
+﻿using AuthServer.Core.Events;
+using Automaton.Studio.Server.Core.Commands;
+using Automaton.Studio.Server.Services.Interfaces;
 using Common.Authentication;
 using Common.EF;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using System.Collections.Immutable;
 
-namespace AuthServer.Application.Commands.Handlers
+namespace Automaton.Studio.Server.Application.Commands.Handlers
 {
     public class RefreshAccessTokenCommandHandler : IRequestHandler<RefreshAccessTokenCommand, JsonWebToken>
     {

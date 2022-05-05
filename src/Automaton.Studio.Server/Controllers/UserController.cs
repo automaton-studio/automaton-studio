@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
-using AuthServer.Core.Commands;
+using Automaton.Studio.Server.Core.Commands;
 using AuthServer.Core.Dtos;
 using AuthServer.Core.Queries;
 using Common.Validation;

@@ -11,5 +11,11 @@ namespace Automaton.Client.Auth.Models
         public string Password { get; set; }
 
         public bool RememberMe { get; set; } = true;
+
+        public LoginCredentials(string userName, string password)
+        {
+            UserName = userName;
+            Password = password;
+        }    
     }
 }

@@ -1,6 +1,6 @@
 ﻿using AuthServer.Core.Domains;
 
-namespace AuthServer.Core.Services
+namespace Automaton.Studio.Server.Services.Interfaces
 {
     public interface IUserManagerService
     {

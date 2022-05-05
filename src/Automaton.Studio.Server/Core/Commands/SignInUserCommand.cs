@@ -1,9 +1,8 @@
-﻿using System;
-using Common.Authentication;
+﻿using Common.Authentication;
 using MediatR;
 using Newtonsoft.Json;
 
-namespace AuthServer.Core.Commands
+namespace Automaton.Studio.Server.Core.Commands
 {
     public class SignInUserCommand : IRequest<JsonWebToken>
     {

@@ -1,22 +1,21 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using MediatR;
+﻿using MediatR;
 using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
-namespace AuthServer.Core.Commands
+namespace Automaton.Studio.Server.Core.Commands
 {
     public class UpdateUserPasswordCommand : IRequest
     {
         public Guid UserId { get; }
 
         [Required(ErrorMessage = "Old password value is mandatory")]
-        public String OldPassword { get; }
+        public string OldPassword { get; }
 
         [Required(ErrorMessage = "New password value is mandatory")]
-        public String NewPassword { get; }
+        public string NewPassword { get; }
 
         [JsonConstructor]
-        public UpdateUserPasswordCommand(Guid userId, String oldPassword, String newPassword)
+        public UpdateUserPasswordCommand(Guid userId, string oldPassword, string newPassword)
         {
             UserId = userId;
             OldPassword = oldPassword;

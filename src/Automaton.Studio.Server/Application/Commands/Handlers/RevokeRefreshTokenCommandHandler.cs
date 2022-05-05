@@ -1,15 +1,11 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AuthServer.Core.Commands;
-using AuthServer.Core.Events;
+﻿using AuthServer.Core.Events;
+using Automaton.Studio.Server.Core.Commands;
 using Common.Authentication;
 using Common.EF;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
-namespace AuthServer.Application.Commands.Handlers
+namespace Automaton.Studio.Server.Application.Commands.Handlers
 {
     public class RevokeRefreshTokenCommandHandler : IRequestHandler<RevokeRefreshTokenCommand>
     {
