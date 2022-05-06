@@ -1,13 +1,13 @@
-﻿using Automaton.Runner.Core.Services;
+﻿using Automaton.Client.Auth.Extensions;
+using Automaton.Runner.Core.Services;
 using Automaton.Runner.Services;
 using Automaton.Runner.Validators;
 using Automaton.Runner.ViewModels;
-using Automaton.Studio.Config;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Automaton.Runner.Config
+namespace Automaton.Runner.Extensions
 {
-    public static class AppConfiguration
+    public static class ServiceCollectionExtension
     {
         public static void AddApplication(this IServiceCollection services)
         {

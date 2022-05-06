@@ -1,4 +1,4 @@
-﻿namespace Automaton.Studio.Models
+﻿namespace Automaton.Studio.Config
 {
     public class AppConfiguration
     {

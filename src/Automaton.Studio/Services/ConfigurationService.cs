@@ -1,4 +1,4 @@
-﻿using Automaton.Studio.Models;
+﻿using Automaton.Studio.Config;
 using Microsoft.Extensions.Configuration;
 
 namespace Automaton.Studio.Services

@@ -1,4 +1,5 @@
 using Automaton.Studio.Config;
+using Automaton.Studio.Extensions;
 using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

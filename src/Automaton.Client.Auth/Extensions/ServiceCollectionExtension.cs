@@ -5,9 +5,9 @@ using Automaton.Client.Auth.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Automaton.Studio.Config
+namespace Automaton.Client.Auth.Extensions
 {
-    public static class ServiceConfiguration
+    public static class ServiceCollectionExtension
     {
         public static void AddStudioAuthenication<T>(this IServiceCollection services) where T : class, IStorageService
         {

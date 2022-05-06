@@ -1,5 +1,5 @@
-﻿using Automaton.Runner.Config;
-using Automaton.Runner.Core.Services;
+﻿using Automaton.Runner.Core.Services;
+using Automaton.Runner.Extensions;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

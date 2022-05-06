@@ -1,4 +1,6 @@
-﻿using Automaton.Studio.Domain;
+﻿using Automaton.Client.Auth.Extensions;
+using Automaton.Studio.Config;
+using Automaton.Studio.Domain;
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Models;
@@ -17,9 +19,9 @@ using System;
 using System.Net.Http;
 using System.Reflection;
 
-namespace Automaton.Studio.Config
+namespace Automaton.Studio.Extensions
 {
-    public static class ServiceConfiguration
+    public static class ServiceCollectionExtension
     {
         public static void AddStudio(this IServiceCollection services, IConfiguration configuration)
         {
