@@ -54,7 +54,7 @@ namespace Automaton.Runner.ViewModels
                     return RunnerNavigation.None;
                 }
 
-                await authenticationService.Login(new LoginCredentials(UserName, Password));
+                await authenticationService.Login(new LoginDetails(UserName, Password));
 
                 Loader.StartLoading();
 
@@ -69,13 +69,9 @@ namespace Automaton.Runner.ViewModels
                     return RunnerNavigation.Registration;
                 }
             }
-            catch (AuthenticationException ex)
-            {
-                Loader.SetErrors(Errors.AuthenticationError);
-            }
             catch (Exception ex)
             {
-                Loader.SetErrors(Errors.ApplicationError);
+                Loader.SetErrors(Errors.AuthenticationError);
             }
             finally
             {

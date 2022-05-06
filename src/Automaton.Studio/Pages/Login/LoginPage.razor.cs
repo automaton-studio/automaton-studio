@@ -1,6 +1,7 @@
 ﻿using AntDesign;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using System;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Login
@@ -13,7 +14,7 @@ namespace Automaton.Studio.Pages.Login
         [Inject] private LoginViewModel LoginViewModel { get; set; } = default!;
         [Inject] private MessageService MessageService { get; set; }
 
-        public LoginModel Model => LoginViewModel.LoginCredentials;
+        public LoginModel Model => LoginViewModel.LoginDetails;
 
         protected override async Task OnInitializedAsync()
         {
@@ -22,17 +23,16 @@ namespace Automaton.Studio.Pages.Login
 
         private async Task OnFinish(EditContext editContext)
         {
-            var success = await LoginViewModel.Login();
-
-            if (success)
+            try
             {
-                NavigationManager.NavigateTo($"/");
+                await LoginViewModel.Login();
             }
-
-            if (!success)
+            catch (Exception ex)
             {
                 await MessageService.Error(Resources.Errors.LoginFailed);
             }
+
+            NavigationManager.NavigateTo($"/");
         }
 
         private void OnFinishFailed(EditContext editContext)

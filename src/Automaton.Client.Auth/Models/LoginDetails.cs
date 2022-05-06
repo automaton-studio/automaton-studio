@@ -2,7 +2,7 @@
 
 namespace Automaton.Client.Auth.Models
 {
-    public class LoginCredentials
+    public class LoginDetails
     {
         [Required]
         public string UserName { get; set; }
@@ -12,7 +12,7 @@ namespace Automaton.Client.Auth.Models
 
         public bool RememberMe { get; set; } = true;
 
-        public LoginCredentials(string userName, string password)
+        public LoginDetails(string userName, string password)
         {
             UserName = userName;
             Password = password;

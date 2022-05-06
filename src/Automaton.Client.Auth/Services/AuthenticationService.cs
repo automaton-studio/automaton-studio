@@ -31,17 +31,14 @@ namespace Automaton.Client.Auth.Services
             this.options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
 
-        public async Task<bool> Login(LoginCredentials loginCredentials)
+        public async Task Login(LoginDetails loginCredentials)
         {
             var content = JsonSerializer.Serialize(loginCredentials);
             var bodyContent = new StringContent(content, Encoding.UTF8, ApplicationJson);
 
             var result = await client.PostAsync(configService.LoginUserUrl, bodyContent);
 
-            if (!result.IsSuccessStatusCode)
-            {
-                return false;
-            }
+            result.EnsureSuccessStatusCode();
 
             var jsonToken = await result.Content.ReadAsStringAsync();
             var token = JsonSerializer.Deserialize<JsonWebToken>(jsonToken, options);
@@ -50,8 +47,6 @@ namespace Automaton.Client.Auth.Services
 
             ((AuthStateProvider)authStateProvider).NotifyUserAuthentication(token.AccessToken);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, token.AccessToken);
-            
-            return true;
         }
 
         public async Task Logout()

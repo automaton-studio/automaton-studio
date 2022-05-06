@@ -11,7 +11,7 @@ namespace Automaton.Studio.Pages.Login
         private readonly IMapper mapper;
         private readonly AuthenticationService authenticationService;
 
-        public LoginModel LoginCredentials { get; set;  } = new LoginModel();
+        public LoginModel LoginDetails { get; set;  } = new LoginModel();
 
         public LoginViewModel
         (
@@ -23,19 +23,10 @@ namespace Automaton.Studio.Pages.Login
             this.authenticationService = authenticationService;
         }
 
-        public async Task<bool> Login()
+        public async Task Login()
         {
-            try
-            {
-                var loginCredentials = mapper.Map<LoginCredentials>(LoginCredentials);
-                await authenticationService.Login(loginCredentials);
-            }
-            catch (AuthenticationException ex)
-            {
-                return false;
-            }           
-
-            return true;
+            var loginDetails = mapper.Map<LoginDetails>(LoginDetails);
+            await authenticationService.Login(loginDetails);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Automaton.Studio.Config
 
             CreateMap<Definition, FlowExplorerDefinition>();
 
-            CreateMap<LoginModel, LoginCredentials>();
+            CreateMap<LoginModel, LoginDetails>();
             CreateMap<FlowDetails, FlowModel>();       
         }
 
