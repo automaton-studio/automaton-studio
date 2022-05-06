@@ -20,16 +20,12 @@ namespace Automaton.Runner.Services
 
         public async Task Register(string runnerName)
         {
-            var runnerNameJson = JsonConvert.SerializeObject(new { RunnerName = runnerName });
+            var runnerNameJson = JsonConvert.SerializeObject(new { Name = runnerName });
             var runnerNameContent = new StringContent(runnerNameJson, Encoding.UTF8, "application/json");
 
-            var response = await httpClient.PostAsync(configService.StudioConfig.RegistrationApiUrl, runnerNameContent);
+            var response = await httpClient.PostAsync(configService.ApiConfig.RegistrationApiUrl, runnerNameContent);
 
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                var returnObject = await response.Content.ReadAsStringAsync();
-                throw new HttpRequestException(returnObject);
-            }
+            response.EnsureSuccessStatusCode();
         }
     }
 }

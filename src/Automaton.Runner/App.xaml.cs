@@ -1,12 +1,11 @@
-﻿using Automaton.Runner.Core.Extensions;
-using Automaton.Runner.Validators;
-using Automaton.Runner.ViewModels;
-using Automaton.Runner.ViewModels.Common;
+﻿using Automaton.Runner.Config;
+using Automaton.Runner.Core.Services;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
+using System.Net.Http;
 using System.Text;
 using System.Windows;
 
@@ -30,41 +29,29 @@ namespace Automaton.Runner
 
             Configuration = builder.Build();
 
-            var service = new ServiceCollection();
-            ConfigureServices(service);
+            var services = new ServiceCollection();
+
+            services.AddSingleton(Configuration);
+            services.AddSingleton(service => new HttpClient
+            {
+                BaseAddress = new Uri(new ConfigService(Configuration).ApiConfig.WebApiUrl)
+            });
+            services.AddSingleton(service => new ConfigService(Configuration));
+
+            services.AddAutomatonCore();
+            services.AddLogging();
+
+            services.AddMediatR(typeof(App));
+            services.AddTransient(typeof(MainWindow));
+
+            services.AddApplication();
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             
-            ServiceProvider = service.BuildServiceProvider();
+            ServiceProvider = services.BuildServiceProvider();
 
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
-        }
-
-        private static void ConfigureServices(ServiceCollection services)
-        {
-            // Application
-            services.AddApplication(Configuration);
-            services.AddLogging();
-
-            // MediateR
-            services.AddMediatR(typeof(App));
-
-            // Main window
-            services.AddTransient(typeof(MainWindow));
-
-            // View models
-            services.AddSingleton<MainWindowViewModel>();
-            services.AddSingleton<LoginViewModel>();
-            services.AddSingleton<RegistrationViewModel>();
-            services.AddSingleton<DashboardViewModel>();
-
-            // Validators
-            services.AddScoped<LoginValidator>();
-            services.AddScoped<RegistrationValidator>();
-
-            // Other
-            services.AddScoped<IViewModelLoader, ViewModelLoader>();
         }
     }
 }

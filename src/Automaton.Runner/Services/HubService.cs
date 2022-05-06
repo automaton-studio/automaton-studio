@@ -18,8 +18,6 @@ namespace Automaton.Runner.Core.Services
         private readonly ConfigService configService;
         private readonly IStorageService storageService;
 
-        #region Constructors
-
         public HubService(ConfigService configService, WorkflowService workflowService, IStorageService storageService)
         {
             this.configService = configService;
@@ -27,26 +25,22 @@ namespace Automaton.Runner.Core.Services
             this.storageService = storageService;
         }
 
-        #endregion
-
-        #region Public Methods
-
         public async Task Connect(string runnerName)
         {
-            var studioConfig = configService.StudioConfig;
+            var studioConfig = configService.ApiConfig;
             var token = await storageService.GetAuthToken();
+            var hubUrl = $"{studioConfig.WebApiUrl}{studioConfig.WorkflowHubUrl}";
 
-            connection = new HubConnectionBuilder()
-                .WithUrl(studioConfig.WorkflowHubUrl, options =>
-                {
-                    options.AccessTokenProvider = () => Task.FromResult(token);
-                    options.Headers.Add(RunnerNameHeader, runnerName);
-                })
-                .Build();
-
-            connection.On<Guid>(RunWorkflowMethod, async (definitionId) =>
+            connection = new HubConnectionBuilder().WithUrl(hubUrl, options =>
             {
-                await workflowService.RunWorkflow(definitionId);
+                options.AccessTokenProvider = () => Task.FromResult(token);
+                options.Headers.Add(RunnerNameHeader, runnerName);
+            })
+            .Build();
+
+            connection.On<Guid>(RunWorkflowMethod, async (workflowId) =>
+            {
+                await workflowService.RunWorkflow(workflowId);
             });
 
             connection.On<string>(WelcomeRunnerMethod, (name) =>
@@ -66,7 +60,5 @@ namespace Automaton.Runner.Core.Services
         {
             var result = await connection.InvokeAsync<bool>(PingMethod, runnerName);
         }
-
-        #endregion
     }
 }

@@ -22,8 +22,6 @@ namespace Automaton.Runner
             InitializeComponent();
         }
 
-        #region Public Methods
-
         public void NavigateToRegistration()
         {
             frame.NavigationService.Navigate(new Uri("Controls/RegistrationControl.xaml", UriKind.Relative));
@@ -33,10 +31,6 @@ namespace Automaton.Runner
         {
             frame.NavigationService.Navigate(new Uri("Controls/DashboardControl.xaml", UriKind.Relative));
         }
-
-        #endregion
-
-        #region Private Methods
 
         private void WindowMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -49,7 +43,5 @@ namespace Automaton.Runner
         {
             hubService.Disconnect();
         }
-
-        #endregion
     }
 }

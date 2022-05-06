@@ -3,10 +3,8 @@ using Automaton.Runner.Enums;
 using Automaton.Runner.Resources;
 using Automaton.Runner.Services;
 using Automaton.Runner.Validators;
-using Automaton.Runner.ViewModels.Common;
 using System;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner.ViewModels
@@ -18,16 +16,12 @@ namespace Automaton.Runner.ViewModels
         private readonly RegistrationValidator registrationValidator;
         private readonly ConfigService configService;
 
-        #region Properties
-
-        public IViewModelLoader Loader { get; set; }
+        public LoaderViewModel Loader { get; set; }
         public string RunnerName { get; set; }
-
-        #endregion
 
         public RegistrationViewModel
         (
-            IViewModelLoader loader,
+            LoaderViewModel loader,
             HubService hubService,
             RegisterService registrationService,
             ConfigService configService,
@@ -59,10 +53,6 @@ namespace Automaton.Runner.ViewModels
                 await hubService.Connect(RunnerName);
 
                 return RunnerNavigation.Dashboard;
-            }
-            catch (HttpRequestException ex)
-            {
-                Loader.SetErrors(ex.Message);
             }
             catch
             {

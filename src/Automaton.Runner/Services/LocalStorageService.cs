@@ -14,21 +14,25 @@ namespace Automaton.Runner.Services
 
         public async Task<string> GetRefreshToken()
         {
-            var refreshToken = application.Properties[RefreshToken].ToString();
+            var refreshToken = application.Properties.Contains(RefreshToken) ?
+                application.Properties[RefreshToken].ToString()
+                : string.Empty;
 
-            return await Task.FromResult(refreshToken);
+            return await Task.Run(() => refreshToken);
         }
 
         public async Task<string> GetAuthToken()
         {
-            var refreshToken = application.Properties[AuthToken].ToString();
+            var authToken = application.Properties.Contains(AuthToken) ? 
+                application.Properties[AuthToken].ToString()
+                : string.Empty;
 
-            return await Task.FromResult(refreshToken);
+            return await Task.Run(() => authToken);
         }
 
         public async Task SetAuthAndRefreshTokens(JsonWebToken token)
         {
-            await Task.FromResult(() =>
+            await Task.Run(() =>
             {
                 application.Properties[AuthToken] = token.AccessToken;
                 application.Properties[RefreshToken] = token.RefreshToken;
@@ -37,7 +41,7 @@ namespace Automaton.Runner.Services
 
         public async Task DeleteAuthAndRefreshTokens()
         {
-            await Task.FromResult(() =>
+            await Task.Run(() =>
             {
                 application.Properties.Remove(AuthToken);
                 application.Properties.Remove(RefreshToken);

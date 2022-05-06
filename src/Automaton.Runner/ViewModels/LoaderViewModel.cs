@@ -1,13 +1,10 @@
-﻿using Automaton.Runner.ViewModels.Common;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Automaton.Runner.ViewModels
 {
-    public class ViewModelLoader : IViewModelLoader, INotifyPropertyChanged
+    public class LoaderViewModel : INotifyPropertyChanged
     {
-        #region Properties
-
         private string errors;
         public string Errors
         {
@@ -36,10 +33,6 @@ namespace Automaton.Runner.ViewModels
             }
         }
 
-        #endregion
-
-        #region Methods
-
         public void SetErrors(string errors)
         {
             Errors = errors;
@@ -59,9 +52,6 @@ namespace Automaton.Runner.ViewModels
         {
             Loading = false;
         }
-
-        #endregion
-
 
         public event PropertyChangedEventHandler PropertyChanged;
 

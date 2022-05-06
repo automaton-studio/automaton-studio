@@ -4,7 +4,6 @@ using Automaton.Runner.Core.Services;
 using Automaton.Runner.Enums;
 using Automaton.Runner.Resources;
 using Automaton.Runner.Validators;
-using Automaton.Runner.ViewModels.Common;
 using System;
 using System.Linq;
 using System.Security.Authentication;
@@ -21,7 +20,7 @@ namespace Automaton.Runner.ViewModels
 
         #region Properties
 
-        public IViewModelLoader Loader { get; set; }
+        public LoaderViewModel Loader { get; set; }
 
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -34,7 +33,7 @@ namespace Automaton.Runner.ViewModels
             ConfigService configService,
             AuthenticationService authenticationService,
             HubService hubService,
-            IViewModelLoader loader,
+            LoaderViewModel loader,
             LoginValidator loginValidator)
         {
             this.configService = configService;

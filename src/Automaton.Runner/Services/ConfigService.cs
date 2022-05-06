@@ -16,6 +16,7 @@ namespace Automaton.Runner.Core.Services
         private const string CompanyName = "Automaton";
         private const string ApplicationName = "AutomatonStudio";
         private const string UserSettingsFileName = "UserConfig.json";
+        private const string ApiConfigurationName = "ApiConfiguration";
 
         #endregion
 
@@ -28,7 +29,7 @@ namespace Automaton.Runner.Core.Services
         #region Properties
 
         public UserConfig UserConfig { get; private set; } = new UserConfig();
-        public StudioConfig StudioConfig { get; private set; } = new StudioConfig();
+        public ApiConfig ApiConfig { get; private set; } = new ApiConfig();
 
         #endregion
 
@@ -54,7 +55,7 @@ namespace Automaton.Runner.Core.Services
 
         private void LoadStudioConfig()
         {
-            configuration.GetSection(nameof(StudioConfig)).Bind(StudioConfig);
+            configuration.GetSection(ApiConfigurationName).Bind(ApiConfig);
         }
 
         private void CreateUserConfig()
