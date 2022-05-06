@@ -1,9 +1,9 @@
 ﻿using System.Security.Claims;
 using System.Text.Json;
 
-namespace Automaton.Client.Auth.Jwt
+namespace Automaton.Client.Auth.Parsers
 {
-    public static class JwtParser
+    public static class JsonWebTokenParser
     {
         public static IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
         {

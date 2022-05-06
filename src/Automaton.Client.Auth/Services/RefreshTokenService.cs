@@ -29,9 +29,8 @@ namespace Automaton.Client.Auth.Services
         public async Task<string> RefreshToken()
         {
             var refreshToken = await _localStorage.GetRefreshToken();
-
-            var tokenDto = JsonSerializer.Serialize(new RefreshToken { Token = refreshToken });
-            var bodyContent = new StringContent(tokenDto, Encoding.UTF8, ApplicationJson);
+            var jsonToken = JsonSerializer.Serialize(new { Token = refreshToken });
+            var bodyContent = new StringContent(jsonToken, Encoding.UTF8, ApplicationJson);
             var refreshResult = await _client.PostAsync(_configService.RefreshAccessTokenUrl, bodyContent);
             var refreshContent = await refreshResult.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<JsonWebToken>(refreshContent, _options);

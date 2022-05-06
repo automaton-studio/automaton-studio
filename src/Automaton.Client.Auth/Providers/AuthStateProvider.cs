@@ -1,5 +1,5 @@
 ﻿using Automaton.Client.Auth.Interfaces;
-using Automaton.Client.Auth.Jwt;
+using Automaton.Client.Auth.Parsers;
 using Automaton.Client.Auth.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http.Headers;
@@ -44,7 +44,7 @@ namespace Automaton.Client.Auth.Providers
 
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, authToken);
 
-                var claims = JwtParser.ParseClaimsFromJwt(authToken);
+                var claims = JsonWebTokenParser.ParseClaimsFromJwt(authToken);
                 var claimsIdentity = new ClaimsIdentity(claims, ClaimJwtAuthType);
                 var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                 var authenticationState = new AuthenticationState(claimsPrincipal);
@@ -69,7 +69,7 @@ namespace Automaton.Client.Auth.Providers
 
         public void NotifyUserAuthentication(string token)
         {
-            var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), ClaimJwtAuthType));
+            var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(JsonWebTokenParser.ParseClaimsFromJwt(token), ClaimJwtAuthType));
             var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
 
             NotifyAuthenticationStateChanged(authState);
@@ -85,7 +85,7 @@ namespace Automaton.Client.Auth.Providers
         private async Task<string> GetAuthToken()
         {
             var authToken = await localStorage.GetAuthToken()??string.Empty;
-            var claims = JwtParser.ParseClaimsFromJwt(authToken);
+            var claims = JsonWebTokenParser.ParseClaimsFromJwt(authToken);
             var claimsIdentity = new ClaimsIdentity(claims, ClaimJwtAuthType);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
             var authState = new AuthenticationState(claimsPrincipal);
