@@ -30,7 +30,7 @@ namespace Automaton.Runner.Services
             return await Task.Run(() => authToken);
         }
 
-        public async Task SetAuthAndRefreshTokens(JsonWebToken token)
+        public async Task SetJsonWebToken(JsonWebToken token)
         {
             await Task.Run(() =>
             {
@@ -39,7 +39,7 @@ namespace Automaton.Runner.Services
             });
         }
 
-        public async Task DeleteAuthAndRefreshTokens()
+        public async Task DeleteJsonWebToken()
         {
             await Task.Run(() =>
             {

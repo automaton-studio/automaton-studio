@@ -43,7 +43,7 @@ namespace Automaton.Client.Auth.Services
             var jsonToken = await result.Content.ReadAsStringAsync();
             var token = JsonSerializer.Deserialize<JsonWebToken>(jsonToken, options);
 
-            await localStorage.SetAuthAndRefreshTokens(token);
+            await localStorage.SetJsonWebToken(token);
 
             ((AuthStateProvider)authStateProvider).NotifyUserAuthentication(token.AccessToken);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, token.AccessToken);
@@ -51,7 +51,7 @@ namespace Automaton.Client.Auth.Services
 
         public async Task Logout()
         {
-            await localStorage.DeleteAuthAndRefreshTokens();
+            await localStorage.DeleteJsonWebToken();
 
             ((AuthStateProvider)authStateProvider).NotifyUserLogout();
             client.DefaultRequestHeaders.Authorization = null;

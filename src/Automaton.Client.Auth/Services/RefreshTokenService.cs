@@ -40,7 +40,7 @@ namespace Automaton.Client.Auth.Services
                 throw new ApplicationException("Something went wrong during the refresh token action");
             }
 
-            await _localStorage.SetAuthAndRefreshTokens(result);
+            await _localStorage.SetJsonWebToken(result);
 
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, result.AccessToken);
 

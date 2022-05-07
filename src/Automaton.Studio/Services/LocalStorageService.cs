@@ -30,13 +30,13 @@ namespace Automaton.Studio.Services
             return await localStorage.GetItemAsync<string>(AuthToken);
         }
 
-        public async Task SetAuthAndRefreshTokens(JsonWebToken token)
+        public async Task SetJsonWebToken(JsonWebToken token)
         {
             await localStorage.SetItemAsync("authToken", token.AccessToken);
             await localStorage.SetItemAsync("refreshToken", token.RefreshToken);
         }
 
-        public async Task DeleteAuthAndRefreshTokens()
+        public async Task DeleteJsonWebToken()
         {
             await localStorage.RemoveItemAsync("authToken");
             await localStorage.RemoveItemAsync("refreshToken");
