@@ -5,7 +5,7 @@ using MediatR;
 
 namespace AuthServer.Core.Queries
 {
-    public class FilterUserQuery : IRequest<IEnumerable<UserDetailInfoDto>>
+    public class FilterUserQuery : IRequest<IEnumerable<UserDetails>>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

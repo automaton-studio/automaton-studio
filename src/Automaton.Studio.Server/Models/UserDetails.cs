@@ -2,15 +2,20 @@
 
 namespace AuthServer.Core.Dtos
 {
-    public class UserInfoDto
+    public class UserDetails
     {
+        /// <summary>
+        /// Unique user identifier
+        /// </summary>
+        public Guid Id { get; set; }
+
         /// <summary>
         /// User's first name
         /// </summary>
         public String FirstName { get; set; }
 
         /// <summary>
-        /// User's last name
+        /// Users's last name
         /// </summary>
         public String LastName { get; set; }
 

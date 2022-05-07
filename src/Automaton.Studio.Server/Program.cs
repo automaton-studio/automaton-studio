@@ -3,7 +3,6 @@ using Automaton.Studio.Server.Areas.Identity;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Hubs;
 using Automaton.Studio.Server.Services;
-using Automaton.Studio.Server.Services.Interfaces;
 using Common.Authentication;
 using Common.EF;
 using FluentValidation.AspNetCore;
@@ -54,9 +53,9 @@ services.AddScoped<IDataContext>(sp => sp.GetRequiredService<ApplicationDbContex
 services.AddControllers();
 services.AddScoped<FlowsService>();
 services.AddScoped<RunnerService>();
-services.AddTransient<IFlowLoader, FlowLoader>();
-services.AddTransient<IUserManagerService, UserManagerService>();
-services.AddTransient<IRoleManagerService, RoleManagerService>();
+services.AddTransient<FlowLoaderService>();
+services.AddTransient<UserManagerService>();
+services.AddTransient<RoleManagerService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddEndpointsApiExplorer();

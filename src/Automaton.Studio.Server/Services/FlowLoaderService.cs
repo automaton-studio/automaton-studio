@@ -1,15 +1,14 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Studio.Server.Models;
-using Automaton.Studio.Server.Services.Interfaces;
 using System.Linq.Dynamic.Core;
 
 namespace Automaton.Studio.Server.Services
 {
-    public class FlowLoader : IFlowLoader
+    public class FlowLoaderService
     {
         private readonly IServiceProvider serviceProvider;
 
-        public FlowLoader(IServiceProvider serviceProvider)
+        public FlowLoaderService(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
         }

@@ -1,6 +1,6 @@
 ﻿using AuthServer.Core.Events;
 using Automaton.Studio.Server.Core.Commands;
-using Automaton.Studio.Server.Services.Interfaces;
+using Automaton.Studio.Server.Services;
 using Common.Authentication;
 using Common.EF;
 using MediatR;
@@ -14,11 +14,11 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
         private readonly IDataContext _dataContext;
         private readonly IJwtService _jwtService;
         private readonly IMediator _mediator;
-        private readonly IUserManagerService _userManagerService;
+        private readonly UserManagerService _userManagerService;
         private readonly ILogger<RefreshAccessTokenCommandHandler> _logger;
 
         public RefreshAccessTokenCommandHandler(IDataContext dataContext, IJwtService jwtService, IMediator mediator,
-            IUserManagerService userManagerService, ILogger<RefreshAccessTokenCommandHandler> logger)
+            UserManagerService userManagerService, ILogger<RefreshAccessTokenCommandHandler> logger)
         {
             _dataContext = dataContext;
             _jwtService = jwtService;

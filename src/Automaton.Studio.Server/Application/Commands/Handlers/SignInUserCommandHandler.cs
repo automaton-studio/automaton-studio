@@ -2,7 +2,7 @@
 using AuthServer.Core.Events;
 using AutoMapper;
 using Automaton.Studio.Server.Core.Commands;
-using Automaton.Studio.Server.Services.Interfaces;
+using Automaton.Studio.Server.Services;
 using Common.Authentication;
 using Common.EF;
 using MediatR;
@@ -13,14 +13,14 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
     public class SignInUserCommandHandler : IRequestHandler<SignInUserCommand, JsonWebToken>
     {
         private readonly IJwtService _jwtService;
-        private readonly IUserManagerService _userManagerService;
+        private readonly UserManagerService _userManagerService;
         private readonly IMapper _mapper;
         private readonly ILogger<SignInUserCommandHandler> _logger;
         private readonly IMediator _mediator;
         private readonly IDataContext _dataContext;
 
         public SignInUserCommandHandler(
-            IUserManagerService userManagerService,
+            UserManagerService userManagerService,
             IJwtService jwtService,
             IMapper mapper, ILogger<SignInUserCommandHandler> logger, IMediator mediator,
             IDataContext dataContext

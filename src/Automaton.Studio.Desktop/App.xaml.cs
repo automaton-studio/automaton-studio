@@ -26,7 +26,9 @@ namespace Automaton.Studio.Desktop
 
             Configuration = builder.Build();
             ServiceCollection = new ServiceCollection();
+
             ConfigureServices(ServiceCollection);
+
             ServiceProvider = ServiceCollection.BuildServiceProvider();
         }
 
@@ -38,6 +40,7 @@ namespace Automaton.Studio.Desktop
             services.AddStudio(Configuration);
 
             // Main window
+            services.AddSingleton(Configuration);
             services.AddSingleton<AppState>(AppState);
             services.AddTransient(typeof(MainWindow));
         }

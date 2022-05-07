@@ -2,7 +2,7 @@
 using AuthServer.Core.Events;
 using AutoMapper;
 using Automaton.Studio.Server.Core.Commands;
-using Automaton.Studio.Server.Services.Interfaces;
+using Automaton.Studio.Server.Services;
 using Common.EF;
 using MediatR;
 
@@ -12,14 +12,14 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
     {
         private readonly IDataContext _dataContext;
         private readonly IMediator _mediator;
-        private readonly IUserManagerService _userManagerService;
+        private readonly UserManagerService _userManagerService;
 
         private readonly IMapper _mapper;
         private readonly ILogger<RegisterUserCommandHandler> _logger;
 
         public RegisterUserCommandHandler(IDataContext dataContext, IMapper mapper,
             ILogger<RegisterUserCommandHandler> logger,
-            IMediator mediator, IUserManagerService userManagerService)
+            IMediator mediator, UserManagerService userManagerService)
         {
             _dataContext = dataContext;
             _mapper = mapper;

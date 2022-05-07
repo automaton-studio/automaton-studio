@@ -1,16 +1,16 @@
 ﻿using Automaton.Studio.Server.Core.Commands;
+using Automaton.Studio.Server.Services;
 using Common.EF;
 using MediatR;
-using Automaton.Studio.Server.Services.Interfaces;
 
 namespace Automaton.Studio.Server.Application.Commands.Handlers
 {
     public class AddUserRoleCommandHandler : IRequestHandler<AddUserRoleCommand>
     {
         private readonly IDataContext _dataContext;
-        private readonly IUserManagerService _userManagerService;
+        private readonly UserManagerService _userManagerService;
 
-        public AddUserRoleCommandHandler(IDataContext dataContext, IUserManagerService userManagerService)
+        public AddUserRoleCommandHandler(IDataContext dataContext, UserManagerService userManagerService)
         {
             _dataContext = dataContext;
             _userManagerService = userManagerService;

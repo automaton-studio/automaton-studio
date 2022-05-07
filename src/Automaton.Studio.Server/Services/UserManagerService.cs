@@ -1,10 +1,9 @@
 ﻿using AuthServer.Core.Domains;
-using Automaton.Studio.Server.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace Automaton.Studio.Server.Services
 {
-    public class UserManagerService : IUserManagerService
+    public class UserManagerService
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;

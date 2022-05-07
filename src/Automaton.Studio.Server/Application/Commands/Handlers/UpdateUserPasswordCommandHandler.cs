@@ -1,6 +1,6 @@
 ﻿using AuthServer.Core.Events;
 using Automaton.Studio.Server.Core.Commands;
-using Automaton.Studio.Server.Services.Interfaces;
+using Automaton.Studio.Server.Services;
 using Common.EF;
 using MediatR;
 
@@ -8,12 +8,12 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
 {
     public class UpdateUserPasswordCommandHandler : IRequestHandler<UpdateUserPasswordCommand>
     {
-        private readonly IUserManagerService _userManagerService;
+        private readonly UserManagerService _userManagerService;
         private readonly IDataContext _dataContext;
         private readonly IMediator _mediator;
         private readonly ILogger<UpdateUserPasswordCommandHandler> _logger;
 
-        public UpdateUserPasswordCommandHandler(IUserManagerService userManagerService, IDataContext dataContext,
+        public UpdateUserPasswordCommandHandler(UserManagerService userManagerService, IDataContext dataContext,
             IMediator mediator, ILogger<UpdateUserPasswordCommandHandler> logger)
         {
             _userManagerService = userManagerService;

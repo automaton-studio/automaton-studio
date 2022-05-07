@@ -37,7 +37,7 @@ namespace Automaton.Studio.Server.Controllers
         /// <returns>User profile data</returns>
         [HttpGet("{userId}", Name = "User")]
         [AllowAnonymous]
-        public async Task<ActionResult<UserDetailInfoDto>> FindUserById([FromRoute, NotEmptyGuid] Guid userId)
+        public async Task<ActionResult<UserDetails>> FindUserById([FromRoute, NotEmptyGuid] Guid userId)
         {
             return Ok(await Mediator.Send(new UserQuery {Id = userId}));
         }
@@ -49,7 +49,7 @@ namespace Automaton.Studio.Server.Controllers
         /// <param name="ct">Cancellation Token</param>
         /// <returns>Collection of user profiles</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDetailInfoDto>>> FindUsers(
+        public async Task<ActionResult<IEnumerable<UserDetails>>> FindUsers(
             [FromQuery] FilterUserQuery filterUserQuery, CancellationToken ct)
         {
             return Ok(await Mediator.Send(filterUserQuery, ct));

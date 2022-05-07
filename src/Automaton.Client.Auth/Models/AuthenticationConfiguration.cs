@@ -1,6 +1,6 @@
 ﻿namespace Automaton.Client.Auth.Models
 {
-    public class AuthConfiguration
+    public class AuthenticationConfiguration
     {
         public string WebApiUrl { get; set; }
         public string LoginUserUrl { get; set; }

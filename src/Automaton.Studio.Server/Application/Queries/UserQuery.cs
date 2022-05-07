@@ -3,7 +3,7 @@ using MediatR;
 
 namespace AuthServer.Core.Queries
 {
-    public class UserQuery : IRequest<UserDetailInfoDto>
+    public class UserQuery : IRequest<UserDetails>
     {
         public Guid Id { get; set; }
     }

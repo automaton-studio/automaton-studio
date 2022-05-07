@@ -8,7 +8,7 @@ namespace Automaton.Client.Auth.Services
         #region Members
 
         private readonly IConfiguration configuration;
-        private readonly AuthConfiguration authConfiguration = new();
+        private readonly AuthenticationConfiguration authConfiguration = new();
 
         #endregion
 
@@ -24,7 +24,7 @@ namespace Automaton.Client.Auth.Services
         public ConfigurationService(IConfiguration configuration)
         {
             this.configuration = configuration;
-            this.configuration.GetSection(nameof(AuthConfiguration)).Bind(authConfiguration);
+            this.configuration.GetSection(nameof(AuthenticationConfiguration)).Bind(authConfiguration);
         }
     }
 }

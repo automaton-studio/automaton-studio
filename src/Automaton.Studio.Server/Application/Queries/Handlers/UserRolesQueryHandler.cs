@@ -1,14 +1,14 @@
 ﻿using AuthServer.Core.Queries;
-using Automaton.Studio.Server.Services.Interfaces;
+using Automaton.Studio.Server.Services;
 using MediatR;
 
 namespace AuthServer.Application.Queries.Handlers
 {
     public class UserRolesQueryHandler : IRequestHandler<UserRolesQuery, IEnumerable<string>>
     {
-        private readonly IUserManagerService _userManagerService;
+        private readonly UserManagerService _userManagerService;
 
-        public UserRolesQueryHandler(IUserManagerService userManagerService)
+        public UserRolesQueryHandler(UserManagerService userManagerService)
         {
             _userManagerService = userManagerService;
         }

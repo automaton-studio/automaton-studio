@@ -2,7 +2,6 @@
 using Automaton.Core.Services;
 using Automaton.Studio.Server.Models;
 using Automaton.Studio.Server.Services;
-using Automaton.Studio.Server.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Automaton.Studio.Server.Controllers
@@ -10,7 +9,7 @@ namespace Automaton.Studio.Server.Controllers
     public class FlowsController : BaseController
     {
         private readonly IMapper mapper;
-        private readonly IFlowLoader definitionLoader;
+        private readonly FlowLoaderService flowLoaderService;
         private readonly WorkflowExecutor workflowExecutor;
         private readonly FlowsService flowsService;
 
@@ -18,12 +17,12 @@ namespace Automaton.Studio.Server.Controllers
         (
             FlowsService flowsService,
             WorkflowExecutor workflowExecutor,
-            IFlowLoader definitionLoader,
+            FlowLoaderService definitionLoader,
             IMapper mapper
         )
         {
             this.flowsService = flowsService;
-            this.definitionLoader = definitionLoader;
+            this.flowLoaderService = definitionLoader;
             this.workflowExecutor = workflowExecutor;
             this.mapper = mapper;
         }

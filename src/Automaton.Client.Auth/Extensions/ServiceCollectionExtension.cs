@@ -22,7 +22,7 @@ namespace Automaton.Client.Auth.Extensions
             services.AddScoped<AuthenticationService>();
 
             // Models
-            services.AddScoped<AuthConfiguration>();
+            services.AddScoped<AuthenticationConfiguration>();
         }
     }
 }
