@@ -58,9 +58,10 @@ namespace Automaton.Studio.Extensions
 
             // Models
             services.AddScoped<AppConfiguration>();
+            services.AddScoped<ApiConfiguration>();
 
             // Other
-            services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(configService.WebApiUrl) });
+            services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });
             services.AddScoped(typeof(DragDropService<>));
             services.AddScoped(service => new ConfigurationService(configuration));
         }

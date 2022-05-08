@@ -9,21 +9,23 @@ namespace Automaton.Studio.Services
 
         private readonly IConfiguration configuration;
         private readonly AppConfiguration appConfiguration = new();
+        private readonly ApiConfiguration apiConfiguration = new();
 
         #endregion
 
         #region Properties
 
-        public string WebApiUrl => appConfiguration.WebApiUrl;
+        public string BaseUrl => apiConfiguration.BaseUrl;
+        public string FlowsUrl => apiConfiguration.FlowsUrl;
         public bool IsDesktop => appConfiguration.IsDesktop;
-        public string FlowsUrl => appConfiguration.FlowsUrl;
-        
+
         #endregion
 
         public ConfigurationService(IConfiguration configuration)
         {
             this.configuration = configuration;
             this.configuration.GetSection(nameof(AppConfiguration)).Bind(appConfiguration);
+            this.configuration.GetSection(nameof(ApiConfiguration)).Bind(apiConfiguration);
         }
     }
 }

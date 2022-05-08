@@ -9,12 +9,12 @@ namespace Automaton.Client.Auth.Services
 
         private readonly IConfiguration configuration;
         private readonly AuthenticationConfiguration authConfiguration = new();
+        private readonly ApiConfiguration apiConfiguration = new();
 
         #endregion
 
         #region Properties
 
-        public string WebApiUrl => authConfiguration.WebApiUrl;
         public string LoginUserUrl => authConfiguration.LoginUserUrl;
         public string RefreshAccessTokenUrl => authConfiguration.RefreshAccessTokenUrl;
         public int RefreshTokenExpirationMinutesCheck => authConfiguration.RefreshTokenExpirationMinutesCheck;
@@ -25,6 +25,7 @@ namespace Automaton.Client.Auth.Services
         {
             this.configuration = configuration;
             this.configuration.GetSection(nameof(AuthenticationConfiguration)).Bind(authConfiguration);
+            this.configuration.GetSection(nameof(ApiConfiguration)).Bind(apiConfiguration);
         }
     }
 }

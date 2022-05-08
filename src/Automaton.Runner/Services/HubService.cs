@@ -29,7 +29,7 @@ namespace Automaton.Runner.Core.Services
         {
             var studioConfig = configService.ApiConfig;
             var token = await storageService.GetAuthToken();
-            var hubUrl = $"{studioConfig.WebApiUrl}{studioConfig.WorkflowHubUrl}";
+            var hubUrl = $"{studioConfig.BaseUrl}{studioConfig.WorkflowHubUrl}";
 
             connection = new HubConnectionBuilder().WithUrl(hubUrl, options =>
             {

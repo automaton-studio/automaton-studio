@@ -34,7 +34,7 @@ namespace Automaton.Runner
             services.AddSingleton(Configuration);
             services.AddSingleton(service => new HttpClient
             {
-                BaseAddress = new Uri(new ConfigService(Configuration).ApiConfig.WebApiUrl)
+                BaseAddress = new Uri(new ConfigService(Configuration).ApiConfig.BaseUrl)
             });
             services.AddSingleton(service => new ConfigService(Configuration));
 
