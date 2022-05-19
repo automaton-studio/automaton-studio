@@ -10,30 +10,27 @@ using System.Collections.Generic;
 
 namespace Automaton.Studio.Config
 {
-    public class AutorMapperProfile : Profile
+    public class AutoMapperProfile : Profile
     {
         private readonly StepFactory stepFactory = new StepFactory(new StepTypeDescriptor());
 
-        public AutorMapperProfile()
+        public AutoMapperProfile()
         {
             CreateMap<Step, Dto.Step>();
             CreateMap<Flow, Dto.Flow>();
             CreateMap<Definition, Dto.Definition>();
             
             CreateMap<Dto.Step, Step>();
-            CreateMap<Dto.Flow, Flow>()
-                .AfterMap((source, target) => FlowCreated(source, target));
+            CreateMap<Dto.Flow, Flow>().AfterMap((source, target) => FlowCreated(source, target));
 
-            CreateMap<Dto.Definition, Definition>()
-                .ForMember
-                (
-                    source => source.Steps, 
-                    target => target.MapFrom(entity => SetupSteps(entity.Steps))
-                )
-                .AfterMap((source, target) => DefinitionCreated(source, target));
+            CreateMap<Dto.Definition, Definition>().ForMember
+            (
+                source => source.Steps, 
+                target => target.MapFrom(entity => SetupSteps(entity.Steps))
+            )
+            .AfterMap((source, target) => DefinitionCreated(source, target));
 
             CreateMap<Definition, FlowExplorerDefinition>();
-
             CreateMap<LoginModel, LoginDetails>();
             CreateMap<FlowDetails, FlowModel>();       
         }
@@ -81,7 +78,7 @@ namespace Automaton.Studio.Config
         {
             var mappingConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new AutorMapperProfile());
+                mc.AddProfile(new AutoMapperProfile());
             });
             var mapper = mappingConfig.CreateMapper();
 
