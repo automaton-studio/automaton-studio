@@ -21,6 +21,6 @@
     </Window.DataContext>
     
     <Grid>
-        <Frame x:Name="frame" Source="Controls/LoginControl.xaml" NavigationUIVisibility="Hidden" />
+        <Frame x:Name="frame" NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>

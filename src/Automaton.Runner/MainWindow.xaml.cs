@@ -1,4 +1,5 @@
-﻿using Automaton.Runner.Core.Services;
+﻿using Automaton.Client.Auth.Services;
+using Automaton.Runner.Core.Services;
 using Automaton.Runner.ViewModels;
 using System;
 using System.Windows;
@@ -12,14 +13,25 @@ namespace Automaton.Runner
     public partial class MainWindow : Window
     {
         private readonly HubService hubService;
+        private readonly AuthenticationService authenticationService;
 
         public MainWindowViewModel ViewModel => DataContext as MainWindowViewModel;
 
-        public MainWindow(HubService hubService)
+        public MainWindow(HubService hubService, AuthenticationService authenticationService)
         {
             this.hubService = hubService;
+            this.authenticationService = authenticationService;
 
             InitializeComponent();
+        }
+
+        protected override async void OnInitialized(EventArgs e)
+        {
+            frame.Source = await authenticationService.IsLoggedIn() ?
+                new Uri("Controls/DashboardControl.xaml", UriKind.Relative) :
+                new Uri("Controls/LoginControl.xaml", UriKind.Relative);
+
+            base.OnInitialized(e);
         }
 
         public void NavigateToRegistration()

@@ -7,6 +7,7 @@ namespace Automaton.Client.Auth.Interfaces
         Task<string> GetRefreshToken();
         Task<string> GetAuthToken();
         Task SetJsonWebToken(JsonWebToken token);
+        Task<JsonWebToken> GetJsonWebToken();
         Task DeleteJsonWebToken();
     }
 }

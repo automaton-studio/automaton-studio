@@ -7,35 +7,30 @@ namespace Automaton.Runner.Services
 {
     public class LocalStorageService : IStorageService
     {
-        private const string AuthToken = "authToken";
-        private const string RefreshToken = "refreshToken";
+        private const string JsonWebToken = "jsonWebToken";
 
         private readonly App application = (App)Application.Current;
 
         public async Task<string> GetRefreshToken()
         {
-            var refreshToken = application.Properties.Contains(RefreshToken) ?
-                application.Properties[RefreshToken].ToString()
-                : string.Empty;
+            var jsonWebToken = await GetJsonWebToken();
 
-            return await Task.Run(() => refreshToken);
+            return await Task.Run(() => jsonWebToken != null ? jsonWebToken.RefreshToken : string.Empty);
         }
 
         public async Task<string> GetAuthToken()
         {
-            var authToken = application.Properties.Contains(AuthToken) ? 
-                application.Properties[AuthToken].ToString()
-                : string.Empty;
+            var jsonWebToken = await GetJsonWebToken();
 
-            return await Task.Run(() => authToken);
+            return await Task.Run(() => jsonWebToken != null ? jsonWebToken.AccessToken : string.Empty);
+
         }
 
         public async Task SetJsonWebToken(JsonWebToken token)
         {
             await Task.Run(() =>
             {
-                application.Properties[AuthToken] = token.AccessToken;
-                application.Properties[RefreshToken] = token.RefreshToken;
+                application.Properties[JsonWebToken] = token;
             });
         }
 
@@ -43,9 +38,17 @@ namespace Automaton.Runner.Services
         {
             await Task.Run(() =>
             {
-                application.Properties.Remove(AuthToken);
-                application.Properties.Remove(RefreshToken);
+                application.Properties.Remove(JsonWebToken);
             });
+        }
+
+        public async Task<JsonWebToken> GetJsonWebToken()
+        {
+            var jsonWebToken = application.Properties.Contains(JsonWebToken) ?
+                application.Properties[JsonWebToken]
+                : null;
+
+            return await Task.Run(() => jsonWebToken as JsonWebToken);
         }
     }
 }

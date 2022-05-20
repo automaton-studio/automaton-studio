@@ -51,6 +51,7 @@ namespace Automaton.Runner
             ServiceProvider = services.BuildServiceProvider();
 
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+
             mainWindow.Show();
         }
     }

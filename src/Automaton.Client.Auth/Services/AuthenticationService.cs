@@ -56,5 +56,12 @@ namespace Automaton.Client.Auth.Services
             ((AuthStateProvider)authStateProvider).NotifyUserLogout();
             client.DefaultRequestHeaders.Authorization = null;
         }
+
+        public async Task<bool> IsLoggedIn()
+        {
+            var jsonWebToken = await localStorage.GetJsonWebToken();
+
+            return jsonWebToken != null;
+        }
     }
 }
