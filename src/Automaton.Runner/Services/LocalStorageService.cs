@@ -1,5 +1,7 @@
 ﻿using Automaton.Client.Auth.Interfaces;
 using Automaton.Client.Auth.Models;
+using Newtonsoft.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -23,7 +25,6 @@ namespace Automaton.Runner.Services
             var jsonWebToken = await GetJsonWebToken();
 
             return await Task.Run(() => jsonWebToken != null ? jsonWebToken.AccessToken : string.Empty);
-
         }
 
         public async Task SetJsonWebToken(JsonWebToken token)
@@ -44,10 +45,9 @@ namespace Automaton.Runner.Services
 
         public async Task<JsonWebToken> GetJsonWebToken()
         {
-            var jsonWebToken = application.Properties.Contains(JsonWebToken) ?
-                application.Properties[JsonWebToken]
-                : null;
-
+            var jsonWebTokenProperty = application.Properties.Contains(JsonWebToken) ? application.Properties[JsonWebToken] : null;
+            var jsonWebToken = JsonConvert.DeserializeObject<JsonWebToken>(jsonWebTokenProperty.ToString());
+            
             return await Task.Run(() => jsonWebToken as JsonWebToken);
         }
     }

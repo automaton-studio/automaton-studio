@@ -3,9 +3,13 @@ using Automaton.Runner.Extensions;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.IO.IsolatedStorage;
 using System.Net.Http;
+using System.Security;
 using System.Text;
 using System.Windows;
 
@@ -17,12 +21,15 @@ namespace Automaton.Runner
     public partial class App : Application
     {
         private const string AppSettings = "appsettings.json";
+        private const string AutomatonIsolatedStorage = "Automaton";
 
         public static IServiceProvider ServiceProvider { get; private set; }
         public static IConfiguration Configuration { get; private set; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            RestoreApplicationProperties();
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile(AppSettings, false, true);
@@ -47,12 +54,48 @@ namespace Automaton.Runner
             services.AddApplication();
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            
+
             ServiceProvider = services.BuildServiceProvider();
 
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
 
             mainWindow.Show();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            PersistApplicationProperties();
+        }
+
+        private void PersistApplicationProperties()
+        {
+            var isolatedStorage = IsolatedStorageFile.GetUserStoreForAssembly();
+
+            using var writer = new StreamWriter(new IsolatedStorageFileStream(AutomatonIsolatedStorage, FileMode.Create, isolatedStorage));
+
+            writer.Write(JsonConvert.SerializeObject(App.Current.Properties));
+        }
+
+        private void RestoreApplicationProperties()
+        {
+            var isolatedStorage = IsolatedStorageFile.GetUserStoreForAssembly();
+                
+            using var reader = new StreamReader(new IsolatedStorageFileStream(AutomatonIsolatedStorage, FileMode.OpenOrCreate, isolatedStorage));
+
+            if (reader != null)
+            {
+                var propertiesString = reader.ReadToEnd();
+
+                if (string.IsNullOrEmpty(propertiesString))
+                    return;
+
+                var properties = JsonConvert.DeserializeObject<Dictionary<string, object>>(propertiesString);
+
+                foreach(var property in properties)
+                {
+                    App.Current.Properties[property.Key] = property.Value;
+                }
+            }     
         }
     }
 }
