@@ -14,11 +14,11 @@ namespace Automaton.Client.Auth.Services
         private readonly HttpClient _client;
         private readonly JsonSerializerOptions _options;
         private readonly ConfigurationService _configService;
-        private readonly IStorageService _localStorage;
+        private readonly IAuthenticationStorage _localStorage;
 
         public RefreshTokenService(HttpClient client,
             ConfigurationService configService,
-            IStorageService localStorage)
+            IAuthenticationStorage localStorage)
         {
             _client = client;
             _options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };

@@ -9,14 +9,14 @@ namespace Automaton.Client.Auth.Extensions
 {
     public static class ServiceCollectionExtension
     {
-        public static void AddStudioAuthenication<T>(this IServiceCollection services) where T : class, IStorageService
+        public static void AddStudioAuthenication<T>(this IServiceCollection services) where T : class, IAuthenticationStorage
         {
             // Providers
             services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
 
             // Services
             services.AddScoped<T>();
-            services.AddScoped<IStorageService>(sp => sp.GetService<T>());
+            services.AddScoped<IAuthenticationStorage>(sp => sp.GetService<T>());
             services.AddScoped<ConfigurationService>();
             services.AddScoped<RefreshTokenService>();
             services.AddScoped<AuthenticationService>();

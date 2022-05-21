@@ -14,13 +14,13 @@ namespace Automaton.Client.Auth.Providers
         private const string ClaimJwtAuthType = "jwtAuthType";
 
         private readonly HttpClient httpClient;
-        private readonly IStorageService localStorage;
+        private readonly IAuthenticationStorage localStorage;
         private readonly RefreshTokenService refreshTokenService;
         private readonly ConfigurationService configService;
         private readonly AuthenticationState anonymous;
 
         public AuthStateProvider(HttpClient httpClient,
-            IStorageService localStorage, 
+            IAuthenticationStorage localStorage, 
             RefreshTokenService refreshTokenService,
             ConfigurationService configService)
         {

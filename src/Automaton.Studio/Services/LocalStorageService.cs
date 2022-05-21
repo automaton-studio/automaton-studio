@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services
 {
-    public class LocalStorageService : IStorageService
+    public class LocalStorageService : IAuthenticationStorage
     {
         private const string JsonWebToken = "jsonWebToken";
 

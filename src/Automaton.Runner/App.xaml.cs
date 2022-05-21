@@ -9,15 +9,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Net.Http;
-using System.Security;
-using System.Text;
 using System.Windows;
 
 namespace Automaton.Runner
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
         private const string AppSettings = "appsettings.json";
@@ -30,6 +25,20 @@ namespace Automaton.Runner
         {
             RestoreApplicationProperties();
 
+            ServiceProvider = BuildServiceProvider();
+
+            var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+
+            mainWindow.Show();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            PersistApplicationProperties();
+        }
+
+        private static IServiceProvider BuildServiceProvider()
+        {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile(AppSettings, false, true);
@@ -53,19 +62,12 @@ namespace Automaton.Runner
 
             services.AddApplication();
 
-            ServiceProvider = services.BuildServiceProvider();
+            var serviceProvider = services.BuildServiceProvider();
 
-            var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
-
-            mainWindow.Show();
+            return serviceProvider;
         }
 
-        protected override void OnExit(ExitEventArgs e)
-        {
-            PersistApplicationProperties();
-        }
-
-        private void PersistApplicationProperties()
+        private static void PersistApplicationProperties()
         {
             var isolatedStorage = IsolatedStorageFile.GetUserStoreForAssembly();
 
@@ -74,7 +76,7 @@ namespace Automaton.Runner
             writer.Write(JsonConvert.SerializeObject(App.Current.Properties));
         }
 
-        private void RestoreApplicationProperties()
+        private static void RestoreApplicationProperties()
         {
             var isolatedStorage = IsolatedStorageFile.GetUserStoreForAssembly();
                 

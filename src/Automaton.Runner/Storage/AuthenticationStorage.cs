@@ -1,13 +1,12 @@
 ﻿using Automaton.Client.Auth.Interfaces;
 using Automaton.Client.Auth.Models;
 using Newtonsoft.Json;
-using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace Automaton.Runner.Services
 {
-    public class LocalStorageService : IStorageService
+    public class AuthenticationStorage : IAuthenticationStorage
     {
         private const string JsonWebToken = "jsonWebToken";
 
@@ -48,7 +47,7 @@ namespace Automaton.Runner.Services
             var jsonWebTokenProperty = application.Properties.Contains(JsonWebToken) ? application.Properties[JsonWebToken] : null;
             var jsonWebToken = JsonConvert.DeserializeObject<JsonWebToken>(jsonWebTokenProperty.ToString());
             
-            return await Task.Run(() => jsonWebToken as JsonWebToken);
+            return await Task.Run(() => jsonWebToken);
         }
     }
 }

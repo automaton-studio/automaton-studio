@@ -16,9 +16,9 @@ namespace Automaton.Runner.Core.Services
         private HubConnection connection;
         private readonly WorkflowService workflowService;
         private readonly ConfigService configService;
-        private readonly IStorageService storageService;
+        private readonly IAuthenticationStorage storageService;
 
-        public HubService(ConfigService configService, WorkflowService workflowService, IStorageService storageService)
+        public HubService(ConfigService configService, WorkflowService workflowService, IAuthenticationStorage storageService)
         {
             this.configService = configService;
             this.workflowService = workflowService;

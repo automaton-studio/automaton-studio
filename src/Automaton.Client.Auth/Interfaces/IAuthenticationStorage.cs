@@ -2,7 +2,7 @@
 
 namespace Automaton.Client.Auth.Interfaces
 {
-    public interface IStorageService
+    public interface IAuthenticationStorage
     {
         Task<string> GetRefreshToken();
         Task<string> GetAuthToken();

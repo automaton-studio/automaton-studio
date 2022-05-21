@@ -14,7 +14,6 @@ namespace Automaton.Runner.ViewModels
         private readonly HubService hubService;
         private readonly RegisterService registrationService;
         private readonly RegistrationValidator registrationValidator;
-        private readonly ConfigService configService;
 
         public LoaderViewModel Loader { get; set; }
         public string RunnerName { get; set; }
@@ -24,13 +23,11 @@ namespace Automaton.Runner.ViewModels
             LoaderViewModel loader,
             HubService hubService,
             RegisterService registrationService,
-            ConfigService configService,
             RegistrationValidator registrationValidator
         )
         {
             this.hubService = hubService;
             this.Loader = loader;
-            this.configService = configService;
             this.registrationService = registrationService;
             this.registrationValidator = registrationValidator;
         }
@@ -47,8 +44,6 @@ namespace Automaton.Runner.ViewModels
                 Loader.StartLoading();
 
                 await registrationService.Register(RunnerName);
-
-                configService.RegisterRunner(RunnerName);
 
                 await hubService.Connect(RunnerName);
 

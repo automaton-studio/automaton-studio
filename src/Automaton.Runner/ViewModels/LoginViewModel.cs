@@ -58,9 +58,9 @@ namespace Automaton.Runner.ViewModels
 
                 Loader.StartLoading();
 
-                if (configService.UserConfig.IsRunnerRegistered())
+                if (configService.AppConfig.IsRunnerRegistered())
                 {
-                    await hubService.Connect(configService.UserConfig.RunnerName);
+                    await hubService.Connect(configService.AppConfig.RunnerName);
 
                     return RunnerNavigation.Dashboard;
                 }

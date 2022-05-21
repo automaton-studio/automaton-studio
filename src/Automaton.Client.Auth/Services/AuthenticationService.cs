@@ -17,17 +17,17 @@ namespace Automaton.Client.Auth.Services
         private readonly JsonSerializerOptions options;
         private readonly AuthenticationStateProvider authStateProvider;
         private readonly ConfigurationService configService;
-        private readonly IStorageService localStorage;
+        private readonly IAuthenticationStorage authenticationStorage;
 
         public AuthenticationService(HttpClient client, 
             AuthenticationStateProvider authStateProvider,
             ConfigurationService configService,
-            IStorageService localStorage)
+            IAuthenticationStorage localStorage)
         {
             this.client = client;
             this.authStateProvider = authStateProvider;
             this.configService = configService;
-            this.localStorage = localStorage;
+            this.authenticationStorage = localStorage;
             this.options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
 
@@ -43,7 +43,7 @@ namespace Automaton.Client.Auth.Services
             var jsonToken = await result.Content.ReadAsStringAsync();
             var token = JsonSerializer.Deserialize<JsonWebToken>(jsonToken, options);
 
-            await localStorage.SetJsonWebToken(token);
+            await authenticationStorage.SetJsonWebToken(token);
 
             ((AuthStateProvider)authStateProvider).NotifyUserAuthentication(token.AccessToken);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, token.AccessToken);
@@ -51,7 +51,7 @@ namespace Automaton.Client.Auth.Services
 
         public async Task Logout()
         {
-            await localStorage.DeleteJsonWebToken();
+            await authenticationStorage.DeleteJsonWebToken();
 
             ((AuthStateProvider)authStateProvider).NotifyUserLogout();
             client.DefaultRequestHeaders.Authorization = null;
@@ -59,7 +59,7 @@ namespace Automaton.Client.Auth.Services
 
         public async Task<bool> IsLoggedIn()
         {
-            var jsonWebToken = await localStorage.GetJsonWebToken();
+            var jsonWebToken = await authenticationStorage.GetJsonWebToken();
 
             return jsonWebToken != null;
         }
