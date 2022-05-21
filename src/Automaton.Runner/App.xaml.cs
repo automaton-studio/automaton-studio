@@ -53,8 +53,6 @@ namespace Automaton.Runner
 
             services.AddApplication();
 
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
             ServiceProvider = services.BuildServiceProvider();
 
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
