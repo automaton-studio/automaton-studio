@@ -6,7 +6,6 @@ using Automaton.Runner.Resources;
 using Automaton.Runner.Validators;
 using System;
 using System.Linq;
-using System.Security.Authentication;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner.ViewModels

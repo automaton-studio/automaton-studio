@@ -12,26 +12,17 @@ namespace Automaton.Runner.Services
 
         private readonly App application = (App)Application.Current;
 
-        public async Task<string> GetRefreshToken()
+        public async Task<JsonWebToken> GetJsonWebToken()
         {
-            var jsonWebToken = await GetJsonWebToken();
+            var jsonWebTokenProperty = application.Properties.Contains(JsonWebToken) ? application.Properties[JsonWebToken] : null;
+            var jsonWebToken = JsonConvert.DeserializeObject<JsonWebToken>(jsonWebTokenProperty.ToString());
 
-            return await Task.Run(() => jsonWebToken != null ? jsonWebToken.RefreshToken : string.Empty);
-        }
-
-        public async Task<string> GetAuthToken()
-        {
-            var jsonWebToken = await GetJsonWebToken();
-
-            return await Task.Run(() => jsonWebToken != null ? jsonWebToken.AccessToken : string.Empty);
+            return await Task.Run(() => jsonWebToken);
         }
 
         public async Task SetJsonWebToken(JsonWebToken token)
         {
-            await Task.Run(() =>
-            {
-                application.Properties[JsonWebToken] = token;
-            });
+            await Task.Run(() => { application.Properties[JsonWebToken] = JsonConvert.SerializeObject(token); });
         }
 
         public async Task DeleteJsonWebToken()
@@ -42,12 +33,18 @@ namespace Automaton.Runner.Services
             });
         }
 
-        public async Task<JsonWebToken> GetJsonWebToken()
+        public async Task<string> GetAuthToken()
         {
-            var jsonWebTokenProperty = application.Properties.Contains(JsonWebToken) ? application.Properties[JsonWebToken] : null;
-            var jsonWebToken = JsonConvert.DeserializeObject<JsonWebToken>(jsonWebTokenProperty.ToString());
-            
-            return await Task.Run(() => jsonWebToken);
+            var jsonWebToken = await GetJsonWebToken();
+
+            return await Task.Run(() => jsonWebToken != null ? jsonWebToken.AccessToken : string.Empty);
+        }
+
+        public async Task<string> GetRefreshToken()
+        {
+            var jsonWebToken = await GetJsonWebToken();
+
+            return await Task.Run(() => jsonWebToken != null ? jsonWebToken.RefreshToken : string.Empty);
         }
     }
 }

@@ -57,11 +57,17 @@ namespace Automaton.Client.Auth.Services
             client.DefaultRequestHeaders.Authorization = null;
         }
 
-        public async Task<bool> IsLoggedIn()
+        public async Task<bool> InitLoggedInAuthorization()
         {
             var jsonWebToken = await authenticationStorage.GetJsonWebToken();
 
-            return jsonWebToken != null;
+            if (jsonWebToken != null)
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, jsonWebToken.AccessToken);
+                return true;
+            }
+
+            return false;
         }
     }
 }

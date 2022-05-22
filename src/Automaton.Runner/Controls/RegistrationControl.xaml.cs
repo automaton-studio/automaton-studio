@@ -22,8 +22,9 @@ namespace Automaton.Runner.Controls
             var result = await viewModel.Register();
 
             if (result == Enums.RunnerNavigation.Dashboard)
+            {
                 mainWindow.NavigateToDashboard();
-            
+            }
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Automaton.Client.Auth.Models;
 using Automaton.Client.Auth.Services;
-using System.Security.Authentication;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Login

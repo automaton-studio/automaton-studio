@@ -87,6 +87,8 @@ namespace Automaton.Studio.Server.Hubs
                 ConnectionId = Context.ConnectionId
             };
 
+            var userId = GetUserId();
+
             await runnerService.Update(runner, CancellationToken.None);
         }
 

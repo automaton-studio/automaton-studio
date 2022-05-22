@@ -13,13 +13,15 @@ namespace Automaton.Runner
     public partial class MainWindow : Window
     {
         private readonly HubService hubService;
+        private readonly ConfigService configService;
         private readonly AuthenticationService authenticationService;
 
         public MainWindowViewModel ViewModel => DataContext as MainWindowViewModel;
 
-        public MainWindow(HubService hubService, AuthenticationService authenticationService)
+        public MainWindow(HubService hubService, ConfigService configService, AuthenticationService authenticationService)
         {
             this.hubService = hubService;
+            this.configService = configService;
             this.authenticationService = authenticationService;
 
             InitializeComponent();
@@ -27,9 +29,17 @@ namespace Automaton.Runner
 
         protected override async void OnInitialized(EventArgs e)
         {
-            frame.Source = await authenticationService.IsLoggedIn() ?
-                new Uri("Controls/DashboardControl.xaml", UriKind.Relative) :
-                new Uri("Controls/LoginControl.xaml", UriKind.Relative);
+            var loggedIn = await authenticationService.InitLoggedInAuthorization();
+
+            if (loggedIn)
+            {
+                await hubService.Connect(configService.AppConfig.RunnerName);
+                frame.Source = new Uri("Controls/DashboardControl.xaml", UriKind.Relative);
+            }
+            else
+            {
+                frame.Source = new Uri("Controls/LoginControl.xaml", UriKind.Relative);
+            }
 
             base.OnInitialized(e);
         }

@@ -88,7 +88,9 @@ namespace Automaton.Studio.Server.Services
 
         public async Task Update(Runner runner, CancellationToken cancellationToken)
         {
-            var runnerEntity = dbContext.Runners.SingleOrDefault(x => x.Name == runner.Name && runner.RunnerUsers.Any(x => x.UserId == userId));
+            var runnerEntity = dbContext.Runners
+                .Include(x => x.RunnerUsers)
+                .SingleOrDefault(x => x.Name == runner.Name && x.RunnerUsers.Any(x => x.UserId == userId));
 
             if (runnerEntity == null)
             {
