@@ -13,7 +13,7 @@ namespace Automaton.Runner.Extensions
         public static void AddApplication(this IServiceCollection services)
         {
             // Services
-            services.AddSingleton<RegisterService>();
+            services.AddSingleton<RunnerService>();
             services.AddSingleton<HubService>();
             services.AddScoped<WorkflowService>();
 

@@ -14,8 +14,13 @@ namespace Automaton.Runner.Services
 
         public async Task<JsonWebToken> GetJsonWebToken()
         {
-            var jsonWebTokenProperty = application.Properties.Contains(JsonWebToken) ? application.Properties[JsonWebToken] : null;
-            var jsonWebToken = JsonConvert.DeserializeObject<JsonWebToken>(jsonWebTokenProperty.ToString());
+            var jsonWebToken = new JsonWebToken();
+
+            if (application.Properties.Contains(JsonWebToken))
+            {
+                var jsonWebTokenProperty = application.Properties[JsonWebToken];
+                jsonWebToken = JsonConvert.DeserializeObject<JsonWebToken>(jsonWebTokenProperty.ToString());
+            }
 
             return await Task.Run(() => jsonWebToken);
         }

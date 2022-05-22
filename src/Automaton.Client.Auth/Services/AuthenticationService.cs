@@ -60,14 +60,10 @@ namespace Automaton.Client.Auth.Services
         public async Task<bool> InitLoggedInAuthorization()
         {
             var jsonWebToken = await authenticationStorage.GetJsonWebToken();
-
-            if (jsonWebToken != null)
-            {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, jsonWebToken.AccessToken);
-                return true;
-            }
-
-            return false;
+            
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, jsonWebToken.AccessToken);
+                
+            return jsonWebToken.IsValid();
         }
     }
 }

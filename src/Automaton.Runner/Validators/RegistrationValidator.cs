@@ -1,4 +1,5 @@
-﻿using Automaton.Runner.ViewModels;
+﻿using Automaton.Runner.Resources;
+using Automaton.Runner.ViewModels;
 using FluentValidation;
 
 namespace Automaton.Runner.Validators
@@ -7,7 +8,9 @@ namespace Automaton.Runner.Validators
     {
         public RegistrationValidator()
         {
-            RuleFor(x => x.RunnerName).NotEmpty();
+            RuleFor(x => x.RunnerName).NotEmpty().WithMessage(Errors.RunnerNameRequired);
+            RuleFor(x => x.RunnerName).MaximumLength(50).WithMessage(Errors.RunnerMaxName);
+           
         }
     }
 }

@@ -118,18 +118,27 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApplicationError" xml:space="preserve">
-    <value>Application error.</value>
+    <value>Application error</value>
   </data>
   <data name="AuthenticationError" xml:space="preserve">
-    <value>Authentication error.</value>
+    <value>Authentication error</value>
   </data>
   <data name="CanNotRegisterRunner" xml:space="preserve">
-    <value>Can not register runner.</value>
+    <value>Can not register runner</value>
   </data>
   <data name="ContactAdministrator" xml:space="preserve">
-    <value>Please contact administrator.</value>
+    <value>Please contact administrator</value>
   </data>
   <data name="RegistrationError" xml:space="preserve">
-    <value>Registration error.</value>
+    <value>Registration error</value>
+  </data>
+  <data name="RunnerExists" xml:space="preserve">
+    <value>Runner exists</value>
+  </data>
+  <data name="RunnerMaxName" xml:space="preserve">
+    <value>Runner name must not exceeds 50 characters</value>
+  </data>
+  <data name="RunnerNameRequired" xml:space="preserve">
+    <value>Runner name must not be empty</value>
   </data>
 </root>

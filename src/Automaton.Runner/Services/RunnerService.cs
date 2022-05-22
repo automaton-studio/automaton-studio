@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Automaton.Runner.Services
 {
-    public class RegisterService
+    public class RunnerService
     {
         private readonly ConfigService configService;
         private readonly HttpClient httpClient;
         private readonly ApplicationStorage applicationStorage;
 
-        public RegisterService(HttpClient httpClient, ConfigService configService, ApplicationStorage applicationStorage)
+        public RunnerService(HttpClient httpClient, ConfigService configService, ApplicationStorage applicationStorage)
         {
             this.httpClient = httpClient;
             this.configService = configService;

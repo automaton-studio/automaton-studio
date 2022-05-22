@@ -61,7 +61,7 @@ namespace Automaton.Runner.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Application error..
+        ///   Looks up a localized string similar to Application error.
         /// </summary>
         public static string ApplicationError {
             get {
@@ -70,7 +70,7 @@ namespace Automaton.Runner.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Authentication error..
+        ///   Looks up a localized string similar to Authentication error.
         /// </summary>
         public static string AuthenticationError {
             get {
@@ -79,7 +79,7 @@ namespace Automaton.Runner.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can not register runner..
+        ///   Looks up a localized string similar to Can not register runner.
         /// </summary>
         public static string CanNotRegisterRunner {
             get {
@@ -88,7 +88,7 @@ namespace Automaton.Runner.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please contact administrator..
+        ///   Looks up a localized string similar to Please contact administrator.
         /// </summary>
         public static string ContactAdministrator {
             get {
@@ -97,11 +97,38 @@ namespace Automaton.Runner.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Registration error..
+        ///   Looks up a localized string similar to Registration error.
         /// </summary>
         public static string RegistrationError {
             get {
                 return ResourceManager.GetString("RegistrationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Runner exists.
+        /// </summary>
+        public static string RunnerExists {
+            get {
+                return ResourceManager.GetString("RunnerExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Runner name must not exceeds 50 characters.
+        /// </summary>
+        public static string RunnerMaxName {
+            get {
+                return ResourceManager.GetString("RunnerMaxName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Runner name must not be empty.
+        /// </summary>
+        public static string RunnerNameRequired {
+            get {
+                return ResourceManager.GetString("RunnerNameRequired", resourceCulture);
             }
         }
     }

@@ -12,7 +12,7 @@ namespace Automaton.Runner.ViewModels
     public class RegistrationViewModel
     {
         private readonly HubService hubService;
-        private readonly RegisterService registrationService;
+        private readonly RunnerService registrationService;
         private readonly RegistrationValidator registrationValidator;
 
         public LoaderViewModel Loader { get; set; }
@@ -22,7 +22,7 @@ namespace Automaton.Runner.ViewModels
         (
             LoaderViewModel loader,
             HubService hubService,
-            RegisterService registrationService,
+            RunnerService registrationService,
             RegistrationValidator registrationValidator
         )
         {

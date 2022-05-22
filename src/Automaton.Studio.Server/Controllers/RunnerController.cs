@@ -10,5 +10,11 @@ namespace Automaton.Studio.Server.Controllers
         {
             return Ok(await Mediator.Send(command, cancellationToken));
         }
+
+        [HttpGet("exists")]
+        public async Task<ActionResult> Get([FromBody] RegisterRunnerCommand command, CancellationToken cancellationToken)
+        {
+            return Ok(await Mediator.Send(command, cancellationToken));
+        }
     }
 }

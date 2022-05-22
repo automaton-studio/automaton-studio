@@ -33,8 +33,15 @@ namespace Automaton.Runner
 
             if (loggedIn)
             {
-                await hubService.Connect(configService.AppConfig.RunnerName);
-                frame.Source = new Uri("Controls/DashboardControl.xaml", UriKind.Relative);
+                if (configService.AppConfig.IsRunnerRegistered())
+                {
+                    await hubService.Connect(configService.AppConfig.RunnerName);
+                    frame.Source = new Uri("Controls/DashboardControl.xaml", UriKind.Relative);
+                }
+                else
+                {
+                    frame.Source = new Uri("Controls/RegistrationControl.xaml", UriKind.Relative);
+                }
             }
             else
             {
