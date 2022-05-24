@@ -4,5 +4,6 @@
     {
         public string BaseUrl { get; set; }
         public string FlowsUrl { get; set; }
+        public string RunnersUrl { get; set; }
     }
 }

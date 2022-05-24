@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Automaton.Studio.Models
+namespace Automaton.Studio.Pages.Designer.Components.StepExplorer
 {
     public class StepExplorerModel
     {

@@ -28,23 +28,28 @@ namespace Automaton.Studio.Server.Services
             userId = userIdGuid;
         }
 
-        /// <summary>
-        /// Retrieves the full list of runners
-        /// </summary>
-        /// <returns></returns>
         public async Task<IEnumerable<Runner>> List(CancellationToken cancellationToken)
         {
-            return await dbContext.Runners.ToListAsync(cancellationToken);
+            var runners = await (from runner in dbContext.Runners
+                join runnerUser in dbContext.RunnerUsers
+                on runner.Id equals runnerUser.RunnerId
+                where runnerUser.UserId == userId
+                select runner).ToListAsync(cancellationToken);
+
+            return runners;
         }
 
-        /// <summary>
-        /// Retrieve runner by id
-        /// </summary>
-        /// <param name="id">Runner id</param>
-        /// <returns>Runner by incoming id</returns>
         public async Task<Runner> Get(Guid id, CancellationToken cancellationToken)
         {
-            var entity = await dbContext.Runners.FindAsync(id, cancellationToken);
+            var runner =
+            (
+                from _runner in dbContext.Runners
+                join _runnerUser in dbContext.RunnerUsers
+                on _runner.Id equals _runnerUser.RunnerId
+                where _runner.Id == id && _runnerUser.UserId == userId
+                select _runner
+            )
+            .SingleOrDefault();
 
             // Because we update Runner's ConnectionId on the fly,
             // when retrieving data we get the cached version of it
@@ -57,13 +62,13 @@ namespace Automaton.Studio.Server.Services
             // http://codethug.com/2016/02/19/Entity-Framework-Cache-Busting/
 
             // Solution 1. Reload the entity 
-            dbContext.Entry(entity).Reload();
+            dbContext.Entry(runner).Reload();
 
             // Solution 2. Detach the entity to remove it from context’s cache.
             // dbContext.Entry(entity).State = EntityState.Detached;
             // entity = dbContext.Runners.Find(id);
 
-            return entity;
+            return runner;
         }
 
         public async Task<int> Create(string name, CancellationToken cancellationToken)
@@ -72,6 +77,7 @@ namespace Automaton.Studio.Server.Services
             {
                 Name = name
             };
+
             await dbContext.Runners.AddAsync(runner, cancellationToken);
 
             var runnerUser = new RunnerUser
@@ -79,6 +85,7 @@ namespace Automaton.Studio.Server.Services
                 RunnerId = runner.Id,
                 UserId = userId
             };
+
             await dbContext.RunnerUsers.AddAsync(runnerUser, cancellationToken);
 
             var result = await dbContext.SaveChangesAsync(cancellationToken);
@@ -86,7 +93,7 @@ namespace Automaton.Studio.Server.Services
             return result;
         }
 
-        public async Task Update(Runner runner, CancellationToken cancellationToken)
+        public async Task Update(Models.Runner runner, CancellationToken cancellationToken)
         {
             var runnerEntity = dbContext.Runners
                 .Include(x => x.RunnerUsers)

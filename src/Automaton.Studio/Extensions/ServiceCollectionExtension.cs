@@ -3,7 +3,6 @@ using Automaton.Studio.Config;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Factories;
-using Automaton.Studio.Models;
 using Automaton.Studio.Pages.Account;
 using Automaton.Studio.Pages.Designer;
 using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
@@ -11,7 +10,6 @@ using Automaton.Studio.Pages.Designer.Components.StepExplorer;
 using Automaton.Studio.Pages.Flows;
 using Automaton.Studio.Pages.Login;
 using Automaton.Studio.Services;
-using Automaton.Studio.Services.Interfaces;
 using Blazored.LocalStorage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +37,7 @@ namespace Automaton.Studio.Extensions
             services.AddScoped<FlowService>();
             services.AddScoped<FlowConvertService>();
             services.AddScoped<FlowsService>();
+            services.AddScoped<RunnerService>();
             services.AddScoped<LocalStorageService>();
             services.AddSingleton<NavMenuService>();
 

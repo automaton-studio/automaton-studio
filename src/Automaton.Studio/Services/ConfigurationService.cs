@@ -17,6 +17,7 @@ namespace Automaton.Studio.Services
 
         public string BaseUrl => apiConfiguration.BaseUrl;
         public string FlowsUrl => apiConfiguration.FlowsUrl;
+        public string RunnersUrl => apiConfiguration.RunnersUrl;
         public bool IsDesktop => appConfiguration.IsDesktop;
 
         #endregion

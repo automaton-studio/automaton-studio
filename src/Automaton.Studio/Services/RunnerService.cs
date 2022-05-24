@@ -9,19 +9,19 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services
 {
-    public class FlowsService
+    public class RunnerService
     {
         private HttpClient httpClient;
         private readonly ConfigurationService configService;
         private readonly IMapper mapper;
-        private readonly ILogger<FlowsService> logger;
+        private readonly ILogger<RunnerService> logger;
 
-        public FlowsService
+        public RunnerService
         (
             ConfigurationService configService,
             IMapper mapper,
             HttpClient httpClient,
-            ILogger<FlowsService> logger
+            ILogger<RunnerService> logger
         )
         {
             this.logger = logger;
@@ -30,24 +30,24 @@ namespace Automaton.Studio.Services
             this.mapper = mapper;
         }
 
-        public async Task<ICollection<FlowModel>> List()
+        public async Task<ICollection<RunnerModel>> List()
         {
-            ICollection<FlowModel> flows = new List<FlowModel>();
+            ICollection<RunnerModel> runners = new List<RunnerModel>();
 
             try
             {
-                var result = await httpClient.GetAsync(configService.FlowsUrl);
+                var result = await httpClient.GetAsync(configService.RunnersUrl);
 
                 result.EnsureSuccessStatusCode();
 
-                flows = await result.Content.ReadAsAsync<ICollection<FlowModel>>();
+                runners = await result.Content.ReadAsAsync<ICollection<RunnerModel>>();
             }
             catch (Exception ex)
             {
-                logger.LogError(AppLogEvents.Error, ex, "Failed to load flows list");
+                logger.LogError(AppLogEvents.Error, ex, "Failed to load runners list");
             }
 
-            return flows;
+            return runners;
         }
     }
 }

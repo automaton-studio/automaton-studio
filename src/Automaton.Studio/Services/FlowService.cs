@@ -5,7 +5,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Services.Interfaces
+namespace Automaton.Studio.Services
 {
     public class FlowService
     {

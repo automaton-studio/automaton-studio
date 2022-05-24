@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Automaton.Studio.Services.Interfaces;
+using Automaton.Studio.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,27 +11,30 @@ namespace Automaton.Studio.Pages.Flows
     {
         private readonly IMapper mapper;
         private readonly FlowsService flowsService;
+        private readonly RunnerService runnerService;
         private readonly FlowService flowService;
 
         public ICollection<FlowModel> Flows { get; set;  } = new List<FlowModel>();
-      
+        public ICollection<RunnerModel> Runners { get; set; } = new List<RunnerModel>();
+
         public FlowsViewModel
         (
             FlowsService flowsService,
+            RunnerService runnerService,
             FlowService flowService,
             IMapper mapper
         )
         {
             this.flowsService = flowsService;
+            this.runnerService = runnerService;
             this.flowService = flowService;
             this.mapper = mapper;
         }
 
         public async Task GetFlows()
         {
-            var flows = await flowsService.List();
-
-            Flows = mapper.Map<ICollection<FlowModel>>(flows);
+            Flows = await flowsService.List();
+            Runners = await runnerService.List();
         }
 
         public async Task CreateFlow(string name)

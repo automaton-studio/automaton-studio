@@ -1,5 +1,4 @@
-﻿using Automaton.Studio.Server.Entities;
-using Automaton.Studio.Server.Services;
+﻿using Automaton.Studio.Server.Services;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Automaton.Studio.Server.Hubs
@@ -32,7 +31,9 @@ namespace Automaton.Studio.Server.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            await Clients.Caller.SendAsync("WelcomeRunner", $"Welcome {GetRunnerName()}");
+            var runnerName = GetRunnerName();
+
+            await Clients.Caller.SendAsync("WelcomeRunner", $"Welcome {runnerName}");
 
             await UpdateRunnerConnection();
 
@@ -81,7 +82,7 @@ namespace Automaton.Studio.Server.Hubs
 
         private async Task UpdateRunnerConnection()
         {
-            var runner = new Runner
+            var runner = new Models.Runner
             {
                 Name = GetRunnerName(),
                 ConnectionId = Context.ConnectionId
