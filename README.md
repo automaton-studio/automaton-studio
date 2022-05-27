@@ -1,8 +1,6 @@
 # Automaton
 
-Automaton is an RPA experiement that tries to replicate (as open source) the famous Microsoft Flow Desktop application.
-
-The project is still in a very early stage, but the core infrastructure is getting there.
+Automaton is an RPA experiement that tries to replicate (as open source) the famous Microsoft Flow Desktop application. The project is still in a very early stage, but the core infrastructure is getting there.
 
 ## Screenshots
 
@@ -12,7 +10,7 @@ The project is still in a very early stage, but the core infrastructure is getti
 
 The solution consists of:
 - A Desktop Studio to design and execute flows locally
-- A Web Studio based on the same core as desktop version to execute flows anywhere
+- A Web Studio to execute flows anywhere
 - A Runner to execute flows on other computers
 
 Studio is written in C# and Blazor and it relays on a few other opensource projects. Its core consists of a custom workflow solution made from scratch.
