@@ -1,30 +1,33 @@
-﻿using Automaton.Client.Auth.Interfaces;
+﻿using Automaton.Client.Auth.Http;
+using Automaton.Client.Auth.Interfaces;
 using Automaton.Client.Auth.Models;
 using Automaton.Client.Auth.Providers;
 using Microsoft.AspNetCore.Components.Authorization;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
-namespace Automaton.Client.Auth.Services
+namespace Automaton.Runner.Services
 {
-    public class AuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
         private const string Bearer = "bearer";
         private const string ApplicationJson = "application/json";
 
-        private readonly HttpClient client;
+        private readonly HttpClient httpClient;
         private readonly JsonSerializerOptions options;
         private readonly AuthenticationStateProvider authStateProvider;
-        private readonly ConfigurationService configService;
+        private readonly Client.Auth.Services.ConfigurationService configService;
         private readonly IAuthenticationStorage authenticationStorage;
 
-        public AuthenticationService(HttpClient client, 
+        public AuthenticationService(AutomatonHttpClient automatonHttpClient, 
             AuthenticationStateProvider authStateProvider,
-            ConfigurationService configService,
+            Client.Auth.Services.ConfigurationService configService,
             IAuthenticationStorage localStorage)
         {
-            this.client = client;
+            this.httpClient = automatonHttpClient.Client;
             this.authStateProvider = authStateProvider;
             this.configService = configService;
             this.authenticationStorage = localStorage;
@@ -36,7 +39,7 @@ namespace Automaton.Client.Auth.Services
             var content = JsonSerializer.Serialize(loginCredentials);
             var bodyContent = new StringContent(content, Encoding.UTF8, ApplicationJson);
 
-            var result = await client.PostAsync(configService.LoginUserUrl, bodyContent);
+            var result = await httpClient.PostAsync(configService.LoginUserUrl, bodyContent);
 
             result.EnsureSuccessStatusCode();
 
@@ -46,7 +49,7 @@ namespace Automaton.Client.Auth.Services
             await authenticationStorage.SetJsonWebToken(token);
 
             ((AuthStateProvider)authStateProvider).NotifyUserAuthentication(token.AccessToken);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, token.AccessToken);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, token.AccessToken);
         }
 
         public async Task Logout()
@@ -54,14 +57,14 @@ namespace Automaton.Client.Auth.Services
             await authenticationStorage.DeleteJsonWebToken();
 
             ((AuthStateProvider)authStateProvider).NotifyUserLogout();
-            client.DefaultRequestHeaders.Authorization = null;
+            httpClient.DefaultRequestHeaders.Authorization = null;
         }
 
         public async Task<bool> InitLoggedInAuthorization()
         {
             var jsonWebToken = await authenticationStorage.GetJsonWebToken();
             
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, jsonWebToken.AccessToken);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, jsonWebToken.AccessToken);
                 
             return jsonWebToken.IsValid();
         }

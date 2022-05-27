@@ -5,13 +5,16 @@ namespace Automaton.Client.Auth.Handlers
 {
     public class TokenAuthHeaderHandler : DelegatingHandler
     {
-        private readonly AuthStateProvider _tokenProvider;
+        private readonly AuthStateProvider authStateProvider;
 
-        public TokenAuthHeaderHandler(AuthStateProvider tokenProvider) => _tokenProvider = tokenProvider;
+        public TokenAuthHeaderHandler(AuthStateProvider authStateProvider)
+        {
+            this.authStateProvider = authStateProvider;
+        }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await _tokenProvider.GetAccessTokenAsync());
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await authStateProvider.GetAccessTokenAsync());
             return await base.SendAsync(request, cancellationToken);
         }
     }

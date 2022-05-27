@@ -1,7 +1,4 @@
-﻿using Automaton.Client.Auth.Handlers;
-using Automaton.Client.Auth.Http;
-using Automaton.Client.Auth.Providers;
-using Automaton.Runner.Core.Services;
+﻿using Automaton.Runner.Core.Services;
 using Automaton.Runner.Extensions;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -11,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
-using System.Net.Http;
 using System.Windows;
 
 namespace Automaton.Runner
@@ -20,7 +16,6 @@ namespace Automaton.Runner
     {
         private const string AppSettings = "appsettings.json";
         private const string AutomatonIsolatedStorage = "Automaton";
-        private const string AutomatonHttpClient = "Automaton";
 
         public static IServiceProvider ServiceProvider { get; private set; }
         public static IConfiguration Configuration { get; private set; }
@@ -52,15 +47,6 @@ namespace Automaton.Runner
             var services = new ServiceCollection();
 
             services.AddSingleton(Configuration);
-
-            services.AddScoped<AuthStateProvider>();
-
-            services.AddScoped<TokenAuthHeaderHandler>();
-            services.AddScoped<AutomatonHttpClient>();
-
-            services.AddHttpClient<AutomatonHttpClient>()
-                .AddHttpMessageHandler<TokenAuthHeaderHandler>();
-
 
             services.AddSingleton(service => new ConfigService(Configuration));
 

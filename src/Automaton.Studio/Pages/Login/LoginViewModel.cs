@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using Automaton.Client.Auth.Interfaces;
 using Automaton.Client.Auth.Models;
-using Automaton.Client.Auth.Services;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Login
@@ -8,14 +8,14 @@ namespace Automaton.Studio.Pages.Login
     public class LoginViewModel
     {
         private readonly IMapper mapper;
-        private readonly AuthenticationService authenticationService;
+        private readonly IAuthenticationService authenticationService;
 
         public LoginModel LoginDetails { get; set;  } = new LoginModel();
 
         public LoginViewModel
         (
             IMapper mapper,
-            AuthenticationService authenticationService
+            IAuthenticationService authenticationService
         )
         {
             this.mapper = mapper;

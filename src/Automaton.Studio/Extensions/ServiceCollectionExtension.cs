@@ -1,4 +1,5 @@
 ﻿using Automaton.Client.Auth.Extensions;
+using Automaton.Client.Auth.Interfaces;
 using Automaton.Studio.Config;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Domain.Interfaces;
@@ -32,6 +33,7 @@ namespace Automaton.Studio.Extensions
             services.AddAuthorizationCore();
             services.AddAutomatonCore();
             services.AddStudioAuthenication<LocalStorageService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             // Services
             services.AddScoped<FlowService>();

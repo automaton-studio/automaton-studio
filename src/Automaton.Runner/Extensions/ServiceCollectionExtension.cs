@@ -1,4 +1,7 @@
 ﻿using Automaton.Client.Auth.Extensions;
+using Automaton.Client.Auth.Handlers;
+using Automaton.Client.Auth.Http;
+using Automaton.Client.Auth.Interfaces;
 using Automaton.Runner.Core.Services;
 using Automaton.Runner.Services;
 using Automaton.Runner.Storage;
@@ -33,6 +36,12 @@ namespace Automaton.Runner.Extensions
 
             // Other
             services.AddStudioAuthenication<AuthenticationStorage>();
+
+            services.AddScoped<TokenAuthHeaderHandler>();
+            services.AddScoped<AutomatonHttpClient>();
+            services.AddHttpClient<AutomatonHttpClient>()
+                .AddHttpMessageHandler<TokenAuthHeaderHandler>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
         }
     }
 }
