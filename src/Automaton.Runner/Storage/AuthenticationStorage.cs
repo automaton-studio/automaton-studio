@@ -4,52 +4,51 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Automaton.Runner.Services
+namespace Automaton.Runner.Services;
+
+public class AuthenticationStorage : IAuthenticationStorage
 {
-    public class AuthenticationStorage : IAuthenticationStorage
+    private const string JsonWebToken = "jsonWebToken";
+
+    private readonly App application = (App)Application.Current;
+
+    public async Task<JsonWebToken> GetJsonWebToken()
     {
-        private const string JsonWebToken = "jsonWebToken";
+        var jsonWebToken = new JsonWebToken();
 
-        private readonly App application = (App)Application.Current;
-
-        public async Task<JsonWebToken> GetJsonWebToken()
+        if (application.Properties.Contains(JsonWebToken))
         {
-            var jsonWebToken = new JsonWebToken();
-
-            if (application.Properties.Contains(JsonWebToken))
-            {
-                var jsonWebTokenProperty = application.Properties[JsonWebToken];
-                jsonWebToken = JsonConvert.DeserializeObject<JsonWebToken>(jsonWebTokenProperty.ToString());
-            }
-
-            return await Task.Run(() => jsonWebToken);
+            var jsonWebTokenProperty = application.Properties[JsonWebToken];
+            jsonWebToken = JsonConvert.DeserializeObject<JsonWebToken>(jsonWebTokenProperty.ToString());
         }
 
-        public async Task SetJsonWebToken(JsonWebToken token)
+        return await Task.Run(() => jsonWebToken);
+    }
+
+    public async Task SetJsonWebToken(JsonWebToken token)
+    {
+        await Task.Run(() => { application.Properties[JsonWebToken] = JsonConvert.SerializeObject(token); });
+    }
+
+    public async Task DeleteJsonWebToken()
+    {
+        await Task.Run(() =>
         {
-            await Task.Run(() => { application.Properties[JsonWebToken] = JsonConvert.SerializeObject(token); });
-        }
+            application.Properties.Remove(JsonWebToken);
+        });
+    }
 
-        public async Task DeleteJsonWebToken()
-        {
-            await Task.Run(() =>
-            {
-                application.Properties.Remove(JsonWebToken);
-            });
-        }
+    public async Task<string> GetAuthToken()
+    {
+        var jsonWebToken = await GetJsonWebToken();
 
-        public async Task<string> GetAuthToken()
-        {
-            var jsonWebToken = await GetJsonWebToken();
+        return await Task.Run(() => jsonWebToken != null ? jsonWebToken.AccessToken : string.Empty);
+    }
 
-            return await Task.Run(() => jsonWebToken != null ? jsonWebToken.AccessToken : string.Empty);
-        }
+    public async Task<string> GetRefreshToken()
+    {
+        var jsonWebToken = await GetJsonWebToken();
 
-        public async Task<string> GetRefreshToken()
-        {
-            var jsonWebToken = await GetJsonWebToken();
-
-            return await Task.Run(() => jsonWebToken != null ? jsonWebToken.RefreshToken : string.Empty);
-        }
+        return await Task.Run(() => jsonWebToken != null ? jsonWebToken.RefreshToken : string.Empty);
     }
 }

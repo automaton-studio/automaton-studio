@@ -1,13 +1,12 @@
 ﻿using Automaton.Client.Auth.Models;
 
-namespace Automaton.Client.Auth.Interfaces
+namespace Automaton.Client.Auth.Interfaces;
+
+public interface IAuthenticationService
 {
-    public interface IAuthenticationService
-    {
-        Task Login(LoginDetails loginCredentials);
+    Task Login(LoginDetails loginCredentials);
 
-        Task Logout();
+    Task Logout();
 
-        Task<bool> InitLoggedInAuthorization();   
-    }
+    Task<bool> InitLoggedInAuthorization();   
 }

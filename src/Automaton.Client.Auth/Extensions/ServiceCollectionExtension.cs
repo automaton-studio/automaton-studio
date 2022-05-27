@@ -5,23 +5,22 @@ using Automaton.Client.Auth.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Automaton.Client.Auth.Extensions
+namespace Automaton.Client.Auth.Extensions;
+
+public static class ServiceCollectionExtension
 {
-    public static class ServiceCollectionExtension
+    public static void AddStudioAuthenication<T>(this IServiceCollection services) where T : class, IAuthenticationStorage
     {
-        public static void AddStudioAuthenication<T>(this IServiceCollection services) where T : class, IAuthenticationStorage
-        {
-            // Providers
-            services.AddScoped<AuthStateProvider>();
-            services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+        // Providers
+        services.AddScoped<AuthStateProvider>();
+        services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
 
-            // Services
-            services.AddScoped<T>();
-            services.AddScoped<IAuthenticationStorage>(sp => sp.GetService<T>());
-            services.AddScoped<ConfigurationService>();
+        // Services
+        services.AddScoped<T>();
+        services.AddScoped<IAuthenticationStorage>(sp => sp.GetService<T>());
+        services.AddScoped<ConfigurationService>();
 
-            // Models
-            services.AddScoped<AuthenticationConfiguration>();
-        }
+        // Models
+        services.AddScoped<AuthenticationConfiguration>();
     }
 }
