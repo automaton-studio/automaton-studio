@@ -18,6 +18,7 @@ namespace Automaton.Client.Auth.Services
         public string LoginUserUrl => authConfiguration.LoginUserUrl;
         public string RefreshAccessTokenUrl => authConfiguration.RefreshAccessTokenUrl;
         public int RefreshTokenExpirationMinutesCheck => authConfiguration.RefreshTokenExpirationMinutesCheck;
+        public string BaseUrl => apiConfiguration.BaseUrl;
 
         #endregion
 

@@ -1,4 +1,6 @@
-﻿namespace Automaton.Client.Auth.Models
+﻿using Automaton.Client.Auth.Extensions;
+
+namespace Automaton.Client.Auth.Models
 {
     public class JsonWebToken
     {
@@ -12,7 +14,7 @@
             var valid = !string.IsNullOrEmpty(AccessToken) && 
                 !string.IsNullOrEmpty(RefreshToken) && 
                 !string.IsNullOrEmpty(UserId) &&
-                new DateTime(Expires) <= DateTime.UtcNow;
+                Expires > DateTime.UtcNow.ToUnixEpochDate();
 
             return valid;
         }

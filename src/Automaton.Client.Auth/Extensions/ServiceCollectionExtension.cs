@@ -18,7 +18,6 @@ namespace Automaton.Client.Auth.Extensions
             services.AddScoped<T>();
             services.AddScoped<IAuthenticationStorage>(sp => sp.GetService<T>());
             services.AddScoped<ConfigurationService>();
-            services.AddScoped<RefreshTokenService>();
             services.AddScoped<AuthenticationService>();
 
             // Models
