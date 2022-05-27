@@ -17,4 +17,4 @@ Studio is written in C# and Blazor and it relays on a few other opensource proje
 
 ## Licence
 
-MIT License
+Apache License 2.0
