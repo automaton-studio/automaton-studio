@@ -13,8 +13,7 @@ namespace Automaton.Client.Auth.Models
         {
             var valid = !string.IsNullOrEmpty(AccessToken) && 
                 !string.IsNullOrEmpty(RefreshToken) && 
-                !string.IsNullOrEmpty(UserId) &&
-                Expires > DateTime.UtcNow.ToUnixEpochDate();
+                !string.IsNullOrEmpty(UserId);
 
             return valid;
         }
