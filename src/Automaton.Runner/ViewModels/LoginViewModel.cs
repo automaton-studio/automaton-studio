@@ -1,5 +1,5 @@
-﻿using Automaton.Client.Auth.Models;
-using Automaton.Client.Auth.Services;
+﻿using Automaton.Client.Auth.Interfaces;
+using Automaton.Client.Auth.Models;
 using Automaton.Runner.Core.Services;
 using Automaton.Runner.Enums;
 using Automaton.Runner.Resources;
@@ -14,7 +14,7 @@ namespace Automaton.Runner.ViewModels
     {
         private readonly ConfigService configService;
         private readonly HubService hubService;
-        private readonly AuthenticationService authenticationService;
+        private readonly IAuthenticationService authenticationService;
         private readonly LoginValidator loginValidator;
 
         #region Properties
@@ -30,7 +30,7 @@ namespace Automaton.Runner.ViewModels
 
         public LoginViewModel(
             ConfigService configService,
-            AuthenticationService authenticationService,
+            IAuthenticationService authenticationService,
             HubService hubService,
             LoaderViewModel loader,
             LoginValidator loginValidator)

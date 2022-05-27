@@ -1,4 +1,5 @@
-﻿using Automaton.Runner.Core.Services;
+﻿using Automaton.Client.Auth.Http;
+using Automaton.Runner.Core.Services;
 using Automaton.Runner.Storage;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -13,9 +14,9 @@ namespace Automaton.Runner.Services
         private readonly HttpClient httpClient;
         private readonly ApplicationStorage applicationStorage;
 
-        public RunnerService(HttpClient httpClient, ConfigService configService, ApplicationStorage applicationStorage)
+        public RunnerService(AutomatonHttpClient automatonHttpClient, ConfigService configService, ApplicationStorage applicationStorage)
         {
-            this.httpClient = httpClient;
+            this.httpClient = automatonHttpClient.Client;
             this.configService = configService;
             this.applicationStorage = applicationStorage;
         }

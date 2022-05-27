@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
-using System.Net.Http;
 using System.Windows;
 
 namespace Automaton.Runner
@@ -48,10 +47,7 @@ namespace Automaton.Runner
             var services = new ServiceCollection();
 
             services.AddSingleton(Configuration);
-            services.AddSingleton(service => new HttpClient
-            {
-                BaseAddress = new Uri(new ConfigService(Configuration).ApiConfig.BaseUrl)
-            });
+
             services.AddSingleton(service => new ConfigService(Configuration));
 
             services.AddAutomatonCore();
