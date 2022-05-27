@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Automaton.Client.Auth.Models;
+using Automaton.Core.Dto;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
@@ -15,14 +16,14 @@ namespace Automaton.Studio.Config
 
         public AutoMapperProfile()
         {
-            CreateMap<Step, Dto.Step>();
-            CreateMap<Flow, Dto.Flow>();
-            CreateMap<Definition, Dto.Definition>();
+            CreateMap<Step, StepDto>();
+            CreateMap<Flow, FlowDto>();
+            CreateMap<Definition, DefinitionDto>();
             
-            CreateMap<Dto.Step, Step>();
-            CreateMap<Dto.Flow, Flow>().AfterMap((source, target) => FlowCreated(source, target));
+            CreateMap<StepDto, Step>();
+            CreateMap<FlowDto, Flow>().AfterMap((source, target) => FlowCreated(source, target));
 
-            CreateMap<Dto.Definition, Definition>().ForMember
+            CreateMap<DefinitionDto, Definition>().ForMember
             (
                 source => source.Steps, 
                 target => target.MapFrom(entity => SetupSteps(entity.Steps))
@@ -33,7 +34,7 @@ namespace Automaton.Studio.Config
             CreateMap<LoginModel, LoginDetails>();
         }
 
-        private static void FlowCreated(Dto.Flow source, Flow target)
+        private static void FlowCreated(FlowDto source, Flow target)
         {
             foreach(var definition in target.Definitions)
             {
@@ -41,7 +42,7 @@ namespace Automaton.Studio.Config
             }
         }
 
-        private static void DefinitionCreated(Dto.Definition source, Definition target)
+        private static void DefinitionCreated(DefinitionDto source, Definition target)
         {
             foreach (var step in target.Steps)
             {
@@ -49,7 +50,7 @@ namespace Automaton.Studio.Config
             }
         }
 
-        public IEnumerable<Step> SetupSteps(IEnumerable<Dto.Step> stepDtos)
+        public IEnumerable<Step> SetupSteps(IEnumerable<StepDto> stepDtos)
         {
             foreach (var stepDto in stepDtos)
             {

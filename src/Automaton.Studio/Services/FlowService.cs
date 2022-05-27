@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Automaton.Core.Dto;
 using Automaton.Studio.Domain;
 using Microsoft.Extensions.Logging;
 using System;
@@ -32,7 +33,7 @@ namespace Automaton.Studio.Services
         public async Task<Flow> Load(Guid id)
         {
             var response = await httpClient.GetAsync($"{configService.FlowsUrl}/{id}");
-            var flowDto = await response.Content.ReadAsAsync<Dto.Flow>();
+            var flowDto = await response.Content.ReadAsAsync<FlowDto>();
 
             var flow = mapper.Map<Flow>(flowDto);
 
@@ -42,10 +43,10 @@ namespace Automaton.Studio.Services
         public async Task<Flow> Create(string name)
         {
             var flow = new Flow { Name = name };
-            var flowDto = mapper.Map<Dto.Flow>(flow);
+            var flowDto = mapper.Map<FlowDto>(flow);
 
             var response = await httpClient.PostAsJsonAsync(configService.FlowsUrl, flowDto);
-            var result = await response.Content.ReadAsAsync<Dto.Flow>();
+            var result = await response.Content.ReadAsAsync<FlowDto>();
                 
             var newFlow = mapper.Map<Flow>(result);
 
@@ -54,7 +55,7 @@ namespace Automaton.Studio.Services
 
         public async Task Update(Flow flow)
         {
-            var flowDto = mapper.Map<Dto.Flow>(flow);
+            var flowDto = mapper.Map<FlowDto>(flow);
 
             await httpClient.PutAsJsonAsync($"{configService.FlowsUrl}/{flow.Id}", flowDto);
         }

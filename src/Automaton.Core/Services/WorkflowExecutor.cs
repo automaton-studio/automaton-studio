@@ -32,7 +32,9 @@ namespace Automaton.Core.Services
                         CancellationToken = cancellationToken
                     };
 
-                    await ExecuteStep(context, result);
+                    _logger.LogDebug("Starting step {0} on workflow {1}", context.Step.Name, context.Definition.Id);
+
+                    await context.Step.RunAsync(context);
                 }
                 catch (Exception ex)
                 {
@@ -55,13 +57,6 @@ namespace Automaton.Core.Services
         public async Task<WorkflowExecutorResult> Execute(Guid workflowId, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
-        }
-
-        private async Task ExecuteStep(StepExecutionContext context, WorkflowExecutorResult result)
-        {
-            _logger.LogDebug("Starting step {0} on workflow {1}", context.Step.Name, context.Definition.Id);
-
-            await context.Step.RunAsync(context);
         }
     }
 }
