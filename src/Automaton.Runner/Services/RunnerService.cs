@@ -6,31 +6,30 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Automaton.Runner.Services
+namespace Automaton.Runner.Services;
+
+public class RunnerService
 {
-    public class RunnerService
+    private readonly ConfigService configService;
+    private readonly HttpClient httpClient;
+    private readonly ApplicationStorage applicationStorage;
+
+    public RunnerService(AutomatonHttpClient automatonHttpClient, ConfigService configService, ApplicationStorage applicationStorage)
     {
-        private readonly ConfigService configService;
-        private readonly HttpClient httpClient;
-        private readonly ApplicationStorage applicationStorage;
+        this.httpClient = automatonHttpClient.Client;
+        this.configService = configService;
+        this.applicationStorage = applicationStorage;
+    }
 
-        public RunnerService(AutomatonHttpClient automatonHttpClient, ConfigService configService, ApplicationStorage applicationStorage)
-        {
-            this.httpClient = automatonHttpClient.Client;
-            this.configService = configService;
-            this.applicationStorage = applicationStorage;
-        }
+    public async Task Register(string runnerName)
+    {
+        var runnerNameJson = JsonConvert.SerializeObject(new { Name = runnerName });
+        var runnerNameContent = new StringContent(runnerNameJson, Encoding.UTF8, "application/json");
 
-        public async Task Register(string runnerName)
-        {
-            var runnerNameJson = JsonConvert.SerializeObject(new { Name = runnerName });
-            var runnerNameContent = new StringContent(runnerNameJson, Encoding.UTF8, "application/json");
+        var response = await httpClient.PostAsync(configService.ApiConfig.RegistrationApiUrl, runnerNameContent);
 
-            var response = await httpClient.PostAsync(configService.ApiConfig.RegistrationApiUrl, runnerNameContent);
+        response.EnsureSuccessStatusCode();
 
-            response.EnsureSuccessStatusCode();
-
-            applicationStorage.SetRunnerName(runnerName);
-        }
+        applicationStorage.SetRunnerName(runnerName);
     }
 }

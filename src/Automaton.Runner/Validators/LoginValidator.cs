@@ -1,14 +1,13 @@
 ﻿using Automaton.Runner.ViewModels;
 using FluentValidation;
 
-namespace Automaton.Runner.Validators
+namespace Automaton.Runner.Validators;
+
+public class LoginValidator : AbstractValidator<LoginViewModel>
 {
-    public class LoginValidator : AbstractValidator<LoginViewModel>
+    public LoginValidator()
     {
-        public LoginValidator()
-        {
-            RuleFor(x => x.UserName).NotEmpty();
-            RuleFor(x => x.Password).NotEmpty();
-        }
+        RuleFor(x => x.UserName).NotEmpty();
+        RuleFor(x => x.Password).NotEmpty();
     }
 }

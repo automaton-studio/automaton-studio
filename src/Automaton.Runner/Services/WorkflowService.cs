@@ -2,20 +2,19 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Automaton.Runner.Services
+namespace Automaton.Runner.Services;
+
+public class WorkflowService
 {
-    public class WorkflowService
+    private readonly WorkflowExecutor workflowExecutor;
+
+    public WorkflowService(WorkflowExecutor workflowDefinitionStore)
     {
-        private readonly WorkflowExecutor workflowExecutor;
+        this.workflowExecutor = workflowDefinitionStore;
+    }
 
-        public WorkflowService(WorkflowExecutor workflowDefinitionStore)
-        {
-            this.workflowExecutor = workflowDefinitionStore;
-        }
-
-        public async Task RunWorkflow(Guid workflowId)
-        {
-            await workflowExecutor.Execute(workflowId);
-        }
+    public async Task RunWorkflow(Guid workflowId)
+    {
+        await workflowExecutor.Execute(workflowId);
     }
 }

@@ -1,10 +1,9 @@
-﻿namespace Automaton.Runner.Enums
+﻿namespace Automaton.Runner.Enums;
+
+public enum RunnerNavigation
 {
-    public enum RunnerNavigation
-    {
-        None = 0,
-        Login,
-        Dashboard,
-        Registration
-    }
+    None = 0,
+    Login,
+    Dashboard,
+    Registration
 }

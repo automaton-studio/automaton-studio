@@ -4,61 +4,60 @@ using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Threading.Tasks;
 
-namespace Automaton.Runner.Core.Services
+namespace Automaton.Runner.Core.Services;
+
+public class HubService
 {
-    public class HubService
+    private const string RunnerNameHeader = "RunnerName";
+    private const string RunWorkflowMethod = "RunWorkflow";
+    private const string WelcomeRunnerMethod = "WelcomeRunner";
+    private const string PingMethod = "Ping";
+
+    private HubConnection connection;
+    private readonly WorkflowService workflowService;
+    private readonly ConfigService configService;
+    private readonly IAuthenticationStorage storageService;
+
+    public HubService(ConfigService configService, WorkflowService workflowService, IAuthenticationStorage storageService)
     {
-        private const string RunnerNameHeader = "RunnerName";
-        private const string RunWorkflowMethod = "RunWorkflow";
-        private const string WelcomeRunnerMethod = "WelcomeRunner";
-        private const string PingMethod = "Ping";
+        this.configService = configService;
+        this.workflowService = workflowService;
+        this.storageService = storageService;
+    }
 
-        private HubConnection connection;
-        private readonly WorkflowService workflowService;
-        private readonly ConfigService configService;
-        private readonly IAuthenticationStorage storageService;
+    public async Task Connect(string runnerName)
+    {
+        var studioConfig = configService.ApiConfig;
+        var token = await storageService.GetAuthToken();
+        var hubUrl = $"{studioConfig.BaseUrl}{studioConfig.WorkflowHubUrl}";
 
-        public HubService(ConfigService configService, WorkflowService workflowService, IAuthenticationStorage storageService)
+        connection = new HubConnectionBuilder().WithUrl(hubUrl, options =>
         {
-            this.configService = configService;
-            this.workflowService = workflowService;
-            this.storageService = storageService;
-        }
+            options.AccessTokenProvider = () => Task.FromResult(token);
+            options.Headers.Add(RunnerNameHeader, runnerName);
+        })
+        .Build();
 
-        public async Task Connect(string runnerName)
+        connection.On<Guid>(RunWorkflowMethod, async (workflowId) =>
         {
-            var studioConfig = configService.ApiConfig;
-            var token = await storageService.GetAuthToken();
-            var hubUrl = $"{studioConfig.BaseUrl}{studioConfig.WorkflowHubUrl}";
+            await workflowService.RunWorkflow(workflowId);
+        });
 
-            connection = new HubConnectionBuilder().WithUrl(hubUrl, options =>
-            {
-                options.AccessTokenProvider = () => Task.FromResult(token);
-                options.Headers.Add(RunnerNameHeader, runnerName);
-            })
-            .Build();
-
-            connection.On<Guid>(RunWorkflowMethod, async (workflowId) =>
-            {
-                await workflowService.RunWorkflow(workflowId);
-            });
-
-            connection.On<string>(WelcomeRunnerMethod, (name) =>
-            {
-            });
-
-            await connection.StartAsync();
-        }
-
-        public async Task Disconnect()
+        connection.On<string>(WelcomeRunnerMethod, (name) =>
         {
-            await connection.StopAsync();
-            await connection.DisposeAsync();
-        }
+        });
 
-        public async Task Ping(string runnerName)
-        {
-            var result = await connection.InvokeAsync<bool>(PingMethod, runnerName);
-        }
+        await connection.StartAsync();
+    }
+
+    public async Task Disconnect()
+    {
+        await connection.StopAsync();
+        await connection.DisposeAsync();
+    }
+
+    public async Task Ping(string runnerName)
+    {
+        var result = await connection.InvokeAsync<bool>(PingMethod, runnerName);
     }
 }

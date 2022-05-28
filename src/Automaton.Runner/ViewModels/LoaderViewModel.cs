@@ -1,65 +1,64 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Automaton.Runner.ViewModels
+namespace Automaton.Runner.ViewModels;
+
+public class LoaderViewModel : INotifyPropertyChanged
 {
-    public class LoaderViewModel : INotifyPropertyChanged
+    private string errors;
+    public string Errors
     {
-        private string errors;
-        public string Errors
+        get => errors;
+        set
         {
-            get => errors;
-            set
-            {
-                errors = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(HasErrors));
-            }
+            errors = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(HasErrors));
         }
+    }
 
-        public bool HasErrors
+    public bool HasErrors
+    {
+        get => !string.IsNullOrEmpty(Errors);
+    }
+
+    private bool loading;
+    public bool Loading
+    {
+        get => loading;
+        set
         {
-            get => !string.IsNullOrEmpty(Errors);
+            loading = value;
+            OnPropertyChanged();
         }
+    }
 
-        private bool loading;
-        public bool Loading
-        {
-            get => loading;
-            set
-            {
-                loading = value;
-                OnPropertyChanged();
-            }
-        }
+    public void SetErrors(string errors)
+    {
+        Errors = errors;
+    }
 
-        public void SetErrors(string errors)
-        {
-            Errors = errors;
-        }
+    public void ClearErrors()
+    {
+        Errors = string.Empty;
+    }
 
-        public void ClearErrors()
-        {
-            Errors = string.Empty;
-        }
+    public void StartLoading()
+    {
+        Loading = true;
+    }
 
-        public void StartLoading()
-        {
-            Loading = true;
-        }
+    public void StopLoading()
+    {
+        Loading = false;
+    }
 
-        public void StopLoading()
-        {
-            Loading = false;
-        }
+    public event PropertyChangedEventHandler PropertyChanged;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        // Create the OnPropertyChanged method to raise the event
-        // The calling member's name will be used as the parameter.
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
+    // Create the OnPropertyChanged method to raise the event
+    // The calling member's name will be used as the parameter.
+    protected void OnPropertyChanged([CallerMemberName] string name = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }

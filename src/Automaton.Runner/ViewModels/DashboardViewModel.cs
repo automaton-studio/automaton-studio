@@ -1,9 +1,8 @@
-﻿namespace Automaton.Runner.ViewModels
+﻿namespace Automaton.Runner.ViewModels;
+
+public class DashboardViewModel
 {
-    public class DashboardViewModel
+    public DashboardViewModel()
     {
-        public DashboardViewModel()
-        {
-        }
     }
 }

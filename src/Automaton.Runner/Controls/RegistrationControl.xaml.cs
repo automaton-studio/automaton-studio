@@ -2,29 +2,28 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Automaton.Runner.Controls
+namespace Automaton.Runner.Controls;
+
+/// <summary>
+/// Runner registration control
+/// </summary>
+public partial class RegistrationControl : UserControl
 {
-    /// <summary>
-    /// Runner registration control
-    /// </summary>
-    public partial class RegistrationControl : UserControl
+    public RegistrationControl()
     {
-        public RegistrationControl()
+        InitializeComponent();
+    }
+
+    private async void RegisterClick(object sender, RoutedEventArgs e)
+    {
+        var viewModel = DataContext as RegistrationViewModel;
+        var mainWindow = App.Current.MainWindow as MainWindow;
+
+        var result = await viewModel.Register();
+
+        if (result == Enums.RunnerNavigation.Dashboard)
         {
-            InitializeComponent();
-        }
-
-        private async void RegisterClick(object sender, RoutedEventArgs e)
-        {
-            var viewModel = DataContext as RegistrationViewModel;
-            var mainWindow = App.Current.MainWindow as MainWindow;
-
-            var result = await viewModel.Register();
-
-            if (result == Enums.RunnerNavigation.Dashboard)
-            {
-                mainWindow.NavigateToDashboard();
-            }
+            mainWindow.NavigateToDashboard();
         }
     }
 }
