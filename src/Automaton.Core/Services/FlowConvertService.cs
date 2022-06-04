@@ -1,9 +1,5 @@
 ﻿using Automaton.Core.Models;
-using Automaton.Studio.Domain;
 using Automaton.Studio.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 
@@ -13,15 +9,12 @@ namespace Automaton.Studio.Services
     {
         private readonly IServiceProvider serviceProvider;
 
-        public FlowConvertService
-        (
-            IServiceProvider serviceProvider
-        )
+        public FlowConvertService(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
         }
 
-        public Workflow ConvertFlow(StudioFlow flow)
+        public Workflow ConvertFlow(Flow flow)
         {
             var worklow = new Workflow
             {
@@ -48,7 +41,7 @@ namespace Automaton.Studio.Services
             return worklow;
         }
 
-        private IDictionary<string, WorkflowStep> ConvertSteps(ICollection<StudioStep> steps, Workflow workflow)
+        private IDictionary<string, WorkflowStep> ConvertSteps(ICollection<Step> steps, Workflow workflow)
         {
             var workflowSteps = new Dictionary<string, WorkflowStep>();
 
@@ -70,7 +63,7 @@ namespace Automaton.Studio.Services
             return workflowSteps;
         }
 
-        private static void AttachInputs(StudioStep step, WorkflowStep workflowStep, Workflow workflow)
+        private static void AttachInputs(Step step, WorkflowStep workflowStep, Workflow workflow)
         {
             foreach (var input in step.Inputs)
             {

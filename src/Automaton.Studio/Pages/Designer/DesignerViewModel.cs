@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Automaton.Core.Models;
 using Automaton.Core.Services;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
@@ -107,7 +108,8 @@ namespace Automaton.Studio.Pages.Designer
         {
             if (CanExecuteFlow)
             {
-                var workflow = flowConvertService.ConvertFlow(Flow);
+                var flow = mapper.Map<Flow>(Flow);
+                var workflow = flowConvertService.ConvertFlow(flow);
                 await workflowExecutor.Execute(workflow);
             }
         }
