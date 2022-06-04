@@ -18,7 +18,6 @@ namespace Automaton.Studio.Pages.Designer
         private readonly IMapper mapper;
         private readonly StepFactory stepFactory;
         private readonly FlowService flowService;
-        private readonly FlowConvertService flowConvertService;
         private readonly WorkflowExecutor workflowExecutor;
         private StudioDefinition activeDefinition;
 
@@ -55,14 +54,12 @@ namespace Automaton.Studio.Pages.Designer
             IMapper mapper,
             StepFactory stepFactory,
             FlowService solutionService,
-            FlowConvertService flowConvertService,
             WorkflowExecutor workflowExecutor
         )
         {
             this.mapper = mapper;
             this.stepFactory = stepFactory;
             this.flowService = solutionService;
-            this.flowConvertService = flowConvertService;
             this.workflowExecutor = workflowExecutor;
 
             Flow = new StudioFlow();
@@ -109,8 +106,7 @@ namespace Automaton.Studio.Pages.Designer
             if (CanExecuteFlow)
             {
                 var flow = mapper.Map<Flow>(Flow);
-                var workflow = flowConvertService.ConvertFlow(flow);
-                await workflowExecutor.Execute(workflow);
+                await workflowExecutor.Execute(flow);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Automaton.Core.Models;
+using Automaton.Core.Services;
 using Automaton.Studio.Domain;
 using Microsoft.Extensions.Logging;
 using System;

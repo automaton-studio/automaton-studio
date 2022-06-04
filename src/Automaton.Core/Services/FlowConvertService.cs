@@ -3,7 +3,7 @@ using Automaton.Studio.Extensions;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 
-namespace Automaton.Studio.Services
+namespace Automaton.Core.Services
 {
     public class FlowConvertService
     {

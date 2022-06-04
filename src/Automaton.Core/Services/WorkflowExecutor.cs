@@ -5,13 +5,15 @@ namespace Automaton.Core.Services
 {
     public class WorkflowExecutor
     {
-        protected readonly ILogger _logger;
-        protected readonly IServiceProvider _serviceProvider;
+        protected readonly ILogger logger;
+        protected readonly IServiceProvider serviceProvider;
+        private readonly FlowConvertService flowConvertService;
 
-        public WorkflowExecutor(IServiceProvider serviceProvider, ILoggerFactory loggerFactory)
+        public WorkflowExecutor(IServiceProvider serviceProvider, FlowConvertService flowConvertService, ILoggerFactory loggerFactory)
         {
-            _serviceProvider = serviceProvider;
-            _logger = loggerFactory.CreateLogger<WorkflowExecutor>();
+            this.serviceProvider = serviceProvider;
+            this.flowConvertService = flowConvertService;
+            logger = loggerFactory.CreateLogger<WorkflowExecutor>();
         }
 
         public async Task<WorkflowExecutorResult> Execute(Workflow workflow, CancellationToken cancellationToken = default)
@@ -32,13 +34,13 @@ namespace Automaton.Core.Services
                         CancellationToken = cancellationToken
                     };
 
-                    _logger.LogDebug("Starting step {0} on workflow {1}", context.Step.Name, context.Definition.Id);
+                    logger.LogDebug("Starting step {0} on workflow {1}", context.Step.Name, context.Definition.Id);
 
                     await context.Step.RunAsync(context);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex, "Workflow {0} raised error on step {1} Message: {2}", definition.Id, step.Id, ex.Message);
+                    logger.LogError(ex, "Workflow {0} raised error on step {1} Message: {2}", definition.Id, step.Id, ex.Message);
 
                     result.Errors.Add(new ExecutionError
                     {
@@ -50,6 +52,15 @@ namespace Automaton.Core.Services
 
                 step = definition.GetNextStep(step);
             }
+
+            return result;
+        }
+
+        public async Task<WorkflowExecutorResult> Execute(Flow flow, CancellationToken cancellationToken = default)
+        {
+            var workflow = flowConvertService.ConvertFlow(flow);
+
+            var result = await Execute(workflow, cancellationToken);
 
             return result;
         }
