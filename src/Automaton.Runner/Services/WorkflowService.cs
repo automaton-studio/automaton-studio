@@ -12,20 +12,20 @@ public class WorkflowService
 {
     private readonly HttpClient httpClient;
     private readonly ConfigService configService;
-    private readonly WorkflowExecutor workflowExecutor;
+    private readonly WorkflowExecuteService workflowExecuteService;
 
-    public WorkflowService(WorkflowExecutor workflowDefinitionStore, 
+    public WorkflowService(WorkflowExecuteService workflowExecuteService, 
         ConfigService configService, 
         AutomatonHttpClient httpClient)
     {
-        this.workflowExecutor = workflowDefinitionStore;
+        this.workflowExecuteService = workflowExecuteService;
         this.configService = configService;
         this.httpClient = httpClient.Client;
     }
 
     public async Task RunWorkflow(Guid workflowId)
     {
-        //await workflowExecutor.Execute(workflowId);
+        //await workflowExecuteService.Execute(workflowId);
     }
 
     private async Task<Flow> Load(Guid id)

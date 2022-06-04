@@ -6,7 +6,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddAutomatonCore(this IServiceCollection services)
         {
-            services.AddTransient<WorkflowExecutor>();
+            services.AddTransient<WorkflowExecuteService>();
             services.AddScoped<FlowConvertService>();
 
             return services;

@@ -11,20 +11,20 @@ namespace Automaton.Studio.Server.Controllers
     {
         private readonly IMapper mapper;
         private readonly FlowLoaderService flowLoaderService;
-        private readonly WorkflowExecutor workflowExecutor;
+        private readonly WorkflowExecuteService workflowExecuteService;
         private readonly FlowsService flowsService;
 
         public FlowsController
         (
             FlowsService flowsService,
-            WorkflowExecutor workflowExecutor,
+            WorkflowExecuteService workflowExecuteService,
             FlowLoaderService definitionLoader,
             IMapper mapper
         )
         {
             this.flowsService = flowsService;
             this.flowLoaderService = definitionLoader;
-            this.workflowExecutor = workflowExecutor;
+            this.workflowExecuteService = workflowExecuteService;
             this.mapper = mapper;
         }
 

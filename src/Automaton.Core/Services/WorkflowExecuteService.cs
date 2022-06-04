@@ -3,17 +3,17 @@ using Microsoft.Extensions.Logging;
 
 namespace Automaton.Core.Services
 {
-    public class WorkflowExecutor
+    public class WorkflowExecuteService
     {
         protected readonly ILogger logger;
         protected readonly IServiceProvider serviceProvider;
         private readonly FlowConvertService flowConvertService;
 
-        public WorkflowExecutor(IServiceProvider serviceProvider, FlowConvertService flowConvertService, ILoggerFactory loggerFactory)
+        public WorkflowExecuteService(IServiceProvider serviceProvider, FlowConvertService flowConvertService, ILoggerFactory loggerFactory)
         {
             this.serviceProvider = serviceProvider;
             this.flowConvertService = flowConvertService;
-            logger = loggerFactory.CreateLogger<WorkflowExecutor>();
+            logger = loggerFactory.CreateLogger<WorkflowExecuteService>();
         }
 
         public async Task<WorkflowExecutorResult> Execute(Workflow workflow, CancellationToken cancellationToken = default)
