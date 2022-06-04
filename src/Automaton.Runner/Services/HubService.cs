@@ -15,12 +15,12 @@ public class HubService
     private const string PingMethod = "Ping";
 
     private HubConnection connection;
-    private readonly WorkflowService workflowService;
+    private readonly FlowService workflowService;
     private readonly ConfigService configService;
     private readonly IAuthenticationStorage storageService;
 
     public HubService(ConfigService configService, 
-        WorkflowService workflowService,
+        FlowService workflowService,
         IAuthenticationStorage storageService)
     {
         this.configService = configService;
@@ -43,7 +43,7 @@ public class HubService
 
         connection.On<Guid>(RunWorkflowMethod, async (workflowId) =>
         {
-            await workflowService.RunWorkflow(workflowId);
+            await workflowService.RunFlow(workflowId);
         });
 
         connection.On<string>(WelcomeRunnerMethod, (name) =>

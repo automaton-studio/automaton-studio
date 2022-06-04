@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Automaton.Runner.Services;
 
-public class WorkflowService
+public class FlowService
 {
     private readonly HttpClient httpClient;
     private readonly ConfigService configService;
     private readonly WorkflowExecuteService workflowExecuteService;
 
-    public WorkflowService(WorkflowExecuteService workflowExecuteService, 
+    public FlowService(WorkflowExecuteService workflowExecuteService, 
         ConfigService configService, 
         AutomatonHttpClient httpClient)
     {
@@ -23,9 +23,10 @@ public class WorkflowService
         this.httpClient = httpClient.Client;
     }
 
-    public async Task RunWorkflow(Guid workflowId)
+    public async Task RunFlow(Guid flowId)
     {
-        //await workflowExecuteService.Execute(workflowId);
+        var flow = await Load(flowId);
+        await workflowExecuteService.Execute(flow);
     }
 
     private async Task<Flow> Load(Guid id)

@@ -18,7 +18,7 @@ public static class ServiceCollectionExtension
         // Services
         services.AddSingleton<RunnerService>();
         services.AddSingleton<HubService>();
-        services.AddScoped<WorkflowService>();
+        services.AddScoped<FlowService>();
 
         // View models
         services.AddSingleton<MainWindowViewModel>();

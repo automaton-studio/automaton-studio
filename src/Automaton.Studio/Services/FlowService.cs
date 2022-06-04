@@ -34,11 +34,10 @@ namespace Automaton.Studio.Services
         public async Task<StudioFlow> Load(Guid id)
         {
             var response = await httpClient.GetAsync($"{configService.FlowsUrl}/{id}");
-            var flowDto = await response.Content.ReadAsAsync<Flow>();
+            var flow = await response.Content.ReadAsAsync<Flow>();
+            var studioFlow = mapper.Map<StudioFlow>(flow);
 
-            var flow = mapper.Map<StudioFlow>(flowDto);
-
-            return flow;
+            return studioFlow;
         }
 
         public async Task<StudioFlow> Create(string name)

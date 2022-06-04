@@ -19,22 +19,22 @@ namespace Automaton.Studio.Pages.Designer
         private readonly StepFactory stepFactory;
         private readonly FlowService flowService;
         private readonly WorkflowExecuteService workflowExecuteService;
-        private StudioDefinition activeDefinition;
 
         public StudioFlow Flow { get; set; }
         public IList<StudioDefinition> Definitions { get; set; }
+        public StudioDefinition ActiveDefinition { get; set; }
 
         public event EventHandler<StepEventArgs> DragStep;
         public event EventHandler<StepEventArgs> StepAdded
         {
-            add { activeDefinition.StepAdded += value; }
-            remove { activeDefinition.StepAdded -= value; }
+            add { ActiveDefinition.StepAdded += value; }
+            remove { ActiveDefinition.StepAdded -= value; }
         }
 
         public event EventHandler<StepEventArgs> StepRemoved
         {
-            add { activeDefinition.StepRemoved += value; }
-            remove { activeDefinition.StepRemoved -= value; }
+            add { ActiveDefinition.StepRemoved += value; }
+            remove { ActiveDefinition.StepRemoved -= value; }
         }
 
         public bool CanExecuteFlow
@@ -78,22 +78,21 @@ namespace Automaton.Studio.Pages.Designer
         public void CreateStep(StepExplorerModel solutionStep)
         {
             var step = stepFactory.CreateStep(solutionStep.Name);
-            step.Definition = activeDefinition;
+            step.Definition = ActiveDefinition;
 
             DragStep?.Invoke(this, new StepEventArgs(step));
         }
 
         public void DeleteStep(StudioStep step)
         {
-            activeDefinition.Steps.Remove(step); 
+            ActiveDefinition.Steps.Remove(step); 
         }
 
         public async Task LoadFlow(Guid flowId)
         {
             Flow = await flowService.Load(flowId);
-
             Definitions = Flow.Definitions;
-            activeDefinition = Flow.GetStartupDefinition();
+            ActiveDefinition = Flow.GetStartupDefinition();
         }
 
         public async Task SaveFlow()
@@ -112,12 +111,12 @@ namespace Automaton.Studio.Pages.Designer
 
         public void FinalizeStep(StudioStep step)
         {
-            activeDefinition.FinalizeStep(step);
+            ActiveDefinition.FinalizeStep(step);
         }
 
         public IEnumerable<StudioStep> GetSelectedSteps()
         {
-            return activeDefinition.Steps.Where(x => x.IsSelected());
+            return ActiveDefinition.Steps.Where(x => x.IsSelected());
         }
 
         public IEnumerable<string> GetDefinitionNames()
@@ -127,22 +126,22 @@ namespace Automaton.Studio.Pages.Designer
 
         public void SetActiveDefinition(StudioDefinition definition)
         {
-            activeDefinition = definition;
+            ActiveDefinition = definition;
         }
 
         public void SetActiveDefinition(string id)
         {
-            activeDefinition = Definitions.SingleOrDefault(x => x.Id == id);
+            ActiveDefinition = Definitions.SingleOrDefault(x => x.Id == id);
         }
 
         public StudioDefinition GetActiveDefinition()
         {
-            return activeDefinition;
+            return ActiveDefinition;
         }
 
         public string GetActiveDefinitionId()
         {
-            return activeDefinition != null ? activeDefinition.Id : string.Empty;
+            return ActiveDefinition != null ? ActiveDefinition.Id : string.Empty;
         }
 
         public string GetStartupDefinitionId()
@@ -152,7 +151,7 @@ namespace Automaton.Studio.Pages.Designer
 
         public void UpdateStepConnections()
         {
-            activeDefinition.UpdateStepConnections();
+            ActiveDefinition.UpdateStepConnections();
         }
     }
 }
