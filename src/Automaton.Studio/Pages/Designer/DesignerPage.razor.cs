@@ -16,7 +16,7 @@ namespace Automaton.Studio.Pages.Designer
 {
     partial class DesignerPage : ComponentBase
     {
-        private Dropzone<Domain.Step> dropzone;
+        private Dropzone<Domain.StudioStep> dropzone;
 
         #region DI
 
@@ -66,7 +66,7 @@ namespace Automaton.Studio.Pages.Designer
             dropzone.ActiveItem.Select();
         }
 
-        private async Task OnStepDrop(Domain.Step step)
+        private async Task OnStepDrop(Domain.StudioStep step)
         {
             if (!step.IsFinal())
             {
@@ -78,7 +78,7 @@ namespace Automaton.Studio.Pages.Designer
             }
         }
 
-        private void OnStepMouseDown(Domain.Step step)
+        private void OnStepMouseDown(Domain.StudioStep step)
         {
             // Unselect all the previous selected activities
             UnselectSteps();
@@ -87,7 +87,7 @@ namespace Automaton.Studio.Pages.Designer
             step.Select();
         }
 
-        private async Task OnStepDoubleClick(Domain.Step step)
+        private async Task OnStepDoubleClick(Domain.StudioStep step)
         {
             var result = await step.DisplayPropertiesDialog(ModalService);
 
@@ -136,7 +136,7 @@ namespace Automaton.Studio.Pages.Designer
             await DesignerViewModel.SaveFlow();
         }
 
-        private async Task NewStepDialog(Domain.Step step)
+        private async Task NewStepDialog(Domain.StudioStep step)
         {
             var result = await step.DisplayPropertiesDialog(ModalService);
 
@@ -188,7 +188,7 @@ namespace Automaton.Studio.Pages.Designer
                 OffsetX = 50
             };
 
-            var drawerRef = await DrawerService.CreateAsync<FlowSettings, Flow, bool>(options, DesignerViewModel.Flow);
+            var drawerRef = await DrawerService.CreateAsync<FlowSettings, StudioFlow, bool>(options, DesignerViewModel.Flow);
 
             drawerRef.OnClosed = async result =>
             {
@@ -205,7 +205,7 @@ namespace Automaton.Studio.Pages.Designer
                 OffsetX = 50
             };
 
-            var drawerRef = await DrawerService.CreateAsync<FlowVariables, Flow, bool>(options, DesignerViewModel.Flow);
+            var drawerRef = await DrawerService.CreateAsync<FlowVariables, StudioFlow, bool>(options, DesignerViewModel.Flow);
 
             drawerRef.OnClosed = async result =>
             {

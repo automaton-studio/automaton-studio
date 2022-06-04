@@ -5,9 +5,9 @@ namespace Automaton.Studio.Events
 {
     public class StepEventArgs : EventArgs
     {
-        public Step Step { get; set; }
+        public StudioStep Step { get; set; }
 
-        public StepEventArgs(Step step)
+        public StepEventArgs(StudioStep step)
         {
             Step = step;
         }

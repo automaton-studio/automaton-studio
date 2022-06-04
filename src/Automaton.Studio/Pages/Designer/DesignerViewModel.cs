@@ -19,10 +19,10 @@ namespace Automaton.Studio.Pages.Designer
         private readonly FlowService flowService;
         private readonly FlowConvertService flowConvertService;
         private readonly WorkflowExecutor workflowExecutor;
-        private Definition activeDefinition;
+        private StudioDefinition activeDefinition;
 
-        public Flow Flow { get; set; }
-        public IList<Definition> Definitions { get; set; }
+        public StudioFlow Flow { get; set; }
+        public IList<StudioDefinition> Definitions { get; set; }
 
         public event EventHandler<StepEventArgs> DragStep;
         public event EventHandler<StepEventArgs> StepAdded
@@ -64,13 +64,13 @@ namespace Automaton.Studio.Pages.Designer
             this.flowConvertService = flowConvertService;
             this.workflowExecutor = workflowExecutor;
 
-            Flow = new Flow();
-            Definitions = new List<Definition>();
+            Flow = new StudioFlow();
+            Definitions = new List<StudioDefinition>();
         }
 
         public void CreateDefinition(string name)
         {
-            Definitions.Add(new Definition 
+            Definitions.Add(new StudioDefinition 
             { 
                 Name = name, 
                 Flow = this.Flow 
@@ -85,7 +85,7 @@ namespace Automaton.Studio.Pages.Designer
             DragStep?.Invoke(this, new StepEventArgs(step));
         }
 
-        public void DeleteStep(Step step)
+        public void DeleteStep(StudioStep step)
         {
             activeDefinition.Steps.Remove(step); 
         }
@@ -112,12 +112,12 @@ namespace Automaton.Studio.Pages.Designer
             }
         }
 
-        public void FinalizeStep(Step step)
+        public void FinalizeStep(StudioStep step)
         {
             activeDefinition.FinalizeStep(step);
         }
 
-        public IEnumerable<Step> GetSelectedSteps()
+        public IEnumerable<StudioStep> GetSelectedSteps()
         {
             return activeDefinition.Steps.Where(x => x.IsSelected());
         }
@@ -127,7 +127,7 @@ namespace Automaton.Studio.Pages.Designer
             return Definitions.Select(x => x.Name);
         }
 
-        public void SetActiveDefinition(Definition definition)
+        public void SetActiveDefinition(StudioDefinition definition)
         {
             activeDefinition = definition;
         }
@@ -137,7 +137,7 @@ namespace Automaton.Studio.Pages.Designer
             activeDefinition = Definitions.SingleOrDefault(x => x.Id == id);
         }
 
-        public Definition GetActiveDefinition()
+        public StudioDefinition GetActiveDefinition()
         {
             return activeDefinition;
         }

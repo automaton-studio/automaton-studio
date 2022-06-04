@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Automaton.Studio.Domain
 {
-    public class Definition
+    public class StudioDefinition
     {
         public string Id { get; set; }
 
@@ -19,9 +19,9 @@ namespace Automaton.Studio.Domain
 
         public TimeSpan? DefaultErrorRetryInterval { get; set; }
 
-        public List<Step> Steps { get; set; } = new List<Step>();
+        public List<StudioStep> Steps { get; set; } = new List<StudioStep>();
 
-        public Flow Flow { get; set; }
+        public StudioFlow Flow { get; set; }
 
         #region Events
 
@@ -30,13 +30,13 @@ namespace Automaton.Studio.Domain
 
         #endregion
 
-        public Definition()
+        public StudioDefinition()
         {
             Id = Guid.NewGuid().ToString();
             Name = "Untitled";
         }
 
-        public void DeleteStep(Step step)
+        public void DeleteStep(StudioStep step)
         {
             Steps.Remove(step);
 
@@ -47,7 +47,7 @@ namespace Automaton.Studio.Domain
             StepRemoved?.Invoke(this, new StepEventArgs(step));
         }
 
-        public void FinalizeStep(Step step)
+        public void FinalizeStep(StudioStep step)
         {
             step.MarkAsFinal();
             step.Definition = this;

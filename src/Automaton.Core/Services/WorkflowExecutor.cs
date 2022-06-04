@@ -53,10 +53,5 @@ namespace Automaton.Core.Services
 
             return result;
         }
-
-        public async Task<WorkflowExecutorResult> Execute(Guid workflowId, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

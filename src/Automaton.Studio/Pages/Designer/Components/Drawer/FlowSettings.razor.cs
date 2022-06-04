@@ -8,7 +8,7 @@ namespace Automaton.Studio.Pages.Designer.Components.Drawer
 {
     public partial class FlowSettings
     {
-        private Flow flow;
+        private StudioFlow flow;
         private FluentValidationValidator fluentValidationValidator;
 
         protected override async Task OnInitializedAsync()

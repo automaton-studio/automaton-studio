@@ -1,4 +1,5 @@
 ﻿using Automaton.Client.Auth.Interfaces;
+using Automaton.Core.Services;
 using Automaton.Runner.Services;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
@@ -18,7 +19,9 @@ public class HubService
     private readonly ConfigService configService;
     private readonly IAuthenticationStorage storageService;
 
-    public HubService(ConfigService configService, WorkflowService workflowService, IAuthenticationStorage storageService)
+    public HubService(ConfigService configService, 
+        WorkflowService workflowService,
+        IAuthenticationStorage storageService)
     {
         this.configService = configService;
         this.workflowService = workflowService;

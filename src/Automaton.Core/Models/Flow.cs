@@ -1,13 +1,13 @@
 ﻿using System.Dynamic;
 
-namespace Automaton.Core.Dto;
+namespace Automaton.Core.Models;
 
-public class FlowDto
+public class Flow
 {
-    public string Id { get; set; }
+    public Guid Id { get; set; }
     public string Name { get; set; }
     public string StartupDefinitionId { get; set; }
     public ExpandoObject Variables { get; set; }
     public ExpandoObject OutputVariables { get; set; }
-    public List<DefinitionDto> Definitions { get; set; } = new List<DefinitionDto>();
+    public List<Definition> Definitions { get; set; } = new List<Definition>();
 }

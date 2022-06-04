@@ -1,8 +1,8 @@
 ﻿using Automaton.Core.Enums;
 
-namespace Automaton.Core.Dto;
+namespace Automaton.Core.Models;
 
-public class DefinitionDto
+public class Definition
 {
     public string Id { get; set; }
 
@@ -14,9 +14,9 @@ public class DefinitionDto
 
     public TimeSpan? DefaultErrorRetryInterval { get; set; }
 
-    public List<StepDto> Steps { get; set; } = new List<StepDto>();
+    public List<Step> Steps { get; set; } = new List<Step>();
 
-    public DefinitionDto()
+    public Definition()
     {
         Id = Guid.NewGuid().ToString();
         Name = "Untitled";

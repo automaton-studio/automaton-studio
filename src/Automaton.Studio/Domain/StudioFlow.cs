@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Automaton.Studio.Domain
 {
-    public class Flow
+    public class StudioFlow
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -14,19 +14,19 @@ namespace Automaton.Studio.Domain
         public ExpandoObject OutputVariables { get; set; }
         public IDictionary<string, object> VariablesDictionary => Variables;
         public IDictionary<string, object> OutputVariablesDictionary => OutputVariables;
-        public IList<Definition> Definitions { get; set; }
+        public IList<StudioDefinition> Definitions { get; set; }
 
-        public Flow()
+        public StudioFlow()
         {
             Name = "Untitled";
-            var defaultDefinition = new Definition { Flow = this };
+            var defaultDefinition = new StudioDefinition { Flow = this };
             StartupDefinitionId = defaultDefinition.Id;
-            Definitions = new List<Definition> { defaultDefinition };
+            Definitions = new List<StudioDefinition> { defaultDefinition };
             Variables = new ExpandoObject();
             OutputVariables = new ExpandoObject();
         }
 
-        public Definition GetStartupDefinition()
+        public StudioDefinition GetStartupDefinition()
         {
             return Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);
         }

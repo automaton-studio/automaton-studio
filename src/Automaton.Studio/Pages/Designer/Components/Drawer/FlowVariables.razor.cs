@@ -14,7 +14,7 @@ namespace Automaton.Studio.Pages.Designer.Components.Drawer
 {
     public partial class FlowVariables
     {
-        private Flow flow;
+        private StudioFlow flow;
         private FluentValidationValidator fluentValidationValidator;
 
         [Inject] private ModalService ModalService { get; set; } = default!;

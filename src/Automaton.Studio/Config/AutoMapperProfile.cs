@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using Automaton.Client.Auth.Models;
-using Automaton.Core.Dto;
+using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
-using Automaton.Studio.Pages.Flows;
 using Automaton.Studio.Pages.Login;
 using System.Collections.Generic;
 
@@ -16,25 +15,25 @@ namespace Automaton.Studio.Config
 
         public AutoMapperProfile()
         {
-            CreateMap<Step, StepDto>();
-            CreateMap<Flow, FlowDto>();
-            CreateMap<Definition, DefinitionDto>();
+            CreateMap<StudioStep, Step>();
+            CreateMap<StudioFlow, Flow>();
+            CreateMap<StudioDefinition, Definition>();
             
-            CreateMap<StepDto, Step>();
-            CreateMap<FlowDto, Flow>().AfterMap((source, target) => FlowCreated(source, target));
+            CreateMap<Step, StudioStep>();
+            CreateMap<Flow, StudioFlow>().AfterMap((source, target) => FlowCreated(source, target));
 
-            CreateMap<DefinitionDto, Definition>().ForMember
+            CreateMap<Definition, StudioDefinition>().ForMember
             (
                 source => source.Steps, 
                 target => target.MapFrom(entity => SetupSteps(entity.Steps))
             )
             .AfterMap((source, target) => DefinitionCreated(source, target));
 
-            CreateMap<Definition, FlowExplorerDefinition>();
+            CreateMap<StudioDefinition, FlowExplorerDefinition>();
             CreateMap<LoginModel, LoginDetails>();
         }
 
-        private static void FlowCreated(FlowDto source, Flow target)
+        private static void FlowCreated(Flow source, StudioFlow target)
         {
             foreach(var definition in target.Definitions)
             {
@@ -42,7 +41,7 @@ namespace Automaton.Studio.Config
             }
         }
 
-        private static void DefinitionCreated(DefinitionDto source, Definition target)
+        private static void DefinitionCreated(Definition source, StudioDefinition target)
         {
             foreach (var step in target.Steps)
             {
@@ -50,7 +49,7 @@ namespace Automaton.Studio.Config
             }
         }
 
-        public IEnumerable<Step> SetupSteps(IEnumerable<StepDto> stepDtos)
+        public IEnumerable<StudioStep> SetupSteps(IEnumerable<Step> stepDtos)
         {
             foreach (var stepDto in stepDtos)
             {

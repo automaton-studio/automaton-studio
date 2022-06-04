@@ -20,7 +20,7 @@ namespace Automaton.Studio.Pages.Designer.Components.FlowExplorer
         #region Properties
 
         [CascadingParameter]
-        private Flow Flow { get; set; }
+        private StudioFlow Flow { get; set; }
 
         [Inject]
         private FlowExplorerViewModel FlowExplorerViewModel { get; set; }

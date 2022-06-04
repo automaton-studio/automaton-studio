@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.Domain
 {
-    public abstract class Step : INotifyPropertyChanged
+    public abstract class StudioStep : INotifyPropertyChanged
     {
         #region Constants
 
@@ -26,9 +26,9 @@ namespace Automaton.Studio.Domain
 
         #region Properties
 
-        public Definition Definition { get; set; }
+        public StudioDefinition Definition { get; set; }
 
-        public Flow Flow => Definition.Flow;
+        public StudioFlow Flow => Definition.Flow;
 
         public IStepDescriptor Descriptor { get; set; }
 
@@ -54,9 +54,9 @@ namespace Automaton.Studio.Domain
 
         public TimeSpan? RetryInterval { get; set; }
 
-        public List<List<Step>> Do { get; set; } = new List<List<Step>>();
+        public List<List<StudioStep>> Do { get; set; } = new List<List<StudioStep>>();
 
-        public List<Step> CompensateWith { get; set; } = new List<Step>();
+        public List<StudioStep> CompensateWith { get; set; } = new List<StudioStep>();
 
         public bool Saga { get; set; } = false;
 
@@ -70,7 +70,7 @@ namespace Automaton.Studio.Domain
 
         #endregion
 
-        public Step(IStepDescriptor descriptor)
+        public StudioStep(IStepDescriptor descriptor)
         {
             Descriptor = descriptor;
             Name = descriptor.Name;

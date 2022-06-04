@@ -1,9 +1,9 @@
 ﻿using Automaton.Core.Enums;
 using System.Dynamic;
 
-namespace Automaton.Core.Dto;
+namespace Automaton.Core.Models;
 
-public class StepDto
+public class Step
 {
     public string Id { get; set; }
 
@@ -21,5 +21,5 @@ public class StepDto
 
     public string NextStepId { get; set; }
 
-    public List<StepDto> Children { get; set; } = new List<StepDto>();
+    public List<Step> Children { get; set; } = new List<Step>();
 }

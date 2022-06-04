@@ -8,7 +8,7 @@ namespace Automaton.Studio.Pages.Designer.Components
     public class DropzoneStep : ComponentBase
     {
         [Parameter]
-        public Step Step { get; set; }
+        public StudioStep Step { get; set; }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {

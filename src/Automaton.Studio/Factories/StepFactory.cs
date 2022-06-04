@@ -39,7 +39,7 @@ namespace Automaton.Studio.Factories
 
         public void AddActivitiesFrom(IEnumerable<Assembly> assemblies)
         {
-            var types = assemblies.SelectMany(x => x.GetAllWithBaseClass<Step>()).Where(x => !x.IsAbstract);
+            var types = assemblies.SelectMany(x => x.GetAllWithBaseClass<StudioStep>()).Where(x => !x.IsAbstract);
 
             foreach (var type in types)
             {
@@ -65,10 +65,10 @@ namespace Automaton.Studio.Factories
             solutionTypes.Add(solutionStep.Name, stepType);
         }
 
-        public Step CreateStep(string name)
+        public StudioStep CreateStep(string name)
         {
             var descriptor = stepTypeDescriptor.Describe(solutionTypes[name]);
-            var step = Activator.CreateInstance(solutionTypes[name], descriptor) as Step;
+            var step = Activator.CreateInstance(solutionTypes[name], descriptor) as StudioStep;
             step.Id = Guid.NewGuid().ToString();
 
             return step;

@@ -14,9 +14,9 @@ public class RunnerService
     private readonly HttpClient httpClient;
     private readonly ApplicationStorage applicationStorage;
 
-    public RunnerService(AutomatonHttpClient automatonHttpClient, ConfigService configService, ApplicationStorage applicationStorage)
+    public RunnerService(AutomatonHttpClient httpClient, ConfigService configService, ApplicationStorage applicationStorage)
     {
-        this.httpClient = automatonHttpClient.Client;
+        this.httpClient = httpClient.Client;
         this.configService = configService;
         this.applicationStorage = applicationStorage;
     }

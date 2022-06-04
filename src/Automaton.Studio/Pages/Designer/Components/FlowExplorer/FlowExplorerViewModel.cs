@@ -7,7 +7,7 @@ namespace Automaton.Studio.Pages.Designer.Components.FlowExplorer
 {
     public class FlowExplorerViewModel
     {
-        private Flow flow;
+        private StudioFlow flow;
         private readonly IMapper mapper;
 
         public IList<FlowExplorerDefinition> ExplorerDefinitions { get; set; }
@@ -18,7 +18,7 @@ namespace Automaton.Studio.Pages.Designer.Components.FlowExplorer
             this.mapper = mapper;
         }
 
-        public void LoadDefinitions(Flow flow)
+        public void LoadDefinitions(StudioFlow flow)
         {
             this.flow = flow;
             SetExplorerDefinitions();
@@ -52,7 +52,7 @@ namespace Automaton.Studio.Pages.Designer.Components.FlowExplorer
 
         private void SetExplorerDefinitions()
         {
-            ExplorerDefinitions = mapper.Map<IEnumerable<Definition>, IList<FlowExplorerDefinition>>(flow.Definitions);
+            ExplorerDefinitions = mapper.Map<IEnumerable<StudioDefinition>, IList<FlowExplorerDefinition>>(flow.Definitions);
         }
 
         private void SetStartupDefinition()

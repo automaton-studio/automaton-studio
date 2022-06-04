@@ -11,7 +11,7 @@ namespace Automaton.Studio.Extensions
            return modalService.CreateModalAsync<TComponent, TComponentOptions>(config, componentOptions);  
         }
 
-        public static async Task<ModalRef> DisplayPropertiesDialog(this Domain.Step step, ModalService modalService)
+        public static async Task<ModalRef> DisplayPropertiesDialog(this Domain.StudioStep step, ModalService modalService)
         {
             var modalConfig = new ModalOptions
             {
@@ -28,7 +28,7 @@ namespace Automaton.Studio.Extensions
             return result;
         }
 
-        public static Type FindType(this Domain.Step step)
+        public static Type FindType(this Domain.StudioStep step)
         {
             var fullClassName = $"Automaton.Steps.{step.Type}, Automaton.Steps";
             var type = Type.GetType(fullClassName, true, true);

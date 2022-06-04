@@ -1,5 +1,5 @@
-﻿using Automaton.Studio.Server.Data;
-using Automaton.Studio.Server.Models;
+﻿using Automaton.Core.Models;
+using Automaton.Studio.Server.Data;
 using System.Security.Claims;
 using System.Text.Json;
 

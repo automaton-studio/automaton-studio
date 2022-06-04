@@ -13,7 +13,7 @@ namespace Automaton.Studio.Steps.EmitLog
         Description = "Emit log to console",
         Icon = "code"
     )]
-    public class EmitLogStep : Step
+    public class EmitLogStep : StudioStep
     {
         public string Message
         {

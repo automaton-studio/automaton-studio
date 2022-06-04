@@ -21,7 +21,7 @@ namespace Automaton.Studio.Services
             this.serviceProvider = serviceProvider;
         }
 
-        public Workflow ConvertFlow(Flow flow)
+        public Workflow ConvertFlow(StudioFlow flow)
         {
             var worklow = new Workflow
             {
@@ -48,7 +48,7 @@ namespace Automaton.Studio.Services
             return worklow;
         }
 
-        private IDictionary<string, WorkflowStep> ConvertSteps(ICollection<Step> steps, Workflow workflow)
+        private IDictionary<string, WorkflowStep> ConvertSteps(ICollection<StudioStep> steps, Workflow workflow)
         {
             var workflowSteps = new Dictionary<string, WorkflowStep>();
 
@@ -70,7 +70,7 @@ namespace Automaton.Studio.Services
             return workflowSteps;
         }
 
-        private static void AttachInputs(Step step, WorkflowStep workflowStep, Workflow workflow)
+        private static void AttachInputs(StudioStep step, WorkflowStep workflowStep, Workflow workflow)
         {
             foreach (var input in step.Inputs)
             {
