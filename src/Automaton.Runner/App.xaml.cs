@@ -3,7 +3,9 @@ using Automaton.Runner.Extensions;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -44,6 +46,10 @@ public partial class App : Application
 
         Configuration = builder.Build();
 
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.File("Automaton.log")
+            .CreateLogger();
+
         var services = new ServiceCollection();
 
         services.AddSingleton(Configuration);
@@ -51,7 +57,10 @@ public partial class App : Application
         services.AddSingleton(service => new ConfigService(Configuration));
 
         services.AddAutomatonCore();
-        services.AddLogging();
+
+        services.AddLogging(configure => configure.AddSerilog())
+            .Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Information)
+            .AddTransient<App>();
 
         services.AddMediatR(typeof(App));
         services.AddTransient(typeof(MainWindow));
