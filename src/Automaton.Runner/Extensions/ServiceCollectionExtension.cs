@@ -15,6 +15,9 @@ public static class ServiceCollectionExtension
 {
     public static void AddApplication(this IServiceCollection services)
     {
+        // Steps
+        services.AddSteps();
+
         // Services
         services.AddSingleton<RunnerService>();
         services.AddSingleton<HubService>();

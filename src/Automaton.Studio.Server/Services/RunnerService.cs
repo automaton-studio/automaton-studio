@@ -39,6 +39,17 @@ namespace Automaton.Studio.Server.Services
             return runners;
         }
 
+        public async Task<IEnumerable<Runner>> List(IEnumerable<Guid> runnerIds, CancellationToken cancellationToken)
+        {
+            var runners = await (from runner in dbContext.Runners
+                join runnerUser in dbContext.RunnerUsers
+                on runner.Id equals runnerUser.RunnerId
+                where runnerUser.UserId == userId && runnerIds.Contains(runner.Id)
+                select runner).ToListAsync(cancellationToken);
+
+            return runners;
+        }
+
         public async Task<Runner> Get(Guid id, CancellationToken cancellationToken)
         {
             var runner =

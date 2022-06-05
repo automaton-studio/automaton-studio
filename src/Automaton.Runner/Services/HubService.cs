@@ -1,5 +1,4 @@
 ﻿using Automaton.Client.Auth.Interfaces;
-using Automaton.Core.Services;
 using Automaton.Runner.Services;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
@@ -10,8 +9,8 @@ namespace Automaton.Runner.Core.Services;
 public class HubService
 {
     private const string RunnerNameHeader = "RunnerName";
-    private const string RunWorkflowMethod = "RunWorkflow";
-    private const string WelcomeRunnerMethod = "WelcomeRunner";
+    private const string RunWorkflow = "RunWorkflow";
+    private const string WelcomeRunner = "WelcomeRunner";
     private const string PingMethod = "Ping";
 
     private HubConnection connection;
@@ -41,12 +40,12 @@ public class HubService
         })
         .Build();
 
-        connection.On<Guid>(RunWorkflowMethod, async (workflowId) =>
+        connection.On<Guid>(RunWorkflow, async (workflowId) =>
         {
             await workflowService.RunFlow(workflowId);
         });
 
-        connection.On<string>(WelcomeRunnerMethod, (name) =>
+        connection.On<string>(WelcomeRunner, (name) =>
         {
         });
 

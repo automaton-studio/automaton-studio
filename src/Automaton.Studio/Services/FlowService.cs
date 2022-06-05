@@ -2,8 +2,10 @@
 using Automaton.Core.Models;
 using Automaton.Core.Services;
 using Automaton.Studio.Domain;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -63,6 +65,19 @@ namespace Automaton.Studio.Services
         public async Task Delete(Guid flowId)
         {
             await httpClient.DeleteAsync($"{configService.FlowsUrl}/{flowId}");
+        }
+       
+        public async Task Run(Guid flowId, IEnumerable<Guid> runnerIds)
+        {
+            var flowAndRunners = new
+            {
+                FlowId = flowId,
+                RunnerIds = runnerIds
+            };
+
+            var response = await httpClient.PostAsJsonAsync($"{configService.FlowsUrl}/run", flowAndRunners);
+            
+            response.EnsureSuccessStatusCode();
         }
     }
 }

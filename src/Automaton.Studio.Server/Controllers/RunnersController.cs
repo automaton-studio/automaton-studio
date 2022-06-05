@@ -14,7 +14,14 @@ namespace Automaton.Studio.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Runner>>> Get([FromQuery] RunnerQuery runnerQuery, CancellationToken cancellationToken)
+        public async Task<ActionResult<IEnumerable<Runner>>> Get(CancellationToken cancellationToken)
+        {
+            var runnerQuery = new RunnerQuery();
+            return Ok(await Mediator.Send(runnerQuery, cancellationToken));
+        }
+
+        [HttpGet("find")]
+        public async Task<ActionResult<IEnumerable<Runner>>> Get([FromBody] RunnerQuery runnerQuery, CancellationToken cancellationToken)
         {
             return Ok(await Mediator.Send(runnerQuery, cancellationToken));
         }

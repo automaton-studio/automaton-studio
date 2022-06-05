@@ -49,8 +49,7 @@ namespace Automaton.Studio.Server.Controllers
         /// <param name="ct">Cancellation Token</param>
         /// <returns>Collection of user profiles</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDetails>>> FindUsers(
-            [FromQuery] FilterUserQuery filterUserQuery, CancellationToken ct)
+        public async Task<ActionResult<IEnumerable<UserDetails>>> FindUsers([FromQuery] FilterUserQuery filterUserQuery, CancellationToken ct)
         {
             return Ok(await Mediator.Send(filterUserQuery, ct));
         }

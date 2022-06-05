@@ -1,5 +1,7 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Studio.Server.Data;
+using Automaton.Studio.Server.Hubs;
+using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
 using System.Text.Json;
 
@@ -7,13 +9,18 @@ namespace Automaton.Studio.Server.Services
 {
     public class FlowsService
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly ApplicationDbContext dataContext;
+        private readonly RunnerService runnerService;
+        private readonly IHubContext<WorkflowHub> workflowHubContext;
+
         private readonly Guid userId;
 
-        public FlowsService(ApplicationDbContext context,
+        public FlowsService(ApplicationDbContext dataContext,
+            RunnerService runnerService,
             IHttpContextAccessor httpContextAccessor)
         {
-            dbContext = context;
+            this.dataContext = dataContext;
+            this.runnerService = runnerService;
 
             var userIdString = httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             Guid.TryParse(userIdString, out Guid userIdGuid);
@@ -22,8 +29,8 @@ namespace Automaton.Studio.Server.Services
 
         public IEnumerable<Entities.Flow> List()
         {
-            var flows = from flow in dbContext.Flows
-                join flowUser in dbContext.FlowUsers
+            var flows = from flow in dataContext.Flows
+                join flowUser in dataContext.FlowUsers
                 on flow.Id equals flowUser.FlowId
                 where flowUser.UserId == userId
                 select flow;
@@ -35,8 +42,8 @@ namespace Automaton.Studio.Server.Services
         {
             var flow = 
             (
-                from _flow in dbContext.Flows
-                join _flowUser in dbContext.FlowUsers
+                from _flow in dataContext.Flows
+                join _flowUser in dataContext.FlowUsers
                 on _flow.Id equals _flowUser.FlowId
                 where _flow.Id == id && _flowUser.UserId == userId
                 select DeserializeFlow(_flow.Body)
@@ -59,7 +66,7 @@ namespace Automaton.Studio.Server.Services
                 Updated = DateTime.UtcNow
             };
 
-            dbContext.Flows.Add(flowEntity);
+            dataContext.Flows.Add(flowEntity);
 
             var flowUser = new Entities.FlowUser
             {
@@ -67,9 +74,9 @@ namespace Automaton.Studio.Server.Services
                 UserId = userId
             };
 
-            dbContext.FlowUsers.Add(flowUser);
+            dataContext.FlowUsers.Add(flowUser);
 
-            dbContext.SaveChanges();
+            dataContext.SaveChanges();
 
             return flowEntity.Id;
         }
@@ -81,16 +88,16 @@ namespace Automaton.Studio.Server.Services
             flowEntity.Body = JsonSerializer.Serialize(flow);
             flowEntity.Updated = DateTime.UtcNow;
 
-            dbContext.SaveChanges();
+            dataContext.SaveChanges();
         }
 
         public void Remove(Guid id)
         {
             var flow = GetFlowEntity(id);
 
-            dbContext.Flows.Remove(flow);
+            dataContext.Flows.Remove(flow);
 
-            dbContext.SaveChanges();
+            dataContext.SaveChanges();
         }
 
         private static Flow DeserializeFlow(string flowBody)
@@ -104,8 +111,8 @@ namespace Automaton.Studio.Server.Services
         {
             var flow = 
             (
-                from _flow in dbContext.Flows
-                join _flowUser in dbContext.FlowUsers
+                from _flow in dataContext.Flows
+                join _flowUser in dataContext.FlowUsers
                 on _flow.Id equals _flowUser.FlowId
                 where _flow.Id == id && _flowUser.UserId == userId
                 select _flow

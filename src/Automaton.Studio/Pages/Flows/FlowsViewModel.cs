@@ -59,9 +59,9 @@ namespace Automaton.Studio.Pages.Flows
             Flows.Remove(flow);
         }
 
-        public async Task RunFlow(Guid id)
+        public async Task RunFlow(Guid id, IEnumerable<Guid> runnerIds)
         {
-            throw new NotImplementedException();
+            await flowService.Run(id, runnerIds);
         }
     }
 }

@@ -8,17 +8,20 @@ namespace AuthServer.Application.Queries.Handlers
 {
     public class RunnerQueryHandler : IRequestHandler<RunnerQuery, IEnumerable<Runner>>
     {
-        private readonly RunnerService runnerService;
         private readonly IMapper mapper;
+        private readonly RunnerService runnerService;
+
         public RunnerQueryHandler(RunnerService runnerService, IMapper mapper)
         {
-            this.runnerService = runnerService;
             this.mapper = mapper;
+            this.runnerService = runnerService;
         }
 
         public async Task<IEnumerable<Runner>> Handle(RunnerQuery request, CancellationToken cancellationToken)
         {
-            var runnerEntities = await runnerService.List(cancellationToken);
+            var runnerEntities = request.RunnerIds.Any() ? 
+                await runnerService.List(request.RunnerIds, cancellationToken) :
+                await runnerService.List(cancellationToken);
 
             var runners = mapper.Map<IEnumerable<Runner>>(runnerEntities);
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Automaton.Core.Models;
 using Automaton.Core.Services;
+using Automaton.Studio.Server.Core.Commands;
 using Automaton.Studio.Server.Models;
 using Automaton.Studio.Server.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -71,6 +72,12 @@ namespace Automaton.Studio.Server.Controllers
             flowsService.Remove(id);
 
             return NoContent();
+        }
+
+        [HttpPost("run")]
+        public async Task<ActionResult> Post(ExecuteFlowCommand command, CancellationToken cancellationToken)
+        {
+            return Ok(await Mediator.Send(command, cancellationToken));
         }
     }
 }
