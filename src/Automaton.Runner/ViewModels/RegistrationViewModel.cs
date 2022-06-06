@@ -11,7 +11,6 @@ namespace Automaton.Runner.ViewModels;
 
 public class RegistrationViewModel
 {
-    private readonly HubService hubService;
     private readonly RunnerService registrationService;
     private readonly RegistrationValidator registrationValidator;
 
@@ -21,12 +20,10 @@ public class RegistrationViewModel
     public RegistrationViewModel
     (
         LoaderViewModel loader,
-        HubService hubService,
         RunnerService registrationService,
         RegistrationValidator registrationValidator
     )
     {
-        this.hubService = hubService;
         this.Loader = loader;
         this.registrationService = registrationService;
         this.registrationValidator = registrationValidator;
@@ -44,8 +41,6 @@ public class RegistrationViewModel
             Loader.StartLoading();
 
             await registrationService.Register(RunnerName);
-
-            await hubService.Connect(RunnerName);
 
             return RunnerNavigation.Dashboard;
         }

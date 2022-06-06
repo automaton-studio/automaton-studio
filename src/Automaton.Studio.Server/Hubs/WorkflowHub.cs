@@ -1,8 +1,10 @@
 ﻿using Automaton.Studio.Server.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Automaton.Studio.Server.Hubs
 {
+    [Authorize]
     public class WorkflowHub : Hub
     {
         #region Constants

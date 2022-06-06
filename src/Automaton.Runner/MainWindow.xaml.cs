@@ -32,20 +32,24 @@ public partial class MainWindow : Window
         {
             if (configService.AppConfig.IsRunnerRegistered())
             {
-                await hubService.Connect(configService.AppConfig.RunnerName);
-                frame.Source = new Uri("Controls/DashboardControl.xaml", UriKind.Relative);
+                NavigateToDashboard();
             }
             else
             {
-                frame.Source = new Uri("Controls/RegistrationControl.xaml", UriKind.Relative);
+                NavigateToRegistration();
             }
         }
         else
         {
-            frame.Source = new Uri("Controls/LoginControl.xaml", UriKind.Relative);
+            NavigateToLogin();
         }
 
         base.OnInitialized(e);
+    }
+
+    public void NavigateToLogin()
+    {
+        frame.Source = new Uri("Controls/LoginControl.xaml", UriKind.Relative);
     }
 
     public void NavigateToRegistration()

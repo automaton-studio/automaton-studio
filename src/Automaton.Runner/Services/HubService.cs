@@ -1,6 +1,7 @@
 ﻿using Automaton.Client.Auth.Interfaces;
 using Automaton.Runner.Services;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -17,39 +18,52 @@ public class HubService
     private readonly FlowService workflowService;
     private readonly ConfigService configService;
     private readonly IAuthenticationStorage storageService;
+    private readonly ILogger<HubService> logger;
 
-    public HubService(ConfigService configService, 
+    public HubService(ConfigService configService,
         FlowService workflowService,
-        IAuthenticationStorage storageService)
+        IAuthenticationStorage storageService,
+        ILogger<HubService> logger)
     {
         this.configService = configService;
         this.workflowService = workflowService;
         this.storageService = storageService;
+        this.logger = logger;
     }
 
-    public async Task Connect(string runnerName)
+    public async Task<bool> Connect(string runnerName)
     {
-        var studioConfig = configService.ApiConfig;
-        var token = await storageService.GetAuthToken();
-        var hubUrl = $"{studioConfig.BaseUrl}{studioConfig.WorkflowHubUrl}";
-
-        connection = new HubConnectionBuilder().WithUrl(hubUrl, options =>
+        try
         {
-            options.AccessTokenProvider = () => Task.FromResult(token);
-            options.Headers.Add(RunnerNameHeader, runnerName);
-        })
-        .Build();
+            var studioConfig = configService.ApiConfig;
+            var token = await storageService.GetAuthToken();
+            var hubUrl = $"{studioConfig.BaseUrl}{studioConfig.WorkflowHubUrl}";
 
-        connection.On<Guid>(RunWorkflow, async (workflowId) =>
+            connection = new HubConnectionBuilder().WithUrl(hubUrl, options =>
+            {
+                options.AccessTokenProvider = () => Task.FromResult(token);
+                options.Headers.Add(RunnerNameHeader, runnerName);
+            })
+            .Build();
+
+            connection.On<Guid>(RunWorkflow, async (workflowId) =>
+            {
+                await workflowService.RunFlow(workflowId);
+            });
+
+            connection.On<string>(WelcomeRunner, (name) =>
+            {
+            });
+
+            await connection.StartAsync();
+        }
+        catch (Exception ex)
         {
-            await workflowService.RunFlow(workflowId);
-        });
+            logger.LogError(ex.Message);
+            return false;
+        }
 
-        connection.On<string>(WelcomeRunner, (name) =>
-        {
-        });
-
-        await connection.StartAsync();
+        return true;
     }
 
     public async Task Disconnect()

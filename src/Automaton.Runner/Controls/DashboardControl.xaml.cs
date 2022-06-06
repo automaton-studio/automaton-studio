@@ -1,4 +1,5 @@
 ﻿using Automaton.Runner.ViewModels;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,10 +10,19 @@ namespace Automaton.Runner.Controls;
 /// </summary>
 public partial class DashboardControl : UserControl
 {
+    private DashboardViewModel viewModel;
+
     public DashboardControl()
     {
-        var viewModel = DataContext as DashboardViewModel;
-
         InitializeComponent();
+    }
+
+    protected override async void OnInitialized(EventArgs e)
+    {
+        base.OnInitialized(e);
+
+        viewModel = DataContext as DashboardViewModel;
+
+        var connected = await viewModel.ConnectToHub();
     }
 }

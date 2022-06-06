@@ -13,7 +13,6 @@ namespace Automaton.Runner.ViewModels;
 public class LoginViewModel
 {
     private readonly ConfigService configService;
-    private readonly HubService hubService;
     private readonly IAuthenticationService authenticationService;
     private readonly LoginValidator loginValidator;
 
@@ -31,13 +30,11 @@ public class LoginViewModel
     public LoginViewModel(
         ConfigService configService,
         IAuthenticationService authenticationService,
-        HubService hubService,
         LoaderViewModel loader,
         LoginValidator loginValidator)
     {
         this.configService = configService;
         this.authenticationService = authenticationService;
-        this.hubService = hubService;
         this.Loader = loader;
         this.loginValidator = loginValidator;
     }
@@ -59,8 +56,6 @@ public class LoginViewModel
 
             if (configService.AppConfig.IsRunnerRegistered())
             {
-                await hubService.Connect(configService.AppConfig.RunnerName);
-
                 return RunnerNavigation.Dashboard;
             }
             else
