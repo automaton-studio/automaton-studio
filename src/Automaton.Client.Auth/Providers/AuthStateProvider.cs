@@ -54,7 +54,6 @@ public class AuthStateProvider : AuthenticationStateProvider
             var authenticationState = new AuthenticationState(claimsPrincipal);
 
             return authenticationState;
-
         }
         catch
         {
@@ -88,27 +87,9 @@ public class AuthStateProvider : AuthenticationStateProvider
 
     public async Task<string> GetAccessTokenAsync()
     {
-        var authToken = await localStorage.GetAuthToken();
+        var accessToken = await localStorage.GetAuthToken();
 
-        if(string.IsNullOrWhiteSpace(authToken))
-            return string.Empty;
-
-        var claims = JsonWebTokenParser.ParseClaimsFromJwt(authToken);
-        var claimsIdentity = new ClaimsIdentity(claims, ClaimJwtAuthType);
-        var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-        var authState = new AuthenticationState(claimsPrincipal);
-        var user = authState.User;
-
-        var exp = user.FindFirst(c => c.Type.Equals(ClaimExp)).Value;
-        var expTime = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(exp));
-        var timeUTC = DateTime.UtcNow;
-        var diff = expTime - timeUTC;
-
-        var token = diff.TotalMinutes <= configService.RefreshTokenExpirationMinutesCheck ?
-            await RefreshAccessTokenAsync() :
-            authToken;
-
-        return token;
+        return IsAccessTokenValid(accessToken) ? accessToken : await RefreshAccessTokenAsync();
     }
 
     public async Task<string> RefreshAccessTokenAsync()
@@ -116,8 +97,10 @@ public class AuthStateProvider : AuthenticationStateProvider
         var refreshToken = await localStorage.GetRefreshToken();
         var jsonToken = JsonSerializer.Serialize(new { Token = refreshToken });
         var bodyContent = new StringContent(jsonToken, Encoding.UTF8, ApplicationJson);
+        
         var refreshResult = await httpClient.PostAsync(configService.RefreshAccessTokenUrl, bodyContent);
         refreshResult.EnsureSuccessStatusCode();
+        
         var refreshContent = await refreshResult.Content.ReadAsStringAsync();
         var result = JsonSerializer.Deserialize<JsonWebToken>(refreshContent, options);
 
@@ -126,5 +109,25 @@ public class AuthStateProvider : AuthenticationStateProvider
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, result.AccessToken);
 
         return result.AccessToken;
+    }
+
+    private bool IsAccessTokenValid(string accessToken)
+    {
+        if (string.IsNullOrEmpty(accessToken))
+            return false;
+
+        var claims = JsonWebTokenParser.ParseClaimsFromJwt(accessToken);
+        var claimsIdentity = new ClaimsIdentity(claims, ClaimJwtAuthType);
+        var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+        var authState = new AuthenticationState(claimsPrincipal);
+
+        var expirationClaim = authState.User.FindFirst(c => c.Type.Equals(ClaimExp));
+        var expTime = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(expirationClaim.Value));
+        var timeUTC = DateTime.UtcNow;
+        var diff = expTime - timeUTC;
+
+        var tokenValid = diff.TotalMinutes > configService.RefreshTokenExpirationMinutesCheck;
+
+        return tokenValid;
     }
 }

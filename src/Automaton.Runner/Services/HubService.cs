@@ -1,4 +1,5 @@
 ﻿using Automaton.Client.Auth.Interfaces;
+using Automaton.Client.Auth.Providers;
 using Automaton.Runner.Services;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
@@ -16,18 +17,21 @@ public class HubService
 
     private HubConnection connection;
     private readonly FlowService workflowService;
+    private readonly AuthStateProvider authStateProvider;
     private readonly ConfigService configService;
     private readonly IAuthenticationStorage storageService;
     private readonly ILogger<HubService> logger;
 
     public HubService(ConfigService configService,
         FlowService workflowService,
+        AuthStateProvider authStateProvider,
         IAuthenticationStorage storageService,
         ILogger<HubService> logger)
     {
         this.configService = configService;
         this.workflowService = workflowService;
         this.storageService = storageService;
+        this.authStateProvider = authStateProvider;
         this.logger = logger;
     }
 
@@ -41,7 +45,7 @@ public class HubService
 
             connection = new HubConnectionBuilder().WithUrl(hubUrl, options =>
             {
-                options.AccessTokenProvider = () => Task.FromResult(token);
+                options.AccessTokenProvider = async () => await authStateProvider.GetAccessTokenAsync();
                 options.Headers.Add(RunnerNameHeader, runnerName);
             })
             .Build();
