@@ -22,6 +22,7 @@ public static class ServiceCollectionExtension
         services.AddSingleton<RunnerService>();
         services.AddSingleton<HubService>();
         services.AddScoped<FlowService>();
+        services.AddScoped<AuthenticationService>();
 
         // View models
         services.AddSingleton<MainWindowViewModel>();
@@ -44,6 +45,5 @@ public static class ServiceCollectionExtension
         services.AddScoped<AutomatonHttpClient>();
         services.AddHttpClient<AutomatonHttpClient>()
             .AddHttpMessageHandler<TokenAuthHeaderHandler>();
-        services.AddScoped<IAuthenticationService, AuthenticationService>();
     }
 }

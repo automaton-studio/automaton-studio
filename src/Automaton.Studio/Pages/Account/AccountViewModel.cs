@@ -1,13 +1,13 @@
-﻿using Automaton.Client.Auth.Interfaces;
+﻿using Automaton.Studio.Services;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Account
 {
     public class AccountViewModel
     {
-        private readonly IAuthenticationService authenticationService;
+        private readonly AuthenticationService authenticationService;
       
-        public AccountViewModel(IAuthenticationService authenticationService)
+        public AccountViewModel(AuthenticationService authenticationService)
         {
             this.authenticationService = authenticationService;
         }

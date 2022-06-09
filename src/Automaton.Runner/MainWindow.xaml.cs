@@ -1,5 +1,5 @@
-﻿using Automaton.Client.Auth.Interfaces;
-using Automaton.Runner.Core.Services;
+﻿using Automaton.Runner.Core.Services;
+using Automaton.Runner.Services;
 using Automaton.Runner.ViewModels;
 using System;
 using System.Windows;
@@ -11,11 +11,11 @@ public partial class MainWindow : Window
 {
     private readonly HubService hubService;
     private readonly ConfigService configService;
-    private readonly IAuthenticationService authenticationService;
+    private readonly AuthenticationService authenticationService;
 
     public MainWindowViewModel ViewModel => DataContext as MainWindowViewModel;
 
-    public MainWindow(HubService hubService, ConfigService configService, IAuthenticationService authenticationService)
+    public MainWindow(HubService hubService, ConfigService configService, AuthenticationService authenticationService)
     {
         this.hubService = hubService;
         this.configService = configService;

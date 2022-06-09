@@ -33,7 +33,7 @@ namespace Automaton.Studio.Extensions
             services.AddAuthorizationCore();
             services.AddAutomatonCore();
             services.AddStudioAuthenication<LocalStorageService>();
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<AuthenticationService>();
 
             // Services
             services.AddScoped<FlowService>();

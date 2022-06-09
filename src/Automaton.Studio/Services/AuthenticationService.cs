@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services
 {
-    public class AuthenticationService : IAuthenticationService
+    public class AuthenticationService
     {
         private const string Bearer = "bearer";
         private const string ApplicationJson = "application/json";
