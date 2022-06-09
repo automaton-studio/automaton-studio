@@ -95,6 +95,10 @@ public class AuthStateProvider : AuthenticationStateProvider
     public async Task<string> RefreshAccessTokenAsync()
     {
         var refreshToken = await localStorage.GetRefreshToken();
+
+        if(string.IsNullOrEmpty(refreshToken))
+            return string.Empty;
+
         var jsonToken = JsonSerializer.Serialize(new { Token = refreshToken });
         var bodyContent = new StringContent(jsonToken, Encoding.UTF8, ApplicationJson);
         
