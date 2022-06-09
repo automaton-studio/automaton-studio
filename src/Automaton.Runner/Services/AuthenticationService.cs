@@ -60,12 +60,10 @@ public class AuthenticationService
         httpClient.DefaultRequestHeaders.Authorization = null;
     }
 
-    public async Task<bool> InitLoggedInAuthorization()
+    public async Task<bool> IsLogedIn()
     {
         var jsonWebToken = await authenticationStorage.GetJsonWebToken();
-        
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, jsonWebToken.AccessToken);
-            
+                    
         return jsonWebToken.IsValid();
     }
 }

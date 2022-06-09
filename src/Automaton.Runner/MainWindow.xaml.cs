@@ -26,7 +26,7 @@ public partial class MainWindow : Window
 
     protected override async void OnInitialized(EventArgs e)
     {
-        var loggedIn = await authenticationService.InitLoggedInAuthorization();
+        var loggedIn = await authenticationService.IsLogedIn();
 
         if (loggedIn)
         {

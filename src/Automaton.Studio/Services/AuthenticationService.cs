@@ -59,14 +59,5 @@ namespace Automaton.Studio.Services
             ((AuthStateProvider)authStateProvider).NotifyUserLogout();
             httpClient.DefaultRequestHeaders.Authorization = null;
         }
-
-        public async Task<bool> InitLoggedInAuthorization()
-        {
-            var jsonWebToken = await authenticationStorage.GetJsonWebToken();
-            
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, jsonWebToken.AccessToken);
-                
-            return jsonWebToken.IsValid();
-        }
     }
 }
