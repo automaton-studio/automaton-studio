@@ -2,6 +2,7 @@
 using Automaton.Runner.Services;
 using Automaton.Runner.ViewModels;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -21,16 +22,16 @@ public partial class MainWindow : Window
         this.configService = configService;
         this.authenticationService = authenticationService;
 
+        Closing += WindowClosing;
+
         InitializeComponent();
     }
 
     protected override async void OnInitialized(EventArgs e)
     {
-        var loggedIn = await authenticationService.IsLogedIn();
-
-        if (loggedIn)
+        if (await IsAuthenticated())
         {
-            if (configService.AppConfig.IsRunnerRegistered())
+            if (IsRunnerRegistered())
             {
                 NavigateToDashboard();
             }
@@ -62,15 +63,31 @@ public partial class MainWindow : Window
         frame.NavigationService.Navigate(new Uri("Controls/DashboardControl.xaml", UriKind.Relative));
     }
 
+    private async Task<bool> IsAuthenticated()
+    {
+        var authenticated = await authenticationService.IsAuthenticated();
+
+        return authenticated;
+    }
+
+    private bool IsRunnerRegistered()
+    {
+        var registered = configService.AppConfig.IsRunnerRegistered();
+
+        return registered;
+    }
+
     private void WindowMouseDown(object sender, MouseButtonEventArgs e)
     {
         // Allow user to drag the main window around
         if (e.LeftButton == MouseButtonState.Pressed)
+        {
             DragMove();
+        }
     }
 
-    private void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+    private async void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
     {
-        hubService.Disconnect();
+        await hubService.Disconnect();
     }
 }

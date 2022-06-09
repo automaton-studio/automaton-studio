@@ -60,7 +60,7 @@ public class AuthenticationService
         httpClient.DefaultRequestHeaders.Authorization = null;
     }
 
-    public async Task<bool> IsLogedIn()
+    public async Task<bool> IsAuthenticated()
     {
         var jsonWebToken = await authenticationStorage.GetJsonWebToken();
                     
