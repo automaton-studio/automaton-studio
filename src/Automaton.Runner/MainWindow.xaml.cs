@@ -4,7 +4,6 @@ using Automaton.Runner.ViewModels;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 
 namespace Automaton.Runner;
 
@@ -50,17 +49,21 @@ public partial class MainWindow : Window
 
     public void NavigateToLogin()
     {
-        frame.Source = new Uri("Controls/LoginControl.xaml", UriKind.Relative);
+        RootNavigation.Navigate("dashboard");
     }
 
     public void NavigateToRegistration()
     {
-        frame.NavigationService.Navigate(new Uri("Controls/RegistrationControl.xaml", UriKind.Relative));
+        RootNavigation.Navigate("dashboard");
     }
 
     public void NavigateToDashboard()
     {
-        frame.NavigationService.Navigate(new Uri("Controls/DashboardControl.xaml", UriKind.Relative));
+        RootNavigation.Navigate("dashboard");
+    }
+
+    private void Logout_OnClick(object sender, RoutedEventArgs e)
+    {
     }
 
     private async Task<bool> IsAuthenticated()
@@ -75,15 +78,6 @@ public partial class MainWindow : Window
         var registered = configService.AppConfig.IsRunnerRegistered();
 
         return registered;
-    }
-
-    private void WindowMouseDown(object sender, MouseButtonEventArgs e)
-    {
-        // Allow user to drag the main window around
-        if (e.LeftButton == MouseButtonState.Pressed)
-        {
-            DragMove();
-        }
     }
 
     private async void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
