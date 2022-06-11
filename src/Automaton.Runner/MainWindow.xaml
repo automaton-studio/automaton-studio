@@ -21,26 +21,6 @@
     <Window.DataContext>
         <Binding Source="{StaticResource viewModelLocator}" Path="MainWindowViewModel" />
     </Window.DataContext>
-    
-    <!--<Grid>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="55" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        --><!--  The title bar contains window navigation elements and some Tray related extras.  --><!--
-        <wpfui:TitleBar
-            Title="Automaton"
-            Grid.Row="0"
-            ForceShutdown="False"
-            MinimizeToTray="False"
-            UseSnapLayout="True">
-        </wpfui:TitleBar>
-
-        <Frame x:Name="frame" Grid.Row="1" />
-
-    </Grid>-->
 
     <Grid>
         <Grid.RowDefinitions>
@@ -70,6 +50,16 @@
                         Icon="Home24"
                         Page="{x:Type pages:Dashboard}"
                         PageTag="dashboard" />
+                    <wpfui:NavigationItem
+                        Content="Login"
+                        Icon="Home24"
+                        Page="{x:Type pages:Login}"
+                        PageTag="login" />
+                    <wpfui:NavigationItem
+                        Content="Registration"
+                        Icon="Home24"
+                        Page="{x:Type pages:Registration}"
+                        PageTag="registration" />
                 </wpfui:NavigationStore.Items>
                 <wpfui:NavigationStore.Footer>
                     <wpfui:NavigationItem
@@ -97,46 +87,8 @@
                         VerticalAlignment="Top"
                         FontSize="24"
                         Navigation="{Binding ElementName=RootNavigation}" />
-
-                    <wpfui:Snackbar
-                        x:Name="RootSnackbar"
-                        Title="Hello World!"
-                        Grid.Row="1"
-                        MaxWidth="600"
-                        Appearance="Secondary"
-                        Icon="PuzzlePiece24"
-                        IsShown="False"
-                        Message="Remember that the Heat Death of Universe is coming someday, no time to explain - let's go!"
-                        ShowCloseButton="True"
-                        Timeout="5000" />
                 </Grid>
             </Border>
-        </Grid>
-
-        <Grid
-            x:Name="RootWelcomeGrid"
-            Grid.Row="1"
-            Visibility="Hidden">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0">
-                <Image
-                    MaxWidth="180"
-                    RenderOptions.BitmapScalingMode="HighQuality"
-                    Source="pack://application:,,,/Assets/geo_icons.png" />
-            </Grid>
-            <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                <wpfui:ProgressRing IsIndeterminate="True" />
-                <TextBlock
-                    Margin="0,12,0,0"
-                    FontSize="16"
-                    FontWeight="Medium"
-                    Text="Preparing app for you."
-                    TextAlignment="Center"
-                    TextWrapping="Wrap" />
-            </StackPanel>
         </Grid>
 
         <wpfui:TitleBar
@@ -147,6 +99,5 @@
             UseSnapLayout="True">
         </wpfui:TitleBar>
     </Grid>
-
 
 </Window>

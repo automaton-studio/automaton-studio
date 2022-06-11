@@ -4,9 +4,9 @@ using System.Windows.Controls;
 
 namespace Automaton.Runner.Pages;
 
-public partial class RegistrationControl : Page
+public partial class Registration : Page
 {
-    public RegistrationControl()
+    public Registration()
     {
         InitializeComponent();
     }

@@ -1,4 +1,4 @@
-﻿<Page x:Class="Automaton.Runner.Pages.LoginControl"
+﻿<Page x:Class="Automaton.Runner.Pages.Login"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,9 +6,6 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:ViewModels="clr-namespace:Automaton.Runner.ViewModels"
              mc:Ignorable="d" 
-             Height="450" 
-             Width="380"
-             Background="Transparent"
              d:DesignHeight="450" 
              d:DesignWidth="380">
 
@@ -23,31 +20,11 @@
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*"/>
             <RowDefinition Height="1.5*"/>
             <RowDefinition Height="5.5*"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.RowSpan="3">
-            <Border.Background>
-                <LinearGradientBrush>
-                    <GradientStop Color="#7be9f6" Offset="0.0"/>
-                    <GradientStop Color="Black" Offset="1"/>
-                </LinearGradientBrush>
-            </Border.Background>
-        </Border>
-
-        <StackPanel VerticalAlignment="Center">
-            <Image Source="../Images/login.png" Width="48"/>
-            <TextBlock Text="Automaton Login"
-                FontWeight="Light"
-                FontFamily="helvetica"
-                FontSize="22"
-                Foreground="White"
-                HorizontalAlignment="Center"/>
-        </StackPanel>
-
-        <Border Grid.Row="1" Background="White" Opacity="0.5"
+        <Border Grid.Row="0" Background="White" Opacity="0.8"
                 Width="250" Margin="0,0,0,5" 
                 BorderThickness="8" CornerRadius="8"
                 Visibility="{Binding Path=Loader.HasErrors, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -56,16 +33,16 @@
             </StackPanel>
         </Border>
 
-        <Border Grid.Row="1" Background="White" Opacity="0.5" 
+        <Border Grid.Row="0" Background="White" Opacity="0.8" 
                 Width="250" Margin="0,0,0,5" 
                 BorderThickness="8" CornerRadius="8"
                 Visibility="{Binding Path=Loader.Loading, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="Authenticating..." Foreground="Black"/>
+                <TextBlock Text="Authenticating..." Foreground="White"/>
             </StackPanel>
         </Border>
 
-        <StackPanel Grid.Row="2" >
+        <StackPanel Grid.Row="1" >
 
             <StackPanel Orientation="Horizontal">
                 <TextBox Name="UsernameBox"
@@ -74,26 +51,12 @@
                     FontWeight="Light"
                     FontSize="20"
                     HorizontalAlignment="Center"
-                    Foreground="White"
-                    Background="Transparent"
-                    BorderThickness="0"
                     Width="235"
                     HorizontalContentAlignment="Left"
-                    Opacity="0.5"
                     Height="25"
                     Margin="63,0,0,0"/>
-
-                <iconPacks:PackIconMaterial Kind="Account" 
-                    VerticalAlignment="Center" 
-                    HorizontalAlignment="Center" 
-                    Foreground="White"/>
             </StackPanel>
             
-            <Border Width="250"
-                Height="2"
-                Background="White"
-                Opacity="0.5"/>
-
             <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                 <PasswordBox Name="PasswordBox"
                     PasswordChanged="OnPasswordChanged"
@@ -101,24 +64,11 @@
                     FontWeight="Light"
                     FontSize="20"
                     HorizontalAlignment="Center"
-                    Foreground="White"
-                    Background="Transparent"
-                    BorderThickness="0"
                     Width="235"
                     HorizontalContentAlignment="Left"
-                    Opacity="0.5"
                     Height="25"
                     Margin="63,0,0,0"/>
-                <iconPacks:PackIconMaterial Kind="FormTextboxPassword" 
-                    VerticalAlignment="Center" 
-                    HorizontalAlignment="Center" 
-                    Foreground="White"/>
             </StackPanel>
-
-            <Border Width="250"
-                Height="2"
-                Background="White"
-                Opacity="0.5"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
                 <Button IsDefault="True" Width="100" Height="40" Content="LOGIN" Click="LoginClick" Margin="60,0,60,0"/>

@@ -49,7 +49,7 @@ public partial class MainWindow : Window
 
     public void NavigateToLogin()
     {
-        RootNavigation.Navigate("dashboard");
+        RootNavigation.Navigate("login");
     }
 
     public void NavigateToRegistration()
