@@ -72,8 +72,11 @@ public class HubService
 
     public async Task Disconnect()
     {
-        await connection.StopAsync();
-        await connection.DisposeAsync();
+        if (connection?.State == HubConnectionState.Connected)
+        {
+            await connection.StopAsync();
+            await connection.DisposeAsync();
+        }
     }
 
     public async Task Ping(string runnerName)
