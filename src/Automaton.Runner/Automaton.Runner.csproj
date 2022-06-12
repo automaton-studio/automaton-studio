@@ -54,6 +54,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Pages\Settings.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Pages\Dashboard.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -75,6 +78,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Pages\Settings.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Pages\Dashboard.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

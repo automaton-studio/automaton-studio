@@ -40,11 +40,18 @@ namespace Automaton.Studio.Services
             await localStorage.SetItemAsync(JsonWebToken, token);
         }
 
-        public async Task<JsonWebToken> GetJsonWebToken()
+        public async Task<JsonWebToken> GetJsonWebTokenAsync()
         {
             var jsonWebToken = await localStorage.GetItemAsync<JsonWebToken>(JsonWebToken);
 
             return jsonWebToken;
+        }
+
+        public JsonWebToken GetJsonWebToken()
+        {
+            var jsonWebToken = Task.Run(() => localStorage.GetItemAsync<JsonWebToken>(JsonWebToken)).Result;
+
+            return jsonWebToken.Result;
         }
 
         public async Task DeleteJsonWebToken()

@@ -16,6 +16,7 @@
 
     <Window.Resources>
         <ViewModels:ViewModelLocator x:Key="viewModelLocator" />
+        <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Window.Resources>
 
     <Window.DataContext>
@@ -28,10 +29,8 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid
-            x:Name="RootMainGrid"
-            Grid.Row="1"
-            Margin="0">
+        <Grid x:Name="RootMainGrid" Grid.Row="1" Margin="0">
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
@@ -44,28 +43,32 @@
                 Margin="6,0,6,0"
                 Frame="{Binding ElementName=RootFrame}"
                 SelectedPageIndex="0">
-                <wpfui:NavigationStore.Items>
+                <wpfui:NavigationStore.Items>                    
+                    <wpfui:NavigationItem
+                        Content="Login"
+                        Icon="Person16"
+                        Page="{x:Type pages:Login}"
+                        Visibility="{Binding LoginVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        PageTag="Login" />
+                    <wpfui:NavigationItem
+                        Content="Registration"
+                        Icon="Class24"
+                        Page="{x:Type pages:Registration}"
+                        Visibility="{Binding RegisterVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        PageTag="Registration" />
                     <wpfui:NavigationItem
                         Content="Dashboard"
                         Icon="Home24"
                         Page="{x:Type pages:Dashboard}"
-                        PageTag="dashboard" />
-                    <wpfui:NavigationItem
-                        Content="Login"
-                        Icon="Home24"
-                        Page="{x:Type pages:Login}"
-                        PageTag="login" />
-                    <wpfui:NavigationItem
-                        Content="Registration"
-                        Icon="Home24"
-                        Page="{x:Type pages:Registration}"
-                        PageTag="registration" />
+                        Visibility="{Binding HomeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        PageTag="Dashboard" />
                 </wpfui:NavigationStore.Items>
                 <wpfui:NavigationStore.Footer>
                     <wpfui:NavigationItem
-                        Click="Logout_OnClick"
+                        Click="LogoutClick"
                         Content="Logout"
-                        Icon="DarkTheme24" />
+                        Icon="Power20"
+                        Visibility="{Binding HomeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </wpfui:NavigationStore.Footer>
             </wpfui:NavigationStore>
 
@@ -79,7 +82,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
+                    
                     <Frame x:Name="RootFrame" Grid.Row="1" />
+                    
                     <wpfui:Breadcrumb
                         Grid.Row="0"
                         Margin="18"
