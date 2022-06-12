@@ -34,26 +34,18 @@
             <StackPanel Orientation="Horizontal">
                 <TextBox Name="UsernameBox"
                     Text="{Binding UserName}"
-                    FontFamily="Helvetica"
-                    FontWeight="Light"
-                    FontSize="20"
                     HorizontalAlignment="Center"
                     Width="235"
                     HorizontalContentAlignment="Left"
-                    Height="25"
                     Margin="63,0,0,0"/>
             </StackPanel>
             
             <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                 <PasswordBox Name="PasswordBox"
                     PasswordChanged="OnPasswordChanged"
-                    FontFamily="Helvetica"
-                    FontWeight="Light"
-                    FontSize="20"
                     HorizontalAlignment="Center"
                     Width="235"
                     HorizontalContentAlignment="Left"
-                    Height="25"
                     Margin="63,0,0,0"/>
             </StackPanel>
 
