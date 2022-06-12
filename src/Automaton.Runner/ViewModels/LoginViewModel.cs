@@ -16,16 +16,10 @@ public class LoginViewModel
     private readonly AuthenticationService authenticationService;
     private readonly LoginValidator loginValidator;
 
-    #region Properties
-
     public LoaderViewModel Loader { get; set; }
-
     public string UserName { get; set; }
     public string Password { get; set; }
-
-    #endregion
-
-    #region Constructors
+    public bool HasErrors => Loader.HasErrors;
 
     public LoginViewModel(
         ConfigService configService,
@@ -39,8 +33,6 @@ public class LoginViewModel
         this.loginValidator = loginValidator;
     }
 
-    #endregion
-
     public async Task<RunnerNavigation> Login()
     {
         try
@@ -50,9 +42,9 @@ public class LoginViewModel
                 return RunnerNavigation.None;
             }
 
-            await authenticationService.Login(new LoginDetails(UserName, Password));
-
             Loader.StartLoading();
+
+            await authenticationService.Login(new LoginDetails(UserName, Password));
 
             if (configService.AppConfig.IsRunnerRegistered())
             {

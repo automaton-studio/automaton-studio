@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:wpfui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:ViewModels="clr-namespace:Automaton.Runner.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" 
@@ -24,23 +25,9 @@
             <RowDefinition Height="5.5*"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="White" Opacity="0.8"
-                Width="250" Margin="0,0,0,5" 
-                BorderThickness="8" CornerRadius="8"
-                Visibility="{Binding Path=Loader.HasErrors, Converter={StaticResource BoolToVisibilityConverter}}">
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="{Binding Loader.Errors}" Foreground="Red"/>
-            </StackPanel>
-        </Border>
-
-        <Border Grid.Row="0" Background="White" Opacity="0.8" 
-                Width="250" Margin="0,0,0,5" 
-                BorderThickness="8" CornerRadius="8"
-                Visibility="{Binding Path=Loader.Loading, Converter={StaticResource BoolToVisibilityConverter}}">
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="Authenticating..." Foreground="White"/>
-            </StackPanel>
-        </Border>
+        <wpfui:ProgressRing Grid.Row="0"
+            Visibility="{Binding Path=Loader.Loading, Converter={StaticResource BoolToVisibilityConverter}}"
+            IsIndeterminate="True" Progress="80" Margin="0,0,0,10" />
 
         <StackPanel Grid.Row="1" >
 
@@ -73,6 +60,18 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
                 <Button IsDefault="True" Width="100" Height="40" Content="LOGIN" Click="LoginClick" Margin="60,0,60,0"/>
             </StackPanel>
+
+            <wpfui:Snackbar 
+                x:Name="ErrorsSnackbar"
+                Title="Login error"
+                Grid.Row="2"
+                MaxWidth="600"
+                Appearance="Secondary"
+                Icon="PuzzlePiece24"
+                IsShown="False"
+                Message="{Binding Loader.Errors}"
+                ShowCloseButton="True"
+                Timeout="5000" />
 
         </StackPanel>
 

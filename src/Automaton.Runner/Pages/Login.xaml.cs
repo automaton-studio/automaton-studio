@@ -13,10 +13,17 @@ public partial class Login : Page
 
     private async void LoginClick(object sender, RoutedEventArgs e)
     {
-        var mainWindow = App.Current.MainWindow as MainWindow;
         var viewModel = DataContext as LoginViewModel;
 
         var result = await viewModel.Login();
+
+        if (viewModel.HasErrors)
+        {
+            ErrorsSnackbar.Show();
+            return;
+        }
+
+        var mainWindow = App.Current.MainWindow as MainWindow;
 
         if (result == Enums.RunnerNavigation.Dashboard)
             mainWindow.NavigateToDashboard();
