@@ -1,5 +1,4 @@
-﻿using Automaton.Runner.Core.Services;
-using Automaton.Runner.Enums;
+﻿using Automaton.Runner.Enums;
 using Automaton.Runner.Resources;
 using Automaton.Runner.Services;
 using Automaton.Runner.Validators;
@@ -16,6 +15,7 @@ public class RegistrationViewModel
 
     public LoaderViewModel Loader { get; set; }
     public string RunnerName { get; set; }
+    public bool HasErrors => Loader.HasErrors;
 
     public RegistrationViewModel
     (

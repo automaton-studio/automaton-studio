@@ -18,6 +18,12 @@ public partial class Registration : Page
 
         var result = await viewModel.Register();
 
+        if (viewModel.HasErrors)
+        {
+            ErrorsSnackbar.Show();
+            return;
+        }
+
         if (result == Enums.RunnerNavigation.Dashboard)
         {
             mainWindow.NavigateToDashboard();
