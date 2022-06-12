@@ -32,7 +32,6 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="10.0.4" />
-    <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.8.0" />
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.8" />
