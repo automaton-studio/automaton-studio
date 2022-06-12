@@ -55,7 +55,6 @@
             <wpfui:Snackbar 
                 x:Name="ErrorsSnackbar"
                 Title="Login error"
-                Grid.Row="2"
                 MaxWidth="600"
                 Appearance="Secondary"
                 Icon="PuzzlePiece24"
