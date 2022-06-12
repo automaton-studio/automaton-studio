@@ -2,14 +2,11 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Automaton.Runner.Controls;
+namespace Automaton.Runner.Pages;
 
-/// <summary>
-/// Runner registration control
-/// </summary>
-public partial class RegistrationControl : UserControl
+public partial class Registration : Page
 {
-    public RegistrationControl()
+    public Registration()
     {
         InitializeComponent();
     }

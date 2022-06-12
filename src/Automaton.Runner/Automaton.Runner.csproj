@@ -44,6 +44,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
     <PackageReference Include="System.Text.Encodings.Web" Version="6.0.0-preview.1.21102.12" />
+    <PackageReference Include="WPF-UI" Version="1.2.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,10 +54,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\DashboardControl.xaml.cs">
+    <Compile Update="Pages\Settings.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\RegistrationControl.xaml.cs">
+    <Compile Update="Pages\Dashboard.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\Registration.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Resources\Errors.Designer.cs">
@@ -74,11 +78,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Controls\DashboardControl.xaml">
+    <Page Update="Pages\Settings.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Controls\RegistrationControl.xaml">
+    <Page Update="Pages\Dashboard.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\Registration.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

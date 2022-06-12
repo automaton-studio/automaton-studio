@@ -1,18 +1,14 @@
 ﻿using Automaton.Runner.ViewModels;
 using System;
-using System.Windows;
 using System.Windows.Controls;
 
-namespace Automaton.Runner.Controls;
+namespace Automaton.Runner.Pages;
 
-/// <summary>
-/// Runner registration control
-/// </summary>
-public partial class DashboardControl : UserControl
+public partial class Dashboard : Page
 {
     private DashboardViewModel viewModel;
 
-    public DashboardControl()
+    public Dashboard()
     {
         InitializeComponent();
     }

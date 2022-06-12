@@ -1,37 +1,30 @@
-﻿using Automaton.Runner.Core.Services;
-using Automaton.Runner.Services;
+﻿using Automaton.Runner.Enums;
 using Automaton.Runner.ViewModels;
 using System;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 
 namespace Automaton.Runner;
 
 public partial class MainWindow : Window
 {
-    private readonly HubService hubService;
-    private readonly ConfigService configService;
-    private readonly AuthenticationService authenticationService;
+    public MainWindowViewModel ViewModel { get; private set; }
 
-    public MainWindowViewModel ViewModel => DataContext as MainWindowViewModel;
-
-    public MainWindow(HubService hubService, ConfigService configService, AuthenticationService authenticationService)
+    public MainWindow()
     {
-        this.hubService = hubService;
-        this.configService = configService;
-        this.authenticationService = authenticationService;
-
         Closing += WindowClosing;
 
         InitializeComponent();
     }
 
-    protected override async void OnInitialized(EventArgs e)
+    protected override void OnInitialized(EventArgs e)
     {
-        if (await IsAuthenticated())
+        ViewModel = DataContext as MainWindowViewModel;
+
+        ViewModel.InitializeNavigation();
+
+        if (ViewModel.IsAuthenticated())
         {
-            if (IsRunnerRegistered())
+            if (ViewModel.IsRunnerRegistered())
             {
                 NavigateToDashboard();
             }
@@ -50,44 +43,36 @@ public partial class MainWindow : Window
 
     public void NavigateToLogin()
     {
-        frame.Source = new Uri("Controls/LoginControl.xaml", UriKind.Relative);
+        ViewModel.ApplyLoginMenuVisibility();
+        NavigateTo(RunnerPages.Login);
     }
 
     public void NavigateToRegistration()
     {
-        frame.NavigationService.Navigate(new Uri("Controls/RegistrationControl.xaml", UriKind.Relative));
+        ViewModel.ApplyRegistrationMenuVisibility();
+        NavigateTo(RunnerPages.Registration);
     }
 
     public void NavigateToDashboard()
     {
-        frame.NavigationService.Navigate(new Uri("Controls/DashboardControl.xaml", UriKind.Relative));
+        ViewModel.ApplyHomeMenuVisibility();
+        NavigateTo(RunnerPages.Dashboard);
     }
 
-    private async Task<bool> IsAuthenticated()
+    private void NavigateTo(RunnerPages page)
     {
-        var authenticated = await authenticationService.IsAuthenticated();
-
-        return authenticated;
+        RootNavigation.Navigate(page.ToString());
+        RootNavigation.SelectedPageIndex = (sbyte)page;
     }
 
-    private bool IsRunnerRegistered()
+    private async void LogoutClick(object sender, RoutedEventArgs e)
     {
-        var registered = configService.AppConfig.IsRunnerRegistered();
-
-        return registered;
-    }
-
-    private void WindowMouseDown(object sender, MouseButtonEventArgs e)
-    {
-        // Allow user to drag the main window around
-        if (e.LeftButton == MouseButtonState.Pressed)
-        {
-            DragMove();
-        }
+        await ViewModel.Logout();
+        NavigateToLogin();
     }
 
     private async void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
     {
-        await hubService.Disconnect();
+        await ViewModel.Disconnect();
     }
 }

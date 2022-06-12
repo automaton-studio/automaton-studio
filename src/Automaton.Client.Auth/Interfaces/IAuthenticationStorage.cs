@@ -7,6 +7,7 @@ public interface IAuthenticationStorage
     Task<string> GetRefreshToken();
     Task<string> GetAuthToken();
     Task SetJsonWebToken(JsonWebToken token);
-    Task<JsonWebToken> GetJsonWebToken();
+    JsonWebToken GetJsonWebToken();
+    Task<JsonWebToken> GetJsonWebTokenAsync();
     Task DeleteJsonWebToken();
 }
