@@ -1,4 +1,5 @@
-﻿using Automaton.Core.Models;
+﻿using AutoMapper;
+using Automaton.Core.Models;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Hubs;
 using Microsoft.AspNetCore.SignalR;
@@ -10,30 +11,33 @@ namespace Automaton.Studio.Server.Services
     public class FlowsService
     {
         private readonly ApplicationDbContext dataContext;
-        private readonly RunnerService runnerService;
-        private readonly IHubContext<WorkflowHub> workflowHubContext;
-
+        private readonly IMapper mapper;
         private readonly Guid userId;
 
-        public FlowsService(ApplicationDbContext dataContext,
-            RunnerService runnerService,
-            IHttpContextAccessor httpContextAccessor)
+        public FlowsService
+        (
+            ApplicationDbContext dataContext,
+            IMapper mapper,
+            IHttpContextAccessor httpContextAccessor
+        )
         {
             this.dataContext = dataContext;
-            this.runnerService = runnerService;
+            this.mapper = mapper;
 
             var userIdString = httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             Guid.TryParse(userIdString, out Guid userIdGuid);
             userId = userIdGuid;
         }
 
-        public IEnumerable<Entities.Flow> List()
+        public IEnumerable<Flow> List()
         {
-            var flows = from flow in dataContext.Flows
+            var entityFlows = from flow in dataContext.Flows
                 join flowUser in dataContext.FlowUsers
                 on flow.Id equals flowUser.FlowId
                 where flowUser.UserId == userId
                 select flow;
+
+            var flows = mapper.Map<IEnumerable<Flow>>(entityFlows);
 
             return flows;
         }

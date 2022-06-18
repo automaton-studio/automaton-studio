@@ -2,7 +2,6 @@
 using Automaton.Core.Models;
 using Automaton.Core.Services;
 using Automaton.Studio.Server.Core.Commands;
-using Automaton.Studio.Server.Models;
 using Automaton.Studio.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +9,6 @@ namespace Automaton.Studio.Server.Controllers
 {
     public class FlowsController : BaseController
     {
-        private readonly IMapper mapper;
         private readonly FlowLoaderService flowLoaderService;
         private readonly WorkflowExecuteService workflowExecuteService;
         private readonly FlowsService flowsService;
@@ -19,18 +17,16 @@ namespace Automaton.Studio.Server.Controllers
         (
             FlowsService flowsService,
             WorkflowExecuteService workflowExecuteService,
-            FlowLoaderService definitionLoader,
-            IMapper mapper
+            FlowLoaderService flowLoaderService
         )
         {
             this.flowsService = flowsService;
-            this.flowLoaderService = definitionLoader;
+            this.flowLoaderService = flowLoaderService;
             this.workflowExecuteService = workflowExecuteService;
-            this.mapper = mapper;
         }
 
         [HttpGet]
-        public IEnumerable<Entities.Flow> Get()
+        public IEnumerable<Flow> Get()
         {
             return flowsService.List();
         }
