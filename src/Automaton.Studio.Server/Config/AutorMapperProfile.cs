@@ -26,7 +26,7 @@ namespace Automaton.Studio.Server.Config
         private void CreateMaps()
         {
             CreateMap<Entities.Runner, Runner>();
-            CreateMap<Entities.Flow, Flow>();
+            CreateMap<Entities.Flow, FlowInfo>();
         }
 
         public IEnumerable<WorkflowStep> ConvertSteps(IEnumerable<Step> steps)

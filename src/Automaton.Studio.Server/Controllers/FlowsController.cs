@@ -2,6 +2,7 @@
 using Automaton.Core.Models;
 using Automaton.Core.Services;
 using Automaton.Studio.Server.Core.Commands;
+using Automaton.Studio.Server.Models;
 using Automaton.Studio.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,7 +27,7 @@ namespace Automaton.Studio.Server.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Flow> Get()
+        public IEnumerable<FlowInfo> Get()
         {
             return flowsService.List();
         }

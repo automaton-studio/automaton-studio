@@ -2,6 +2,7 @@
 using Automaton.Core.Models;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Hubs;
+using Automaton.Studio.Server.Models;
 using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
 using System.Text.Json;
@@ -29,7 +30,7 @@ namespace Automaton.Studio.Server.Services
             userId = userIdGuid;
         }
 
-        public IEnumerable<Flow> List()
+        public IEnumerable<FlowInfo> List()
         {
             var entityFlows = from flow in dataContext.Flows
                 join flowUser in dataContext.FlowUsers
@@ -37,7 +38,7 @@ namespace Automaton.Studio.Server.Services
                 where flowUser.UserId == userId
                 select flow;
 
-            var flows = mapper.Map<IEnumerable<Flow>>(entityFlows);
+            var flows = mapper.Map<IEnumerable<FlowInfo>>(entityFlows);
 
             return flows;
         }
