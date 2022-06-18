@@ -14,17 +14,17 @@ public partial class Registration : Page
     private async void RegisterClick(object sender, RoutedEventArgs e)
     {
         var viewModel = DataContext as RegistrationViewModel;
-        var mainWindow = App.Current.MainWindow as MainWindow;
+        var mainWindow = Application.Current.MainWindow as MainWindow;
 
-        var result = await viewModel.Register();
+        var registered = await viewModel.Register();
 
-        if (viewModel.HasErrors)
+        if (viewModel.HasErrors())
         {
             ErrorsSnackbar.Show();
             return;
         }
 
-        if (result == Enums.RunnerNavigation.Dashboard)
+        if (registered)
         {
             mainWindow.NavigateToDashboard();
         }

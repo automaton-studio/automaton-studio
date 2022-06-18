@@ -15,7 +15,6 @@ public class RegistrationViewModel
 
     public LoaderViewModel Loader { get; set; }
     public string RunnerName { get; set; }
-    public bool HasErrors => Loader.HasErrors;
 
     public RegistrationViewModel
     (
@@ -29,31 +28,36 @@ public class RegistrationViewModel
         this.registrationValidator = registrationValidator;
     }
 
-    public async Task<RunnerNavigation> Register()
+    public async Task<bool> Register()
     {
         try
         {
             if (!Validate())
             {
-                return RunnerNavigation.None;
+                return false;
             }
 
-            Loader.StartLoading();
+            StartLoading();
 
-            await registrationService.Register(RunnerName);
+            await RegisterRunner();
 
-            return RunnerNavigation.Dashboard;
+            return true;
         }
         catch
         {
-            Loader.SetErrors(Errors.RegistrationError);
+            SetLoadingErrors();
         }
         finally
         {
-            Loader.StopLoading();
+            StopLoading();
         }
 
-        return RunnerNavigation.None;
+        return false;
+    }
+
+    public bool HasErrors()
+    {
+        return Loader.HasErrors;
     }
 
     private bool Validate()
@@ -70,5 +74,25 @@ public class RegistrationViewModel
         }
 
         return true;
+    }
+
+    private void StartLoading()
+    {
+        Loader.StartLoading();
+    }
+
+    private void StopLoading()
+    {
+        Loader.StopLoading();
+    }
+
+    private void SetLoadingErrors()
+    {
+        Loader.SetErrors(Errors.RegistrationError);
+    }
+
+    private async Task RegisterRunner()
+    {
+        await registrationService.Register(RunnerName);
     }
 }
