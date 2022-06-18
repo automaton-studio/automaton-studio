@@ -1,5 +1,4 @@
-﻿using Automaton.Runner.Enums;
-using Automaton.Runner.Resources;
+﻿using Automaton.Runner.Resources;
 using Automaton.Runner.Services;
 using Automaton.Runner.Validators;
 using System;
@@ -34,30 +33,25 @@ public class RegistrationViewModel
         {
             if (!Validate())
             {
+                SetLoadingErrors();
                 return false;
             }
 
             StartLoading();
 
             await RegisterRunner();
-
-            return true;
         }
         catch
         {
             SetLoadingErrors();
+            return false;
         }
         finally
         {
             StopLoading();
         }
 
-        return false;
-    }
-
-    public bool HasErrors()
-    {
-        return Loader.HasErrors;
+        return true;
     }
 
     private bool Validate()

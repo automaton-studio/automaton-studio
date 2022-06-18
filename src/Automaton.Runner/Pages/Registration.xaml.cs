@@ -18,15 +18,12 @@ public partial class Registration : Page
 
         var registered = await viewModel.Register();
 
-        if (viewModel.HasErrors())
+        if (!registered)
         {
             ErrorsSnackbar.Show();
             return;
         }
-
-        if (registered)
-        {
-            mainWindow.NavigateToDashboard();
-        }
+       
+        mainWindow.NavigateToDashboard();
     }
 }
