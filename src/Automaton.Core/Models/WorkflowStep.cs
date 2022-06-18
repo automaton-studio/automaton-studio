@@ -1,5 +1,4 @@
 ﻿using Automaton.Core.Enums;
-using Automaton.Core.Interfaces;
 using System.Dynamic;
 
 namespace Automaton.Core.Models
@@ -24,6 +23,6 @@ namespace Automaton.Core.Models
 
         public IList<string>? Variables { get; set; }
 
-        public abstract Task<ExecutionResult> RunAsync(IStepExecutionContext context);
+        public abstract Task<ExecutionResult> RunAsync(StepExecutionContext context);
     }
 }

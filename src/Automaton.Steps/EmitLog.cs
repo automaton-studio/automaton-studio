@@ -1,5 +1,4 @@
-﻿using Automaton.Core.Interfaces;
-using Automaton.Core.Models;
+﻿using Automaton.Core.Models;
 using Microsoft.Extensions.Logging;
 
 namespace Automaton.Steps;
@@ -17,7 +16,7 @@ public class EmitLog : WorkflowStep
         _loggerFactory = loggerFactory;
     }
 
-    public override Task<ExecutionResult> RunAsync(IStepExecutionContext context)
+    public override Task<ExecutionResult> RunAsync(StepExecutionContext context)
     {
         var logger = _loggerFactory.CreateLogger(context.Definition.Id);
         logger.Log(Level, default(EventId), Message, null, (state, ex) => state);

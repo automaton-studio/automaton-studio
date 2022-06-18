@@ -1,5 +1,4 @@
-﻿using Automaton.Runner.Core.Services;
-using Automaton.Runner.ViewModels;
+﻿using Automaton.Runner.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 

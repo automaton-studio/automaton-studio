@@ -1,8 +1,6 @@
-﻿using Automaton.Core.Interfaces;
-
-namespace Automaton.Core.Models
+﻿namespace Automaton.Core.Models
 {
-    public class StepExecutionContext : IStepExecutionContext
+    public class StepExecutionContext
     {
         public Workflow Workflow { get; set; }
 
