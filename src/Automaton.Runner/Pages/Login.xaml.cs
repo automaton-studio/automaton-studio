@@ -7,12 +7,8 @@ namespace Automaton.Runner.Pages;
 
 public partial class Login : Page
 {
-    private readonly ConfigService configService;
-
-    public Login(ConfigService configService)
+    public Login()
     {
-        this.configService = configService;
-
         InitializeComponent();
     }
 
@@ -28,9 +24,15 @@ public partial class Login : Page
             return;
         }
 
+        EnterApplication();
+    }
+
+    private void EnterApplication()
+    {
+        var viewModel = DataContext as LoginViewModel;
         var mainWindow = Application.Current.MainWindow as MainWindow;
 
-        if (configService.AppConfig.IsRunnerRegistered())
+        if (viewModel.IsRunnerRegistered())
         {
             mainWindow.NavigateToDashboard();
         }

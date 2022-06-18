@@ -1,4 +1,5 @@
 ﻿using Automaton.Client.Auth.Models;
+using Automaton.Runner.Core.Services;
 using Automaton.Runner.Resources;
 using Automaton.Runner.Services;
 using Automaton.Runner.Validators;
@@ -10,6 +11,7 @@ namespace Automaton.Runner.ViewModels;
 
 public class LoginViewModel
 {
+    private readonly ConfigService configService;
     private readonly AuthenticationService authenticationService;
     private readonly LoginValidator loginValidator;
 
@@ -18,10 +20,12 @@ public class LoginViewModel
     public string Password { get; set; }
 
     public LoginViewModel(
+        ConfigService configService,
         AuthenticationService authenticationService,
         LoaderViewModel loader,
         LoginValidator loginValidator)
     {
+        this.configService = configService;
         this.authenticationService = authenticationService;
         this.Loader = loader;
         this.loginValidator = loginValidator;
@@ -51,6 +55,11 @@ public class LoginViewModel
         }
 
         return true;
+    }
+
+    public bool IsRunnerRegistered()
+    {
+        return configService.AppConfig.IsRunnerRegistered();
     }
 
     private async Task LoginUser()
