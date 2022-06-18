@@ -1,6 +1,4 @@
 ﻿using Automaton.Client.Auth.Models;
-using Automaton.Runner.Core.Services;
-using Automaton.Runner.Enums;
 using Automaton.Runner.Resources;
 using Automaton.Runner.Services;
 using Automaton.Runner.Validators;
@@ -12,74 +10,82 @@ namespace Automaton.Runner.ViewModels;
 
 public class LoginViewModel
 {
-    private readonly ConfigService configService;
     private readonly AuthenticationService authenticationService;
     private readonly LoginValidator loginValidator;
 
     public LoaderViewModel Loader { get; set; }
     public string UserName { get; set; }
     public string Password { get; set; }
-    public bool HasErrors => Loader.HasErrors;
 
     public LoginViewModel(
-        ConfigService configService,
         AuthenticationService authenticationService,
         LoaderViewModel loader,
         LoginValidator loginValidator)
     {
-        this.configService = configService;
         this.authenticationService = authenticationService;
         this.Loader = loader;
         this.loginValidator = loginValidator;
     }
 
-    public async Task<RunnerNavigation> Login()
+    public async Task<bool> Login()
     {
         try
         {
             if (!Validate())
             {
-                return RunnerNavigation.None;
+                return false;
             }
 
-            Loader.StartLoading();
+            StartLoading();
 
-            await authenticationService.Login(new LoginDetails(UserName, Password));
-
-            if (configService.AppConfig.IsRunnerRegistered())
-            {
-                return RunnerNavigation.Dashboard;
-            }
-            else
-            {
-                return RunnerNavigation.Registration;
-            }
+            await LoginUser();
         }
-        catch (Exception ex)
+        catch
         {
-            Loader.SetErrors(Errors.AuthenticationError);
+            SetLoadingErrors();
+            return false;
         }
         finally
         {
-            Loader.StopLoading();
+            StopLoading();
         }
 
-        return RunnerNavigation.None;
+        return true;
+    }
+
+    private async Task LoginUser()
+    {
+        await authenticationService.Login(new LoginDetails(UserName, Password));
     }
 
     private bool Validate()
     {
         Loader.ClearErrors();
 
-        var results = loginValidator.Validate(this);
+        var result = loginValidator.Validate(this);
 
-        if (results != null && results.Errors.Any())
+        if (result.Errors.Any())
         {
-            Loader.SetErrors(string.Join(Environment.NewLine, results.Errors.Select(x => x.ErrorMessage).ToArray()));
+            Loader.SetErrors(string.Join(Environment.NewLine, result.Errors.Select(x => x.ErrorMessage).ToArray()));
             
             return false;
         }
 
         return true;
+    }
+
+    private void StartLoading()
+    {
+        Loader.StartLoading();
+    }
+
+    private void StopLoading()
+    {
+        Loader.StopLoading();
+    }
+
+    private void SetLoadingErrors()
+    {
+        Loader.SetErrors(Errors.AuthenticationError);
     }
 }

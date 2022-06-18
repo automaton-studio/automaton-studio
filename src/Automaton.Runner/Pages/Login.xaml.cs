@@ -1,4 +1,5 @@
-﻿using Automaton.Runner.ViewModels;
+﻿using Automaton.Runner.Core.Services;
+using Automaton.Runner.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -6,8 +7,12 @@ namespace Automaton.Runner.Pages;
 
 public partial class Login : Page
 {
-    public Login()
+    private readonly ConfigService configService;
+
+    public Login(ConfigService configService)
     {
+        this.configService = configService;
+
         InitializeComponent();
     }
 
@@ -15,26 +20,31 @@ public partial class Login : Page
     {
         var viewModel = DataContext as LoginViewModel;
 
-        var result = await viewModel.Login();
+        var authenticated = await viewModel.Login();
 
-        if (viewModel.HasErrors)
+        if (!authenticated)
         {
             ErrorsSnackbar.Show();
             return;
         }
 
-        var mainWindow = App.Current.MainWindow as MainWindow;
+        var mainWindow = Application.Current.MainWindow as MainWindow;
 
-        if (result == Enums.RunnerNavigation.Dashboard)
+        if (configService.AppConfig.IsRunnerRegistered())
+        {
             mainWindow.NavigateToDashboard();
-        else if (result == Enums.RunnerNavigation.Registration)
+        }
+        else
+        {
             mainWindow.NavigateToRegistration();
+        }
     }
 
     private void OnPasswordChanged(object sender, RoutedEventArgs e)
     {
         var passwordBox = sender as PasswordBox;
         var viewModel = DataContext as LoginViewModel;
+
         viewModel.Password = passwordBox.Password;
     }
 }

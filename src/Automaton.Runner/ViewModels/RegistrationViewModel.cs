@@ -33,7 +33,6 @@ public class RegistrationViewModel
         {
             if (!Validate())
             {
-                SetLoadingErrors();
                 return false;
             }
 
@@ -58,11 +57,11 @@ public class RegistrationViewModel
     {
         Loader.ClearErrors();
 
-        var results = registrationValidator.Validate(this);
+        var result = registrationValidator.Validate(this);
 
-        if (results != null && results.Errors.Any())
+        if (result.Errors.Any())
         {
-            Loader.SetErrors(string.Join(Environment.NewLine, results.Errors.Select(x => x.ErrorMessage).ToArray()));
+            Loader.SetErrors(string.Join(Environment.NewLine, result.Errors.Select(x => x.ErrorMessage).ToArray()));
 
             return false;
         }
