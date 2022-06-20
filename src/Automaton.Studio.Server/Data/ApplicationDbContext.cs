@@ -1,5 +1,4 @@
-﻿using AuthServer.Core.Domains;
-using Automaton.Studio.Server.Entities;
+﻿using Automaton.Studio.Server.Entities;
 using Common.Authentication;
 using Common.EF;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

@@ -1,6 +1,6 @@
-﻿using AuthServer.Core.Dtos;
-using AuthServer.Core.Queries;
+﻿using AuthServer.Core.Queries;
 using AutoMapper;
+using Automaton.Studio.Server.Models;
 using Automaton.Studio.Server.Services;
 using MediatR;
 

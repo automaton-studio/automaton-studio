@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AuthServer.Core.Domains
+namespace Automaton.Studio.Server.Models
 {
     public class RoleClaim
     {

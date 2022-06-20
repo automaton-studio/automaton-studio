@@ -1,6 +1,6 @@
-using AuthServer.Core.Domains;
 using Automaton.Studio.Server.Areas.Identity;
 using Automaton.Studio.Server.Data;
+using Automaton.Studio.Server.Entities;
 using Automaton.Studio.Server.Hubs;
 using Automaton.Studio.Server.Services;
 using Common.Authentication;

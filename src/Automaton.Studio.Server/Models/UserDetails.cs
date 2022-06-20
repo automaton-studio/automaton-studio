@@ -1,32 +1,15 @@
-﻿using System;
-
-namespace AuthServer.Core.Dtos
+﻿namespace Automaton.Studio.Server.Models
 {
     public class UserDetails
     {
-        /// <summary>
-        /// Unique user identifier
-        /// </summary>
         public Guid Id { get; set; }
 
-        /// <summary>
-        /// User's first name
-        /// </summary>
-        public String FirstName { get; set; }
+        public string FirstName { get; set; }
 
-        /// <summary>
-        /// Users's last name
-        /// </summary>
-        public String LastName { get; set; }
+        public string LastName { get; set; }
 
-        /// <summary>
-        /// User's email address
-        /// </summary>
-        public String Email { get; set; }
+        public string Email { get; set; }
 
-        /// <summary>
-        /// User's date of birth
-        /// </summary>
         public DateTime DateOfBirth { get; set; }
     }
 }

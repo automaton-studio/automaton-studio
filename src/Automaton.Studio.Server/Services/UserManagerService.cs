@@ -1,4 +1,4 @@
-﻿using AuthServer.Core.Domains;
+﻿using Automaton.Studio.Server.Entities;
 using Microsoft.AspNetCore.Identity;
 
 namespace Automaton.Studio.Server.Services

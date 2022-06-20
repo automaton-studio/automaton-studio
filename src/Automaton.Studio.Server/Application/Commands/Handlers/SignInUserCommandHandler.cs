@@ -1,7 +1,7 @@
-﻿using AuthServer.Core.Domains;
-using AuthServer.Core.Events;
+﻿using AuthServer.Core.Events;
 using AutoMapper;
 using Automaton.Studio.Server.Core.Commands;
+using Automaton.Studio.Server.Entities;
 using Automaton.Studio.Server.Services;
 using Common.Authentication;
 using Common.EF;

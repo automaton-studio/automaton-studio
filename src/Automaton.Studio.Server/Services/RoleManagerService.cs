@@ -1,4 +1,5 @@
-﻿using AuthServer.Core.Domains;
+﻿using Automaton.Studio.Server.Entities;
+using Automaton.Studio.Server.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 

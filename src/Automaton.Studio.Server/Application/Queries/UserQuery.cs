@@ -1,4 +1,4 @@
-﻿using AuthServer.Core.Dtos;
+﻿using Automaton.Studio.Server.Models;
 using MediatR;
 
 namespace AuthServer.Core.Queries
