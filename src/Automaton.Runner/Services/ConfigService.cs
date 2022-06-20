@@ -6,24 +6,13 @@ namespace Automaton.Runner.Core.Services;
 
 public class ConfigService
 {
-    #region Constants
-
     private const string ApiConfigurationName = "ApiConfiguration";
-
-    #endregion
-
-    #region Members
 
     private readonly IConfiguration configuration;
     private readonly ApplicationStorage applicationStorage = new ApplicationStorage();
-    #endregion
-
-    #region Properties
 
     public AppConfig AppConfig { get; private set; } = new AppConfig();
     public ApiConfig ApiConfig { get; private set; } = new ApiConfig();
-
-    #endregion
 
     public ConfigService(IConfiguration configuration)
     {
@@ -32,8 +21,6 @@ public class ConfigService
         LoadStudioConfig();
         LoadAppConfig();
     }
-
-    #region Private Methods
 
     private void LoadStudioConfig()
     {
@@ -44,6 +31,4 @@ public class ConfigService
     {
         AppConfig = applicationStorage.GetApplicationConfiguration();
     }
-
-    #endregion
 }

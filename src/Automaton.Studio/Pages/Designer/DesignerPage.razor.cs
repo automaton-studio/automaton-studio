@@ -12,243 +12,224 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Designer
+namespace Automaton.Studio.Pages.Designer;
+
+partial class DesignerPage : ComponentBase
 {
-    partial class DesignerPage : ComponentBase
+    private Dropzone<StudioStep> dropzone;
+
+    [Inject] private ModalService ModalService { get; set; } = default!;
+
+    [Inject] private DesignerViewModel DesignerViewModel { get; set; } = default!;
+
+    [Inject] private FlowExplorerViewModel FlowExplorerViewModel { get; set; } = default!;
+
+    [Inject] private DrawerService DrawerService { get; set; } = default!;
+
+    [Inject] public NavMenuService NavMenuService { get; set; }
+
+    [Parameter]
+    public string FlowId { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
-        private Dropzone<Domain.StudioStep> dropzone;
+        Guid.TryParse(FlowId, out var flowId);
 
-        #region DI
+        await LoadFlow(flowId);
 
-        [Inject] private ModalService ModalService { get; set; } = default!;
+        await base.OnInitializedAsync();
+    }
 
-        [Inject] private DesignerViewModel DesignerViewModel { get; set; } = default!;
+    public async Task RunFlow()
+    {
+        await DesignerViewModel.RunFlow();
+    }
 
-        [Inject] private FlowExplorerViewModel FlowExplorerViewModel { get; set; } = default!;
+    private void OnDragStep(object sender, StepEventArgs e)
+    {
+        dropzone.ActiveItem = e.Step;
 
-        [Inject] private DrawerService DrawerService { get; set; } = default!;
+        // Unselect all the previous selected activities
+        UnselectSteps();
 
-        [Inject] public NavMenuService NavMenuService { get; set; }
+        // Select the step being dragged
+        dropzone.ActiveItem.Select();
+    }
 
-        #endregion
-
-        #region Params
-
-        [Parameter]
-        public string FlowId { get; set; }
-
-        #endregion
-
-        protected override async Task OnInitializedAsync()
+    private async Task OnStepDrop(Domain.StudioStep step)
+    {
+        if (!step.IsFinal())
         {
-            Guid.TryParse(FlowId, out var flowId);
-
-            await LoadFlow(flowId);
-
-            await base.OnInitializedAsync();
+            await NewStepDialog(step);
         }
-
-        public async Task RunFlow()
+        else
         {
-            await DesignerViewModel.RunFlow();
+            DesignerViewModel.UpdateStepConnections();
         }
+    }
 
-        #region Event Handlers
+    private void OnStepMouseDown(Domain.StudioStep step)
+    {
+        // Unselect all the previous selected activities
+        UnselectSteps();
 
-        private void OnDragStep(object sender, StepEventArgs e)
-        {
-            dropzone.ActiveItem = e.Step;
+        // Select the one under the mouse cursor
+        step.Select();
+    }
 
-            // Unselect all the previous selected activities
-            UnselectSteps();
+    private async Task OnStepDoubleClick(Domain.StudioStep step)
+    {
+        var result = await step.DisplayPropertiesDialog(ModalService);
 
-            // Select the step being dragged
-            dropzone.ActiveItem.Select();
-        }
-
-        private async Task OnStepDrop(Domain.StudioStep step)
-        {
-            if (!step.IsFinal())
-            {
-                await NewStepDialog(step);
-            }
-            else
-            {
-                DesignerViewModel.UpdateStepConnections();
-            }
-        }
-
-        private void OnStepMouseDown(Domain.StudioStep step)
-        {
-            // Unselect all the previous selected activities
-            UnselectSteps();
-
-            // Select the one under the mouse cursor
-            step.Select();
-        }
-
-        private async Task OnStepDoubleClick(Domain.StudioStep step)
-        {
-            var result = await step.DisplayPropertiesDialog(ModalService);
-
-            result.OnOk = () =>
-            {
-                StateHasChanged();
-
-                return Task.CompletedTask;
-            };
-        }
-
-        private void OnDropzoneMouseDown()
-        {
-            UnselectSteps();
-        }
-
-        private void OnStepAdded(object sender, StepEventArgs e)
+        result.OnOk = () =>
         {
             StateHasChanged();
-        }
 
-        private void OnStepRemoved(object sender, StepEventArgs e)
+            return Task.CompletedTask;
+        };
+    }
+
+    private void OnDropzoneMouseDown()
+    {
+        UnselectSteps();
+    }
+
+    private void OnStepAdded(object sender, StepEventArgs e)
+    {
+        StateHasChanged();
+    }
+
+    private void OnStepRemoved(object sender, StepEventArgs e)
+    {
+        StateHasChanged();
+    }
+
+    private async Task LoadFlow(Guid flowId)
+    {
+        if (flowId != Guid.Empty && DesignerViewModel.Flow.Id != flowId)
         {
+            await DesignerViewModel.LoadFlow(flowId);
+
+            FlowExplorerViewModel.LoadDefinitions(DesignerViewModel.Flow);
+
+            // Setup event handlers after flow is loaded
+            DesignerViewModel.DragStep += OnDragStep;
+            DesignerViewModel.StepAdded += OnStepAdded;
+            DesignerViewModel.StepRemoved += OnStepRemoved;
+        }
+    }
+
+    private async Task SaveFlow()
+    {
+        await DesignerViewModel.SaveFlow();
+    }
+
+    private async Task NewStepDialog(Domain.StudioStep step)
+    {
+        var result = await step.DisplayPropertiesDialog(ModalService);
+
+        result.OnOk = () =>
+        {
+            DesignerViewModel.FinalizeStep(step);
+
+            // TODO! It may be inneficient to update the state of the entire Designer control.
+            // A better alternative would be to update the state of the step being updated.
             StateHasChanged();
-        }
 
-        #endregion
+            return Task.CompletedTask;
+        };
 
-        private async Task LoadFlow(Guid flowId)
+        result.OnCancel = () =>
         {
-            if (flowId != Guid.Empty && DesignerViewModel.Flow.Id != flowId)
+            DesignerViewModel.DeleteStep(step);
+
+            // TODO! It may be inneficient to update the state of the entire Designer control.
+            // A better alternative would be to update the state of the activity being updated.
+            StateHasChanged();
+
+            return Task.CompletedTask;
+        };
+    }
+
+    private void UnselectSteps()
+    {
+        var selectedSteps = DesignerViewModel.GetSelectedSteps();
+
+        if (selectedSteps != null)
+        {
+            foreach (var selectedStep in selectedSteps)
             {
-                await DesignerViewModel.LoadFlow(flowId);
-
-                FlowExplorerViewModel.LoadDefinitions(DesignerViewModel.Flow);
-
-                // Setup event handlers after flow is loaded
-                DesignerViewModel.DragStep += OnDragStep;
-                DesignerViewModel.StepAdded += OnStepAdded;
-                DesignerViewModel.StepRemoved += OnStepRemoved;
+                selectedStep.Unselect();
             }
         }
+    }
 
-        private async Task SaveFlow()
+    private async Task OpenFlowSettings()
+    {
+        var options = new DrawerOptions()
         {
-            await DesignerViewModel.SaveFlow();
-        }
+            Title = Labels.Settings,
+            Width = 350,
+            OffsetX = 50
+        };
 
-        private async Task NewStepDialog(Domain.StudioStep step)
+        var drawerRef = await DrawerService.CreateAsync<FlowSettings, StudioFlow, bool>(options, DesignerViewModel.Flow);
+
+        drawerRef.OnClosed = async result =>
         {
-            var result = await step.DisplayPropertiesDialog(ModalService);
+            await InvokeAsync(StateHasChanged);
+        };
+    }
 
-            result.OnOk = () =>
-            {
-                DesignerViewModel.FinalizeStep(step);
-
-                // TODO! It may be inneficient to update the state of the entire Designer control.
-                // A better alternative would be to update the state of the step being updated.
-                StateHasChanged();
-
-                return Task.CompletedTask;
-            };
-
-            result.OnCancel = () =>
-            {
-                DesignerViewModel.DeleteStep(step);
-
-                // TODO! It may be inneficient to update the state of the entire Designer control.
-                // A better alternative would be to update the state of the activity being updated.
-                StateHasChanged();
-
-                return Task.CompletedTask;
-            };
-        }
-
-        /// <summary>
-        /// Unselect all selected activities
-        /// </summary>
-        private void UnselectSteps()
+    private async Task OpenFlowVariables()
+    {
+        var options = new DrawerOptions()
         {
-            var selectedSteps = DesignerViewModel.GetSelectedSteps();
+            Title = Labels.Variables,
+            Width = 350,
+            OffsetX = 50
+        };
 
-            if (selectedSteps != null)
-            {
-                foreach (var selectedStep in selectedSteps)
-                {
-                    selectedStep.Unselect();
-                }
-            }
-        }
+        var drawerRef = await DrawerService.CreateAsync<FlowVariables, StudioFlow, bool>(options, DesignerViewModel.Flow);
 
-        private async Task OpenFlowSettings()
+        drawerRef.OnClosed = async result =>
         {
-            var options = new DrawerOptions()
-            {
-                Title = Labels.Settings,
-                Width = 350,
-                OffsetX = 50
-            };
+            await InvokeAsync(StateHasChanged);
+        };
+    }
 
-            var drawerRef = await DrawerService.CreateAsync<FlowSettings, StudioFlow, bool>(options, DesignerViewModel.Flow);
-
-            drawerRef.OnClosed = async result =>
-            {
-                await InvokeAsync(StateHasChanged);
-            };
-        }
-
-        private async Task OpenFlowVariables()
+    private async Task OnWorkflowAddClick()
+    {
+        var newDefinitionModel = new NewDefinitionModel
         {
-            var options = new DrawerOptions()
-            {
-                Title = Labels.Variables,
-                Width = 350,
-                OffsetX = 50
-            };
+            ExistingNames = DesignerViewModel.GetDefinitionNames()
+        };
 
-            var drawerRef = await DrawerService.CreateAsync<FlowVariables, StudioFlow, bool>(options, DesignerViewModel.Flow);
+        var newDefinitionDialog = await ModalService.CreateModalAsync<NewDefinitionDialog, NewDefinitionModel>
+        (
+            new ModalOptions { Title = Labels.DefinitionName }, newDefinitionModel
+        );
 
-            drawerRef.OnClosed = async result =>
-            {
-                await InvokeAsync(StateHasChanged);
-            };
-        }
-
-        /// <summary>
-        /// Creates a new workflow tab
-        /// </summary>
-        private async Task OnWorkflowAddClick()
+        newDefinitionDialog.OnOk = () =>
         {
-            var newDefinitionModel = new NewDefinitionModel
-            {
-                ExistingNames = DesignerViewModel.GetDefinitionNames()
-            };
+            DesignerViewModel.CreateDefinition(newDefinitionModel.Name);
+            FlowExplorerViewModel.RefreshDefinitions();
 
-            var newDefinitionDialog = await ModalService.CreateModalAsync<NewDefinitionDialog, NewDefinitionModel>
-            (
-                new ModalOptions { Title = Labels.DefinitionName }, newDefinitionModel
-            );
+            DesignerViewModel.StepAdded += OnStepAdded;
+            DesignerViewModel.StepRemoved += OnStepRemoved;
 
-            newDefinitionDialog.OnOk = () =>
-            {
-                DesignerViewModel.CreateDefinition(newDefinitionModel.Name);
-                FlowExplorerViewModel.RefreshDefinitions();
+            StateHasChanged();
 
-                DesignerViewModel.StepAdded += OnStepAdded;
-                DesignerViewModel.StepRemoved += OnStepRemoved;
+            return Task.CompletedTask;
+        };
+    }
 
-                StateHasChanged();
+    private void OnTabClose(string key)
+    {
+    }
 
-                return Task.CompletedTask;
-            };
-        }
-
-        private void OnTabClose(string key)
-        {
-        }
-
-        private void OnTabClick(string key)
-        {
-            DesignerViewModel.SetActiveDefinition(key);  
-        }
+    private void OnTabClick(string key)
+    {
+        DesignerViewModel.SetActiveDefinition(key);  
     }
 }

@@ -21,8 +21,6 @@ namespace Automaton.Studio.Steps
             base.OnInitialized();
         }
 
-        #region Event Handlers
-
         private async Task OnEdit(Domain.StudioStep step)
         {
             var result = await step.DisplayPropertiesDialog(ModalService);
@@ -39,7 +37,5 @@ namespace Automaton.Studio.Steps
         {
             step.Definition.DeleteStep(step);
         }
-
-        #endregion
     }
 }

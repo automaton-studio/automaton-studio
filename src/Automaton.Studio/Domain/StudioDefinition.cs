@@ -23,12 +23,8 @@ namespace Automaton.Studio.Domain
 
         public StudioFlow Flow { get; set; }
 
-        #region Events
-
         public event EventHandler<StepEventArgs> StepAdded;
         public event EventHandler<StepEventArgs> StepRemoved;
-
-        #endregion
 
         public StudioDefinition()
         {

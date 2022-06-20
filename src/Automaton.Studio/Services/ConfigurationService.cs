@@ -5,22 +5,14 @@ namespace Automaton.Studio.Services
 {
     public class ConfigurationService
     {
-        #region Members
-
         private readonly IConfiguration configuration;
         private readonly AppConfiguration appConfiguration = new();
         private readonly ApiConfiguration apiConfiguration = new();
-
-        #endregion
-
-        #region Properties
 
         public string BaseUrl => apiConfiguration.BaseUrl;
         public string FlowsUrl => apiConfiguration.FlowsUrl;
         public string RunnersUrl => apiConfiguration.RunnersUrl;
         public bool IsDesktop => appConfiguration.IsDesktop;
-
-        #endregion
 
         public ConfigurationService(IConfiguration configuration)
         {

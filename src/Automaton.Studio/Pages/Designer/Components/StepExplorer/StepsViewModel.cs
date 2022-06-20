@@ -9,15 +9,9 @@ namespace Automaton.Studio.Pages.Designer.Components.StepExplorer
 {
     public class StepsViewModel : INotifyPropertyChanged
     {
-        #region Members
-
         private readonly DesignerViewModel designerViewModel;
         private readonly StepFactory stepFactory;
         private readonly IMapper mapper;
-
-        #endregion
-
-        #region Properties
 
         private IEnumerable<StepExplorerModel> steps;
         public IEnumerable<StepExplorerModel> Steps
@@ -31,8 +25,6 @@ namespace Automaton.Studio.Pages.Designer.Components.StepExplorer
             }
         }
 
-        #endregion
-
         public StepsViewModel(
             DesignerViewModel designerViewModel,
             StepFactory stepFactory,
@@ -42,8 +34,6 @@ namespace Automaton.Studio.Pages.Designer.Components.StepExplorer
             this.designerViewModel = designerViewModel;
             this.stepFactory = stepFactory;
         }
-
-        #region Public Methods
 
         public void Initialize()
         {
@@ -59,8 +49,6 @@ namespace Automaton.Studio.Pages.Designer.Components.StepExplorer
                 designerViewModel.CreateStep(step);
             }
         }
-
-        #endregion
 
         #region INotifyPropertyChanged
 

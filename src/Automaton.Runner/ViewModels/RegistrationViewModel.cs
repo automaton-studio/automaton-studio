@@ -43,6 +43,7 @@ public class RegistrationViewModel
         catch
         {
             SetLoadingErrors();
+
             return false;
         }
         finally

@@ -7,94 +7,81 @@ using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Designer.Components.FlowExplorer
+namespace Automaton.Studio.Pages.Designer.Components.FlowExplorer;
+
+partial class FlowExplorer : ComponentBase
 {
-    partial class FlowExplorer : ComponentBase
+    private string searchText { get; set; }
+
+    [CascadingParameter]
+    private StudioFlow Flow { get; set; }
+
+    [Inject]
+    private FlowExplorerViewModel FlowExplorerViewModel { get; set; }
+
+    [Inject]
+    private ModalService ModalService { get; set; }
+
+    protected override void OnInitialized()
     {
-        #region Members
+        base.OnInitializedAsync();
+    }
 
-        private string searchText { get; set; }
+    public void UpdateState()
+    {
+        StateHasChanged();
+    }
 
-        #endregion
-
-        #region Properties
-
-        [CascadingParameter]
-        private StudioFlow Flow { get; set; }
-
-        [Inject]
-        private FlowExplorerViewModel FlowExplorerViewModel { get; set; }
-
-        [Inject]
-        private ModalService ModalService { get; set; }
-
-        #endregion
-
-        protected override void OnInitialized()
+    private async Task RenameDefinition(FlowExplorerDefinition definition)
+    {
+        var definitionModel = new NewDefinitionModel()
         {
-            base.OnInitializedAsync();
-        }
+            Name = definition.Name,
+            ExistingNames = FlowExplorerViewModel.DefinitionNames
+        };
 
-        #region Methods
+        var modalRef = await ModalService.CreateModalAsync<NewDefinitionDialog, NewDefinitionModel>
+        (
+            new ModalOptions { Title = Labels.RenameWorkflow }, 
+            definitionModel
+        );
 
-        public void UpdateState()
+        modalRef.OnOk = () =>
         {
+            FlowExplorerViewModel.RenameDefinition(definition.Id, definitionModel.Name);
             StateHasChanged();
-        }
 
-        private async Task RenameDefinition(FlowExplorerDefinition definition)
-        {
-            var definitionModel = new NewDefinitionModel()
-            {
-                Name = definition.Name,
-                ExistingNames = FlowExplorerViewModel.DefinitionNames
-            };
+            return Task.CompletedTask;
+        };  
+    }
 
-            var modalRef = await ModalService.CreateModalAsync<NewDefinitionDialog, NewDefinitionModel>
-            (
-                new ModalOptions { Title = Labels.RenameWorkflow }, 
-                definitionModel
-            );
+    private void SetStartupDefinition(FlowExplorerDefinition definition)
+    {
+        FlowExplorerViewModel.SetStartupDefinition(definition.Id);
+    }
 
-            modalRef.OnOk = () =>
-            {
-                FlowExplorerViewModel.RenameDefinition(definition.Id, definitionModel.Name);
-                StateHasChanged();
+    private void DeleteDefinition(FlowExplorerDefinition definition)
+    {
+        FlowExplorerViewModel.DeleteDefinition(definition);
+    }
 
-                return Task.CompletedTask;
-            };  
-        }
+    private string GetClassForDefinition(FlowExplorerDefinition definition)
+    {
+        return definition.IsStartup ? "selected-definition" : string.Empty;
+    }
 
-        private void SetStartupDefinition(FlowExplorerDefinition definition)
-        {
-            FlowExplorerViewModel.SetStartupDefinition(definition.Id);
-        }
+    private async Task OnSearchTextChange(string value)
+    {
+        throw new NotImplementedException();
+    }
 
-        private void DeleteDefinition(FlowExplorerDefinition definition)
-        {
-            FlowExplorerViewModel.DeleteDefinition(definition);
-        }
+    private async Task OnSearch()
+    {
+        throw new NotImplementedException();
+    }
 
-        private string GetClassForDefinition(FlowExplorerDefinition definition)
-        {
-            return definition.IsStartup ? "selected-definition" : string.Empty;
-        }
-
-        private async Task OnSearchTextChange(string value)
-        {
-            throw new NotImplementedException();
-        }
-
-        private async Task OnSearch()
-        {
-            throw new NotImplementedException();
-        }
-
-        private async Task OnEnter(KeyboardEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
+    private async Task OnEnter(KeyboardEventArgs e)
+    {
+        throw new NotImplementedException();
     }
 }
