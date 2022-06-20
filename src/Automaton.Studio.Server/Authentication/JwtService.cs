@@ -20,8 +20,6 @@ namespace Common.Authentication
             InitializeJwtParameters();
         }
 
-        #region Public Methods
-
         public JsonWebToken GenerateToken(string userId, string userName, IReadOnlyList<string> roles = null,
             IDictionary<string, string> claims = null)
         {
@@ -135,8 +133,6 @@ namespace Common.Authentication
                 return null;
             }
         }
-
-        #endregion
 
         private void InitializeJwtParameters()
         {

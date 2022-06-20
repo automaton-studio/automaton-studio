@@ -93,9 +93,6 @@ namespace Common.Authentication
             => (long) Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero))
                 .TotalSeconds);
 
-
-        #region Private Methods
-
         private static SigningCredentials GetCredentialSigningKey(AuthenticationSettings setting)
         {
             if (setting.RsaSettings != null)
@@ -144,7 +141,5 @@ namespace Common.Authentication
                 return new SigningCredentials(publicKey, SecurityAlgorithms.RsaSha256);
             }
         }
-
-        #endregion
     }
 }
