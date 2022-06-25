@@ -92,7 +92,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapBlazorHub();
-app.MapHub<WorkflowHub>("/api/workflow/hub");
+app.MapHub<AutomatonHub>("/api/workflow/hub");
 app.MapFallbackToPage("/_Host");
 
 app.Run();

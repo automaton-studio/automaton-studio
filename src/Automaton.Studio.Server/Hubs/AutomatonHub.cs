@@ -5,14 +5,14 @@ using Microsoft.AspNetCore.SignalR;
 namespace Automaton.Studio.Server.Hubs;
 
 [Authorize]
-public class WorkflowHub : Hub
+public class AutomatonHub : Hub
 {
     private const string UserIdClaim = "uid";
     private const string RunnerNameHeader = "RunnerName";
 
     private readonly RunnerService runnerService;
 
-    public WorkflowHub(RunnerService runnerService)
+    public AutomatonHub(RunnerService runnerService)
     {
         this.runnerService = runnerService;
     }

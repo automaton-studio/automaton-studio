@@ -10,16 +10,16 @@ namespace Automaton.Studio.Server.Services
     public class RunnerService
     {
         private readonly ApplicationDbContext dbContext;
-        private readonly IHubContext<WorkflowHub> workflowHubContext;
+        private readonly IHubContext<AutomatonHub> automatonHub;
         private readonly ClaimsPrincipal principal;
         private readonly Guid userId;
 
         public RunnerService(ApplicationDbContext dbContext,
             IHttpContextAccessor httpContextAccessor,
-            IHubContext<WorkflowHub> workflowHubContext)
+            IHubContext<AutomatonHub> automatonHub)
         {
             this.dbContext = dbContext;
-            this.workflowHubContext = workflowHubContext;
+            this.automatonHub = automatonHub;
             principal = httpContextAccessor.HttpContext.User;
 
             Guid.TryParse(principal.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userIdGuid);
@@ -142,9 +142,9 @@ namespace Automaton.Studio.Server.Services
             foreach (var runnerId in runnerIds)
             {
                 var runner = await Get(runnerId, cancellationToken);
-                var client = workflowHubContext.Clients.Client(runner.ConnectionId);
+                var client = automatonHub.Clients.Client(runner.ConnectionId);
 
-                await client.SendAsync(HubMethods.RunWorkflow, flowId, cancellationToken);
+                await client.SendAsync(AutomatonHubMethods.RunWorkflow, flowId, cancellationToken);
             }
         }
     }

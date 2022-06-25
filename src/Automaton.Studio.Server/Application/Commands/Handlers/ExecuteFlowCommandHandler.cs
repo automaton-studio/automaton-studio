@@ -9,9 +9,9 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
     public class ExecuteFlowCommandHandler : IRequestHandler<ExecuteFlowCommand>
     {
         private readonly RunnerService runnerService;
-        private readonly IHubContext<WorkflowHub> automatonHub;
+        private readonly IHubContext<AutomatonHub> automatonHub;
 
-        public ExecuteFlowCommandHandler(RunnerService runnerService, IHubContext<WorkflowHub> automatonHub)
+        public ExecuteFlowCommandHandler(RunnerService runnerService, IHubContext<AutomatonHub> automatonHub)
         {
             this.runnerService = runnerService;
             this.automatonHub = automatonHub;
@@ -25,7 +25,7 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
             {
                 var client = automatonHub.Clients.Client(runner.ConnectionId);
 
-                await client.SendAsync(HubMethods.RunWorkflow, command.FlowId);
+                await client.SendAsync(AutomatonHubMethods.RunWorkflow, command.FlowId);
             }
 
             return Unit.Value;
