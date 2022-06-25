@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Automaton.Core.Models;
+﻿using Automaton.Core.Models;
 using Automaton.Core.Services;
 using Automaton.Studio.Server.Core.Commands;
 using Automaton.Studio.Server.Models;

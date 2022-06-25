@@ -139,18 +139,14 @@ namespace Automaton.Studio.Server.Services
             return exists;
         }
 
-        public async Task<bool> DoNotExists(string name, CancellationToken cancellationToken)
-        {
-            return !await Exists(name, cancellationToken);
-        }
-
-        public async Task RunWorkflow(string workflowId, IEnumerable<Guid> runnerIds, CancellationToken cancellationToken)
+        public async Task RunFlow(string flowId, IEnumerable<Guid> runnerIds, CancellationToken cancellationToken)
         {
             foreach (var runnerId in runnerIds)
             {
                 var runner = await Get(runnerId, cancellationToken);
                 var client = workflowHubContext.Clients.Client(runner.ConnectionId);
-                await client.SendAsync(RunWorkflowMethod, workflowId, cancellationToken);
+
+                await client.SendAsync(RunWorkflowMethod, flowId, cancellationToken);
             }
         }
     }

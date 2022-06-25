@@ -25,7 +25,7 @@ namespace Automaton.Studio.Server.Application.Commands.Validators
             /// You should NOT use asynchronous rules when using ASP.NET automatic validation
             /// as ASP.NET’s validation pipeline is not asynchronous.
             /// https://docs.fluentvalidation.net/en/latest/aspnet.html
-            var nameIsUnique = Task.Run(() => runnerService.DoNotExists(command.Name, CancellationToken.None)).Result;
+            var nameIsUnique = !Task.Run(() => runnerService.Exists(command.Name, CancellationToken.None)).Result;
 
             return nameIsUnique;
         }
