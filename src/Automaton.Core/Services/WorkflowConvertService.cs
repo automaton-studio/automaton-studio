@@ -5,11 +5,11 @@ using System.Linq.Expressions;
 
 namespace Automaton.Core.Services;
 
-public class FlowConvertService
+public class WorkflowConvertService
 {
     private readonly IServiceProvider serviceProvider;
 
-    public FlowConvertService(IServiceProvider serviceProvider)
+    public WorkflowConvertService(IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider;
     }

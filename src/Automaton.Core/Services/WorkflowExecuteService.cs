@@ -7,9 +7,9 @@ public class WorkflowExecuteService
 {
     protected readonly ILogger logger;
     protected readonly IServiceProvider serviceProvider;
-    private readonly FlowConvertService flowConvertService;
+    private readonly WorkflowConvertService flowConvertService;
 
-    public WorkflowExecuteService(IServiceProvider serviceProvider, FlowConvertService flowConvertService, ILoggerFactory loggerFactory)
+    public WorkflowExecuteService(IServiceProvider serviceProvider, WorkflowConvertService flowConvertService, ILoggerFactory loggerFactory)
     {
         this.serviceProvider = serviceProvider;
         this.flowConvertService = flowConvertService;

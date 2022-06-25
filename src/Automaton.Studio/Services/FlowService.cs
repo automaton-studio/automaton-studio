@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Automaton.Core.Models;
-using Automaton.Core.Services;
 using Automaton.Studio.Domain;
 using Microsoft.Extensions.Logging;
 using System;
@@ -20,7 +19,6 @@ namespace Automaton.Studio.Services
         public FlowService
         (
             ConfigurationService configService,
-            FlowConvertService flowConverterService,
             IMapper mapper,
             HttpClient httpClient,
             ILogger<FlowService> logger
