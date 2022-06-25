@@ -9,8 +9,6 @@ namespace Automaton.Studio.Server.Services
 {
     public class RunnerService
     {
-        private const string RunWorkflowMethod = "RunWorkflow";
-
         private readonly ApplicationDbContext dbContext;
         private readonly IHubContext<WorkflowHub> workflowHubContext;
         private readonly ClaimsPrincipal principal;
@@ -146,7 +144,7 @@ namespace Automaton.Studio.Server.Services
                 var runner = await Get(runnerId, cancellationToken);
                 var client = workflowHubContext.Clients.Client(runner.ConnectionId);
 
-                await client.SendAsync(RunWorkflowMethod, flowId, cancellationToken);
+                await client.SendAsync(HubMethods.RunWorkflow, flowId, cancellationToken);
             }
         }
     }

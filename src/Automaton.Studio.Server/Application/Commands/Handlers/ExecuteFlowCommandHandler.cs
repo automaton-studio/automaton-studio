@@ -9,12 +9,12 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
     public class ExecuteFlowCommandHandler : IRequestHandler<ExecuteFlowCommand>
     {
         private readonly RunnerService runnerService;
-        private readonly IHubContext<WorkflowHub> workflowHubContext;
+        private readonly IHubContext<WorkflowHub> automatonHub;
 
-        public ExecuteFlowCommandHandler(RunnerService runnerService, IHubContext<WorkflowHub> workflowHubContext)
+        public ExecuteFlowCommandHandler(RunnerService runnerService, IHubContext<WorkflowHub> automatonHub)
         {
             this.runnerService = runnerService;
-            this.workflowHubContext = workflowHubContext;
+            this.automatonHub = automatonHub;
         }
 
         public async Task<Unit> Handle(ExecuteFlowCommand command, CancellationToken cancellationToken)
@@ -23,18 +23,9 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
 
             foreach (var runner in runners)
             {
-                var client = workflowHubContext.Clients.Client(runner.ConnectionId);
+                var client = automatonHub.Clients.Client(runner.ConnectionId);
 
-                //await workflowHubContext.Clients.All.SendAsync("RunWorkflow", command.FlowId);
-
-                try
-                {
-                    await client.SendAsync("RunWorkflow", command.FlowId);
-                }
-                catch (Exception ex)
-                {
-                    throw;
-                }
+                await client.SendAsync(HubMethods.RunWorkflow, command.FlowId);
             }
 
             return Unit.Value;
