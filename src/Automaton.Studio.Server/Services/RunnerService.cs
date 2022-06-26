@@ -137,7 +137,7 @@ namespace Automaton.Studio.Server.Services
             return exists;
         }
 
-        public async Task RunFlow(string flowId, IEnumerable<Guid> runnerIds, CancellationToken cancellationToken)
+        public async Task RunFlow(Guid flowId, IEnumerable<Guid> runnerIds, CancellationToken cancellationToken)
         {
             foreach (var runnerId in runnerIds)
             {
