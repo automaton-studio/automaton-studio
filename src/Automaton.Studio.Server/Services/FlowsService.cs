@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using Automaton.Core.Models;
+using Automaton.Core.Services;
 using Automaton.Studio.Server.Data;
-using Automaton.Studio.Server.Hubs;
 using Automaton.Studio.Server.Models;
-using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
 using System.Text.Json;
 
@@ -12,22 +11,28 @@ namespace Automaton.Studio.Server.Services
     public class FlowsService
     {
         private readonly ApplicationDbContext dataContext;
+        private readonly WorkflowExecuteService workflowExecuteService;
+        private readonly RunnerService runnerService;
+        
         private readonly IMapper mapper;
         private readonly Guid userId;
 
         public FlowsService
         (
             ApplicationDbContext dataContext,
+            WorkflowExecuteService workflowExecuteService,
+            RunnerService runnerService,
             IMapper mapper,
             IHttpContextAccessor httpContextAccessor
         )
         {
             this.dataContext = dataContext;
+            this.workflowExecuteService = workflowExecuteService;
+            this.runnerService = runnerService;
             this.mapper = mapper;
 
             var userIdString = httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            Guid.TryParse(userIdString, out Guid userIdGuid);
-            userId = userIdGuid;
+            userId = Guid.Parse(userIdString);
         }
 
         public IEnumerable<FlowInfo> List()
@@ -105,9 +110,29 @@ namespace Automaton.Studio.Server.Services
             dataContext.SaveChanges();
         }
 
-        private static Flow DeserializeFlow(string flowBody)
+        /// <summary>
+        /// Executes flow on server
+        /// </summary>
+        public async Task<WorkflowExecutorResult> Execute(Guid flowId, CancellationToken cancellationToken)
         {
-            var flow = JsonSerializer.Deserialize<Flow>(flowBody);
+            var flow = Get(flowId);
+
+            var result = await workflowExecuteService.Execute(flow, cancellationToken);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Executes flow on runners
+        /// </summary>
+        public async Task Execute(Guid flowId, IEnumerable<Guid> runnerIds, CancellationToken cancellationToken)
+        {
+            await runnerService.ExecuteFlow(flowId, runnerIds, cancellationToken);
+        }
+
+        private static Flow DeserializeFlow(string jsonFlow)
+        {
+            var flow = JsonSerializer.Deserialize<Flow>(jsonFlow);
 
             return flow;
         }
