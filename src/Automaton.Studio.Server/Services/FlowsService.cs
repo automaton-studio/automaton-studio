@@ -13,7 +13,6 @@ namespace Automaton.Studio.Server.Services
         private readonly ApplicationDbContext dataContext;
         private readonly WorkflowExecuteService workflowExecuteService;
         private readonly RunnerService runnerService;
-        
         private readonly IMapper mapper;
         private readonly Guid userId;
 
@@ -93,17 +92,34 @@ namespace Automaton.Studio.Server.Services
 
         public void Update(Guid id, Flow flow)
         {
-            var flowEntity = GetFlowEntity(id);
-            flowEntity.Name = flow.Name;
-            flowEntity.Body = JsonSerializer.Serialize(flow);
-            flowEntity.Updated = DateTime.UtcNow;
+            var entity =
+            (
+                from _flow in dataContext.Flows
+                join _flowUser in dataContext.FlowUsers
+                on _flow.Id equals _flowUser.FlowId
+                where _flow.Id == id && _flowUser.UserId == userId
+                select _flow
+            )
+            .SingleOrDefault();
+
+            entity.Name = flow.Name;
+            entity.Body = JsonSerializer.Serialize(flow);
+            entity.Updated = DateTime.UtcNow;
 
             dataContext.SaveChanges();
         }
 
         public void Remove(Guid id)
         {
-            var flow = GetFlowEntity(id);
+            var flow =
+            (
+                from _flow in dataContext.Flows
+                join _flowUser in dataContext.FlowUsers
+                on _flow.Id equals _flowUser.FlowId
+                where _flow.Id == id && _flowUser.UserId == userId
+                select _flow
+            )
+            .SingleOrDefault();
 
             dataContext.Flows.Remove(flow);
 
@@ -133,21 +149,6 @@ namespace Automaton.Studio.Server.Services
         private static Flow DeserializeFlow(string jsonFlow)
         {
             var flow = JsonSerializer.Deserialize<Flow>(jsonFlow);
-
-            return flow;
-        }
-
-        private Entities.Flow GetFlowEntity(Guid id)
-        {
-            var flow = 
-            (
-                from _flow in dataContext.Flows
-                join _flowUser in dataContext.FlowUsers
-                on _flow.Id equals _flowUser.FlowId
-                where _flow.Id == id && _flowUser.UserId == userId
-                select _flow
-            )
-            .SingleOrDefault();
 
             return flow;
         }

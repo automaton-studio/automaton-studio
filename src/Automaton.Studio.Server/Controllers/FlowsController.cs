@@ -10,19 +10,16 @@ namespace Automaton.Studio.Server.Controllers
     public class FlowsController : BaseController
     {
         private readonly FlowLoaderService flowLoaderService;
-        private readonly WorkflowExecuteService workflowExecuteService;
         private readonly FlowsService flowsService;
 
         public FlowsController
         (
             FlowsService flowsService,
-            WorkflowExecuteService workflowExecuteService,
             FlowLoaderService flowLoaderService
         )
         {
             this.flowsService = flowsService;
             this.flowLoaderService = flowLoaderService;
-            this.workflowExecuteService = workflowExecuteService;
         }
 
         [HttpGet]
