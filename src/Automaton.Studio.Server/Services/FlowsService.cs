@@ -21,17 +21,15 @@ namespace Automaton.Studio.Server.Services
             ApplicationDbContext dataContext,
             WorkflowExecuteService workflowExecuteService,
             RunnerService runnerService,
-            IMapper mapper,
-            IHttpContextAccessor httpContextAccessor
+            UserContextService userContextService,
+            IMapper mapper
         )
         {
             this.dataContext = dataContext;
             this.workflowExecuteService = workflowExecuteService;
             this.runnerService = runnerService;
             this.mapper = mapper;
-
-            var userIdString = httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            userId = Guid.Parse(userIdString);
+            this.userId = userContextService.GetUserId();
         }
 
         public IEnumerable<FlowInfo> List()

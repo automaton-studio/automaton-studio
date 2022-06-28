@@ -1,5 +1,4 @@
 ﻿using Automaton.Core.Models;
-using Automaton.Core.Services;
 using Automaton.Studio.Server.Core.Commands;
 using Automaton.Studio.Server.Models;
 using Automaton.Studio.Server.Services;
@@ -9,17 +8,14 @@ namespace Automaton.Studio.Server.Controllers
 {
     public class FlowsController : BaseController
     {
-        private readonly FlowLoaderService flowLoaderService;
         private readonly FlowsService flowsService;
 
         public FlowsController
         (
-            FlowsService flowsService,
-            FlowLoaderService flowLoaderService
+            FlowsService flowsService
         )
         {
             this.flowsService = flowsService;
-            this.flowLoaderService = flowLoaderService;
         }
 
         [HttpGet]

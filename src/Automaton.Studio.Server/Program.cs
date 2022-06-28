@@ -53,7 +53,7 @@ services.AddScoped<IDataContext>(sp => sp.GetRequiredService<ApplicationDbContex
 services.AddControllers();
 services.AddScoped<FlowsService>();
 services.AddScoped<RunnerService>();
-services.AddTransient<FlowLoaderService>();
+services.AddScoped<UserContextService>();
 services.AddTransient<UserManagerService>();
 services.AddTransient<RoleManagerService>();
 

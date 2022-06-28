@@ -11,19 +11,15 @@ namespace Automaton.Studio.Server.Services
     {
         private readonly ApplicationDbContext dbContext;
         private readonly IHubContext<AutomatonHub> automatonHub;
-        private readonly ClaimsPrincipal principal;
         private readonly Guid userId;
 
         public RunnerService(ApplicationDbContext dbContext,
-            IHttpContextAccessor httpContextAccessor,
+            UserContextService userContextService,
             IHubContext<AutomatonHub> automatonHub)
         {
             this.dbContext = dbContext;
             this.automatonHub = automatonHub;
-            principal = httpContextAccessor.HttpContext.User;
-
-            Guid.TryParse(principal.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userIdGuid);
-            userId = userIdGuid;
+            this.userId = userContextService.GetUserId();
         }
 
         public async Task<IEnumerable<Runner>> List(CancellationToken cancellationToken)
