@@ -3,7 +3,6 @@ using Automaton.Core.Models;
 using Automaton.Core.Services;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Models;
-using System.Security.Claims;
 using System.Text.Json;
 
 namespace Automaton.Studio.Server.Services
