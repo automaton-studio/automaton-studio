@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Automaton.Core.Scripting\Automaton.Core.Scripting.csproj" />
     <ProjectReference Include="..\Automaton.Core\Automaton.Core.csproj" />
   </ItemGroup>
 

@@ -1,7 +1,7 @@
 ﻿using Automaton.Client.Auth.Extensions;
 using Automaton.Client.Auth.Handlers;
 using Automaton.Client.Auth.Http;
-using Automaton.Client.Auth.Interfaces;
+using Automaton.Core.Scripting;
 using Automaton.Runner.Core.Services;
 using Automaton.Runner.Services;
 using Automaton.Runner.Storage;
@@ -15,6 +15,9 @@ public static class ServiceCollectionExtension
 {
     public static void AddApplication(this IServiceCollection services)
     {
+        // Scripting
+        services.ConfigureScripting();
+
         // Steps
         services.AddSteps();
 
