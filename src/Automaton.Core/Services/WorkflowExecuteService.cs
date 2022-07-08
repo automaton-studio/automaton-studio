@@ -34,7 +34,7 @@ public class WorkflowExecuteService
                     CancellationToken = cancellationToken
                 };
 
-                logger.LogDebug("Starting step {0} on workflow {1}", context.Step.Name, context.Definition.Id);
+                logger.LogInformation("Starting step {0} on workflow {1}", context.Step.Name, context.Definition.Id);
 
                 await context.Step.RunAsync(context);
             }
