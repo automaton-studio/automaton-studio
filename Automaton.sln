@@ -22,7 +22,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Runner", "src\Aut
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Client.Auth", "src\Automaton.Client.Auth\Automaton.Client.Auth.csproj", "{D0AFB663-0062-4DF7-95F0-5ED70D5B7D7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automaton.Core.Scripting", "src\Automaton.Core.Scripting\Automaton.Core.Scripting.csproj", "{0F098591-AAE6-4D0C-BCA3-BD95F0A5DA81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Core.Scripting", "src\Automaton.Core.Scripting\Automaton.Core.Scripting.csproj", "{0F098591-AAE6-4D0C-BCA3-BD95F0A5DA81}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{F8CF6650-9B57-4FF4-9049-0307F7A91F0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automaton.Core.Scripting.Tests", "src\Automaton.Core.Scripting.Tests\Automaton.Core.Scripting.Tests.csproj", "{C2DBF366-732A-43C3-B44F-3D0DD548A364}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,9 +66,16 @@ Global
 		{0F098591-AAE6-4D0C-BCA3-BD95F0A5DA81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F098591-AAE6-4D0C-BCA3-BD95F0A5DA81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F098591-AAE6-4D0C-BCA3-BD95F0A5DA81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2DBF366-732A-43C3-B44F-3D0DD548A364}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2DBF366-732A-43C3-B44F-3D0DD548A364}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2DBF366-732A-43C3-B44F-3D0DD548A364}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2DBF366-732A-43C3-B44F-3D0DD548A364}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C2DBF366-732A-43C3-B44F-3D0DD548A364} = {F8CF6650-9B57-4FF4-9049-0307F7A91F0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {83E26756-FC19-479A-9074-C74CC45932CF}

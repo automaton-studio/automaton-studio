@@ -2,40 +2,27 @@
 
 namespace Automaton.Core.Scripting;
 
-public class ScriptEngineHost : IScriptEngineHost
+public class ScriptEngineHost
 {
-    private readonly IScriptEngineFactory _engineFactory;
+    private const string BuiltinsVariable = "__builtins__";
 
-    public ScriptEngineHost(IScriptEngineFactory engineFactory)
+    private readonly ScriptEngineFactory engineFactory;
+
+    public ScriptEngineHost(ScriptEngineFactory engineFactory)
     {
-        _engineFactory = engineFactory;
+        this.engineFactory = engineFactory;
     }
 
-    public void Execute(ScriptResource resource, IDictionary<string, object> inputs)
+    public IEnumerable<KeyValuePair<string, dynamic>> Execute(ScriptResource resource, IDictionary<string, object> inputs)
     {
-        var engine = _engineFactory.GetEngine(resource.ContentType);
-
+        var engine = engineFactory.GetEngine(resource.ContentType);
+        var scope = engine.CreateScope(inputs);
         var source = engine.CreateScriptSourceFromString(resource.Content, SourceCodeKind.Statements);
-        var scope = engine.CreateScope(inputs);
+
         source.Execute(scope);
-        SanitizeScope(inputs);
-    }
 
-    public dynamic EvaluateExpression(string expression, IDictionary<string, object> inputs)
-    {
-        var engine = _engineFactory.GetExpressionEngine();
-        var source = engine.CreateScriptSourceFromString(expression, SourceCodeKind.Expression);
-        var scope = engine.CreateScope(inputs);
-        return source.Execute(scope);
-    }
+        scope.RemoveVariable(BuiltinsVariable);
 
-    public T EvaluateExpression<T>(string expression, IDictionary<string, object> inputs)
-    {
-        return EvaluateExpression(expression, inputs);
-    }
-
-    private void SanitizeScope(IDictionary<string, object> scope)
-    {
-        scope.Remove("__builtins__");
+        return scope.GetItems();
     }
 }

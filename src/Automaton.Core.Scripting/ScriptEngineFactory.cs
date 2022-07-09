@@ -2,14 +2,12 @@
 
 namespace Automaton.Core.Scripting;
 
-class ScriptEngineFactory : IScriptEngineFactory
+public class ScriptEngineFactory
 {
-    private Dictionary<string, ScriptEngine> _engines = new Dictionary<string, ScriptEngine>()
+    private readonly Dictionary<string, ScriptEngine> engines = new()
     {
         [@"text/x-python"] = IronPython.Hosting.Python.CreateEngine(),
-        [string.Empty] = IronPython.Hosting.Python.CreateEngine()
     };
 
-    public ScriptEngine GetEngine(string contentType) => _engines[contentType];
-    public ScriptEngine GetExpressionEngine() => _engines[string.Empty];
+    public ScriptEngine GetEngine(string contentType) => engines[contentType];
 }

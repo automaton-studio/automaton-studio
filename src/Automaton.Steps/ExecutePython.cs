@@ -7,13 +7,13 @@ public class ExecutePython : WorkflowStep
 {
     private const string ContentType = @"text/x-python";
 
-    private readonly IScriptEngineHost _scriptHost;
+    private readonly ScriptEngineHost scriptHost;
 
     public string? Content { get; set; }
 
-    public ExecutePython(IScriptEngineHost scriptHost)
+    public ExecutePython(ScriptEngineHost scriptHost)
     {
-        _scriptHost = scriptHost;
+        this.scriptHost = scriptHost;
     }
 
     public override Task<ExecutionResult> RunAsync(StepExecutionContext context)
@@ -26,7 +26,7 @@ public class ExecutePython : WorkflowStep
 
         var variables = Inputs as IDictionary<string, object>;
 
-        _scriptHost.Execute(resource, variables);
+        scriptHost.Execute(resource, variables);
 
         return Task.FromResult(ExecutionResult.Next());
     }

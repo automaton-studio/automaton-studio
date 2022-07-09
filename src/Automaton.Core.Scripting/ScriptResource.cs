@@ -7,6 +7,4 @@ public class ScriptResource
     public string? ContentType { get; set; }
 
     public string? Content { get; set; }
-
-    public byte[]? CompiledContent { get; set; }
 }
