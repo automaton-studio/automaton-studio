@@ -31,16 +31,6 @@ public class Workflow
         return new KeyValuePair<string, object>(key, Variables[key]);
     }
 
-    public void AddVariable(string key, object value)
-    {
-        Variables.Add(key, value);
-    }
-
-    public bool HasVariables()
-    {
-        return Variables.Count > 0;
-    }
-
     public IEnumerable<KeyValuePair<string, object>> GetVariables(IEnumerable<string> names)
     {
         var variables = Variables.Where(x => names.Contains(x.Key)).Select(x => new KeyValuePair<string, object>(x.Key, x.Value));
