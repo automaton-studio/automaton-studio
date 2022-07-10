@@ -31,6 +31,7 @@ namespace Automaton.Core.Models
         public KeyValuePair<string, object> GetVariable(string key)
         {
             var dictionary = Variables as IDictionary<string, object>;
+
             return new KeyValuePair<string, object>(key, dictionary[key]);
         }
 

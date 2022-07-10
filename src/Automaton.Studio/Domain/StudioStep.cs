@@ -64,8 +64,6 @@ namespace Automaton.Studio.Domain
 
         public ExpandoObject Inputs { get; set; }
 
-        public Dictionary<string, string> Outputs { get; set; }
-
         public IList<string> Variables { get; set; }
 
         #endregion
@@ -77,7 +75,6 @@ namespace Automaton.Studio.Domain
             DisplayName = descriptor.DisplayName;
             Type = descriptor.Type;
             Inputs = new ExpandoObject();
-            Outputs = new Dictionary<string, string>();
             Variables = new List<string>();
             Class = StepClass;
         }
