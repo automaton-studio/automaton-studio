@@ -1,0 +1,21 @@
+﻿@using Automaton.Studio.Steps
+
+<StepDesigner Step=@Step>
+    <div>
+        <b>@Step.Descriptor.DisplayName</b>
+    </div>
+    <div>
+        Execute Python script <a href="" @onclick:preventDefault>@Step.Content</a>
+    </div>
+</StepDesigner>
+
+@code {
+    [Parameter]
+    public ExecutePythonStep Step { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+}
+

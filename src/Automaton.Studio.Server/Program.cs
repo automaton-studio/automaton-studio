@@ -1,3 +1,4 @@
+using Automaton.Core.Scripting;
 using Automaton.Studio.Server.Areas.Identity;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Entities;
@@ -65,6 +66,7 @@ services.AddAutoMapper(Assembly.GetExecutingAssembly());
 services.AddMediatR(Assembly.GetExecutingAssembly());
 services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Program>());
 
+services.AddScripting();
 services.AddSteps();
 services.AddAutomatonCore();
 

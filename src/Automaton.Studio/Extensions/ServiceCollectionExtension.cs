@@ -33,7 +33,7 @@ namespace Automaton.Studio.Extensions
             services.AddAutomatonCore();
 
             // Scripting
-            services.ConfigureScripting();
+            services.AddScripting();
 
             // Authentication & Authorization
             services.AddBlazoredLocalStorage();

@@ -16,7 +16,7 @@ public static class ServiceCollectionExtension
     public static void AddApplication(this IServiceCollection services)
     {
         // Scripting
-        services.ConfigureScripting();
+        services.AddScripting();
 
         // Steps
         services.AddSteps();
