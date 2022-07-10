@@ -19,13 +19,13 @@ namespace Automaton.Studio.Steps.EmitLog
         {
             get
             {
-                return InputsDictionary.ContainsKey(nameof(Message)) ?
-                    InputsDictionary[nameof(Message)].ToString() : string.Empty;
+                return Inputs.ContainsKey(nameof(Message)) ?
+                    Inputs[nameof(Message)].ToString() : string.Empty;
             }
 
             set
             {
-                InputsDictionary[nameof(Message)] = value;
+                Inputs[nameof(Message)] = value;
             }
         }
 

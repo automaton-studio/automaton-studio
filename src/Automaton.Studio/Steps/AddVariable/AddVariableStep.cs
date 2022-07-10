@@ -17,16 +17,16 @@ namespace Automaton.Studio.Steps.AddVariable
     {
         public string VariableName
         {
-            get => InputsDictionary.ContainsKey(nameof(VariableName)) ?
-                   InputsDictionary[nameof(VariableName)].ToString() : string.Empty;
-            set => InputsDictionary[nameof(VariableName)] = value;
+            get => Inputs.ContainsKey(nameof(VariableName)) ?
+                   Inputs[nameof(VariableName)].ToString() : string.Empty;
+            set => Inputs[nameof(VariableName)] = value;
         }
 
         public string VariableValue
         {
-            get => InputsDictionary.ContainsKey(nameof(VariableValue)) ?
-                   InputsDictionary[nameof(VariableValue)].ToString() : string.Empty;
-            set => InputsDictionary[nameof(VariableValue)] = value;
+            get => Inputs.ContainsKey(nameof(VariableValue)) ?
+                   Inputs[nameof(VariableValue)].ToString() : string.Empty;
+            set => Inputs[nameof(VariableValue)] = value;
         }
 
         public AddVariableStep(IStepDescriptor descriptor) 

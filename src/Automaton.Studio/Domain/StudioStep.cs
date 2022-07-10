@@ -31,8 +31,6 @@ namespace Automaton.Studio.Domain
 
         public IStepDescriptor Descriptor { get; set; }
 
-        public IDictionary<string, object> InputsDictionary => Inputs;
-
         public string Class { get; set; }
 
         public string DisplayName { get; set; }      

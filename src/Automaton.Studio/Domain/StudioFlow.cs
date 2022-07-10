@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 
 namespace Automaton.Studio.Domain
@@ -12,8 +11,6 @@ namespace Automaton.Studio.Domain
         public string StartupDefinitionId { get; set; }
         public IDictionary<string, object> Variables { get; set; }
         public IDictionary<string, object> OutputVariables { get; set; }
-        public IDictionary<string, object> VariablesDictionary => Variables;
-        public IDictionary<string, object> OutputVariablesDictionary => OutputVariables;
         public IList<StudioDefinition> Definitions { get; set; }
 
         public StudioFlow()
@@ -39,53 +36,53 @@ namespace Automaton.Studio.Domain
 
         public void SetVariable(string key, object value)
         {
-            if (VariablesDictionary.ContainsKey(key))
+            if (Variables.ContainsKey(key))
             {
-                VariablesDictionary[key] = value;
+                Variables[key] = value;
             }
             else
             {
-                VariablesDictionary.Add(key, value);
+                Variables.Add(key, value);
             }
         }
 
         public void SetOutputVariable(string key, object value)
         {
-            if (OutputVariablesDictionary.ContainsKey(key))
+            if (OutputVariables.ContainsKey(key))
             {
-                OutputVariablesDictionary[key] = value;
+                OutputVariables[key] = value;
             }
             else
             {
-                OutputVariablesDictionary.Add(key, value);
+                OutputVariables.Add(key, value);
             }
         }
 
         public IEnumerable<string> GetVariableNames()
         {
-            return VariablesDictionary.Keys;
+            return Variables.Keys;
         }
 
         public IEnumerable<string> GetOutputVariableNames()
         {
-            return OutputVariablesDictionary.Keys;
+            return OutputVariables.Keys;
         }
 
         public void DeleteVariable(string variable)
         {
-            VariablesDictionary.Remove(variable);
+            Variables.Remove(variable);
         }
 
         public void DeleteOutputVariable(string variable)
         {
-            OutputVariablesDictionary.Remove(variable);
+            OutputVariables.Remove(variable);
         }
 
         public void DeleteVariables(IEnumerable<string> variables)
         {
             foreach (var variable in variables)
             {
-                VariablesDictionary.Remove(variable);
+                Variables.Remove(variable);
             }
         }
     }

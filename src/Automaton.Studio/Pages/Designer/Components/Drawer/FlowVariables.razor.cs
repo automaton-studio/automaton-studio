@@ -23,7 +23,7 @@ namespace Automaton.Studio.Pages.Designer.Components.Drawer
         {
             get
             {
-                return flow.VariablesDictionary.Select(x => new Variable
+                return flow.Variables.Select(x => new Variable
                 {
                     Name = x.Key,
                     Value = x.Value.ToString()
@@ -35,7 +35,7 @@ namespace Automaton.Studio.Pages.Designer.Components.Drawer
         {
             get
             {
-                return flow.OutputVariablesDictionary.Select(x => new Variable
+                return flow.OutputVariables.Select(x => new Variable
                 {
                     Name = x.Key,
                     Value = x.Value.ToString()
