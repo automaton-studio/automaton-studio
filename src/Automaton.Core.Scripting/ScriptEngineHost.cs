@@ -13,7 +13,7 @@ public class ScriptEngineHost
         this.engineFactory = engineFactory;
     }
 
-    public IEnumerable<KeyValuePair<string, dynamic>> Execute(ScriptResource resource, IDictionary<string, object> inputs)
+    public IDictionary<string, dynamic> Execute(ScriptResource resource, IDictionary<string, object> inputs)
     {
         var engine = engineFactory.GetEngine(resource.ContentType);
         var scope = engine.CreateScope(inputs);
@@ -23,6 +23,10 @@ public class ScriptEngineHost
 
         scope.RemoveVariable(BuiltinsVariable);
 
-        return scope.GetItems();
+        var items = scope.GetItems();
+
+        var variables = items.ToDictionary(x => x.Key, x => x.Value);
+
+        return variables;
     }
 }
