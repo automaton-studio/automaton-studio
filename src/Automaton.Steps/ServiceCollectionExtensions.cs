@@ -8,5 +8,6 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<EmitLog>();
         services.AddTransient<AddVariable>();
+        services.AddTransient<ExecutePython>();
     }
 }

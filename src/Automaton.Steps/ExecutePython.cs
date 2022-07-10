@@ -24,10 +24,21 @@ public class ExecutePython : WorkflowStep
             Content = Content
         };
 
-        var variables = Inputs as IDictionary<string, object>;
+        var scriptVariables = scriptHost.Execute(resource, Inputs);
 
-        scriptHost.Execute(resource, variables);
+        UpdateWorkflowVariables(context.Workflow, scriptVariables);
 
         return Task.FromResult(ExecutionResult.Next());
+    }
+
+    private void UpdateWorkflowVariables(Workflow workflow, IDictionary<string, dynamic> scriptVariables)
+    {
+        foreach (var variable in Variables)
+        {
+            if (scriptVariables.ContainsKey(variable))
+            {
+                workflow.Variables[variable] = scriptVariables[variable];
+            }
+        }
     }
 }
