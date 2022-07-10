@@ -8,6 +8,7 @@ namespace Automaton.Core.Scripting.Tests
     public class ScriptEngineHostTest
     {
         [TestMethod]
+        [Description("Test that input variables are returned to execution result")]
         public void InputVariables()
         {
             var factory = new ScriptEngineFactory();
@@ -30,6 +31,7 @@ namespace Automaton.Core.Scripting.Tests
         }
 
         [TestMethod]
+        [Description("Test that Python variables are returned to execution result")]
         public void OutputVariables()
         {
             var factory = new ScriptEngineFactory();
