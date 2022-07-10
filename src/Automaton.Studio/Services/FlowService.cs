@@ -33,6 +33,9 @@ namespace Automaton.Studio.Services
         public async Task<StudioFlow> Load(Guid id)
         {
             var response = await httpClient.GetAsync($"{configService.FlowsUrl}/{id}");
+
+            response.EnsureSuccessStatusCode();
+
             var flow = await response.Content.ReadAsAsync<Flow>();
             var studioFlow = mapper.Map<StudioFlow>(flow);
 
@@ -45,6 +48,9 @@ namespace Automaton.Studio.Services
             var flowDto = mapper.Map<Flow>(flow);
 
             var response = await httpClient.PostAsJsonAsync(configService.FlowsUrl, flowDto);
+
+            response.EnsureSuccessStatusCode();
+
             var result = await response.Content.ReadAsAsync<Flow>();
                 
             var newFlow = mapper.Map<StudioFlow>(result);
@@ -56,12 +62,16 @@ namespace Automaton.Studio.Services
         {
             var flowDto = mapper.Map<Flow>(flow);
 
-            await httpClient.PutAsJsonAsync($"{configService.FlowsUrl}/{flow.Id}", flowDto);
+            var response = await httpClient.PutAsJsonAsync($"{configService.FlowsUrl}/{flow.Id}", flowDto);
+
+            response.EnsureSuccessStatusCode();
         }
 
         public async Task Delete(Guid flowId)
         {
-            await httpClient.DeleteAsync($"{configService.FlowsUrl}/{flowId}");
+            var response = await httpClient.DeleteAsync($"{configService.FlowsUrl}/{flowId}");
+
+            response.EnsureSuccessStatusCode();
         }
        
         public async Task Run(Guid flowId, IEnumerable<Guid> runnerIds)

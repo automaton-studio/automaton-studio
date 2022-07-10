@@ -13,8 +13,6 @@ namespace Automaton.Studio.Domain
 
         public string Name { get; set; }
 
-        public string Description { get; set; }
-
         public WorkflowErrorHandling DefaultErrorBehavior { get; set; }
 
         public TimeSpan? DefaultErrorRetryInterval { get; set; }

@@ -31,8 +31,7 @@ public class WorkflowConvertService
                 Id = definition.Id,
                 Steps = ConvertSteps(definition.Steps, worklow),
                 DefaultErrorBehavior = definition.DefaultErrorBehavior,
-                DefaultErrorRetryInterval = definition.DefaultErrorRetryInterval,
-                Description = definition.Description
+                DefaultErrorRetryInterval = definition.DefaultErrorRetryInterval
             };
 
             worklow.Definitions.Add(workflowDefinition);
