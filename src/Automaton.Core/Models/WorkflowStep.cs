@@ -1,5 +1,4 @@
 ﻿using Automaton.Core.Enums;
-using System.Dynamic;
 
 namespace Automaton.Core.Models
 {
@@ -15,7 +14,7 @@ namespace Automaton.Core.Models
 
         public virtual List<WorkflowStep> Children { get; set; } = new List<WorkflowStep>();
 
-        public ExpandoObject Inputs { get; set; } = new ExpandoObject();
+        public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
 
         public virtual WorkflowErrorHandling? ErrorBehavior { get; set; }
 

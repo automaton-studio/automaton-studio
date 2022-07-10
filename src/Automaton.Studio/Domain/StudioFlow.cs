@@ -10,8 +10,8 @@ namespace Automaton.Studio.Domain
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string StartupDefinitionId { get; set; }
-        public ExpandoObject Variables { get; set; }
-        public ExpandoObject OutputVariables { get; set; }
+        public IDictionary<string, object> Variables { get; set; }
+        public IDictionary<string, object> OutputVariables { get; set; }
         public IDictionary<string, object> VariablesDictionary => Variables;
         public IDictionary<string, object> OutputVariablesDictionary => OutputVariables;
         public IList<StudioDefinition> Definitions { get; set; }
@@ -22,8 +22,8 @@ namespace Automaton.Studio.Domain
             var defaultDefinition = new StudioDefinition { Flow = this };
             StartupDefinitionId = defaultDefinition.Id;
             Definitions = new List<StudioDefinition> { defaultDefinition };
-            Variables = new ExpandoObject();
-            OutputVariables = new ExpandoObject();
+            Variables = new Dictionary<string, object>();
+            OutputVariables = new Dictionary<string, object>();
         }
 
         public StudioDefinition GetStartupDefinition()

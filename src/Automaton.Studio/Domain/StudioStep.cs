@@ -3,7 +3,6 @@ using Automaton.Studio.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Dynamic;
 using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.Domain
@@ -62,7 +61,7 @@ namespace Automaton.Studio.Domain
 
         public string NextStepId { get; set; }
 
-        public ExpandoObject Inputs { get; set; }
+        public IDictionary<string, object> Inputs { get; set; }
 
         public IList<string> Variables { get; set; }
 
@@ -74,7 +73,7 @@ namespace Automaton.Studio.Domain
             Name = descriptor.Name;
             DisplayName = descriptor.DisplayName;
             Type = descriptor.Type;
-            Inputs = new ExpandoObject();
+            Inputs = new Dictionary<string, object>();
             Variables = new List<string>();
             Class = StepClass;
         }

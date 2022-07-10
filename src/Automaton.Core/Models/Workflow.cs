@@ -1,60 +1,50 @@
-﻿using System.Dynamic;
+﻿namespace Automaton.Core.Models;
 
-namespace Automaton.Core.Models
+public class Workflow
 {
-    public class Workflow
+    public Guid Id { get; set; }
+
+    public string Name { get; set; }
+
+    public string StartupDefinitionId { get; set; }
+
+    public IDictionary<string, object> Variables { get; set; }
+
+    public IDictionary<string, object> OutputVariables { get; set; }
+
+    public List<WorkflowDefinition> Definitions { get; set; }
+
+    public Workflow()
     {
-        public Guid Id { get; set; }
+        Variables = new Dictionary<string, object>();
+        OutputVariables = new Dictionary<string, object>();
+        Definitions = new List<WorkflowDefinition>();
+    }
 
-        public string Name { get; set; }
+    public WorkflowDefinition GetStartupDefinition()
+    {
+        return Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);    
+    }
 
-        public string StartupDefinitionId { get; set; }
+    public KeyValuePair<string, object> GetVariable(string key)
+    {
+        return new KeyValuePair<string, object>(key, Variables[key]);
+    }
 
-        public ExpandoObject Variables { get; set; }
+    public void AddVariable(string key, object value)
+    {
+        Variables.Add(key, value);
+    }
 
-        public ExpandoObject OutputVariables { get; set; }
+    public bool HasVariables()
+    {
+        return Variables.Count > 0;
+    }
 
-        public List<WorkflowDefinition> Definitions { get; set; }
+    public IEnumerable<KeyValuePair<string, object>> GetVariables(IEnumerable<string> names)
+    {
+        var variables = Variables.Where(x => names.Contains(x.Key)).Select(x => new KeyValuePair<string, object>(x.Key, x.Value));
 
-        public Workflow()
-        {
-            Variables = new ExpandoObject();
-            OutputVariables = new ExpandoObject();
-            Definitions = new List<WorkflowDefinition>();
-        }
-
-        public WorkflowDefinition GetStartupDefinition()
-        {
-            return Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);    
-        }
-
-        public KeyValuePair<string, object> GetVariable(string key)
-        {
-            var dictionary = Variables as IDictionary<string, object>;
-
-            return new KeyValuePair<string, object>(key, dictionary[key]);
-        }
-
-        public void AddVariable(string key, object value)
-        {
-            var variablesDictionary = Variables as IDictionary<string, object>;
-            variablesDictionary.Add(key, value);
-        }
-
-        public bool HasVariables()
-        {
-            var variablesDictionary = Variables as IDictionary<string, object>;
-
-            return variablesDictionary.Count > 0;
-        }
-
-        public IEnumerable<KeyValuePair<string, object>> GetVariables(IEnumerable<string> names)
-        {
-            var variablesDictionary = (IDictionary<string, object>)Variables;
-
-            var variables = variablesDictionary.Where(x => names.Contains(x.Key)).Select(x => new KeyValuePair<string, object>(x.Key, x.Value));
-
-            return variables;
-        }
+        return variables;
     }
 }

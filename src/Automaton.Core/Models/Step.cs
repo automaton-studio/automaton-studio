@@ -1,5 +1,4 @@
 ﻿using Automaton.Core.Enums;
-using System.Dynamic;
 
 namespace Automaton.Core.Models;
 
@@ -15,7 +14,7 @@ public class Step
 
     public TimeSpan? RetryInterval { get; set; }
 
-    public ExpandoObject Inputs { get; set; } = new ExpandoObject();
+    public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
 
     public IList<string> Variables { get; set; }
 
