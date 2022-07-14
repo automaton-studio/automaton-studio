@@ -19,20 +19,28 @@
                 <TextArea Rows="4" />
             </TabPane>
             <TabPane Tab="Input Variables" Key="2">
-                <FormItem Label="Name">
-                    <Input @bind-Value="@context.VariableName" Placeholder="Enter name" />
-                </FormItem>
-                <FormItem Label="Value">
-                    <Input @bind-Value="@context.VariableValue" Placeholder="Enter value" />
-                </FormItem>
+                <Button OnClick="AddInputVariable" Type="primary" Style="margin-bottom:16px">
+                    Add a row
+                </Button>
+                <Table DataSource="context.InputVariables" RowClassName="@(_=>"editable-row")" Bordered>
+                    <ChildContent Context="inputVariable">
+                        <Column Width="30%" DataIndex="@nameof(inputVariable.Name)" TData="string">
+                            <Input Type="text" @bind-Value="inputVariable.Name" AutoFocus />
+                        </Column>
+                        <Column DataIndex="@nameof(inputVariable.Value)" TData="string"></Column>
+                        <ActionColumn Title="Action">
+                            <Popconfirm Title="Sure to delete?"
+                                        OnConfirm="()=> DeleteInputVariable(inputVariable.Name)"
+                                        OkText="Yes"
+                                        CancelText="No">
+                                <a>Delete</a>
+                            </Popconfirm>
+                        </ActionColumn>
+                    </ChildContent>
+                </Table>
             </TabPane>
             <TabPane Tab="Output Variables" Key="3">
-                <FormItem Label="Name">
-                    <Input @bind-Value="@context.VariableName" Placeholder="Enter name" />
-                </FormItem>
-                <FormItem Label="Value">
-                    <Input @bind-Value="@context.VariableValue" Placeholder="Enter value" />
-                </FormItem>
+
             </TabPane>
         </Tabs>
 
@@ -62,11 +70,19 @@
 
         var valid = fluentValidationValidator.Validate(options => options.IncludeAllRuleSets());
 
-        if (valid)
-        {
-            step.SetVariable(step.VariableName, step.VariableValue);
-        }
-
         args.Cancel = !valid;
+    }
+
+    public void AddInputVariable()
+    {
+        var variableName = $"Variable{step.InputVariables?.Count}";
+        step.InputVariables.Add(new InputVariable { Name = variableName });
+        StateHasChanged();
+    }
+
+    public void DeleteInputVariable(string name)
+    {
+        var variable = step.InputVariables.SingleOrDefault(x => x.Name == name);
+        step.InputVariables.Remove(variable);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Domain.Interfaces;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 
 namespace Automaton.Studio.Steps.ExecutePython
 {
@@ -22,23 +24,37 @@ namespace Automaton.Studio.Steps.ExecutePython
             set => Inputs[nameof(Content)] = value;
         }
 
-        public string VariableName
+        public IList<InputVariable> InputVariables
         {
-            get => Inputs.ContainsKey(nameof(VariableName)) ?
-                   Inputs[nameof(VariableName)].ToString() : string.Empty;
-            set => Inputs[nameof(VariableName)] = value;
+            get
+            {
+                if (Inputs.ContainsKey(nameof(InputVariables)))
+                {
+                    if (Inputs[nameof(InputVariables)] is IList<InputVariable>)
+                    {
+                        return Inputs[nameof(InputVariables)] as IList<InputVariable>;
+                    }
+                    else if (Inputs[nameof(InputVariables)] is JArray array)
+                    {
+                        Inputs[nameof(InputVariables)] = array.ToObject<List<InputVariable>>();
+                    }
+                    else
+                    {
+                        throw new Exception("Unknown InputVariables serialization");
+                    }
+                }
+                
+                return new List<InputVariable>();
+            }
+            set => Inputs[nameof(InputVariables)] = value;
         }
 
-        public string VariableValue
-        {
-            get => Inputs.ContainsKey(nameof(VariableValue)) ?
-                   Inputs[nameof(VariableValue)].ToString() : string.Empty;
-            set => Inputs[nameof(VariableValue)] = value;
-        }
+        public IList<string> OutputVariables => Variables;
 
         public ExecutePythonStep(IStepDescriptor descriptor) 
             : base(descriptor)
         {
+            Inputs[nameof(InputVariables)] = new List<InputVariable>();
         }
 
         public override Type GetDesignerComponent()
@@ -51,4 +67,10 @@ namespace Automaton.Studio.Steps.ExecutePython
             return typeof(ExecutePythonProperties);
         }
     }
+
+    public class InputVariable
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    };
 }
