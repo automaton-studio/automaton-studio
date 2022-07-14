@@ -30,18 +30,12 @@ namespace Automaton.Studio.Steps.ExecutePython
             {
                 if (Inputs.ContainsKey(nameof(InputVariables)))
                 {
-                    if (Inputs[nameof(InputVariables)] is IList<InputVariable>)
-                    {
-                        return Inputs[nameof(InputVariables)] as IList<InputVariable>;
-                    }
-                    else if (Inputs[nameof(InputVariables)] is JArray array)
+                    if (Inputs[nameof(InputVariables)] is JArray array)
                     {
                         Inputs[nameof(InputVariables)] = array.ToObject<List<InputVariable>>();
                     }
-                    else
-                    {
-                        throw new Exception("Unknown InputVariables serialization");
-                    }
+
+                    return Inputs[nameof(InputVariables)] as IList<InputVariable>;
                 }
                 
                 return new List<InputVariable>();
