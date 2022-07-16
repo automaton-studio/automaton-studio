@@ -3,6 +3,7 @@ using Automaton.Studio.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.Domain
@@ -59,9 +60,9 @@ namespace Automaton.Studio.Domain
 
         public string NextStepId { get; set; }
 
-        public IDictionary<string, object> Inputs { get; set; }
+        public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
 
-        public IList<string> Variables { get; set; }
+        public IDictionary<string, object> Outputs { get; set; } = new Dictionary<string, object>();
 
         #endregion
 
@@ -71,8 +72,6 @@ namespace Automaton.Studio.Domain
             Name = descriptor.Name;
             DisplayName = descriptor.DisplayName;
             Type = descriptor.Type;
-            Inputs = new Dictionary<string, object>();
-            Variables = new List<string>();
             Class = StepClass;
         }
 
@@ -107,12 +106,17 @@ namespace Automaton.Studio.Domain
 
         public void SetVariable(string key, object value)
         {
-            if (!Variables.Contains(key))
+            if (!Outputs.ContainsKey(key))
             {
-                Variables.Add(key);
+                Outputs.Add(key, value);
             }            
 
             Flow.SetVariable(key, value);
+        }
+
+        public IEnumerable<string> GetVariableNames()
+        {
+            return Outputs.Select(x => x.Key);
         }
 
         #region INotifyPropertyChanged

@@ -2,6 +2,7 @@
 using Automaton.Studio.Events;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Automaton.Studio.Domain
 {
@@ -34,7 +35,7 @@ namespace Automaton.Studio.Domain
         {
             Steps.Remove(step);
 
-            Flow.DeleteVariables(step.Variables);
+            Flow.DeleteVariables(step.GetVariableNames());
 
             UpdateStepConnections();
 

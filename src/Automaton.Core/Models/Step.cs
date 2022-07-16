@@ -16,7 +16,7 @@ public class Step
 
     public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
 
-    public IList<string> Variables { get; set; }
+    public IDictionary<string, object> Outputs { get; set; } = new Dictionary<string, object>();
 
     public string? NextStepId { get; set; }
 

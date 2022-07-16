@@ -19,25 +19,26 @@
             </TabPane>
             <TabPane Tab="Input Variables" Key="2">
                 <Space Direction="DirectionVHType.Vertical">
-
                     <SpaceItem>
                         <Button OnClick="AddInputVariable" Type="primary">
-                            Add variable
+                            Add
                         </Button>
                     </SpaceItem>
-
                     <SpaceItem>
-                        <Table DataSource="context.InputVariables" RowClassName="@(_=>"editable-row")" Bordered>
-                            <ChildContent Context="variable">
-                                <Column Width="30%" DataIndex="@nameof(variable.Name)" TData="string">
-                                    <Input Type="text" @bind-Value="variable.Name" AutoFocus />
+                        <Table 
+                            DataSource="context.InputVariables" 
+                            RowClassName="@(_=>"editable-row")" 
+                            Bordered>
+                            <ChildContent Context="inputVariable">
+                                <Column Width="30%" DataIndex="@nameof(inputVariable.Name)" TData="string">
+                                    <Input Type="text" @bind-Value="inputVariable.Name" AutoFocus />
                                 </Column>
-                                <Column DataIndex="@nameof(variable.Value)" TData="string">
-                                    <Input Type="text" @bind-Value="variable.Value" AutoFocus />
+                                <Column DataIndex="@nameof(inputVariable.Value)" TData="string">
+                                    <Input Type="text" @bind-Value="inputVariable.Value" AutoFocus />
                                 </Column>
                                 <ActionColumn Title="Action">
                                     <Popconfirm Title="Sure to delete?"
-                                                OnConfirm="()=> DeleteInputVariable(variable.Name)"
+                                                OnConfirm="()=> DeleteInputVariable(inputVariable.Name)"
                                                 OkText="Yes"
                                                 CancelText="No">
                                         <a>Delete</a>
@@ -47,13 +48,37 @@
                         </Table>
                     </SpaceItem>
                 </Space>
-
             </TabPane>
-            <TabPane Tab="Output Variables" Key="3">
 
+            <TabPane Tab="Output Variables" Key="3">
+                <Space Direction="DirectionVHType.Vertical" Style="width: 100%">
+                    <SpaceItem>
+                        <Button OnClick="AddOutputVariable" Type="primary">
+                            Add
+                        </Button>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Table DataSource="context.OutputVariables" 
+                            RowClassName="@(_=>"editable-row")" 
+                            Bordered>
+                            <ChildContent Context="outputVariable">
+                                <Column Width="30%" DataIndex="@nameof(outputVariable.Name)" TData="string">
+                                    <Input Type="text" @bind-Value="outputVariable.Name" AutoFocus />
+                                </Column>
+                                <ActionColumn Width="70%" Title="Action">
+                                    <Popconfirm Title="Sure to delete?"
+                                                OnConfirm="()=> DeleteOutputVariable(outputVariable.Name)"
+                                                OkText="Yes"
+                                                CancelText="No">
+                                        <a>Delete</a>
+                                    </Popconfirm>
+                                </ActionColumn>
+                            </ChildContent>
+                        </Table>
+                    </SpaceItem>
+                </Space>
             </TabPane>
         </Tabs>
-
     </ChildContent>
 </Form>
 
@@ -86,7 +111,7 @@
     public void AddInputVariable()
     {
         var variableName = $"Variable{step.InputVariables?.Count}";
-        step.InputVariables.Add(new InputVariable { Name = variableName });
+        step.InputVariables.Add(new StepVariable { Name = variableName });
         StateHasChanged();
     }
 
@@ -94,5 +119,17 @@
     {
         var variable = step.InputVariables.SingleOrDefault(x => x.Name == name);
         step.InputVariables.Remove(variable);
+    }
+
+    public void AddOutputVariable()
+    {
+        step.OutputVariables.Add(new StepVariable());
+        StateHasChanged();
+    }
+
+    public void DeleteOutputVariable(string name)
+    {
+        var variable = step.OutputVariables.SingleOrDefault(x => x.Name == name);
+        step.OutputVariables.Remove(variable);
     }
 }

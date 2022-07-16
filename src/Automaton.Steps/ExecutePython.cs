@@ -33,11 +33,11 @@ public class ExecutePython : WorkflowStep
 
     private void UpdateWorkflowVariables(Workflow workflow, IDictionary<string, dynamic> scriptVariables)
     {
-        foreach (var variable in Variables)
+        foreach (var variable in Outputs)
         {
-            if (scriptVariables.ContainsKey(variable))
+            if (scriptVariables.ContainsKey(variable.Key))
             {
-                workflow.Variables[variable] = scriptVariables[variable];
+                workflow.Variables[variable.Key] = scriptVariables[variable.Key];
             }
         }
     }
