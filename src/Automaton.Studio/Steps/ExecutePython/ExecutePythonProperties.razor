@@ -1,5 +1,5 @@
 ﻿@using Blazored.FluentValidation;
-
+@using Automaton.Studio.Domain
 @inherits FeedbackComponent<ExecutePythonStep>
 
 <Form @ref="form"
@@ -111,7 +111,7 @@
     public void AddInputVariable()
     {
         var variableName = $"Variable{step.InputVariables?.Count}";
-        step.InputVariables.Add(new StepVariable { Name = variableName });
+        step.InputVariables.Add(new Variable { Name = variableName });
         StateHasChanged();
     }
 
@@ -123,7 +123,7 @@
 
     public void AddOutputVariable()
     {
-        step.OutputVariables.Add(new StepVariable());
+        step.OutputVariables.Add(new Variable());
         StateHasChanged();
     }
 

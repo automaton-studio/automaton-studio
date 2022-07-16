@@ -24,7 +24,7 @@ namespace Automaton.Studio.Steps.ExecutePython
             set => Inputs[nameof(Content)] = value;
         }
 
-        public IList<StepVariable> InputVariables
+        public IList<Variable> InputVariables
         {
             get
             {
@@ -32,20 +32,20 @@ namespace Automaton.Studio.Steps.ExecutePython
                 {
                     if (Inputs[nameof(InputVariables)] is JArray array)
                     {
-                        Inputs[nameof(InputVariables)] = array.ToObject<List<StepVariable>>();
+                        Inputs[nameof(InputVariables)] = array.ToObject<List<Variable>>();
                     }
                 }
                 else
                 {
-                    Inputs[nameof(InputVariables)] = new List<StepVariable>();
+                    Inputs[nameof(InputVariables)] = new List<Variable>();
                 }
 
-                return Inputs[nameof(InputVariables)] as IList<StepVariable>;
+                return Inputs[nameof(InputVariables)] as IList<Variable>;
             }
             set => Inputs[nameof(InputVariables)] = value;
         }
 
-        public IList<StepVariable> OutputVariables
+        public IList<Variable> OutputVariables
         {
             get
             {
@@ -53,15 +53,15 @@ namespace Automaton.Studio.Steps.ExecutePython
                 {
                     if (Outputs[nameof(OutputVariables)] is JArray array)
                     {
-                        Outputs[nameof(OutputVariables)] = array.ToObject<List<StepVariable>>();
+                        Outputs[nameof(OutputVariables)] = array.ToObject<List<Variable>>();
                     }
                 }
                 else
                 {
-                    Outputs[nameof(OutputVariables)] = new List<StepVariable>();
+                    Outputs[nameof(OutputVariables)] = new List<Variable>();
                 }
 
-                return Outputs[nameof(OutputVariables)] as IList<StepVariable>;
+                return Outputs[nameof(OutputVariables)] as IList<Variable>;
             }
             set => Outputs[nameof(OutputVariables)] = value;
         }
@@ -69,8 +69,8 @@ namespace Automaton.Studio.Steps.ExecutePython
         public ExecutePythonStep(IStepDescriptor descriptor) 
             : base(descriptor)
         {
-            Inputs[nameof(InputVariables)] = new List<StepVariable>();
-            Outputs[nameof(OutputVariables)] = new List<StepVariable>();
+            Inputs[nameof(InputVariables)] = new List<Variable>();
+            Outputs[nameof(OutputVariables)] = new List<Variable>();
         }
 
         public override Type GetDesignerComponent()
@@ -83,10 +83,4 @@ namespace Automaton.Studio.Steps.ExecutePython
             return typeof(ExecutePythonProperties);
         }
     }
-
-    public class StepVariable
-    {
-        public string Name { get; set; }
-        public string Value { get; set; }
-    };
 }
