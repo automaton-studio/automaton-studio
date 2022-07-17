@@ -7,7 +7,7 @@ public class AddVariable : WorkflowStep
     public string VariableName { get; set; }
     public string VariableValue { get; set; }
 
-    public override Task<ExecutionResult> RunAsync(StepExecutionContext context)
+    protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
     {
         return Task.FromResult(ExecutionResult.Next());
     }

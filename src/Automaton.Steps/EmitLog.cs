@@ -16,7 +16,7 @@ public class EmitLog : WorkflowStep
         _loggerFactory = loggerFactory;
     }
 
-    public override Task<ExecutionResult> RunAsync(StepExecutionContext context)
+    protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
     {
         var logger = _loggerFactory.CreateLogger(context.Definition.Id);
         logger.Log(Level, default(EventId), Message, null, (state, ex) => state);

@@ -1,8 +1,6 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Studio.Extensions;
 using Newtonsoft.Json.Linq;
-using System.Linq.Dynamic.Core;
-using System.Linq.Expressions;
 
 namespace Automaton.Core.Services;
 
@@ -79,9 +77,7 @@ public class WorkflowConvertService
                 value = array.ToObject(inputProperty.PropertyType);
             }
 
-            var inputValue = ParseValue(value, workflow);
-
-            inputProperty.SetValue(workflowStep, inputValue);
+            inputProperty.SetValue(workflowStep, value);
         }
 
         workflowStep.Inputs = step.Inputs;
@@ -102,66 +98,9 @@ public class WorkflowConvertService
                 value = array.ToObject(outputProperty.PropertyType);
             }
 
-            var outputValue = ParseValue(value, workflow);
-
-            outputProperty.SetValue(workflowStep, outputValue);
+            outputProperty.SetValue(workflowStep, value);
         }
 
         workflowStep.Outputs = step.Outputs;
-    }
-
-    private static object ParseValue(object inputValue, Workflow workflow)
-    {
-        return ValueHasVariables(inputValue) ? ParseValueWithVariables(inputValue, workflow) : inputValue;
-    }
-
-    private static object ParseValueWithVariables(object inputValue, Workflow workflow)
-    {
-        var variableNames = GetVariableNames(inputValue);
-        var parameterExpressions = GetVariableExpressions(variableNames, workflow);
-
-        var expresion = inputValue.ToString().Replace("%", string.Empty);
-        var lambdaExpresion = DynamicExpressionParser.ParseLambda(parameterExpressions.ToArray(), null, expresion);
-
-        var workflowVariables = workflow.GetVariables(variableNames);
-        var variableValues = workflowVariables.Select(x => x.Value);
-
-        var value = lambdaExpresion.Compile().DynamicInvoke(variableValues.ToArray());
-
-        return value;
-    }
-
-    private static bool ValueHasVariables(object inputValue)
-    {
-        var inputString = inputValue.ToString();
-
-        var result = inputString.Split().Any(x => x.StartsWith("%") && x.EndsWith("%"));
-
-        return result;
-    }
-
-    private static IEnumerable<string> GetVariableNames(object inputValue)
-    {
-        var inputString = inputValue.ToString();
-
-        var variableNames = inputString.Split()
-            .Where(x => x.StartsWith("%") && x.EndsWith("%"))
-            .Select(x => x.Replace("%", string.Empty));
-
-        return variableNames;
-    }
-
-    private static IEnumerable<ParameterExpression> GetVariableExpressions(IEnumerable<string> variableNames, Workflow workflow)
-    {
-        var variableExpressions = new List<ParameterExpression>();
-
-        foreach (var name in variableNames)
-        {
-            var variable = workflow.GetVariable(name);
-            var variableExpression = Expression.Parameter(variable.Value.GetType(), variable.Key);
-            variableExpressions.Add(variableExpression);
-        }
-
-        return variableExpressions;
     }
 }

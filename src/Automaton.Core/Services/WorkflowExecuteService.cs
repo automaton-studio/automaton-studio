@@ -34,13 +34,16 @@ public class WorkflowExecuteService
                     CancellationToken = cancellationToken
                 };
 
-                logger.LogInformation("Starting step {0} on workflow {1}", context.Step.Name, context.Definition.Id);
+                logger.LogInformation("Start step {0} execution on workflow {1}", context.Step.Name, context.Definition.Id);
 
-                await context.Step.RunAsync(context);
+                await context.Step.ExecuteAsync(context);
+
+                logger.LogInformation("End step {0} execution on workflow {1}", context.Step.Name, context.Definition.Id);
+
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Workflow {0} raised error on step {1} Message: {2}", definition.Id, step.Id, ex.Message);
+                logger.LogError(ex, "Workflow {0} raised error on step {1} execution. Message: {2}", definition.Id, step.Id, ex.Message);
 
                 result.Errors.Add(new ExecutionError
                 {

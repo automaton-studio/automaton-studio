@@ -20,7 +20,7 @@ public class ExecutePython : WorkflowStep
         this.scriptHost = scriptHost;
     }
 
-    public override Task<ExecutionResult> RunAsync(StepExecutionContext context)
+    protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
     {
         var resource = new ScriptResource()
         {
