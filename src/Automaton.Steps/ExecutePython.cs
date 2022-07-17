@@ -11,6 +11,10 @@ public class ExecutePython : WorkflowStep
 
     public string? Content { get; set; }
 
+    public IList<Variable> InputVariables { get; set; }
+
+    public IList<Variable> OutputVariables { get; set; }
+
     public ExecutePython(ScriptEngineHost scriptHost)
     {
         this.scriptHost = scriptHost;
@@ -24,7 +28,9 @@ public class ExecutePython : WorkflowStep
             Content = Content
         };
 
-        var scriptVariables = scriptHost.Execute(resource, Inputs);
+        var inputVariablesDictionary = InputVariables.ToDictionary(x => x.Name, x => (object)x.Value);
+
+        var scriptVariables = scriptHost.Execute(resource, inputVariablesDictionary);
 
         UpdateWorkflowVariables(context.Workflow, scriptVariables);
 
@@ -33,11 +39,12 @@ public class ExecutePython : WorkflowStep
 
     private void UpdateWorkflowVariables(Workflow workflow, IDictionary<string, dynamic> scriptVariables)
     {
-        foreach (var variable in Outputs)
+        foreach (var variable in OutputVariables)
         {
-            if (scriptVariables.ContainsKey(variable.Key))
+            if (scriptVariables.ContainsKey(variable.Name))
             {
-                workflow.Variables[variable.Key] = scriptVariables[variable.Key];
+                variable.Value = scriptVariables[variable.Name];
+                workflow.Variables[variable.Name] = variable.Value;
             }
         }
     }

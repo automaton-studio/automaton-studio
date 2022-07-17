@@ -1,5 +1,6 @@
 ﻿
 using AntDesign;
+using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Pages.Designer.Components.NewVariable;
 using Automaton.Studio.Resources;

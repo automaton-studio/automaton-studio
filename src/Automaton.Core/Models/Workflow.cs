@@ -23,7 +23,7 @@ public class Workflow
 
     public WorkflowDefinition GetStartupDefinition()
     {
-        return Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);    
+        return Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);
     }
 
     public KeyValuePair<string, object> GetVariable(string key)

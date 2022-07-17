@@ -1,5 +1,5 @@
 ﻿@using Blazored.FluentValidation;
-@using Automaton.Studio.Domain
+@using Automaton.Core.Models;
 @inherits FeedbackComponent<ExecutePythonStep>
 
 <Form @ref="form"
@@ -15,7 +15,7 @@
     <ChildContent>
         <Tabs>
             <TabPane Tab="Code" Key="1">
-                <TextArea Rows="6" />
+                <TextArea Rows="6" @bind-Value="context.Content" AutoFocus />
             </TabPane>
             <TabPane Tab="Input Variables" Key="2">
                 <Space Direction="DirectionVHType.Vertical">
