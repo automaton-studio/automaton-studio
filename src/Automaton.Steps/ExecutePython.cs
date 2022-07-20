@@ -43,7 +43,7 @@ public class ExecutePython : WorkflowStep
         {
             if (scriptVariables.ContainsKey(variable.Name))
             {
-                variable.Value = scriptVariables[variable.Name];
+                variable.Value = scriptVariables[variable.Name].ToString();
                 workflow.Variables[variable.Name] = variable.Value;
             }
         }
