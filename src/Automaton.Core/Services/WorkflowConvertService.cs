@@ -54,7 +54,6 @@ public class WorkflowConvertService
             workflowStep.RetryInterval = step.RetryInterval;
 
             AttachInputs(step, workflowStep, workflow);
-            AttachOutputs(step, workflowStep, workflow);
 
             workflowSteps.Add(step.Id, workflowStep);
         }
@@ -81,26 +80,5 @@ public class WorkflowConvertService
         }
 
         workflowStep.Inputs = step.Inputs;
-    }
-
-    private static void AttachOutputs(Step step, WorkflowStep workflowStep, Workflow workflow)
-    {
-        foreach (var output in step.Outputs)
-        {
-            var stepType = step.FindType();
-
-            var outputProperty = stepType.GetProperty(output.Key);
-
-            var value = step.Outputs[output.Key];
-
-            if (value is JArray array)
-            {
-                value = array.ToObject(outputProperty.PropertyType);
-            }
-
-            outputProperty.SetValue(workflowStep, value);
-        }
-
-        workflowStep.Outputs = step.Outputs;
     }
 }

@@ -105,6 +105,14 @@
 
         var valid = fluentValidationValidator.Validate(options => options.IncludeAllRuleSets());
 
+        if (valid)
+        {
+            foreach(var variable in step.OutputVariables)
+            {
+                step.SetVariable(variable.Name, variable.Value);
+            }
+        }
+
         args.Cancel = !valid;
     }
 

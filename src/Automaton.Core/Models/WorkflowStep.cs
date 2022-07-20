@@ -50,26 +50,18 @@ public abstract class WorkflowStep
 
     private static object ParseValueWithVariables(object inputValue, Workflow workflow)
     {
-        try
-        {
-            var variableNames = GetVariableNames(inputValue);
-            var parameterExpressions = GetParameterExpressions(variableNames, workflow);
+        var variableNames = GetVariableNames(inputValue);
+        var parameterExpressions = GetParameterExpressions(variableNames, workflow);
 
-            var sanitizedExpression = inputValue.ToString().Replace(Percentage, string.Empty);
-            var lambdaExpresion = DynamicExpressionParser.ParseLambda(parameterExpressions.ToArray(), null, sanitizedExpression);
+        var sanitizedExpression = inputValue.ToString().Replace(Percentage, string.Empty);
+        var lambdaExpresion = DynamicExpressionParser.ParseLambda(parameterExpressions.ToArray(), null, sanitizedExpression);
 
-            var workflowVariables = workflow.GetVariables(variableNames);
-            var variableValues = workflowVariables.Select(x => x.Value);
+        var workflowVariables = workflow.GetVariables(variableNames);
+        var variableValues = workflowVariables.Select(x => x.Value);
 
-            var value = lambdaExpresion.Compile().DynamicInvoke(variableValues.ToArray());
+        var value = lambdaExpresion.Compile().DynamicInvoke(variableValues.ToArray());
 
-            return value;
-        }
-        catch (Exception ex)
-        {
-
-            throw;
-        }
+        return value;
     }
 
     private static bool ValueHasVariables(object inputValue)

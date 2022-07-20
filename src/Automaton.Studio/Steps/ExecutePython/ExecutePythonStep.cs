@@ -50,28 +50,26 @@ namespace Automaton.Studio.Steps.ExecutePython
         {
             get
             {
-                if (Outputs.ContainsKey(nameof(OutputVariables)))
+                if (Inputs.ContainsKey(nameof(OutputVariables)))
                 {
-                    if (Outputs[nameof(OutputVariables)] is JArray array)
+                    if (Inputs[nameof(OutputVariables)] is JArray array)
                     {
-                        Outputs[nameof(OutputVariables)] = array.ToObject<List<Variable>>();
+                        Inputs[nameof(OutputVariables)] = array.ToObject<List<Variable>>();
                     }
                 }
                 else
                 {
-                    Outputs[nameof(OutputVariables)] = new List<Variable>();
+                    Inputs[nameof(OutputVariables)] = new List<Variable>();
                 }
 
-                return Outputs[nameof(OutputVariables)] as IList<Variable>;
+                return Inputs[nameof(OutputVariables)] as IList<Variable>;
             }
-            set => Outputs[nameof(OutputVariables)] = value;
+            set => Inputs[nameof(OutputVariables)] = value;
         }
 
         public ExecutePythonStep(IStepDescriptor descriptor) 
             : base(descriptor)
         {
-            Inputs[nameof(InputVariables)] = new List<Variable>();
-            Outputs[nameof(OutputVariables)] = new List<Variable>();
         }
 
         public override Type GetDesignerComponent()
