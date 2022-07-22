@@ -1,6 +1,5 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Studio.Extensions;
-using Newtonsoft.Json.Linq;
 
 namespace Automaton.Core.Services;
 
@@ -15,7 +14,7 @@ public class WorkflowConvertService
 
     public Workflow ConvertFlow(Flow flow)
     {
-        var worklow = new Workflow
+        var workflow = new Workflow
         {
             Id = flow.Id,
             Name = flow.Name,
@@ -28,15 +27,15 @@ public class WorkflowConvertService
             var workflowDefinition = new WorkflowDefinition
             {
                 Id = definition.Id,
-                Steps = ConvertSteps(definition.Steps, worklow),
+                Steps = ConvertSteps(definition.Steps, workflow),
                 DefaultErrorBehavior = definition.DefaultErrorBehavior,
                 DefaultErrorRetryInterval = definition.DefaultErrorRetryInterval
             };
 
-            worklow.Definitions.Add(workflowDefinition);
+            workflow.Definitions.Add(workflowDefinition);
         }
 
-        return worklow;
+        return workflow;
     }
 
     private IDictionary<string, WorkflowStep> ConvertSteps(ICollection<Step> steps, Workflow workflow)
@@ -46,39 +45,11 @@ public class WorkflowConvertService
         foreach (var step in steps)
         {
             var workflowStep = serviceProvider.GetService(step.FindType()) as WorkflowStep;
-            workflowStep.Id = step.Id;
-            workflowStep.Name = step.Name;
-            workflowStep.Type = step.Type;
-            workflowStep.NextStepId = step.NextStepId;
-            workflowStep.ErrorBehavior = step.ErrorBehavior;
-            workflowStep.RetryInterval = step.RetryInterval;
-
-            AttachInputs(step, workflowStep, workflow);
+            workflowStep.Setup(step);
 
             workflowSteps.Add(step.Id, workflowStep);
         }
 
         return workflowSteps;
-    }
-
-    private static void AttachInputs(Step step, WorkflowStep workflowStep, Workflow workflow)
-    {
-        foreach (var input in step.Inputs)
-        {
-            var stepType = step.FindType();
-
-            var inputProperty = stepType.GetProperty(input.Key);
-
-            var value = step.Inputs[input.Key];
-
-            if (value is JArray array)
-            {
-                value = array.ToObject(inputProperty.PropertyType);
-            }
-
-            inputProperty.SetValue(workflowStep, value);
-        }
-
-        workflowStep.Inputs = step.Inputs;
-    }
+    } 
 }

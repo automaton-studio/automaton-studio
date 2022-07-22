@@ -32,20 +32,15 @@ public class ExecutePython : WorkflowStep
 
         var scriptVariables = scriptHost.Execute(resource, inputVariablesDictionary);
 
-        UpdateWorkflowVariables(context.Workflow, scriptVariables);
-
-        return Task.FromResult(ExecutionResult.Next());
-    }
-
-    private void UpdateWorkflowVariables(Workflow workflow, IDictionary<string, dynamic> scriptVariables)
-    {
         foreach (var variable in OutputVariables)
         {
             if (scriptVariables.ContainsKey(variable.Name))
             {
                 variable.Value = scriptVariables[variable.Name].ToString();
-                workflow.Variables[variable.Name] = variable.Value;
+                context.Workflow.Variables[variable.Name] = variable.Value;
             }
         }
+
+        return Task.FromResult(ExecutionResult.Next());
     }
 }

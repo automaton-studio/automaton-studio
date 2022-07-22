@@ -35,7 +35,7 @@ public abstract class WorkflowStep
     {
         foreach (var input in Inputs)
         {
-            Inputs[input.Key] = ParseValue(Inputs[input.Key], context.Workflow);
+            SetInputProperty(input, context);
         }
 
         var result = await RunAsync(context);
@@ -43,9 +43,38 @@ public abstract class WorkflowStep
         return result;
     }
 
+    public void Setup(Step step)
+    {
+        Id = step.Id;
+        Name = step.Name;
+        Type = step.Type;
+        NextStepId = step.NextStepId;
+        ErrorBehavior = step.ErrorBehavior;
+        RetryInterval = step.RetryInterval;
+        Inputs = step.Inputs;
+    }
+
+    private void SetInputProperty(KeyValuePair<string, object> input, StepExecutionContext context)
+    {
+        var stepType = GetType();
+
+        var stepProperty = stepType.GetProperty(input.Key);
+
+        var value = ParseValue(input.Value, context.Workflow);
+
+        if (value is JArray array)
+        {
+            value = array.ToObject(stepProperty.PropertyType);
+        }
+
+        stepProperty.SetValue(this, value);
+    }
+
     private static object ParseValue(object inputValue, Workflow workflow)
     {
-        return ValueHasVariables(inputValue) ? ParseValueWithVariables(inputValue, workflow) : inputValue;
+        return ValueHasVariables(inputValue) ? 
+            ParseValueWithVariables(inputValue, workflow) : 
+            inputValue;
     }
 
     private static object ParseValueWithVariables(object inputValue, Workflow workflow)

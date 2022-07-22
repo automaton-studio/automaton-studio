@@ -1,7 +1,6 @@
-﻿namespace Automaton.Core.Models
+﻿namespace Automaton.Core.Models;
+
+public class WorkflowExecutorResult
 {
-    public class WorkflowExecutorResult
-    {
-        public List<ExecutionError> Errors { get; set; } = new List<ExecutionError>();
-    }
+    public List<ExecutionError> Errors { get; set; } = new List<ExecutionError>();
 }

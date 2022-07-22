@@ -1,15 +1,14 @@
-﻿namespace Automaton.Core.Models
-{
-    public class ExecutionResult
-    {
-        public bool Proceed { get; set; }
+﻿namespace Automaton.Core.Models;
 
-        public static ExecutionResult Next()
+public class ExecutionResult
+{
+    public bool Proceed { get; set; }
+
+    public static ExecutionResult Next()
+    {
+        return new ExecutionResult
         {
-            return new ExecutionResult
-            {
-                Proceed = true,
-            };
-        }
+            Proceed = true,
+        };
     }
 }
