@@ -25,7 +25,7 @@
     </Header>
 
     <Content>
-        <Table TItem="FlowModel" DataSource="@FlowsViewModel.Flows">
+        <Table TItem="FlowModel" DataSource="@FlowsViewModel.Flows" Loading="@FlowsViewModel.Loading">
             <Column Title="Name" @bind-Field="@context.Name">
                 @context.Name
             </Column>

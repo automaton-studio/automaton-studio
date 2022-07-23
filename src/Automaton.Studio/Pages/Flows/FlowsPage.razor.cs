@@ -18,7 +18,17 @@ namespace Automaton.Studio.Pages.Flows
 
         protected override async Task OnInitializedAsync()
         {
-            await FlowsViewModel.GetFlows();
+            FlowsViewModel.Loading = true;
+
+            try
+            {
+                await FlowsViewModel.GetFlows();
+                await FlowsViewModel.GetRunners();
+            }
+            finally
+            {
+                FlowsViewModel.Loading = false;
+            }
 
             await base.OnInitializedAsync();
         }
