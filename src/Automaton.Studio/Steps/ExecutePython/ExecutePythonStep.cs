@@ -21,7 +21,7 @@ namespace Automaton.Studio.Steps.ExecutePython
         public string Content
         {
             get => Inputs.ContainsKey(nameof(Content)) ?
-                   Inputs[nameof(Content)].ToString() : string.Empty;
+                   Inputs[nameof(Content)]?.ToString() : string.Empty;
             set => Inputs[nameof(Content)] = value;
         }
 
