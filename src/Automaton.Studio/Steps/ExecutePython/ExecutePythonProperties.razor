@@ -27,14 +27,15 @@
                     <SpaceItem>
                         <Table 
                             DataSource="context.InputVariables" 
-                            RowClassName="@(_=>"editable-row")" 
-                            Bordered>
+                            ScrollY="200"
+                            ScrollBarWidth="5"
+                            HidePagination>
                             <ChildContent Context="inputVariable">
-                                <Column Width="30%" DataIndex="@nameof(inputVariable.Name)" TData="string">
+                                <Column Title="Name" TData="string">
                                     <Input Type="text" @bind-Value="inputVariable.Name" AutoFocus />
                                 </Column>
-                                <Column DataIndex="@nameof(inputVariable.Value)" TData="string">
-                                    <Input Type="text" @bind-Value="inputVariable.Value" AutoFocus />
+                                <Column Title="Value" TData="string">
+                                    <Input Type="text" @bind-Value="inputVariable.Value" />
                                 </Column>
                                 <ActionColumn Title="Action">
                                     <Popconfirm Title="Sure to delete?"
@@ -58,14 +59,15 @@
                         </Button>
                     </SpaceItem>
                     <SpaceItem>
-                        <Table DataSource="context.OutputVariables" 
-                            RowClassName="@(_=>"editable-row")" 
-                            Bordered>
+                        <Table DataSource="context.OutputVariables"
+                            ScrollY="200px"
+                            ScrollBarWidth="5"
+                            HidePagination>
                             <ChildContent Context="outputVariable">
-                                <Column Width="30%" DataIndex="@nameof(outputVariable.Name)" TData="string">
+                                <Column Title="Name" TData="string">
                                     <Input Type="text" @bind-Value="outputVariable.Name" AutoFocus />
                                 </Column>
-                                <ActionColumn Width="70%" Title="Action">
+                                <ActionColumn Title="Action">
                                     <Popconfirm Title="Sure to delete?"
                                                 OnConfirm="()=> DeleteOutputVariable(outputVariable.Name)"
                                                 OkText="Yes"
@@ -120,7 +122,6 @@
     {
         var variableName = $"Variable{step.InputVariables?.Count}";
         step.InputVariables.Add(new Variable { Name = variableName });
-        StateHasChanged();
     }
 
     public void DeleteInputVariable(string name)
@@ -131,8 +132,8 @@
 
     public void AddOutputVariable()
     {
-        step.OutputVariables.Add(new Variable());
-        StateHasChanged();
+        var variableName = $"Variable{step.OutputVariables?.Count}";
+        step.OutputVariables.Add(new Variable { Name = variableName });
     }
 
     public void DeleteOutputVariable(string name)
