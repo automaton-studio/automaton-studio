@@ -126,6 +126,9 @@
   <data name="LoginFailed" xml:space="preserve">
     <value>Invalid login attempt</value>
   </data>
+  <data name="MessageRequired" xml:space="preserve">
+    <value>Message is required</value>
+  </data>
   <data name="NameRequired" xml:space="preserve">
     <value>Name is required</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="UserNameRequired" xml:space="preserve">
     <value>User name is required</value>
+  </data>
+  <data name="ValueRequired" xml:space="preserve">
+    <value>Value is required</value>
   </data>
   <data name="VariableNameExists" xml:space="preserve">
     <value>Variable name already exists</value>

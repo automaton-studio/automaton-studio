@@ -12,7 +12,7 @@ namespace Automaton.Studio.Pages.Flows.Components.NewFlow
         {
             this.flowsService = flowService;
 
-            RuleFor(x => x.Name).NotEmpty().MaximumLength(50).WithMessage("Name is required");
+            RuleFor(x => x.Name).NotEmpty().MaximumLength(50).WithMessage(Resources.Errors.NameRequired);
 
             When(x => !string.IsNullOrEmpty(x.Name), () =>
             {

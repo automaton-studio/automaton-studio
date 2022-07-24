@@ -6,8 +6,8 @@ namespace Automaton.Studio.Steps.AddVariable
     {
         public AddVariableValidator()
         {
-            RuleFor(x => x.VariableName).NotEmpty().MaximumLength(256).WithMessage("Name required");
-            RuleFor(x => x.VariableValue).NotNull().WithMessage("Value required");
+            RuleFor(x => x.VariableName).NotEmpty().MaximumLength(256).WithMessage(Resources.Errors.NameRequired);
+            RuleFor(x => x.VariableValue).NotNull().WithMessage(Resources.Errors.ValueRequired);
         }
     }
 }

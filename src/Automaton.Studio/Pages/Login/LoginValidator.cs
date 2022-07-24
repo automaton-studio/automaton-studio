@@ -6,8 +6,8 @@ namespace Automaton.Studio.Pages.Login
     {
         public LoginValidator()
         {
-            RuleFor(x => x.UserName).NotEmpty().WithMessage(Resources.Errors.UserNameRequired);
-            RuleFor(x => x.Password).NotEmpty().WithMessage(Resources.Errors.PasswordRequired);
+            RuleFor(x => x.UserName).NotEmpty().MaximumLength(256).WithMessage(Resources.Errors.UserNameRequired);
+            RuleFor(x => x.Password).NotEmpty().MaximumLength(1024).WithMessage(Resources.Errors.PasswordRequired);
         }
     }
 }
