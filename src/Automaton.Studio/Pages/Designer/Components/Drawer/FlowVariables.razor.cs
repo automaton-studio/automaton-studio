@@ -27,7 +27,6 @@ namespace Automaton.Studio.Pages.Designer.Components.Drawer
                 return flow.Variables.Select(x => new Variable
                 {
                     Name = x.Key,
-                    Value = x.Value.ToString()
                 }).OrderBy(x => x.Name);
             }
         }
