@@ -68,5 +68,13 @@ namespace Automaton.Studio.Server.Controllers
         {
             return Ok(await Mediator.Send(command, cancellationToken));
         }
+
+        [HttpGet("exists/{name}")]
+        public ActionResult<Flow> Exists(string name)
+        {
+            var exists = flowsService.Exists(name);
+
+            return exists ? Ok(exists) : NotFound();
+        }
     }
 }

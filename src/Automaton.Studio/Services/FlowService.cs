@@ -7,84 +7,83 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Services
+namespace Automaton.Studio.Services;
+
+public class FlowService
 {
-    public class FlowService
+    private readonly HttpClient httpClient;
+    private readonly ConfigurationService configService;
+    private readonly IMapper mapper;
+    private readonly ILogger<FlowService> logger;
+
+    public FlowService
+    (
+        ConfigurationService configService,
+        IMapper mapper,
+        HttpClient httpClient,
+        ILogger<FlowService> logger
+    )
     {
-        private readonly HttpClient httpClient;
-        private readonly ConfigurationService configService;
-        private readonly IMapper mapper;
-        private readonly ILogger<FlowService> logger;
+        this.logger = logger;
+        this.configService = configService;
+        this.httpClient = httpClient;
+        this.mapper = mapper;
+    }
 
-        public FlowService
-        (
-            ConfigurationService configService,
-            IMapper mapper,
-            HttpClient httpClient,
-            ILogger<FlowService> logger
-        )
-        {
-            this.logger = logger;
-            this.configService = configService;
-            this.httpClient = httpClient;
-            this.mapper = mapper;
-        }
+    public async Task<StudioFlow> Load(Guid id)
+    {
+        var response = await httpClient.GetAsync($"{configService.FlowsUrl}/{id}");
 
-        public async Task<StudioFlow> Load(Guid id)
-        {
-            var response = await httpClient.GetAsync($"{configService.FlowsUrl}/{id}");
+        response.EnsureSuccessStatusCode();
 
-            response.EnsureSuccessStatusCode();
+        var flow = await response.Content.ReadAsAsync<Flow>();
+        var studioFlow = mapper.Map<StudioFlow>(flow);
 
-            var flow = await response.Content.ReadAsAsync<Flow>();
-            var studioFlow = mapper.Map<StudioFlow>(flow);
+        return studioFlow;
+    }
 
-            return studioFlow;
-        }
+    public async Task<StudioFlow> Create(string name)
+    {
+        var flow = new StudioFlow { Name = name };
+        var flowDto = mapper.Map<Flow>(flow);
 
-        public async Task<StudioFlow> Create(string name)
-        {
-            var flow = new StudioFlow { Name = name };
-            var flowDto = mapper.Map<Flow>(flow);
+        var response = await httpClient.PostAsJsonAsync(configService.FlowsUrl, flowDto);
 
-            var response = await httpClient.PostAsJsonAsync(configService.FlowsUrl, flowDto);
+        response.EnsureSuccessStatusCode();
 
-            response.EnsureSuccessStatusCode();
-
-            var result = await response.Content.ReadAsAsync<Flow>();
-                
-            var newFlow = mapper.Map<StudioFlow>(result);
-
-            return newFlow;
-        }
-
-        public async Task Update(StudioFlow flow)
-        {
-            var flowDto = mapper.Map<Flow>(flow);
-
-            var response = await httpClient.PutAsJsonAsync($"{configService.FlowsUrl}/{flow.Id}", flowDto);
-
-            response.EnsureSuccessStatusCode();
-        }
-
-        public async Task Delete(Guid flowId)
-        {
-            var response = await httpClient.DeleteAsync($"{configService.FlowsUrl}/{flowId}");
-
-            response.EnsureSuccessStatusCode();
-        }
-       
-        public async Task Run(Guid flowId, IEnumerable<Guid> runnerIds)
-        {
-            var flowAndRunners = new
-            {
-                FlowId = flowId,
-                RunnerIds = runnerIds
-            };
-
-            var response = await httpClient.PostAsJsonAsync($"{configService.FlowsUrl}/run", flowAndRunners);
+        var result = await response.Content.ReadAsAsync<Flow>();
             
-            response.EnsureSuccessStatusCode();
-        }
+        var newFlow = mapper.Map<StudioFlow>(result);
+
+        return newFlow;
+    }
+
+    public async Task Update(StudioFlow flow)
+    {
+        var flowDto = mapper.Map<Flow>(flow);
+
+        var response = await httpClient.PutAsJsonAsync($"{configService.FlowsUrl}/{flow.Id}", flowDto);
+
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task Delete(Guid flowId)
+    {
+        var response = await httpClient.DeleteAsync($"{configService.FlowsUrl}/{flowId}");
+
+        response.EnsureSuccessStatusCode();
+    }
+   
+    public async Task Run(Guid flowId, IEnumerable<Guid> runnerIds)
+    {
+        var flowAndRunners = new
+        {
+            FlowId = flowId,
+            RunnerIds = runnerIds
+        };
+
+        var response = await httpClient.PostAsJsonAsync($"{configService.FlowsUrl}/run", flowAndRunners);
+        
+        response.EnsureSuccessStatusCode();
     }
 }

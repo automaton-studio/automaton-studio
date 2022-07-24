@@ -123,6 +123,20 @@ namespace Automaton.Studio.Server.Services
             dataContext.SaveChanges();
         }
 
+        public bool Exists(string name)
+        {
+            var flows =
+            (
+                from _flow in dataContext.Flows
+                join _flowUser in dataContext.FlowUsers
+                on _flow.Id equals _flowUser.FlowId
+                where _flow.Name == name && _flowUser.UserId == userId
+                select _flow
+            );
+
+            return flows.Any();
+        }
+
         /// <summary>
         /// Executes flow on server
         /// </summary>

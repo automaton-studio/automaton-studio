@@ -1,30 +1,30 @@
-﻿using FluentValidation;
+﻿using Automaton.Studio.Services;
+using FluentValidation;
+using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Flows.Components.NewFlow
 {
     public class NewFlowValidator : AbstractValidator<NewFlowModel>
     {
-        //private readonly IFlowService flowService;
+        private readonly FlowsService flowsService;
 
-        //public NewFlowValidator(IFlowService flowService)
-        //{
-        //    this.flowService = flowService;
+        public NewFlowValidator(FlowsService flowService)
+        {
+            this.flowsService = flowService;
 
-        //    RuleFor(x => x.Name).NotEmpty().MaximumLength(50).WithMessage(Errors.NameRequired);
+            RuleFor(x => x.Name).NotEmpty().MaximumLength(50).WithMessage("Name is required");
 
-        //    When(x => !string.IsNullOrEmpty(x.Name), () => {
-        //        RuleFor(x => x.Name).Must(HasUniqueName).WithMessage(Errors.FlowNameExists);
-        //    });     
-        //}
-
-        //private bool HasUniqueName(string name)
-        //{
-        //    return flowService.IsUnique(name);
-        //}
+            When(x => !string.IsNullOrEmpty(x.Name), () =>
+            {
+                RuleFor(x => x.Name).Must(HasUniqueName).WithMessage(Resources.Errors.FlowNameExists);
+            });
+        }
 
         private bool HasUniqueName(string name)
         {
-            return true;
+            var isUnique = !Task.Run(() => flowsService.Exists(name)).Result;
+
+            return isUnique;
         }
     }
 }

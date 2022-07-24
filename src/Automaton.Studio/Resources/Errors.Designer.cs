@@ -70,6 +70,15 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Flow name already exists.
+        /// </summary>
+        public static string FlowNameExists {
+            get {
+                return ResourceManager.GetString("FlowNameExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid login attempt.
         /// </summary>
         public static string LoginFailed {

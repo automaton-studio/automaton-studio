@@ -1,22 +1,21 @@
-﻿namespace Automaton.Studio.Services
+﻿namespace Automaton.Studio.Services;
+
+public class NavMenuService
 {
-    public class NavMenuService
+    private bool designerDisabled = true;
+
+    public void EnableDesignerMenu()
     {
-        private bool designerDisabled = true;
+        designerDisabled = false;
+    }
 
-        public void EnableDesignerMenu()
-        {
-            designerDisabled = false;
-        }
+    public void DisableDesignerMenu()
+    {
+        designerDisabled = true;
+    }
 
-        public void DisableDesignerMenu()
-        {
-            designerDisabled = true;
-        }
-
-        public bool IsDesignerDisabled()
-        {
-            return designerDisabled;
-        }
+    public bool IsDesignerDisabled()
+    {
+        return designerDisabled;
     }
 }
