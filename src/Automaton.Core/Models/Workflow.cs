@@ -12,12 +12,15 @@ public class Workflow
 
     public IDictionary<string, object> OutputVariables { get; set; }
 
+    public IDictionary<string, object> InputVariables { get; set; }
+
     public List<WorkflowDefinition> Definitions { get; set; }
 
     public Workflow()
     {
         Variables = new Dictionary<string, object>();
         OutputVariables = new Dictionary<string, object>();
+        InputVariables = new Dictionary<string, object>();
         Definitions = new List<WorkflowDefinition>();
     }
 

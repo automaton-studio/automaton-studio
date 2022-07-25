@@ -104,6 +104,11 @@ namespace Automaton.Studio.Pages.Designer.Components.Drawer
             };
         }
 
+        public void DeleteOutputVariable(Variable variable)
+        {
+            flow.OutputVariables.Remove(variable.Name);
+        }
+
         public async Task Cancel()
         {
             await CloseFeedbackAsync();

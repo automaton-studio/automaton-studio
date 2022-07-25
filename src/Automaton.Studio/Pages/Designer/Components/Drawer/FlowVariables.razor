@@ -11,7 +11,7 @@
 
 <Row Gutter="16">
     <AntDesign.Col Span="24">
-        <AntList Bordered DataSource="@Variables">
+        <AntList DataSource="@Variables" Class="scrollable-list">
             <ChildContent Context="item">
                 <ListItem>
                     <a>@item.Name</a>
@@ -31,10 +31,11 @@
 
 <Row Gutter="16">
     <AntDesign.Col Span="24">
-        <AntList Bordered DataSource="@OutputVariables">
+        <AntList DataSource="@OutputVariables" Size="small" Class="scrollable-list">
             <ChildContent Context="item">
-                <ListItem OnClick="@(() => EditOutputVariable(item))">
-                    <a>@item.Name</a>
+                <ListItem Style="padding-left: 0px; padding-bottom: 2px; padding-top: 2px">
+                    <Button Type="@ButtonType.Link" OnClick="@(() => EditOutputVariable(item))">@item.Name</Button>
+                    <Button Shape="@ButtonShape.Circle" Style="float:right" Icon="delete" Size="@ButtonSize.Small" OnClick="@(() => DeleteOutputVariable(item))"></Button>
                 </ListItem>
             </ChildContent>
         </AntList>
@@ -57,5 +58,14 @@
         </Space>
     </AntDesign.Col>
 </Row>
+
+
+<style>
+    .scrollable-list {
+        overflow: auto;
+        height: 150px;
+    }
+
+</style>
 
 
