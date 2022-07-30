@@ -3,67 +3,94 @@
 @using Blazored.FluentValidation
 @inherits FeedbackComponent<StudioFlow, bool>
 
-<Row Gutter="16">
-    <AntDesign.Col Span="24">
-        <h4>Flow</h4>
-    </AntDesign.Col>
-</Row>
+<div>
+    <h4>Flow</h4>
 
-<Row Gutter="16">
-    <AntDesign.Col Span="24">
-        <AntList DataSource="@Variables" Class="scrollable-list">
+    <Row>
+        <Col Span="24">
+        <AntList DataSource="@Variables" Size="small" Class="scrollable-list">
             <ChildContent Context="item">
-                <ListItem>
-                    <a>@item.Name</a>
+                <ListItem Style="padding-left: 0px; padding-bottom: 2px; padding-top: 2px">
+                    <Button Type="@ButtonType.Link" Size="@ButtonSize.Small">@item.Name</Button>
                 </ListItem>
             </ChildContent>
         </AntList>
-    </AntDesign.Col>
-</Row>
+        </Col>
+    </Row>
 
-<br />
+    <br />
 
-<Row Gutter="16">
-    <AntDesign.Col Span="24">
-        <h4>Output</h4>
-    </AntDesign.Col>
-</Row>
+    <h4>Input</h4>
 
-<Row Gutter="16">
-    <AntDesign.Col Span="24">
+    <Row>
+        <Col Span="24">
+        <AntList DataSource="@InputVariables" Size="small" Class="scrollable-list">
+            <ChildContent Context="item">
+                <ListItem Style="padding-left: 0px; padding-bottom: 2px; padding-top: 2px">
+                    <Button Type="@ButtonType.Link" Size="@ButtonSize.Small" OnClick="@(() => EditInputVariable(item))">@item.Name</Button>
+                    <Button Shape="@ButtonShape.Circle" Style="float:right" Icon="delete" Size="@ButtonSize.Small" OnClick="@(() => DeleteInputVariable(item))"></Button>
+                </ListItem>
+            </ChildContent>
+        </AntList>
+        </Col>
+    </Row>
+
+    <Row>
+        <Col Offset="10">
+        <Space>
+            <SpaceItem>
+                <Tooltip Title="@Labels.AddVariable">
+                    <Button Type="@ButtonType.Primary"
+                            Shape="@ButtonShape.Circle"
+                            Icon="plus"
+                            Size="@ButtonSize.Small"
+                            Class="add-variable-button"
+                            OnClick="AddInputVariable">
+                    </Button>
+                </Tooltip>
+            </SpaceItem>
+        </Space>
+        </Col>
+    </Row>
+
+    <h4>Output</h4>
+
+    <Row>
+        <Col Span="24">
         <AntList DataSource="@OutputVariables" Size="small" Class="scrollable-list">
             <ChildContent Context="item">
                 <ListItem Style="padding-left: 0px; padding-bottom: 2px; padding-top: 2px">
-                    <Button Type="@ButtonType.Link" OnClick="@(() => EditOutputVariable(item))">@item.Name</Button>
+                    <Button Type="@ButtonType.Link" Size="@ButtonSize.Small" OnClick="@(() => EditOutputVariable(item))">@item.Name</Button>
                     <Button Shape="@ButtonShape.Circle" Style="float:right" Icon="delete" Size="@ButtonSize.Small" OnClick="@(() => DeleteOutputVariable(item))"></Button>
                 </ListItem>
             </ChildContent>
         </AntList>
-    </AntDesign.Col>
-</Row>
+        </Col>
+    </Row>
 
-<br />
-
-<Row>
-    <AntDesign.Col Span="11">
-    </AntDesign.Col>
-
-    <AntDesign.Col Span="13">
-        <Space>
-            <SpaceItem>
-                <Tooltip Title="@Labels.AddVariable">
-                    <Button Type="@ButtonType.Primary" Shape="@ButtonShape.Circle" Icon="plus" Size="@ButtonSize.Small" OnClick="AddOutputVariable"></Button>
-                </Tooltip>
-            </SpaceItem>
-        </Space>
-    </AntDesign.Col>
-</Row>
-
+    <Row>
+        <Col Offset="10">
+        <Tooltip Title="@Labels.AddVariable">
+            <Button Type="@ButtonType.Primary"
+                    Shape="@ButtonShape.Circle"
+                    Icon="plus"
+                    Size="@ButtonSize.Small"
+                    Class="add-variable-button"
+                    OnClick="AddOutputVariable">
+            </Button>
+        </Tooltip>
+        </Col>
+    </Row>
+</div>
 
 <style>
     .scrollable-list {
         overflow: auto;
-        height: 150px;
+        max-height: 150px;
+    }
+
+    .add-variable-button {
+        margin-top: 10px;
     }
 
 </style>

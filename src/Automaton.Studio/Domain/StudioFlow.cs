@@ -47,6 +47,18 @@ namespace Automaton.Studio.Domain
             }
         }
 
+        public void SetInputVariable(string key, object value)
+        {
+            if (InputVariables.ContainsKey(key))
+            {
+                InputVariables[key] = value;
+            }
+            else
+            {
+                InputVariables.Add(key, value);
+            }
+        }
+
         public void SetOutputVariable(string key, object value)
         {
             if (OutputVariables.ContainsKey(key))
@@ -64,6 +76,11 @@ namespace Automaton.Studio.Domain
             return Variables.Keys;
         }
 
+        public IEnumerable<string> GetInputVariableNames()
+        {
+            return InputVariables.Keys;
+        }
+
         public IEnumerable<string> GetOutputVariableNames()
         {
             return OutputVariables.Keys;
@@ -72,6 +89,11 @@ namespace Automaton.Studio.Domain
         public void DeleteVariable(string variable)
         {
             Variables.Remove(variable);
+        }
+
+        public void DeleteInputVariable(string variable)
+        {
+            InputVariables.Remove(variable);
         }
 
         public void DeleteOutputVariable(string variable)
