@@ -26,7 +26,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Core.Scripting", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{F8CF6650-9B57-4FF4-9049-0307F7A91F0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automaton.Core.Scripting.Tests", "src\Automaton.Core.Scripting.Tests\Automaton.Core.Scripting.Tests.csproj", "{C2DBF366-732A-43C3-B44F-3D0DD548A364}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Core.Scripting.Tests", "src\Automaton.Core.Scripting.Tests\Automaton.Core.Scripting.Tests.csproj", "{C2DBF366-732A-43C3-B44F-3D0DD548A364}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Automaton.Runner.Installer", "src\Automaton.Runner.Installer\Automaton.Runner.Installer.vdproj", "{4E0E20A4-6728-4C63-987D-1BB538CDBF50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,6 +72,8 @@ Global
 		{C2DBF366-732A-43C3-B44F-3D0DD548A364}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2DBF366-732A-43C3-B44F-3D0DD548A364}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2DBF366-732A-43C3-B44F-3D0DD548A364}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E0E20A4-6728-4C63-987D-1BB538CDBF50}.Debug|Any CPU.ActiveCfg = Debug
+		{4E0E20A4-6728-4C63-987D-1BB538CDBF50}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
