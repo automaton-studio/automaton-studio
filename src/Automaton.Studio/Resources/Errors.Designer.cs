@@ -79,6 +79,15 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Flow is required.
+        /// </summary>
+        public static string FlowRequired {
+            get {
+                return ResourceManager.GetString("FlowRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid login attempt.
         /// </summary>
         public static string LoginFailed {

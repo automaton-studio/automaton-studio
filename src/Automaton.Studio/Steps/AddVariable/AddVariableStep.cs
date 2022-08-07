@@ -29,8 +29,7 @@ namespace Automaton.Studio.Steps.AddVariable
             set => Inputs[nameof(VariableValue)] = value;
         }
 
-        public AddVariableStep(IStepDescriptor descriptor) 
-            : base(descriptor)
+        public AddVariableStep() 
         {
         }
 

@@ -1,5 +1,5 @@
 ﻿using Automaton.Studio.Errors;
-using Automaton.Studio.Pages.Flows;
+using Automaton.Studio.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -26,24 +26,23 @@ public class FlowsService
         this.httpClient = httpClient;
     }
 
-    public async Task<ICollection<FlowModel>> List()
+    public async Task<ICollection<FlowInfo>> List()
     {
-        ICollection<FlowModel> flows = new List<FlowModel>();
-
         try
         {
             var result = await httpClient.GetAsync(configService.FlowsUrl);
 
             result.EnsureSuccessStatusCode();
 
-            flows = await result.Content.ReadAsAsync<ICollection<FlowModel>>();
+            var flows = await result.Content.ReadAsAsync<ICollection<FlowInfo>>();
+
+            return flows;
         }
         catch (Exception ex)
         {
             logger.LogError(AppLogEvents.Error, ex, "Failed to load flows list");
-        }
-
-        return flows;
+            throw;
+        }   
     }
 
     public async Task<bool> Exists(string name)

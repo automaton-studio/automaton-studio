@@ -1,5 +1,5 @@
-﻿using Automaton.Client.Auth.Extensions;
-using Automaton.Client.Auth.Interfaces;
+﻿using AutoMapper;
+using Automaton.Client.Auth.Extensions;
 using Automaton.Core.Scripting;
 using Automaton.Studio.Config;
 using Automaton.Studio.Domain;
@@ -12,12 +12,15 @@ using Automaton.Studio.Pages.Designer.Components.StepExplorer;
 using Automaton.Studio.Pages.Flows;
 using Automaton.Studio.Pages.Login;
 using Automaton.Studio.Services;
+using Automaton.Studio.Steps.AddVariable;
+using Automaton.Studio.Steps.EmitLog;
+using Automaton.Studio.Steps.ExecutePython;
+using Automaton.Studio.Steps.ExecuteWorkflow;
 using Blazored.LocalStorage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
-using System.Reflection;
 
 namespace Automaton.Studio.Extensions
 {
@@ -26,8 +29,6 @@ namespace Automaton.Studio.Extensions
         public static void AddStudio(this IServiceCollection services, IConfiguration configuration)
         {
             var configService = new ConfigurationService(configuration);
-
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             // Automaton Core
             services.AddAutomatonCore();
@@ -55,13 +56,19 @@ namespace Automaton.Studio.Extensions
             services.AddScoped<StepsViewModel>();
             services.AddScoped<FlowExplorerViewModel>();
             services.AddScoped<LoginViewModel>();
-            services.AddScoped<AccountViewModel>();      
+            services.AddScoped<AccountViewModel>();
 
             // Steps
             services.AddSingleton<IStepTypeDescriptor, StepTypeDescriptor>();
-            services.AddTransient<StepFactory>();
+            services.AddScoped<StepFactory>();
             services.AddSteps();
 
+            // Studio steps
+            services.AddScoped<EmitLogStep>();
+            services.AddScoped<AddVariableStep>();
+            services.AddScoped<ExecutePythonStep>();
+            services.AddScoped<ExecuteWorkflowStep>();
+            
             // Models
             services.AddScoped<AppConfiguration>();
             services.AddScoped<ApiConfiguration>();
@@ -70,6 +77,12 @@ namespace Automaton.Studio.Extensions
             services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });
             services.AddScoped(typeof(DragDropService<>));
             services.AddScoped(service => new ConfigurationService(configuration));
+
+            // Automapper profile
+            services.AddScoped(provider => new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new AutoMapperProfile(provider.GetService<StepFactory>()));
+            }).CreateMapper());
         }
     }
 }

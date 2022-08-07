@@ -30,8 +30,6 @@ namespace Automaton.Studio.Domain
 
         public StudioFlow Flow => Definition.Flow;
 
-        public IStepDescriptor Descriptor { get; set; }
-
         public string Class { get; set; }
 
         public string DisplayName { get; set; }      
@@ -45,6 +43,8 @@ namespace Automaton.Studio.Domain
         public string Name { get; set; }
 
         public string Type { get; set; }
+
+        public string Icon { get; set; }
 
         public string CancelCondition { get; set; }
 
@@ -66,18 +66,23 @@ namespace Automaton.Studio.Domain
 
         #endregion
 
-        public StudioStep(IStepDescriptor descriptor)
+        public StudioStep()
         {
-            Descriptor = descriptor;
-            Name = descriptor.Name;
-            DisplayName = descriptor.DisplayName;
-            Type = descriptor.Type;
             Class = StepClass;
         }
 
         public abstract Type GetDesignerComponent();
 
         public abstract Type GetPropertiesComponent();
+
+        public void Setup(IStepDescriptor descriptor)
+        {
+            Id = Guid.NewGuid().ToString();
+            Name = descriptor.Name;
+            DisplayName = descriptor.DisplayName;
+            Type = descriptor.Type;
+            Icon = descriptor.Icon;
+        }
 
         public void Select()
         {

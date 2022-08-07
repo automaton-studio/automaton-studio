@@ -67,8 +67,7 @@ namespace Automaton.Studio.Steps.ExecutePython
             set => Inputs[nameof(OutputVariables)] = value;
         }
 
-        public ExecutePythonStep(IStepDescriptor descriptor) 
-            : base(descriptor)
+        public ExecutePythonStep()
         {
         }
 

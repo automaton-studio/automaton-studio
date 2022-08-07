@@ -1,4 +1,5 @@
-﻿using Automaton.Studio.Services;
+﻿using AutoMapper;
+using Automaton.Studio.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Automaton.Studio.Pages.Flows
         private readonly FlowsService flowsService;
         private readonly RunnerService runnerService;
         private readonly FlowService flowService;
+        private readonly IMapper mapper;
 
         public bool Loading { get; set; }
         public ICollection<FlowModel> Flows { get; set;  } = new List<FlowModel>();
@@ -20,17 +22,20 @@ namespace Automaton.Studio.Pages.Flows
         (
             FlowsService flowsService,
             RunnerService runnerService,
-            FlowService flowService
+            FlowService flowService,
+            IMapper mapper
         )
         {
             this.flowsService = flowsService;
             this.runnerService = runnerService;
             this.flowService = flowService;
+            this.mapper = mapper;
         }
 
         public async Task GetFlows()
         {
-            Flows = await flowsService.List();
+            var flowsInfo = await flowsService.List();
+            Flows = mapper.Map<ICollection<FlowModel>>(flowsInfo);
         }
 
         public async Task GetRunners()

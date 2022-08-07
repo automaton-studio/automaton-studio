@@ -5,13 +5,13 @@
         <b>@Step.DisplayName</b>
     </div>
     <div>
-        Execute Python script <a href="" @onclick:preventDefault>@Step.Content</a>
+        Execute <a href="" @onclick:preventDefault>@Step.FlowName</a> flow
     </div>
 </StepDesigner>
 
 @code {
     [Parameter]
-    public ExecutePythonStep Step { get; set; }
+    public ExecuteWorkflowStep Step { get; set; }
 
     protected override void OnInitialized()
     {

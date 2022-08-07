@@ -13,12 +13,14 @@ namespace Automaton.Studio.Factories
     {
         private const string StepsAssembly = "Automaton.Studio";
 
+        private IServiceProvider serviceProvider;
         private IDictionary<string, StepExplorerModel> solutionSteps;
         private IDictionary<string, Type> solutionTypes;
         private IStepTypeDescriptor stepTypeDescriptor;
 
-        public StepFactory(IStepTypeDescriptor stepTypeDescriber)
+        public StepFactory(IStepTypeDescriptor stepTypeDescriber, IServiceProvider serviceProvider)
         {
+            this.serviceProvider = serviceProvider;
             this.stepTypeDescriptor = stepTypeDescriber;
             solutionSteps = new Dictionary<string, StepExplorerModel>();
             solutionTypes = new Dictionary<string, Type>();
@@ -68,8 +70,9 @@ namespace Automaton.Studio.Factories
         public StudioStep CreateStep(string name)
         {
             var descriptor = stepTypeDescriptor.Describe(solutionTypes[name]);
-            var step = Activator.CreateInstance(solutionTypes[name], descriptor) as StudioStep;
-            step.Id = Guid.NewGuid().ToString();
+
+            var step = serviceProvider.GetService(solutionTypes[name]) as StudioStep;
+            step.Setup(descriptor);
 
             return step;
         }

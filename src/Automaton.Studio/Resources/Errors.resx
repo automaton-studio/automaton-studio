@@ -123,6 +123,9 @@
   <data name="FlowNameExists" xml:space="preserve">
     <value>Flow name already exists</value>
   </data>
+  <data name="FlowRequired" xml:space="preserve">
+    <value>Flow is required</value>
+  </data>
   <data name="LoginFailed" xml:space="preserve">
     <value>Invalid login attempt</value>
   </data>

@@ -29,8 +29,7 @@ namespace Automaton.Studio.Steps.EmitLog
             }
         }
 
-        public EmitLogStep(IStepDescriptor descriptor) 
-            : base(descriptor)
+        public EmitLogStep()
         {
         }
 

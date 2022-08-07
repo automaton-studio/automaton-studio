@@ -1,0 +1,59 @@
+﻿@using Blazored.FluentValidation;
+
+@inherits FeedbackComponent<ExecuteWorkflowStep>
+
+<Form @ref="form"
+      Model="@activity"
+      LabelColSpan="4"
+      WrapperColSpan="20">
+
+    <Validator>
+        <FluentValidationValidator @ref="fluentValidationValidator" />
+        @*<ValidationSummary />*@
+    </Validator>
+
+    <ChildContent>
+        <FormItem Label="Workflow">
+            <Column @bind-Field="@context.Flows" Title="Flow" Width="300">
+                <Select Mode="single"
+                        @bind-Value="context.FlowId"
+                        Placeholder="Select flow..."
+                        TItemValue="Guid"
+                        TItem="Guid"
+                        AllowClear>
+                    <SelectOptions>
+                        @foreach (var item in context.Flows)
+                        {
+                            <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
+                        }
+                    </SelectOptions>
+                </Select>
+            </Column>
+        </FormItem>
+    </ChildContent>
+</Form>
+
+@code {
+    private Form<ExecuteWorkflowStep> form;
+    private ExecuteWorkflowStep activity;
+    private FluentValidationValidator fluentValidationValidator;
+
+    protected override void OnInitialized()
+    {
+        activity = this.Options;
+        base.OnInitialized();
+    }
+
+    public override async Task OnFeedbackOkAsync(ModalClosingEventArgs args)
+    {
+        // Below workaround is required to avoid NewWorkflow dialog
+        // close unexpectedly when shown for the first time.
+        // The fact that validation happens synchronous (while this method is async) may be the cause of the problem.
+        // Please keep both of the next two lines, or find a fix for the issue.
+        // Razvan, May 2021
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(50);
+
+        args.Cancel = !fluentValidationValidator.Validate(options => options.IncludeAllRuleSets());
+    }
+}

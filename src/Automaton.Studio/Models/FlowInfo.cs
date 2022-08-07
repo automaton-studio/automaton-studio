@@ -1,6 +1,6 @@
-﻿#nullable disable
+﻿using System;
 
-namespace Automaton.Studio.Server.Models
+namespace Automaton.Studio.Models
 {
     public class FlowInfo
     {
