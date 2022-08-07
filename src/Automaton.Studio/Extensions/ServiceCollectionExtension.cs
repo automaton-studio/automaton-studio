@@ -59,15 +59,15 @@ namespace Automaton.Studio.Extensions
             services.AddScoped<AccountViewModel>();
 
             // Steps
-            services.AddSingleton<IStepTypeDescriptor, StepTypeDescriptor>();
+            services.AddScoped<IStepTypeDescriptor, StepTypeDescriptor>();
             services.AddScoped<StepFactory>();
             services.AddSteps();
 
             // Studio steps
-            services.AddScoped<EmitLogStep>();
-            services.AddScoped<AddVariableStep>();
-            services.AddScoped<ExecutePythonStep>();
-            services.AddScoped<ExecuteWorkflowStep>();
+            services.AddTransient<EmitLogStep>();
+            services.AddTransient<AddVariableStep>();
+            services.AddTransient<ExecutePythonStep>();
+            services.AddTransient<ExecuteWorkflowStep>();
             
             // Models
             services.AddScoped<AppConfiguration>();

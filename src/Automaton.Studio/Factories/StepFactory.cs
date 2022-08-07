@@ -2,6 +2,7 @@
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Pages.Designer.Components.StepExplorer;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
