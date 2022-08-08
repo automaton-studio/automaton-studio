@@ -8,17 +8,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Steps.ExecuteWorkflow
+namespace Automaton.Studio.Steps.ExecuteFlow
 {
     [StepDescription(
-        Name = "ExecuteWorkflow",
-        Type = "ExecuteWorkflow",
-        DisplayName = "Execute Workflow",
+        Name = "ExecuteFlow",
+        Type = "ExecuteFlow",
+        DisplayName = "Execute Flow",
         Category = "Console",
-        Description = "Execute a workflow",
+        Description = "Execute flow",
         Icon = "code"
     )]
-    public class ExecuteWorkflowStep : StudioStep
+    public class ExecuteFlowStep : StudioStep
     {
         private readonly IMapper mapper;
         private readonly FlowsService flowsService;
@@ -53,7 +53,7 @@ namespace Automaton.Studio.Steps.ExecuteWorkflow
             }
         }
 
-        public ExecuteWorkflowStep(IMapper mapper, FlowsService flowsService)
+        public ExecuteFlowStep(IMapper mapper, FlowsService flowsService)
         {
             this.flowsService = flowsService;
             this.mapper = mapper;
@@ -64,12 +64,12 @@ namespace Automaton.Studio.Steps.ExecuteWorkflow
 
         public override Type GetDesignerComponent()
         {
-            return typeof(ExecuteWorkflowDesigner);
+            return typeof(ExecuteFlowDesigner);
         }
 
         public override Type GetPropertiesComponent()
         {
-            return typeof(ExecuteWorkflowProperties);
+            return typeof(ExecuteFlowProperties);
         }
     }
 }

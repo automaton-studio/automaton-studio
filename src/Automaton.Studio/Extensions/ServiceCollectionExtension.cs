@@ -15,7 +15,7 @@ using Automaton.Studio.Services;
 using Automaton.Studio.Steps.AddVariable;
 using Automaton.Studio.Steps.EmitLog;
 using Automaton.Studio.Steps.ExecutePython;
-using Automaton.Studio.Steps.ExecuteWorkflow;
+using Automaton.Studio.Steps.ExecuteFlow;
 using Blazored.LocalStorage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -68,7 +68,7 @@ namespace Automaton.Studio.Extensions
             services.AddTransient<EmitLogStep>();
             services.AddTransient<AddVariableStep>();
             services.AddTransient<ExecutePythonStep>();
-            services.AddTransient<ExecuteWorkflowStep>();
+            services.AddTransient<ExecuteFlowStep>();
             
             // Models
             services.AddScoped<AppConfiguration>();

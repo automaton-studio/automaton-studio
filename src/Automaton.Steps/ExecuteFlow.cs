@@ -2,11 +2,11 @@
 
 namespace Automaton.Steps;
 
-public class ExecuteWorkflow : WorkflowStep
+public class ExecuteFlow : WorkflowStep
 {
     public string Name { get; set; }
 
-    public ExecuteWorkflow()
+    public ExecuteFlow()
     {
     }
 

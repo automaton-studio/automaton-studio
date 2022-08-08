@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Automaton.Studio.Steps.ExecuteWorkflow
+namespace Automaton.Studio.Steps.ExecuteFlow
 {
     public class FlowModel
     {

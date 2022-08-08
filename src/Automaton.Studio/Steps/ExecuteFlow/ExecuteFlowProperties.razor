@@ -1,6 +1,6 @@
 ﻿@using Blazored.FluentValidation;
 
-@inherits FeedbackComponent<ExecuteWorkflowStep>
+@inherits FeedbackComponent<ExecuteFlowStep>
 
 <Form @ref="form"
       Model="@step"
@@ -32,8 +32,8 @@
 </Form>
 
 @code {
-    private Form<ExecuteWorkflowStep> form;
-    private ExecuteWorkflowStep step;
+    private Form<ExecuteFlowStep> form;
+    private ExecuteFlowStep step;
     private FluentValidationValidator fluentValidationValidator;
 
     protected override void OnInitialized()

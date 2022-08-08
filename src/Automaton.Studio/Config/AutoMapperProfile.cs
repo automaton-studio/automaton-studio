@@ -36,7 +36,7 @@ namespace Automaton.Studio.Config
             CreateMap<StudioDefinition, FlowExplorerDefinition>();
             CreateMap<LoginModel, LoginDetails>();
 
-            CreateMap<FlowInfo, Steps.ExecuteWorkflow.FlowModel>();
+            CreateMap<FlowInfo, Steps.ExecuteFlow.FlowModel>();
 
             CreateMap<FlowInfo, FlowModel>();
             CreateMap<FlowModel, FlowInfo>();
