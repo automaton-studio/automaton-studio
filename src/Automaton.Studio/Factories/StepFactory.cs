@@ -73,6 +73,7 @@ namespace Automaton.Studio.Factories
             var descriptor = stepTypeDescriptor.Describe(solutionTypes[name]);
 
             var step = serviceProvider.GetService(solutionTypes[name]) as StudioStep;
+
             step.Setup(descriptor);
 
             return step;

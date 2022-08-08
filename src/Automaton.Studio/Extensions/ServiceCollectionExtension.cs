@@ -63,7 +63,8 @@ namespace Automaton.Studio.Extensions
             services.AddScoped<StepFactory>();
             services.AddSteps();
 
-            // Studio steps (must be transient for some reason)
+            // Studio steps
+            // Note: Must be transient for some reason
             services.AddTransient<EmitLogStep>();
             services.AddTransient<AddVariableStep>();
             services.AddTransient<ExecutePythonStep>();

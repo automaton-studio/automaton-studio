@@ -29,7 +29,7 @@ namespace Automaton.Studio.Config
             CreateMap<Definition, StudioDefinition>().ForMember
             (
                 source => source.Steps, 
-                target => target.MapFrom(entity => SetupSteps(entity.Steps))
+                target => target.MapFrom(entity => CreateSteps(entity.Steps))
             )
             .AfterMap((source, target) => DefinitionCreated(source, target));
 
@@ -58,7 +58,7 @@ namespace Automaton.Studio.Config
             }
         }
 
-        public IEnumerable<StudioStep> SetupSteps(IEnumerable<Step> stepDtos)
+        public IEnumerable<StudioStep> CreateSteps(IEnumerable<Step> stepDtos)
         {
             foreach (var stepDto in stepDtos)
             {

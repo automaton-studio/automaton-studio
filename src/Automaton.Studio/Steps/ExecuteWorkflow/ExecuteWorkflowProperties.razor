@@ -3,7 +3,7 @@
 @inherits FeedbackComponent<ExecuteWorkflowStep>
 
 <Form @ref="form"
-      Model="@activity"
+      Model="@step"
       LabelColSpan="4"
       WrapperColSpan="20">
 
@@ -14,33 +14,31 @@
 
     <ChildContent>
         <FormItem Label="Workflow">
-            <Column @bind-Field="@context.Flows" Title="Flow" Width="300">
-                <Select Mode="single"
-                        @bind-Value="context.FlowId"
-                        Placeholder="Select flow..."
-                        TItemValue="Guid"
-                        TItem="Guid"
-                        AllowClear>
-                    <SelectOptions>
-                        @foreach (var item in context.Flows)
-                        {
-                            <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
-                        }
-                    </SelectOptions>
-                </Select>
-            </Column>
+            <Select Mode="single"
+                    @bind-Value="context.FlowId"
+                    Placeholder="Select flow..."
+                    TItemValue="Guid"
+                    TItem="Guid"
+                    AllowClear>
+                <SelectOptions>
+                    @foreach (var item in context.Flows)
+                    {
+                        <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
+                    }
+                </SelectOptions>
+            </Select>
         </FormItem>
     </ChildContent>
 </Form>
 
 @code {
     private Form<ExecuteWorkflowStep> form;
-    private ExecuteWorkflowStep activity;
+    private ExecuteWorkflowStep step;
     private FluentValidationValidator fluentValidationValidator;
 
     protected override void OnInitialized()
     {
-        activity = this.Options;
+        step = this.Options;
         base.OnInitialized();
     }
 

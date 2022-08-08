@@ -6,6 +6,7 @@ public static class ServiceCollectionExtensions
 {
     public static void AddSteps(this IServiceCollection services)
     {
+        // Note: Must be transient for some reason
         services.AddTransient<EmitLog>();
         services.AddTransient<AddVariable>();
         services.AddTransient<ExecutePython>();
