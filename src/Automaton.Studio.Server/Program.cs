@@ -45,6 +45,7 @@ services.AddMvc(options =>
 
 services.AddAccessTokenValidator();
 services.AddJwtAuthentication(builder.Configuration);
+services.AddHttpClient();
 
 services.AddRazorPages();
 services.AddServerSideBlazor();
