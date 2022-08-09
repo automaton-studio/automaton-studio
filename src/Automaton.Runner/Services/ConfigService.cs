@@ -18,11 +18,11 @@ public class ConfigService
     {
         this.configuration = configuration;
 
-        LoadStudioConfig();
+        LoadApiConfig();
         LoadAppConfig();
     }
 
-    private void LoadStudioConfig()
+    private void LoadApiConfig()
     {
         configuration.GetSection(ApiConfigurationName).Bind(ApiConfig);
     }
