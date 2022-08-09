@@ -67,6 +67,12 @@ public abstract class WorkflowStep
             value = array.ToObject(stepProperty.PropertyType);
         }
 
+        if (stepProperty.PropertyType.Name == nameof(Guid))
+        {
+            Guid.TryParse(value.ToString(), out var guidValue);
+            value = guidValue;
+        }
+
         stepProperty.SetValue(this, value);
     }
 
