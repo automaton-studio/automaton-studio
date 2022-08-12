@@ -57,7 +57,10 @@ namespace Automaton.Studio.Steps.ExecuteFlow
         {
             this.flowsService = flowsService;
             this.mapper = mapper;
+        }
 
+        public void OnFocus()
+        {
             var flowsInfo = Task.Run(async () => await this.flowsService.List()).Result;
             Flows = this.mapper.Map<ICollection<FlowModel>>(flowsInfo);
         }

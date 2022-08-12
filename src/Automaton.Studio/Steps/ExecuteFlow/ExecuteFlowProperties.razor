@@ -17,6 +17,7 @@
             <Select Mode="single"
                     @bind-Value="context.FlowId"
                     Placeholder="Select flow..."
+                    OnFocus="context.OnFocus"
                     TItemValue="Guid"
                     TItem="Guid"
                     AllowClear>
