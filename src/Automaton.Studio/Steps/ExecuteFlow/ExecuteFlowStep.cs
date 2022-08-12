@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
-using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Services;
 using System;
 using System.Collections.Generic;
