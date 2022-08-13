@@ -42,7 +42,7 @@ public class AuthTokenService
         var refreshContent = await refreshResult.Content.ReadAsStringAsync();
         var jsonWebToken = JsonSerializer.Deserialize<JsonWebToken>(refreshContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-        if (jsonWebToken == null || !jsonWebToken.IsValid())
+        if (jsonWebToken == null)
         {
             throw new Exception("Could not retrieve JWT");
         }

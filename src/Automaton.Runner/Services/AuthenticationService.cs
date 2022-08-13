@@ -18,12 +18,12 @@ public class AuthenticationService
 
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
-    private readonly AuthenticationStateProvider authStateProvider;
+    private readonly AuthStateProvider authStateProvider;
     private readonly Client.Auth.Services.ConfigurationService configService;
     private readonly IAuthenticationStorage authenticationStorage;
 
-    public AuthenticationService(AutomatonHttpClient automatonHttpClient, 
-        AuthenticationStateProvider authStateProvider,
+    public AuthenticationService(AutomatonHttpClient automatonHttpClient,
+        AuthStateProvider authStateProvider,
         Client.Auth.Services.ConfigurationService configService,
         IAuthenticationStorage localStorage)
     {
@@ -36,11 +36,8 @@ public class AuthenticationService
 
     public async Task Login(LoginDetails loginCredentials)
     {
-        var content = JsonSerializer.Serialize(loginCredentials);
-        var bodyContent = new StringContent(content, Encoding.UTF8, ApplicationJson);
-
-        var result = await httpClient.PostAsync(configService.LoginUserUrl, bodyContent);
-
+        var loginCredentialsContent = new StringContent(JsonSerializer.Serialize(loginCredentials), Encoding.UTF8, ApplicationJson);
+        var result = await httpClient.PostAsync(configService.LoginUserUrl, loginCredentialsContent);
         result.EnsureSuccessStatusCode();
 
         var jsonToken = await result.Content.ReadAsStringAsync();
@@ -48,7 +45,7 @@ public class AuthenticationService
 
         await authenticationStorage.SetJsonWebToken(token);
 
-        ((AuthStateProvider)authStateProvider).NotifyUserAuthentication(token.AccessToken);
+        authStateProvider.NotifyUserAuthentication(token.AccessToken);
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, token.AccessToken);
     }
 
@@ -56,18 +53,14 @@ public class AuthenticationService
     {
         await authenticationStorage.DeleteJsonWebToken();
 
-        ((AuthStateProvider)authStateProvider).NotifyUserLogout();
+        authStateProvider.NotifyUserLogout();
         httpClient.DefaultRequestHeaders.Authorization = null;
     }
 
     public bool IsAuthenticated()
     {
-        return Task.Run(async () =>
-        {
-            var jsonWebToken = await authenticationStorage.GetJsonWebToken();
+        var authenticated = Task.Run(async () => await authStateProvider.IsAuthenticated()).Result;
 
-            return jsonWebToken.IsValid();
-
-        }).Result;
+        return authenticated;
     }
 }

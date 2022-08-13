@@ -37,9 +37,8 @@ public class HubService
 
     public async Task Connect(string runnerName)
     {
-        var studioConfig = configService.ApiConfig;
-        var token = await storageService.GetAccessToken();
-        var hubUrl = $"{studioConfig.BaseUrl}{studioConfig.WorkflowHubUrl}";
+        var apiConfig = configService.ApiConfig;
+        var hubUrl = $"{apiConfig.BaseUrl}{apiConfig.WorkflowHubUrl}";
 
         connection = new HubConnectionBuilder().WithUrl(hubUrl, options =>
         {

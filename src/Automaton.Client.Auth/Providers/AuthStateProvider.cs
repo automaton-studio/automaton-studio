@@ -18,20 +18,20 @@ public class AuthStateProvider : AuthenticationStateProvider
     private const string ApplicationJson = "application/json";
 
     private readonly HttpClient httpClient;
-    private readonly IAuthenticationStorage localStorage;
+    private readonly IAuthenticationStorage authenticationStorage;
     private readonly ConfigurationService configService;
     private readonly AuthenticationState anonymousState;
     private readonly JsonSerializerOptions options;
     private readonly AuthTokenService authTokenService;  
 
     public AuthStateProvider(HttpClient httpClient,
-        IAuthenticationStorage localStorage,
+        IAuthenticationStorage authenticationStorage,
         AuthTokenService authTokenService,
         ConfigurationService configService)
     {
         this.httpClient = httpClient;
         this.httpClient.BaseAddress = new Uri(configService.BaseUrl);
-        this.localStorage = localStorage;
+        this.authenticationStorage = authenticationStorage;
         this.configService = configService;
         this.authTokenService = authTokenService;
         this.anonymousState = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
@@ -92,11 +92,11 @@ public class AuthStateProvider : AuthenticationStateProvider
     {
         try
         {
-            var jsonWebToken = await localStorage.GetJsonWebToken();
+            var jsonWebToken = await authenticationStorage.GetJsonWebToken();
 
-            if (!IsAccessTokenValid(jsonWebToken.AccessToken))
+            if (AccessTokenNotValid(jsonWebToken.AccessToken))
             {
-                jsonWebToken = await UpdateJsonWebTokenAsync();
+                jsonWebToken = await RefreshJsonWebTokenAsync();
             }
 
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, jsonWebToken.AccessToken);
@@ -109,18 +109,26 @@ public class AuthStateProvider : AuthenticationStateProvider
         }     
     }
 
-    private async Task<JsonWebToken> UpdateJsonWebTokenAsync()
+    public async Task<bool> IsAuthenticated()
     {
-        var refreshToken = await localStorage.GetRefreshToken();
+        var accessToken = await GetAccessTokenAsync();
+        var authenticated = !string.IsNullOrEmpty(accessToken);
+
+        return authenticated;
+    }
+
+    private async Task<JsonWebToken> RefreshJsonWebTokenAsync()
+    {
+        var refreshToken = await authenticationStorage.GetRefreshToken();
 
         var jsonWebToken = await authTokenService.GetJsonWebTokenAsync(refreshToken);
 
-        await localStorage.SetJsonWebToken(jsonWebToken);
+        await authenticationStorage.SetJsonWebToken(jsonWebToken);
 
         return jsonWebToken;
     }
 
-    private bool IsAccessTokenValid(string accessToken)
+    private bool AccessTokenNotValid(string accessToken)
     {
         if (string.IsNullOrEmpty(accessToken))
             return false;
@@ -135,8 +143,8 @@ public class AuthStateProvider : AuthenticationStateProvider
         var timeUTC = DateTime.UtcNow;
         var diff = expTime - timeUTC;
 
-        var tokenValid = diff.TotalMinutes > configService.RefreshTokenExpirationMinutesCheck;
+        var tokenNotValid = diff.TotalMinutes <= configService.RefreshTokenExpirationMinutesCheck;
 
-        return tokenValid;
+        return tokenNotValid;
     }
 }
