@@ -5,9 +5,8 @@ namespace Automaton.Client.Auth.Interfaces;
 public interface IAuthenticationStorage
 {
     Task<string> GetRefreshToken();
-    Task<string> GetAuthToken();
+    Task<string> GetAccessToken();
     Task SetJsonWebToken(JsonWebToken token);
-    JsonWebToken GetJsonWebToken();
-    Task<JsonWebToken> GetJsonWebTokenAsync();
+    Task<JsonWebToken> GetJsonWebToken();
     Task DeleteJsonWebToken();
 }

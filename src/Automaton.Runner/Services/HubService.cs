@@ -40,7 +40,7 @@ public class HubService
         try
         {
             var studioConfig = configService.ApiConfig;
-            var token = await storageService.GetAuthToken();
+            var token = await storageService.GetAccessToken();
             var hubUrl = $"{studioConfig.BaseUrl}{studioConfig.WorkflowHubUrl}";
 
             connection = new HubConnectionBuilder().WithUrl(hubUrl, options =>

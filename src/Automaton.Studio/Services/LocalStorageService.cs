@@ -27,7 +27,7 @@ namespace Automaton.Studio.Services
             return refreshToken;
         }
 
-        public async Task<string> GetAuthToken()
+        public async Task<string> GetAccessToken()
         {
             var jsonWebToken = await localStorage.GetItemAsync<JsonWebToken>(JsonWebToken);
             var authToken = jsonWebToken != null ? jsonWebToken.AccessToken : string.Empty;
@@ -40,18 +40,11 @@ namespace Automaton.Studio.Services
             await localStorage.SetItemAsync(JsonWebToken, token);
         }
 
-        public async Task<JsonWebToken> GetJsonWebTokenAsync()
+        public async Task<JsonWebToken> GetJsonWebToken()
         {
             var jsonWebToken = await localStorage.GetItemAsync<JsonWebToken>(JsonWebToken);
 
             return jsonWebToken;
-        }
-
-        public JsonWebToken GetJsonWebToken()
-        {
-            var jsonWebToken = Task.Run(() => localStorage.GetItemAsync<JsonWebToken>(JsonWebToken)).Result;
-
-            return jsonWebToken.Result;
         }
 
         public async Task DeleteJsonWebToken()

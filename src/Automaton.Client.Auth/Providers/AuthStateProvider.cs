@@ -87,7 +87,7 @@ public class AuthStateProvider : AuthenticationStateProvider
 
     public async Task<string> GetAccessTokenAsync()
     {
-        var accessToken = await localStorage.GetAuthToken();
+        var accessToken = await localStorage.GetAccessToken();
 
         return IsAccessTokenValid(accessToken) ? accessToken : await RefreshAccessTokenAsync();
     }

@@ -62,15 +62,12 @@ public class AuthenticationService
 
     public bool IsAuthenticated()
     {
-        var jsonWebToken = authenticationStorage.GetJsonWebToken();
+        return Task.Run(async () =>
+        {
+            var jsonWebToken = await authenticationStorage.GetJsonWebToken();
 
-        return jsonWebToken.IsValid();
+            return jsonWebToken.IsValid();
+
+        }).Result;
     }
-
-    public async Task<bool> IsAuthenticatedAsync()
-    {
-        var jsonWebToken = await authenticationStorage.GetJsonWebTokenAsync();
-                    
-        return jsonWebToken.IsValid();
-    } 
 }
