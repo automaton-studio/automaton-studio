@@ -19,6 +19,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<T>();
         services.AddScoped<IAuthenticationStorage>(sp => sp.GetService<T>());
         services.AddScoped<ConfigurationService>();
+        services.AddScoped<AuthTokenService>();      
 
         // Models
         services.AddScoped<AuthenticationConfig>();

@@ -18,7 +18,5 @@ public partial class Settings : Page
         base.OnInitialized(e);
 
         viewModel = DataContext as DashboardViewModel;
-
-        var connected = await viewModel.ConnectToHub();
     }
 }

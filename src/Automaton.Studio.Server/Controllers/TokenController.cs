@@ -1,6 +1,7 @@
 ﻿using Automaton.Studio.Server.Core.Commands;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Authentication;
 
 namespace Automaton.Studio.Server.Controllers
 {
@@ -11,7 +12,14 @@ namespace Automaton.Studio.Server.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> RefreshAccessToken(RefreshAccessTokenCommand command, CancellationToken ct)
         {
-            return Ok(await Mediator.Send(command, ct));
+            try
+            {
+                return Ok(await Mediator.Send(command, ct));
+            }
+            catch (AuthenticationException)
+            {
+                return Unauthorized();
+            }          
         }
 
         [HttpPost]

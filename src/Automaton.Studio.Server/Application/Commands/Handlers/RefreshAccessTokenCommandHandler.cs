@@ -6,6 +6,7 @@ using Common.EF;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Immutable;
+using System.Security.Authentication;
 
 namespace Automaton.Studio.Server.Application.Commands.Handlers
 {
@@ -44,7 +45,7 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
             {
                 throw new Exception($"User: '{refreshToken.UserId}' not found.");
             }
-            
+
             var newRefreshToken = new RefreshToken<Guid>(user.Id, 4);
 
             try
@@ -60,7 +61,7 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
                 _dataContext.Rollback();
                 throw;
             }
-            
+
             var claims = GetCustomClaimsForUser(user.Id);
             var roles = (await _userManagerService.GetRoles(user.Id)).ToImmutableList();
             var jwt = _jwtService.GenerateToken(user.Id.ToString("N"), user.UserName, roles, claims);

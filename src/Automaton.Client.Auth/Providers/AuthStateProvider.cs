@@ -20,18 +20,21 @@ public class AuthStateProvider : AuthenticationStateProvider
     private readonly HttpClient httpClient;
     private readonly IAuthenticationStorage localStorage;
     private readonly ConfigurationService configService;
-    private readonly AuthenticationState anonymous;
+    private readonly AuthenticationState anonymousState;
     private readonly JsonSerializerOptions options;
+    private readonly AuthTokenService authTokenService;  
 
     public AuthStateProvider(HttpClient httpClient,
-        IAuthenticationStorage localStorage, 
+        IAuthenticationStorage localStorage,
+        AuthTokenService authTokenService,
         ConfigurationService configService)
     {
         this.httpClient = httpClient;
         this.httpClient.BaseAddress = new Uri(configService.BaseUrl);
         this.localStorage = localStorage;
         this.configService = configService;
-        this.anonymous = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+        this.authTokenService = authTokenService;
+        this.anonymousState = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
     }
 
@@ -43,7 +46,7 @@ public class AuthStateProvider : AuthenticationStateProvider
 
             if (string.IsNullOrWhiteSpace(authToken))
             {
-                return anonymous;
+                return anonymousState;
             }
 
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, authToken);
@@ -66,7 +69,7 @@ public class AuthStateProvider : AuthenticationStateProvider
 
             // No matter what other exceptions may be triggered, always return anonymous.
 
-            return anonymous;
+            return anonymousState;
         }
     }
 
@@ -80,39 +83,41 @@ public class AuthStateProvider : AuthenticationStateProvider
 
     public void NotifyUserLogout()
     {
-        var authState = Task.FromResult(anonymous);
+        var authState = Task.FromResult(anonymousState);
 
         NotifyAuthenticationStateChanged(authState);
     }
 
     public async Task<string> GetAccessTokenAsync()
     {
-        var accessToken = await localStorage.GetAccessToken();
+        try
+        {
+            var jsonWebToken = await localStorage.GetJsonWebToken();
 
-        return IsAccessTokenValid(accessToken) ? accessToken : await RefreshAccessTokenAsync();
+            if (!IsAccessTokenValid(jsonWebToken.AccessToken))
+            {
+                jsonWebToken = await UpdateJsonWebTokenAsync();
+            }
+
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, jsonWebToken.AccessToken);
+
+            return jsonWebToken.AccessToken;
+        }
+        catch (Exception)
+        {
+            return string.Empty;        
+        }     
     }
 
-    public async Task<string> RefreshAccessTokenAsync()
+    private async Task<JsonWebToken> UpdateJsonWebTokenAsync()
     {
         var refreshToken = await localStorage.GetRefreshToken();
 
-        if(string.IsNullOrEmpty(refreshToken))
-            return string.Empty;
+        var jsonWebToken = await authTokenService.GetJsonWebTokenAsync(refreshToken);
 
-        var jsonToken = JsonSerializer.Serialize(new { Token = refreshToken });
-        var bodyContent = new StringContent(jsonToken, Encoding.UTF8, ApplicationJson);
-        
-        var refreshResult = await httpClient.PostAsync(configService.RefreshAccessTokenUrl, bodyContent);
-        refreshResult.EnsureSuccessStatusCode();
-        
-        var refreshContent = await refreshResult.Content.ReadAsStringAsync();
-        var result = JsonSerializer.Deserialize<JsonWebToken>(refreshContent, options);
+        await localStorage.SetJsonWebToken(jsonWebToken);
 
-        await localStorage.SetJsonWebToken(result);
-
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, result.AccessToken);
-
-        return result.AccessToken;
+        return jsonWebToken;
     }
 
     private bool IsAccessTokenValid(string accessToken)

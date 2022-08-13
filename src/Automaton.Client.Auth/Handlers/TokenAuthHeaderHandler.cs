@@ -15,8 +15,10 @@ public class TokenAuthHeaderHandler : DelegatingHandler
     }
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-    {
-        request.Headers.Authorization = new AuthenticationHeaderValue(Bearer, await authStateProvider.GetAccessTokenAsync());
+    { 
+        var accessToken = await authStateProvider.GetAccessTokenAsync();
+
+        request.Headers.Authorization = new AuthenticationHeaderValue(Bearer, accessToken);
        
         return await base.SendAsync(request, cancellationToken);
     }

@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.Security.Authentication;
 using System.Security.Cryptography;
-using Microsoft.AspNetCore.Identity;
 
 namespace Common.Authentication
 {
@@ -20,31 +19,33 @@ namespace Common.Authentication
         {
         }
 
-        public void ValidateRefreshToken()
-        {
-            if (Revoked)
-            {
-                throw new Exception($"Refresh token: '{Id}' already revoked.");
-            }  
-            
-            if (IsAlive == false)
-            {
-                throw new Exception($"Refresh token: '{Id}' is expired.");
-            }
-        }
         public RefreshToken(TKey userId, long dayToExpire = 3)
         {
             UserId = userId;
             CreatedAt = DateTime.Now;
-            Token = GenerateToken();
+            Token = RefreshToken<TKey>.GenerateToken();
             Expires = DateTime.Now.AddDays(dayToExpire);
         }
 
-        private string GenerateToken(int size = 32)
+        public void ValidateRefreshToken()
+        {
+            if (Revoked)
+            {
+                throw new AuthenticationException($"Refresh token: '{Id}' already revoked.");
+            }
+
+            if (IsAlive == false)
+            {
+                throw new AuthenticationException($"Refresh token: '{Id}' is expired.");
+            }
+        }
+
+        private static string GenerateToken(int size = 32)
         {
             var randomNumber = new byte[size];
             using var rng = RandomNumberGenerator.Create();
             rng.GetBytes(randomNumber);
+
             return Convert.ToBase64String(randomNumber);
         }
 

@@ -35,39 +35,29 @@ public class HubService
         this.logger = logger;
     }
 
-    public async Task<bool> Connect(string runnerName)
+    public async Task Connect(string runnerName)
     {
-        try
+        var studioConfig = configService.ApiConfig;
+        var token = await storageService.GetAccessToken();
+        var hubUrl = $"{studioConfig.BaseUrl}{studioConfig.WorkflowHubUrl}";
+
+        connection = new HubConnectionBuilder().WithUrl(hubUrl, options =>
         {
-            var studioConfig = configService.ApiConfig;
-            var token = await storageService.GetAccessToken();
-            var hubUrl = $"{studioConfig.BaseUrl}{studioConfig.WorkflowHubUrl}";
+            options.AccessTokenProvider = async () => await authStateProvider.GetAccessTokenAsync();
+            options.Headers.Add(RunnerNameHeader, runnerName);
+        })
+        .Build();
 
-            connection = new HubConnectionBuilder().WithUrl(hubUrl, options =>
-            {
-                options.AccessTokenProvider = async () => await authStateProvider.GetAccessTokenAsync();
-                options.Headers.Add(RunnerNameHeader, runnerName);
-            })
-            .Build();
-
-            connection.On<Guid>(RunWorkflow, async (workflowId) =>
-            {
-                await workflowService.RunFlow(workflowId);
-            });
-
-            connection.On<string>(WelcomeRunner, (name) =>
-            {
-            });
-
-            await connection.StartAsync();
-        }
-        catch (Exception ex)
+        connection.On<Guid>(RunWorkflow, async (workflowId) =>
         {
-            logger.LogError(ex.Message);
-            return false;
-        }
+            await workflowService.RunFlow(workflowId);
+        });
 
-        return true;
+        connection.On<string>(WelcomeRunner, (name) =>
+        {
+        });
+
+        await connection.StartAsync();
     }
 
     public async Task Disconnect()

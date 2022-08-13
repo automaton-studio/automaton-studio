@@ -1,6 +1,4 @@
 ﻿using Automaton.Runner.Core.Services;
-using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner.ViewModels;
@@ -16,8 +14,8 @@ public class DashboardViewModel
         this.configService = configService;
     }
 
-    public async Task<bool> ConnectToHub()
+    public async Task ConnectToHub()
     {
-        return await hubService.Connect(configService.AppConfig.RunnerName);
+        await hubService.Connect(configService.AppConfig.RunnerName);
     }
 }
