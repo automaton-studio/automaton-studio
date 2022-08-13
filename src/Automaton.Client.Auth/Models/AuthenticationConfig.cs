@@ -1,6 +1,6 @@
 ﻿namespace Automaton.Client.Auth.Models;
 
-public class AuthenticationConfiguration
+public class AuthenticationConfig
 {
     public string LoginUserUrl { get; set; }
     public int RefreshTokenExpirationMinutesCheck { get; set; }

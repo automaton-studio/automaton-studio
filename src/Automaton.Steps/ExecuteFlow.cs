@@ -1,16 +1,12 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Core.Services;
 using Automaton.Steps.Config;
-using Microsoft.Extensions.Configuration;
 
 namespace Automaton.Steps;
 
 public class ExecuteFlow : WorkflowStep
 {
-    private const string ApiConfigurationName = "ApiConfiguration";
-
-    private readonly IConfiguration configuration;
-    private readonly ApiConfig apiConfig;
+    private readonly ConfigService configService;
     private readonly HttpClient httpClient;
     private WorkflowExecuteService workflowExecuteService;
 
@@ -18,17 +14,14 @@ public class ExecuteFlow : WorkflowStep
 
     public ExecuteFlow
     (
-        IConfiguration configuration, 
+        ConfigService configService, 
         HttpClient httpClient, 
         WorkflowExecuteService workflowExecuteService
     )
     {
-        apiConfig = new ApiConfig();
-        this.configuration = configuration;
+        this.configService = configService;
         this.httpClient = httpClient;
         this.workflowExecuteService = workflowExecuteService;
-
-        LoadApiConfig();
     }
 
     protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
@@ -46,14 +39,9 @@ public class ExecuteFlow : WorkflowStep
 
     private async Task<Flow> Load(Guid id)
     {
-        var response = await httpClient.GetAsync($"{apiConfig.FlowsUrl}/{id}");
+        var response = await httpClient.GetAsync($"{configService.ApiConfig.FlowsUrl}/{id}");
         var flow = await response.Content.ReadAsAsync<Flow>();
 
         return flow;
-    }
-
-    private void LoadApiConfig()
-    {
-        configuration.GetSection(ApiConfigurationName).Bind(apiConfig);
     }
 }

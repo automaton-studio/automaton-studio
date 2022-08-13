@@ -6,8 +6,8 @@ namespace Automaton.Studio.Services;
 public class ConfigurationService
 {
     private readonly IConfiguration configuration;
-    private readonly AppConfiguration appConfiguration = new();
-    private readonly ApiConfiguration apiConfiguration = new();
+    private readonly AppConfig appConfiguration = new();
+    private readonly ApiConfig apiConfiguration = new();
 
     public string BaseUrl => apiConfiguration.BaseUrl;
     public string FlowsUrl => apiConfiguration.FlowsUrl;
@@ -17,7 +17,7 @@ public class ConfigurationService
     public ConfigurationService(IConfiguration configuration)
     {
         this.configuration = configuration;
-        this.configuration.GetSection(nameof(AppConfiguration)).Bind(appConfiguration);
-        this.configuration.GetSection(nameof(ApiConfiguration)).Bind(apiConfiguration);
+        this.configuration.GetSection(nameof(AppConfig)).Bind(appConfiguration);
+        this.configuration.GetSection(nameof(ApiConfig)).Bind(apiConfiguration);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Automaton.Client.Auth.Models;
 
-public class ApiConfiguration
+public class ApiConfig
 {
     public string BaseUrl { get; set; }
     public string WorkflowHubUrl { get; set; }
