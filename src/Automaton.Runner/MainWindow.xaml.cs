@@ -1,6 +1,7 @@
 ﻿using Automaton.Runner.Enums;
 using Automaton.Runner.ViewModels;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Automaton.Runner;
@@ -16,27 +17,11 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-    protected override void OnInitialized(EventArgs e)
+    protected override async void OnInitialized(EventArgs e)
     {
         ViewModel = DataContext as MainWindowViewModel;
 
-        ViewModel.InitializeNavigation();
-
-        if (ViewModel.IsAuthenticated())
-        {
-            if (ViewModel.IsRunnerRegistered())
-            {
-                NavigateToDashboard();
-            }
-            else
-            {
-                NavigateToRegistration();
-            }
-        }
-        else
-        {
-            NavigateToLogin();
-        }
+        await Initialize();
 
         base.OnInitialized(e);
     }
@@ -57,6 +42,37 @@ public partial class MainWindow : Window
     {
         ViewModel.ApplyHomeMenuVisibility();
         NavigateTo(RunnerPages.Dashboard);
+    }
+
+    private async Task Initialize()
+    {
+        ViewModel.InitializeNavigation();
+
+        if (ViewModel.IsAuthenticated())
+        {
+            if (ViewModel.IsRunnerRegistered())
+            {
+                NavigateToDashboard();
+            }
+            else
+            {
+                NavigateToRegistration();
+            }
+        }
+        else
+        {
+            NavigateToLogin();
+        }
+    }
+
+    public void ConnectedToServer()
+    {
+        ServerConnectionIcon.SetResourceReference(ForegroundProperty, "PaletteGreenBrush");
+    }
+
+    public void DisconnectedFromServer()
+    {
+        ServerConnectionIcon.SetResourceReference(ForegroundProperty, "PaletteRedBrush");
     }
 
     private void NavigateTo(RunnerPages page)

@@ -19,20 +19,16 @@ public class HubService
     private readonly FlowService workflowService;
     private readonly AuthStateProvider authStateProvider;
     private readonly ConfigService configService;
-    private readonly IAuthenticationStorage storageService;
     private readonly ILogger<HubService> logger;
 
     public HubService(ConfigService configService,
         FlowService workflowService,
         AuthStateProvider authStateProvider,
-        IAuthenticationStorage storageService,
-        ILogger<HubService> logger)
+        IAuthenticationStorage storageService)
     {
         this.configService = configService;
         this.workflowService = workflowService;
-        this.storageService = storageService;
         this.authStateProvider = authStateProvider;
-        this.logger = logger;
     }
 
     public async Task Connect(string runnerName)

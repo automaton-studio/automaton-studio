@@ -92,6 +92,13 @@
                         VerticalAlignment="Top"
                         FontSize="24"
                         Navigation="{Binding ElementName=RootNavigation}" />
+                    
+                    <Border Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,20,0">
+                        <wpfui:SymbolIcon Name="ServerConnectionIcon" 
+                                          Symbol="PresenceAvailable16"
+                                          Foreground="{DynamicResource PaletteRedBrush}"
+                                          Visibility="{Binding HomeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </Border>
                 </Grid>
             </Border>
         </Grid>

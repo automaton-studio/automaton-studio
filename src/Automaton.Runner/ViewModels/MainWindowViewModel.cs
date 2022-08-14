@@ -1,5 +1,6 @@
 ﻿using Automaton.Runner.Core.Services;
 using Automaton.Runner.Services;
+using Microsoft.Extensions.Logging;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private readonly HubService hubService;
     private readonly ConfigService configService;
     private readonly AuthenticationService authenticationService;
+    private readonly ILogger<MainWindowViewModel> logger;
 
     private bool loginVisible;
     public bool LoginVisible
@@ -54,18 +56,22 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
 
-    public MainWindowViewModel(HubService hubService, ConfigService configService, AuthenticationService authenticationService)
+    public MainWindowViewModel(HubService hubService, 
+        ConfigService configService, 
+        AuthenticationService authenticationService,
+        ILogger<MainWindowViewModel> logger)
     {
         this.hubService = hubService;
         this.configService = configService;
         this.authenticationService = authenticationService;
+        this.logger = logger;
     }
 
     public void InitializeNavigation()
     {
         LoginVisible = !IsAuthenticated();
         RegisterVisible = !IsRunnerRegistered();
-        HomeVisible = !LoginVisible;
+        HomeVisible = !LoginVisible && !RegisterVisible;
     }
 
     public bool IsAuthenticated()
@@ -91,6 +97,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         await hubService.Disconnect();
     }
+
 
     public void ApplyLoginMenuVisibility()
     {
