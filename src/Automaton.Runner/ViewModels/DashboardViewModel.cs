@@ -19,20 +19,24 @@ public class DashboardViewModel
         this.hubService = hubService;
         this.configService = configService;
         this.logger = logger;
+
+        hubService.Connected += HubServiceConnected;
+        hubService.Disconnected += HubServiceDisconnected;
     }
 
-    public async Task ConnectToHub()
+    private void HubServiceConnected(object sender, EventArgs e)
     {
-        try
-        {
-            await hubService.Connect(configService.AppConfig.RunnerName);
-            mainWindow.ConnectedToServer();
-        }
-        catch (Exception ex)
-        {
-            mainWindow.DisconnectedFromServer();
-            logger.LogError(ex, Errors.CannotConnectToServer);
-        }
+        mainWindow.ConnectedToServer();
+    }
+
+    private void HubServiceDisconnected(object sender, EventArgs e)
+    {
+        mainWindow.DisconnectedFromServer();
+    }
+
+    public async Task ConnectToServer()
+    {      
+        await hubService.ConnectToServer(configService.AppConfig.RunnerName);     
     }
 
 }

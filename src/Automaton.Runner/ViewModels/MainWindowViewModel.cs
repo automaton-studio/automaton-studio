@@ -98,7 +98,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
         await hubService.Disconnect();
     }
 
-
     public void ApplyLoginMenuVisibility()
     {
         HomeVisible = false;

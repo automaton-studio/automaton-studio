@@ -19,6 +19,6 @@ public partial class Dashboard : Page
 
         viewModel = DataContext as DashboardViewModel;
 
-        await viewModel.ConnectToHub();
+        await viewModel.ConnectToServer();
     }
 }
