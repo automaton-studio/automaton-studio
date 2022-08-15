@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Automaton.Core.Models;
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Services;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +52,48 @@ namespace Automaton.Studio.Steps.ExecuteFlow
             {
                 Inputs[nameof(FlowId)] = value;
             }
+        }
+
+        public IList<Variable> InputVariables
+        {
+            get
+            {
+                if (Inputs.ContainsKey(nameof(InputVariables)))
+                {
+                    if (Inputs[nameof(InputVariables)] is JArray array)
+                    {
+                        Inputs[nameof(InputVariables)] = array.ToObject<List<Variable>>();
+                    }
+                }
+                else
+                {
+                    Inputs[nameof(InputVariables)] = new List<Variable>();
+                }
+
+                return Inputs[nameof(InputVariables)] as IList<Variable>;
+            }
+            set => Inputs[nameof(InputVariables)] = value;
+        }
+
+        public IList<Variable> OutputVariables
+        {
+            get
+            {
+                if (Inputs.ContainsKey(nameof(OutputVariables)))
+                {
+                    if (Inputs[nameof(OutputVariables)] is JArray array)
+                    {
+                        Inputs[nameof(OutputVariables)] = array.ToObject<List<Variable>>();
+                    }
+                }
+                else
+                {
+                    Inputs[nameof(OutputVariables)] = new List<Variable>();
+                }
+
+                return Inputs[nameof(OutputVariables)] as IList<Variable>;
+            }
+            set => Inputs[nameof(OutputVariables)] = value;
         }
 
         public ExecuteFlowStep(IMapper mapper, FlowsService flowsService)

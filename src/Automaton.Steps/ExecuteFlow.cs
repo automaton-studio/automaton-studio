@@ -11,6 +11,8 @@ public class ExecuteFlow : WorkflowStep
     private WorkflowExecuteService workflowExecuteService;
 
     public Guid FlowId { get; set; }
+    public IList<Variable> InputVariables { get; set; }
+    public IList<Variable> OutputVariables { get; set; }
 
     public ExecuteFlow
     (
@@ -26,15 +28,20 @@ public class ExecuteFlow : WorkflowStep
 
     protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
     {
-        Task.Run(async () => await RunFlow(FlowId));
+        Task.Run(async () =>
+        {
+            var flow = await Load(FlowId);
+
+            var inputVariables = InputVariables.ToDictionary(x => x.Name, x => (object)x.Value);
+
+            SetFlowInputVariables(flow, inputVariables);
+
+            await workflowExecuteService.Execute(flow);
+
+            SetStepOutputVariables(flow.OutputVariables, context);
+        });
 
         return Task.FromResult(ExecutionResult.Next());
-    }
-
-    public async Task RunFlow(Guid flowId)
-    {
-        var flow = await Load(flowId);
-        await workflowExecuteService.Execute(flow);
     }
 
     private async Task<Flow> Load(Guid id)
@@ -43,5 +50,28 @@ public class ExecuteFlow : WorkflowStep
         var flow = await response.Content.ReadAsAsync<Flow>();
 
         return flow;
+    }
+
+    private static void SetFlowInputVariables(Flow flow, IDictionary<string?, object?> inputVariables)
+    {
+        foreach (var key in inputVariables.Keys)
+        {
+            if (flow.InputVariables.ContainsKey(key))
+            {
+                flow.InputVariables[key] = inputVariables[key];
+            }
+        }
+    }
+
+    private void SetStepOutputVariables(IDictionary<string?, object?> outputVariables, StepExecutionContext context)
+    {
+        foreach (var variable in OutputVariables)
+        {
+            if (outputVariables.ContainsKey(variable.Name))
+            {
+                variable.Value = outputVariables[variable.Name].ToString();
+                context.Workflow.Variables[variable.Name] = variable.Value;
+            }
+        }
     }
 }

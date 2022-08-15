@@ -1,7 +1,6 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
-using Automaton.Studio.Domain.Interfaces;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;

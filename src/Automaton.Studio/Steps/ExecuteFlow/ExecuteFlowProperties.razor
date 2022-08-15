@@ -1,4 +1,5 @@
 ﻿@using Blazored.FluentValidation;
+@using Automaton.Core.Models;
 
 @inherits FeedbackComponent<ExecuteFlowStep>
 
@@ -9,26 +10,90 @@
 
     <Validator>
         <FluentValidationValidator @ref="fluentValidationValidator" />
-        @*<ValidationSummary />*@
+        <ValidationSummary />
     </Validator>
 
     <ChildContent>
-        <FormItem Label="Workflow">
-            <Select Mode="single"
-                    @bind-Value="context.FlowId"
-                    Placeholder="Select flow..."
-                    OnFocus="context.OnFocus"
-                    TItemValue="Guid"
-                    TItem="Guid"
-                    AllowClear>
-                <SelectOptions>
-                    @foreach (var item in context.Flows)
-                    {
-                        <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
-                    }
-                </SelectOptions>
-            </Select>
-        </FormItem>
+        <Select Mode="single"
+                @bind-Value="context.FlowId"
+                Placeholder="Select flow..."
+                OnFocus="context.OnFocus"
+                TItemValue="Guid"
+                TItem="Guid"
+                AllowClear>
+            <SelectOptions>
+                @foreach (var item in context.Flows)
+                {
+                    <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
+                }
+            </SelectOptions>
+        </Select>
+
+        <Tabs>
+            <TabPane Tab="Input Variables" Key="2">
+                <Space Direction="DirectionVHType.Vertical">
+                    <SpaceItem>
+                        <Button OnClick="AddInputVariable" Type="primary">
+                            Add
+                        </Button>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Table DataSource="context.InputVariables"
+                               ScrollY="200"
+                               ScrollBarWidth="5"
+                               HidePagination>
+                            <ChildContent Context="inputVariable">
+                                <Column Title="Name" TData="string">
+                                    <Input Type="text" @bind-Value="inputVariable.Name" AutoFocus />
+                                </Column>
+                                <Column Title="Value" TData="string">
+                                    <Input Type="text" @bind-Value="inputVariable.Value" />
+                                </Column>
+                                <ActionColumn Title="Action">
+                                    <Popconfirm Title="Sure to delete?"
+                                                OnConfirm="()=> DeleteInputVariable(inputVariable.Name)"
+                                                OkText="Yes"
+                                                CancelText="No">
+                                        <a>Delete</a>
+                                    </Popconfirm>
+                                </ActionColumn>
+                            </ChildContent>
+                        </Table>
+                    </SpaceItem>
+                </Space>
+            </TabPane>
+
+            <TabPane Tab="Output Variables" Key="3">
+                <Space Direction="DirectionVHType.Vertical" Style="width: 100%">
+                    <SpaceItem>
+                        <Button OnClick="AddOutputVariable" Type="primary">
+                            Add
+                        </Button>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Table DataSource="context.OutputVariables"
+                               ScrollY="200px"
+                               ScrollBarWidth="5"
+                               HidePagination>
+                            <ChildContent Context="outputVariable">
+                                <Column Title="Name" TData="string">
+                                    <Input Type="text" @bind-Value="outputVariable.Name" AutoFocus />
+                                </Column>
+                                <ActionColumn Title="Action">
+                                    <Popconfirm Title="Sure to delete?"
+                                                OnConfirm="()=> DeleteOutputVariable(outputVariable.Name)"
+                                                OkText="Yes"
+                                                CancelText="No">
+                                        <a>Delete</a>
+                                    </Popconfirm>
+                                </ActionColumn>
+                            </ChildContent>
+                        </Table>
+                    </SpaceItem>
+                </Space>
+            </TabPane>
+        </Tabs>
+
     </ChildContent>
 </Form>
 
@@ -53,6 +118,40 @@
         await InvokeAsync(StateHasChanged);
         await Task.Delay(50);
 
-        args.Cancel = !fluentValidationValidator.Validate(options => options.IncludeAllRuleSets());
+        var valid = fluentValidationValidator.Validate(options => options.IncludeAllRuleSets());
+
+        if (valid)
+        {
+            foreach (var variable in step.OutputVariables)
+            {
+                step.SetVariable(variable.Name, variable.Value);
+            }
+        }
+
+        args.Cancel = !valid;
+    }
+
+    public void AddInputVariable()
+    {
+        var variableName = $"Variable{step.InputVariables?.Count}";
+        step.InputVariables.Add(new Variable { Name = variableName });
+    }
+
+    public void DeleteInputVariable(string name)
+    {
+        var variable = step.InputVariables.SingleOrDefault(x => x.Name == name);
+        step.InputVariables.Remove(variable);
+    }
+
+    public void AddOutputVariable()
+    {
+        var variableName = $"Variable{step.OutputVariables?.Count}";
+        step.OutputVariables.Add(new Variable { Name = variableName });
+    }
+
+    public void DeleteOutputVariable(string name)
+    {
+        var variable = step.OutputVariables.SingleOrDefault(x => x.Name == name);
+        step.OutputVariables.Remove(variable);
     }
 }
