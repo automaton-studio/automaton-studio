@@ -2,7 +2,6 @@
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Pages.Designer.Components.StepExplorer;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;

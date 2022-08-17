@@ -1,7 +1,5 @@
 ﻿using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
-using Automaton.Studio.Domain.Interfaces;
-using System;
 
 namespace Automaton.Studio.Steps.EmitLog;
 

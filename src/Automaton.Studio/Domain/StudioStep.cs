@@ -1,6 +1,5 @@
 ﻿using Automaton.Core.Enums;
 using Automaton.Studio.Domain.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;

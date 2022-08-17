@@ -1,6 +1,5 @@
 ﻿using Automaton.Core.Enums;
 using Automaton.Studio.Events;
-using System;
 using System.Collections.Generic;
 
 namespace Automaton.Studio.Domain;

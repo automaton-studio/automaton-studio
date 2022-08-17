@@ -1,5 +1,4 @@
 ﻿using Automaton.Studio.Domain;
-using System;
 
 namespace Automaton.Studio.Events;
 

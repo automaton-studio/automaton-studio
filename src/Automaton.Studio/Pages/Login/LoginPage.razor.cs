@@ -1,7 +1,6 @@
 ﻿using AntDesign;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using System;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Login;

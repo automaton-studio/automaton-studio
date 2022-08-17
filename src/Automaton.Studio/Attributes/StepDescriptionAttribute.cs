@@ -1,5 +1,3 @@
-using System;
-
 namespace Automaton.Studio.Attributes;
 
 [AttributeUsage(AttributeTargets.Class)]

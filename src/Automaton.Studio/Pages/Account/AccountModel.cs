@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Automaton.Studio.Pages.Account;
+﻿namespace Automaton.Studio.Pages.Account;
 
 public class AccountModel
 {

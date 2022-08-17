@@ -8,9 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Automaton.Studio.Resources {
-    using System;
-    
+namespace Automaton.Studio.Resources {    
     
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.

@@ -1,6 +1,5 @@
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain.Interfaces;
-using System;
 using System.Reflection;
 
 namespace Automaton.Studio.Domain;

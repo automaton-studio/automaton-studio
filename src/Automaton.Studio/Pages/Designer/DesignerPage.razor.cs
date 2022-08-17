@@ -9,7 +9,6 @@ using Automaton.Studio.Pages.Designer.Components.NewDefinition;
 using Automaton.Studio.Resources;
 using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
-using System;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Designer;

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Automaton.Studio.Models;
+﻿namespace Automaton.Studio.Models;
 
 public class FlowInfo
 {

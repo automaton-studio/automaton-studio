@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
-using System;
 using Automaton.Studio.Domain;
 
 namespace Automaton.Studio.Pages.Designer.Components;

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Automaton.Studio.Steps.ExecuteFlow;
+﻿namespace Automaton.Studio.Steps.ExecuteFlow;
 
 public class FlowModel
 {

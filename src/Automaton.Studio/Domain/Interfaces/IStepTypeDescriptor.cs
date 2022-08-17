@@ -1,9 +1,6 @@
-using System;
+namespace Automaton.Studio.Domain.Interfaces;
 
-namespace Automaton.Studio.Domain.Interfaces
+public interface IStepTypeDescriptor
 {
-    public interface IStepTypeDescriptor
-    {
-        IStepDescriptor Describe(Type stepType);
-    }
+    IStepDescriptor Describe(Type stepType);
 }
