@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Automaton.Studio.Pages.Flows;
+﻿namespace Automaton.Studio.Pages.Flows;
 
 public class FlowModel
 {

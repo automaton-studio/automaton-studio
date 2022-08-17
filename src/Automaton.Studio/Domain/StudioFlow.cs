@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Automaton.Studio.Domain;
+﻿namespace Automaton.Studio.Domain;
 
 public class StudioFlow
 {

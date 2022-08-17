@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Automaton.Studio.Services;
+﻿namespace Automaton.Studio.Services;
 
 public class DragDropService<T>
 {

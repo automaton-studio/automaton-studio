@@ -6,8 +6,6 @@ using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Pages.Designer.Components.StepExplorer;
 using Automaton.Studio.Services;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Designer;

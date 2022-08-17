@@ -2,7 +2,6 @@
 using Automaton.Studio.Errors;
 using Automaton.Studio.Pages.Flows;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 

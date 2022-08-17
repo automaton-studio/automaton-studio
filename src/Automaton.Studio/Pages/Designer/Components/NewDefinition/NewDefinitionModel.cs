@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Automaton.Studio.Pages.Designer.Components.NewDefinition;
+﻿namespace Automaton.Studio.Pages.Designer.Components.NewDefinition;
 
 public class NewDefinitionModel
 {

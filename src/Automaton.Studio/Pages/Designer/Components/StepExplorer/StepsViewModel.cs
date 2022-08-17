@@ -1,7 +1,6 @@
 ﻿using AntDesign;
 using AutoMapper;
 using Automaton.Studio.Factories;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 

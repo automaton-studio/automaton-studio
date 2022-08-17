@@ -1,8 +1,6 @@
 ﻿using Automaton.Core.Enums;
 using Automaton.Studio.Domain.Interfaces;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.Domain;

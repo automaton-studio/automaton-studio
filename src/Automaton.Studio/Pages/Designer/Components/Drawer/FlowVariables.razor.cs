@@ -6,8 +6,6 @@ using Automaton.Studio.Pages.Designer.Components.NewVariable;
 using Automaton.Studio.Resources;
 using Blazored.FluentValidation;
 using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Designer.Components.Drawer;

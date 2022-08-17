@@ -1,7 +1,5 @@
 using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Automaton.Studio.Pages.Designer.Components;

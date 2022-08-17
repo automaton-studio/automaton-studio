@@ -2,7 +2,6 @@
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
 
 namespace Automaton.Studio.Steps.ExecutePython;
 

@@ -2,7 +2,6 @@
 using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
