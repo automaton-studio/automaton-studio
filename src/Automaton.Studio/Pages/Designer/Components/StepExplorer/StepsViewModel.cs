@@ -5,60 +5,59 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Automaton.Studio.Pages.Designer.Components.StepExplorer
+namespace Automaton.Studio.Pages.Designer.Components.StepExplorer;
+
+public class StepsViewModel : INotifyPropertyChanged
 {
-    public class StepsViewModel : INotifyPropertyChanged
+    private readonly DesignerViewModel designerViewModel;
+    private readonly StepFactory stepFactory;
+    private readonly IMapper mapper;
+
+    private IEnumerable<StepExplorerModel> steps;
+    public IEnumerable<StepExplorerModel> Steps
     {
-        private readonly DesignerViewModel designerViewModel;
-        private readonly StepFactory stepFactory;
-        private readonly IMapper mapper;
+        get => steps;
 
-        private IEnumerable<StepExplorerModel> steps;
-        public IEnumerable<StepExplorerModel> Steps
+        set
         {
-            get => steps;
-
-            set
-            {
-                steps = value;
-                OnPropertyChanged();
-            }
+            steps = value;
+            OnPropertyChanged();
         }
-
-        public StepsViewModel(
-            DesignerViewModel designerViewModel,
-            StepFactory stepFactory,
-            IMapper mapper)
-        {
-            this.mapper = mapper;
-            this.designerViewModel = designerViewModel;
-            this.stepFactory = stepFactory;
-        }
-
-        public void Initialize()
-        {
-            Steps = stepFactory.GetSteps();
-        }
-
-        public void StepDrag(TreeEventArgs<StepExplorerModel> args)
-        {
-            var step = args.Node.DataItem;
-
-            if (!step.IsCategory())
-            {
-                designerViewModel.CreateStep(step);
-            }
-        }
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
     }
+
+    public StepsViewModel(
+        DesignerViewModel designerViewModel,
+        StepFactory stepFactory,
+        IMapper mapper)
+    {
+        this.mapper = mapper;
+        this.designerViewModel = designerViewModel;
+        this.stepFactory = stepFactory;
+    }
+
+    public void Initialize()
+    {
+        Steps = stepFactory.GetSteps();
+    }
+
+    public void StepDrag(TreeEventArgs<StepExplorerModel> args)
+    {
+        var step = args.Node.DataItem;
+
+        if (!step.IsCategory())
+        {
+            designerViewModel.CreateStep(step);
+        }
+    }
+
+    #region INotifyPropertyChanged
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    #endregion
 }

@@ -3,30 +3,29 @@ using Automaton.Studio.Domain.Interfaces;
 using System;
 using System.Reflection;
 
-namespace Automaton.Studio.Domain
+namespace Automaton.Studio.Domain;
+
+public class StepTypeDescriptor : IStepTypeDescriptor
 {
-    public class StepTypeDescriptor : IStepTypeDescriptor
+    public IStepDescriptor Describe(Type stepType)
     {
-        public IStepDescriptor Describe(Type stepType)
+        var attribute = stepType.GetCustomAttribute<StepDescriptionAttribute>(false);
+
+        var name = attribute?.Name ?? stepType.Name;
+        var type = attribute?.Type;
+        var displayName = attribute?.DisplayName;
+        var description = attribute?.Description;
+        var category = attribute?.Category ?? "Miscellaneous";
+        var icon = attribute?.Icon;
+
+        return new StepDescriptor
         {
-            var attribute = stepType.GetCustomAttribute<StepDescriptionAttribute>(false);
-
-            var name = attribute?.Name ?? stepType.Name;
-            var type = attribute?.Type;
-            var displayName = attribute?.DisplayName;
-            var description = attribute?.Description;
-            var category = attribute?.Category ?? "Miscellaneous";
-            var icon = attribute?.Icon;
-
-            return new StepDescriptor
-            {
-                Name = name,
-                Type = type,
-                DisplayName = displayName,
-                Description = description,
-                Category = category,
-                Icon = icon
-            };
-        }
+            Name = name,
+            Type = type,
+            DisplayName = displayName,
+            Description = description,
+            Category = category,
+            Icon = icon
+        };
     }
 }

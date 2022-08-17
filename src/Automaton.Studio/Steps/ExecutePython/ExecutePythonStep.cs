@@ -5,79 +5,78 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 
-namespace Automaton.Studio.Steps.ExecutePython
+namespace Automaton.Studio.Steps.ExecutePython;
+
+[StepDescription(
+    Name = "ExecutePython",
+    Type = "ExecutePython",
+    DisplayName = "Execute Python",
+    Category = "Console",
+    Description = "Execute Python script",
+    Icon = "code"
+)]
+public class ExecutePythonStep : StudioStep
 {
-    [StepDescription(
-        Name = "ExecutePython",
-        Type = "ExecutePython",
-        DisplayName = "Execute Python",
-        Category = "Console",
-        Description = "Execute Python script",
-        Icon = "code"
-    )]
-    public class ExecutePythonStep : StudioStep
+    public string Content
     {
-        public string Content
-        {
-            get => Inputs.ContainsKey(nameof(Content)) ?
-                   Inputs[nameof(Content)]?.ToString() : string.Empty;
-            set => Inputs[nameof(Content)] = value;
-        }
+        get => Inputs.ContainsKey(nameof(Content)) ?
+               Inputs[nameof(Content)]?.ToString() : string.Empty;
+        set => Inputs[nameof(Content)] = value;
+    }
 
-        public IList<Variable> InputVariables
+    public IList<Variable> InputVariables
+    {
+        get
         {
-            get
+            if (Inputs.ContainsKey(nameof(InputVariables)))
             {
-                if (Inputs.ContainsKey(nameof(InputVariables)))
+                if (Inputs[nameof(InputVariables)] is JArray array)
                 {
-                    if (Inputs[nameof(InputVariables)] is JArray array)
-                    {
-                        Inputs[nameof(InputVariables)] = array.ToObject<List<Variable>>();
-                    }
+                    Inputs[nameof(InputVariables)] = array.ToObject<List<Variable>>();
                 }
-                else
-                {
-                    Inputs[nameof(InputVariables)] = new List<Variable>();
-                }
-
-                return Inputs[nameof(InputVariables)] as IList<Variable>;
             }
-            set => Inputs[nameof(InputVariables)] = value;
-        }
-
-        public IList<Variable> OutputVariables
-        {
-            get
+            else
             {
-                if (Inputs.ContainsKey(nameof(OutputVariables)))
-                {
-                    if (Inputs[nameof(OutputVariables)] is JArray array)
-                    {
-                        Inputs[nameof(OutputVariables)] = array.ToObject<List<Variable>>();
-                    }
-                }
-                else
-                {
-                    Inputs[nameof(OutputVariables)] = new List<Variable>();
-                }
-
-                return Inputs[nameof(OutputVariables)] as IList<Variable>;
+                Inputs[nameof(InputVariables)] = new List<Variable>();
             }
-            set => Inputs[nameof(OutputVariables)] = value;
-        }
 
-        public ExecutePythonStep()
-        {
+            return Inputs[nameof(InputVariables)] as IList<Variable>;
         }
+        set => Inputs[nameof(InputVariables)] = value;
+    }
 
-        public override Type GetDesignerComponent()
+    public IList<Variable> OutputVariables
+    {
+        get
         {
-            return typeof(ExecutePythonDesigner);
-        }
+            if (Inputs.ContainsKey(nameof(OutputVariables)))
+            {
+                if (Inputs[nameof(OutputVariables)] is JArray array)
+                {
+                    Inputs[nameof(OutputVariables)] = array.ToObject<List<Variable>>();
+                }
+            }
+            else
+            {
+                Inputs[nameof(OutputVariables)] = new List<Variable>();
+            }
 
-        public override Type GetPropertiesComponent()
-        {
-            return typeof(ExecutePythonProperties);
+            return Inputs[nameof(OutputVariables)] as IList<Variable>;
         }
+        set => Inputs[nameof(OutputVariables)] = value;
+    }
+
+    public ExecutePythonStep()
+    {
+    }
+
+    public override Type GetDesignerComponent()
+    {
+        return typeof(ExecutePythonDesigner);
+    }
+
+    public override Type GetPropertiesComponent()
+    {
+        return typeof(ExecutePythonProperties);
     }
 }

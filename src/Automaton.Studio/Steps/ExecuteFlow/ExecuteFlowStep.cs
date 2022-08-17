@@ -9,113 +9,112 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Steps.ExecuteFlow
+namespace Automaton.Studio.Steps.ExecuteFlow;
+
+[StepDescription(
+    Name = "ExecuteFlow",
+    Type = "ExecuteFlow",
+    DisplayName = "Execute Flow",
+    Category = "Console",
+    Description = "Execute flow",
+    Icon = "code"
+)]
+public class ExecuteFlowStep : StudioStep
 {
-    [StepDescription(
-        Name = "ExecuteFlow",
-        Type = "ExecuteFlow",
-        DisplayName = "Execute Flow",
-        Category = "Console",
-        Description = "Execute flow",
-        Icon = "code"
-    )]
-    public class ExecuteFlowStep : StudioStep
+    private readonly IMapper mapper;
+    private readonly FlowsService flowsService;
+
+    public IEnumerable<FlowModel> Flows { get; set; } = new List<FlowModel>();
+
+    public string FlowName
     {
-        private readonly IMapper mapper;
-        private readonly FlowsService flowsService;
-
-        public IEnumerable<FlowModel> Flows { get; set; } = new List<FlowModel>();
-
-        public string FlowName
+        get
         {
-            get
+            var flow = Flows.SingleOrDefault(x => x.Id == FlowId);
+            return flow != null ? flow.Name : string.Empty;
+        }
+    }
+
+    public Guid FlowId
+    {
+        get
+        {
+            if (Inputs.ContainsKey(nameof(FlowId)))
             {
-                var flow = Flows.SingleOrDefault(x => x.Id == FlowId);
-                return flow != null ? flow.Name : string.Empty;
+                var guid = Inputs[nameof(FlowId)].ToString();
+                Guid.TryParse(guid, out Guid flowId);
+                return flowId;
             }
-        }
 
-        public Guid FlowId
+            return Guid.Empty;
+        }
+        set
         {
-            get
+            Inputs[nameof(FlowId)] = value;
+        }
+    }
+
+    public IList<Variable> InputVariables
+    {
+        get
+        {
+            if (Inputs.ContainsKey(nameof(InputVariables)))
             {
-                if (Inputs.ContainsKey(nameof(FlowId)))
+                if (Inputs[nameof(InputVariables)] is JArray array)
                 {
-                    var guid = Inputs[nameof(FlowId)].ToString();
-                    Guid.TryParse(guid, out Guid flowId);
-                    return flowId;
+                    Inputs[nameof(InputVariables)] = array.ToObject<List<Variable>>();
                 }
-
-                return Guid.Empty;
             }
-            set
+            else
             {
-                Inputs[nameof(FlowId)] = value;
+                Inputs[nameof(InputVariables)] = new List<Variable>();
             }
-        }
 
-        public IList<Variable> InputVariables
+            return Inputs[nameof(InputVariables)] as IList<Variable>;
+        }
+        set => Inputs[nameof(InputVariables)] = value;
+    }
+
+    public IList<Variable> OutputVariables
+    {
+        get
         {
-            get
+            if (Inputs.ContainsKey(nameof(OutputVariables)))
             {
-                if (Inputs.ContainsKey(nameof(InputVariables)))
+                if (Inputs[nameof(OutputVariables)] is JArray array)
                 {
-                    if (Inputs[nameof(InputVariables)] is JArray array)
-                    {
-                        Inputs[nameof(InputVariables)] = array.ToObject<List<Variable>>();
-                    }
+                    Inputs[nameof(OutputVariables)] = array.ToObject<List<Variable>>();
                 }
-                else
-                {
-                    Inputs[nameof(InputVariables)] = new List<Variable>();
-                }
-
-                return Inputs[nameof(InputVariables)] as IList<Variable>;
             }
-            set => Inputs[nameof(InputVariables)] = value;
-        }
-
-        public IList<Variable> OutputVariables
-        {
-            get
+            else
             {
-                if (Inputs.ContainsKey(nameof(OutputVariables)))
-                {
-                    if (Inputs[nameof(OutputVariables)] is JArray array)
-                    {
-                        Inputs[nameof(OutputVariables)] = array.ToObject<List<Variable>>();
-                    }
-                }
-                else
-                {
-                    Inputs[nameof(OutputVariables)] = new List<Variable>();
-                }
-
-                return Inputs[nameof(OutputVariables)] as IList<Variable>;
+                Inputs[nameof(OutputVariables)] = new List<Variable>();
             }
-            set => Inputs[nameof(OutputVariables)] = value;
-        }
 
-        public ExecuteFlowStep(IMapper mapper, FlowsService flowsService)
-        {
-            this.flowsService = flowsService;
-            this.mapper = mapper;
+            return Inputs[nameof(OutputVariables)] as IList<Variable>;
         }
+        set => Inputs[nameof(OutputVariables)] = value;
+    }
 
-        public void OnFocus()
-        {
-            var flowsInfo = Task.Run(async () => await this.flowsService.List()).Result;
-            Flows = this.mapper.Map<ICollection<FlowModel>>(flowsInfo);
-        }
+    public ExecuteFlowStep(IMapper mapper, FlowsService flowsService)
+    {
+        this.flowsService = flowsService;
+        this.mapper = mapper;
+    }
 
-        public override Type GetDesignerComponent()
-        {
-            return typeof(ExecuteFlowDesigner);
-        }
+    public void OnFocus()
+    {
+        var flowsInfo = Task.Run(async () => await this.flowsService.List()).Result;
+        Flows = this.mapper.Map<ICollection<FlowModel>>(flowsInfo);
+    }
 
-        public override Type GetPropertiesComponent()
-        {
-            return typeof(ExecuteFlowProperties);
-        }
+    public override Type GetDesignerComponent()
+    {
+        return typeof(ExecuteFlowDesigner);
+    }
+
+    public override Type GetPropertiesComponent()
+    {
+        return typeof(ExecuteFlowProperties);
     }
 }

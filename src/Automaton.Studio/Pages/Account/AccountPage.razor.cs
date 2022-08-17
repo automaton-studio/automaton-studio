@@ -2,26 +2,25 @@
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Account
+namespace Automaton.Studio.Pages.Account;
+
+partial class AccountPage : ComponentBase
 {
-    partial class AccountPage : ComponentBase
+    [Inject] private AccountViewModel AccountViewModel { get; set; } = default!;
+    [Inject] private NavigationManager NavigationManager { get; set; } = default!;
+    [Inject] public NavMenuService NavMenuService { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
-        [Inject] private AccountViewModel AccountViewModel { get; set; } = default!;
-        [Inject] private NavigationManager NavigationManager { get; set; } = default!;
-        [Inject] public NavMenuService NavMenuService { get; set; }
+        await base.OnInitializedAsync();
+    }
 
-        protected override async Task OnInitializedAsync()
-        {
-            await base.OnInitializedAsync();
-        }
+    private async Task Logout()
+    {
+        await AccountViewModel.Logout();
 
-        private async Task Logout()
-        {
-            await AccountViewModel.Logout();
+        NavMenuService.DisableDesignerMenu();
 
-            NavMenuService.DisableDesignerMenu();
-
-            NavigationManager.NavigateTo($"/");
-        }
+        NavigationManager.NavigateTo($"/");
     }
 }

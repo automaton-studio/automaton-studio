@@ -1,7 +1,6 @@
-﻿namespace Automaton.Studio.Config
+﻿namespace Automaton.Studio.Config;
+
+public class AppConfig
 {
-    public class AppConfig
-    {
-        public bool IsDesktop { get; set; }
-    }
+    public bool IsDesktop { get; set; }
 }

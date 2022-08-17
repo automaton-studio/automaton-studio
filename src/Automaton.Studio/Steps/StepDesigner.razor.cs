@@ -3,39 +3,38 @@ using Automaton.Studio.Extensions;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Steps
+namespace Automaton.Studio.Steps;
+
+public partial class StepDesigner : ComponentBase
 {
-    public partial class StepDesigner : ComponentBase
+    [Parameter]
+    public Domain.StudioStep Step { get; set; }
+
+    [Parameter] 
+    public RenderFragment ChildContent { get; set; }
+
+    [Inject] 
+    private ModalService ModalService { get; set; } = default!;
+
+    protected override void OnInitialized()
     {
-        [Parameter]
-        public Domain.StudioStep Step { get; set; }
+        base.OnInitialized();
+    }
 
-        [Parameter] 
-        public RenderFragment ChildContent { get; set; }
+    private async Task OnEdit(Domain.StudioStep step)
+    {
+        var result = await step.DisplayPropertiesDialog(ModalService);
 
-        [Inject] 
-        private ModalService ModalService { get; set; } = default!;
+        result.OnOk = () => {
 
-        protected override void OnInitialized()
-        {
-            base.OnInitialized();
-        }
+            StateHasChanged();
 
-        private async Task OnEdit(Domain.StudioStep step)
-        {
-            var result = await step.DisplayPropertiesDialog(ModalService);
+            return Task.CompletedTask;
+        };
+    }
 
-            result.OnOk = () => {
-
-                StateHasChanged();
-
-                return Task.CompletedTask;
-            };
-        }
-
-        private static void OnDelete(Domain.StudioStep step)
-        {
-            step.Definition.DeleteStep(step);
-        }
+    private static void OnDelete(Domain.StudioStep step)
+    {
+        step.Definition.DeleteStep(step);
     }
 }

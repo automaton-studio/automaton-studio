@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace Automaton.Studio.Pages.Designer.Components.NewDefinition
+namespace Automaton.Studio.Pages.Designer.Components.NewDefinition;
+
+public class NewDefinitionModel
 {
-    public class NewDefinitionModel
-    {
-        public string Name { get; set; }
-        public IEnumerable<string> ExistingNames { get; set; }
-    }
+    public string Name { get; set; }
+    public IEnumerable<string> ExistingNames { get; set; }
 }

@@ -2,29 +2,28 @@
 using FluentValidation;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Flows.Components.NewFlow
+namespace Automaton.Studio.Pages.Flows.Components.NewFlow;
+
+public class NewFlowValidator : AbstractValidator<NewFlowModel>
 {
-    public class NewFlowValidator : AbstractValidator<NewFlowModel>
+    private readonly FlowsService flowsService;
+
+    public NewFlowValidator(FlowsService flowService)
     {
-        private readonly FlowsService flowsService;
+        this.flowsService = flowService;
 
-        public NewFlowValidator(FlowsService flowService)
+        RuleFor(x => x.Name).NotEmpty().MaximumLength(50).WithMessage(Resources.Errors.NameRequired);
+
+        When(x => !string.IsNullOrEmpty(x.Name), () =>
         {
-            this.flowsService = flowService;
+            RuleFor(x => x.Name).Must(HasUniqueName).WithMessage(Resources.Errors.FlowNameExists);
+        });
+    }
 
-            RuleFor(x => x.Name).NotEmpty().MaximumLength(50).WithMessage(Resources.Errors.NameRequired);
+    private bool HasUniqueName(string name)
+    {
+        var isUnique = !Task.Run(() => flowsService.Exists(name)).Result;
 
-            When(x => !string.IsNullOrEmpty(x.Name), () =>
-            {
-                RuleFor(x => x.Name).Must(HasUniqueName).WithMessage(Resources.Errors.FlowNameExists);
-            });
-        }
-
-        private bool HasUniqueName(string name)
-        {
-            var isUnique = !Task.Run(() => flowsService.Exists(name)).Result;
-
-            return isUnique;
-        }
+        return isUnique;
     }
 }

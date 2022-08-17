@@ -2,62 +2,60 @@
 using Automaton.Studio.Events;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Automaton.Studio.Domain
+namespace Automaton.Studio.Domain;
+
+public class StudioDefinition
 {
-    public class StudioDefinition
+    public string Id { get; set; }
+
+    public int Version { get; set; }
+
+    public string Name { get; set; }
+
+    public WorkflowErrorHandling DefaultErrorBehavior { get; set; }
+
+    public TimeSpan? DefaultErrorRetryInterval { get; set; }
+
+    public List<StudioStep> Steps { get; set; } = new List<StudioStep>();
+
+    public StudioFlow Flow { get; set; }
+
+    public event EventHandler<StepEventArgs> StepAdded;
+    public event EventHandler<StepEventArgs> StepRemoved;
+
+    public StudioDefinition()
     {
-        public string Id { get; set; }
+        Id = Guid.NewGuid().ToString();
+        Name = "Untitled";
+    }
 
-        public int Version { get; set; }
+    public void DeleteStep(StudioStep step)
+    {
+        Steps.Remove(step);
 
-        public string Name { get; set; }
+        Flow.DeleteVariables(step.GetVariableNames());
 
-        public WorkflowErrorHandling DefaultErrorBehavior { get; set; }
+        UpdateStepConnections();
 
-        public TimeSpan? DefaultErrorRetryInterval { get; set; }
+        StepRemoved?.Invoke(this, new StepEventArgs(step));
+    }
 
-        public List<StudioStep> Steps { get; set; } = new List<StudioStep>();
+    public void FinalizeStep(StudioStep step)
+    {
+        step.MarkAsFinal();
+        step.Definition = this;
 
-        public StudioFlow Flow { get; set; }
+        UpdateStepConnections();
 
-        public event EventHandler<StepEventArgs> StepAdded;
-        public event EventHandler<StepEventArgs> StepRemoved;
+        StepAdded?.Invoke(this, new StepEventArgs(step));
+    }
 
-        public StudioDefinition()
+    public void UpdateStepConnections()
+    {
+        for(var i = 0; i < Steps.Count; i++)
         {
-            Id = Guid.NewGuid().ToString();
-            Name = "Untitled";
-        }
-
-        public void DeleteStep(StudioStep step)
-        {
-            Steps.Remove(step);
-
-            Flow.DeleteVariables(step.GetVariableNames());
-
-            UpdateStepConnections();
-
-            StepRemoved?.Invoke(this, new StepEventArgs(step));
-        }
-
-        public void FinalizeStep(StudioStep step)
-        {
-            step.MarkAsFinal();
-            step.Definition = this;
-
-            UpdateStepConnections();
-
-            StepAdded?.Invoke(this, new StepEventArgs(step));
-        }
-
-        public void UpdateStepConnections()
-        {
-            for(var i = 0; i < Steps.Count; i++)
-            {
-                Steps[i].NextStepId = i != Steps.Count - 1 ? Steps[i + 1].Id : null;
-            }
+            Steps[i].NextStepId = i != Steps.Count - 1 ? Steps[i + 1].Id : null;
         }
     }
 }

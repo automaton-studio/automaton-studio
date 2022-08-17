@@ -11,147 +11,146 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Designer
+namespace Automaton.Studio.Pages.Designer;
+
+public class DesignerViewModel
 {
-    public class DesignerViewModel
+    private readonly IMapper mapper;
+    private readonly StepFactory stepFactory;
+    private readonly FlowService flowService;
+    private readonly WorkflowExecuteService workflowExecuteService;
+
+    public StudioFlow Flow { get; set; }
+    public IList<StudioDefinition> Definitions { get; set; }
+    public StudioDefinition ActiveDefinition { get; set; }
+
+    public event EventHandler<StepEventArgs> DragStep;
+    public event EventHandler<StepEventArgs> StepAdded
     {
-        private readonly IMapper mapper;
-        private readonly StepFactory stepFactory;
-        private readonly FlowService flowService;
-        private readonly WorkflowExecuteService workflowExecuteService;
+        add { ActiveDefinition.StepAdded += value; }
+        remove { ActiveDefinition.StepAdded -= value; }
+    }
 
-        public StudioFlow Flow { get; set; }
-        public IList<StudioDefinition> Definitions { get; set; }
-        public StudioDefinition ActiveDefinition { get; set; }
+    public event EventHandler<StepEventArgs> StepRemoved
+    {
+        add { ActiveDefinition.StepRemoved += value; }
+        remove { ActiveDefinition.StepRemoved -= value; }
+    }
 
-        public event EventHandler<StepEventArgs> DragStep;
-        public event EventHandler<StepEventArgs> StepAdded
+    public bool CanExecuteFlow
+    {
+        get
         {
-            add { ActiveDefinition.StepAdded += value; }
-            remove { ActiveDefinition.StepAdded -= value; }
-        }
-
-        public event EventHandler<StepEventArgs> StepRemoved
-        {
-            add { ActiveDefinition.StepRemoved += value; }
-            remove { ActiveDefinition.StepRemoved -= value; }
-        }
-
-        public bool CanExecuteFlow
-        {
-            get
-            {
 #if DEBUG
-                return true;
+            return true;
 #else
-                return configService.IsDesktop;
+            return configService.IsDesktop;
 #endif
-            }
         }
+    }
 
-        public DesignerViewModel
-        (
-            IMapper mapper,
-            StepFactory stepFactory,
-            FlowService flowService,
-            WorkflowExecuteService workflowExecuteService
-        )
+    public DesignerViewModel
+    (
+        IMapper mapper,
+        StepFactory stepFactory,
+        FlowService flowService,
+        WorkflowExecuteService workflowExecuteService
+    )
+    {
+        this.mapper = mapper;
+        this.stepFactory = stepFactory;
+        this.flowService = flowService;
+        this.workflowExecuteService = workflowExecuteService;
+
+        Flow = new StudioFlow();
+        Definitions = new List<StudioDefinition>();
+    }
+
+    public void CreateDefinition(string name)
+    {
+        Definitions.Add(new StudioDefinition 
+        { 
+            Name = name, 
+            Flow = this.Flow 
+        });
+    }
+
+    public void CreateStep(StepExplorerModel solutionStep)
+    {
+        var step = stepFactory.CreateStep(solutionStep.Name);
+        step.Definition = ActiveDefinition;
+
+        DragStep?.Invoke(this, new StepEventArgs(step));
+    }
+
+    public void DeleteStep(StudioStep step)
+    {
+        ActiveDefinition.Steps.Remove(step); 
+    }
+
+    public async Task LoadFlow(Guid flowId)
+    {
+        Flow = await flowService.Load(flowId);
+        Definitions = Flow.Definitions;
+        ActiveDefinition = Flow.GetStartupDefinition();
+    }
+
+    public async Task SaveFlow()
+    {
+        await flowService.Update(Flow);
+    }
+
+    public async Task RunFlow()
+    {
+        if (CanExecuteFlow)
         {
-            this.mapper = mapper;
-            this.stepFactory = stepFactory;
-            this.flowService = flowService;
-            this.workflowExecuteService = workflowExecuteService;
-
-            Flow = new StudioFlow();
-            Definitions = new List<StudioDefinition>();
+            var flow = mapper.Map<Flow>(Flow);
+            await workflowExecuteService.Execute(flow);
         }
+    }
 
-        public void CreateDefinition(string name)
-        {
-            Definitions.Add(new StudioDefinition 
-            { 
-                Name = name, 
-                Flow = this.Flow 
-            });
-        }
+    public void FinalizeStep(StudioStep step)
+    {
+        ActiveDefinition.FinalizeStep(step);
+    }
 
-        public void CreateStep(StepExplorerModel solutionStep)
-        {
-            var step = stepFactory.CreateStep(solutionStep.Name);
-            step.Definition = ActiveDefinition;
+    public IEnumerable<StudioStep> GetSelectedSteps()
+    {
+        return ActiveDefinition.Steps.Where(x => x.IsSelected());
+    }
 
-            DragStep?.Invoke(this, new StepEventArgs(step));
-        }
+    public IEnumerable<string> GetDefinitionNames()
+    {
+        return Definitions.Select(x => x.Name);
+    }
 
-        public void DeleteStep(StudioStep step)
-        {
-            ActiveDefinition.Steps.Remove(step); 
-        }
+    public void SetActiveDefinition(StudioDefinition definition)
+    {
+        ActiveDefinition = definition;
+    }
 
-        public async Task LoadFlow(Guid flowId)
-        {
-            Flow = await flowService.Load(flowId);
-            Definitions = Flow.Definitions;
-            ActiveDefinition = Flow.GetStartupDefinition();
-        }
+    public void SetActiveDefinition(string id)
+    {
+        ActiveDefinition = Definitions.SingleOrDefault(x => x.Id == id);
+    }
 
-        public async Task SaveFlow()
-        {
-            await flowService.Update(Flow);
-        }
+    public StudioDefinition GetActiveDefinition()
+    {
+        return ActiveDefinition;
+    }
 
-        public async Task RunFlow()
-        {
-            if (CanExecuteFlow)
-            {
-                var flow = mapper.Map<Flow>(Flow);
-                await workflowExecuteService.Execute(flow);
-            }
-        }
+    public string GetActiveDefinitionId()
+    {
+        return ActiveDefinition != null ? ActiveDefinition.Id : string.Empty;
+    }
 
-        public void FinalizeStep(StudioStep step)
-        {
-            ActiveDefinition.FinalizeStep(step);
-        }
+    public string GetStartupDefinitionId()
+    {
+        return Flow.StartupDefinitionId;
+    }
 
-        public IEnumerable<StudioStep> GetSelectedSteps()
-        {
-            return ActiveDefinition.Steps.Where(x => x.IsSelected());
-        }
-
-        public IEnumerable<string> GetDefinitionNames()
-        {
-            return Definitions.Select(x => x.Name);
-        }
-
-        public void SetActiveDefinition(StudioDefinition definition)
-        {
-            ActiveDefinition = definition;
-        }
-
-        public void SetActiveDefinition(string id)
-        {
-            ActiveDefinition = Definitions.SingleOrDefault(x => x.Id == id);
-        }
-
-        public StudioDefinition GetActiveDefinition()
-        {
-            return ActiveDefinition;
-        }
-
-        public string GetActiveDefinitionId()
-        {
-            return ActiveDefinition != null ? ActiveDefinition.Id : string.Empty;
-        }
-
-        public string GetStartupDefinitionId()
-        {
-            return Flow.StartupDefinitionId;
-        }
-
-        public void UpdateStepConnections()
-        {
-            ActiveDefinition.UpdateStepConnections();
-        }
+    public void UpdateStepConnections()
+    {
+        ActiveDefinition.UpdateStepConnections();
     }
 }

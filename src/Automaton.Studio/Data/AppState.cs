@@ -1,7 +1,6 @@
-﻿namespace Automaton.Studio
+﻿namespace Automaton.Studio;
+
+public class AppState
 {
-    public class AppState
-    {
-        public int Counter { get; set; }
-    }
+    public int Counter { get; set; }
 }

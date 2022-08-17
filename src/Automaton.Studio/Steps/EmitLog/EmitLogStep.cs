@@ -3,44 +3,43 @@ using Automaton.Studio.Domain;
 using Automaton.Studio.Domain.Interfaces;
 using System;
 
-namespace Automaton.Studio.Steps.EmitLog
+namespace Automaton.Studio.Steps.EmitLog;
+
+[StepDescription(
+    Name = "EmitLog",
+    Type = "EmitLog",
+    DisplayName = "Emit Log",
+    Category = "Console",
+    Description = "Emit log to console",
+    Icon = "code"
+)]
+public class EmitLogStep : StudioStep
 {
-    [StepDescription(
-        Name = "EmitLog",
-        Type = "EmitLog",
-        DisplayName = "Emit Log",
-        Category = "Console",
-        Description = "Emit log to console",
-        Icon = "code"
-    )]
-    public class EmitLogStep : StudioStep
+    public string Message
     {
-        public string Message
+        get
         {
-            get
-            {
-                return Inputs.ContainsKey(nameof(Message)) ?
-                    Inputs[nameof(Message)].ToString() : string.Empty;
-            }
-
-            set
-            {
-                Inputs[nameof(Message)] = value;
-            }
+            return Inputs.ContainsKey(nameof(Message)) ?
+                Inputs[nameof(Message)].ToString() : string.Empty;
         }
 
-        public EmitLogStep()
+        set
         {
+            Inputs[nameof(Message)] = value;
         }
+    }
 
-        public override Type GetDesignerComponent()
-        {
-            return typeof(EmitLogDesigner);
-        }
+    public EmitLogStep()
+    {
+    }
 
-        public override Type GetPropertiesComponent()
-        {
-            return typeof(EmitLogProperties);
-        }
+    public override Type GetDesignerComponent()
+    {
+        return typeof(EmitLogDesigner);
+    }
+
+    public override Type GetPropertiesComponent()
+    {
+        return typeof(EmitLogProperties);
     }
 }

@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace Automaton.Studio.Pages.Account
+namespace Automaton.Studio.Pages.Account;
+
+public class AccountModel
 {
-    public class AccountModel
-    {
-        public Guid UserId { get; set; }
-        public string Name { get; set; }
-    }
+    public Guid UserId { get; set; }
+    public string Name { get; set; }
 }

@@ -1,12 +1,11 @@
 ﻿using FluentValidation;
 
-namespace Automaton.Studio.Steps.EmitLog
+namespace Automaton.Studio.Steps.EmitLog;
+
+public class EmitLogValidator : AbstractValidator<EmitLogStep>
 {
-    public class EmitLogValidator : AbstractValidator<EmitLogStep>
+    public EmitLogValidator()
     {
-        public EmitLogValidator()
-        {
-            RuleFor(x => x.Message).NotEmpty().MaximumLength(4000).WithMessage(Resources.Errors.MessageRequired);
-        }
+        RuleFor(x => x.Message).NotEmpty().MaximumLength(4000).WithMessage(Resources.Errors.MessageRequired);
     }
 }

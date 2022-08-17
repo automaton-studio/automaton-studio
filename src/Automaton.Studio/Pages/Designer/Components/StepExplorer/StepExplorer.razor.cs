@@ -3,35 +3,34 @@ using Microsoft.AspNetCore.Components.Web;
 using System;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Designer.Components.StepExplorer
+namespace Automaton.Studio.Pages.Designer.Components.StepExplorer;
+
+partial class StepExplorer : ComponentBase
 {
-    partial class StepExplorer : ComponentBase
+    [Inject] 
+    private StepsViewModel StepsViewModel { get; set; } = default!;
+
+    private string searchText { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
-        [Inject] 
-        private StepsViewModel StepsViewModel { get; set; } = default!;
+        StepsViewModel.Initialize();
 
-        private string searchText { get; set; }
+        await base.OnInitializedAsync();
+    }
 
-        protected override async Task OnInitializedAsync()
-        {
-            StepsViewModel.Initialize();
+    private void OnSearchChange(string text)
+    {
+        throw new NotImplementedException();
+    }
 
-            await base.OnInitializedAsync();
-        }
+    public async Task OnSearch()
+    {
+        throw new NotImplementedException();
+    }
 
-        private void OnSearchChange(string text)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task OnSearch()
-        {
-            throw new NotImplementedException();
-        }
-
-        private async Task OnEnter(KeyboardEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+    private async Task OnEnter(KeyboardEventArgs e)
+    {
+        throw new NotImplementedException();
     }
 }

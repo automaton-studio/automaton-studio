@@ -2,111 +2,110 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Automaton.Studio.Domain
+namespace Automaton.Studio.Domain;
+
+public class StudioFlow
 {
-    public class StudioFlow
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public string StartupDefinitionId { get; set; }
+    public IDictionary<string, object> Variables { get; set; }
+    public IDictionary<string, object> InputVariables { get; set; }
+    public IDictionary<string, object> OutputVariables { get; set; }
+    public IList<StudioDefinition> Definitions { get; set; }
+
+    public StudioFlow()
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string StartupDefinitionId { get; set; }
-        public IDictionary<string, object> Variables { get; set; }
-        public IDictionary<string, object> InputVariables { get; set; }
-        public IDictionary<string, object> OutputVariables { get; set; }
-        public IList<StudioDefinition> Definitions { get; set; }
+        Name = "Untitled";
+        var defaultDefinition = new StudioDefinition { Flow = this };
+        StartupDefinitionId = defaultDefinition.Id;
+        Definitions = new List<StudioDefinition> { defaultDefinition };
+        Variables = new Dictionary<string, object>();
+        OutputVariables = new Dictionary<string, object>();
+    }
 
-        public StudioFlow()
+    public StudioDefinition GetStartupDefinition()
+    {
+        return Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);
+    }
+
+    public void RemoveDefinition(string id)
+    {
+        var definition = Definitions.SingleOrDefault(x => x.Id.Equals(id));
+        Definitions.Remove(definition);
+    }
+
+    public void SetVariable(string key, object value)
+    {
+        if (Variables.ContainsKey(key))
         {
-            Name = "Untitled";
-            var defaultDefinition = new StudioDefinition { Flow = this };
-            StartupDefinitionId = defaultDefinition.Id;
-            Definitions = new List<StudioDefinition> { defaultDefinition };
-            Variables = new Dictionary<string, object>();
-            OutputVariables = new Dictionary<string, object>();
+            Variables[key] = value;
         }
-
-        public StudioDefinition GetStartupDefinition()
+        else
         {
-            return Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);
+            Variables.Add(key, value);
         }
+    }
 
-        public void RemoveDefinition(string id)
+    public void SetInputVariable(string key, object value)
+    {
+        if (InputVariables.ContainsKey(key))
         {
-            var definition = Definitions.SingleOrDefault(x => x.Id.Equals(id));
-            Definitions.Remove(definition);
+            InputVariables[key] = value;
         }
-
-        public void SetVariable(string key, object value)
+        else
         {
-            if (Variables.ContainsKey(key))
-            {
-                Variables[key] = value;
-            }
-            else
-            {
-                Variables.Add(key, value);
-            }
+            InputVariables.Add(key, value);
         }
+    }
 
-        public void SetInputVariable(string key, object value)
+    public void SetOutputVariable(string key, object value)
+    {
+        if (OutputVariables.ContainsKey(key))
         {
-            if (InputVariables.ContainsKey(key))
-            {
-                InputVariables[key] = value;
-            }
-            else
-            {
-                InputVariables.Add(key, value);
-            }
+            OutputVariables[key] = value;
         }
-
-        public void SetOutputVariable(string key, object value)
+        else
         {
-            if (OutputVariables.ContainsKey(key))
-            {
-                OutputVariables[key] = value;
-            }
-            else
-            {
-                OutputVariables.Add(key, value);
-            }
+            OutputVariables.Add(key, value);
         }
+    }
 
-        public IEnumerable<string> GetVariableNames()
-        {
-            return Variables.Keys;
-        }
+    public IEnumerable<string> GetVariableNames()
+    {
+        return Variables.Keys;
+    }
 
-        public IEnumerable<string> GetInputVariableNames()
-        {
-            return InputVariables.Keys;
-        }
+    public IEnumerable<string> GetInputVariableNames()
+    {
+        return InputVariables.Keys;
+    }
 
-        public IEnumerable<string> GetOutputVariableNames()
-        {
-            return OutputVariables.Keys;
-        }
+    public IEnumerable<string> GetOutputVariableNames()
+    {
+        return OutputVariables.Keys;
+    }
 
-        public void DeleteVariable(string variable)
+    public void DeleteVariable(string variable)
+    {
+        Variables.Remove(variable);
+    }
+
+    public void DeleteInputVariable(string variable)
+    {
+        InputVariables.Remove(variable);
+    }
+
+    public void DeleteOutputVariable(string variable)
+    {
+        OutputVariables.Remove(variable);
+    }
+
+    public void DeleteVariables(IEnumerable<string> variables)
+    {
+        foreach (var variable in variables)
         {
             Variables.Remove(variable);
-        }
-
-        public void DeleteInputVariable(string variable)
-        {
-            InputVariables.Remove(variable);
-        }
-
-        public void DeleteOutputVariable(string variable)
-        {
-            OutputVariables.Remove(variable);
-        }
-
-        public void DeleteVariables(IEnumerable<string> variables)
-        {
-            foreach (var variable in variables)
-            {
-                Variables.Remove(variable);
-            }
         }
     }
 }

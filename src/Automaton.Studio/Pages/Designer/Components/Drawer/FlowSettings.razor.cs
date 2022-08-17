@@ -4,32 +4,31 @@ using Automaton.Studio.Domain;
 using Blazored.FluentValidation;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Designer.Components.Drawer
+namespace Automaton.Studio.Pages.Designer.Components.Drawer;
+
+public partial class FlowSettings
 {
-    public partial class FlowSettings
+    private StudioFlow flow;
+    private FluentValidationValidator fluentValidationValidator;
+
+    protected override async Task OnInitializedAsync()
     {
-        private StudioFlow flow;
-        private FluentValidationValidator fluentValidationValidator;
+        await base.OnInitializedAsync();
 
-        protected override async Task OnInitializedAsync()
+        flow = this.Options;
+    }
+
+    public async Task Submit()
+    {
+        if (fluentValidationValidator.Validate(options => options.IncludeAllRuleSets()))
         {
-            await base.OnInitializedAsync();
-
-            flow = this.Options;
+            var drawerRef = base.FeedbackRef as DrawerRef<bool>;
+            await drawerRef!.CloseAsync(true);
         }
+    }
 
-        public async Task Submit()
-        {
-            if (fluentValidationValidator.Validate(options => options.IncludeAllRuleSets()))
-            {
-                var drawerRef = base.FeedbackRef as DrawerRef<bool>;
-                await drawerRef!.CloseAsync(true);
-            }
-        }
-
-        public async Task Cancel()
-        {
-            await CloseFeedbackAsync();
-        }
+    public async Task Cancel()
+    {
+        await CloseFeedbackAsync();
     }
 }
