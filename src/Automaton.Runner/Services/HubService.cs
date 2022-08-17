@@ -4,7 +4,6 @@ using Automaton.Runner.Resources;
 using Automaton.Runner.Services;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner.Core.Services;

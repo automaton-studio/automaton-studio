@@ -1,9 +1,6 @@
 ﻿using Automaton.Runner.Core.Services;
-using Automaton.Runner.Resources;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace Automaton.Runner.ViewModels;
 

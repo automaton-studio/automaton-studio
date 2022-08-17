@@ -6,11 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Serilog;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
-using System.Windows;
 
 namespace Automaton.Runner;
 

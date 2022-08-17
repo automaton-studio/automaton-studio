@@ -2,7 +2,6 @@
 using Automaton.Client.Auth.Interfaces;
 using Automaton.Client.Auth.Models;
 using Automaton.Client.Auth.Providers;
-using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;

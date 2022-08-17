@@ -1,6 +1,4 @@
 ﻿using Automaton.Runner.ViewModels;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace Automaton.Runner.Pages;
 

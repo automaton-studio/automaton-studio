@@ -2,7 +2,6 @@
 using Automaton.Core.Models;
 using Automaton.Core.Services;
 using Automaton.Runner.Core.Services;
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 

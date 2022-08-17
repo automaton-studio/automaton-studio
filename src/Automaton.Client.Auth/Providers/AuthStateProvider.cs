@@ -5,7 +5,6 @@ using Automaton.Client.Auth.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http.Headers;
 using System.Security.Claims;
-using System.Text;
 using System.Text.Json;
 
 namespace Automaton.Client.Auth.Providers;

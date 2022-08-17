@@ -2,7 +2,6 @@
 using Automaton.Client.Auth.Models;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace Automaton.Runner.Services;
 
