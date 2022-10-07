@@ -21,7 +21,7 @@ public class ExecuteFlowStep : StudioStep
     private readonly IMapper mapper;
     private readonly FlowsService flowsService;
 
-    public IEnumerable<FlowModel> Flows { get; set; } = new List<FlowModel>();
+    public IEnumerable<ExecuteFlowModel> Flows { get; set; } = new List<ExecuteFlowModel>();
 
     public string FlowName
     {
@@ -102,7 +102,7 @@ public class ExecuteFlowStep : StudioStep
     public void OnFocus()
     {
         var flowsInfo = Task.Run(async () => await this.flowsService.List()).Result;
-        Flows = this.mapper.Map<ICollection<FlowModel>>(flowsInfo);
+        Flows = this.mapper.Map<ICollection<ExecuteFlowModel>>(flowsInfo);
     }
 
     public override Type GetDesignerComponent()

@@ -35,7 +35,7 @@ public class AutoMapperProfile : Profile
         CreateMap<StudioDefinition, FlowExplorerDefinition>();
         CreateMap<LoginModel, LoginDetails>();
 
-        CreateMap<FlowInfo, Steps.ExecuteFlow.FlowModel>();
+        CreateMap<FlowInfo, Steps.ExecuteFlow.ExecuteFlowModel>();
 
         CreateMap<FlowInfo, FlowModel>();
         CreateMap<FlowModel, FlowInfo>();
