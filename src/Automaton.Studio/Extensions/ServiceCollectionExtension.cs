@@ -21,6 +21,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 using Automaton.Studio.Mapper;
+using Automaton.Studio.Steps.Test;
+using Automaton.Studio.Steps.Sequence;
 
 namespace Automaton.Studio.Extensions;
 
@@ -53,6 +55,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<FlowsViewModel>();
         services.AddScoped<FlowsViewModel>();
         services.AddScoped<DesignerViewModel>();
+        services.AddScoped<SequenceStepDesignerViewModel>();      
         services.AddScoped<StepsViewModel>();
         services.AddScoped<FlowExplorerViewModel>();
         services.AddScoped<LoginViewModel>();
@@ -69,7 +72,8 @@ public static class ServiceCollectionExtension
         services.AddTransient<AddVariableStep>();
         services.AddTransient<ExecutePythonStep>();
         services.AddTransient<ExecuteFlowStep>();
-        
+        services.AddTransient<TestStep>();
+
         // Models
         services.AddScoped<AppConfig>();
         services.AddScoped<ApiConfig>();

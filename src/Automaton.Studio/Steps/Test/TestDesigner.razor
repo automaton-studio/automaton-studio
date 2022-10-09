@@ -1,0 +1,22 @@
+﻿@using Automaton.Studio.Steps
+@using Automaton.Studio.Steps.Sequence
+
+<SequenceStepDesigner Step=@Step>
+    <div>
+        <b>@Step.DisplayName</b>
+    </div>
+    <div>
+        Log <a href="" @onclick:preventDefault>@Step.Message</a> to console
+    </div>
+</SequenceStepDesigner>
+
+@code {
+    [Parameter]
+    public TestStep Step { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+}
+
