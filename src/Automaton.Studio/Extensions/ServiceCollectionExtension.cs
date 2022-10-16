@@ -73,6 +73,7 @@ public static class ServiceCollectionExtension
         services.AddTransient<ExecutePythonStep>();
         services.AddTransient<ExecuteFlowStep>();
         services.AddTransient<TestStep>();
+        services.AddTransient<SequenceStep>();
 
         // Models
         services.AddScoped<AppConfig>();

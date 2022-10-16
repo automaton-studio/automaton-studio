@@ -1,10 +1,13 @@
+using Automaton.Studio.Domain;
 using Automaton.Studio.Services;
+using Automaton.Studio.Steps.Sequence;
+using Automaton.Studio.Steps.Test;
 using Microsoft.AspNetCore.Components;
 using System.Text;
 
 namespace Automaton.Studio.Pages.Designer.Components;
 
-public partial class Dropzone<TItem> : ComponentBase
+public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
 {
     [Inject]
     DragDropService<TItem> DragDropService { get; set; }
@@ -123,15 +126,19 @@ public partial class Dropzone<TItem> : ComponentBase
             return;
         if (!IsItemAccepted(item))
             return;
-        DragDropService.DragTargetItem = item;
-        if (InstantReplace)
-        {
-            Swap(DragDropService.DragTargetItem, activeItem);
-        }
 
-        DragDropService.ShouldRender = true;
-        StateHasChanged();
-        DragDropService.ShouldRender = false;
+        if(item is not SequenceStep)
+        {
+            DragDropService.DragTargetItem = item;
+            if (InstantReplace)
+            {
+                Swap(DragDropService.DragTargetItem, activeItem);
+            }
+
+            DragDropService.ShouldRender = true;
+            StateHasChanged();
+            DragDropService.ShouldRender = false;
+        }
     }
 
     public void OnDragLeave()

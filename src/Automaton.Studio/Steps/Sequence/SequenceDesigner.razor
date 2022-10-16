@@ -1,0 +1,19 @@
+﻿@using Automaton.Studio.Steps
+@using Automaton.Studio.Steps.Sequence
+
+<SequenceStepDesigner Step=@Step>
+    <div>
+        <b>@Step.DisplayName</b>
+    </div>
+</SequenceStepDesigner>
+
+@code {
+    [Parameter]
+    public SequenceStep Step { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+}
+
