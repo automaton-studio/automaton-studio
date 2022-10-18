@@ -11,203 +11,6 @@ public partial class Dropzone : ComponentBase
     [Inject]
     DragDropService DragDropService { get; set; }
 
-    private void OnDropItemOnSpacing(int newIndex)
-    {
-        if (!IsDropAllowed())
-        {
-            DragDropService.Reset();
-            return;
-        }
-
-        var activeItem = DragDropService.ActiveStep;
-        var oldIndex = Items.IndexOf(activeItem);
-
-        if (oldIndex == -1) // item not present in target dropzone
-        {
-            if (DragDropService.Items != null)
-                DragDropService.Items.Remove(activeItem);
-        }
-        else // same dropzone drop
-        {
-            Items.RemoveAt(oldIndex);
-            // the actual index could have shifted due to the removal
-            if (newIndex > oldIndex)
-                newIndex--;
-        }
-
-        Items.Insert(newIndex, activeItem);
-
-        OnItemDrop.InvokeAsync(activeItem);
-
-        //Operation is finished
-        DragDropService.Reset();
-    }
-
-    private bool IsMaxItemLimitReached()
-    {
-        var activeItem = DragDropService.ActiveStep;
-        return (!Items.Contains(activeItem) && MaxItems.HasValue && MaxItems == Items.Count());
-    }
-
-    private string IsItemDragable(StudioStep item)
-    {
-        if (AllowsDrag == null)
-            return "true";
-        if (item == null)
-            return "false";
-        return AllowsDrag(item).ToString();
-    }
-
-    private bool IsItemAccepted(StudioStep dragTargetItem)
-    {
-        if (Accepts == null)
-            return true;
-        return Accepts(DragDropService.ActiveStep, dragTargetItem);
-    }
-
-    private bool IsValidItem()
-    {
-        return DragDropService.ActiveStep != null;
-    }
-
-    private void ForceRender(object sender, EventArgs e)
-    {
-        StateHasChanged();
-    }
-
-    protected override void OnInitialized()
-    {
-        DragDropService.StateHasChanged += ForceRender;
-        base.OnInitialized();
-    }
-
-    public string CheckIfDraggable(StudioStep item)
-    {
-        if (AllowsDrag == null)
-            return "";
-        if (item == null)
-            return "";
-        if (AllowsDrag(item))
-            return "";
-        return "plk-dd-noselect";
-    }
-
-    public string CheckIfDragOperationIsInProgess()
-    {
-        var activeItem = DragDropService.ActiveStep;
-        return activeItem == null ? "" : "plk-dd-inprogess";
-    }
-
-    public void OnDragEnd()
-    {
-        if (DragEnd != null)
-        {
-            DragEnd(DragDropService.ActiveStep);
-        }
-
-        DragDropService.Reset();
-        //dragTargetItem = default;
-    }
-
-    public void OnDragEnter(StudioStep step)
-    {
-        var activeStep = DragDropService.ActiveStep;
-
-        if (step.Equals(activeStep))
-            return;
-        if (!IsValidItem())
-            return;
-        if (IsMaxItemLimitReached())
-            return;
-        if (!IsItemAccepted(step))
-            return;
-
-        activeStep.Dropzone = this;
-
-        if(step is not SequenceStep)
-        {
-            DragDropService.DragTargetStep = step;
-            if (InstantReplace)
-            {
-                Swap(DragDropService.DragTargetStep, activeStep);
-            }
-
-            StateHasChanged();
-        }
-    }
-
-    public void OnDragLeave()
-    {
-        DragDropService.DragTargetStep = default;
-        StateHasChanged();
-    }
-
-    public void OnDragStart(StudioStep item)
-    {
-        DragDropService.ActiveStep = item;
-        DragDropService.Items = Items;
-        StateHasChanged();
-    }
-
-    public string CheckIfItemIsInTransit(StudioStep item)
-    {
-        return item.Equals(DragDropService.ActiveStep) ? "plk-dd-in-transit no-pointer-events" : "";
-    }
-
-    public string CheckIfItemIsDragTarget(StudioStep item)
-    {
-        if (item.Equals(DragDropService.ActiveStep))
-            return "";
-        if (item.Equals(DragDropService.DragTargetStep))
-        {
-            return IsItemAccepted(DragDropService.DragTargetStep) ? "plk-dd-dragged-over" : "plk-dd-dragged-over-denied";
-        }
-
-        return "";
-    }
-
-    private string GetClassesForDraggable(StudioStep item)
-    {
-        var builder = new StringBuilder();
-        builder.Append("plk-dd-draggable");
-        if (ItemWrapperClass != null)
-        {
-            var itemWrapperClass = ItemWrapperClass(item);
-            builder.AppendLine(" " + itemWrapperClass);
-        }
-
-        return builder.ToString();
-    }
-
-    private string GetClassesForDropzone()
-    {
-        var builder = new StringBuilder();
-        builder.Append("plk-dd-dropzone");
-        if (!String.IsNullOrEmpty(Class))
-        {
-            builder.AppendLine(" " + Class);
-        }
-
-        return builder.ToString();
-    }
-
-    private string GetClassesForSpacing(int spacerId)
-    {
-        var builder = new StringBuilder();
-        builder.Append("plk-dd-spacing");
-        //if active space id and item is from another dropzone -> always create insert space
-        if (DragDropService.ActiveSpacerId == spacerId && Items.IndexOf(DragDropService.ActiveStep) == -1)
-        {
-            builder.Append(" plk-dd-spacing-dragged-over");
-        } // else -> check if active space id and that it is an item that needs space
-        else if (DragDropService.ActiveSpacerId == spacerId && (spacerId != Items.IndexOf(DragDropService.ActiveStep)) && (spacerId != Items.IndexOf(DragDropService.ActiveStep) + 1))
-        {
-            builder.Append(" plk-dd-spacing-dragged-over");
-        }
-
-        return builder.ToString();
-    }
-
     /// <summary>
     /// Allows to pass a delegate which executes if something is dropped and decides if the item is accepted
     /// </summary>
@@ -237,7 +40,6 @@ public partial class Dropzone : ComponentBase
     /// </summary>
     [Parameter]
     public EventCallback OnDropzoneMouseDown { get; set; }
-
 
     /// <summary>
     /// Raises a callback with the dropped item as parameter in case the item can not be dropped due to the given Accept Delegate
@@ -326,6 +128,208 @@ public partial class Dropzone : ComponentBase
         set { DragDropService.ActiveStep = value; }
     }
 
+    private bool IsMaxItemLimitReached()
+    {
+        var activeItem = DragDropService.ActiveStep;
+        return (!Items.Contains(activeItem) && MaxItems.HasValue && MaxItems == Items.Count());
+    }
+
+    private string IsItemDragable(StudioStep item)
+    {
+        if (AllowsDrag == null)
+            return "true";
+        if (item == null)
+            return "false";
+        return AllowsDrag(item).ToString();
+    }
+
+    private bool IsItemAccepted(StudioStep dragTargetItem)
+    {
+        if (Accepts == null)
+            return true;
+        return Accepts(DragDropService.ActiveStep, dragTargetItem);
+    }
+
+    private bool IsValidItem()
+    {
+        return DragDropService.ActiveStep != null;
+    }
+
+    private void ForceRender(object sender, EventArgs e)
+    {
+        StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        DragDropService.StateHasChanged += ForceRender;
+        base.OnInitialized();
+    }
+
+    public string CheckIfDraggable(StudioStep item)
+    {
+        if (AllowsDrag == null)
+            return string.Empty;
+        if (item == null)
+            return string.Empty;
+        if (AllowsDrag(item))
+            return string.Empty;
+        return "plk-dd-noselect";
+    }
+
+    public string CheckIfDragOperationIsInProgess()
+    {
+        var activeItem = DragDropService.ActiveStep;
+        return activeItem == null ? string.Empty : "plk-dd-inprogess";
+    }
+
+    public void OnDropItemOnSpacing(int newIndex)
+    {
+        if (!IsDropAllowed())
+        {
+            DragDropService.Reset();
+            return;
+        }
+
+        var activeItem = DragDropService.ActiveStep;
+        var oldIndex = Items.IndexOf(activeItem);
+
+        if (oldIndex == -1) // item not present in target dropzone
+        {
+            if (DragDropService.Items != null)
+                DragDropService.Items.Remove(activeItem);
+        }
+        else // same dropzone drop
+        {
+            Items.RemoveAt(oldIndex);
+            // the actual index could have shifted due to the removal
+            if (newIndex > oldIndex)
+                newIndex--;
+        }
+
+        Items.Insert(newIndex, activeItem);
+
+        OnItemDrop.InvokeAsync(activeItem);
+
+        //Operation is finished
+        DragDropService.Reset();
+    }
+
+    public void OnDragEnd()
+    {
+        if (DragEnd != null)
+        {
+            DragEnd(DragDropService.ActiveStep);
+        }
+
+        DragDropService.Reset();
+    }
+
+    public void OnDragEnter(StudioStep step)
+    {
+        var activeStep = DragDropService.ActiveStep;
+
+        if (step.Equals(activeStep))
+            return;
+
+        if (!IsValidItem())
+            return;
+
+        if (IsMaxItemLimitReached())
+            return;
+
+        if (!IsItemAccepted(step))
+            return;
+
+        activeStep.Dropzone = this;
+
+        if(step is not SequenceStep)
+        {
+            DragDropService.DragTargetStep = step;
+            if (InstantReplace)
+            {
+                Swap(DragDropService.DragTargetStep, activeStep);
+            }
+
+            StateHasChanged();
+        }
+    }
+
+    public void OnDragLeave()
+    {
+        DragDropService.DragTargetStep = default;
+        StateHasChanged();
+    }
+
+    public void OnDragStart(StudioStep item)
+    {
+        DragDropService.ActiveStep = item;
+        DragDropService.Items = Items;
+        StateHasChanged();
+    }
+
+    private string CheckIfItemIsInTransit(StudioStep item)
+    {
+        return item.Equals(DragDropService.ActiveStep) ? "plk-dd-in-transit no-pointer-events" : string.Empty;
+    }
+
+    private string CheckIfItemIsDragTarget(StudioStep item)
+    {
+        if (item.Equals(DragDropService.ActiveStep))
+            return string.Empty;
+
+        if (item.Equals(DragDropService.DragTargetStep))
+        {
+            return IsItemAccepted(DragDropService.DragTargetStep) ? "plk-dd-dragged-over" : "plk-dd-dragged-over-denied";
+        }
+
+        return string.Empty;
+    }
+
+    private string GetClassesForDraggable(StudioStep item)
+    {
+        var builder = new StringBuilder();
+        builder.Append("plk-dd-draggable");
+
+        if (ItemWrapperClass != null)
+        {
+            var itemWrapperClass = ItemWrapperClass(item);
+            builder.AppendLine(" " + itemWrapperClass);
+        }
+
+        return builder.ToString();
+    }
+
+    private string GetClassesForDropzone()
+    {
+        var builder = new StringBuilder();
+        builder.Append("plk-dd-dropzone");
+        if (!String.IsNullOrEmpty(Class))
+        {
+            builder.AppendLine(" " + Class);
+        }
+
+        return builder.ToString();
+    }
+
+    private string GetClassesForSpacing(int spacerId)
+    {
+        var builder = new StringBuilder();
+        builder.Append("plk-dd-spacing");
+
+        //if active space id and item is from another dropzone -> always create insert space
+        if (DragDropService.ActiveSpacerId == spacerId && Items.IndexOf(DragDropService.ActiveStep) == -1)
+        {
+            builder.Append(" plk-dd-spacing-dragged-over");
+        } // else -> check if active space id and that it is an item that needs space
+        else if (DragDropService.ActiveSpacerId == spacerId && (spacerId != Items.IndexOf(DragDropService.ActiveStep)) && (spacerId != Items.IndexOf(DragDropService.ActiveStep) + 1))
+        {
+            builder.Append(" plk-dd-spacing-dragged-over");
+        }
+
+        return builder.ToString();
+    }
+
     private bool IsDropAllowed()
     {
         var activeItem = DragDropService.ActiveStep;
@@ -383,6 +387,7 @@ public partial class Dropzone : ComponentBase
         }
 
         var activeItem = DragDropService.ActiveStep;
+
         if (DragDropService.DragTargetStep == null) //no direct drag target
         {
             if (!Items.Contains(activeItem)) //if dragged to another dropzone
@@ -394,7 +399,6 @@ public partial class Dropzone : ComponentBase
             else
             {
                 //what to do here?
-
             }
         }
         else // we have a direct target
