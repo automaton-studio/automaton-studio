@@ -7,12 +7,12 @@ public class DragDropService
     /// <summary>
     /// Currently Active Item
     /// </summary>
-    public StudioStep ActiveItem { get; set; }
+    public StudioStep ActiveStep { get; set; }
 
     /// <summary>
     /// The item the active item is hovering above.
     /// </summary>
-    public StudioStep DragTargetItem { get; set; }
+    public StudioStep DragTargetStep { get; set; }
 
     /// <summary>
     /// Holds a reference to the items of the dropzone in which the drag operation originated
@@ -29,16 +29,13 @@ public class DragDropService
     /// </summary>
     public void Reset()
     {
-        ShouldRender = true;
-        ActiveItem = default;
+        ActiveStep = default;
         ActiveSpacerId = null;
         Items = null;
-        DragTargetItem = default;
+        DragTargetStep = default;
 
         StateHasChanged?.Invoke(this, EventArgs.Empty);
     }
-
-    public bool ShouldRender { get; set; } = true;
 
     // Notify subscribers that there is a need for rerender
     public EventHandler StateHasChanged { get; set; }
