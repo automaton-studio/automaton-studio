@@ -14,20 +14,6 @@ namespace Automaton.Studio.Steps.Test;
 )]
 public class TestStep : SequenceStep
 {
-    public string Message
-    {
-        get
-        {
-            return Inputs.ContainsKey(nameof(Message)) ?
-                Inputs[nameof(Message)].ToString() : string.Empty;
-        }
-
-        set
-        {
-            Inputs[nameof(Message)] = value;
-        }
-    }
-
     public TestStep()
     {
     }
@@ -39,6 +25,6 @@ public class TestStep : SequenceStep
 
     public override Type GetPropertiesComponent()
     {
-        return typeof(TestProperties);
+        throw new NotImplementedException();
     }
 }

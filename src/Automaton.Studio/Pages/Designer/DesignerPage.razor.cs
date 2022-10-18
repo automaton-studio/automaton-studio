@@ -15,7 +15,7 @@ namespace Automaton.Studio.Pages.Designer;
 
 partial class DesignerPage : ComponentBase
 {
-    private Dropzone<StudioStep> dropzone;
+    private Dropzone dropzone;
 
     [Inject] private ModalService ModalService { get; set; } = default!;
 
@@ -67,7 +67,7 @@ partial class DesignerPage : ComponentBase
         }
     }
 
-    private void OnStepMouseDown(Domain.StudioStep step)
+    private void OnStepMouseDown(StudioStep step)
     {
         // Unselect all the previous selected activities
         UnselectSteps();
@@ -76,8 +76,13 @@ partial class DesignerPage : ComponentBase
         step.Select();
     }
 
-    private async Task OnStepDoubleClick(Domain.StudioStep step)
+    private async Task OnStepDoubleClick(StudioStep step)
     {
+        if (!step.HasProperties)
+        {
+            return;
+        }
+
         var result = await step.DisplayPropertiesDialog(ModalService);
 
         result.OnOk = () =>
@@ -123,16 +128,19 @@ partial class DesignerPage : ComponentBase
         await DesignerViewModel.SaveFlow();
     }
 
-    private async Task NewStepDialog(Domain.StudioStep step)
+    private async Task NewStepDialog(StudioStep step)
     {
+        if (!step.HasProperties)
+        {
+            return;
+        }
+
         var result = await step.DisplayPropertiesDialog(ModalService);
 
         result.OnOk = () =>
         {
             DesignerViewModel.FinalizeStep(step);
 
-            // TODO! It may be inneficient to update the state of the entire Designer control.
-            // A better alternative would be to update the state of the step being updated.
             StateHasChanged();
 
             return Task.CompletedTask;
@@ -142,8 +150,6 @@ partial class DesignerPage : ComponentBase
         {
             DesignerViewModel.DeleteStep(step);
 
-            // TODO! It may be inneficient to update the state of the entire Designer control.
-            // A better alternative would be to update the state of the activity being updated.
             StateHasChanged();
 
             return Task.CompletedTask;
@@ -229,6 +235,6 @@ partial class DesignerPage : ComponentBase
 
     private void OnTabClick(string key)
     {
-        DesignerViewModel.SetActiveDefinition(key);  
+        DesignerViewModel.SetActiveDefinition(key);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Automaton.Core.Enums;
 using Automaton.Studio.Domain.Interfaces;
+using Automaton.Studio.Pages.Designer.Components;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -22,6 +23,8 @@ public abstract class StudioStep : INotifyPropertyChanged
     #endregion
 
     #region Properties
+
+    public Dropzone Dropzone { get; set; }
 
     public StudioDefinition Definition { get; set; }
 
@@ -49,11 +52,7 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public TimeSpan? RetryInterval { get; set; }
 
-    public List<List<StudioStep>> Do { get; set; } = new List<List<StudioStep>>();
-
-    public List<StudioStep> CompensateWith { get; set; } = new List<StudioStep>();
-
-    public bool Saga { get; set; } = false;
+    public virtual bool HasProperties { get; set; } = true;
 
     public string NextStepId { get; set; }
 

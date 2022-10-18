@@ -1,16 +1,15 @@
 using Automaton.Studio.Domain;
 using Automaton.Studio.Services;
 using Automaton.Studio.Steps.Sequence;
-using Automaton.Studio.Steps.Test;
 using Microsoft.AspNetCore.Components;
 using System.Text;
 
 namespace Automaton.Studio.Pages.Designer.Components;
 
-public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
+public partial class Dropzone : ComponentBase
 {
     [Inject]
-    DragDropService<TItem> DragDropService { get; set; }
+    DragDropService DragDropService { get; set; }
 
     private void OnDropItemOnSpacing(int newIndex)
     {
@@ -50,7 +49,7 @@ public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
         return (!Items.Contains(activeItem) && MaxItems.HasValue && MaxItems == Items.Count());
     }
 
-    private string IsItemDragable(TItem item)
+    private string IsItemDragable(StudioStep item)
     {
         if (AllowsDrag == null)
             return "true";
@@ -59,7 +58,7 @@ public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
         return AllowsDrag(item).ToString();
     }
 
-    private bool IsItemAccepted(TItem dragTargetItem)
+    private bool IsItemAccepted(StudioStep dragTargetItem)
     {
         if (Accepts == null)
             return true;
@@ -87,7 +86,7 @@ public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
         base.OnInitialized();
     }
 
-    public string CheckIfDraggable(TItem item)
+    public string CheckIfDraggable(StudioStep item)
     {
         if (AllowsDrag == null)
             return "";
@@ -115,9 +114,10 @@ public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
         //dragTargetItem = default;
     }
 
-    public void OnDragEnter(TItem item)
+    public void OnDragEnter(StudioStep item)
     {
         var activeItem = DragDropService.ActiveItem;
+
         if (item.Equals(activeItem))
             return;
         if (!IsValidItem())
@@ -126,6 +126,8 @@ public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
             return;
         if (!IsItemAccepted(item))
             return;
+
+        activeItem.Dropzone = this;
 
         if(item is not SequenceStep)
         {
@@ -149,7 +151,7 @@ public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
         DragDropService.ShouldRender = false;
     }
 
-    public void OnDragStart(TItem item)
+    public void OnDragStart(StudioStep item)
     {
         DragDropService.ShouldRender = true;
         DragDropService.ActiveItem = item;
@@ -158,12 +160,12 @@ public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
         DragDropService.ShouldRender = false;
     }
 
-    public string CheckIfItemIsInTransit(TItem item)
+    public string CheckIfItemIsInTransit(StudioStep item)
     {
         return item.Equals(DragDropService.ActiveItem) ? "plk-dd-in-transit no-pointer-events" : "";
     }
 
-    public string CheckIfItemIsDragTarget(TItem item)
+    public string CheckIfItemIsDragTarget(StudioStep item)
     {
         if (item.Equals(DragDropService.ActiveItem))
             return "";
@@ -175,7 +177,7 @@ public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
         return "";
     }
 
-    private string GetClassesForDraggable(TItem item)
+    private string GetClassesForDraggable(StudioStep item)
     {
         var builder = new StringBuilder();
         builder.Append("plk-dd-draggable");
@@ -221,19 +223,19 @@ public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
     /// Allows to pass a delegate which executes if something is dropped and decides if the item is accepted
     /// </summary>
     [Parameter]
-    public Func<TItem, TItem, bool> Accepts { get; set; }
+    public Func<StudioStep, StudioStep, bool> Accepts { get; set; }
 
     /// <summary>
     /// Allows to pass a delegate which executes if something is dropped and decides if the item is accepted
     /// </summary>
     [Parameter]
-    public Func<TItem, bool> AllowsDrag { get; set; }
+    public Func<StudioStep, bool> AllowsDrag { get; set; }
 
     /// <summary>
     /// Allows to pass a delegate which executes if a drag operation ends
     /// </summary>
     [Parameter]
-    public Action<TItem> DragEnd { get; set; }
+    public Action<StudioStep> DragEnd { get; set; }
 
     /// <summary>
     /// Raises a Dropzone click callback 
@@ -252,37 +254,37 @@ public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
     /// Raises a callback with the dropped item as parameter in case the item can not be dropped due to the given Accept Delegate
     /// </summary>
     [Parameter]
-    public EventCallback<TItem> OnItemDropRejected { get; set; }
+    public EventCallback<StudioStep> OnItemDropRejected { get; set; }
 
     /// <summary>
     /// Raises a callback with the dropped item as parameter
     /// </summary>
     [Parameter]
-    public EventCallback<TItem> OnItemDrop { get; set; }
+    public EventCallback<StudioStep> OnItemDrop { get; set; }
 
     /// <summary>
     /// Raises a callback with clicked item as parameter
     /// </summary>
     [Parameter]
-    public EventCallback<TItem> OnItemClick { get; set; }
+    public EventCallback<StudioStep> OnItemClick { get; set; }
 
     /// <summary>
     /// Raises a callback with mouse down item as parameter
     /// </summary>
     [Parameter]
-    public EventCallback<TItem> OnItemMouseDown { get; set; }
+    public EventCallback<StudioStep> OnItemMouseDown { get; set; }
 
     /// <summary>
     /// Raises a callback with double clicked item as parameter
     /// </summary>
     [Parameter]
-    public EventCallback<TItem> OnItemDoubleClick { get; set; }
+    public EventCallback<StudioStep> OnItemDoubleClick { get; set; }
 
     /// <summary>
     /// Raises a callback with the replaced item as parameter
     /// </summary>
     [Parameter]
-    public EventCallback<TItem> OnReplacedItemDrop { get; set; }
+    public EventCallback<StudioStep> OnReplacedItemDrop { get; set; }
 
     /// <summary>
     /// If set to true, items will we be swapped/inserted instantly.
@@ -294,7 +296,7 @@ public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
     /// List of items for the dropzone
     /// </summary>
     [Parameter]
-    public IList<TItem> Items { get; set; }
+    public IList<StudioStep> Items { get; set; }
 
     /// <summary>
     /// Maximum Number of items which can be dropped in this dropzone. Defaults to null which means unlimited.
@@ -306,10 +308,10 @@ public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
     /// Raises a callback with the dropped item as parameter in case the item can not be dropped due to item limit.
     /// </summary>
     [Parameter]
-    public EventCallback<TItem> OnItemDropRejectedByMaxItemLimit { get; set; }
+    public EventCallback<StudioStep> OnItemDropRejectedByMaxItemLimit { get; set; }
 
     [Parameter]
-    public RenderFragment<TItem> ChildContent { get; set; }
+    public RenderFragment<StudioStep> ChildContent { get; set; }
 
     /// <summary>
     /// Specifies one or more classnames for the Dropzone element.
@@ -327,9 +329,9 @@ public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
     /// Allows to pass a delegate which specifies one or more classnames for the draggable div that wraps your elements.
     /// </summary>
     [Parameter]
-    public Func<TItem, string> ItemWrapperClass { get; set; }
+    public Func<StudioStep, string> ItemWrapperClass { get; set; }
 
-    public TItem ActiveItem
+    public StudioStep ActiveItem
     {
         get { return DragDropService.ActiveItem; }
         set { DragDropService.ActiveItem = value; }
@@ -368,17 +370,17 @@ public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
         OnDropzoneMouseDown.InvokeAsync(null);
     }
 
-    private void ItemClick(TItem item)
+    private void ItemClick(StudioStep item)
     {
         OnItemClick.InvokeAsync(item);
     }
 
-    private void ItemMouseDown(TItem item)
+    private void ItemMouseDown(StudioStep item)
     {
         OnItemMouseDown.InvokeAsync(item);
     }
 
-    private void ItemDoubleClick(TItem item)
+    private void ItemDoubleClick(StudioStep item)
     {
         OnItemDoubleClick.InvokeAsync(item);
     }
@@ -432,7 +434,7 @@ public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
         StateHasChanged();
     }
 
-    private void Swap(TItem draggedOverItem, TItem activeItem)
+    private void Swap(StudioStep draggedOverItem, StudioStep activeItem)
     {
         var indexDraggedOverItem = Items.IndexOf(draggedOverItem);
         var indexActiveItem = Items.IndexOf(activeItem);
@@ -448,7 +450,7 @@ public partial class Dropzone<TItem> : ComponentBase where TItem : StudioStep
         {
             if (indexDraggedOverItem == indexActiveItem)
                 return;
-            TItem tmp = Items[indexDraggedOverItem];
+            StudioStep tmp = Items[indexDraggedOverItem];
             Items[indexDraggedOverItem] = Items[indexActiveItem];
             Items[indexActiveItem] = tmp;
             OnReplacedItemDrop.InvokeAsync(Items[indexActiveItem]);

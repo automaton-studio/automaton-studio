@@ -81,7 +81,7 @@ public static class ServiceCollectionExtension
 
         // Other
         services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });
-        services.AddScoped(typeof(DragDropService<>));
+        services.AddScoped(typeof(DragDropService));
         services.AddScoped(service => new ConfigurationService(configuration));
 
         // Automapper profile

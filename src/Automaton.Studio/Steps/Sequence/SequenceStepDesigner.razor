@@ -14,13 +14,11 @@
             <Dropzone 
                 Class="sequence-dropzone"
                 @ref="dropzone"
-                TItem="Domain.StudioStep"
                 Items="DesignerViewModel.Steps"
                 InstantReplace="true"
                 OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
                 OnItemDrop="@((p)=>OnStepDrop(p))"
-                OnItemMouseDown="@((p)=>OnStepMouseDown(p))"
-                OnItemDoubleClick="@((p)=>OnStepDoubleClick(p))">
+                OnItemMouseDown="@((p)=>OnStepMouseDown(p))">
                 <DropzoneStep Step="@context" />
             </Dropzone>
         </Col>
@@ -30,9 +28,6 @@
             <Dropdown Placement="@Placement.Left" Trigger="@(new Trigger[] { Trigger.Click })">
                 <Overlay>
                     <Menu>
-                        <MenuItem Icon="edit" OnClick="@(() => OnEdit(Step))">
-                            Edit
-                        </MenuItem>
                         <MenuItem Icon="delete" OnClick="@(() => OnDelete(Step))">
                             Delete
                         </MenuItem>

@@ -1,7 +1,5 @@
-﻿using AntDesign;
-using Automaton.Studio.Domain;
+﻿using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
-using Automaton.Studio.Extensions;
 using Automaton.Studio.Pages.Designer.Components;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
@@ -10,16 +8,13 @@ namespace Automaton.Studio.Steps.Sequence;
 
 public partial class SequenceStepDesigner : ComponentBase
 {
-    private Dropzone<StudioStep> dropzone;
+    private Dropzone dropzone;
 
     [Parameter]
-    public Domain.StudioStep Step { get; set; }
+    public StudioStep Step { get; set; }
 
     [Parameter] 
     public RenderFragment ChildContent { get; set; }
-
-    [Inject] 
-    private ModalService ModalService { get; set; } = default!;
 
     [Inject] private SequenceStepDesignerViewModel DesignerViewModel { get; set; } = default!;
 
@@ -72,16 +67,11 @@ public partial class SequenceStepDesigner : ComponentBase
         dropzone.ActiveItem.Select();
     }
 
-    private async Task OnStepDrop(Domain.StudioStep step)
+    private async Task OnStepDrop(StudioStep step)
     {
-        if (!step.IsFinal())
-        {
-            await NewStepDialog(step);
-        }
-        else
-        {
-            DesignerViewModel.UpdateStepConnections();
-        }
+        DesignerViewModel.UpdateStepConnections();
+
+        await Task.CompletedTask;
     }
 
     private void OnStepMouseDown(StudioStep step)
@@ -93,60 +83,9 @@ public partial class SequenceStepDesigner : ComponentBase
         step.Select();
     }
 
-    private async Task OnStepDoubleClick(StudioStep step)
-    {
-        var result = await step.DisplayPropertiesDialog(ModalService);
-
-        result.OnOk = () =>
-        {
-            StateHasChanged();
-
-            return Task.CompletedTask;
-        };
-    }
-
-    private async Task OnEdit(StudioStep step)
-    {
-        var result = await step.DisplayPropertiesDialog(ModalService);
-
-        result.OnOk = () => {
-
-            StateHasChanged();
-
-            return Task.CompletedTask;
-        };
-    }
-
     private static void OnDelete(StudioStep step)
     {
         step.Definition.DeleteStep(step);
-    }
-
-    private async Task NewStepDialog(StudioStep step)
-    {
-        var result = await step.DisplayPropertiesDialog(ModalService);
-
-        result.OnOk = () =>
-        {
-            DesignerViewModel.FinalizeStep(step);
-
-            // TODO! It may be inneficient to update the state of the entire Designer control.
-            // A better alternative would be to update the state of the step being updated.
-            StateHasChanged();
-
-            return Task.CompletedTask;
-        };
-
-        result.OnCancel = () =>
-        {
-            DesignerViewModel.DeleteStep(step);
-
-            // TODO! It may be inneficient to update the state of the entire Designer control.
-            // A better alternative would be to update the state of the activity being updated.
-            StateHasChanged();
-
-            return Task.CompletedTask;
-        };
     }
 
     public IEnumerable<StudioStep> GetSelectedSteps()

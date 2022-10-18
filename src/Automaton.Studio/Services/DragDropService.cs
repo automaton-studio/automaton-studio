@@ -1,21 +1,23 @@
-﻿namespace Automaton.Studio.Services;
+﻿using Automaton.Studio.Domain;
 
-public class DragDropService<T>
+namespace Automaton.Studio.Services;
+
+public class DragDropService
 {
     /// <summary>
     /// Currently Active Item
     /// </summary>
-    public T ActiveItem { get; set; }
+    public StudioStep ActiveItem { get; set; }
 
     /// <summary>
     /// The item the active item is hovering above.
     /// </summary>
-    public T DragTargetItem { get; set; }
+    public StudioStep DragTargetItem { get; set; }
 
     /// <summary>
     /// Holds a reference to the items of the dropzone in which the drag operation originated
     /// </summary>
-    public IList<T> Items { get; set; }
+    public IList<StudioStep> Items { get; set; }
 
     /// <summary>
     /// Holds the id of the Active Spacing div
