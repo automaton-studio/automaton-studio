@@ -8,8 +8,7 @@ namespace Automaton.Studio.Pages.Designer.Components;
 
 public partial class Dropzone : ComponentBase
 {
-    [Inject]
-    DragDropService DragDropService { get; set; }
+    [Inject] DragDropService DragDropService { get; set; }
 
     /// <summary>
     /// Allows to pass a delegate which executes if something is dropped and decides if the item is accepted
@@ -128,40 +127,9 @@ public partial class Dropzone : ComponentBase
         set { DragDropService.ActiveStep = value; }
     }
 
-    private bool IsMaxItemLimitReached()
-    {
-        var activeItem = DragDropService.ActiveStep;
-        return (!Items.Contains(activeItem) && MaxItems.HasValue && MaxItems == Items.Count());
-    }
-
-    private string IsItemDragable(StudioStep item)
-    {
-        if (AllowsDrag == null)
-            return "true";
-        if (item == null)
-            return "false";
-        return AllowsDrag(item).ToString();
-    }
-
-    private bool IsItemAccepted(StudioStep dragTargetItem)
-    {
-        if (Accepts == null)
-            return true;
-        return Accepts(DragDropService.ActiveStep, dragTargetItem);
-    }
-
-    private bool IsValidItem()
-    {
-        return DragDropService.ActiveStep != null;
-    }
-
-    private void ForceRender(object sender, EventArgs e)
-    {
-        StateHasChanged();
-    }
-
     protected override void OnInitialized()
     {
+        Id = Guid.NewGuid().ToString();
         DragDropService.StateHasChanged += ForceRender;
         base.OnInitialized();
     }
@@ -225,7 +193,7 @@ public partial class Dropzone : ComponentBase
         DragDropService.Reset();
     }
 
-    public void OnDragEnter(StudioStep step)
+    public void OnItemDragEnter(StudioStep step)
     {
         var activeStep = DragDropService.ActiveStep;
 
@@ -242,17 +210,15 @@ public partial class Dropzone : ComponentBase
             return;
 
         activeStep.Dropzone = this;
+      
+        DragDropService.DragTargetStep = step;
 
-        if(step is not SequenceStep)
+        if (InstantReplace && step is not SequenceStep)
         {
-            DragDropService.DragTargetStep = step;
-            if (InstantReplace)
-            {
-                Swap(DragDropService.DragTargetStep, activeStep);
-            }
-
-            StateHasChanged();
+            Swap(DragDropService.DragTargetStep, activeStep);
         }
+
+        StateHasChanged();
     }
 
     public void OnDragLeave()
@@ -266,6 +232,19 @@ public partial class Dropzone : ComponentBase
         DragDropService.ActiveStep = item;
         DragDropService.Items = Items;
         StateHasChanged();
+    }
+
+    private void OnDragEnter()
+    {
+        //if (ActiveItem is not SequenceStep)
+        //{
+        //    if (ActiveItem.Dropzone != null && ActiveItem.Dropzone.Id != Id)
+        //    {
+        //        ActiveItem.Dropzone.Items.Remove(ActiveItem);
+        //    }        
+            
+        //    ActiveItem.Dropzone = this;
+        //}
     }
 
     private string CheckIfItemIsInTransit(StudioStep item)
@@ -455,6 +434,38 @@ public partial class Dropzone : ComponentBase
             Items.RemoveAt(indexActiveItem);
             Items.Insert(indexDraggedOverItem, tmp);
         }
+    }
+
+    private bool IsMaxItemLimitReached()
+    {
+        var activeItem = DragDropService.ActiveStep;
+        return (!Items.Contains(activeItem) && MaxItems.HasValue && MaxItems == Items.Count());
+    }
+
+    private string IsItemDragable(StudioStep item)
+    {
+        if (AllowsDrag == null)
+            return "true";
+        if (item == null)
+            return "false";
+        return AllowsDrag(item).ToString();
+    }
+
+    private bool IsItemAccepted(StudioStep dragTargetItem)
+    {
+        if (Accepts == null)
+            return true;
+        return Accepts(DragDropService.ActiveStep, dragTargetItem);
+    }
+
+    private bool IsValidItem()
+    {
+        return DragDropService.ActiveStep != null;
+    }
+
+    private void ForceRender(object sender, EventArgs e)
+    {
+        StateHasChanged();
     }
 
     public void Dispose()

@@ -1,5 +1,7 @@
-﻿using Automaton.Studio.Domain;
+﻿using AntDesign;
+using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
+using Automaton.Studio.Extensions;
 using Automaton.Studio.Pages.Designer.Components;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
@@ -17,6 +19,8 @@ public partial class SequenceStepDesigner : ComponentBase
     public RenderFragment ChildContent { get; set; }
 
     [Inject] private SequenceStepDesignerViewModel DesignerViewModel { get; set; } = default!;
+
+    [Inject] private ModalService ModalService { get; set; } = default!;
 
     protected override void OnInitialized()
     {
@@ -69,8 +73,18 @@ public partial class SequenceStepDesigner : ComponentBase
 
     private async Task OnStepDrop(StudioStep step)
     {
-        DesignerViewModel.UpdateStepConnections();
+        if (!step.IsFinal())
+        {
+            await NewStepDialog(step);
+        }
+        else
+        {
+            DesignerViewModel.UpdateStepConnections();
+        }
+    }
 
+    private async Task OnStepDragEnter(StudioStep step)
+    {
         await Task.CompletedTask;
     }
 
@@ -83,6 +97,23 @@ public partial class SequenceStepDesigner : ComponentBase
         step.Select();
     }
 
+    private async Task OnStepDoubleClick(StudioStep step)
+    {
+        if (!step.HasProperties)
+        {
+            return;
+        }
+
+        var result = await step.DisplayPropertiesDialog(ModalService);
+
+        result.OnOk = () =>
+        {
+            StateHasChanged();
+
+            return Task.CompletedTask;
+        };
+    }
+
     private static void OnDelete(StudioStep step)
     {
         step.Definition.DeleteStep(step);
@@ -91,5 +122,33 @@ public partial class SequenceStepDesigner : ComponentBase
     public IEnumerable<StudioStep> GetSelectedSteps()
     {
         return DesignerViewModel.Steps.Where(x => x.IsSelected());
+    }
+
+    private async Task NewStepDialog(StudioStep step)
+    {
+        if (!step.HasProperties)
+        {
+            return;
+        }
+
+        var result = await step.DisplayPropertiesDialog(ModalService);
+
+        result.OnOk = () =>
+        {
+            DesignerViewModel.FinalizeStep(step);
+
+            StateHasChanged();
+
+            return Task.CompletedTask;
+        };
+
+        result.OnCancel = () =>
+        {
+            DesignerViewModel.DeleteStep(step);
+
+            StateHasChanged();
+
+            return Task.CompletedTask;
+        };
     }
 }

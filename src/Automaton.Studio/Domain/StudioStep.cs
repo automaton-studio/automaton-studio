@@ -24,15 +24,15 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     #region Properties
 
-    public Dropzone Dropzone { get; set; }
-
     public StudioDefinition Definition { get; set; }
 
     public StudioFlow Flow => Definition.Flow;
 
     public string Class { get; set; }
 
-    public string DisplayName { get; set; }      
+    public string DisplayName { get; set; }
+    
+    public Dropzone Dropzone { get; set; }
 
     #endregion
 

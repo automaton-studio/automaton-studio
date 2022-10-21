@@ -6,7 +6,7 @@
      @ondragover:preventDefault
      @ondragover="()=> { }"
      @ondragenter:preventDefault
-     @ondragenter="()=> { }"
+     @ondragenter="()=>OnDragEnter()"
      @ondrop="()=>OnDrop()"
      @onmousedown="()=>DropzoneMouseDown()"
      @onclick="()=>DropzoneClick()"
@@ -33,7 +33,7 @@
         <div draggable="@IsItemDragable(item)"
              @ondragstart="()=>OnDragStart(item)"
              @ondragend="()=>OnDragEnd()"
-             @ondragenter="()=>OnDragEnter(item)"
+             @ondragenter="()=>OnItemDragEnter(item)"
              @ondragleave="()=>OnDragLeave()"
              @onclick="()=>ItemClick(item)"
              @ondblclick="()=>ItemDoubleClick(item)" @ondblclick:stopPropagation="true"

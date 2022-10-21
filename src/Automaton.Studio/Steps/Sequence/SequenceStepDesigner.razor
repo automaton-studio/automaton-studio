@@ -11,14 +11,15 @@
         </Col>
 
         <Col Flex=@("auto")>
-            <Dropzone 
+            <Dropzone
                 Class="sequence-dropzone"
                 @ref="dropzone"
                 Items="DesignerViewModel.Steps"
                 InstantReplace="true"
                 OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
                 OnItemDrop="@((p)=>OnStepDrop(p))"
-                OnItemMouseDown="@((p)=>OnStepMouseDown(p))">
+                OnItemMouseDown="@((p)=>OnStepMouseDown(p))"
+                OnItemDoubleClick="@((p)=>OnStepDoubleClick(p))">
                 <DropzoneStep Step="@context" />
             </Dropzone>
         </Col>
