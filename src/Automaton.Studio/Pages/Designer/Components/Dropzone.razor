@@ -21,9 +21,9 @@
 
     <div @ondrop="()=>OnDropItemOnSpacing(0)"
          @ondrop:stopPropagation
-         @ondragenter="()=>DragDropService.ActiveSpacerId = 0"
-         @ondragleave="()=>DragDropService.ActiveSpacerId = null"
-         class="first-step-top-spacing">
+         @ondragenter="()=>OnDragItemOnFirstSpacing()"
+         @ondragleave="()=>OnDragLeaveItemFromFirstSpacing()"
+         class="@GetStepSpacerClass(null)">
     </div>
 
     @foreach (var item in Items)
@@ -36,7 +36,7 @@
              @onclick="()=>ItemClick(item)"
              @ondblclick="()=>ItemDoubleClick(item)" @ondblclick:stopPropagation="true"
              @onmousedown="()=>ItemMouseDown(item)" @onmousedown:stopPropagation="true"
-            class="@GetClassesForDraggable(item) @CheckIfItemIsInTransit(item) @CheckIfItemIsDragTarget(item) @CheckIfDragOperationIsInProgess() @CheckIfDraggable(item)">
+             class="@GetClassesForDraggable(item) @CheckIfItemIsInTransit(item) @CheckIfItemIsDragTarget(item) @CheckIfDragOperationIsInProgess() @CheckIfDraggable(item)">
 
             @{
                 if (ChildContent != null)
@@ -44,27 +44,27 @@
                     @ChildContent(item);
                 }
             }
-
         </div>
 
         <div @ondrop="()=>OnDropItemOnSpacing(Items.IndexOf(item)+1)"
-                @ondrop:stopPropagation 
-                @ondragenter="()=>DragDropService.ActiveSpacerId = Items.IndexOf(item)+1"
-                @ondragleave="()=>DragDropService.ActiveSpacerId = null"
-                class="step-spacing">
+            @ondrop:stopPropagation
+            @ondragenter="()=>OnDragItemOnSpacing(item)"
+            @ondragleave="()=>OnDragLeaveItemFromSpacing(item)"
+            class="@GetStepSpacerClass(item)">
         </div>
     }
 
 </div>
 
 <style>
-    .step-spacing {
+
+    .step-active-spacing {
         height: 15px;
-        background-color: greenyellow;
+        background-color: blue
     }
 
-    .first-step-top-spacing {
-        height: 15px; 
-        background-color:aqua
+    .step-spacing {
+        height: 15px;
     }
+
 </style>

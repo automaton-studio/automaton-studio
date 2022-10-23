@@ -40,8 +40,7 @@ public partial class Dropzone : ComponentBase
 
     [Parameter] public EventCallback<StudioStep> OnItemDropRejectedByMaxItemLimit { get; set; }
 
-    [Parameter]
-    public RenderFragment<StudioStep> ChildContent { get; set; }
+    [Parameter] public RenderFragment<StudioStep> ChildContent { get; set; }
 
     [Parameter] public string Class { get; set; }
 
@@ -59,6 +58,7 @@ public partial class Dropzone : ComponentBase
     {
         Id = Guid.NewGuid().ToString();
         DragDropService.StateHasChanged += ForceRender;
+
         base.OnInitialized();
     }
 
@@ -110,6 +110,35 @@ public partial class Dropzone : ComponentBase
         //Operation is finished
         DragDropService.Reset();
     }
+
+    public void OnDragItemOnFirstSpacing()
+    {
+        DragDropService.ActiveSpacerId = 0;
+    }
+
+    public void OnDragLeaveItemFromFirstSpacing()
+    {
+        DragDropService.ActiveSpacerId = null;
+    }
+    
+    public void OnDragItemOnSpacing(StudioStep item)
+    {
+        DragDropService.ActiveSpacerId = Items.IndexOf(item) + 1;
+    }
+
+    public void OnDragLeaveItemFromSpacing(StudioStep item)
+    {
+        DragDropService.ActiveSpacerId = null;
+    }
+
+    private string GetStepSpacerClass(StudioStep item)
+    {
+        var index = item != null ? Items.IndexOf(item) + 1 : 0;
+        var spacerClass = DragDropService.ActiveSpacerId == index ? "step-active-spacing" : "step-spacing";
+
+        return spacerClass;
+    }
+
 
     public void OnDragEnd()
     {
