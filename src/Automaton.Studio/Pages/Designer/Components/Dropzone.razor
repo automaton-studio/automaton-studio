@@ -19,17 +19,15 @@
      @ondragleave:stopPropagation
      @ondragstart:stopPropagation>
 
+    <div @ondrop="()=>OnDropItemOnSpacing(0)"
+         @ondrop:stopPropagation
+         @ondragenter="()=>DragDropService.ActiveSpacerId = 0"
+         @ondragleave="()=>DragDropService.ActiveSpacerId = null"
+         class="first-step-top-spacing">
+    </div>
+
     @foreach (var item in Items)
     {
-        if (Items.IndexOf(item) == 0 && MaxItems == null || MaxItems > 1)
-        {
-            <div @ondrop="()=>OnDropItemOnSpacing(0)" 
-                 @ondrop:stopPropagation 
-                 @ondragenter="()=>DragDropService.ActiveSpacerId = 0" 
-                 @ondragleave="()=>DragDropService.ActiveSpacerId = null" 
-                 class="@GetClassesForSpacing(0)"></div>
-        }
-
         <div draggable="@IsItemDragable(item)"
              @ondragstart="()=>OnDragStart(item)"
              @ondragend="()=>OnDragEnd()"
@@ -38,7 +36,7 @@
              @onclick="()=>ItemClick(item)"
              @ondblclick="()=>ItemDoubleClick(item)" @ondblclick:stopPropagation="true"
              @onmousedown="()=>ItemMouseDown(item)" @onmousedown:stopPropagation="true"
-             class="@GetClassesForDraggable(item) @CheckIfItemIsInTransit(item) @CheckIfItemIsDragTarget(item) @CheckIfDragOperationIsInProgess() @CheckIfDraggable(item)">
+            class="@GetClassesForDraggable(item) @CheckIfItemIsInTransit(item) @CheckIfItemIsDragTarget(item) @CheckIfDragOperationIsInProgess() @CheckIfDraggable(item)">
 
             @{
                 if (ChildContent != null)
@@ -49,14 +47,24 @@
 
         </div>
 
-        @if (MaxItems == null || MaxItems > 1)
-        {
-            <div @ondrop="()=>OnDropItemOnSpacing(Items.IndexOf(item)+1)" 
-                 @ondrop:stopPropagation @ondragenter="()=>DragDropService.ActiveSpacerId = Items.IndexOf(item)+1" 
-                 @ondragleave="()=>DragDropService.ActiveSpacerId = null" 
-                 class="@CheckIfDragOperationIsInProgess() @GetClassesForSpacing(Items.IndexOf(item)+1)">
-            </div>
-        }
+        <div @ondrop="()=>OnDropItemOnSpacing(Items.IndexOf(item)+1)"
+                @ondrop:stopPropagation 
+                @ondragenter="()=>DragDropService.ActiveSpacerId = Items.IndexOf(item)+1"
+                @ondragleave="()=>DragDropService.ActiveSpacerId = null"
+                class="step-spacing">
+        </div>
     }
 
 </div>
+
+<style>
+    .step-spacing {
+        height: 15px;
+        background-color: greenyellow;
+    }
+
+    .first-step-top-spacing {
+        height: 15px; 
+        background-color:aqua
+    }
+</style>

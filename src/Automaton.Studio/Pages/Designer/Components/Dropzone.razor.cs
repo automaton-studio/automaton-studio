@@ -10,116 +10,44 @@ public partial class Dropzone : ComponentBase
 {
     [Inject] DragDropService DragDropService { get; set; }
 
-    /// <summary>
-    /// Allows to pass a delegate which executes if something is dropped and decides if the item is accepted
-    /// </summary>
-    [Parameter]
-    public Func<StudioStep, StudioStep, bool> Accepts { get; set; }
+    [Parameter] public Func<StudioStep, StudioStep, bool> Accepts { get; set; }
 
-    /// <summary>
-    /// Allows to pass a delegate which executes if something is dropped and decides if the item is accepted
-    /// </summary>
-    [Parameter]
-    public Func<StudioStep, bool> AllowsDrag { get; set; }
+    [Parameter] public Func<StudioStep, bool> AllowsDrag { get; set; }
 
-    /// <summary>
-    /// Allows to pass a delegate which executes if a drag operation ends
-    /// </summary>
-    [Parameter]
-    public Action<StudioStep> DragEnd { get; set; }
+    [Parameter] public Action<StudioStep> DragEnd { get; set; }
 
-    /// <summary>
-    /// Raises a Dropzone click callback 
-    /// </summary>
-    [Parameter]
-    public EventCallback OnDropzoneClick { get; set; }
+    [Parameter] public EventCallback OnDropzoneClick { get; set; }
 
-    /// <summary>
-    /// Raises a Dropzone mouse down callback 
-    /// </summary>
-    [Parameter]
-    public EventCallback OnDropzoneMouseDown { get; set; }
+    [Parameter] public EventCallback OnDropzoneMouseDown { get; set; }
 
-    /// <summary>
-    /// Raises a callback with the dropped item as parameter in case the item can not be dropped due to the given Accept Delegate
-    /// </summary>
-    [Parameter]
-    public EventCallback<StudioStep> OnItemDropRejected { get; set; }
+    [Parameter] public EventCallback<StudioStep> OnItemDropRejected { get; set; }
 
-    /// <summary>
-    /// Raises a callback with the dropped item as parameter
-    /// </summary>
-    [Parameter]
-    public EventCallback<StudioStep> OnItemDrop { get; set; }
+    [Parameter] public EventCallback<StudioStep> OnItemDrop { get; set; }
 
-    /// <summary>
-    /// Raises a callback with clicked item as parameter
-    /// </summary>
-    [Parameter]
-    public EventCallback<StudioStep> OnItemClick { get; set; }
+    [Parameter] public EventCallback<StudioStep> OnItemClick { get; set; }
 
-    /// <summary>
-    /// Raises a callback with mouse down item as parameter
-    /// </summary>
-    [Parameter]
-    public EventCallback<StudioStep> OnItemMouseDown { get; set; }
+    [Parameter] public EventCallback<StudioStep> OnItemMouseDown { get; set; }
 
-    /// <summary>
-    /// Raises a callback with double clicked item as parameter
-    /// </summary>
-    [Parameter]
-    public EventCallback<StudioStep> OnItemDoubleClick { get; set; }
+    [Parameter] public EventCallback<StudioStep> OnItemDoubleClick { get; set; }
 
-    /// <summary>
-    /// Raises a callback with the replaced item as parameter
-    /// </summary>
-    [Parameter]
-    public EventCallback<StudioStep> OnReplacedItemDrop { get; set; }
+    [Parameter] public EventCallback<StudioStep> OnReplacedItemDrop { get; set; }
 
-    /// <summary>
-    /// If set to true, items will we be swapped/inserted instantly.
-    /// </summary>
-    [Parameter]
-    public bool InstantReplace { get; set; }
+    [Parameter] public bool InstantReplace { get; set; }
 
-    /// <summary>
-    /// List of items for the dropzone
-    /// </summary>
-    [Parameter]
-    public IList<StudioStep> Items { get; set; }
+    [Parameter] public IList<StudioStep> Items { get; set; }
 
-    /// <summary>
-    /// Maximum Number of items which can be dropped in this dropzone. Defaults to null which means unlimited.
-    /// </summary>
-    [Parameter]
-    public int? MaxItems { get; set; }
+    [Parameter] public int? MaxItems { get; set; }
 
-    /// <summary>
-    /// Raises a callback with the dropped item as parameter in case the item can not be dropped due to item limit.
-    /// </summary>
-    [Parameter]
-    public EventCallback<StudioStep> OnItemDropRejectedByMaxItemLimit { get; set; }
+    [Parameter] public EventCallback<StudioStep> OnItemDropRejectedByMaxItemLimit { get; set; }
 
     [Parameter]
     public RenderFragment<StudioStep> ChildContent { get; set; }
 
-    /// <summary>
-    /// Specifies one or more classnames for the Dropzone element.
-    /// </summary>
-    [Parameter]
-    public string Class { get; set; }
+    [Parameter] public string Class { get; set; }
 
-    /// <summary>
-    /// Specifies the id for the Dropzone element.
-    /// </summary>
-    [Parameter]
-    public string Id { get; set; }
+    [Parameter] public string Id { get; set; }
 
-    /// <summary>
-    /// Allows to pass a delegate which specifies one or more classnames for the draggable div that wraps your elements.
-    /// </summary>
-    [Parameter]
-    public Func<StudioStep, string> ItemWrapperClass { get; set; }
+    [Parameter] public Func<StudioStep, string> ItemWrapperClass { get; set; }
 
     public StudioStep ActiveItem
     {
@@ -286,24 +214,6 @@ public partial class Dropzone : ComponentBase
         if (!String.IsNullOrEmpty(Class))
         {
             builder.AppendLine(" " + Class);
-        }
-
-        return builder.ToString();
-    }
-
-    private string GetClassesForSpacing(int spacerId)
-    {
-        var builder = new StringBuilder();
-        builder.Append("plk-dd-spacing");
-
-        //if active space id and item is from another dropzone -> always create insert space
-        if (DragDropService.ActiveSpacerId == spacerId && Items.IndexOf(DragDropService.ActiveStep) == -1)
-        {
-            builder.Append(" plk-dd-spacing-dragged-over");
-        } // else -> check if active space id and that it is an item that needs space
-        else if (DragDropService.ActiveSpacerId == spacerId && (spacerId != Items.IndexOf(DragDropService.ActiveStep)) && (spacerId != Items.IndexOf(DragDropService.ActiveStep) + 1))
-        {
-            builder.Append(" plk-dd-spacing-dragged-over");
         }
 
         return builder.ToString();
