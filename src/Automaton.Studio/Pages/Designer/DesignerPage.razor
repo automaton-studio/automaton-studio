@@ -62,8 +62,8 @@
             @foreach (var definition in DesignerViewModel.Definitions)
             {
                 <TabPane Key="@definition.Id" Tab="@definition.Name">
-                    <Dropzone Class="dropzone"
-                        @ref="dropzone"
+                    <Dropzone @ref="dropzone" 
+                        Class="dropzone"                       
                         Items="definition.Steps"
                         OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
                         OnItemDrop="@((p)=>OnStepDrop(p))"

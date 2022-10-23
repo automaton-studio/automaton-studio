@@ -2,7 +2,7 @@
 @using System.Text
 @implements IDisposable
 
-<div class="@GetClassesForDropzone()"
+<div class="@GetClassesForDropzone()" 
      @ondragover:preventDefault
      @ondragover="()=> { }"
      @ondragenter:preventDefault
@@ -11,13 +11,13 @@
      @onmousedown="()=>DropzoneMouseDown()"
      @onclick="()=>DropzoneClick()"
      @ondrop:preventDefault
-     ondragstart="event.dataTransfer.setData('text', event.target.id);"
      @ondrop:stopPropagation
      @ondragenter:stopPropagation
      @ondragend:stopPropagation
      @ondragover:stopPropagation
      @ondragleave:stopPropagation
-     @ondragstart:stopPropagation>
+     @ondragstart:stopPropagation
+     ondragstart="event.dataTransfer.setData('text', event.target.id);">
 
     <div @ondrop="()=>OnDropItemOnSpacing(0)"
          @ondrop:stopPropagation
@@ -29,28 +29,29 @@
     @foreach (var item in Items)
     {
         <div draggable="@IsItemDragable(item)"
-             @ondragstart="()=>OnDragStart(item)"
-             @ondragend="()=>OnDragEnd()"
-             @ondragenter="()=>OnItemDragEnter(item)"
-             @ondragleave="()=>OnDragLeave()"
-             @onclick="()=>ItemClick(item)"
-             @ondblclick="()=>ItemDoubleClick(item)" @ondblclick:stopPropagation="true"
-             @onmousedown="()=>ItemMouseDown(item)" @onmousedown:stopPropagation="true"
-             class="@GetClassesForDraggable(item) @CheckIfItemIsInTransit(item) @CheckIfItemIsDragTarget(item) @CheckIfDragOperationIsInProgess() @CheckIfDraggable(item)">
+         @ondragstart="()=>OnDragStart(item)"
+         @ondragend="()=>OnDragEnd()"
+         @ondragenter="()=>OnItemDragEnter(item)"
+         @ondragleave="()=>OnDragLeave()"
+         @onclick="()=>ItemClick(item)"
+         @ondblclick="()=>ItemDoubleClick(item)" @ondblclick:stopPropagation="true"
+         @onmousedown="()=>ItemMouseDown(item)" @onmousedown:stopPropagation="true"
+         class="@GetClassesForDraggable(item) @CheckIfItemIsInTransit(item) @CheckIfItemIsDragTarget(item) @CheckIfDragOperationIsInProgess() @CheckIfDraggable(item)">
 
             @{
                 if (ChildContent != null)
                 {
-                    @ChildContent(item);
+                    @ChildContent(item)
+                    ;
                 }
             }
         </div>
 
         <div @ondrop="()=>OnDropItemOnSpacing(Items.IndexOf(item)+1)"
-            @ondrop:stopPropagation
-            @ondragenter="()=>OnDragItemOnSpacing(item)"
-            @ondragleave="()=>OnDragLeaveItemFromSpacing(item)"
-            class="@GetStepSpacerClass(item)">
+         @ondrop:stopPropagation
+         @ondragenter="()=>OnDragItemOnSpacing(item)"
+         @ondragleave="()=>OnDragLeaveItemFromSpacing(item)"
+         class="@GetStepSpacerClass(item)">
         </div>
     }
 
@@ -58,9 +59,14 @@
 
 <style>
 
+    .dropzone {
+        overflow: auto;
+        height: calc(100vh - 115px);
+    }
+
     .step-active-spacing {
         height: 15px;
-        background-color: blue
+        background-color: deepskyblue
     }
 
     .step-spacing {

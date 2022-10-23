@@ -2,12 +2,19 @@ using Automaton.Studio.Domain;
 using Automaton.Studio.Services;
 using Automaton.Studio.Steps.Sequence;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Http;
 using System.Text;
 
 namespace Automaton.Studio.Pages.Designer.Components;
 
 public partial class Dropzone : ComponentBase
 {
+    #region Consts
+
+    private const string ActiveStepSpacingClass = "step-active-spacing";
+    private const string StepSpacingClass = "step-spacing";
+
+    #endregion
     [Inject] DragDropService DragDropService { get; set; }
 
     [Parameter] public Func<StudioStep, StudioStep, bool> Accepts { get; set; }
@@ -134,7 +141,7 @@ public partial class Dropzone : ComponentBase
     private string GetStepSpacerClass(StudioStep item)
     {
         var index = item != null ? Items.IndexOf(item) + 1 : 0;
-        var spacerClass = DragDropService.ActiveSpacerId == index ? "step-active-spacing" : "step-spacing";
+        var spacerClass = DragDropService.ActiveSpacerId == index ? ActiveStepSpacingClass : StepSpacingClass;
 
         return spacerClass;
     }
@@ -240,7 +247,8 @@ public partial class Dropzone : ComponentBase
     {
         var builder = new StringBuilder();
         builder.Append("plk-dd-dropzone");
-        if (!String.IsNullOrEmpty(Class))
+
+        if (!string.IsNullOrEmpty(Class))
         {
             builder.AppendLine(" " + Class);
         }
