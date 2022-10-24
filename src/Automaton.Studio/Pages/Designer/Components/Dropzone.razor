@@ -4,9 +4,9 @@
 
 <div class="@GetClassesForDropzone()" 
      @ondragover:preventDefault
-     @ondragover="()=> { }"
+     @ondragover="()=>{}"
      @ondragenter:preventDefault
-     @ondragenter="()=>OnDragEnter()"
+     @ondragenter="()=>{}"
      @ondrop="()=>OnDrop()"
      @onmousedown="()=>DropzoneMouseDown()"
      @onclick="()=>DropzoneClick()"
@@ -21,8 +21,8 @@
 
     <div @ondrop="()=>OnDropItemOnSpacing(0)"
          @ondrop:stopPropagation
-         @ondragenter="()=>OnDragItemOnFirstSpacing()"
-         @ondragleave="()=>OnDragLeaveItemFromFirstSpacing()"
+         @ondragleave="()=>OnDragLeaveFirstSpacing()"
+         @ondragenter="()=>OnDragEnterFirstSpacing()"
          class="@GetStepSpacerClass(null)">
     </div>
 
@@ -32,28 +32,41 @@
          @ondragstart="()=>OnDragStart(item)"
          @ondragend="()=>OnDragEnd()"
          @ondragenter="()=>OnItemDragEnter(item)"
+         @ondragover="()=>OnItemDragOver(item)"
          @ondragleave="()=>OnDragLeave()"
          @onclick="()=>ItemClick(item)"
-         @ondblclick="()=>ItemDoubleClick(item)" @ondblclick:stopPropagation="true"
-         @onmousedown="()=>ItemMouseDown(item)" @onmousedown:stopPropagation="true"
-         class="@GetClassesForDraggable(item) @CheckIfItemIsInTransit(item) @CheckIfItemIsDragTarget(item) @CheckIfDragOperationIsInProgess() @CheckIfDraggable(item)">
+         @ondblclick="()=>ItemDoubleClick(item)"
+         @ondblclick:stopPropagation="true"
+         @onmousedown="()=>ItemMouseDown(item)"
+         @onmousedown:stopPropagation="true"
+         class="@GetClassesForDraggable(item) 
+         @CheckIfItemIsInTransit(item)
+         @CheckIfItemIsDragTarget(item) 
+         @CheckIfDragOperationIsInProgess() 
+         @CheckIfDraggable(item)">
 
             @{
                 if (ChildContent != null)
                 {
-                    @ChildContent(item)
-                    ;
+                    @ChildContent(item);
                 }
             }
         </div>
 
         <div @ondrop="()=>OnDropItemOnSpacing(Items.IndexOf(item)+1)"
          @ondrop:stopPropagation
-         @ondragenter="()=>OnDragItemOnSpacing(item)"
-         @ondragleave="()=>OnDragLeaveItemFromSpacing(item)"
+         @ondragleave="()=>OnDragLeaveSpacing(item)"
+         @ondragenter="()=>OnDragEnterSpacing(item)"
          class="@GetStepSpacerClass(item)">
         </div>
     }
+
+    <div @ondrop="()=>OnDropItemOnSpacing(Items.Count())"
+         @ondrop:stopPropagation
+         @ondragleave="()=>OnDragLeaveDropzoneSpacing()"
+         @ondragenter="(e)=>OnDragEnterDropzoneSpacing(e)"
+         class="dropzone-spacing">
+    </div>
 
 </div>
 
@@ -66,11 +79,18 @@
 
     .step-active-spacing {
         height: 15px;
-        background-color: deepskyblue
+        min-height: 15px;
+        background-color: deepskyblue;
     }
 
     .step-spacing {
         height: 15px;
+        min-height: 15px;
+    }
+
+    .dropzone-spacing {
+        background-color: yellow;
+        flex: 1; /* Fill the remaining of empty dropzone space*/
     }
 
 </style>

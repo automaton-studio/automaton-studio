@@ -99,6 +99,9 @@
     .dropzone {
         overflow: auto;
         height: calc(100vh - 115px);
+        /* Use flex to fill the remaining of dropzone in Dropzone.razor*/
+        display: flex;
+        flex-direction: column;
     }
 
     .runners-select {
