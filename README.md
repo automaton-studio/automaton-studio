@@ -1,6 +1,6 @@
 # Automaton
 
-Automaton is an RPA experiement that tries to replicate (as open source) the famous Microsoft Flow Desktop application. The project is still in a very early stage, but the core infrastructure is getting there.
+Automaton is an RPA experiement that tries to replicate Microsoft Flow Desktop as open source. The project is still in a very early stage, but the core infrastructure is getting there.
 
 ## Screenshots
 
