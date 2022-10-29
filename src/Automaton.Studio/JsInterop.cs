@@ -1,3 +1,4 @@
+using Automaton.Studio.Models;
 using Microsoft.JSInterop;
 using System.Threading.Tasks;
 
@@ -10,20 +11,29 @@ namespace Automaton.Studio
     // This class can be registered as scoped DI service and then injected into Blazor
     // components for use.
 
-    public class ExampleJsInterop : IAsyncDisposable
+    public class JsInterop : IAsyncDisposable
     {
         private readonly Lazy<Task<IJSObjectReference>> moduleTask;
 
-        public ExampleJsInterop(IJSRuntime jsRuntime)
+        public JsInterop(IJSRuntime jsRuntime)
         {
             moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-               "import", "./_content/Automaton.Studio/exampleJsInterop.js").AsTask());
+               "import", "./JsInterop.js").AsTask());
         }
 
         public async ValueTask<string> Prompt(string message)
         {
             var module = await moduleTask.Value;
             return await module.InvokeAsync<string>("showPrompt", message);
+        }
+
+        public async ValueTask<BoundingClientRect> GetBoundingClientRect(string elementId)
+        {
+            var module = await moduleTask.Value;
+
+            var result = await module.InvokeAsync<BoundingClientRect>("getBoundingClientRect", elementId);
+
+            return result;
         }
 
         public async ValueTask DisposeAsync()

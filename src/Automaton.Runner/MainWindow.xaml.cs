@@ -1,12 +1,11 @@
 ﻿using Automaton.Runner.Enums;
 using Automaton.Runner.ViewModels;
-using System;
 using System.Threading.Tasks;
-using System.Windows;
+using Wpf.Ui.Controls;
 
 namespace Automaton.Runner;
 
-public partial class MainWindow : Window
+public partial class MainWindow : UiWindow
 {
     public MainWindowViewModel ViewModel { get; private set; }
 

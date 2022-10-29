@@ -51,9 +51,7 @@
                 MaxWidth="600"
                 Appearance="Secondary"
                 Icon="PuzzlePiece24"
-                IsShown="False"
                 Message="{Binding Loader.Errors}"
-                ShowCloseButton="True"
                 Timeout="5000" />
 
         </StackPanel>

@@ -33,7 +33,7 @@
             <StackPanel Orientation="Horizontal">
                 <TextBox Name="UsernameBox"
                     Text="{Binding UserName}"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Stretch"
                     Width="235"
                     HorizontalContentAlignment="Left"
                     Margin="63,0,0,0"/>
@@ -42,7 +42,7 @@
             <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
                 <PasswordBox Name="PasswordBox"
                     PasswordChanged="OnPasswordChanged"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Stretch"
                     Width="235"
                     HorizontalContentAlignment="Left"
                     Margin="63,0,0,0"/>
@@ -58,9 +58,7 @@
                 MaxWidth="600"
                 Appearance="Secondary"
                 Icon="PuzzlePiece24"
-                IsShown="False"
                 Message="{Binding Loader.Errors}"
-                ShowCloseButton="True"
                 Timeout="5000" />
 
         </StackPanel>

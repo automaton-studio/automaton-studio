@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Designer.Components;
 
@@ -18,6 +19,8 @@ public partial class Dropzone : ComponentBase
     #endregion
 
     [Inject] DragDropService DragDropService { get; set; }
+
+    [Inject] JsInterop JsInterop { get; set; }
 
     [Parameter] public Func<StudioStep, StudioStep, bool> Accepts { get; set; }
 
@@ -88,7 +91,7 @@ public partial class Dropzone : ComponentBase
         return activeItem == null ? string.Empty : "plk-dd-inprogess";
     }
 
-    public void OnDropItemOnSpacing(int newIndex)
+    public void OnDropItemOnSpacing()
     {
         if (!IsDropAllowed())
         {
@@ -97,6 +100,7 @@ public partial class Dropzone : ComponentBase
         }
 
         var activeItem = DragDropService.ActiveStep;
+        var newIndex = DragDropService.ActiveSpacerId ?? Items.Count - 1;
         var oldIndex = Items.IndexOf(activeItem);
 
         if (oldIndex == -1) // item not present in target dropzone
@@ -140,15 +144,15 @@ public partial class Dropzone : ComponentBase
         DragDropService.ActiveSpacerId = null;
     }
 
-    private void OnDragEnterDropzoneSpacing(DragEventArgs e)
-    {
-        DragDropService.ActiveSpacerId = Items.Count;
-    }
+    //private void OnDragEnterDropzoneSpacing(DragEventArgs e)
+    //{
+    //    DragDropService.ActiveSpacerId = Items.Count;
+    //}
 
-    private void OnDragLeaveDropzoneSpacing()
-    {
-        DragDropService.ActiveSpacerId = null;
-    }
+    //private void OnDragLeaveDropzoneSpacing()
+    //{
+    //    DragDropService.ActiveSpacerId = null;
+    //}
 
     private string GetStepSpacerClass(StudioStep item)
     {
@@ -173,11 +177,6 @@ public partial class Dropzone : ComponentBase
         DragDropService.Reset();
     }
     
-    public void OnItemDragOver(StudioStep step)
-    {
-        DragDropService.ActiveSpacerId = GetItemIndex(step);
-    }
-
     public void OnItemDragEnter(StudioStep step)
     {
         var activeStep = DragDropService.ActiveStep;
@@ -204,6 +203,20 @@ public partial class Dropzone : ComponentBase
         }
 
         StateHasChanged();
+    }
+
+    public async Task OnItemDragOver(MouseEventArgs e, StudioStep step)
+    {
+        var activeStep = DragDropService.ActiveStep;
+
+        if (step.Equals(activeStep))
+            return;
+
+        var firstHalf = await DragOverFirstStepHalf(e, step);
+
+        var index = GetItemIndex(step);
+
+        DragDropService.ActiveSpacerId = firstHalf ? index - 1 : index;
     }
 
     public void OnDragLeave()
@@ -268,6 +281,7 @@ public partial class Dropzone : ComponentBase
     private bool IsDropAllowed()
     {
         var activeItem = DragDropService.ActiveStep;
+
         if (!IsValidItem())
         {
             return false;
@@ -323,26 +337,39 @@ public partial class Dropzone : ComponentBase
 
         var activeItem = DragDropService.ActiveStep;
 
-        if (DragDropService.DragTargetStep == null) //no direct drag target
+        // no direct drag target
+        if (DragDropService.DragTargetStep == null) 
         {
-            if (!Items.Contains(activeItem)) //if dragged to another dropzone
+            // if dragged to another dropzone
+            if (!Items.Contains(activeItem))
             {
-                Items.Insert(Items.Count, activeItem); //insert item to new zone
+                //insert item to new zone
+                Items.Insert(Items.Count, activeItem);
+
+                //remove from old zone   
                 if (DragDropService.Items != null)
-                    DragDropService.Items.Remove(activeItem); //remove from old zone            
+                    DragDropService.Items.Remove(activeItem);          
             }
             else
             {
-                //what to do here?
+                //remove from old zone   
+                if (DragDropService.Items != null)
+                    DragDropService.Items.Remove(activeItem);
+
+                //insert item to new zone
+                Items.Insert(Items.Count, activeItem);
             }
         }
-        else // we have a direct target
+        // we have a direct target
+        else
         {
-            if (!Items.Contains(activeItem)) // if dragged to another dropzone
+            // if dragged to another dropzone
+            if (!Items.Contains(activeItem)) 
             {
                 if (!InstantReplace)
                 {
-                    Swap(DragDropService.DragTargetStep, activeItem); //swap target with active item
+                    //swap target with active item
+                    Swap(DragDropService.DragTargetStep, activeItem); 
                 }
             }
             else
@@ -350,7 +377,8 @@ public partial class Dropzone : ComponentBase
                 // if dragged to the same dropzone
                 if (!InstantReplace)
                 {
-                    Swap(DragDropService.DragTargetStep, activeItem); //swap target with active item
+                    //swap target with active item
+                    Swap(DragDropService.DragTargetStep, activeItem); 
                 }
             }
         }
@@ -422,6 +450,15 @@ public partial class Dropzone : ComponentBase
     private void ForceRender(object sender, EventArgs e)
     {
         StateHasChanged();
+    }
+
+    private async Task<bool> DragOverFirstStepHalf(MouseEventArgs e, StudioStep step)
+    {
+        var boundingRect = await JsInterop.GetBoundingClientRect(step.Id);
+
+        var firstHalf = e.ClientY >= boundingRect.Y && e.ClientY <= boundingRect.Y + boundingRect.Height / 2;
+
+        return firstHalf;
     }
 
     public void Dispose()

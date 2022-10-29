@@ -4,3 +4,8 @@
 export function showPrompt(message) {
   return prompt(message, 'Type anything here');
 }
+
+export function getBoundingClientRect(elementId) {
+    return document.getElementById(elementId).getBoundingClientRect();
+};
+

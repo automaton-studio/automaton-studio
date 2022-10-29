@@ -79,6 +79,9 @@ public static class ServiceCollectionExtension
         services.AddScoped<AppConfig>();
         services.AddScoped<ApiConfig>();
 
+        // Javascript
+        services.AddScoped<JsInterop>();
+
         // Other
         services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });
         services.AddScoped(typeof(DragDropService));
