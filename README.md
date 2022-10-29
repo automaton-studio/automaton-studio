@@ -13,7 +13,7 @@ The solution consists of:
 - A Web application used mostly to design and orchestrate flows
 - A Runner application to execute flows on other computers
 
-Automaton Studio is written in C# / Blazor, and it relays on a few other opensource projects.
+Automaton Studio is written in C# / Blazor, and it relays on a other opensource projects.
 
 ## Licence
 
