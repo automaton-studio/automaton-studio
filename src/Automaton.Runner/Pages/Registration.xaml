@@ -51,6 +51,7 @@
                 MaxWidth="600"
                 Appearance="Secondary"
                 Icon="PuzzlePiece24"
+                CloseButtonEnabled="True"
                 Message="{Binding Loader.Errors}"
                 Timeout="5000" />
 
