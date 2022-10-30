@@ -12,6 +12,8 @@ public static class ServiceCollectionExtensions
         services.AddTransient<AddVariable>();
         services.AddTransient<ExecutePython>();
         services.AddTransient<ExecuteFlow>();
+        services.AddTransient<Sequence>();
+        services.AddTransient<SequenceEnd>();
 
         // Configuration
         services.AddTransient<ConfigService>();  

@@ -55,7 +55,6 @@ public static class ServiceCollectionExtension
         services.AddScoped<FlowsViewModel>();
         services.AddScoped<FlowsViewModel>();
         services.AddScoped<DesignerViewModel>();
-        services.AddScoped<SequenceStepDesignerViewModel>();      
         services.AddScoped<StepsViewModel>();
         services.AddScoped<FlowExplorerViewModel>();
         services.AddScoped<LoginViewModel>();
@@ -74,6 +73,7 @@ public static class ServiceCollectionExtension
         services.AddTransient<ExecuteFlowStep>();
         services.AddTransient<TestStep>();
         services.AddTransient<SequenceStep>();
+        services.AddTransient<SequenceEndStep>();
 
         // Models
         services.AddScoped<AppConfig>();

@@ -1,8 +1,10 @@
 ﻿using Automaton.Core.Enums;
 using Automaton.Studio.Domain.Interfaces;
+using Automaton.Studio.Events;
 using Automaton.Studio.Pages.Designer.Components;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Automaton.Studio.Domain;
 
@@ -19,6 +21,13 @@ public abstract class StudioStep : INotifyPropertyChanged
     #region Members
 
     private bool isFinal;
+
+    #endregion
+
+    #region Events
+
+    public event EventHandler<StepEventArgs> Finalize;
+    public event EventHandler<StepEventArgs> Finalized;
 
     #endregion
 
@@ -118,6 +127,17 @@ public abstract class StudioStep : INotifyPropertyChanged
     public IEnumerable<string> GetVariableNames()
     {
         return Outputs.Select(x => x.Key);
+    }
+
+
+    public void InvokeFinalize()
+    {
+        Finalize?.Invoke(this, new StepEventArgs(this));
+    }
+
+    public void InvokeFinalized()
+    {
+        Finalized?.Invoke(this, new StepEventArgs(this));
     }
 
     #region INotifyPropertyChanged

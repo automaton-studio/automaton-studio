@@ -1,5 +1,6 @@
 ﻿using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
+using Automaton.Studio.Factories;
 using Automaton.Studio.Steps.Sequence;
 
 namespace Automaton.Studio.Steps.Test;
@@ -14,7 +15,8 @@ namespace Automaton.Studio.Steps.Test;
 )]
 public class TestStep : SequenceStep
 {
-    public TestStep()
+    public TestStep(StepFactory stepFactory) 
+        : base(stepFactory)
     {
     }
 

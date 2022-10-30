@@ -66,12 +66,21 @@ public class StepFactory
 
     public StudioStep CreateStep(string name)
     {
-        var descriptor = stepTypeDescriptor.Describe(solutionTypes[name]);
+        try
+        {
+            var descriptor = stepTypeDescriptor.Describe(solutionTypes[name]);
 
-        var step = serviceProvider.GetService(solutionTypes[name]) as StudioStep;
+            var step = serviceProvider.GetService(solutionTypes[name]) as StudioStep;
 
-        step.Setup(descriptor);
+            step.Setup(descriptor);
 
-        return step;
+            return step;
+
+        }
+        catch (Exception ex)
+        {
+
+            throw;
+        }
     }
 }

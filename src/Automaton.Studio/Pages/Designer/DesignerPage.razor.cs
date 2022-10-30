@@ -55,7 +55,7 @@ partial class DesignerPage : ComponentBase
         dropzone.ActiveItem.Select();
     }
 
-    private async Task OnStepDrop(Domain.StudioStep step)
+    private async Task OnStepDrop(StudioStep step)
     {
         if (!step.IsFinal())
         {
@@ -132,6 +132,7 @@ partial class DesignerPage : ComponentBase
     {
         if (!step.HasProperties)
         {
+            DesignerViewModel.FinalizeStep(step);
             return;
         }
 

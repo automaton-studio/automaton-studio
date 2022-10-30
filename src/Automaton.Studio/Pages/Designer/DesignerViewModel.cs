@@ -108,7 +108,11 @@ public class DesignerViewModel
 
     public void FinalizeStep(StudioStep step)
     {
+        step.InvokeFinalize();
+
         ActiveDefinition.FinalizeStep(step);
+
+        step.InvokeFinalized();
     }
 
     public IEnumerable<StudioStep> GetSelectedSteps()
