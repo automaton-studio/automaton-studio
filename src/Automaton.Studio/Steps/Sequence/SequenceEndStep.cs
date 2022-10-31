@@ -16,6 +16,8 @@ namespace Automaton.Studio.Steps.Sequence
     {
         public override bool HasProperties { get; set; } = false;
 
+        public SequenceStep SequencedStep { get; set; }
+
         public override Type GetDesignerComponent()
         {
             return typeof(SequenceEndDesigner);

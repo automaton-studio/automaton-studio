@@ -15,11 +15,6 @@ public class DragDropService
     public StudioStep DragTargetStep { get; set; }
 
     /// <summary>
-    /// Holds a reference to the items of the dropzone in which the drag operation originated
-    /// </summary>
-    public IList<StudioStep> Items { get; set; }
-
-    /// <summary>
     /// Holds the id of the Active Spacing div
     /// </summary>
     public int? ActiveSpacerId { get; set; }
@@ -31,7 +26,6 @@ public class DragDropService
     {
         ActiveStep = default;
         ActiveSpacerId = null;
-        Items = null;
         DragTargetStep = default;
 
         StateHasChanged?.Invoke(this, EventArgs.Empty);
