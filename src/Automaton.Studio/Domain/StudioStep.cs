@@ -28,8 +28,8 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public event EventHandler<StepEventArgs> Finalize;
     public event EventHandler<StepEventArgs> Finalized;
-    public event EventHandler<StepEventArgs> Move;
-    public event EventHandler<StepMovedEventArgs> Moved;
+    public event EventHandler<StepEventArgs> Drop;
+    public event EventHandler<StepEventArgs> Dropped;
 
     #endregion
 
@@ -142,14 +142,14 @@ public abstract class StudioStep : INotifyPropertyChanged
         Finalized?.Invoke(this, new StepEventArgs(this));
     }
 
-    public void InvokeMoved(int newIndex)
+    public void InvokeDrop()
     {
-        Moved?.Invoke(this, new StepMovedEventArgs(this, newIndex));
+        Dropped?.Invoke(this, new StepEventArgs(this));
     }
 
-    public void InvokeMove()
+    public void InvokeDropped()
     {
-        Move?.Invoke(this, new StepEventArgs(this));
+        Drop?.Invoke(this, new StepEventArgs(this));
     }
 
     #region INotifyPropertyChanged

@@ -103,10 +103,11 @@ public partial class Dropzone : ComponentBase
         var newIndex = DragDropService.ActiveSpacerId ?? Items.Count - 1;
         var oldIndex = Items.IndexOf(activeItem);
 
-        if(oldIndex >= 0)
+        if (oldIndex >= 0)
         {
             Items.RemoveAt(oldIndex);
-            // the actual index could have shifted due to the removal
+
+            // The actual index could have shifted due to the removal
             if (newIndex > oldIndex)
                 newIndex--;
         }
@@ -115,12 +116,6 @@ public partial class Dropzone : ComponentBase
 
         OnItemDrop.InvokeAsync(activeItem);
 
-        if (activeItem.IsFinal())
-        {
-            activeItem.InvokeMoved(newIndex);
-        }
-
-        //Operation is finished
         DragDropService.Reset();
     }
 

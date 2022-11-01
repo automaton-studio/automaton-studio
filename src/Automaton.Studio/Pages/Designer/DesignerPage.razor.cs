@@ -55,7 +55,7 @@ partial class DesignerPage : ComponentBase
         dropzone.ActiveItem.Select();
     }
 
-    private async Task OnStepDrop(StudioStep step)
+    private async Task OnItemDrop(StudioStep step)
     {
         if (!step.IsFinal())
         {
@@ -65,9 +65,11 @@ partial class DesignerPage : ComponentBase
         {
             DesignerViewModel.UpdateStepConnections();
         }
+
+        step.InvokeDrop();
     }
 
-    private void OnStepMouseDown(StudioStep step)
+    private void OnItemMouseDown(StudioStep step)
     {
         // Unselect all the previous selected activities
         UnselectSteps();
@@ -76,7 +78,7 @@ partial class DesignerPage : ComponentBase
         step.Select();
     }
 
-    private async Task OnStepDoubleClick(StudioStep step)
+    private async Task OnItemDoubleClick(StudioStep step)
     {
         if (!step.HasProperties)
         {
