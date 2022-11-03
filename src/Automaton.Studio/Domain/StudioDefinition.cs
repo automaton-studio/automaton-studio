@@ -1,5 +1,7 @@
 ﻿using Automaton.Core.Enums;
 using Automaton.Studio.Events;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace Automaton.Studio.Domain;
 
@@ -15,7 +17,7 @@ public class StudioDefinition
 
     public TimeSpan? DefaultErrorRetryInterval { get; set; }
 
-    public List<StudioStep> Steps { get; set; } = new List<StudioStep>();
+    public ObservableCollection<StudioStep> Steps { get; set; } = new ObservableCollection<StudioStep>();
 
     public StudioFlow Flow { get; set; }
 
@@ -27,7 +29,7 @@ public class StudioDefinition
         Id = Guid.NewGuid().ToString();
         Name = "Untitled";
     }
-
+        
     public void DeleteStep(StudioStep step)
     {
         Steps.Remove(step);

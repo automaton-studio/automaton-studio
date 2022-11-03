@@ -1,6 +1,4 @@
-﻿using Automaton.Core.Models;
-using Automaton.Steps;
-using Automaton.Studio.Attributes;
+﻿using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
@@ -8,7 +6,6 @@ using System.Reflection;
 
 namespace Automaton.Studio.Steps.Sequence
 {
-
     [StepDescription(
         Name = "Sequence",
         Type = "Sequence",
@@ -30,7 +27,6 @@ namespace Automaton.Studio.Steps.Sequence
             this.stepFactory = stepFactory;
 
             Finalize += OnFinalize;
-            Dropped += OnItemDropped;
         }
 
         public override Type GetDesignerComponent()
@@ -47,16 +43,6 @@ namespace Automaton.Studio.Steps.Sequence
         {
             var sequenceEndStep = CreateSequenceEndStep();
             AddSequenceEndStep(sequenceEndStep);
-        }
-
-        private void OnItemDropped(object sender, StepEventArgs e)
-        {
-            //var startIndex = Definition.Steps.IndexOf(this);
-            //var endIndex = Definition.Steps.IndexOf(SequenceEndStep);
-            //var steps = Definition.Steps.GetRange(startIndex, endIndex - startIndex);
-
-            //Definition.Steps.RemoveRange(startIndex, endIndex - startIndex);
-            //Definition.Steps.InsertRange(e.NewIndex, steps);
         }
 
         private void AddSequenceEndStep(SequenceEndStep sequenceEndStep)
