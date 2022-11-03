@@ -144,12 +144,12 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public void InvokeDrop()
     {
-        Dropped?.Invoke(this, new StepEventArgs(this));
+        Drop?.Invoke(this, new StepEventArgs(this));
     }
 
     public void InvokeDropped()
     {
-        Drop?.Invoke(this, new StepEventArgs(this));
+        Dropped?.Invoke(this, new StepEventArgs(this));
     }
 
     #region INotifyPropertyChanged

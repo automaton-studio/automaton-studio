@@ -65,8 +65,6 @@ partial class DesignerPage : ComponentBase
         {
             DesignerViewModel.UpdateStepConnections();
         }
-
-        step.InvokeDrop();
     }
 
     private void OnItemMouseDown(StudioStep step)

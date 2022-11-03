@@ -30,7 +30,7 @@ namespace Automaton.Studio.Steps.Sequence
             this.stepFactory = stepFactory;
 
             Finalize += OnFinalize;
-            Dropped += OnMoved;
+            Dropped += OnItemDropped;
         }
 
         public override Type GetDesignerComponent()
@@ -49,7 +49,7 @@ namespace Automaton.Studio.Steps.Sequence
             AddSequenceEndStep(sequenceEndStep);
         }
 
-        private void OnMoved(object sender, StepEventArgs e)
+        private void OnItemDropped(object sender, StepEventArgs e)
         {
             //var startIndex = Definition.Steps.IndexOf(this);
             //var endIndex = Definition.Steps.IndexOf(SequenceEndStep);
