@@ -46,13 +46,19 @@ partial class DesignerPage : ComponentBase
 
     private void OnDragStep(object sender, StepEventArgs e)
     {
-        dropzone.ActiveItem = e.Step;
+        dropzone.ActiveItems = new List<StudioStep>
+        {
+            e.Step
+        };
 
         // Unselect all the previous selected activities
         UnselectSteps();
 
         // Select the step being dragged
-        dropzone.ActiveItem.Select();
+        foreach(var activeItem in dropzone.ActiveItems)
+        {
+            activeItem.Select();
+        }
     }
 
     private async Task OnItemDrop(StudioStep step)

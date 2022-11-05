@@ -17,7 +17,7 @@ public class StudioDefinition
 
     public TimeSpan? DefaultErrorRetryInterval { get; set; }
 
-    public ObservableCollection<StudioStep> Steps { get; set; } = new ObservableCollection<StudioStep>();
+    public List<StudioStep> Steps { get; set; } = new List<StudioStep>();
 
     public StudioFlow Flow { get; set; }
 

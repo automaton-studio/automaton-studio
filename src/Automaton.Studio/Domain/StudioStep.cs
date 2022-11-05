@@ -4,7 +4,6 @@ using Automaton.Studio.Events;
 using Automaton.Studio.Pages.Designer.Components;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
 namespace Automaton.Studio.Domain;
 
@@ -41,8 +40,6 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public string DisplayName { get; set; }
     
-    public Dropzone Dropzone { get; set; }
-
     #endregion
 
     #region Automaton.Core
@@ -89,14 +86,19 @@ public abstract class StudioStep : INotifyPropertyChanged
         Icon = descriptor.Icon;
     }
 
-    public void Select()
+    public virtual void Select()
     {
         Class = SelectedStepClass;
     }
 
-    public void Unselect()
+    public virtual void Unselect()
     {
         Class = StepClass;
+    }
+
+    public virtual void SetSelectClass()
+    {
+        Class = SelectedStepClass;
     }
 
     public bool IsSelected()

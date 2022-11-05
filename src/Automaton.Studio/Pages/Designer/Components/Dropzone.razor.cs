@@ -22,17 +22,17 @@ public partial class Dropzone : ComponentBase
 
     [Inject] JsInterop JsInterop { get; set; }
 
-    [Parameter] public Func<StudioStep, StudioStep, bool> Accepts { get; set; }
+    [Parameter] public Func<IList<StudioStep>, StudioStep, bool> Accepts { get; set; }
 
     [Parameter] public Func<StudioStep, bool> AllowsDrag { get; set; }
 
-    [Parameter] public Action<StudioStep> DragEnd { get; set; }
+    [Parameter] public Action<IList<StudioStep>> DragEnd { get; set; }
 
     [Parameter] public EventCallback OnDropzoneClick { get; set; }
 
     [Parameter] public EventCallback OnDropzoneMouseDown { get; set; }
 
-    [Parameter] public EventCallback<StudioStep> OnItemDropRejected { get; set; }
+    [Parameter] public EventCallback<IList<StudioStep>> OnItemDropRejected { get; set; }
 
     [Parameter] public EventCallback<StudioStep> OnItemDrop { get; set; }
 
@@ -60,10 +60,10 @@ public partial class Dropzone : ComponentBase
 
     [Parameter] public Func<StudioStep, string> ItemWrapperClass { get; set; }
 
-    public StudioStep ActiveItem
+    public IList<StudioStep> ActiveItems
     {
-        get { return DragDropService.ActiveStep; }
-        set { DragDropService.ActiveStep = value; }
+        get { return DragDropService.ActiveSteps; }
+        set { DragDropService.ActiveSteps = value; }
     }
 
     protected override void OnInitialized()
@@ -87,8 +87,8 @@ public partial class Dropzone : ComponentBase
 
     public string CheckIfDragOperationIsInProgess()
     {
-        var activeItem = DragDropService.ActiveStep;
-        return activeItem == null ? string.Empty : "plk-dd-inprogess";
+        var activeItems = DragDropService.ActiveSteps;
+        return activeItems.Any() ? "plk-dd-inprogess" : string.Empty;
     }
 
     public void OnDropItemOnSpacing()
@@ -99,22 +99,30 @@ public partial class Dropzone : ComponentBase
             return;
         }
 
-        var activeItem = DragDropService.ActiveStep;
+        var activeItems = DragDropService.ActiveSteps;
         var newIndex = DragDropService.ActiveSpacerId ?? Items.Count - 1;
-        var oldIndex = Items.IndexOf(activeItem);
 
-        if (oldIndex >= 0)
+        int oldIndex;
+
+        foreach(var item in activeItems)
         {
-            Items.RemoveAt(oldIndex);
+            oldIndex = Items.IndexOf(item);
 
-            // The actual index could have shifted due to the removal
-            if (newIndex > oldIndex)
-                newIndex--;
+            if (oldIndex >= 0)
+            {
+                Items.RemoveAt(oldIndex);
+
+                // The actual index could have shifted due to the removal
+                if (newIndex > oldIndex)
+                    newIndex--;
+            }
         }
 
-        Items.Insert(newIndex, activeItem);
-
-        OnItemDrop.InvokeAsync(activeItem);
+        foreach (var item in activeItems)
+        {
+            Items.Insert(newIndex++, item);
+            OnItemDrop.InvokeAsync(item);
+        }
 
         DragDropService.Reset();
     }
@@ -166,7 +174,7 @@ public partial class Dropzone : ComponentBase
     {
         if (DragEnd != null)
         {
-            DragEnd(DragDropService.ActiveStep);
+            DragEnd(DragDropService.ActiveSteps);
         }
 
         DragDropService.Reset();
@@ -174,37 +182,27 @@ public partial class Dropzone : ComponentBase
     
     public void OnItemDragEnter(StudioStep step)
     {
-        var activeStep = DragDropService.ActiveStep;
+        var activeSteps = DragDropService.ActiveSteps;
 
-        if (step.Equals(activeStep))
+        if (activeSteps.Any(x => x.Id == step.Id))
             return;
 
         if (!IsValidItem())
             return;
 
-        if (IsMaxItemLimitReached())
-            return;
-
         if (!IsItemAccepted(step))
             return;
-
-        activeStep.Dropzone = this;
       
         DragDropService.DragTargetStep = step;
-
-        if (InstantReplace && step is not SequenceStep)
-        {
-            Swap(DragDropService.DragTargetStep, activeStep);
-        }
 
         StateHasChanged();
     }
 
     public async Task OnItemDragOver(MouseEventArgs e, StudioStep step)
     {
-        var activeStep = DragDropService.ActiveStep;
+        var activeSteps = DragDropService.ActiveSteps;
 
-        if (step.Equals(activeStep))
+        if (activeSteps.Any(x => x.Id == step.Id))
             return;
 
         var firstHalf = await DragOverFirstStepHalf(e, step);
@@ -223,27 +221,27 @@ public partial class Dropzone : ComponentBase
     public void OnDragStart(StudioStep item)
     {
         DragDropService.ActiveSpacerId = null;
-        DragDropService.ActiveStep = item;
+        DragDropService.ActiveSteps = Items.Where(x => x.IsSelected()).ToList();
         StateHasChanged();
     }   
 
-    private string CheckIfItemIsInTransit(StudioStep item)
-    {
-        return item.Equals(DragDropService.ActiveStep) ? "plk-dd-in-transit no-pointer-events" : string.Empty;
-    }
+    //private string CheckIfItemIsInTransit(StudioStep item)
+    //{
+    //    return item.Equals(DragDropService.ActiveStep) ? "plk-dd-in-transit no-pointer-events" : string.Empty;
+    //}
 
-    private string CheckIfItemIsDragTarget(StudioStep item)
-    {
-        if (item.Equals(DragDropService.ActiveStep))
-            return string.Empty;
+    //private string CheckIfItemIsDragTarget(StudioStep item)
+    //{
+    //    if (item.Equals(DragDropService.ActiveStep))
+    //        return string.Empty;
 
-        if (item.Equals(DragDropService.DragTargetStep))
-        {
-            return IsItemAccepted(DragDropService.DragTargetStep) ? "plk-dd-dragged-over" : "plk-dd-dragged-over-denied";
-        }
+    //    if (item.Equals(DragDropService.DragTargetStep))
+    //    {
+    //        return IsItemAccepted(DragDropService.DragTargetStep) ? "plk-dd-dragged-over" : "plk-dd-dragged-over-denied";
+    //    }
 
-        return string.Empty;
-    }
+    //    return string.Empty;
+    //}
 
     private string GetClassesForDraggable(StudioStep item)
     {
@@ -274,22 +272,16 @@ public partial class Dropzone : ComponentBase
 
     private bool IsDropAllowed()
     {
-        var activeItem = DragDropService.ActiveStep;
+        var activeItems = DragDropService.ActiveSteps;
 
         if (!IsValidItem())
         {
             return false;
         }
 
-        if (IsMaxItemLimitReached())
-        {
-            OnItemDropRejectedByMaxItemLimit.InvokeAsync(activeItem);
-            return false;
-        }
-
         if (!IsItemAccepted(DragDropService.DragTargetStep))
         {
-            OnItemDropRejected.InvokeAsync(activeItem);
+            OnItemDropRejected.InvokeAsync(activeItems);
             return false;
         }
 
@@ -329,47 +321,56 @@ public partial class Dropzone : ComponentBase
             return;
         }
 
-        var activeItem = DragDropService.ActiveStep;
+        var activeItems = DragDropService.ActiveSteps;
 
         // no direct drag target
         if (DragDropService.DragTargetStep == null) 
         {
-            // if dragged to another dropzone
-            if (!Items.Contains(activeItem))
+            foreach(var activeItem in activeItems)
             {
-                //insert item to new zone
-                Items.Insert(Items.Count, activeItem);
-            }
-            else
-            {
-                //insert item to new zone
-                Items.Insert(Items.Count, activeItem);
+                // if dragged to another dropzone
+                if (!Items.Contains(activeItem))
+                {
+                    //insert item to new zone
+                    Items.Insert(Items.Count, activeItem);
+                }
+                else
+                {
+                    //insert item to new zone
+                    Items.Insert(Items.Count, activeItem);
+                }
             }
         }
         // we have a direct target
         else
         {
-            // if dragged to another dropzone
-            if (!Items.Contains(activeItem)) 
+            foreach (var activeItem in activeItems)
             {
-                if (!InstantReplace)
+                // if dragged to another dropzone
+                if (!Items.Contains(activeItem))
                 {
-                    //swap target with active item
-                    Swap(DragDropService.DragTargetStep, activeItem); 
+                    if (!InstantReplace)
+                    {
+                        //swap target with active item
+                        Swap(DragDropService.DragTargetStep, activeItem);
+                    }
                 }
-            }
-            else
-            {
-                // if dragged to the same dropzone
-                if (!InstantReplace)
+                else
                 {
-                    //swap target with active item
-                    Swap(DragDropService.DragTargetStep, activeItem); 
+                    // if dragged to the same dropzone
+                    if (!InstantReplace)
+                    {
+                        //swap target with active item
+                        Swap(DragDropService.DragTargetStep, activeItem);
+                    }
                 }
             }
         }
 
-        OnItemDrop.InvokeAsync(activeItem);
+        foreach (var activeItem in activeItems)
+        {
+            OnItemDrop.InvokeAsync(activeItem);
+        }
 
         DragDropService.Reset();
         StateHasChanged();
@@ -403,12 +404,6 @@ public partial class Dropzone : ComponentBase
         }
     }
 
-    private bool IsMaxItemLimitReached()
-    {
-        var activeItem = DragDropService.ActiveStep;
-        return (!Items.Contains(activeItem) && MaxItems.HasValue && MaxItems == Items.Count());
-    }
-
     private string IsItemDragable(StudioStep item)
     {
         if (AllowsDrag == null)
@@ -422,12 +417,12 @@ public partial class Dropzone : ComponentBase
     {
         if (Accepts == null)
             return true;
-        return Accepts(DragDropService.ActiveStep, dragTargetItem);
+        return Accepts(DragDropService.ActiveSteps, dragTargetItem);
     }
 
     private bool IsValidItem()
     {
-        return DragDropService.ActiveStep != null;
+        return DragDropService.ActiveSteps.Any();
     }
 
     private void ForceRender(object sender, EventArgs e)

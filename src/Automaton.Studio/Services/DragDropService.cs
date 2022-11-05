@@ -5,9 +5,9 @@ namespace Automaton.Studio.Services;
 public class DragDropService
 {
     /// <summary>
-    /// Currently Active Item
+    /// Active Items
     /// </summary>
-    public StudioStep ActiveStep { get; set; }
+    public IList<StudioStep> ActiveSteps { get; set; } = new List<StudioStep>();
 
     /// <summary>
     /// The item the active item is hovering above.
@@ -24,7 +24,7 @@ public class DragDropService
     /// </summary>
     public void Reset()
     {
-        ActiveStep = default;
+        ActiveSteps.Clear();
         ActiveSpacerId = null;
         DragTargetStep = default;
 
