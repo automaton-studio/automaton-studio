@@ -343,8 +343,9 @@ public partial class Dropzone : ComponentBase
                 }
                 else
                 {
-                    //insert item to new zone
-                    Items.Insert(Items.Count, activeItem);
+                    //insert item to new zone if not final
+                    if(!activeItem.IsFinal())
+                        Items.Insert(Items.Count, activeItem);
                 }
             }
         }
