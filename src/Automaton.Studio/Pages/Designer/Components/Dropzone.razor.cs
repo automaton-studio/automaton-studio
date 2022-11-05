@@ -44,8 +44,6 @@ public partial class Dropzone : ComponentBase
 
     [Parameter] public EventCallback<StudioStep> OnReplacedItemDrop { get; set; }
 
-    [Parameter] public bool InstantReplace { get; set; }
-
     [Parameter] public IList<StudioStep> Items { get; set; }
 
     [Parameter] public int? MaxItems { get; set; }
@@ -357,20 +355,14 @@ public partial class Dropzone : ComponentBase
                 // if dragged to another dropzone
                 if (!Items.Contains(activeItem))
                 {
-                    if (!InstantReplace)
-                    {
-                        //swap target with active item
-                        Swap(DragDropService.DragTargetStep, activeItem);
-                    }
+                    //swap target with active item
+                    Swap(DragDropService.DragTargetStep, activeItem);
                 }
                 else
                 {
                     // if dragged to the same dropzone
-                    if (!InstantReplace)
-                    {
-                        //swap target with active item
-                        Swap(DragDropService.DragTargetStep, activeItem);
-                    }
+                    //swap target with active item
+                    Swap(DragDropService.DragTargetStep, activeItem);
                 }
             }
         }
@@ -392,15 +384,6 @@ public partial class Dropzone : ComponentBase
         {
             //insert into new zone
             Items.Insert(indexDraggedOverItem + 1, activeItem);
-        }
-        else if (InstantReplace) //swap the items
-        {
-            if (indexDraggedOverItem == indexActiveItem)
-                return;
-            StudioStep tmp = Items[indexDraggedOverItem];
-            Items[indexDraggedOverItem] = Items[indexActiveItem];
-            Items[indexActiveItem] = tmp;
-            OnReplacedItemDrop.InvokeAsync(Items[indexActiveItem]);
         }
         else //no instant replace, just insert it after 
         {
