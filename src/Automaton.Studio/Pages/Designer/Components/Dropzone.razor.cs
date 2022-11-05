@@ -91,6 +91,20 @@ public partial class Dropzone : ComponentBase
         return activeItems.Any() ? "plk-dd-inprogess" : string.Empty;
     }
 
+    public void SetActiveItem(StudioStep step)
+    {
+        ActiveItems = new List<StudioStep>{ step };
+
+        // Unselect all the previous selected activities
+        UnselectSteps();
+
+        // Select the step being dragged
+        foreach (var activeItem in ActiveItems)
+        {
+            activeItem.Select();
+        }
+    }
+
     public void OnDropItemOnSpacing()
     {
         if (!IsDropAllowed())
@@ -127,6 +141,19 @@ public partial class Dropzone : ComponentBase
         DragDropService.Reset();
     }
 
+    private void UnselectSteps()
+    {
+        var selectedSteps = Items.Where(x => x.IsSelected()); ;
+
+        if (selectedSteps != null)
+        {
+            foreach (var selectedStep in selectedSteps)
+            {
+                selectedStep.Unselect();
+            }
+        }
+    }
+
     private void OnDragEnterFirstSpacing()
     {
         DragDropService.ActiveSpacerId = 0;
@@ -146,16 +173,6 @@ public partial class Dropzone : ComponentBase
     {
         DragDropService.ActiveSpacerId = null;
     }
-
-    //private void OnDragEnterDropzoneSpacing(DragEventArgs e)
-    //{
-    //    DragDropService.ActiveSpacerId = Items.Count;
-    //}
-
-    //private void OnDragLeaveDropzoneSpacing()
-    //{
-    //    DragDropService.ActiveSpacerId = null;
-    //}
 
     private string GetStepSpacerClass(StudioStep item)
     {
@@ -225,24 +242,6 @@ public partial class Dropzone : ComponentBase
         StateHasChanged();
     }   
 
-    //private string CheckIfItemIsInTransit(StudioStep item)
-    //{
-    //    return item.Equals(DragDropService.ActiveStep) ? "plk-dd-in-transit no-pointer-events" : string.Empty;
-    //}
-
-    //private string CheckIfItemIsDragTarget(StudioStep item)
-    //{
-    //    if (item.Equals(DragDropService.ActiveStep))
-    //        return string.Empty;
-
-    //    if (item.Equals(DragDropService.DragTargetStep))
-    //    {
-    //        return IsItemAccepted(DragDropService.DragTargetStep) ? "plk-dd-dragged-over" : "plk-dd-dragged-over-denied";
-    //    }
-
-    //    return string.Empty;
-    //}
-
     private string GetClassesForDraggable(StudioStep item)
     {
         var builder = new StringBuilder();
@@ -295,6 +294,8 @@ public partial class Dropzone : ComponentBase
 
     private void DropzoneMouseDown()
     {
+        UnselectSteps();
+
         OnDropzoneMouseDown.InvokeAsync(null);
     }
 
@@ -303,9 +304,15 @@ public partial class Dropzone : ComponentBase
         OnItemClick.InvokeAsync(item);
     }
 
-    private void ItemMouseDown(StudioStep item)
+    private void ItemMouseDown(StudioStep step)
     {
-        OnItemMouseDown.InvokeAsync(item);
+        // Unselect all the previous selected activities
+        UnselectSteps();
+
+        // Select the one under the mouse cursor
+        step.Select();
+
+        OnItemMouseDown.InvokeAsync(step);
     }
 
     private void ItemDoubleClick(StudioStep item)

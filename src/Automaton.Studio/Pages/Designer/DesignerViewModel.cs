@@ -21,7 +21,7 @@ public class DesignerViewModel
     public IList<StudioDefinition> Definitions { get; set; }
     public StudioDefinition ActiveDefinition { get; set; }
 
-    public event EventHandler<StepEventArgs> DragStep;
+    public event EventHandler<StepEventArgs> StepCreated;
     public event EventHandler<StepEventArgs> StepAdded
     {
         add { ActiveDefinition.StepAdded += value; }
@@ -77,7 +77,7 @@ public class DesignerViewModel
         var step = stepFactory.CreateStep(solutionStep.Name);
         step.Definition = ActiveDefinition;
 
-        DragStep?.Invoke(this, new StepEventArgs(step));
+        StepCreated?.Invoke(this, new StepEventArgs(step));
     }
 
     public void DeleteStep(StudioStep step)
@@ -113,11 +113,6 @@ public class DesignerViewModel
         ActiveDefinition.FinalizeStep(step);
 
         step.InvokeFinalized();
-    }
-
-    public IEnumerable<StudioStep> GetSelectedSteps()
-    {
-        return ActiveDefinition.Steps.Where(x => x.IsSelected());
     }
 
     public IEnumerable<string> GetDefinitionNames()

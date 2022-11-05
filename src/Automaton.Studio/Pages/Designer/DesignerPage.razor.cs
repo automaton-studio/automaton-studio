@@ -44,21 +44,9 @@ partial class DesignerPage : ComponentBase
         await DesignerViewModel.RunFlow();
     }
 
-    private void OnDragStep(object sender, StepEventArgs e)
+    private void OnStepCreated(object sender, StepEventArgs e)
     {
-        dropzone.ActiveItems = new List<StudioStep>
-        {
-            e.Step
-        };
-
-        // Unselect all the previous selected activities
-        UnselectSteps();
-
-        // Select the step being dragged
-        foreach(var activeItem in dropzone.ActiveItems)
-        {
-            activeItem.Select();
-        }
+        dropzone.SetActiveItem(e.Step);
     }
 
     private async Task OnItemDrop(StudioStep step)
@@ -71,15 +59,6 @@ partial class DesignerPage : ComponentBase
         {
             DesignerViewModel.UpdateStepConnections();
         }
-    }
-
-    private void OnItemMouseDown(StudioStep step)
-    {
-        // Unselect all the previous selected activities
-        UnselectSteps();
-
-        // Select the one under the mouse cursor
-        step.Select();
     }
 
     private async Task OnItemDoubleClick(StudioStep step)
@@ -97,11 +76,6 @@ partial class DesignerPage : ComponentBase
 
             return Task.CompletedTask;
         };
-    }
-
-    private void OnDropzoneMouseDown()
-    {
-        UnselectSteps();
     }
 
     private void OnStepAdded(object sender, StepEventArgs e)
@@ -123,7 +97,7 @@ partial class DesignerPage : ComponentBase
             FlowExplorerViewModel.LoadDefinitions(DesignerViewModel.Flow);
 
             // Setup event handlers after flow is loaded
-            DesignerViewModel.DragStep += OnDragStep;
+            DesignerViewModel.StepCreated += OnStepCreated;
             DesignerViewModel.StepAdded += OnStepAdded;
             DesignerViewModel.StepRemoved += OnStepRemoved;
         }
@@ -161,19 +135,6 @@ partial class DesignerPage : ComponentBase
 
             return Task.CompletedTask;
         };
-    }
-
-    private void UnselectSteps()
-    {
-        var selectedSteps = DesignerViewModel.GetSelectedSteps();
-
-        if (selectedSteps != null)
-        {
-            foreach (var selectedStep in selectedSteps)
-            {
-                selectedStep.Unselect();
-            }
-        }
     }
 
     private async Task OpenFlowSettings()

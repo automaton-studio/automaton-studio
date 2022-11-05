@@ -65,9 +65,7 @@
                     <Dropzone @ref="dropzone" 
                         Class="dropzone"                       
                         Items="definition.Steps"
-                        OnDropzoneMouseDown="@(()=>OnDropzoneMouseDown())"
                         OnItemDrop="@((p)=>OnItemDrop(p))"
-                        OnItemMouseDown="@((p)=>OnItemMouseDown(p))"
                         OnItemDoubleClick="@((p)=>OnItemDoubleClick(p))">
 
                         <DropzoneStep Step="@context" />

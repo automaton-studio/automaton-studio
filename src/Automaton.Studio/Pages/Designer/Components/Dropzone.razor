@@ -42,8 +42,6 @@
          @onmousedown="()=>ItemMouseDown(item)"
          @onmousedown:stopPropagation="true"
          class="@GetClassesForDraggable(item) 
-        @* @CheckIfItemIsInTransit(item)
-         @CheckIfItemIsDragTarget(item) *@
          @CheckIfDragOperationIsInProgess() 
          @CheckIfDraggable(item)">
 

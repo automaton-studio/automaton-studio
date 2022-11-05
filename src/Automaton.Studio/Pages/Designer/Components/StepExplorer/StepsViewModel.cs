@@ -39,7 +39,7 @@ public class StepsViewModel : INotifyPropertyChanged
         Steps = stepFactory.GetSteps();
     }
 
-    public void StepDrag(TreeEventArgs<StepExplorerModel> args)
+    public void CreateStep(TreeEventArgs<StepExplorerModel> args)
     {
         var step = args.Node.DataItem;
 
