@@ -19,7 +19,7 @@
      @ondragstart:stopPropagation
      ondragstart="event.dataTransfer.setData('text', event.target.id);">
 
-    <div @ondrop="()=>OnDropItemOnSpacing()"
+    <div @ondrop="()=>OnDropStepOnSpacing()"
          @ondrop:stopPropagation
          @ondragleave="()=>OnDragLeaveFirstSpacing()"
          @ondragenter="()=>OnDragEnterFirstSpacing()"
@@ -29,17 +29,17 @@
     @foreach (var item in Items)
     {
         <div id="@item.Id" 
-         draggable="@IsItemDragable(item)"
-         @ondragstart="()=>OnDragStart(item)"
-         @ondragend="()=>OnDragEnd()"
-         @ondragenter="()=>OnItemDragEnter(item)"
-         @ondragover="(x)=>OnItemDragOver(x, item)"
-         @ondragleave="()=>OnDragLeave()"
-         @ondrop="()=>OnDropItemOnSpacing()"
-         @onclick="()=>ItemClick(item)"
-         @ondblclick="()=>ItemDoubleClick(item)"
+         draggable="@IsStepDragable(item)"
+         @ondragstart="()=>OnStepDragStart(item)"
+         @ondragend="()=>OnStepDragEnd()"
+         @ondragenter="()=>OnStepDragEnter(item)"
+         @ondragover="(x)=>OnStepDragOver(x, item)"
+         @ondragleave="()=>OnStepDragLeave()"
+         @ondrop="()=>OnDropStepOnSpacing()"
+         @onclick="()=>OnStepClick(item)"
+         @ondblclick="()=>OnStepDoubleClick(item)"
          @ondblclick:stopPropagation="true"
-         @onmousedown="()=>ItemMouseDown(item)"
+         @onmousedown="()=>OnStepMouseDown(item)"
          @onmousedown:stopPropagation="true"
          class="@GetClassesForDraggable(item) 
          @CheckIfDragOperationIsInProgess() 
@@ -53,7 +53,7 @@
             }
         </div>
 
-        <div @ondrop="()=>OnDropItemOnSpacing()"
+        <div @ondrop="()=>OnDropStepOnSpacing()"
          @ondrop:stopPropagation
          @ondragleave="()=>OnDragLeaveSpacing(item)"
          @ondragenter="()=>OnDragEnterSpacing(item)"

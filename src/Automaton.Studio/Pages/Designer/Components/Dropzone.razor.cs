@@ -105,7 +105,7 @@ public partial class Dropzone : ComponentBase
         }
     }
 
-    public void OnDropItemOnSpacing()
+    public void OnDropStepOnSpacing()
     {
         if (!IsDropAllowed())
         {
@@ -187,7 +187,7 @@ public partial class Dropzone : ComponentBase
         return Items.IndexOf(item) + 1;
     }
 
-    public void OnDragEnd()
+    public void OnStepDragEnd()
     {
         if (DragEnd != null)
         {
@@ -197,7 +197,7 @@ public partial class Dropzone : ComponentBase
         DragDropService.Reset();
     }
     
-    public void OnItemDragEnter(StudioStep step)
+    public void OnStepDragEnter(StudioStep step)
     {
         var activeSteps = DragDropService.ActiveSteps;
 
@@ -215,7 +215,7 @@ public partial class Dropzone : ComponentBase
         StateHasChanged();
     }
 
-    public async Task OnItemDragOver(MouseEventArgs e, StudioStep step)
+    public async Task OnStepDragOver(MouseEventArgs e, StudioStep step)
     {
         var activeSteps = DragDropService.ActiveSteps;
 
@@ -229,13 +229,13 @@ public partial class Dropzone : ComponentBase
         DragDropService.ActiveSpacerId = firstHalf ? index - 1 : index;
     }
 
-    public void OnDragLeave()
+    public void OnStepDragLeave()
     {
         DragDropService.DragTargetStep = default;
         StateHasChanged();
     }
 
-    public void OnDragStart(StudioStep item)
+    public void OnStepDragStart(StudioStep item)
     {
         DragDropService.ActiveSpacerId = null;
         DragDropService.ActiveSteps = Items.Where(x => x.IsSelected()).ToList();
@@ -299,12 +299,12 @@ public partial class Dropzone : ComponentBase
         OnDropzoneMouseDown.InvokeAsync(null);
     }
 
-    private void ItemClick(StudioStep item)
+    private void OnStepClick(StudioStep item)
     {
         OnItemClick.InvokeAsync(item);
     }
 
-    private void ItemMouseDown(StudioStep step)
+    private void OnStepMouseDown(StudioStep step)
     {
         // Unselect all the previous selected activities
         UnselectSteps();
@@ -315,7 +315,7 @@ public partial class Dropzone : ComponentBase
         OnItemMouseDown.InvokeAsync(step);
     }
 
-    private void ItemDoubleClick(StudioStep item)
+    private void OnStepDoubleClick(StudioStep item)
     {
         OnItemDoubleClick.InvokeAsync(item);
     }
@@ -411,7 +411,7 @@ public partial class Dropzone : ComponentBase
         }
     }
 
-    private string IsItemDragable(StudioStep item)
+    private string IsStepDragable(StudioStep item)
     {
         if (AllowsDrag == null)
             return "true";
