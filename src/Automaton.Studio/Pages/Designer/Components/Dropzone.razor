@@ -26,7 +26,7 @@
          class="@GetStepSpacerClass(null)">
     </div>
 
-    @foreach (var item in Items)
+    @foreach (var item in Steps)
     {
         <div id="@item.Id" 
          draggable="@IsStepDragable(item)"
@@ -60,13 +60,6 @@
          class="@GetStepSpacerClass(item)">
         </div>
     }
-
-    @*<div @ondrop="()=>OnDropItemOnSpacing(Items.Count())"
-         @ondrop:stopPropagation
-         @ondragleave="()=>OnDragLeaveDropzoneSpacing()"
-         @ondragenter="(e)=>OnDragEnterDropzoneSpacing(e)"
-         class="dropzone-spacing">
-    </div>*@
 
 </div>
 

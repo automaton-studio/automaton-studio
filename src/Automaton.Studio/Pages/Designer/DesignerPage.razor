@@ -64,7 +64,7 @@
                 <TabPane Key="@definition.Id" Tab="@definition.Name">
                     <Dropzone @ref="dropzone" 
                         Class="dropzone"                       
-                        Items="definition.Steps"
+                        Steps="definition.Steps"
                         OnItemDrop="@((p)=>OnItemDrop(p))"
                         OnItemDoubleClick="@((p)=>OnItemDoubleClick(p))">
 

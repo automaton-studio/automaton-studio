@@ -42,7 +42,7 @@ public partial class Dropzone : ComponentBase
 
     [Parameter] public EventCallback<StudioStep> OnReplacedItemDrop { get; set; }
 
-    [Parameter] public IList<StudioStep> Items { get; set; }
+    [Parameter] public IList<StudioStep> Steps { get; set; }
 
     [Parameter] public RenderFragment<StudioStep> ChildContent { get; set; }
 
@@ -57,13 +57,13 @@ public partial class Dropzone : ComponentBase
         base.OnInitialized();
     }
 
-    public string CheckIfDraggable(StudioStep item)
+    public string CheckIfDraggable(StudioStep step)
     {
         if (AllowsDrag == null)
             return string.Empty;
-        if (item == null)
+        if (step == null)
             return string.Empty;
-        if (AllowsDrag(item))
+        if (AllowsDrag(step))
             return string.Empty;
         return "plk-dd-noselect";
     }
@@ -74,7 +74,7 @@ public partial class Dropzone : ComponentBase
         return activeItems.Any() ? "plk-dd-inprogess" : string.Empty;
     }
 
-    public void SetActiveItem(StudioStep step)
+    public void SetActiveStep(StudioStep step)
     {
         DragDropService.ActiveSteps = new List<StudioStep>{ step };
 
@@ -96,18 +96,18 @@ public partial class Dropzone : ComponentBase
             return;
         }
 
-        var activeItems = DragDropService.ActiveSteps;
-        var newIndex = DragDropService.ActiveSpacerId ?? Items.Count - 1;
+        var activeSteps = DragDropService.ActiveSteps;
+        var newIndex = DragDropService.ActiveSpacerId ?? Steps.Count - 1;
 
         int oldIndex;
 
-        foreach(var item in activeItems)
+        foreach(var item in activeSteps)
         {
-            oldIndex = Items.IndexOf(item);
+            oldIndex = Steps.IndexOf(item);
 
             if (oldIndex >= 0)
             {
-                Items.RemoveAt(oldIndex);
+                Steps.RemoveAt(oldIndex);
 
                 // The actual index could have shifted due to the removal
                 if (newIndex > oldIndex)
@@ -115,9 +115,9 @@ public partial class Dropzone : ComponentBase
             }
         }
 
-        foreach (var item in activeItems)
+        foreach (var item in activeSteps)
         {
-            Items.Insert(newIndex++, item);
+            Steps.Insert(newIndex++, item);
             OnItemDrop.InvokeAsync(item);
         }
 
@@ -126,7 +126,7 @@ public partial class Dropzone : ComponentBase
 
     private void UnselectSteps()
     {
-        var selectedSteps = Items.Where(x => x.IsSelected()); ;
+        var selectedSteps = Steps.Where(x => x.IsSelected()); ;
 
         if (selectedSteps != null)
         {
@@ -167,7 +167,7 @@ public partial class Dropzone : ComponentBase
 
     private int GetItemIndex(StudioStep item)
     {
-        return Items.IndexOf(item) + 1;
+        return Steps.IndexOf(item) + 1;
     }
 
     public void OnStepDragEnd()
@@ -221,7 +221,7 @@ public partial class Dropzone : ComponentBase
     public void OnStepDragStart(StudioStep item)
     {
         DragDropService.ActiveSpacerId = null;
-        DragDropService.ActiveSteps = Items.Where(x => x.IsSelected()).ToList();
+        DragDropService.ActiveSteps = Steps.Where(x => x.IsSelected()).ToList();
         StateHasChanged();
     }   
 
@@ -319,16 +319,16 @@ public partial class Dropzone : ComponentBase
             foreach(var activeItem in activeItems)
             {
                 // if dragged to another dropzone
-                if (!Items.Contains(activeItem))
+                if (!Steps.Contains(activeItem))
                 {
                     //insert item to new zone
-                    Items.Insert(Items.Count, activeItem);
+                    Steps.Insert(Steps.Count, activeItem);
                 }
                 else
                 {
                     //insert item to new zone if not final
                     if(!activeItem.IsFinal())
-                        Items.Insert(Items.Count, activeItem);
+                        Steps.Insert(Steps.Count, activeItem);
                 }
             }
         }
@@ -338,7 +338,7 @@ public partial class Dropzone : ComponentBase
             foreach (var activeItem in activeItems)
             {
                 // if dragged to another dropzone
-                if (!Items.Contains(activeItem))
+                if (!Steps.Contains(activeItem))
                 {
                     //swap target with active item
                     Swap(DragDropService.DragTargetStep, activeItem);
@@ -363,20 +363,20 @@ public partial class Dropzone : ComponentBase
 
     private void Swap(StudioStep draggedOverItem, StudioStep activeItem)
     {
-        var indexDraggedOverItem = Items.IndexOf(draggedOverItem);
-        var indexActiveItem = Items.IndexOf(activeItem);
+        var indexDraggedOverItem = Steps.IndexOf(draggedOverItem);
+        var indexActiveItem = Steps.IndexOf(activeItem);
         if (indexActiveItem == -1) // item is new to the dropzone
         {
             //insert into new zone
-            Items.Insert(indexDraggedOverItem + 1, activeItem);
+            Steps.Insert(indexDraggedOverItem + 1, activeItem);
         }
         else //no instant replace, just insert it after 
         {
             if (indexDraggedOverItem == indexActiveItem)
                 return;
-            var tmp = Items[indexActiveItem];
-            Items.RemoveAt(indexActiveItem);
-            Items.Insert(indexDraggedOverItem, tmp);
+            var tmp = Steps[indexActiveItem];
+            Steps.RemoveAt(indexActiveItem);
+            Steps.Insert(indexDraggedOverItem, tmp);
         }
     }
 

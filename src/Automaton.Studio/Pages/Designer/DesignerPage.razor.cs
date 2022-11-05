@@ -27,8 +27,7 @@ partial class DesignerPage : ComponentBase
 
     [Inject] public NavMenuService NavMenuService { get; set; }
 
-    [Parameter]
-    public string FlowId { get; set; }
+    [Parameter] public string FlowId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -46,7 +45,7 @@ partial class DesignerPage : ComponentBase
 
     private void OnStepCreated(object sender, StepEventArgs e)
     {
-        dropzone.SetActiveItem(e.Step);
+        dropzone.SetActiveStep(e.Step);
     }
 
     private async Task OnItemDrop(StudioStep step)
