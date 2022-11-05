@@ -1,9 +1,7 @@
 using Automaton.Studio.Domain;
 using Automaton.Studio.Services;
-using Automaton.Studio.Steps.Sequence;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,27 +44,14 @@ public partial class Dropzone : ComponentBase
 
     [Parameter] public IList<StudioStep> Items { get; set; }
 
-    [Parameter] public int? MaxItems { get; set; }
-
-    [Parameter] public EventCallback<StudioStep> OnItemDropRejectedByMaxItemLimit { get; set; }
-
     [Parameter] public RenderFragment<StudioStep> ChildContent { get; set; }
 
     [Parameter] public string Class { get; set; }
 
-    [Parameter] public string Id { get; set; }
-
     [Parameter] public Func<StudioStep, string> ItemWrapperClass { get; set; }
-
-    public IList<StudioStep> ActiveItems
-    {
-        get { return DragDropService.ActiveSteps; }
-        set { DragDropService.ActiveSteps = value; }
-    }
 
     protected override void OnInitialized()
     {
-        Id = Guid.NewGuid().ToString();
         DragDropService.StateHasChanged += ForceRender;
 
         base.OnInitialized();
@@ -91,13 +76,13 @@ public partial class Dropzone : ComponentBase
 
     public void SetActiveItem(StudioStep step)
     {
-        ActiveItems = new List<StudioStep>{ step };
+        DragDropService.ActiveSteps = new List<StudioStep>{ step };
 
         // Unselect all the previous selected activities
         UnselectSteps();
 
         // Select the step being dragged
-        foreach (var activeItem in ActiveItems)
+        foreach (var activeItem in DragDropService.ActiveSteps)
         {
             activeItem.Select();
         }
