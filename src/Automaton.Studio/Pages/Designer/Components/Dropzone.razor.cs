@@ -1,5 +1,6 @@
 using Automaton.Studio.Domain;
 using Automaton.Studio.Services;
+using Automaton.Studio.Steps.Sequence;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System.Text;
@@ -66,6 +67,11 @@ public partial class Dropzone : ComponentBase
         if (AllowsDrag(step))
             return string.Empty;
         return "plk-dd-noselect";
+    }
+
+    public string CheckSequenceClass(StudioStep step, bool isInsideSequence)
+    {
+        return isInsideSequence && step is not SequenceStep ? "sequence-item" : string.Empty;
     }
 
     public string CheckIfDragOperationIsInProgess()
@@ -160,7 +166,16 @@ public partial class Dropzone : ComponentBase
     private string GetStepSpacerClass(StudioStep item)
     {
         var index = item != null ? GetItemIndex(item) : 0;
-        var spacerClass = DragDropService.ActiveSpacerId == index ? ActiveStepSpacingClass : StepSpacingClass;
+        string spacerClass;
+
+        if (DragDropService.ActiveSpacerId == index)
+        {
+            spacerClass = ActiveStepSpacingClass;
+        }
+        else
+        {
+            spacerClass = StepSpacingClass;
+        }       
 
         return spacerClass;
     }

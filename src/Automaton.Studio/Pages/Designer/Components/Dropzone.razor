@@ -1,8 +1,9 @@
 @using Automaton.Studio.Domain;
 @using System.Text
+@using Automaton.Studio.Steps.Sequence
 @implements IDisposable
 
-<div class="@GetClassesForDropzone()" 
+<div class="@GetClassesForDropzone()"
      @ondragover:preventDefault
      @ondragover="()=>{}"
      @ondragenter:preventDefault
@@ -26,39 +27,50 @@
          class="@GetStepSpacerClass(null)">
     </div>
 
-    @foreach (var item in Steps)
-    {
-        <div id="@item.Id" 
-         draggable="@IsStepDragable(item)"
-         @ondragstart="()=>OnStepDragStart(item)"
-         @ondragend="()=>OnStepDragEnd()"
-         @ondragenter="()=>OnStepDragEnter(item)"
-         @ondragover="(x)=>OnStepDragOver(x, item)"
-         @ondragleave="()=>OnStepDragLeave()"
-         @ondrop="()=>OnDropStepOnSpacing()"
-         @onclick="()=>OnStepClick(item)"
-         @ondblclick="()=>OnStepDoubleClick(item)"
-         @ondblclick:stopPropagation="true"
-         @onmousedown="()=>OnStepMouseDown(item)"
-         @onmousedown:stopPropagation="true"
-         class="@GetClassesForDraggable(item) 
-         @CheckIfDragOperationIsInProgess() 
-         @CheckIfDraggable(item)">
+    @{
+        var isInsideSequence = false;
 
-            @{
-                if (ChildContent != null)
-                {
-                    @ChildContent(item);
-                }
+        foreach (var item in Steps)
+        {
+            if (item is SequenceEndStep)
+            {
+                isInsideSequence = false;
             }
-        </div>
 
-        <div @ondrop="()=>OnDropStepOnSpacing()"
-         @ondrop:stopPropagation
-         @ondragleave="()=>OnDragLeaveSpacing(item)"
-         @ondragenter="()=>OnDragEnterSpacing(item)"
-         class="@GetStepSpacerClass(item)">
-        </div>
+            <div id="@item.Id" draggable="@IsStepDragable(item)"
+            @ondragstart="()=>OnStepDragStart(item)"
+            @ondragend="()=>OnStepDragEnd()"
+            @ondragenter="()=>OnStepDragEnter(item)"
+            @ondragover="(x)=>OnStepDragOver(x, item)"
+            @ondragleave="()=>OnStepDragLeave()"
+            @ondrop="()=>OnDropStepOnSpacing()"
+            @onclick="()=>OnStepClick(item)"
+            @ondblclick="()=>OnStepDoubleClick(item)"
+            @ondblclick:stopPropagation="true"
+            @onmousedown="()=>OnStepMouseDown(item)"
+            @onmousedown:stopPropagation="true"
+            class="@GetClassesForDraggable(item)
+            @CheckIfDragOperationIsInProgess()
+            @CheckIfDraggable(item)
+            @CheckSequenceClass(item, isInsideSequence)">
+
+                @ChildContent(item)
+
+            </div>
+
+            <div 
+            @ondrop="()=>OnDropStepOnSpacing()"
+            @ondrop:stopPropagation
+            @ondragleave="()=>OnDragLeaveSpacing(item)"
+            @ondragenter="()=>OnDragEnterSpacing(item)"
+            class="@GetStepSpacerClass(item)">
+            </div>
+
+            if (item is SequenceStep)
+            {
+                isInsideSequence = true;
+            }
+        }
     }
 
 </div>
@@ -81,9 +93,8 @@
         min-height: 15px;
     }
 
-   /* .dropzone-spacing {
-        background-color: yellow;
-        flex: 1; /* Fill the remaining of empty dropzone space*/
-    }*/
+    .sequence-item {
+        margin-left: 20px;
+    }
 
 </style>
