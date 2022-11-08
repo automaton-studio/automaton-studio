@@ -17,6 +17,8 @@ public partial class Dropzone : ComponentBase
 
     #endregion
 
+    private int _stepMargin;
+
     [Inject] DragDropService DragDropService { get; set; }
 
     [Inject] JsInterop JsInterop { get; set; }
@@ -53,6 +55,8 @@ public partial class Dropzone : ComponentBase
 
     protected override void OnInitialized()
     {
+        _stepMargin = 10;
+
         DragDropService.StateHasChanged += ForceRender;
 
         base.OnInitialized();
@@ -69,9 +73,9 @@ public partial class Dropzone : ComponentBase
         return "plk-dd-noselect";
     }
 
-    public string CheckSequenceClass(StudioStep step, bool isInsideSequence)
+    public string GetStepMargin()
     {
-        return isInsideSequence && step is not SequenceStep ? "sequence-item" : string.Empty;
+        return $"{_stepMargin}px";
     }
 
     public string CheckIfDragOperationIsInProgess()
@@ -428,6 +432,16 @@ public partial class Dropzone : ComponentBase
         var firstHalf = e.ClientY >= boundingRect.Y && e.ClientY <= boundingRect.Y + boundingRect.Height / 2;
 
         return firstHalf;
+    }
+
+    private void IncreaseStepMargin()
+    {
+        _stepMargin += 20;
+    }
+
+    private void DecreaseStepMargin()
+    {
+        _stepMargin -= 20;
     }
 
     public void Dispose()

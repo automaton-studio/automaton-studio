@@ -1,5 +1,6 @@
 ﻿using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
+using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
 using System.Reflection;
@@ -29,6 +30,16 @@ public class SequenceStep : StudioStep
         this.stepFactory = stepFactory;
 
         Finalize += OnFinalize;
+    }
+
+    public override void Setup(IStepDescriptor descriptor)
+    {
+        base.Setup(descriptor);
+
+        StepClass = "designer-sequence-step";
+        SelectedStepClass = "designer-sequence-step-selected";
+        DisabledStepClass = "designer-sequence-step-disabled";
+        Class = StepClass;
     }
 
     public override Type GetDesignerComponent()

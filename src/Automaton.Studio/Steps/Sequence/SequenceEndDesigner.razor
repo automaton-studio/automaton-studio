@@ -1,19 +1,86 @@
-﻿@using Automaton.Studio.Steps
-@using Automaton.Studio.Steps.Sequence
+﻿@using AntDesign
 
-<StepDesigner Step=@Step>
-    <div>
-        <b>@Step.DisplayName</b>
-    </div>
-</StepDesigner>
+<div class="@Step.Class">
+    <Row Align="middle">
+        <Col Flex=@("none")>
+        <div class="designer-step-icon-container">
+            <Icon Type="@Step.Icon" Theme="outline" />
+        </div>
+        </Col>
 
-@code {
-    [Parameter]
-    public SequenceEndStep Step { get; set; }
+        <Col Flex=@("auto")>
+            <div>
+                <b>@Step.DisplayName</b>
+            </div>
 
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
+            @ChildContent
+        </Col>
+
+        <Col Class="designer-step-options">
+        <div class="designer-step-icon-container">
+            <Dropdown Placement="@Placement.Left" Trigger="@(new Trigger[] { Trigger.Click })">
+                <Overlay>
+                    <Menu>
+                        <MenuItem Icon="edit" OnClick="@(() => OnEdit(Step))">
+                            Edit
+                        </MenuItem>
+                        <MenuItem Icon="delete" OnClick="@(() => OnDelete(Step))">
+                            Delete
+                        </MenuItem>
+                    </Menu>
+                </Overlay>
+                <ChildContent>
+                    <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
+                        <Icon Type="more" Theme="outline" />
+                    </a>
+                </ChildContent>
+            </Dropdown>
+        </div>
+        </Col>
+    </Row>
+</div>
+
+<style>
+
+    .options-menu-text {
+        margin-left: 10px;
     }
-}
+
+    .designer-step-options {
+        margin-left: auto;
+    }
+
+    .designer-step-icon-container {
+        padding: 0 16px;
+    }
+
+    .designer-sequence-end-step {
+        padding: 1em;
+        width: fit-content;
+        margin: 0px 10px 0px 10px;
+        background-color: #DBE9FF;
+        border-radius: 0px 0px 5px 5px;
+        box-shadow: 1px 1px 5px 2px rgba(179,179,179,0.46);
+    }
+
+    .designer-sequence-end-step-selected {
+        padding: 1em;
+        width: fit-content;
+        margin: 0px 10px 0px 10px;
+        border-radius: 0px 0px 5px 5px;
+        box-shadow: 1px 1px 5px 2px rgba(179,179,179,0.46);
+        background-color: #B4D2FF;
+    }
+
+    .designer-sequence-end-step-disabled {
+        padding: 1em;
+        display: block;
+        width: fit-content;
+        margin: 0px 10px 0px 10px;
+        border-radius: 0px 0px 5px 5px;
+        box-shadow: 1px 1px 5px 2px rgba(179,179,179,0.46);
+        background-color: #EFEFEF;
+        opacity: 0.5;
+    }
+</style>
 

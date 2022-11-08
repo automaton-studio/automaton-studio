@@ -18,7 +18,8 @@
      @ondragover:stopPropagation
      @ondragleave:stopPropagation
      @ondragstart:stopPropagation
-     ondragstart="event.dataTransfer.setData('text', event.target.id);">
+     ondragstart="event.dataTransfer.setData('text', event.target.id);"
+     style="display: flex;">
 
     <div @ondrop="()=>OnDropStepOnSpacing()"
          @ondrop:stopPropagation
@@ -28,13 +29,11 @@
     </div>
 
     @{
-        var isInsideSequence = false;
-
         foreach (var item in Steps)
         {
             if (item is SequenceEndStep)
             {
-                isInsideSequence = false;
+                DecreaseStepMargin();
             }
 
             <div id="@item.Id" draggable="@IsStepDragable(item)"
@@ -51,8 +50,8 @@
             @onmousedown:stopPropagation="true"
             class="@GetClassesForDraggable(item)
             @CheckIfDragOperationIsInProgess()
-            @CheckIfDraggable(item)
-            @CheckSequenceClass(item, isInsideSequence)">
+            @CheckIfDraggable(item)"
+            style="margin-left: @GetStepMargin()">
 
                 @ChildContent(item)
 
@@ -68,7 +67,7 @@
 
             if (item is SequenceStep)
             {
-                isInsideSequence = true;
+                IncreaseStepMargin();
             }
         }
     }
@@ -91,10 +90,6 @@
     .step-spacing {
         height: 15px;
         min-height: 15px;
-    }
-
-    .sequence-item {
-        margin-left: 20px;
     }
 
 </style>

@@ -9,13 +9,6 @@ namespace Automaton.Studio.Domain;
 
 public abstract class StudioStep : INotifyPropertyChanged
 {
-    #region Constants
-
-    private const string StepClass = "designer-step";
-    private const string SelectedStepClass = "designer-step-selected";
-    private const string DisabledStepClass = "designer-step-disabled";
-
-    #endregion
 
     #region Members
 
@@ -32,6 +25,10 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     #region Properties
 
+    protected string StepClass { get; set; } = "designer-step";
+    protected string SelectedStepClass { get; set; } = "designer-step-selected";
+    protected string DisabledStepClass { get; set; } = "designer-step-disabled";
+
     public StudioDefinition Definition { get; set; }
 
     public StudioFlow Flow => Definition.Flow;
@@ -39,7 +36,7 @@ public abstract class StudioStep : INotifyPropertyChanged
     public string Class { get; set; }
 
     public string DisplayName { get; set; }
-    
+
     #endregion
 
     #region Automaton.Core
@@ -77,13 +74,16 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public abstract Type GetPropertiesComponent();
 
-    public void Setup(IStepDescriptor descriptor)
+    public virtual void Setup(IStepDescriptor descriptor)
     {
         Id = Guid.NewGuid().ToString();
         Name = descriptor.Name;
         DisplayName = descriptor.DisplayName;
         Type = descriptor.Type;
         Icon = descriptor.Icon;
+        StepClass = "designer-step";
+        SelectedStepClass = "designer-step-selected";
+        DisabledStepClass = "designer-step-disabled";
     }
 
     public virtual void Select()
@@ -121,7 +121,7 @@ public abstract class StudioStep : INotifyPropertyChanged
         if (!Outputs.ContainsKey(key))
         {
             Outputs.Add(key, value);
-        }            
+        }
 
         Flow.SetVariable(key, value);
     }
