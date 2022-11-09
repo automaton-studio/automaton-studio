@@ -1,6 +1,5 @@
 using Automaton.Studio.Domain;
 using Automaton.Studio.Services;
-using Automaton.Studio.Steps.Sequence;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System.Text;
@@ -29,21 +28,19 @@ public partial class Dropzone : ComponentBase
 
     [Parameter] public Action<IList<StudioStep>> DragEnd { get; set; }
 
-    [Parameter] public EventCallback OnDropzoneClick { get; set; }
+    [Parameter] public EventCallback DropzoneClick { get; set; }
 
-    [Parameter] public EventCallback OnDropzoneMouseDown { get; set; }
+    [Parameter] public EventCallback DropzoneMouseDown { get; set; }
 
     [Parameter] public EventCallback<IList<StudioStep>> OnItemDropRejected { get; set; }
 
-    [Parameter] public EventCallback<StudioStep> OnItemDrop { get; set; }
+    [Parameter] public EventCallback<StudioStep> ItemDrop { get; set; }
 
-    [Parameter] public EventCallback<StudioStep> OnItemClick { get; set; }
+    [Parameter] public EventCallback<StudioStep> ItemClick { get; set; }
 
-    [Parameter] public EventCallback<StudioStep> OnItemMouseDown { get; set; }
+    [Parameter] public EventCallback<StudioStep> ItemMouseDown { get; set; }
 
-    [Parameter] public EventCallback<StudioStep> OnItemDoubleClick { get; set; }
-
-    [Parameter] public EventCallback<StudioStep> OnReplacedItemDrop { get; set; }
+    [Parameter] public EventCallback<StudioStep> ItemDoubleClick { get; set; }
 
     [Parameter] public IList<StudioStep> Steps { get; set; }
 
@@ -98,7 +95,7 @@ public partial class Dropzone : ComponentBase
         }
     }
 
-    public void OnDropStepOnSpacing()
+    public void OnSpacerDrop()
     {
         if (!IsDropAllowed())
         {
@@ -128,7 +125,7 @@ public partial class Dropzone : ComponentBase
         foreach (var item in activeSteps)
         {
             Steps.Insert(newIndex++, item);
-            OnItemDrop.InvokeAsync(item);
+            ItemDrop.InvokeAsync(item);
         }
 
         DragDropService.Reset();
@@ -147,27 +144,17 @@ public partial class Dropzone : ComponentBase
         }
     }
 
-    private void OnDragEnterFirstSpacing()
+    private void OnSpacerDragEnter(StudioStep item = null)
     {
-        DragDropService.ActiveSpacerId = 0;
+        DragDropService.ActiveSpacerId = item != null ? GetItemIndex(item) : 0;
     }
 
-    private void OnDragLeaveFirstSpacing()
-    {
-        DragDropService.ActiveSpacerId = null;
-    }
-
-    private void OnDragEnterSpacing(StudioStep item)
-    {
-        DragDropService.ActiveSpacerId = GetItemIndex(item);
-    }
-
-    private void OnDragLeaveSpacing(StudioStep item)
+    private void OnSpacerDragLeave()
     {
         DragDropService.ActiveSpacerId = null;
     }
 
-    private string GetStepSpacerClass(StudioStep item)
+    private string GetSpacerClass(StudioStep item)
     {
         var index = item != null ? GetItemIndex(item) : 0;
         string spacerClass;
@@ -289,21 +276,21 @@ public partial class Dropzone : ComponentBase
         return true;
     }
 
-    private void DropzoneClick()
+    private void OnDropzoneClick()
     {
-        OnDropzoneClick.InvokeAsync(null);
+        DropzoneClick.InvokeAsync(null);
     }
 
-    private void DropzoneMouseDown()
+    private void OnDropzoneMouseDown()
     {
         UnselectSteps();
 
-        OnDropzoneMouseDown.InvokeAsync(null);
+        DropzoneMouseDown.InvokeAsync(null);
     }
 
     private void OnStepClick(StudioStep item)
     {
-        OnItemClick.InvokeAsync(item);
+        ItemClick.InvokeAsync(item);
     }
 
     private void OnStepMouseDown(StudioStep step)
@@ -314,15 +301,15 @@ public partial class Dropzone : ComponentBase
         // Select the one under the mouse cursor
         step.Select();
 
-        OnItemMouseDown.InvokeAsync(step);
+        ItemMouseDown.InvokeAsync(step);
     }
 
     private void OnStepDoubleClick(StudioStep item)
     {
-        OnItemDoubleClick.InvokeAsync(item);
+        ItemDoubleClick.InvokeAsync(item);
     }
 
-    private void OnDrop()
+    private void OnDropzoneDrop()
     {
         if (!IsDropAllowed())
         {
@@ -373,7 +360,7 @@ public partial class Dropzone : ComponentBase
 
         foreach (var activeItem in activeItems)
         {
-            OnItemDrop.InvokeAsync(activeItem);
+            ItemDrop.InvokeAsync(activeItem);
         }
 
         DragDropService.Reset();

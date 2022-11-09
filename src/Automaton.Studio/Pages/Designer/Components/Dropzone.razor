@@ -8,9 +8,9 @@
      @ondragover="()=>{}"
      @ondragenter:preventDefault
      @ondragenter="()=>{}"
-     @ondrop="()=>OnDrop()"
-     @onmousedown="()=>DropzoneMouseDown()"
-     @onclick="()=>DropzoneClick()"
+     @ondrop="()=>OnDropzoneDrop()"
+     @onmousedown="()=>OnDropzoneMouseDown()"
+     @onclick="()=>OnDropzoneClick()"
      @ondrop:preventDefault
      @ondrop:stopPropagation
      @ondragenter:stopPropagation
@@ -20,11 +20,11 @@
      @ondragstart:stopPropagation
      ondragstart="event.dataTransfer.setData('text', event.target.id);">
 
-    <div @ondrop="()=>OnDropStepOnSpacing()"
+    <div @ondrop="()=>OnSpacerDrop()"
          @ondrop:stopPropagation
-         @ondragleave="()=>OnDragLeaveFirstSpacing()"
-         @ondragenter="()=>OnDragEnterFirstSpacing()"
-         class="@GetStepSpacerClass(null)">
+         @ondragleave="()=>OnSpacerDragLeave()"
+         @ondragenter="()=>OnSpacerDragEnter()"
+         class="@GetSpacerClass(null)">
     </div>
 
     @{
@@ -43,7 +43,7 @@
                  @ondragenter="()=>OnStepDragEnter(item)"
                  @ondragover="(x)=>OnStepDragOver(x, item)"
                  @ondragleave="()=>OnStepDragLeave()"
-                 @ondrop="()=>OnDropStepOnSpacing()"
+                 @ondrop="()=>OnSpacerDrop()"
                  @onclick="()=>OnStepClick(item)"
                  @ondblclick="()=>OnStepDoubleClick(item)"
                  @ondblclick:stopPropagation="true"
@@ -58,11 +58,11 @@
 
                 </div>
 
-                <div @ondrop="()=>OnDropStepOnSpacing()"
+                <div @ondrop="()=>OnSpacerDrop()"
                      @ondrop:stopPropagation
-                     @ondragleave="()=>OnDragLeaveSpacing(item)"
-                     @ondragenter="()=>OnDragEnterSpacing(item)"
-                    class="@GetStepSpacerClass(item)">
+                     @ondragleave="()=>OnSpacerDragLeave()"
+                     @ondragenter="()=>OnSpacerDragEnter(item)"
+                    class="@GetSpacerClass(item)">
                 </div>
             }        
 
