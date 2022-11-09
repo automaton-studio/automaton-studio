@@ -18,8 +18,7 @@
      @ondragover:stopPropagation
      @ondragleave:stopPropagation
      @ondragstart:stopPropagation
-     ondragstart="event.dataTransfer.setData('text', event.target.id);"
-     style="display: flex;">
+     ondragstart="event.dataTransfer.setData('text', event.target.id);">
 
     <div @ondrop="()=>OnDropStepOnSpacing()"
          @ondrop:stopPropagation
@@ -36,34 +35,36 @@
                 DecreaseStepMargin();
             }
 
-            <div id="@item.Id" draggable="@IsStepDragable(item)"
-            @ondragstart="()=>OnStepDragStart(item)"
-            @ondragend="()=>OnStepDragEnd()"
-            @ondragenter="()=>OnStepDragEnter(item)"
-            @ondragover="(x)=>OnStepDragOver(x, item)"
-            @ondragleave="()=>OnStepDragLeave()"
-            @ondrop="()=>OnDropStepOnSpacing()"
-            @onclick="()=>OnStepClick(item)"
-            @ondblclick="()=>OnStepDoubleClick(item)"
-            @ondblclick:stopPropagation="true"
-            @onmousedown="()=>OnStepMouseDown(item)"
-            @onmousedown:stopPropagation="true"
-            class="@GetClassesForDraggable(item)
-            @CheckIfDragOperationIsInProgess()
-            @CheckIfDraggable(item)"
-            style="margin-left: @GetStepMargin()">
+            if(item.IsVisible())
+            {
+                <div id="@item.Id" draggable="@IsStepDragable(item)"
+                 @ondragstart="()=>OnStepDragStart(item)"
+                 @ondragend="()=>OnStepDragEnd()"
+                 @ondragenter="()=>OnStepDragEnter(item)"
+                 @ondragover="(x)=>OnStepDragOver(x, item)"
+                 @ondragleave="()=>OnStepDragLeave()"
+                 @ondrop="()=>OnDropStepOnSpacing()"
+                 @onclick="()=>OnStepClick(item)"
+                 @ondblclick="()=>OnStepDoubleClick(item)"
+                 @ondblclick:stopPropagation="true"
+                 @onmousedown="()=>OnStepMouseDown(item)"
+                 @onmousedown:stopPropagation="true"
+                class="@GetClassesForDraggable(item)
+                @CheckIfDragOperationIsInProgess()
+                @CheckIfDraggable(item)"
+                style="margin-left: @GetStepMargin()">
 
-                @ChildContent(item)
+                    @ChildContent(item)
 
-            </div>
+                </div>
 
-            <div 
-            @ondrop="()=>OnDropStepOnSpacing()"
-            @ondrop:stopPropagation
-            @ondragleave="()=>OnDragLeaveSpacing(item)"
-            @ondragenter="()=>OnDragEnterSpacing(item)"
-            class="@GetStepSpacerClass(item)">
-            </div>
+                <div @ondrop="()=>OnDropStepOnSpacing()"
+                     @ondrop:stopPropagation
+                     @ondragleave="()=>OnDragLeaveSpacing(item)"
+                     @ondragenter="()=>OnDragEnterSpacing(item)"
+                    class="@GetStepSpacerClass(item)">
+                </div>
+            }        
 
             if (item is SequenceStep)
             {

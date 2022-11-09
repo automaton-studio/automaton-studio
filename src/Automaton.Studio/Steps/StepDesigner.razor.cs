@@ -1,5 +1,9 @@
 ﻿using AntDesign;
+using Automaton.Studio.Domain;
 using Automaton.Studio.Extensions;
+using Automaton.Studio.Pages.Designer.Components.Drawer;
+using Automaton.Studio.Pages.Designer;
+using Automaton.Studio.Resources;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 

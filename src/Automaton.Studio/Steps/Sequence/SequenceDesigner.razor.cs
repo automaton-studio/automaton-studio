@@ -1,4 +1,6 @@
 ﻿using AntDesign;
+using Automaton.Core.Models;
+using Automaton.Studio.Domain;
 using Automaton.Studio.Extensions;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
@@ -8,7 +10,7 @@ namespace Automaton.Studio.Steps.Sequence;
 public partial class SequenceDesigner : ComponentBase
 {
     [Parameter]
-    public Domain.StudioStep Step { get; set; }
+    public StudioStep Step { get; set; }
 
     [Parameter] 
     public RenderFragment ChildContent { get; set; }
@@ -21,7 +23,7 @@ public partial class SequenceDesigner : ComponentBase
         base.OnInitialized();
     }
 
-    private async Task OnEdit(Domain.StudioStep step)
+    private async Task OnEdit(StudioStep step)
     {
         var result = await step.DisplayPropertiesDialog(ModalService);
 
@@ -33,8 +35,29 @@ public partial class SequenceDesigner : ComponentBase
         };
     }
 
-    private static void OnDelete(Domain.StudioStep step)
+    private static void OnDelete(StudioStep step)
     {
         step.Definition.DeleteStep(step);
     }
+
+    private void Collapse()
+    {
+        var children = (Step as SequenceStep).GetChildren();
+
+        foreach (var child in children)
+        {
+            child.Hidden = true;
+        }
+    }
+
+    private void Expand()
+    {
+        var children = (Step as SequenceStep).GetChildren();
+
+        foreach (var child in children)
+        {
+            child.Hidden = false;
+        }
+    }
+
 }

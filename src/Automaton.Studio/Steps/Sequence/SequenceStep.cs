@@ -59,15 +59,32 @@ public class SequenceStep : StudioStep
         if (!IsFinal())
             return;
 
+        var children = GetChildrenAndEndStep();
+
+        foreach (var child in children)
+        {
+            child.SetSelectClass();
+        }
+    }
+
+    public IEnumerable<StudioStep> GetChildrenAndEndStep()
+    {
         var sequenceStepIndex = Definition.Steps.IndexOf(this);
         var endSequenceStepIndex = Definition.Steps.IndexOf(SequenceEndStep);
         var count = endSequenceStepIndex - sequenceStepIndex;
         var children = Definition.Steps.GetRange(sequenceStepIndex + 1, count);
 
-        foreach(var child in children)
-        {
-            child.SetSelectClass();
-        }
+        return children;
+    }
+
+    public IEnumerable<StudioStep> GetChildren()
+    {
+        var sequenceStepIndex = Definition.Steps.IndexOf(this);
+        var endSequenceStepIndex = Definition.Steps.IndexOf(SequenceEndStep);
+        var count = endSequenceStepIndex - sequenceStepIndex;
+        var children = Definition.Steps.GetRange(sequenceStepIndex + 1, count-1);
+
+        return children;
     }
 
     private void OnFinalize(object sender, StepEventArgs e)

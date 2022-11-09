@@ -37,6 +37,8 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public string DisplayName { get; set; }
 
+    public bool Hidden { get; set; }
+
     #endregion
 
     #region Automaton.Core
@@ -116,6 +118,11 @@ public abstract class StudioStep : INotifyPropertyChanged
         return isFinal;
     }
 
+    public bool IsVisible()
+    {
+        return !Hidden;
+    }
+
     public void SetVariable(string key, object value)
     {
         if (!Outputs.ContainsKey(key))
@@ -130,7 +137,6 @@ public abstract class StudioStep : INotifyPropertyChanged
     {
         return Outputs.Select(x => x.Key);
     }
-
 
     public void InvokeFinalize()
     {
