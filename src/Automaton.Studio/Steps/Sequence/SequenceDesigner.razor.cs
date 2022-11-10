@@ -42,7 +42,7 @@ public partial class SequenceDesigner : ComponentBase
     private void ToggleContent()
     {
         Step.Collapsed = !Step.Collapsed;
-        Step.SequenceEndStep.IsCollapsed = !Step.SequenceEndStep.IsCollapsed;
+        Step.SequenceEndStep.Collapsed = !Step.SequenceEndStep.Collapsed;
 
         SetChildrenColapse(Step.Collapsed);
     }

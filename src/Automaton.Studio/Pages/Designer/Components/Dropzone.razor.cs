@@ -59,33 +59,6 @@ public partial class Dropzone : ComponentBase
         base.OnInitialized();
     }
 
-    public string CheckIfDraggable(StudioStep step)
-    {
-        if (AllowsDrag == null)
-            return string.Empty;
-        if (step == null)
-            return string.Empty;
-        if (AllowsDrag(step))
-            return string.Empty;
-        return "plk-dd-noselect";
-    }
-
-    public string CheckVisibility(StudioStep step)
-    {
-        return !step.IsVisible() ? "step-visibility" : string.Empty;
-    }
-
-    public string GetStepMargin()
-    {
-        return $"{_stepMargin}px";
-    }
-
-    public string CheckIfDragOperationIsInProgess()
-    {
-        var activeItems = DragDropService.ActiveSteps;
-        return activeItems.Any() ? "plk-dd-inprogess" : string.Empty;
-    }
-
     public void SetActiveStep(StudioStep step)
     {
         DragDropService.ActiveSteps = new List<StudioStep> { step };
@@ -100,7 +73,7 @@ public partial class Dropzone : ComponentBase
         }
     }
 
-    public void OnSpacerDrop()
+    private void OnSpacerDrop()
     {
         if (!IsDropAllowed())
         {
@@ -139,7 +112,7 @@ public partial class Dropzone : ComponentBase
         DragDropService.Reset();
     }
 
-    public void OnStepDragEnd()
+    private void OnStepDragEnd()
     {
         if (DragEnd != null)
         {
@@ -149,7 +122,7 @@ public partial class Dropzone : ComponentBase
         DragDropService.Reset();
     }
 
-    public void OnStepDragEnter(StudioStep step)
+    private void OnStepDragEnter(StudioStep step)
     {
         var activeSteps = DragDropService.ActiveSteps;
 
@@ -167,7 +140,7 @@ public partial class Dropzone : ComponentBase
         StateHasChanged();
     }
 
-    public async Task OnStepDragOver(MouseEventArgs e, StudioStep step)
+    private async Task OnStepDragOver(MouseEventArgs e, StudioStep step)
     {
         var activeSteps = DragDropService.ActiveSteps;
 
@@ -181,16 +154,18 @@ public partial class Dropzone : ComponentBase
         DragDropService.ActiveSpacerId = firstHalf ? index : index + 1;
     }
 
-    public void OnStepDragLeave()
+    private void OnStepDragLeave()
     {
         DragDropService.DragTargetStep = default;
+
         StateHasChanged();
     }
 
-    public void OnStepDragStart(StudioStep item)
+    private void OnStepDragStart(StudioStep item)
     {
         DragDropService.ActiveSpacerId = null;
         DragDropService.ActiveSteps = Steps.Where(x => x.IsSelected()).ToList();
+
         StateHasChanged();
     }
 
@@ -391,6 +366,7 @@ public partial class Dropzone : ComponentBase
         }
 
         DragDropService.Reset();
+
         StateHasChanged();
     }
 
@@ -398,15 +374,17 @@ public partial class Dropzone : ComponentBase
     {
         var indexDraggedOverItem = Steps.IndexOf(draggedOverItem);
         var indexActiveItem = Steps.IndexOf(activeItem);
+
         if (indexActiveItem == -1) // item is new to the dropzone
         {
             //insert into new zone
             Steps.Insert(indexDraggedOverItem + 1, activeItem);
         }
-        else //no instant replace, just insert it after 
+        else
         {
             if (indexDraggedOverItem == indexActiveItem)
                 return;
+
             var tmp = Steps[indexActiveItem];
             Steps.RemoveAt(indexActiveItem);
             Steps.Insert(indexDraggedOverItem, tmp);
@@ -417,8 +395,10 @@ public partial class Dropzone : ComponentBase
     {
         if (AllowsDrag == null)
             return "true";
+
         if (item == null)
             return "false";
+
         return AllowsDrag(item).ToString();
     }
 
@@ -450,8 +430,7 @@ public partial class Dropzone : ComponentBase
 
     private void BeforeStepRender(StudioStep step)
     {
-        var sequenceEnd = step as SequenceEndStep;
-        if (sequenceEnd != null && !sequenceEnd.IsCollapsed)
+        if (step is SequenceEndStep sequenceEnd && !sequenceEnd.Collapsed)
         {
             _stepMargin -= 20;
         }
@@ -459,11 +438,40 @@ public partial class Dropzone : ComponentBase
 
     private void AfterStepRender(StudioStep step)
     {
-        var sequence = step as SequenceStep;
-        if (sequence != null && !sequence.Collapsed)
+        if (step is SequenceStep sequence && !sequence.Collapsed)
         {
             _stepMargin += 20;
         }
+    }
+
+    private string CheckIfDraggable(StudioStep step)
+    {
+        if (AllowsDrag == null)
+            return string.Empty;
+
+        if (step == null)
+            return string.Empty;
+
+        if (AllowsDrag(step))
+            return string.Empty;
+
+        return "plk-dd-noselect";
+    }
+
+    private string CheckVisibility(StudioStep step)
+    {
+        return !step.IsVisible() ? "step-visibility" : string.Empty;
+    }
+
+    private string GetStepMargin()
+    {
+        return $"{_stepMargin}px";
+    }
+
+    private string CheckIfDragOperationIsInProgess()
+    {
+        var activeItems = DragDropService.ActiveSteps;
+        return activeItems.Any() ? "plk-dd-inprogess" : string.Empty;
     }
 
     public void Dispose()

@@ -16,7 +16,7 @@ public class SequenceEndStep : StudioStep
 {
     public override bool HasProperties { get; set; } = false;
 
-    public bool IsCollapsed { get; set; }
+    public bool Collapsed { get; set; }
 
     public SequenceStep SequenceStep
     {
