@@ -1,5 +1,7 @@
+using Automaton.Steps;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Services;
+using Automaton.Studio.Steps.Sequence;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System.Text;
@@ -16,7 +18,7 @@ public partial class Dropzone : ComponentBase
 
     #endregion
 
-    private int _stepMargin;
+    private int _stepMargin = 10;
 
     [Inject] DragDropService DragDropService { get; set; }
 
@@ -42,7 +44,7 @@ public partial class Dropzone : ComponentBase
 
     [Parameter] public EventCallback<StudioStep> ItemDoubleClick { get; set; }
 
-    [Parameter] public IList<StudioStep> Steps { get; set; }
+    [Parameter] public List<StudioStep> Steps { get; set; }
 
     [Parameter] public RenderFragment<StudioStep> ChildContent { get; set; }
 
@@ -52,8 +54,6 @@ public partial class Dropzone : ComponentBase
 
     protected override void OnInitialized()
     {
-        _stepMargin = 10;
-
         DragDropService.StateHasChanged += ForceRender;
 
         base.OnInitialized();
@@ -70,6 +70,11 @@ public partial class Dropzone : ComponentBase
         return "plk-dd-noselect";
     }
 
+    public string CheckVisibility(StudioStep step)
+    {
+        return !step.IsVisible() ? "step-visibility" : string.Empty;
+    }
+
     public string GetStepMargin()
     {
         return $"{_stepMargin}px";
@@ -83,7 +88,7 @@ public partial class Dropzone : ComponentBase
 
     public void SetActiveStep(StudioStep step)
     {
-        DragDropService.ActiveSteps = new List<StudioStep>{ step };
+        DragDropService.ActiveSteps = new List<StudioStep> { step };
 
         // Unselect all the previous selected activities
         UnselectSteps();
@@ -106,11 +111,9 @@ public partial class Dropzone : ComponentBase
         var activeSteps = DragDropService.ActiveSteps;
         var newIndex = DragDropService.ActiveSpacerId ?? Steps.Count - 1;
 
-        int oldIndex;
-
-        foreach(var item in activeSteps)
+        foreach (var item in activeSteps)
         {
-            oldIndex = Steps.IndexOf(item);
+            var oldIndex = Steps.IndexOf(item);
 
             if (oldIndex >= 0)
             {
@@ -122,13 +125,115 @@ public partial class Dropzone : ComponentBase
             }
         }
 
-        foreach (var item in activeSteps)
+        var prevStep = newIndex > 0 ? Steps.ElementAt(newIndex - 1) : null;
+
+        foreach (var activeStep in activeSteps)
         {
-            Steps.Insert(newIndex++, item);
-            ItemDrop.InvokeAsync(item);
+            UpdateStepParent(activeStep, prevStep);
+            UpdateStepVisibility(activeStep, prevStep);
+
+            Steps.Insert(newIndex++, activeStep);
+            ItemDrop.InvokeAsync(activeStep);
         }
 
         DragDropService.Reset();
+    }
+
+    public void OnStepDragEnd()
+    {
+        if (DragEnd != null)
+        {
+            DragEnd(DragDropService.ActiveSteps);
+        }
+
+        DragDropService.Reset();
+    }
+
+    public void OnStepDragEnter(StudioStep step)
+    {
+        var activeSteps = DragDropService.ActiveSteps;
+
+        if (activeSteps.Any(x => x.Id == step.Id))
+            return;
+
+        if (!IsValidItem())
+            return;
+
+        if (!IsItemAccepted(step))
+            return;
+
+        DragDropService.DragTargetStep = step;
+
+        StateHasChanged();
+    }
+
+    public async Task OnStepDragOver(MouseEventArgs e, StudioStep step)
+    {
+        var activeSteps = DragDropService.ActiveSteps;
+
+        if (activeSteps.Any(x => x.Id == step.Id))
+            return;
+
+        var firstHalf = await DragOverFirstStepHalf(e, step);
+
+        var index = Steps.IndexOf(step);
+
+        DragDropService.ActiveSpacerId = firstHalf ? index : index + 1;
+    }
+
+    public void OnStepDragLeave()
+    {
+        DragDropService.DragTargetStep = default;
+        StateHasChanged();
+    }
+
+    public void OnStepDragStart(StudioStep item)
+    {
+        DragDropService.ActiveSpacerId = null;
+        DragDropService.ActiveSteps = Steps.Where(x => x.IsSelected()).ToList();
+        StateHasChanged();
+    }
+
+    private void OnSpacerDragEnter(StudioStep item = null)
+    {
+        DragDropService.ActiveSpacerId = item != null ? Steps.IndexOf(item) + 1 : 0;
+    }
+
+    private void OnSpacerDragLeave()
+    {
+        DragDropService.ActiveSpacerId = null;
+    }
+
+    private void UpdateStepParent(StudioStep step, StudioStep prevStep)
+    {
+        if (prevStep != null)
+        {       
+            if (prevStep is SequenceStep)
+            {
+                step.ParentId = prevStep.Id;
+            }
+            else if (!string.IsNullOrEmpty(prevStep.ParentId))
+            {
+                step.ParentId = prevStep.ParentId;
+            }
+            else
+            {
+                step.ParentId = string.Empty;
+            }
+        }
+
+        if (step.Parent != null)
+        {
+            step.Hidden = step.Parent.Collapsed;
+        }
+    }
+
+    private void UpdateStepVisibility(StudioStep step, StudioStep prevStep)
+    {
+        if (step.Parent != null)
+        {
+            step.Hidden = step.Parent.Collapsed;
+        }
     }
 
     private void UnselectSteps()
@@ -144,92 +249,14 @@ public partial class Dropzone : ComponentBase
         }
     }
 
-    private void OnSpacerDragEnter(StudioStep item = null)
-    {
-        DragDropService.ActiveSpacerId = item != null ? GetItemIndex(item) : 0;
-    }
-
-    private void OnSpacerDragLeave()
-    {
-        DragDropService.ActiveSpacerId = null;
-    }
-
     private string GetSpacerClass(StudioStep item)
     {
-        var index = item != null ? GetItemIndex(item) : 0;
-        string spacerClass;
+        var index = item != null ? Steps.IndexOf(item) + 1 : 0;
 
-        if (DragDropService.ActiveSpacerId == index)
-        {
-            spacerClass = ActiveStepSpacingClass;
-        }
-        else
-        {
-            spacerClass = StepSpacingClass;
-        }       
+        var spacerClass = DragDropService.ActiveSpacerId == index ? ActiveStepSpacingClass : StepSpacingClass;
 
         return spacerClass;
     }
-
-    private int GetItemIndex(StudioStep item)
-    {
-        return Steps.IndexOf(item) + 1;
-    }
-
-    public void OnStepDragEnd()
-    {
-        if (DragEnd != null)
-        {
-            DragEnd(DragDropService.ActiveSteps);
-        }
-
-        DragDropService.Reset();
-    }
-    
-    public void OnStepDragEnter(StudioStep step)
-    {
-        var activeSteps = DragDropService.ActiveSteps;
-
-        if (activeSteps.Any(x => x.Id == step.Id))
-            return;
-
-        if (!IsValidItem())
-            return;
-
-        if (!IsItemAccepted(step))
-            return;
-      
-        DragDropService.DragTargetStep = step;
-
-        StateHasChanged();
-    }
-
-    public async Task OnStepDragOver(MouseEventArgs e, StudioStep step)
-    {
-        var activeSteps = DragDropService.ActiveSteps;
-
-        if (activeSteps.Any(x => x.Id == step.Id))
-            return;
-
-        var firstHalf = await DragOverFirstStepHalf(e, step);
-
-        var index = GetItemIndex(step);
-
-        DragDropService.ActiveSpacerId = firstHalf ? index - 1 : index;
-    }
-
-    public void OnStepDragLeave()
-    {
-        DragDropService.DragTargetStep = default;
-        StateHasChanged();
-    }
-
-    public void OnStepDragStart(StudioStep item)
-    {
-        DragDropService.ActiveSpacerId = null;
-        DragDropService.ActiveSteps = Steps.Where(x => x.IsSelected()).ToList();
-        StateHasChanged();
-    }   
 
     private string GetClassesForDraggable(StudioStep item)
     {
@@ -320,9 +347,9 @@ public partial class Dropzone : ComponentBase
         var activeItems = DragDropService.ActiveSteps;
 
         // no direct drag target
-        if (DragDropService.DragTargetStep == null) 
+        if (DragDropService.DragTargetStep == null)
         {
-            foreach(var activeItem in activeItems)
+            foreach (var activeItem in activeItems)
             {
                 // if dragged to another dropzone
                 if (!Steps.Contains(activeItem))
@@ -333,7 +360,7 @@ public partial class Dropzone : ComponentBase
                 else
                 {
                     //insert item to new zone if not final
-                    if(!activeItem.IsFinal())
+                    if (!activeItem.IsFinal())
                         Steps.Insert(Steps.Count, activeItem);
                 }
             }
@@ -421,14 +448,22 @@ public partial class Dropzone : ComponentBase
         return firstHalf;
     }
 
-    private void IncreaseStepMargin()
+    private void BeforeStepRender(StudioStep step)
     {
-        _stepMargin += 20;
+        var sequenceEnd = step as SequenceEndStep;
+        if (sequenceEnd != null && !sequenceEnd.IsCollapsed)
+        {
+            _stepMargin -= 20;
+        }
     }
 
-    private void DecreaseStepMargin()
+    private void AfterStepRender(StudioStep step)
     {
-        _stepMargin -= 20;
+        var sequence = step as SequenceStep;
+        if (sequence != null && !sequence.Collapsed)
+        {
+            _stepMargin += 20;
+        }
     }
 
     public void Dispose()

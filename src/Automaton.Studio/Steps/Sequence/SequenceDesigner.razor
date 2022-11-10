@@ -4,7 +4,7 @@
     <Row Align="middle">
         <Col Flex=@("none")>
         <div class="designer-step-icon-container">
-            <Icon Type="down" Theme="outline" OnClick="Collapse" />
+            <Icon Type="@GetExpandCollapseIcon()" Theme="outline" OnClick="ToggleContent" />
             <Icon Type="@Step.Icon" Theme="outline" />
         </div>
         </Col>

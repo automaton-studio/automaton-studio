@@ -28,48 +28,39 @@
     </div>
 
     @{
-        foreach (var item in Steps)
+        foreach (var step in Steps)
         {
-            if (item is SequenceEndStep)
-            {
-                DecreaseStepMargin();
-            }
+            BeforeStepRender(step);
 
-            if(item.IsVisible())
-            {
-                <div id="@item.Id" draggable="@IsStepDragable(item)"
-                 @ondragstart="()=>OnStepDragStart(item)"
-                 @ondragend="()=>OnStepDragEnd()"
-                 @ondragenter="()=>OnStepDragEnter(item)"
-                 @ondragover="(x)=>OnStepDragOver(x, item)"
-                 @ondragleave="()=>OnStepDragLeave()"
-                 @ondrop="()=>OnSpacerDrop()"
-                 @onclick="()=>OnStepClick(item)"
-                 @ondblclick="()=>OnStepDoubleClick(item)"
-                 @ondblclick:stopPropagation="true"
-                 @onmousedown="()=>OnStepMouseDown(item)"
-                 @onmousedown:stopPropagation="true"
-                class="@GetClassesForDraggable(item)
-                @CheckIfDragOperationIsInProgess()
-                @CheckIfDraggable(item)"
-                style="margin-left: @GetStepMargin()">
+            <div id="@step.Id" draggable="@IsStepDragable(step)"
+             @ondragstart="()=>OnStepDragStart(step)"
+             @ondragend="()=>OnStepDragEnd()"
+             @ondragenter="()=>OnStepDragEnter(step)"
+             @ondragover="(x)=>OnStepDragOver(x, step)"
+             @ondragleave="()=>OnStepDragLeave()"
+             @ondrop="()=>OnSpacerDrop()"
+             @onclick="()=>OnStepClick(step)"
+             @ondblclick="()=>OnStepDoubleClick(step)"
+             @ondblclick:stopPropagation="true"
+             @onmousedown="()=>OnStepMouseDown(step)"
+             @onmousedown:stopPropagation="true"
+             class="@GetClassesForDraggable(step)
+             @CheckIfDragOperationIsInProgess()
+             @CheckIfDraggable(step) @CheckVisibility(step)"
+             style="margin-left: @GetStepMargin()">
 
-                    @ChildContent(item)
+                @ChildContent(step)
 
-                </div>
+            </div>
 
-                <div @ondrop="()=>OnSpacerDrop()"
-                     @ondrop:stopPropagation
-                     @ondragleave="()=>OnSpacerDragLeave()"
-                     @ondragenter="()=>OnSpacerDragEnter(item)"
-                    class="@GetSpacerClass(item)">
-                </div>
-            }        
+            <div @ondrop="()=>OnSpacerDrop()"
+             @ondrop:stopPropagation
+             @ondragleave="()=>OnSpacerDragLeave()"
+             @ondragenter="()=>OnSpacerDragEnter(step)"
+             class="@GetSpacerClass(step) @CheckVisibility(step)">
+            </div>
 
-            if (item is SequenceStep)
-            {
-                IncreaseStepMargin();
-            }
+            AfterStepRender(step);
         }
     }
 
@@ -91,6 +82,10 @@
     .step-spacing {
         height: 15px;
         min-height: 15px;
+    }
+
+    .step-visibility {
+        display: none;
     }
 
 </style>

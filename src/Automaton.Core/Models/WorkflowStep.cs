@@ -15,11 +15,11 @@ public abstract class WorkflowStep
 
     public virtual string Name { get; set; }
 
+    public string ParentId { get; set; }
+
     public string Type { get; set; }
 
     public string? NextStepId { get; set; }
-
-    public virtual List<WorkflowStep> Children { get; set; } = new List<WorkflowStep>();
 
     public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
 

@@ -2,6 +2,7 @@
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Events;
 using Automaton.Studio.Pages.Designer.Components;
+using Automaton.Studio.Steps.Sequence;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -23,8 +24,6 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     #endregion
 
-    #region Properties
-
     protected string StepClass { get; set; } = "designer-step";
     protected string SelectedStepClass { get; set; } = "designer-step-selected";
     protected string DisabledStepClass { get; set; } = "designer-step-disabled";
@@ -39,7 +38,29 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public bool Hidden { get; set; }
 
-    #endregion
+    public SequenceStep Parent
+    {
+        get
+        {
+            var parent = Definition.Steps.SingleOrDefault(x => x.Id == ParentId);
+
+            return parent as SequenceStep;
+        }
+    }
+
+    public string ParentId
+    {
+        get
+        {
+            return Inputs.ContainsKey(nameof(ParentId)) ?
+                Inputs[nameof(ParentId)].ToString() : string.Empty;
+        }
+
+        set
+        {
+            Inputs[nameof(ParentId)] = value;
+        }
+    }
 
     #region Automaton.Core
 

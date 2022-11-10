@@ -1,5 +1,4 @@
 ﻿using AntDesign;
-using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -10,7 +9,7 @@ namespace Automaton.Studio.Steps.Sequence;
 public partial class SequenceDesigner : ComponentBase
 {
     [Parameter]
-    public StudioStep Step { get; set; }
+    public SequenceStep Step { get; set; }
 
     [Parameter] 
     public RenderFragment ChildContent { get; set; }
@@ -40,24 +39,26 @@ public partial class SequenceDesigner : ComponentBase
         step.Definition.DeleteStep(step);
     }
 
-    private void Collapse()
+    private void ToggleContent()
     {
-        var children = (Step as SequenceStep).GetChildren();
+        Step.Collapsed = !Step.Collapsed;
+        Step.SequenceEndStep.IsCollapsed = !Step.SequenceEndStep.IsCollapsed;
+
+        SetChildrenColapse(Step.Collapsed);
+    }
+
+    private void SetChildrenColapse(bool collapsed)
+    {
+        var children = Step.GetChildren().Where(x => x.ParentId == Step.Id || !x.Parent.Collapsed);
 
         foreach (var child in children)
         {
-            child.Hidden = true;
+            child.Hidden = collapsed;
         }
     }
 
-    private void Expand()
+    private string GetExpandCollapseIcon()
     {
-        var children = (Step as SequenceStep).GetChildren();
-
-        foreach (var child in children)
-        {
-            child.Hidden = false;
-        }
+        return Step.Collapsed ? "right" : "down";
     }
-
 }

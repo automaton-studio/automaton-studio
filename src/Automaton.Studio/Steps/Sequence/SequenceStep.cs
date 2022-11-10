@@ -19,9 +19,32 @@ public class SequenceStep : StudioStep
 {
     private readonly StepFactory stepFactory;
 
+    public bool Collapsed { get; set; }
+
     public override bool HasProperties { get; set; } = false;
 
-    public SequenceEndStep SequenceEndStep { get; set; }
+    public SequenceEndStep SequenceEndStep 
+    {
+        get
+        {
+            var sequenceEnd = Definition.Steps.SingleOrDefault(x => x.Id == SequenceEndStepId);
+            return sequenceEnd as SequenceEndStep;
+        }
+    }
+
+    public string SequenceEndStepId
+    {
+        get
+        {
+            return Inputs.ContainsKey(nameof(SequenceEndStepId)) ?
+                Inputs[nameof(SequenceEndStepId)].ToString() : string.Empty;
+        }
+
+        set
+        {
+            Inputs[nameof(SequenceEndStepId)] = value;
+        }
+    }
 
     public IList<StudioStep> SequenceSteps { get; set; } = new List<StudioStep>();
 
@@ -36,10 +59,7 @@ public class SequenceStep : StudioStep
     {
         base.Setup(descriptor);
 
-        StepClass = "designer-sequence-step";
-        SelectedStepClass = "designer-sequence-step-selected";
-        DisabledStepClass = "designer-sequence-step-disabled";
-        Class = StepClass;
+        SetupStepClass();
     }
 
     public override Type GetDesignerComponent()
@@ -67,7 +87,17 @@ public class SequenceStep : StudioStep
         }
     }
 
-    public IEnumerable<StudioStep> GetChildrenAndEndStep()
+    public IEnumerable<StudioStep> GetChildren()
+    {
+        var sequenceStepIndex = Definition.Steps.IndexOf(this);
+        var endSequenceStepIndex = Definition.Steps.IndexOf(SequenceEndStep);
+        var count = endSequenceStepIndex - sequenceStepIndex;
+        var children = Definition.Steps.GetRange(sequenceStepIndex + 1, count - 1);
+
+        return children;
+    }
+
+    private IEnumerable<StudioStep> GetChildrenAndEndStep()
     {
         var sequenceStepIndex = Definition.Steps.IndexOf(this);
         var endSequenceStepIndex = Definition.Steps.IndexOf(SequenceEndStep);
@@ -77,36 +107,46 @@ public class SequenceStep : StudioStep
         return children;
     }
 
-    public IEnumerable<StudioStep> GetChildren()
-    {
-        var sequenceStepIndex = Definition.Steps.IndexOf(this);
-        var endSequenceStepIndex = Definition.Steps.IndexOf(SequenceEndStep);
-        var count = endSequenceStepIndex - sequenceStepIndex;
-        var children = Definition.Steps.GetRange(sequenceStepIndex + 1, count-1);
-
-        return children;
-    }
-
+    /// <summary>
+    /// When finalized, each sequence must have a corresponding end sequence and
+    /// they must kno about each other.
+    /// </summary>
     private void OnFinalize(object sender, StepEventArgs e)
     {
         var sequenceEndStep = CreateSequenceEndStep();
-        AddSequenceEndStep(sequenceEndStep);
-    }
 
-    private void AddSequenceEndStep(SequenceEndStep sequenceEndStep)
-    {
-        SequenceEndStep = sequenceEndStep;
+        // Start and end sequences must know about each other
+        SequenceEndStepId = sequenceEndStep.Id;
+
+        // Add sequence end to definition's list of steps
         Definition.Steps.Insert(Definition.Steps.IndexOf(this) + 1, sequenceEndStep);
+
+        // Ask definition to finalize sequence end
         Definition.FinalizeStep(sequenceEndStep);
     }
 
+    /// <summary>
+    /// Create a sequence end.
+    /// </summary>
+    /// <returns></returns>
     private SequenceEndStep CreateSequenceEndStep()
     {
         var stepDescription = typeof(SequenceEndStep).GetCustomAttribute<StepDescriptionAttribute>(false);
+        
         var sequenceEndStep = stepFactory.CreateStep(stepDescription?.Name) as SequenceEndStep;
         sequenceEndStep.Definition = Definition;
-        sequenceEndStep.SequenceStep = this;
+        sequenceEndStep.SequenceStepId = Id;
+        sequenceEndStep.ParentId = ParentId;
 
         return sequenceEndStep;
+    }
+
+    private void SetupStepClass()
+    {
+        StepClass = "designer-sequence-step";
+        SelectedStepClass = "designer-sequence-step-selected";
+        DisabledStepClass = "designer-sequence-step-disabled";
+
+        Class = StepClass;
     }
 }

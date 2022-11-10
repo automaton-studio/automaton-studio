@@ -16,8 +16,31 @@ public class SequenceEndStep : StudioStep
 {
     public override bool HasProperties { get; set; } = false;
 
-    public SequenceStep SequenceStep { get; set; }
+    public bool IsCollapsed { get; set; }
 
+    public SequenceStep SequenceStep
+    {
+        get
+        {
+            var sequenceStep = Definition.Steps.SingleOrDefault(x => x.Id == SequenceStepId);
+
+            return sequenceStep as SequenceStep;
+        }
+    }
+
+    public string SequenceStepId
+    {
+        get
+        {
+            return Inputs.ContainsKey(nameof(SequenceStepId)) ?
+                Inputs[nameof(SequenceStepId)].ToString() : string.Empty;
+        }
+
+        set
+        {
+            Inputs[nameof(SequenceStepId)] = value;
+        }
+    }
     public override Type GetDesignerComponent()
     {
         return typeof(SequenceEndDesigner);
@@ -37,10 +60,15 @@ public class SequenceEndStep : StudioStep
     {
         base.Setup(descriptor);
 
+        SetupStepClass();
+    }
+
+    private void SetupStepClass()
+    {
         StepClass = "designer-sequence-end-step";
         SelectedStepClass = "designer-sequence-end-step-selected";
         DisabledStepClass = "designer-sequence-end-step-disabled";
+
         Class = StepClass;
     }
-
 }
