@@ -4,6 +4,7 @@ using Automaton.Studio.Services;
 using Automaton.Studio.Steps.Sequence;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -81,10 +82,9 @@ public partial class Dropzone : ComponentBase
             return;
         }
 
-        var activeSteps = DragDropService.ActiveSteps;
         var newIndex = DragDropService.ActiveSpacerId ?? Steps.Count - 1;
 
-        foreach (var item in activeSteps)
+        foreach (var item in DragDropService.ActiveSteps)
         {
             var oldIndex = Steps.IndexOf(item);
 
@@ -100,16 +100,66 @@ public partial class Dropzone : ComponentBase
 
         var prevStep = newIndex > 0 ? Steps.ElementAt(newIndex - 1) : null;
 
-        foreach (var activeStep in activeSteps)
+        foreach (var activeStep in DragDropService.ActiveSteps)
         {
-            UpdateStepParent(activeStep, prevStep);
-            UpdateStepVisibility(activeStep, prevStep);
+            if(StepHasNoParent(activeStep) || ParentIsNotActiveStep(activeStep))
+            {
+                UpdateStepParent(activeStep, prevStep);
+                UpdateStepVisibility(activeStep, prevStep);
+            }
 
             Steps.Insert(newIndex++, activeStep);
             ItemDrop.InvokeAsync(activeStep);
         }
 
         DragDropService.Reset();
+    }
+
+    private bool StepHasNoParent(StudioStep step)
+    {
+        return string.IsNullOrEmpty(step.ParentId);
+    }
+
+    private bool StepHasParent(StudioStep step)
+    {
+        return !string.IsNullOrEmpty(step.ParentId);
+    }
+
+    private bool ParentIsNotActiveStep(StudioStep step)
+    {
+        return !DragDropService.ActiveSteps.Select(x => x.Id).Contains(step.ParentId);
+    }
+
+    private void UpdateStepParent(StudioStep step, StudioStep prevStep)
+    {
+        if (prevStep != null)
+        {
+            if (prevStep is SequenceStep)
+            {
+                step.ParentId = prevStep.Id;
+            }
+            else if (!string.IsNullOrEmpty(prevStep.ParentId))
+            {
+                step.ParentId = prevStep.ParentId;
+            }
+            else
+            {
+                step.ParentId = string.Empty;
+            }
+        }
+
+        if (StepHasParent(step))
+        {
+            step.Hidden = step.Parent.Collapsed;
+        }
+    }
+
+    private void UpdateStepVisibility(StudioStep step, StudioStep prevStep)
+    {
+        if (step.Parent != null)
+        {
+            step.Hidden = step.Parent.Collapsed;
+        }
     }
 
     private void OnStepDragEnd()
@@ -177,38 +227,6 @@ public partial class Dropzone : ComponentBase
     private void OnSpacerDragLeave()
     {
         DragDropService.ActiveSpacerId = null;
-    }
-
-    private void UpdateStepParent(StudioStep step, StudioStep prevStep)
-    {
-        if (prevStep != null)
-        {       
-            if (prevStep is SequenceStep)
-            {
-                step.ParentId = prevStep.Id;
-            }
-            else if (!string.IsNullOrEmpty(prevStep.ParentId))
-            {
-                step.ParentId = prevStep.ParentId;
-            }
-            else
-            {
-                step.ParentId = string.Empty;
-            }
-        }
-
-        if (step.Parent != null)
-        {
-            step.Hidden = step.Parent.Collapsed;
-        }
-    }
-
-    private void UpdateStepVisibility(StudioStep step, StudioStep prevStep)
-    {
-        if (step.Parent != null)
-        {
-            step.Hidden = step.Parent.Collapsed;
-        }
     }
 
     private void UnselectSteps()
