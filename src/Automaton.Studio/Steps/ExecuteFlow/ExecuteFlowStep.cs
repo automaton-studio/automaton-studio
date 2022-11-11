@@ -14,7 +14,7 @@ namespace Automaton.Studio.Steps.ExecuteFlow;
     DisplayName = "Execute Flow",
     Category = "Console",
     Description = "Execute flow",
-    Icon = "code"
+    Icon = "apartment"
 )]
 public class ExecuteFlowStep : StudioStep
 {

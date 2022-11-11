@@ -7,7 +7,6 @@
             <Icon Type="@Step.Icon" Theme="outline" />
         </div>
         </Col>
-
         <Col Flex=@("auto")>
             <div>
                 <b>@Step.DisplayName</b>
@@ -15,44 +14,10 @@
 
             @ChildContent
         </Col>
-
-        <Col Class="designer-step-options">
-        <div class="designer-step-icon-container">
-            <Dropdown Placement="@Placement.Left" Trigger="@(new Trigger[] { Trigger.Click })">
-                <Overlay>
-                    <Menu>
-                        <MenuItem Icon="edit" OnClick="@(() => OnEdit(Step))">
-                            Edit
-                        </MenuItem>
-                        <MenuItem Icon="delete" OnClick="@(() => OnDelete(Step))">
-                            Delete
-                        </MenuItem>
-                    </Menu>
-                </Overlay>
-                <ChildContent>
-                    <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
-                        <Icon Type="more" Theme="outline" />
-                    </a>
-                </ChildContent>
-            </Dropdown>
-        </div>
-        </Col>
     </Row>
 </div>
 
 <style>
-
-    .options-menu-text {
-        margin-left: 10px;
-    }
-
-    .designer-step-options {
-        margin-left: auto;
-    }
-
-    .designer-step-icon-container {
-        padding: 0 16px;
-    }
 
     .designer-sequence-end-step {
         padding: 1em;

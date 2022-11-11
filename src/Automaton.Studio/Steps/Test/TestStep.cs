@@ -11,7 +11,7 @@ namespace Automaton.Studio.Steps.Test;
     DisplayName = "Test",
     Category = "Test",
     Description = "Test",
-    Icon = "code"
+    Icon = "schedule"
 )]
 public class TestStep : SequenceStep
 {

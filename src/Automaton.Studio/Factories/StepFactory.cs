@@ -50,18 +50,23 @@ public class StepFactory
     {
         var stepDescriptor = stepTypeDescriptor.Describe(stepType);
 
-        var solutionStep = new StepExplorerModel 
-        { 
-            Name = stepDescriptor.Name, 
+       
+
+        var solutionStep = new StepExplorerModel
+        {
+            Name = stepDescriptor.Name,
             Type = stepDescriptor.Type,
             Description = stepDescriptor.Description,
             DisplayName = stepDescriptor.DisplayName,
             Category = stepDescriptor.Category,
+            NotVisibleInExplorer = stepDescriptor.NotVisibleInExplorer,
             Icon = stepDescriptor.Icon
         };
 
-        solutionSteps.Add(solutionStep.Name, solutionStep);
         solutionTypes.Add(solutionStep.Name, stepType);
+
+        if (!stepDescriptor.NotVisibleInExplorer)
+            solutionSteps.Add(solutionStep.Name, solutionStep);
     }
 
     public StudioStep CreateStep(string name)

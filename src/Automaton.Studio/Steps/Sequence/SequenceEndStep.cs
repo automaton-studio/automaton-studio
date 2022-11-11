@@ -10,7 +10,8 @@ namespace Automaton.Studio.Steps.Sequence;
     DisplayName = "End",
     Category = "Sequence",
     Description = "Sequence End",
-    Icon = "code"
+    NotVisibleInExplorer = true,
+    Icon = "flag"
 )]
 public class SequenceEndStep : StudioStep
 {

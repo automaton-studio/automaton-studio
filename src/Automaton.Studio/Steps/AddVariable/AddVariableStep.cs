@@ -9,7 +9,7 @@ namespace Automaton.Studio.Steps.AddVariable;
     DisplayName = "Add Variable",
     Category = "Console",
     Description = "Add Flow variable",
-    Icon = "code"
+    Icon = "field-string"
 )]
 public class AddVariableStep : StudioStep
 {

@@ -1,7 +1,4 @@
-﻿using AntDesign;
-using Automaton.Studio.Extensions;
-using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Components;
 
 namespace Automaton.Studio.Steps.Sequence;
 
@@ -13,28 +10,8 @@ public partial class SequenceEndDesigner : ComponentBase
     [Parameter] 
     public RenderFragment ChildContent { get; set; }
 
-    [Inject] 
-    private ModalService ModalService { get; set; } = default!;
-
     protected override void OnInitialized()
     {
         base.OnInitialized();
-    }
-
-    private async Task OnEdit(Domain.StudioStep step)
-    {
-        var result = await step.DisplayPropertiesDialog(ModalService);
-
-        result.OnOk = () => {
-
-            StateHasChanged();
-
-            return Task.CompletedTask;
-        };
-    }
-
-    private static void OnDelete(Domain.StudioStep step)
-    {
-        step.Definition.DeleteStep(step);
     }
 }

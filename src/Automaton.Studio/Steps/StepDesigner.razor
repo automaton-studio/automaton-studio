@@ -13,7 +13,7 @@
         </Col>
 
         <Col Class="designer-step-options">
-        <div class="designer-step-icon-container">
+        <div class="designer-step-actions-icon">
             <Dropdown Placement="@Placement.Left" Trigger="@(new Trigger[] { Trigger.Click })">
                 <Overlay>
                     <Menu>
@@ -40,11 +40,11 @@
 {
     private RenderFragment _content =
     @<div>
-            <Space Direction="DirectionVHType.Vertical">
-                <SpaceItem>
-                    <Icon Type="edit" Theme="outline" /><a href="#" class="options-menu-text">Edit</a>
-                </SpaceItem>
-            </Space>
+                <Space Direction="DirectionVHType.Vertical">
+                    <SpaceItem>
+                        <Icon Type="edit" Theme="outline" /><a href="#" class="options-menu-text">Edit</a>
+                    </SpaceItem>
+                </Space>
     </div>;
 }
 
@@ -53,13 +53,16 @@
         margin-left: 10px;
     }
 
-
     .designer-step-options {
         margin-left: auto;
     }
 
     .designer-step-icon-container {
-        padding: 0 16px;
+        padding: 0px 12px 0px 0px;
+    }
+
+    .designer-step-actions-icon {
+        padding: 0px 12px 0px 12px;
     }
 
     .designer-step {

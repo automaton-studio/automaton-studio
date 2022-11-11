@@ -13,6 +13,7 @@ public class StepTypeDescriptor : IStepTypeDescriptor
         var name = attribute?.Name ?? stepType.Name;
         var type = attribute?.Type;
         var displayName = attribute?.DisplayName;
+        var notVisibleInExplorer = attribute?.NotVisibleInExplorer;
         var description = attribute?.Description;
         var category = attribute?.Category ?? "Miscellaneous";
         var icon = attribute?.Icon;
@@ -24,7 +25,8 @@ public class StepTypeDescriptor : IStepTypeDescriptor
             DisplayName = displayName,
             Description = description,
             Category = category,
-            Icon = icon
+            Icon = icon,
+            NotVisibleInExplorer = notVisibleInExplorer.Value
         };
     }
 }

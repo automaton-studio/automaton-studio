@@ -13,7 +13,7 @@ namespace Automaton.Studio.Steps.Sequence;
     DisplayName = "Sequence",
     Category = "Sequence",
     Description = "Sequence",
-    Icon = "code"
+    Icon = "block"
 )]
 public class SequenceStep : StudioStep
 {
