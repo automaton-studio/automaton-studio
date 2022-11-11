@@ -15,6 +15,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<Sequence>();
         services.AddTransient<SequenceEnd>();
         services.AddTransient<Test>();
+        services.AddTransient<TestAssert>();
 
         // Configuration
         services.AddTransient<ConfigService>();  
