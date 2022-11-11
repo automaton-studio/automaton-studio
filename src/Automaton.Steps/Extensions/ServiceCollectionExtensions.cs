@@ -14,6 +14,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<ExecuteFlow>();
         services.AddTransient<Sequence>();
         services.AddTransient<SequenceEnd>();
+        services.AddTransient<Test>();
 
         // Configuration
         services.AddTransient<ConfigService>();  

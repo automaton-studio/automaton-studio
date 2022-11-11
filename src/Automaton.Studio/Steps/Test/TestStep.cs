@@ -1,5 +1,4 @@
 ﻿using Automaton.Studio.Attributes;
-using Automaton.Studio.Domain;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Steps.Sequence;
 
@@ -15,6 +14,20 @@ namespace Automaton.Studio.Steps.Test;
 )]
 public class TestStep : SequenceStep
 {
+    public string Description
+    {
+        get
+        {
+            return Inputs.ContainsKey(nameof(Description)) ?
+                Inputs[nameof(Description)].ToString() : string.Empty;
+        }
+
+        set
+        {
+            Inputs[nameof(Description)] = value;
+        }
+    }
+
     public TestStep(StepFactory stepFactory) 
         : base(stepFactory)
     {
