@@ -100,35 +100,20 @@ public partial class Dropzone : ComponentBase
 
         var prevStep = newIndex > 0 ? Steps.ElementAt(newIndex - 1) : null;
 
-        foreach (var activeStep in DragDropService.ActiveSteps)
+        foreach (var step in DragDropService.ActiveSteps)
         {
-            if(StepHasNoParent(activeStep) || ParentIsNotActiveStep(activeStep))
+            if (!step.HasParent() || !DragDropService.HasActiveStep(step.ParentId))
             {
-                UpdateStepParent(activeStep, prevStep);
-                UpdateStepVisibility(activeStep, prevStep);
+                UpdateStepParent(step, prevStep);
+                UpdateStepVisibility(step, prevStep);
             }
 
-            Steps.Insert(newIndex++, activeStep);
-            ItemDrop.InvokeAsync(activeStep);
+            Steps.Insert(newIndex++, step);
+            ItemDrop.InvokeAsync(step);
         }
 
         DragDropService.Reset();
-    }
-
-    private bool StepHasNoParent(StudioStep step)
-    {
-        return string.IsNullOrEmpty(step.ParentId);
-    }
-
-    private bool StepHasParent(StudioStep step)
-    {
-        return !string.IsNullOrEmpty(step.ParentId);
-    }
-
-    private bool ParentIsNotActiveStep(StudioStep step)
-    {
-        return !DragDropService.ActiveSteps.Select(x => x.Id).Contains(step.ParentId);
-    }
+    }  
 
     private void UpdateStepParent(StudioStep step, StudioStep prevStep)
     {
@@ -148,7 +133,7 @@ public partial class Dropzone : ComponentBase
             }
         }
 
-        if (StepHasParent(step))
+        if (step.HasParent())
         {
             step.Hidden = step.Parent.Collapsed;
         }

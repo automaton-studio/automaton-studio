@@ -5,7 +5,7 @@ namespace Automaton.Studio.Services;
 public class DragDropService
 {
     /// <summary>
-    /// Active Items
+    /// Steps being relocated around
     /// </summary>
     public IList<StudioStep> ActiveSteps { get; set; } = new List<StudioStep>();
 
@@ -19,6 +19,9 @@ public class DragDropService
     /// </summary>
     public int? ActiveSpacerId { get; set; }
 
+    // Notify subscribers that there is a need for rerender
+    public EventHandler StateHasChanged { get; set; }
+
     /// <summary>
     /// Resets the service to initial state
     /// </summary>
@@ -31,6 +34,8 @@ public class DragDropService
         StateHasChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    // Notify subscribers that there is a need for rerender
-    public EventHandler StateHasChanged { get; set; }
+    public bool HasActiveStep(string stepId)
+    {
+        return ActiveSteps.Select(x => x.Id).Contains(stepId);
+    }
 }

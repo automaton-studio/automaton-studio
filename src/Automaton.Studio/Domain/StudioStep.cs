@@ -144,6 +144,11 @@ public abstract class StudioStep : INotifyPropertyChanged
         return !Hidden;
     }
 
+    public bool HasParent()
+    {
+        return !string.IsNullOrEmpty(ParentId);
+    }
+
     public void SetVariable(string key, object value)
     {
         if (!Outputs.ContainsKey(key))
