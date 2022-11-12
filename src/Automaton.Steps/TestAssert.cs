@@ -1,6 +1,5 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Core.Parsers;
-using Newtonsoft.Json.Linq;
 
 namespace Automaton.Steps;
 
@@ -32,7 +31,7 @@ public class TestAssert : WorkflowStep
 
         if (result is not bool)
         {
-            throw new Exception("Can not evaluate expression to a boolean value");
+            Error = "Could not evaluate expression to a boolean value";
         }
 
         if (!(bool)result)
