@@ -28,6 +28,8 @@ public class TestStep : SequenceStep
         }
     }
 
+    public IList<string> Errors { get; set; }
+
     public TestStep(StepFactory stepFactory) 
         : base(stepFactory)
     {

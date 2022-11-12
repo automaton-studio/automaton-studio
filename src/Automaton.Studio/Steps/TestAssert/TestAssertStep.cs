@@ -13,19 +13,14 @@ namespace Automaton.Studio.Steps.TestAssert;
 )]
 public class TestAssertStep : StudioStep
 {
-    public string Message
+    public string Expression
     {
-        get
-        {
-            return Inputs.ContainsKey(nameof(Message)) ?
-                Inputs[nameof(Message)].ToString() : string.Empty;
-        }
-
-        set
-        {
-            Inputs[nameof(Message)] = value;
-        }
+        get => Inputs.ContainsKey(nameof(Expression)) ?
+               Inputs[nameof(Expression)]?.ToString() : string.Empty;
+        set => Inputs[nameof(Expression)] = value;
     }
+
+    public string Error { get; set; }
 
     public TestAssertStep()
     {

@@ -4,7 +4,7 @@ namespace Automaton.Steps;
 
 public class Sequence : WorkflowStep
 {
-    public string SequenceEndId { get; set; }
+    public string SequenceEndStepId { get; set; }
 
     protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
     {

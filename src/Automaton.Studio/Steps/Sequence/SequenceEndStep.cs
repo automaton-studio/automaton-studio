@@ -42,6 +42,7 @@ public class SequenceEndStep : StudioStep
             Inputs[nameof(SequenceStepId)] = value;
         }
     }
+
     public override Type GetDesignerComponent()
     {
         return typeof(SequenceEndDesigner);

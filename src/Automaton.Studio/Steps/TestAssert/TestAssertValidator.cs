@@ -6,6 +6,6 @@ public class TestAssertValidator : AbstractValidator<TestAssertStep>
 {
     public TestAssertValidator()
     {
-        RuleFor(x => x.Message).NotEmpty().MaximumLength(4000).WithMessage(Resources.Errors.MessageRequired);
+        RuleFor(x => x.Expression).NotEmpty().MaximumLength(4000).WithMessage(Resources.Errors.MessageRequired);
     }
 }
