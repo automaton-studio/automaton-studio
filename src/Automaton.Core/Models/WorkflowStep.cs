@@ -26,7 +26,7 @@ public abstract class WorkflowStep
 
     protected abstract Task<ExecutionResult> RunAsync(StepExecutionContext context);
 
-    public async Task<ExecutionResult> ExecuteAsync(StepExecutionContext context)
+    public virtual async Task<ExecutionResult> ExecuteAsync(StepExecutionContext context)
     {
         foreach (var input in Inputs)
         {
@@ -66,6 +66,11 @@ public abstract class WorkflowStep
         {
             Guid.TryParse(value.ToString(), out var guidValue);
             value = guidValue;
+        }
+
+        if (stepProperty.PropertyType.Name == nameof(String))
+        {
+            value = value.ToString();
         }
 
         stepProperty.SetValue(this, value);

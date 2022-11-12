@@ -47,7 +47,7 @@ namespace Automaton.Core.Parsers
             foreach (var name in variableNames)
             {
                 var variable = workflow.GetVariable(name);
-                var variableExpression = System.Linq.Expressions.Expression.Parameter(typeof(string), variable.Key);
+                var variableExpression = Expression.Parameter(typeof(string), variable.Key);
                 variableExpressions.Add(variableExpression);
             }
 
