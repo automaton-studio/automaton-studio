@@ -97,7 +97,7 @@ public class SequenceStep : StudioStep
         return children;
     }
 
-    private IEnumerable<StudioStep> GetChildrenAndEndStep()
+    public IEnumerable<StudioStep> GetChildrenAndEndStep()
     {
         var sequenceStepIndex = Definition.Steps.IndexOf(this);
         var endSequenceStepIndex = Definition.Steps.IndexOf(SequenceEndStep);

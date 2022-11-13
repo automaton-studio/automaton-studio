@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -34,9 +35,13 @@ public partial class SequenceDesigner : ComponentBase
         };
     }
 
-    private static void OnDelete(StudioStep step)
+    private void OnDelete(StudioStep step)
     {
-        step.Definition.DeleteStep(step);
+        var sequenceStepIndex = Step.Definition.Steps.IndexOf(Step);
+        var endSequenceStepIndex = Step.Definition.Steps.IndexOf(Step.SequenceEndStep);
+        var count = endSequenceStepIndex - sequenceStepIndex;
+
+        step.Definition.DeleteSteps(sequenceStepIndex, count + 1);
     }
 
     private void ToggleContent()

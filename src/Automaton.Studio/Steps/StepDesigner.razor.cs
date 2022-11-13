@@ -1,9 +1,6 @@
 ﻿using AntDesign;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Extensions;
-using Automaton.Studio.Pages.Designer.Components.Drawer;
-using Automaton.Studio.Pages.Designer;
-using Automaton.Studio.Resources;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -12,7 +9,7 @@ namespace Automaton.Studio.Steps;
 public partial class StepDesigner : ComponentBase
 {
     [Parameter]
-    public Domain.StudioStep Step { get; set; }
+    public StudioStep Step { get; set; }
 
     [Parameter] 
     public RenderFragment ChildContent { get; set; }
@@ -25,7 +22,7 @@ public partial class StepDesigner : ComponentBase
         base.OnInitialized();
     }
 
-    private async Task OnEdit(Domain.StudioStep step)
+    private async Task OnEdit(StudioStep step)
     {
         var result = await step.DisplayPropertiesDialog(ModalService);
 
@@ -37,7 +34,7 @@ public partial class StepDesigner : ComponentBase
         };
     }
 
-    private static void OnDelete(Domain.StudioStep step)
+    private static void OnDelete(StudioStep step)
     {
         step.Definition.DeleteStep(step);
     }

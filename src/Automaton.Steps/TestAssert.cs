@@ -24,17 +24,16 @@ public class TestAssert : WorkflowStep
 
         return result;
     }
-
+     
     protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
     {
         var result = ExpressionParser.Parse(Expression, context.Workflow);
 
         if (result is not bool)
         {
-            Error = "Could not evaluate expression to a boolean value";
+            Error = $"Could not evaluate expression \"{Expression}\" to a boolean value";
         }
-
-        if (!(bool)result)
+        else if (!(bool)result)
         {
             Error = $"Expression \"{Expression}\" was not true";
         }

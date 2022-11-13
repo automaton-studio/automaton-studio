@@ -1,5 +1,6 @@
 ﻿using Automaton.Core.Enums;
 using Automaton.Studio.Events;
+using Microsoft.Scripting.Utils;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
@@ -39,6 +40,26 @@ public class StudioDefinition
         UpdateStepConnections();
 
         StepRemoved?.Invoke(this, new StepEventArgs(step));
+    }
+
+    public void DeleteSteps(int index, int count)
+    {
+        var steps = Steps.GetRange(index, count);
+
+        Steps.RemoveRange(index, count);
+
+        IList<string> variableNames = new List<string>();
+
+        foreach (var step in steps)
+        {
+            StepRemoved?.Invoke(this, new StepEventArgs(step));
+
+            variableNames.AddRange(step.GetVariableNames());
+        }
+
+        Flow.DeleteVariables(variableNames);
+
+        UpdateStepConnections();
     }
 
     public void FinalizeStep(StudioStep step)
