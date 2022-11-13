@@ -11,18 +11,16 @@ public class StepFactory
     private const string StepsAssembly = "Automaton.Studio";
 
     private readonly IServiceProvider serviceProvider;
-    private readonly IDictionary<string, StepExplorerModel> solutionSteps;
-    private readonly IDictionary<string, Type> solutionTypes;
     private readonly IStepTypeDescriptor stepTypeDescriptor;
+    private readonly IDictionary<string, StepExplorerModel> solutionSteps = new Dictionary<string, StepExplorerModel>();
+    private readonly IDictionary<string, Type> solutionTypes = new Dictionary<string, Type>();
 
     public StepFactory(IStepTypeDescriptor stepTypeDescriptor, IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider;
         this.stepTypeDescriptor = stepTypeDescriptor;
-        solutionSteps = new Dictionary<string, StepExplorerModel>();
-        solutionTypes = new Dictionary<string, Type>();
 
-        AddStepsFrom(Assembly.Load(StepsAssembly));
+        LoadSteps(new[] { Assembly.Load(StepsAssembly) });
     }
 
     public IEnumerable<StepExplorerModel> GetSteps()
@@ -30,12 +28,17 @@ public class StepFactory
         return solutionSteps.Values;
     }
 
-    public void AddStepsFrom(Assembly assembly)
+    public StudioStep CreateStep(string name)
     {
-        AddStepsFrom(new[] { assembly });
+        var descriptor = stepTypeDescriptor.Describe(solutionTypes[name]);
+        var step = serviceProvider.GetService(solutionTypes[name]) as StudioStep;
+
+        step.Setup(descriptor);
+
+        return step;
     }
 
-    public void AddStepsFrom(IEnumerable<Assembly> assemblies)
+    private void LoadSteps(IEnumerable<Assembly> assemblies)
     {
         var stepTypes = assemblies.SelectMany(x => x.GetAllWithBaseClass<StudioStep>()).Where(x => !x.IsAbstract);
 
@@ -45,7 +48,7 @@ public class StepFactory
         }
     }
 
-    public void AddStep(Type stepType)
+    private void AddStep(Type stepType)
     {
         var stepDescriptor = stepTypeDescriptor.Describe(stepType);
 
@@ -73,17 +76,7 @@ public class StepFactory
         }
     }
 
-    public StudioStep CreateStep(string name)
-    {
-        var descriptor = stepTypeDescriptor.Describe(solutionTypes[name]);
-        var step = serviceProvider.GetService(solutionTypes[name]) as StudioStep;
-
-        step.Setup(descriptor);
-
-        return step;
-    }
-
-    private StepExplorerModel CreateStepExplorerModel(IStepDescriptor stepDescriptor)
+    private static StepExplorerModel CreateStepExplorerModel(IStepDescriptor stepDescriptor)
     {
         var stepExplorerModel = new StepExplorerModel
         {
@@ -99,7 +92,7 @@ public class StepFactory
         return stepExplorerModel;
     }
 
-    private StepExplorerModel CreateStepCategoryExplorerModel(string category)
+    private static StepExplorerModel CreateStepCategoryExplorerModel(string category)
     {
         var stepExplorerModel = new StepExplorerModel
         {
