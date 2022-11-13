@@ -12,7 +12,7 @@ namespace Automaton.Studio.Steps.ExecuteFlow;
     Name = "ExecuteFlow",
     Type = "ExecuteFlow",
     DisplayName = "Execute Flow",
-    Category = "Console",
+    Category = "Run flow",
     Description = "Execute flow",
     Icon = "apartment"
 )]

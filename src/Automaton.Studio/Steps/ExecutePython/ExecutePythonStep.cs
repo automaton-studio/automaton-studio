@@ -9,7 +9,7 @@ namespace Automaton.Studio.Steps.ExecutePython;
     Name = "ExecutePython",
     Type = "ExecutePython",
     DisplayName = "Execute Python",
-    Category = "Console",
+    Category = "Scripting",
     Description = "Execute Python script",
     Icon = "code"
 )]

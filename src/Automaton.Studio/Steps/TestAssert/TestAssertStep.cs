@@ -7,7 +7,7 @@ namespace Automaton.Studio.Steps.TestAssert;
     Name = "TestAssert",
     Type = "TestAssert",
     DisplayName = "Test assert",
-    Category = "Console",
+    Category = "Test",
     Description = "Test assertions",
     Icon = "schedule"
 )]

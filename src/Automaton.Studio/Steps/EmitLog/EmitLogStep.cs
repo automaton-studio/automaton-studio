@@ -7,7 +7,7 @@ namespace Automaton.Studio.Steps.EmitLog;
     Name = "EmitLog",
     Type = "EmitLog",
     DisplayName = "Emit Log",
-    Category = "Console",
+    Category = "Flow control",
     Description = "Emit log to console",
     Icon = "message"
 )]

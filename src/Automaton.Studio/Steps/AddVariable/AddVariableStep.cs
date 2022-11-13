@@ -7,7 +7,7 @@ namespace Automaton.Studio.Steps.AddVariable;
     Name = "AddVariable",
     Type = "AddVariable",
     DisplayName = "Add Variable",
-    Category = "Console",
+    Category = "Variables",
     Description = "Add Flow variable",
     Icon = "field-string"
 )]

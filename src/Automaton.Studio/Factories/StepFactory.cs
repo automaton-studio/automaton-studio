@@ -10,20 +10,19 @@ public class StepFactory
 {
     private const string StepsAssembly = "Automaton.Studio";
 
-    private IServiceProvider serviceProvider;
-    private IDictionary<string, StepExplorerModel> solutionSteps;
-    private IDictionary<string, Type> solutionTypes;
-    private IStepTypeDescriptor stepTypeDescriptor;
+    private readonly IServiceProvider serviceProvider;
+    private readonly IDictionary<string, StepExplorerModel> solutionSteps;
+    private readonly IDictionary<string, Type> solutionTypes;
+    private readonly IStepTypeDescriptor stepTypeDescriptor;
 
-    public StepFactory(IStepTypeDescriptor stepTypeDescriber, IServiceProvider serviceProvider)
+    public StepFactory(IStepTypeDescriptor stepTypeDescriptor, IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider;
-        this.stepTypeDescriptor = stepTypeDescriber;
+        this.stepTypeDescriptor = stepTypeDescriptor;
         solutionSteps = new Dictionary<string, StepExplorerModel>();
         solutionTypes = new Dictionary<string, Type>();
 
-        var assembly = Assembly.Load(StepsAssembly);
-        AddActivitiesFrom(assembly);
+        AddStepsFrom(Assembly.Load(StepsAssembly));
     }
 
     public IEnumerable<StepExplorerModel> GetSteps()
@@ -31,18 +30,18 @@ public class StepFactory
         return solutionSteps.Values;
     }
 
-    public void AddActivitiesFrom(Assembly assembly)
+    public void AddStepsFrom(Assembly assembly)
     {
-        AddActivitiesFrom(new[] { assembly });
+        AddStepsFrom(new[] { assembly });
     }
 
-    public void AddActivitiesFrom(IEnumerable<Assembly> assemblies)
+    public void AddStepsFrom(IEnumerable<Assembly> assemblies)
     {
-        var types = assemblies.SelectMany(x => x.GetAllWithBaseClass<StudioStep>()).Where(x => !x.IsAbstract);
+        var stepTypes = assemblies.SelectMany(x => x.GetAllWithBaseClass<StudioStep>()).Where(x => !x.IsAbstract);
 
-        foreach (var type in types)
+        foreach (var stepType in stepTypes)
         {
-            AddStep(type);
+            AddStep(stepType);
         }
     }
 
@@ -50,42 +49,69 @@ public class StepFactory
     {
         var stepDescriptor = stepTypeDescriptor.Describe(stepType);
 
-       
+        var solutionStep = CreateStepExplorerModel(stepDescriptor);
 
-        var solutionStep = new StepExplorerModel
+        solutionTypes.Add(solutionStep.Name, stepType);
+
+        if (stepDescriptor.VisibleInExplorer)
+        {
+            if (string.IsNullOrEmpty(stepDescriptor.Category))
+            {
+                solutionSteps.Add(solutionStep.Name, solutionStep);
+            }
+            else
+            {
+                if (!solutionSteps.ContainsKey(stepDescriptor.Category))
+                {
+                    var categoryModel = CreateStepCategoryExplorerModel(stepDescriptor.Category);
+                    solutionSteps.Add(stepDescriptor.Category, categoryModel);
+                }
+
+                var category = solutionSteps[stepDescriptor.Category];
+                category.Steps.Add(solutionStep);
+            }
+        }
+    }
+
+    public StudioStep CreateStep(string name)
+    {
+        var descriptor = stepTypeDescriptor.Describe(solutionTypes[name]);
+        var step = serviceProvider.GetService(solutionTypes[name]) as StudioStep;
+
+        step.Setup(descriptor);
+
+        return step;
+    }
+
+    private StepExplorerModel CreateStepExplorerModel(IStepDescriptor stepDescriptor)
+    {
+        var stepExplorerModel = new StepExplorerModel
         {
             Name = stepDescriptor.Name,
             Type = stepDescriptor.Type,
             Description = stepDescriptor.Description,
             DisplayName = stepDescriptor.DisplayName,
             Category = stepDescriptor.Category,
-            NotVisibleInExplorer = stepDescriptor.NotVisibleInExplorer,
+            VisibleInExplorer = stepDescriptor.VisibleInExplorer,
             Icon = stepDescriptor.Icon
         };
 
-        solutionTypes.Add(solutionStep.Name, stepType);
-
-        if (!stepDescriptor.NotVisibleInExplorer)
-            solutionSteps.Add(solutionStep.Name, solutionStep);
+        return stepExplorerModel;
     }
 
-    public StudioStep CreateStep(string name)
+    private StepExplorerModel CreateStepCategoryExplorerModel(string category)
     {
-        try
+        var stepExplorerModel = new StepExplorerModel
         {
-            var descriptor = stepTypeDescriptor.Describe(solutionTypes[name]);
+            Name = category,
+            Type = string.Empty,
+            Description = category,
+            DisplayName = category,
+            Category = string.Empty,
+            VisibleInExplorer = true,
+            Icon = string.Empty
+        };
 
-            var step = serviceProvider.GetService(solutionTypes[name]) as StudioStep;
-
-            step.Setup(descriptor);
-
-            return step;
-
-        }
-        catch (Exception ex)
-        {
-
-            throw;
-        }
+        return stepExplorerModel;
     }
 }
