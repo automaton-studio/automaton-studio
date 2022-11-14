@@ -24,6 +24,7 @@ using Automaton.Studio.Mapper;
 using Automaton.Studio.Steps.Test;
 using Automaton.Studio.Steps.Sequence;
 using Automaton.Studio.Steps.TestAssert;
+using Automaton.Studio.Steps.TestReport;
 
 namespace Automaton.Studio.Extensions;
 
@@ -74,6 +75,7 @@ public static class ServiceCollectionExtension
         services.AddTransient<ExecuteFlowStep>();
         services.AddTransient<TestStep>();
         services.AddTransient<TestAssertStep>();
+        services.AddTransient<TestReportStep>();
         services.AddTransient<SequenceStep>();
         services.AddTransient<SequenceEndStep>();
 
