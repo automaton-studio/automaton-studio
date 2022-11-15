@@ -11,14 +11,11 @@ public class TestAssert : WorkflowStep
 
     /// <summary>
     /// Need to override ExecuteAsync because we do not want Expression to be
-    /// evaluated during SetInputProperty in WorkflowStep.
+    /// evaluated during SetInputProperty() from parent class WorkflowStep.
     /// </summary>
     public override async Task<ExecutionResult> ExecuteAsync(StepExecutionContext context)
     {
-        foreach (var input in Inputs)
-        {
-            SetInputProperty(input, context);
-        }
+        Expression = Inputs[nameof(Expression)].ToString();
 
         var result = await RunAsync(context);
 
@@ -39,14 +36,5 @@ public class TestAssert : WorkflowStep
         }
 
         return Task.FromResult(ExecutionResult.Next());
-    }
-
-    private void SetInputProperty(KeyValuePair<string, object> input, StepExecutionContext context)
-    {
-        var stepType = GetType();
-
-        var stepProperty = stepType.GetProperty(input.Key);
-
-        stepProperty.SetValue(this, input.Value);
     }
 }

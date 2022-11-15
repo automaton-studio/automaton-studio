@@ -43,6 +43,9 @@ public class ExecutePythonStep : StudioStep
         set => Inputs[nameof(InputVariables)] = value;
     }
 
+    /// <summary>
+    /// OutputVariables are stored in Inputs list because they are input required for step execution.
+    /// </summary>
     public IList<Variable> OutputVariables
     {
         get

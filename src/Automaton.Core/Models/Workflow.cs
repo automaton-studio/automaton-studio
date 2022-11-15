@@ -40,4 +40,16 @@ public class Workflow
 
         return variables;
     }
+
+    public void SetVariable(StepVariable variable)
+    {
+        if (Variables.ContainsKey(variable.Name))
+        {
+            Variables[variable.Name] = variable.Value;
+        }
+        else
+        {
+            Variables.Add(variable.Name, variable.Value);
+        }
+    }
 }

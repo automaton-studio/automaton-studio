@@ -5,13 +5,13 @@
         <b>@Step.DisplayName</b>
     </div>
     <div>
-        Log <a href="" @onclick:preventDefault>@Step.Expression</a> to console
+        Write test report as <a href="" @onclick:preventDefault>@Step.Report</a> variable
     </div>
 </StepDesigner>
 
 @code {
     [Parameter]
-    public TestAssertStep Step { get; set; }
+    public TestReportStep Step { get; set; }
 
     protected override void OnInitialized()
     {

@@ -1,6 +1,6 @@
 ﻿@using Blazored.FluentValidation;
 
-@inherits FeedbackComponent<TestAssertStep>
+@inherits FeedbackComponent<TestReportStep>
 
 <Form @ref="form"
       Model="@activity"
@@ -13,15 +13,12 @@
     </Validator>
 
     <ChildContent>
-        <FormItem Label="Expression">
-            <Input @bind-Value="@context.Expression" Placeholder="Enter expression" />
-        </FormItem>
     </ChildContent>
 </Form>
 
 @code {
-    private Form<TestAssertStep> form;
-    private TestAssertStep activity;
+    private Form<TestReportStep> form;
+    private TestReportStep activity;
     private FluentValidationValidator fluentValidationValidator;
 
     protected override void OnInitialized()

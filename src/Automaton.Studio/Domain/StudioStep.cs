@@ -1,4 +1,5 @@
 ﻿using Automaton.Core.Enums;
+using Automaton.Core.Models;
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Events;
 using Automaton.Studio.Pages.Designer.Components;
@@ -84,7 +85,10 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
 
-    public IDictionary<string, object> Outputs { get; set; } = new Dictionary<string, object>();
+    /// <summary>
+    /// Outputs key is StepVariable.Key property while value is StepVariable
+    /// </summary>
+    public IDictionary<string, StepVariable> Outputs { get; set; } = new Dictionary<string, StepVariable>();
 
     #endregion
 
@@ -149,14 +153,16 @@ public abstract class StudioStep : INotifyPropertyChanged
         return !string.IsNullOrEmpty(ParentId);
     }
 
-    public void SetVariable(string key, object value)
+    public void SetVariable(StepVariable variable)
     {
-        if (!Outputs.ContainsKey(key))
+        if (!Outputs.ContainsKey(variable.Key))
         {
-            Outputs.Add(key, value);
+            // Step.Outputs dictionary uses variable.Key as a key
+            Outputs.Add(variable.Key, variable);
         }
 
-        Flow.SetVariable(key, value);
+        // Flow.Variables dictionary uses variable.Name as a key
+        Flow.SetVariable(variable.Name, variable.Value);
     }
 
     public IEnumerable<string> GetVariableNames()

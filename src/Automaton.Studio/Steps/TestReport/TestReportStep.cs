@@ -1,5 +1,7 @@
-﻿using Automaton.Studio.Attributes;
+﻿using Automaton.Core.Models;
+using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
+using Automaton.Studio.Steps.Test;
 
 namespace Automaton.Studio.Steps.TestReport;
 
@@ -13,17 +15,19 @@ namespace Automaton.Studio.Steps.TestReport;
 )]
 public class TestReportStep : StudioStep
 {
-    public string Expression
-    {
-        get => Inputs.ContainsKey(nameof(Expression)) ?
-               Inputs[nameof(Expression)]?.ToString() : string.Empty;
-        set => Inputs[nameof(Expression)] = value;
-    }
+    private const string ReportVariableName = "TestReport";
 
-    public string Error { get; set; }
+    public int TotalTests { get; set; }
+
+    public int PassedTests { get; set; }
+
+    public int FailedTests { get; set; }
+
+    public string Report { get; set; }
 
     public TestReportStep()
     {
+        SetVariables();
     }
 
     public override Type GetDesignerComponent()
@@ -34,5 +38,16 @@ public class TestReportStep : StudioStep
     public override Type GetPropertiesComponent()
     {
         return typeof(TestReportProperties);
+    }
+
+    private void SetVariables()
+    {
+        var reportVariable = new StepVariable
+        {
+            Key = ReportVariableName,
+            Name = $"{ReportVariableName}{Flow.GetNumberOfSteps<TestReportStep>()}",
+        };
+
+        SetVariable(reportVariable);
     }
 }

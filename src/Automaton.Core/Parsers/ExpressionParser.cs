@@ -10,24 +10,22 @@ namespace Automaton.Core.Parsers
         private const string Percentage = "%";
         private const string VariablePattern = "%.+?%";
 
-        public static object Parse(object inputValue, Workflow workflow)
+        public static object Parse(object expression, Workflow workflow)
         {
-            var variableNames = GetVariableNames(inputValue);
+            var variableNames = GetVariableNames(expression);
             var parameterExpressions = GetParameterExpressions(variableNames, workflow);
-
-            var sanitizedExpression = inputValue.ToString().Replace(Percentage, string.Empty);
+            var sanitizedExpression = expression.ToString().Replace(Percentage, string.Empty);
 
             if (string.IsNullOrEmpty(sanitizedExpression))
                 return sanitizedExpression;
 
-            var lambdaExpresion = DynamicExpressionParser.ParseLambda(parameterExpressions.ToArray(), null, sanitizedExpression);
-
             var workflowVariables = workflow.GetVariables(variableNames);
             var variableValues = workflowVariables.Select(x => x.Value);
 
-            var value = lambdaExpresion.Compile().DynamicInvoke(variableValues.ToArray());
+            var lambdaExpresion = DynamicExpressionParser.ParseLambda(parameterExpressions.ToArray(), null, sanitizedExpression);
+            var expressionValue = lambdaExpresion.Compile().DynamicInvoke(variableValues.ToArray());
 
-            return value;
+            return expressionValue;
         }
 
         private static IEnumerable<string> GetVariableNames(object inputValue)

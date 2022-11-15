@@ -26,7 +26,7 @@
                   Class="workflows-tree"
                   TItem="FlowExplorerDefinition">
                 <TitleTemplate>
-                    <Dropdown Placement="@Placement.BottomCenter" Trigger="@(new Trigger[] { Trigger.ContextMenu })">
+                    <Dropdown Placement="@Placement.Bottom" Trigger="@(new Trigger[] { Trigger.ContextMenu })">
                         <Overlay>
                             <Menu>
                                 <MenuItem @onclick="@(() => RenameDefinition(context.DataItem))">

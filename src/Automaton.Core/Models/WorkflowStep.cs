@@ -18,7 +18,10 @@ public abstract class WorkflowStep
 
     public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
 
-    public IDictionary<string, object> Outputs { get; set; } = new Dictionary<string, object>();
+    /// <summary>
+    /// Outputs key is StepVariable.Key while value is StepVariable
+    /// </summary>
+    public IDictionary<string, StepVariable> Outputs { get; set; } = new Dictionary<string, StepVariable>();
 
     public virtual WorkflowErrorHandling? ErrorBehavior { get; set; }
 
