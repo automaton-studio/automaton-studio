@@ -20,5 +20,5 @@ public class Step
 
     public string? NextStepId { get; set; }
 
-    public List<Step> Children { get; set; } = new List<Step>();
+    public string? ParentId { get; set; }
 }

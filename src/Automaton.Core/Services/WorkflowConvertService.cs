@@ -19,7 +19,8 @@ public class WorkflowConvertService
             Id = flow.Id,
             Name = flow.Name,
             StartupDefinitionId = flow.StartupDefinitionId,
-            Variables = flow.Variables
+            Variables = flow.Variables,
+            OutputVariables = flow.OutputVariables
         };
 
         foreach (var definition in flow.Definitions)
@@ -27,10 +28,10 @@ public class WorkflowConvertService
             var workflowDefinition = new WorkflowDefinition
             {
                 Id = definition.Id,
-                Steps = ConvertSteps(definition.Steps, workflow),
                 DefaultErrorBehavior = definition.DefaultErrorBehavior,
                 DefaultErrorRetryInterval = definition.DefaultErrorRetryInterval
             };
+            workflowDefinition.Steps = ConvertSteps(definition.Steps, workflowDefinition);
 
             workflow.Definitions.Add(workflowDefinition);
         }
@@ -38,15 +39,14 @@ public class WorkflowConvertService
         return workflow;
     }
 
-    private IDictionary<string, WorkflowStep> ConvertSteps(ICollection<Step> steps, Workflow workflow)
+    private IDictionary<string, WorkflowStep> ConvertSteps(ICollection<Step> steps, WorkflowDefinition workflowDefinition)
     {
         var workflowSteps = new Dictionary<string, WorkflowStep>();
 
         foreach (var step in steps)
         {
             var workflowStep = serviceProvider.GetService(step.FindType()) as WorkflowStep;
-            workflowStep.Setup(step);
-
+            workflowStep.Setup(step, workflowDefinition);
             workflowSteps.Add(step.Id, workflowStep);
         }
 

@@ -11,12 +11,7 @@ namespace Automaton.Studio.Domain;
 
 public abstract class StudioStep : INotifyPropertyChanged
 {
-
-    #region Members
-
     private bool isFinal;
-
-    #endregion
 
     #region Events
 
@@ -49,20 +44,6 @@ public abstract class StudioStep : INotifyPropertyChanged
         }
     }
 
-    public string ParentId
-    {
-        get
-        {
-            return Inputs.ContainsKey(nameof(ParentId)) ?
-                Inputs[nameof(ParentId)].ToString() : string.Empty;
-        }
-
-        set
-        {
-            Inputs[nameof(ParentId)] = value;
-        }
-    }
-
     #region Automaton.Core
 
     public string Id { get; set; }
@@ -82,6 +63,8 @@ public abstract class StudioStep : INotifyPropertyChanged
     public virtual bool HasProperties { get; set; } = true;
 
     public string NextStepId { get; set; }
+
+    public string ParentId { get; set; }
 
     public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
 
@@ -153,7 +136,7 @@ public abstract class StudioStep : INotifyPropertyChanged
         return !string.IsNullOrEmpty(ParentId);
     }
 
-    public void SetVariable(StepVariable variable)
+    public void SetOutputVariable(StepVariable variable)
     {
         if (!Outputs.ContainsKey(variable.Key))
         {

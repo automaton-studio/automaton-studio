@@ -23,4 +23,11 @@ public class Sequence : WorkflowStep
     {
         return Task.FromResult(ExecutionResult.Next());
     }
+
+    protected IEnumerable<WorkflowStep> GetChildren()
+    {
+        var children = WorkflowDefinition.Steps.Select(x => x.Value).Where(x => x.ParentId == ParentId);
+
+        return children;
+    }
 }

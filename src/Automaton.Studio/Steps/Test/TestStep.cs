@@ -28,7 +28,7 @@ public class TestStep : SequenceStep
         }
     }
 
-    public IList<string> Errors { get; set; }
+    public IList<string> Errors { get; set; } = new List<string>();
 
     public TestStep(StepFactory stepFactory) 
         : base(stepFactory)

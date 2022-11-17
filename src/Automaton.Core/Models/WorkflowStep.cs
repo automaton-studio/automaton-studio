@@ -10,11 +10,13 @@ public abstract class WorkflowStep
 
     public virtual string Name { get; set; }
 
-    public string ParentId { get; set; }
+    public string? ParentId { get; set; }
 
     public string Type { get; set; }
 
     public string? NextStepId { get; set; }
+
+    public WorkflowDefinition? WorkflowDefinition { get; set; }
 
     public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
 
@@ -41,15 +43,26 @@ public abstract class WorkflowStep
         return result;
     }
 
-    public void Setup(Step step)
+    public void SetOutputVariable(string key, object value, Workflow workflow)
+    {
+        var variable = Outputs[key];
+        variable.Value = value;
+
+        workflow.SetVariable(variable);
+    }
+
+    public void Setup(Step step, WorkflowDefinition workflowDefinition)
     {
         Id = step.Id;
         Name = step.Name;
         Type = step.Type;
         NextStepId = step.NextStepId;
+        ParentId = step.ParentId;
         ErrorBehavior = step.ErrorBehavior;
         RetryInterval = step.RetryInterval;
         Inputs = step.Inputs;
+        Outputs = step.Outputs;
+        WorkflowDefinition = workflowDefinition;
     }
 
     private void SetInputProperty(KeyValuePair<string, object> input, StepExecutionContext context)

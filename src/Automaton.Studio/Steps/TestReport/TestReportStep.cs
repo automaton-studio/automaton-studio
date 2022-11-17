@@ -1,7 +1,7 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
-using Automaton.Studio.Steps.Test;
+using Automaton.Studio.Events;
 
 namespace Automaton.Studio.Steps.TestReport;
 
@@ -27,7 +27,7 @@ public class TestReportStep : StudioStep
 
     public TestReportStep()
     {
-        SetVariables();
+        Finalize += OnFinalize;
     }
 
     public override Type GetDesignerComponent()
@@ -40,7 +40,7 @@ public class TestReportStep : StudioStep
         return typeof(TestReportProperties);
     }
 
-    private void SetVariables()
+    private void OnFinalize(object sender, StepEventArgs e)
     {
         var reportVariable = new StepVariable
         {
@@ -48,6 +48,6 @@ public class TestReportStep : StudioStep
             Name = $"{ReportVariableName}{Flow.GetNumberOfSteps<TestReportStep>()}",
         };
 
-        SetVariable(reportVariable);
+        SetOutputVariable(reportVariable);
     }
 }
