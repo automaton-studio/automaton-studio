@@ -26,7 +26,7 @@ public class Sequence : WorkflowStep
 
     protected IEnumerable<WorkflowStep> GetChildren()
     {
-        var children = WorkflowDefinition.Steps.Select(x => x.Value).Where(x => x.ParentId == ParentId);
+        var children = WorkflowDefinition.Steps.Select(x => x.Value).Where(x => x.ParentId == Id);
 
         return children;
     }

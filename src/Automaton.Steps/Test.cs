@@ -9,21 +9,13 @@ public class Test : Sequence
 
     public IList<string> Errors { get; set; } = new List<string>();
 
-    protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
+    public void AddError(string error)
     {
-        var asserts = GetTestAsserts();
-
-        Errors.AddRange(asserts.Select(x => x.Error));
-
-        return Task.FromResult(ExecutionResult.Next());
+        Errors.Add(error);
     }
 
-    private IEnumerable<TestAssert> GetTestAsserts()
+    protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
     {
-        var children = GetChildren();
-
-        var testAsserts = children.Where(x => x is TestAssert).Select(x => x as TestAssert);
-
-        return testAsserts;
+        return Task.FromResult(ExecutionResult.Next());
     }
 }

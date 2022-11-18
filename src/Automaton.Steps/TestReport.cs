@@ -10,7 +10,7 @@ public class TestReport : WorkflowStep
 
     public int TotalTests { get; set; }
 
-    public int PassedTests { get; set; }
+    public int SuccessfulTests { get; set; }
 
     public int FailedTests { get; set; }
 
@@ -23,7 +23,7 @@ public class TestReport : WorkflowStep
             .Select(x => x as Test);
 
         TotalTests = tests.Count();
-        PassedTests = tests.Count(x => !x.Errors.Any());
+        SuccessfulTests = tests.Count(x => !x.Errors.Any());
         FailedTests = tests.Count(x => x.Errors.Any());
 
         SetOutputVariable(ReportVariableName, GetReport(tests), context.Workflow);
@@ -34,26 +34,27 @@ public class TestReport : WorkflowStep
     private string GetReport(IEnumerable<Test> tests)
     {
         var report = new StringBuilder();
-        report.AppendLine($"Total tests: {TotalTests}");
-        report.AppendLine($"Passed tests: {PassedTests}");
-        report.AppendLine($"{GetPassedTestsReport(tests)}");
-        report.AppendLine($"Failed tests: {FailedTests}");
-        report.AppendLine($"{GetFailedTestsReport(tests)}");
+        report.AppendLine($"Total tests: {TotalTests} Successful: {SuccessfulTests} Failed: {FailedTests}");
+        report.Append($"{GetSuccessfulTestsReport(tests)}");
+        report.Append($"{GetFailedTestsReport(tests)}");
 
         return report.ToString();
     }
 
-    private string GetPassedTestsReport(IEnumerable<Test> tests)
+    private string GetSuccessfulTestsReport(IEnumerable<Test> tests)
     {
         var report = new StringBuilder();
 
-        var passedTests = tests.Where(x => !x.Errors.Any());
+        var successfulTests = tests.Where(x => !x.Errors.Any());
 
-        foreach (var test in passedTests)
+        if (successfulTests.Any())
+        {
+            report.AppendLine($"Successful tests");
+        }
+
+        foreach (var test in successfulTests)
         {
             report.AppendLine($"Test {test.Name} succeeded.");
-
-            report.AppendLine();
         }
 
         return report.ToString();
@@ -65,16 +66,19 @@ public class TestReport : WorkflowStep
 
         var failedTests = tests.Where(x => x.Errors.Any());
 
+        if (failedTests.Any())
+        {
+            report.AppendLine($"Failed tests");
+        }
+
         foreach (var test in failedTests)
         {
-            report.AppendLine($"Test {test.Name} failed with the errors:");
+            report.AppendLine($"Test {test.Name} failed with the error:");
 
             foreach (var error in test.Errors)
             {
                 report.AppendLine($"{error}");
             }
-
-            report.AppendLine();
         }
 
         return report.ToString();

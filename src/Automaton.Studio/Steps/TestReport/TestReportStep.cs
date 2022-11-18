@@ -19,7 +19,7 @@ public class TestReportStep : StudioStep
 
     public int TotalTests { get; set; }
 
-    public int PassedTests { get; set; }
+    public int SuccessfulTests { get; set; }
 
     public int FailedTests { get; set; }
 

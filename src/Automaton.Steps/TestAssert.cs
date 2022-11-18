@@ -21,7 +21,7 @@ public class TestAssert : WorkflowStep
 
         return result;
     }
-     
+
     protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
     {
         var result = ExpressionParser.Parse(Expression, context.Workflow);
@@ -33,6 +33,13 @@ public class TestAssert : WorkflowStep
         else if (!(bool)result)
         {
             Error = $"Expression \"{Expression}\" was not true";
+        }
+
+        var parent = GetParent();
+
+        if (parent is Test testParent && !string.IsNullOrEmpty(Error))
+        {
+            testParent.AddError(Error);
         }
 
         return Task.FromResult(ExecutionResult.Next());
