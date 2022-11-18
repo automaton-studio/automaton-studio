@@ -65,13 +65,6 @@ public abstract class WorkflowStep
         WorkflowDefinition = workflowDefinition;
     }
 
-    public WorkflowStep? GetParent()
-    {
-        return !string.IsNullOrEmpty(ParentId) ?
-            WorkflowDefinition.Steps.Select(x => x.Value).SingleOrDefault(x => x.Id == ParentId) :
-            null;
-    }
-
     private void SetInputProperty(KeyValuePair<string, object> input, StepExecutionContext context)
     {
         var stepType = GetType();

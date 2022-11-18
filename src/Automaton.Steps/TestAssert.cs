@@ -9,6 +9,8 @@ public class TestAssert : WorkflowStep
 
     public string Error { get; set; }
 
+    public Test ParentTest { get; set; }
+
     /// <summary>
     /// Need to override ExecuteAsync because we do not want Expression to be
     /// evaluated during SetInputProperty() from parent class WorkflowStep.
@@ -35,11 +37,9 @@ public class TestAssert : WorkflowStep
             Error = $"Expression \"{Expression}\" was not true";
         }
 
-        var parent = GetParent();
-
-        if (parent is Test testParent && !string.IsNullOrEmpty(Error))
+        if (ParentTest != null && !string.IsNullOrEmpty(Error))
         {
-            testParent.AddError(Error);
+            ParentTest.AddError(Error);
         }
 
         return Task.FromResult(ExecutionResult.Next());

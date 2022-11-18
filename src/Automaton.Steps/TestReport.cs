@@ -33,7 +33,6 @@ public class TestReport : WorkflowStep
     private string GetReport(IEnumerable<Test> tests)
     {
         var report = new StringBuilder();
-
         report.AppendLine($"Total tests: {TotalTests} Successful: {SuccessfulTests} Failed: {FailedTests}");
         report.Append($"{GetSuccessfulTestsReport(tests)}");
         report.Append($"{GetFailedTestsReport(tests)}");

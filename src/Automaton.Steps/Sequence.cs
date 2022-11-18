@@ -26,7 +26,18 @@ public class Sequence : WorkflowStep
 
     protected IEnumerable<WorkflowStep> GetChildren()
     {
-        var children = WorkflowDefinition.Steps.Select(x => x.Value).Where(x => x.ParentId == Id);
+        var nextStepId = NextStepId;
+
+        var children = new List<WorkflowStep>();
+
+        while (nextStepId != SequenceEndStepId)
+        {
+            var child = WorkflowDefinition.Steps[nextStepId];
+
+            children.Add(child);
+
+            nextStepId = child.NextStepId;
+        }
 
         return children;
     }
