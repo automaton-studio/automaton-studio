@@ -1,4 +1,5 @@
-﻿using Automaton.Studio.Attributes;
+﻿using Automaton.Core.Models;
+using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Events;
@@ -79,9 +80,9 @@ public class SequenceStep : StudioStep
         if (!IsFinal())
             return;
 
-        var children = GetChildrenAndEndStep();
+        var childrenAndEndStep = GetChildrenAndEndStep();
 
-        foreach (var child in children)
+        foreach (var child in childrenAndEndStep)
         {
             child.SetSelectClass();
         }
@@ -89,22 +90,20 @@ public class SequenceStep : StudioStep
 
     public IEnumerable<StudioStep> GetChildren()
     {
-        var sequenceStepIndex = Definition.Steps.IndexOf(this);
-        var endSequenceStepIndex = Definition.Steps.IndexOf(SequenceEndStep);
-        var count = endSequenceStepIndex - sequenceStepIndex;
-        var children = Definition.Steps.GetRange(sequenceStepIndex + 1, count - 1);
+        var children = Definition.Steps.Where(x => x.ParentId == Id);
 
         return children;
     }
 
     public IEnumerable<StudioStep> GetChildrenAndEndStep()
     {
-        var sequenceStepIndex = Definition.Steps.IndexOf(this);
-        var endSequenceStepIndex = Definition.Steps.IndexOf(SequenceEndStep);
-        var count = endSequenceStepIndex - sequenceStepIndex;
-        var children = Definition.Steps.GetRange(sequenceStepIndex + 1, count);
+        var sequenceEnd = Definition.Steps.SingleOrDefault(x => x.Id == SequenceEndStepId);
 
-        return children;
+        var childrenAndEndStep = Definition.Steps.Where(x => x.ParentId == Id).ToList();
+
+        childrenAndEndStep.Add(sequenceEnd);
+
+        return childrenAndEndStep;
     }
 
     /// <summary>
