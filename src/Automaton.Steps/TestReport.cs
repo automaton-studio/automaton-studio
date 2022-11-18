@@ -1,6 +1,5 @@
 ﻿using Automaton.Core.Models;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Automaton.Steps;
 
@@ -14,7 +13,7 @@ public class TestReport : WorkflowStep
 
     public int FailedTests { get; set; }
 
-    public string Report { get; set; }
+    public string? Report { get; set; }
 
     protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
     {
@@ -34,6 +33,7 @@ public class TestReport : WorkflowStep
     private string GetReport(IEnumerable<Test> tests)
     {
         var report = new StringBuilder();
+
         report.AppendLine($"Total tests: {TotalTests} Successful: {SuccessfulTests} Failed: {FailedTests}");
         report.Append($"{GetSuccessfulTestsReport(tests)}");
         report.Append($"{GetFailedTestsReport(tests)}");
@@ -41,7 +41,7 @@ public class TestReport : WorkflowStep
         return report.ToString();
     }
 
-    private string GetSuccessfulTestsReport(IEnumerable<Test> tests)
+    private static string GetSuccessfulTestsReport(IEnumerable<Test> tests)
     {
         var report = new StringBuilder();
 
@@ -60,7 +60,7 @@ public class TestReport : WorkflowStep
         return report.ToString();
     }
 
-    private string GetFailedTestsReport(IEnumerable<Test> tests)
+    private static string GetFailedTestsReport(IEnumerable<Test> tests)
     {
         var report = new StringBuilder();
 

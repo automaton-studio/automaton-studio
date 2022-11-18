@@ -1,11 +1,10 @@
 ﻿using Automaton.Core.Models;
-using Microsoft.Scripting.Utils;
 
 namespace Automaton.Steps;
 
 public class Test : Sequence
 {
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     public IList<string> Errors { get; set; } = new List<string>();
 
