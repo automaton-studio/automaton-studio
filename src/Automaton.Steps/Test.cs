@@ -15,14 +15,27 @@ public class Test : Sequence
 
     protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
     {
-        var children = GetChildren();
-        var asserts = children.Where(x => x is TestAssert).Select(x => x as TestAssert);
+        SetTestAssertsParent();
 
-        foreach (var assert in asserts)
+        return Task.FromResult(ExecutionResult.Next());
+    }
+
+    private void SetTestAssertsParent()
+    {
+        var testAsserts = GetTestAsserts();
+
+        foreach (var assert in testAsserts)
         {
             assert.ParentTest = this;
         }
+    }
 
-        return Task.FromResult(ExecutionResult.Next());
+    private IEnumerable<TestAssert> GetTestAsserts()
+    {
+        var children = GetChildren();
+
+        var testAsserts = children.Where(x => x is TestAssert).Select(x => x as TestAssert);
+
+        return testAsserts;
     }
 }
