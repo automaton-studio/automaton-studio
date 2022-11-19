@@ -101,6 +101,10 @@ public class DesignerViewModel
     {
         if (CanExecuteFlow)
         {
+            // TODO! Need a way to update Flow variables on the fly
+            // during Workflow execution. This way we can introduce a
+            // Debug functionality where user can add breakpoints and
+            // investigate the values of Flow variables
             var flow = mapper.Map<Flow>(Flow);
             await workflowExecuteService.Execute(flow);
         }
