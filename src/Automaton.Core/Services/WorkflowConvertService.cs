@@ -18,9 +18,9 @@ public class WorkflowConvertService
         {
             Id = flow.Id,
             Name = flow.Name,
-            StartupDefinitionId = flow.StartupDefinitionId,
             Variables = flow.Variables,
-            OutputVariables = flow.OutputVariables
+            OutputVariables = flow.OutputVariables,
+            StartupDefinitionId = flow.StartupDefinitionId
         };
 
         foreach (var definition in flow.Definitions)

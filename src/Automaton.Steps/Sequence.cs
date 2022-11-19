@@ -4,7 +4,7 @@ namespace Automaton.Steps;
 
 public class Sequence : WorkflowStep
 {
-    public string SequenceEndStepId { get; set; }
+    public string? SequenceEndStepId { get; set; }
 
     /// <summary>
     /// Need to override ExecuteAsync because we do not want SequenceEndStepId to be
@@ -26,9 +26,9 @@ public class Sequence : WorkflowStep
 
     protected IEnumerable<WorkflowStep> GetChildren()
     {
-        var nextStepId = NextStepId;
-
         var children = new List<WorkflowStep>();
+
+        var nextStepId = NextStepId;
 
         while (nextStepId != SequenceEndStepId)
         {

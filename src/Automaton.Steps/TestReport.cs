@@ -17,15 +17,13 @@ public class TestReport : WorkflowStep
 
     protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
     {
-        var tests = context.Workflow.Definitions
-            .SelectMany(x => x.Steps.Select(x => x.Value).Where(x => x is Test))
-            .Select(x => x as Test);
-
+        var tests = GetTests(context);
         TotalTests = tests.Count();
         SuccessfulTests = tests.Count(x => !x.Errors.Any());
         FailedTests = tests.Count(x => x.Errors.Any());
+        Report = GetReport(tests);
 
-        SetOutputVariable(ReportVariableName, GetReport(tests), context.Workflow);
+        SetOutputVariable(ReportVariableName, Report, context.Workflow);
 
         return Task.FromResult(ExecutionResult.Next());
     }
@@ -38,6 +36,13 @@ public class TestReport : WorkflowStep
         report.Append($"{GetFailedTestsReport(tests)}");
 
         return report.ToString();
+    }
+
+    private static IEnumerable<Test> GetTests(StepExecutionContext context)
+    {
+        return context.Workflow.Definitions
+            .SelectMany(x => x.Steps.Select(x => x.Value).Where(x => x is Test))
+            .Select(x => x as Test);
     }
 
     private static string GetSuccessfulTestsReport(IEnumerable<Test> tests)
