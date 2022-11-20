@@ -13,20 +13,8 @@ namespace Automaton.Studio.Steps.Test;
     Icon = "schedule"
 )]
 public class TestStep : SequenceStep
-{
-    public string Description
-    {
-        get
-        {
-            return Inputs.ContainsKey(nameof(Description)) ?
-                Inputs[nameof(Description)].ToString() : string.Empty;
-        }
-
-        set
-        {
-            Inputs[nameof(Description)] = value;
-        }
-    }
+{    
+    public string Description { get; set; }
 
     public IList<string> Errors { get; set; } = new List<string>();
 
@@ -42,6 +30,6 @@ public class TestStep : SequenceStep
 
     public override Type GetPropertiesComponent()
     {
-        throw new NotImplementedException();
+        return typeof(TestProperties);
     }
 }

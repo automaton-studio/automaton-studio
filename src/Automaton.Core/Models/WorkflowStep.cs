@@ -10,6 +10,8 @@ public abstract class WorkflowStep
 
     public virtual string Name { get; set; }
 
+    public string DisplayName { get; set; }
+
     public string? ParentId { get; set; }
 
     public string Type { get; set; }
@@ -55,6 +57,7 @@ public abstract class WorkflowStep
     {
         Id = step.Id;
         Name = step.Name;
+        DisplayName = step.DisplayName;
         Type = step.Type;
         NextStepId = step.NextStepId;
         ParentId = step.ParentId;

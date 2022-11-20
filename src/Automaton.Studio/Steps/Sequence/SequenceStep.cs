@@ -3,6 +3,7 @@ using Automaton.Studio.Domain;
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
+using Automaton.Studio.Steps.TestAssert;
 using System.Reflection;
 
 namespace Automaton.Studio.Steps.Sequence;
@@ -20,8 +21,6 @@ public class SequenceStep : StudioStep
     private readonly StepFactory stepFactory;
 
     public bool Collapsed { get; set; }
-
-    public override bool HasProperties { get; set; } = false;
 
     public SequenceEndStep SequenceEndStep 
     {
@@ -69,7 +68,7 @@ public class SequenceStep : StudioStep
 
     public override Type GetPropertiesComponent()
     {
-        throw new NotImplementedException();
+        return typeof(SequenceProperties);
     }
 
     public override void Select()

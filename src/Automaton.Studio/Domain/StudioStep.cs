@@ -2,7 +2,6 @@
 using Automaton.Core.Models;
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Events;
-using Automaton.Studio.Pages.Designer.Components;
 using Automaton.Studio.Steps.Sequence;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -30,8 +29,6 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public string Class { get; set; }
 
-    public string DisplayName { get; set; }
-
     public bool Hidden { get; set; }
 
     public SequenceStep Parent
@@ -49,6 +46,8 @@ public abstract class StudioStep : INotifyPropertyChanged
     public string Id { get; set; }
 
     public string Name { get; set; }
+
+    public string DisplayName { get; set; }
 
     public string Type { get; set; }
 

@@ -8,6 +8,8 @@ public class Step
 
     public string Name { get; set; }
 
+    public string DisplayName { get; set; }
+
     public string Type { get; set; }
 
     public WorkflowErrorHandling? ErrorBehavior { get; set; }
