@@ -1,0 +1,21 @@
+﻿@using Automaton.Studio.Resources
+@using Blazored.FluentValidation;
+@inherits FeedbackComponent<StepSettingsModel>
+
+<Form Model="@model"
+      LabelColSpan="4"
+      WrapperColSpan="20">
+    <Validator>
+        <FluentValidationValidator @ref="validator" />
+        <ValidationSummary />
+    </Validator>
+
+    <ChildContent>
+        <FormItem Label="Name">
+            <Input @bind-Value="@context.DisplayName" Placeholder=@Placeholders.EnterVariableName />
+        </FormItem>
+        <FormItem Label="Value">
+            <Input @bind-Value="@context.Description" Placeholder=@Placeholders.EnterVariableValue />
+        </FormItem>
+    </ChildContent>
+</Form>
