@@ -23,7 +23,7 @@ public partial class StepDesigner : ComponentBase
         base.OnInitialized();
     }
 
-    private async Task OnRename(StudioStep step)
+    private async Task OnSettings(StudioStep step)
     {
         var stepSettings = new StepSettingsModel
         {

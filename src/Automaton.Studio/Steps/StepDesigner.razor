@@ -17,12 +17,15 @@
             <Dropdown Placement="@Placement.Left" Trigger="@(new Trigger[] { Trigger.Click })">
                 <Overlay>
                     <Menu>
-                        <MenuItem Icon="edit" OnClick="@(() => OnRename(Step))">
-                            Rename
+                        <MenuItem Icon="edit" OnClick="@(() => OnSettings(Step))">
+                            Settings
                         </MenuItem>
-                        <MenuItem Icon="edit" OnClick="@(() => OnEdit(Step))" Disabled="!Step.HasProperties">
-                            Edit
-                        </MenuItem>
+                        @if (Step.HasProperties)
+                        {
+                            <MenuItem Icon="edit" OnClick="@(() => OnEdit(Step))">
+                                Edit
+                            </MenuItem>
+                        }
                         <MenuItem Icon="delete" OnClick="@(() => OnDelete(Step))">
                             Delete
                         </MenuItem>
