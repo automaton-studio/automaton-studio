@@ -8,7 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Automaton.Studio.Resources {    
+namespace Automaton.Studio.Resources {
+    using System;
+    
     
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
@@ -64,6 +66,15 @@ namespace Automaton.Studio.Resources {
         public static string DefinitionNameExists {
             get {
                 return ResourceManager.GetString("DefinitionNameExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display name is required.
+        /// </summary>
+        public static string DisplayNameRequired {
+            get {
+                return ResourceManager.GetString("DisplayNameRequired", resourceCulture);
             }
         }
         

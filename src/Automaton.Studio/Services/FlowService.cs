@@ -3,6 +3,7 @@ using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services;
@@ -59,6 +60,8 @@ public class FlowService
     public async Task Update(StudioFlow flow)
     {
         var flowDto = mapper.Map<Flow>(flow);
+
+        var refreshTokenJson = JsonSerializer.Serialize(flowDto);
 
         var response = await httpClient.PutAsJsonAsync($"{configService.FlowsUrl}/{flow.Id}", flowDto);
 

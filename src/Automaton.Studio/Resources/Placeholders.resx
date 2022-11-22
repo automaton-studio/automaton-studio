@@ -120,6 +120,12 @@
   <data name="EnterDefinitionName" xml:space="preserve">
     <value>Enter definition name</value>
   </data>
+  <data name="EnterDescription" xml:space="preserve">
+    <value>Enter description</value>
+  </data>
+  <data name="EnterDisplayName" xml:space="preserve">
+    <value>Enter display name</value>
+  </data>
   <data name="EnterFlowName" xml:space="preserve">
     <value>Enter flow name</value>
   </data>

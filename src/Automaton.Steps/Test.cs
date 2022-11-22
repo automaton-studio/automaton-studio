@@ -4,8 +4,6 @@ namespace Automaton.Steps;
 
 public class Test : Sequence
 {
-    public string? Description { get; set; }
-
     public IList<string> Errors { get; set; } = new List<string>();
 
     public void AddError(string error)

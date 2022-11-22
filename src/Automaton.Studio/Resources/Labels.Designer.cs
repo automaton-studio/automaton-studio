@@ -8,7 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Automaton.Studio.Resources {    
+namespace Automaton.Studio.Resources {
+    using System;
+    
     
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
@@ -91,6 +93,15 @@ namespace Automaton.Studio.Resources {
         internal static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Step settings.
+        /// </summary>
+        internal static string StepSettings {
+            get {
+                return ResourceManager.GetString("StepSettings", resourceCulture);
             }
         }
         

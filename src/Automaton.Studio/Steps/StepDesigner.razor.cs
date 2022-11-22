@@ -23,29 +23,29 @@ public partial class StepDesigner : ComponentBase
         base.OnInitialized();
     }
 
-    private async Task OpenSettings()
+    private async Task OnRename(StudioStep step)
     {
         var stepSettings = new StepSettingsModel
         {
             DisplayName = Step.DisplayName,
-            //Description = Step.Description
+            Description = Step.Description
         };
 
-        var newVariableDialog = await ModalService.CreateModalAsync<StepSettingsDialog, StepSettingsModel>
+        var settingsDialog = await ModalService.CreateModalAsync<StepSettingsDialog, StepSettingsModel>
         (
-            new ModalOptions { Title = Labels.Variable }, stepSettings
+            new ModalOptions { Title = Labels.StepSettings }, stepSettings
         );
 
-        newVariableDialog.OnOk = () =>
+        settingsDialog.OnOk = () =>
         {
             Step.DisplayName = stepSettings.DisplayName;
+            Step.Description = stepSettings.Description;
 
             StateHasChanged();
 
             return Task.CompletedTask;
         };
     }
-
 
     private async Task OnEdit(StudioStep step)
     {

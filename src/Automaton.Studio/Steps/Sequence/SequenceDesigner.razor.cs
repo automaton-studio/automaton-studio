@@ -1,7 +1,7 @@
 ﻿using AntDesign;
-using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Extensions;
+using Automaton.Studio.Resources;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -21,6 +21,30 @@ public partial class SequenceDesigner : ComponentBase
     protected override void OnInitialized()
     {
         base.OnInitialized();
+    }
+
+    private async Task OnRename(StudioStep step)
+    {
+        var stepSettings = new StepSettingsModel
+        {
+            DisplayName = Step.DisplayName,
+            Description = Step.Description
+        };
+
+        var settingsDialog = await ModalService.CreateModalAsync<StepSettingsDialog, StepSettingsModel>
+        (
+            new ModalOptions { Title = Labels.StepSettings }, stepSettings
+        );
+
+        settingsDialog.OnOk = () =>
+        {
+            Step.DisplayName = stepSettings.DisplayName;
+            Step.Description = stepSettings.Description;
+
+            StateHasChanged();
+
+            return Task.CompletedTask;
+        };
     }
 
     private async Task OnEdit(StudioStep step)

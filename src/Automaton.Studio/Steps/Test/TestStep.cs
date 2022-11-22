@@ -14,8 +14,6 @@ namespace Automaton.Studio.Steps.Test;
 )]
 public class TestStep : SequenceStep
 {    
-    public string Description { get; set; }
-
     public IList<string> Errors { get; set; } = new List<string>();
 
     public TestStep(StepFactory stepFactory) 
@@ -30,6 +28,6 @@ public class TestStep : SequenceStep
 
     public override Type GetPropertiesComponent()
     {
-        return typeof(TestProperties);
+        throw new NotImplementedException();
     }
 }

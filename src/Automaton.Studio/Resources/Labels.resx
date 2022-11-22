@@ -129,6 +129,9 @@
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="StepSettings" xml:space="preserve">
+    <value>Step settings</value>
+  </data>
   <data name="Variable" xml:space="preserve">
     <value>Variable</value>
   </data>

@@ -22,6 +22,8 @@ public class SequenceStep : StudioStep
 
     public bool Collapsed { get; set; }
 
+    public override bool HasProperties { get; set; }
+
     public SequenceEndStep SequenceEndStep 
     {
         get
@@ -68,7 +70,7 @@ public class SequenceStep : StudioStep
 
     public override Type GetPropertiesComponent()
     {
-        return typeof(SequenceProperties);
+        throw new NotImplementedException();
     }
 
     public override void Select()

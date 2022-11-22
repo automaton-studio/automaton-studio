@@ -8,7 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Automaton.Studio.Resources {    
+namespace Automaton.Studio.Resources {
+    using System;
+    
     
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
@@ -64,6 +66,24 @@ namespace Automaton.Studio.Resources {
         public static string EnterDefinitionName {
             get {
                 return ResourceManager.GetString("EnterDefinitionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter description.
+        /// </summary>
+        public static string EnterDescription {
+            get {
+                return ResourceManager.GetString("EnterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter display name.
+        /// </summary>
+        public static string EnterDisplayName {
+            get {
+                return ResourceManager.GetString("EnterDisplayName", resourceCulture);
             }
         }
         

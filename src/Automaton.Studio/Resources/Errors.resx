@@ -120,6 +120,9 @@
   <data name="DefinitionNameExists" xml:space="preserve">
     <value>Definition name already exists</value>
   </data>
+  <data name="DisplayNameRequired" xml:space="preserve">
+    <value>Display name is required</value>
+  </data>
   <data name="FlowNameExists" xml:space="preserve">
     <value>Flow name already exists</value>
   </data>

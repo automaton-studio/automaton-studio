@@ -3,19 +3,19 @@
 @inherits FeedbackComponent<StepSettingsModel>
 
 <Form Model="@model"
-      LabelColSpan="4"
-      WrapperColSpan="20">
+      LabelColSpan="5"
+      WrapperColSpan="19">
     <Validator>
         <FluentValidationValidator @ref="validator" />
         <ValidationSummary />
     </Validator>
 
     <ChildContent>
-        <FormItem Label="Name">
-            <Input @bind-Value="@context.DisplayName" Placeholder=@Placeholders.EnterVariableName />
+        <FormItem Label="Display name">
+            <Input @bind-Value="@context.DisplayName" Placeholder=@Placeholders.EnterDisplayName />
         </FormItem>
-        <FormItem Label="Value">
-            <Input @bind-Value="@context.Description" Placeholder=@Placeholders.EnterVariableValue />
+        <FormItem Label="Description">
+            <Input @bind-Value="@context.Description" Placeholder=@Placeholders.EnterDescription />
         </FormItem>
     </ChildContent>
 </Form>

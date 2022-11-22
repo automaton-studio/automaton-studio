@@ -21,7 +21,10 @@
             <Dropdown Placement="@Placement.Left" Trigger="@(new Trigger[] { Trigger.Click })">
                 <Overlay>
                     <Menu>
-                        <MenuItem Icon="edit" OnClick="@(() => OnEdit(Step))">
+                        <MenuItem Icon="edit" OnClick="@(() => OnRename(Step))">
+                            Rename
+                        </MenuItem>
+                        <MenuItem Icon="edit" OnClick="@(() => OnEdit(Step))" Disabled="!Step.HasProperties">
                             Edit
                         </MenuItem>
                         <MenuItem Icon="delete" OnClick="@(() => OnDelete(Step))">
