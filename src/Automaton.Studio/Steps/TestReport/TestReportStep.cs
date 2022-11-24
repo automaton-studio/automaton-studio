@@ -25,6 +25,8 @@ public class TestReportStep : StudioStep
 
     public string Report { get; set; }
 
+    public override bool HasProperties { get; set; }
+
     public TestReportStep()
     {
         Finalize += OnFinalize;
@@ -37,7 +39,7 @@ public class TestReportStep : StudioStep
 
     public override Type GetPropertiesComponent()
     {
-        return typeof(TestReportProperties);
+        throw new NotImplementedException();
     }
 
     private void OnFinalize(object sender, StepEventArgs e)
