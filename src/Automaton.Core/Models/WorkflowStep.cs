@@ -29,10 +29,6 @@ public abstract class WorkflowStep
     /// </summary>
     public IDictionary<string, StepVariable> Outputs { get; set; } = new Dictionary<string, StepVariable>();
 
-    public virtual WorkflowErrorHandling? ErrorBehavior { get; set; }
-
-    public virtual TimeSpan? RetryInterval { get; set; }
-
     protected abstract Task<ExecutionResult> RunAsync(StepExecutionContext context);
 
     public virtual async Task<ExecutionResult> ExecuteAsync(StepExecutionContext context)
@@ -64,8 +60,6 @@ public abstract class WorkflowStep
         Type = step.Type;
         NextStepId = step.NextStepId;
         ParentId = step.ParentId;
-        ErrorBehavior = step.ErrorBehavior;
-        RetryInterval = step.RetryInterval;
         Inputs = step.Inputs;
         Outputs = step.Outputs;
         WorkflowDefinition = workflowDefinition;

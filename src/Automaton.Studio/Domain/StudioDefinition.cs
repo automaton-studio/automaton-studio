@@ -14,10 +14,6 @@ public class StudioDefinition
 
     public string Name { get; set; }
 
-    public WorkflowErrorHandling DefaultErrorBehavior { get; set; }
-
-    public TimeSpan? DefaultErrorRetryInterval { get; set; }
-
     public List<StudioStep> Steps { get; set; } = new List<StudioStep>();
 
     public StudioFlow Flow { get; set; }

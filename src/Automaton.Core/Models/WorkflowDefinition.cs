@@ -8,10 +8,6 @@ public class WorkflowDefinition
 
     public IDictionary<string, WorkflowStep> Steps { get; set; } = new Dictionary<string, WorkflowStep>();
 
-    public WorkflowErrorHandling DefaultErrorBehavior { get; set; }
-
-    public TimeSpan? DefaultErrorRetryInterval { get; set; }
-
     public WorkflowStep GetFirstStep()
     {
         return Steps.First().Value;

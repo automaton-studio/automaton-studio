@@ -21,7 +21,7 @@
             <Dropdown Placement="@Placement.Left" Trigger="@(new Trigger[] { Trigger.Click })">
                 <Overlay>
                     <Menu>
-                        <MenuItem Icon="edit" OnClick="@(() => OnSettings(Step))">
+                        <MenuItem Icon="setting" OnClick="@(() => OnSettings(Step))">
                             Settings
                         </MenuItem>
                         @if (Step.HasProperties)

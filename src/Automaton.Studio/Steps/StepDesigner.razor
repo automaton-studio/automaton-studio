@@ -17,7 +17,7 @@
             <Dropdown Placement="@Placement.Left" Trigger="@(new Trigger[] { Trigger.Click })">
                 <Overlay>
                     <Menu>
-                        <MenuItem Icon="edit" OnClick="@(() => OnSettings(Step))">
+                        <MenuItem Icon="setting" OnClick="@(() => OnSettings(Step))">
                             Settings
                         </MenuItem>
                         @if (Step.HasProperties)
@@ -46,15 +46,19 @@
 {
     private RenderFragment _content =
     @<div>
-                <Space Direction="DirectionVHType.Vertical">
-                    <SpaceItem>
-                        <Icon Type="edit" Theme="outline" /><a href="#" class="options-menu-text">Edit</a>
-                    </SpaceItem>
-                </Space>
+                        <Space Direction="DirectionVHType.Vertical">
+                            <SpaceItem>
+                                <Icon Type="edit" Theme="outline" /><a href="#" class="options-menu-text">Edit</a>
+                            </SpaceItem>
+                        </Space>
     </div>;
 }
 
 <style>
+    .ant-menu-title-content {
+        padding-left: 4px !important;
+    }
+
     .options-menu-text {
         margin-left: 10px;
     }

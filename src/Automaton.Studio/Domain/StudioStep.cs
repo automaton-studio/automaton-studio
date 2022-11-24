@@ -57,10 +57,6 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public string CancelCondition { get; set; }
 
-    public WorkflowErrorHandling? ErrorBehavior { get; set; }
-
-    public TimeSpan? RetryInterval { get; set; }
-
     public virtual bool HasProperties { get; set; } = true;
 
     public string NextStepId { get; set; }

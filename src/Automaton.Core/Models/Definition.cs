@@ -8,10 +8,6 @@ public class Definition
 
     public string Name { get; set; }
 
-    public WorkflowErrorHandling DefaultErrorBehavior { get; set; }
-
-    public TimeSpan? DefaultErrorRetryInterval { get; set; }
-
     public List<Step> Steps { get; set; } = new List<Step>();
 
     public Definition()

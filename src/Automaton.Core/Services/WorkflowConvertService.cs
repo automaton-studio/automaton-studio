@@ -27,10 +27,9 @@ public class WorkflowConvertService
         {
             var workflowDefinition = new WorkflowDefinition
             {
-                Id = definition.Id,
-                DefaultErrorBehavior = definition.DefaultErrorBehavior,
-                DefaultErrorRetryInterval = definition.DefaultErrorRetryInterval
+                Id = definition.Id
             };
+
             workflowDefinition.Steps = ConvertSteps(definition.Steps, workflowDefinition);
 
             workflow.Definitions.Add(workflowDefinition);

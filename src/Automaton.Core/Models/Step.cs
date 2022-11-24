@@ -14,10 +14,6 @@ public class Step
 
     public string Type { get; set; }
 
-    public WorkflowErrorHandling? ErrorBehavior { get; set; }
-
-    public TimeSpan? RetryInterval { get; set; }
-
     public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
 
     public IDictionary<string, StepVariable> Outputs { get; set; } = new Dictionary<string, StepVariable>();
