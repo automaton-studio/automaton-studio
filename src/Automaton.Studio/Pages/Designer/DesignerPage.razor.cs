@@ -141,8 +141,7 @@ partial class DesignerPage : ComponentBase
         var options = new DrawerOptions()
         {
             Title = Labels.Settings,
-            Width = 350,
-            OffsetX = 50
+            Width = 350
         };
 
         var drawerRef = await DrawerService.CreateAsync<FlowSettings, StudioFlow, bool>(options, DesignerViewModel.Flow);
@@ -158,8 +157,7 @@ partial class DesignerPage : ComponentBase
         var options = new DrawerOptions()
         {
             Title = Labels.Variables,
-            Width = 350,
-            OffsetX = 50
+            Width = 350
         };
 
         var drawerRef = await DrawerService.CreateAsync<FlowVariables, StudioFlow, bool>(options, DesignerViewModel.Flow);
