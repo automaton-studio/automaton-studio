@@ -23,7 +23,6 @@
 </Form>
 
 @code {
-    private string oldVariableName;
     private Form<AddVariableStep> form;
     private AddVariableStep step;
     private FluentValidationValidator fluentValidationValidator;
@@ -31,8 +30,7 @@
     protected override void OnInitialized()
     {
         step = this.Options;
-
-        oldVariableName = step.VariableName;
+        step.OldVariableName = step.VariableName;
 
         base.OnInitialized();
     }
@@ -53,7 +51,7 @@
         {
             var variable = new StepVariable
             {
-                OldName = oldVariableName,
+                OldName = step.OldVariableName,
                 Name = step.VariableName,
                 Value = step.VariableValue
             };

@@ -20,6 +20,8 @@ public class AddVariableStep : StudioStep
         set => Inputs[nameof(VariableName)] = value;
     }
 
+    public string OldVariableName { get; set; }
+
     public string VariableValue
     {
         get => Inputs.ContainsKey(nameof(VariableValue)) ?
@@ -27,8 +29,9 @@ public class AddVariableStep : StudioStep
         set => Inputs[nameof(VariableValue)] = value;
     }
 
-    public AddVariableStep() 
+    public bool VariableNameIsTheSame()
     {
+        return string.Compare(OldVariableName, VariableName, true) == 0;
     }
 
     public override Type GetDesignerComponent()

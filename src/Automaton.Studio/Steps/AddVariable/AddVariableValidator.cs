@@ -20,7 +20,7 @@ public class AddVariableValidator : AbstractValidator<AddVariableStep>
     {
         var flowVariables = step.Definition.Flow.Variables;
 
-        var nameIsUnique = !flowVariables.ContainsKey(step.VariableName);
+        var nameIsUnique = step.VariableNameIsTheSame() || !flowVariables.ContainsKey(step.VariableName);
 
         return nameIsUnique;
     }
