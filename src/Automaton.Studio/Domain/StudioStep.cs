@@ -135,14 +135,14 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public void SetOutputVariable(StepVariable variable)
     {
-        if (!Outputs.ContainsKey(variable.Key))
+        if (Outputs.ContainsKey(variable.OldName))
         {
-            // Step.Outputs dictionary uses variable.Key as a key
-            Outputs.Add(variable.Key, variable);
+            Outputs.Remove(variable.OldName);
         }
 
-        // Flow.Variables dictionary uses variable.Name as a key
-        Flow.SetVariable(variable.Name, variable.Value);
+        Outputs.Add(variable.Name, variable);
+
+        Flow.SetVariable(variable);
     }
 
     public IEnumerable<string> GetVariableNames()

@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using System.Linq;
 
 namespace Automaton.Studio.Pages.Designer.Components.NewVariable;
 
@@ -10,7 +9,7 @@ public class VariableValidator : AbstractValidator<VariableModel>
         RuleFor(x => x.Name).NotEmpty().MaximumLength(50).WithMessage(Resources.Errors.NameRequired);
 
         When(x => !string.IsNullOrEmpty(x.Name), () => {
-            RuleFor(x => x).Must(NameIsUnique).WithMessage(Resources.Errors.VariableNameExists);
+            RuleFor(x => x).Must(NameIsUnique).WithMessage(Resources.Errors.NameExists);
         });     
     }
 

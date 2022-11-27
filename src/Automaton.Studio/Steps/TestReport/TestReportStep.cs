@@ -46,7 +46,7 @@ public class TestReportStep : StudioStep
     {
         var reportVariable = new StepVariable
         {
-            Key = ReportVariableName,
+            OldName = ReportVariableName,
             Name = $"{ReportVariableName}{Flow.GetNumberOfSteps<TestReportStep>()}",
         };
 

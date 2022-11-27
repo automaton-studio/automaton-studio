@@ -3,7 +3,7 @@
 @inherits FeedbackComponent<EmitLogStep>
 
 <Form @ref="form"
-      Model="@activity"
+      Model="@step"
       LabelColSpan="4"
       WrapperColSpan="20">
     <Validator>
@@ -21,12 +21,12 @@
 
 @code {
     private Form<EmitLogStep> form;
-    private EmitLogStep activity;
+    private EmitLogStep step;
     private FluentValidationValidator fluentValidationValidator;
 
     protected override void OnInitialized()
     {
-        activity = this.Options;
+        step = this.Options;
         base.OnInitialized();
     }
 

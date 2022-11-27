@@ -115,6 +115,15 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name already exists.
+        /// </summary>
+        public static string NameExists {
+            get {
+                return ResourceManager.GetString("NameExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name is required.
         /// </summary>
         public static string NameRequired {
@@ -147,15 +156,6 @@ namespace Automaton.Studio.Resources {
         public static string ValueRequired {
             get {
                 return ResourceManager.GetString("ValueRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Variable name already exists.
-        /// </summary>
-        public static string VariableNameExists {
-            get {
-                return ResourceManager.GetString("VariableNameExists", resourceCulture);
             }
         }
     }

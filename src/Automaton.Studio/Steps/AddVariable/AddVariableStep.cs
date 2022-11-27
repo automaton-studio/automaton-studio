@@ -16,14 +16,14 @@ public class AddVariableStep : StudioStep
     public string VariableName
     {
         get => Inputs.ContainsKey(nameof(VariableName)) ?
-               Inputs[nameof(VariableName)].ToString() : string.Empty;
+               Inputs[nameof(VariableName)]?.ToString() : string.Empty;
         set => Inputs[nameof(VariableName)] = value;
     }
 
     public string VariableValue
     {
         get => Inputs.ContainsKey(nameof(VariableValue)) ?
-               Inputs[nameof(VariableValue)].ToString() : string.Empty;
+               Inputs[nameof(VariableValue)]?.ToString() : string.Empty;
         set => Inputs[nameof(VariableValue)] = value;
     }
 

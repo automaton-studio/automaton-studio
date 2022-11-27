@@ -135,6 +135,9 @@
   <data name="MessageRequired" xml:space="preserve">
     <value>Message is required</value>
   </data>
+  <data name="NameExists" xml:space="preserve">
+    <value>Name already exists</value>
+  </data>
   <data name="NameRequired" xml:space="preserve">
     <value>Name is required</value>
   </data>
@@ -146,8 +149,5 @@
   </data>
   <data name="ValueRequired" xml:space="preserve">
     <value>Value is required</value>
-  </data>
-  <data name="VariableNameExists" xml:space="preserve">
-    <value>Variable name already exists</value>
   </data>
 </root>

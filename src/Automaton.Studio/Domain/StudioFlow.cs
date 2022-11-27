@@ -1,4 +1,5 @@
-﻿using Automaton.Steps;
+﻿using Automaton.Core.Models;
+using Automaton.Steps;
 
 namespace Automaton.Studio.Domain;
 
@@ -33,16 +34,17 @@ public class StudioFlow
         Definitions.Remove(definition);
     }
 
-    public void SetVariable(string name, object value)
+    public void SetVariable(StepVariable variable)
     {
-        if (Variables.ContainsKey(name))
+        if (!variable.IsNew())
         {
-            Variables[name] = value;
+            if (Variables.ContainsKey(variable.OldName))
+            {
+                Variables.Remove(variable.OldName);
+            }
         }
-        else
-        {
-            Variables.Add(name, value);
-        }
+
+        Variables.Add(variable.Name, variable.Value);
     }
 
     public int GetNumberOfSteps<T>()
