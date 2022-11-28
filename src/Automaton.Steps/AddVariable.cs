@@ -12,3 +12,4 @@ public class AddVariable : WorkflowStep
         return Task.FromResult(ExecutionResult.Next());
     }
 }
+ 

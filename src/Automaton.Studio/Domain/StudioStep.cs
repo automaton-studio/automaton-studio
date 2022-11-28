@@ -1,5 +1,4 @@
-﻿using Automaton.Core.Enums;
-using Automaton.Core.Models;
+﻿using Automaton.Core.Models;
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Events;
 using Automaton.Studio.Steps.Sequence;
@@ -135,12 +134,14 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public void SetOutputVariable(StepVariable variable)
     {
-        if (Outputs.ContainsKey(variable.OldName))
+        if (Outputs.ContainsKey(variable.Key))
         {
-            Outputs.Remove(variable.OldName);
+            Outputs[variable.Key] = variable;
         }
-
-        Outputs.Add(variable.Name, variable);
+        else
+        {
+            Outputs.Add(variable.Key, variable);
+        }
 
         Flow.SetVariable(variable);
     }

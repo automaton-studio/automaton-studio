@@ -27,6 +27,8 @@ public class TestReportStep : StudioStep
 
     public override bool HasProperties { get; set; }
 
+    public StepVariable ReportVariable => Outputs[ReportVariableName];
+
     public TestReportStep()
     {
         Finalize += OnFinalize;
@@ -46,6 +48,7 @@ public class TestReportStep : StudioStep
     {
         var reportVariable = new StepVariable
         {
+            Key = ReportVariableName,
             OldName = ReportVariableName,
             Name = $"{ReportVariableName}{Flow.GetNumberOfSteps<TestReportStep>()}",
         };
