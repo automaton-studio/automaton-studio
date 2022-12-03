@@ -31,11 +31,11 @@ public class StudioDefinition
     {
         Steps.Remove(step);
 
+        StepRemoved?.Invoke(this, new StepEventArgs(step));
+
         Flow.DeleteVariables(step.GetVariableNames());
 
         UpdateStepConnections();
-
-        StepRemoved?.Invoke(this, new StepEventArgs(step));
     }
 
     public void DeleteSteps(int index, int count)

@@ -36,15 +36,15 @@ public class StudioFlow
 
     public void SetVariable(StepVariable variable)
     {
-        if (!variable.IsNew())
+        if (Variables.ContainsKey(variable.OldName))
         {
-            if (Variables.ContainsKey(variable.OldName))
-            {
-                Variables.Remove(variable.OldName);
-            }
+            Variables.Remove(variable.OldName);
         }
 
-        Variables.Add(variable.Name, variable.Value);
+        if (!Variables.ContainsKey(variable.Name))
+        {
+            Variables.Add(variable.Name, variable.Value);
+        }
     }
 
     public int GetNumberOfSteps<T>()

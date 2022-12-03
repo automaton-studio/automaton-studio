@@ -1,0 +1,55 @@
+﻿@using Automaton.Studio.Domain
+@using Automaton.Core.Models
+
+@if (editing)
+{
+    <Input Type="text" @bind-Value="Variable.Name" OnBlur="StopEdit" OnPressEnter="OnPressEnter" AutoFocus />
+}
+else
+{
+    <a href="" @onclick:preventDefault class="editable-cell-value-wrap" @onclick="()=>StartEdit()">@Variable.Name</a>
+}
+
+@code {
+    private bool editing;
+
+    [Parameter]
+    public StepVariable Variable { get; set; }
+
+    [Parameter]
+    public StudioStep Step { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    private void OnPressEnter()
+    {
+        StopEdit();
+    }
+
+    private void StartEdit()
+    {
+        editing = true;
+
+        Variable.OldName = Variable.Name;
+    }
+
+    private void StopEdit()
+    {
+        editing = false;
+
+        Step.SetOutputVariable(Variable);
+    }
+}
+
+<style>
+    .editable-cell {
+        position: relative;
+    }
+
+    .editable-cell-value-wrap {
+        cursor: pointer;
+    }
+</style>

@@ -1,11 +1,12 @@
 ﻿@using Automaton.Studio.Steps
+@using Automaton.Studio.Components
 
 <StepDesigner Step=@Step>
     <div>
         <b>@Step.DisplayName</b>
     </div>
     <div>
-        Write report as <a href="" @onclick:preventDefault>@Step.ReportVariable.Name</a> variable
+        Write report as <StepVariableInput Step="Step" Variable="@Step.ReportVariable" /> variable
     </div>
 </StepDesigner>
 
@@ -18,4 +19,3 @@
         base.OnInitialized();
     }
 }
-

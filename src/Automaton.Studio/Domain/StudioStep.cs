@@ -148,7 +148,7 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public IEnumerable<string> GetVariableNames()
     {
-        return Outputs.Select(x => x.Key);
+        return Outputs.Select(x => x.Value.Name);
     }
 
     public void InvokeFinalize()
