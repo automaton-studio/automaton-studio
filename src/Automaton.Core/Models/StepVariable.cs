@@ -7,8 +7,8 @@ public class StepVariable
     public string? Name { get; set; }
     public object? Value { get; set; }
 
-    public bool IsNew()
+    public bool VariableNameIsTheSame()
     {
-        return string.IsNullOrEmpty(OldName);
+        return string.Compare(OldName, Name, true) == 0;
     }
 }

@@ -3,7 +3,12 @@
 
 @if (editing)
 {
-    <Input Type="text" @bind-Value="Variable.Name" OnBlur="StopEdit" OnPressEnter="OnPressEnter" AutoFocus />
+    <Input Type="text" @bind-Value="@Variable.Name" OnBlur="StopEdit" OnPressEnter="OnPressEnter" AutoFocus />
+
+    if (ValidationErrors)
+    {
+        <span class="validation-message">@validationMessage</span>
+    }
 }
 else
 {
@@ -12,6 +17,9 @@ else
 
 @code {
     private bool editing;
+    private string validationMessage;
+
+    private bool ValidationErrors => !string.IsNullOrEmpty(validationMessage);
 
     [Parameter]
     public StepVariable Variable { get; set; }
@@ -31,16 +39,56 @@ else
 
     private void StartEdit()
     {
-        editing = true;
-
         Variable.OldName = Variable.Name;
+
+        validationMessage = string.Empty;
+        editing = true;
     }
 
     private void StopEdit()
     {
-        editing = false;
+        if (Variable.VariableNameIsTheSame())
+        {
+            editing = false;
+        }
 
-        Step.SetOutputVariable(Variable);
+        if (VariableNameIsValid())
+        {
+            Step.SetOutputVariable(Variable);
+
+            editing = false;
+        }
+    }
+
+    private bool VariableNameIsValid()
+    {
+        if (NameIsEmpty())
+        {
+            validationMessage = Resources.Errors.NameRequired;
+            return false;
+        }
+
+        if (NameIsNotUnique())
+        {
+            validationMessage = Resources.Errors.NameExists;
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool NameIsEmpty()
+    {
+        return string.IsNullOrEmpty(Variable.Name);
+    }
+
+    private bool NameIsNotUnique()
+    {
+        var flowVariables = Step.Definition.Flow.Variables;
+
+        var nameIsNotUnique = flowVariables.ContainsKey(Variable.Name);
+
+        return nameIsNotUnique;
     }
 }
 
