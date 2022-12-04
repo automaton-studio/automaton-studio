@@ -3,16 +3,29 @@
 
 @if (editing)
 {
-    <Input Type="text" @bind-Value="@Variable.Name" OnBlur="StopEdit" OnPressEnter="OnPressEnter" AutoFocus />
+    @*<Input Type="text" @bind-Value="@Variable.Name" OnBlur="StopEdit" OnPressEnter="OnPressEnter" AutoFocus />
 
     if (ValidationErrors)
     {
         <span class="validation-message">@validationMessage</span>
-    }
+    }*@
 }
 else
 {
-    <a href="" @onclick:preventDefault class="editable-cell-value-wrap" @onclick="()=>StartEdit()">@Variable.Name</a>
+    @*<a href="" @onclick:preventDefault class="editable-cell-value-wrap" @onclick="()=>StartEdit()">@Variable.Name</a>*@
+}
+
+<div class="step-variable-input">
+
+    <span class="input" role="textbox" contenteditable="true" @onclick="()=>StartEdit()" @onblur="()=>StopEdit()">
+        @Variable.Name
+    </span>
+
+</div>
+
+@if (ValidationErrors)
+{
+    <span class="validation-message">@validationMessage</span>
 }
 
 @code {
@@ -99,5 +112,24 @@ else
 
     .editable-cell-value-wrap {
         cursor: pointer;
+    }
+
+    .step-variable-input > *[contenteditable="true"] {
+        color: #1890FF;
+        background-color: #E6F0FF;
+        padding: 3px 5px;
+        border-radius: 10px;
+        outline: 0px;
+    }
+
+    .step-variable-input:hover > *[contenteditable="true"] {
+        outline: 1px solid #1890FF;
+        outline-offset: -1px;
+    }
+
+    .step-variable-input > *[contenteditable="true"]:active,
+    .step-variable-input > *contenteditable="true"]:focus {
+        outline: 1px solid #1890FF;
+        outline-offset: -1px;
     }
 </style>
