@@ -2,6 +2,7 @@
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
+using Automaton.Studio.Steps.TestAssert;
 
 namespace Automaton.Studio.Steps.TestReport;
 
@@ -25,8 +26,6 @@ public class TestReportStep : StudioStep
 
     public string Report { get; set; }
 
-    public override bool HasProperties { get; set; }
-
     public StepVariable ReportVariable => Outputs[ReportVariableName];
 
     public TestReportStep()
@@ -41,7 +40,7 @@ public class TestReportStep : StudioStep
 
     public override Type GetPropertiesComponent()
     {
-        throw new NotImplementedException();
+        return typeof(TestReportProperties);
     }
 
     private void OnFinalize(object sender, StepEventArgs e)

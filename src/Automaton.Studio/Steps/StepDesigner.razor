@@ -20,12 +20,12 @@
                         <MenuItem Icon="setting" OnClick="@(() => OnSettings(Step))">
                             Settings
                         </MenuItem>
-                        @if (Step.HasProperties)
-                        {
+                            @if (Step.HasProperties)
+                            {
                             <MenuItem Icon="edit" OnClick="@(() => OnEdit(Step))">
                                 Edit
                             </MenuItem>
-                        }
+                            }
                         <MenuItem Icon="delete" OnClick="@(() => OnDelete(Step))">
                             Delete
                         </MenuItem>
@@ -46,11 +46,11 @@
 {
     private RenderFragment _content =
     @<div>
-                        <Space Direction="DirectionVHType.Vertical">
-                            <SpaceItem>
-                                <Icon Type="edit" Theme="outline" /><a href="#" class="options-menu-text">Edit</a>
-                            </SpaceItem>
-                        </Space>
+        <Space Direction="DirectionVHType.Vertical">
+            <SpaceItem>
+                <Icon Type="edit" Theme="outline" /><a href="#" class="options-menu-text">Edit</a>
+            </SpaceItem>
+        </Space>
     </div>;
 }
 
@@ -104,5 +104,22 @@
         background-color: #EFEFEF;
         opacity: 0.5;
     }
+
+    .designer-expression {
+        color: #1890FF;
+        padding: 1px 2px;
+    }
+
+    .designer-variable-name {
+        color: #1890FF;
+        background-color: #E6F0FF;
+        padding: 1px 5px;
+        border-radius: 10px;
+    }
+
+        .designer-variable-name:hover {
+            outline: 1px solid #1890FF;
+            outline-offset: -1px;
+        }
 
 </style>
