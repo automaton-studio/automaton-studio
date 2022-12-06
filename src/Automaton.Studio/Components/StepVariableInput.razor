@@ -3,36 +3,15 @@
 
 @if (editing)
 {
-    @*<Input Type="text" @bind-Value="@Variable.Name" OnBlur="StopEdit" OnPressEnter="OnPressEnter" AutoFocus />
-
-    if (ValidationErrors)
-    {
-        <span class="validation-message">@validationMessage</span>
-    }*@
+    <Input Type="text" @bind-Value="@Variable.Name" OnBlur="StopEdit" OnPressEnter="OnPressEnter" AutoFocus />
 }
 else
 {
-    @*<a href="" @onclick:preventDefault class="editable-cell-value-wrap" @onclick="()=>StartEdit()">@Variable.Name</a>*@
-}
-
-<div class="step-variable-input">
-
-    <span class="input" role="textbox" contenteditable="true" @onclick="()=>StartEdit()" @onblur="()=>StopEdit()">
-        @Variable.Name
-    </span>
-
-</div>
-
-@if (ValidationErrors)
-{
-    <span class="validation-message">@validationMessage</span>
+    <span @onclick:preventDefault class="designer-variable-name" @onclick="()=>StartEdit()">@Variable.Name</span>
 }
 
 @code {
     private bool editing;
-    private string validationMessage;
-
-    private bool ValidationErrors => !string.IsNullOrEmpty(validationMessage);
 
     [Parameter]
     public StepVariable Variable { get; set; }
@@ -54,82 +33,31 @@ else
     {
         Variable.OldName = Variable.Name;
 
-        validationMessage = string.Empty;
         editing = true;
     }
 
     private void StopEdit()
     {
-        if (Variable.VariableNameIsTheSame())
-        {
-            editing = false;
-        }
-
-        if (VariableNameIsValid())
+        if (Variable.VariableNameIsNotTheSame())
         {
             Step.SetOutputVariable(Variable);
 
             editing = false;
         }
     }
-
-    private bool VariableNameIsValid()
-    {
-        if (NameIsEmpty())
-        {
-            validationMessage = Resources.Errors.NameRequired;
-            return false;
-        }
-
-        if (NameIsNotUnique())
-        {
-            validationMessage = Resources.Errors.NameExists;
-            return false;
-        }
-
-        return true;
-    }
-
-    private bool NameIsEmpty()
-    {
-        return string.IsNullOrEmpty(Variable.Name);
-    }
-
-    private bool NameIsNotUnique()
-    {
-        var flowVariables = Step.Definition.Flow.Variables;
-
-        var nameIsNotUnique = flowVariables.ContainsKey(Variable.Name);
-
-        return nameIsNotUnique;
-    }
 }
 
 <style>
-    .editable-cell {
-        position: relative;
-    }
-
-    .editable-cell-value-wrap {
-        cursor: pointer;
-    }
-
-    .step-variable-input > *[contenteditable="true"] {
+   
+    .designer-variable-name {
         color: #1890FF;
         background-color: #E6F0FF;
-        padding: 3px 5px;
+        padding: 2px 5px;
         border-radius: 10px;
-        outline: 0px;
     }
 
-    .step-variable-input:hover > *[contenteditable="true"] {
-        outline: 1px solid #1890FF;
-        outline-offset: -1px;
-    }
-
-    .step-variable-input > *[contenteditable="true"]:active,
-    .step-variable-input > *contenteditable="true"]:focus {
-        outline: 1px solid #1890FF;
-        outline-offset: -1px;
-    }
+        .designer-variable-name:hover {
+            outline: 1px solid #1890FF;
+            outline-offset: -1px;
+        }
 </style>

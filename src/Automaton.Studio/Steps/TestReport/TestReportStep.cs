@@ -26,7 +26,10 @@ public class TestReportStep : StudioStep
 
     public string Report { get; set; }
 
-    public StepVariable ReportVariable => Outputs[ReportVariableName];
+    public StepVariable ReportVariable => 
+        Outputs.ContainsKey(ReportVariableName) ? 
+        Outputs[ReportVariableName] : 
+        new StepVariable();
 
     public TestReportStep()
     {
@@ -44,6 +47,11 @@ public class TestReportStep : StudioStep
     }
 
     private void OnFinalize(object sender, StepEventArgs e)
+    {
+        AddReportVariable();
+    }
+
+    private void AddReportVariable()
     {
         var reportVariable = new StepVariable
         {

@@ -11,4 +11,9 @@ public class StepVariable
     {
         return string.Compare(OldName, Name, true) == 0;
     }
+
+    public bool VariableNameIsNotTheSame()
+    {
+        return !VariableNameIsTheSame();
+    }
 }

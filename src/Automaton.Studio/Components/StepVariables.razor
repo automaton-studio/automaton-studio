@@ -2,14 +2,14 @@
 @using Automaton.Core.Models
 @using Blazored.FluentValidation
 
-@foreach (var variable in Step.Outputs.Values)
+@foreach (var variable in step.Outputs.Values)
 {
-    <StepVariableInput Step="Step" Variable="variable" />
+   <StepVariableInput Step="@step" Variable="@variable" />
 }
     
 @code {
     [Parameter]
-    public StudioStep Step { get; set; }
+    public StudioStep step { get; set; }
 
     protected override void OnInitialized()
     {
