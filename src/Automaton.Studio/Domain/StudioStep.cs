@@ -132,7 +132,7 @@ public abstract class StudioStep : INotifyPropertyChanged
         return !string.IsNullOrEmpty(ParentId);
     }
 
-    public void SetOutputVariable(StepVariable variable)
+    public void SetVariable(StepVariable variable)
     {
         if (Outputs.ContainsKey(variable.Key))
         {
@@ -146,9 +146,9 @@ public abstract class StudioStep : INotifyPropertyChanged
         Flow.SetVariable(variable);
     }
 
-    public IEnumerable<string> GetVariableNames()
+    public IEnumerable<StepVariable> GetVariables()
     {
-        return Outputs.Select(x => x.Value.Name);
+        return Outputs.Values;
     }
 
     public void InvokeFinalize()

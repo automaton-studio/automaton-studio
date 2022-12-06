@@ -1,5 +1,6 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Steps;
+using System.Collections.Generic;
 
 namespace Automaton.Studio.Domain;
 
@@ -36,7 +37,7 @@ public class StudioFlow
 
     public void SetVariable(StepVariable variable)
     {
-        if (!HasStepsUsingVariableName(variable))
+        if (!HasStepsUsingVariableOldName(variable))
         {
             Variables.Remove(variable.OldName);
         }
@@ -108,13 +109,18 @@ public class StudioFlow
         OutputVariables.Remove(variable);
     }
 
-    public void DeleteVariable(string name)
+    public void DeleteVariable(StepVariable variable)
     {
-        if(HasStepsUsingVariableName())
-        Variables.Remove(name);
+        if (!HasStepsUsingVariableName(variable))
+        {
+            if (Variables.ContainsKey(variable.Name))
+            {
+                Variables.Remove(variable.Name);
+            }
+        }
     }
 
-    public void DeleteVariables(IEnumerable<string> variables)
+    public void DeleteVariables(IEnumerable<StepVariable> variables)
     {
         foreach (var variable in variables)
         {
@@ -122,10 +128,18 @@ public class StudioFlow
         }
     }
 
-    private bool HasStepsUsingVariableName(StepVariable variable)
+    private bool HasStepsUsingVariableOldName(StepVariable variable)
     {
         var stepVariables = Definitions.SelectMany(x => x.Steps).SelectMany(x => x.Outputs);
         var variablesExists = stepVariables.Select(x => x.Value).Any(x => x.Name == variable.OldName);
+
+        return variablesExists;
+    }
+
+    private bool HasStepsUsingVariableName(StepVariable variable)
+    {
+        var stepVariables = Definitions.SelectMany(x => x.Steps).SelectMany(x => x.Outputs);
+        var variablesExists = stepVariables.Select(x => x.Value).Any(x => x.Name == variable.Name);
 
         return variablesExists;
     }

@@ -60,6 +60,6 @@ public class TestReportStep : StudioStep
             Name = $"{ReportVariableName}{Flow.GetNumberOfSteps<TestReportStep>()}",
         };
 
-        SetOutputVariable(reportVariable);
+        SetVariable(reportVariable);
     }
 }
