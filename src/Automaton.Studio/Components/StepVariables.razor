@@ -2,10 +2,16 @@
 @using Automaton.Core.Models
 @using Blazored.FluentValidation
 
-@foreach (var variable in step.Outputs.Values)
-{
-   <StepVariableInput Step="@step" Variable="@variable" />
-}
+<Collapse Bordered="false" DefaultActiveKey="@(new[]{"1"})" Class="variables-collapse">
+    <ChildContent>
+        <Panel Header="Variables produced" Key="1" Class="variables-collapse-panel">
+            @foreach (var variable in step.Outputs.Values)
+            {
+                <StepVariableInput Step="@step" Variable="@variable" />
+            }
+        </Panel>
+    </ChildContent>
+</Collapse>
     
 @code {
     [Parameter]
@@ -16,3 +22,17 @@
         base.OnInitialized();
     }
 }
+
+<style>
+    .variables-collapse .ant-collapse-header-text {
+        font-weight: bold;
+    }
+
+    [data-theme='compact'] 
+    .variables-collapse .variables-collapse-panel,
+    .variables-collapse .variables-collapse-panel {
+        background: #fff;
+        border: 0px;
+        overflow: hidden;
+    }
+</style>
