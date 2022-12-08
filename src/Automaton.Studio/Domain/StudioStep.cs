@@ -9,12 +9,11 @@ namespace Automaton.Studio.Domain;
 
 public abstract class StudioStep : INotifyPropertyChanged
 {
-    private bool isFinal;
-
     #region Events
 
     public event EventHandler<StepEventArgs> Finalize;
     public event EventHandler<StepEventArgs> Finalized;
+    public event EventHandler<StepEventArgs> Created;
 
     #endregion
 
@@ -61,6 +60,8 @@ public abstract class StudioStep : INotifyPropertyChanged
     public string NextStepId { get; set; }
 
     public string ParentId { get; set; }
+
+    public bool IsFinal { get; set; }
 
     public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
 
@@ -112,15 +113,6 @@ public abstract class StudioStep : INotifyPropertyChanged
         return Class == SelectedStepClass;
     }
 
-    public void MarkAsFinal()
-    {
-        isFinal = true;
-    }
-
-    public bool IsFinal()
-    {
-        return isFinal;
-    }
 
     public bool IsVisible()
     {
@@ -134,13 +126,18 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public void SetVariable(StepVariable variable)
     {
-        if (Outputs.ContainsKey(variable.Key))
+        if (Outputs.ContainsKey(variable.OldName))
         {
-            Outputs[variable.Key] = variable;
+            Outputs.Remove(variable.OldName);
+        }
+
+        if (Outputs.ContainsKey(variable.Name))
+        {
+            Outputs[variable.Name] = variable;
         }
         else
         {
-            Outputs.Add(variable.Key, variable);
+            Outputs.Add(variable.Name, variable);
         }
 
         Flow.SetVariable(variable);
@@ -149,6 +146,11 @@ public abstract class StudioStep : INotifyPropertyChanged
     public IEnumerable<StepVariable> GetVariables()
     {
         return Outputs.Values;
+    }
+
+    public void InvokeCreated()
+    {
+        Created?.Invoke(this, new StepEventArgs(this));
     }
 
     public void InvokeFinalize()

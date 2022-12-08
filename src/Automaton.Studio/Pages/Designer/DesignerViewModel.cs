@@ -22,11 +22,6 @@ public class DesignerViewModel
     public StudioDefinition ActiveDefinition { get; set; }
 
     public event EventHandler<StepEventArgs> StepCreated;
-    public event EventHandler<StepEventArgs> StepAdded
-    {
-        add { ActiveDefinition.StepAdded += value; }
-        remove { ActiveDefinition.StepAdded -= value; }
-    }
 
     public event EventHandler<StepEventArgs> StepRemoved
     {
@@ -76,13 +71,14 @@ public class DesignerViewModel
     {
         var step = stepFactory.CreateStep(solutionStep.Name);
         step.Definition = ActiveDefinition;
+        step.InvokeCreated();
 
         StepCreated?.Invoke(this, new StepEventArgs(step));
     }
 
     public void DeleteStep(StudioStep step)
     {
-        ActiveDefinition.Steps.Remove(step); 
+        ActiveDefinition.DeleteStep(step);
     }
 
     public async Task LoadFlow(Guid flowId)

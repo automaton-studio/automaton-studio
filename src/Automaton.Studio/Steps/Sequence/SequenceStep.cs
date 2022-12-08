@@ -3,7 +3,6 @@ using Automaton.Studio.Domain;
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
-using Automaton.Studio.Steps.TestAssert;
 using System.Reflection;
 
 namespace Automaton.Studio.Steps.Sequence;
@@ -77,7 +76,7 @@ public class SequenceStep : StudioStep
     {
         base.SetSelectClass();
 
-        if (!IsFinal())
+        if (!IsFinal)
             return;
 
         var childrenPlusEndStep = GetChildrenAndEndStep();
@@ -138,6 +137,7 @@ public class SequenceStep : StudioStep
         sequenceEndStep.Definition = Definition;
         sequenceEndStep.SequenceStepId = Id;
         sequenceEndStep.ParentId = ParentId;
+        sequenceEndStep.IsFinal = true;
 
         return sequenceEndStep;
     }

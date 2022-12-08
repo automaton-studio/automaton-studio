@@ -59,7 +59,7 @@ public partial class StepDesigner : ComponentBase
         };
     }
 
-    private static void OnDelete(StudioStep step)
+    private void OnDelete(StudioStep step)
     {
         step.Definition.DeleteStep(step);
     }

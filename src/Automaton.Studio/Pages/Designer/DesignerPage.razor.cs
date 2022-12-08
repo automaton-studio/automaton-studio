@@ -50,7 +50,7 @@ partial class DesignerPage : ComponentBase
 
     private async Task OnItemDrop(StudioStep step)
     {
-        if (!step.IsFinal())
+        if (!step.IsFinal)
         {
             await NewStepDialog(step);
         }
@@ -77,11 +77,6 @@ partial class DesignerPage : ComponentBase
         };
     }
 
-    private void OnStepAdded(object sender, StepEventArgs e)
-    {
-        StateHasChanged();
-    }
-
     private void OnStepRemoved(object sender, StepEventArgs e)
     {
         StateHasChanged();
@@ -97,7 +92,6 @@ partial class DesignerPage : ComponentBase
 
             // Setup event handlers after flow is loaded
             DesignerViewModel.StepCreated += OnStepCreated;
-            DesignerViewModel.StepAdded += OnStepAdded;
             DesignerViewModel.StepRemoved += OnStepRemoved;
         }
     }
@@ -185,7 +179,6 @@ partial class DesignerPage : ComponentBase
             DesignerViewModel.CreateDefinition(newDefinitionModel.Name);
             FlowExplorerViewModel.RefreshDefinitions();
 
-            DesignerViewModel.StepAdded += OnStepAdded;
             DesignerViewModel.StepRemoved += OnStepRemoved;
 
             StateHasChanged();

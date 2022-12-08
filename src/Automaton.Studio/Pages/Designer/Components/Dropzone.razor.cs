@@ -338,7 +338,7 @@ public partial class Dropzone : ComponentBase
                 else
                 {
                     //insert item to new zone if not final
-                    if (!activeItem.IsFinal())
+                    if (!activeItem.IsFinal)
                         Steps.Insert(Steps.Count, activeItem);
                 }
             }

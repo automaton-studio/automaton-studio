@@ -2,7 +2,6 @@
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
-using Automaton.Studio.Steps.TestAssert;
 
 namespace Automaton.Studio.Steps.TestReport;
 
@@ -26,14 +25,11 @@ public class TestReportStep : StudioStep
 
     public string Report { get; set; }
 
-    public StepVariable ReportVariable => 
-        Outputs.ContainsKey(ReportVariableName) ? 
-        Outputs[ReportVariableName] : 
-        new StepVariable();
+    public StepVariable ReportVariable { get; set; }
 
     public TestReportStep()
     {
-        Finalize += OnFinalize;
+        Created += OnCreated;
     }
 
     public override Type GetDesignerComponent()
@@ -46,20 +42,14 @@ public class TestReportStep : StudioStep
         return typeof(TestReportProperties);
     }
 
-    private void OnFinalize(object sender, StepEventArgs e)
+    private void OnCreated(object sender, StepEventArgs e)
     {
-        AddReportVariable();
-    }
-
-    private void AddReportVariable()
-    {
-        var reportVariable = new StepVariable
+        ReportVariable = new StepVariable
         {
-            Key = ReportVariableName,
             OldName = ReportVariableName,
             Name = $"{ReportVariableName}{Flow.GetNumberOfSteps<TestReportStep>()}",
         };
 
-        SetVariable(reportVariable);
+        SetVariable(ReportVariable);
     }
 }

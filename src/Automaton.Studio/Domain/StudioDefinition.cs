@@ -1,9 +1,5 @@
-﻿using Automaton.Core.Enums;
-using Automaton.Core.Models;
+﻿using Automaton.Core.Models;
 using Automaton.Studio.Events;
-using Microsoft.Scripting.Utils;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 
 namespace Automaton.Studio.Domain;
 
@@ -19,7 +15,6 @@ public class StudioDefinition
 
     public StudioFlow Flow { get; set; }
 
-    public event EventHandler<StepEventArgs> StepAdded;
     public event EventHandler<StepEventArgs> StepRemoved;
 
     public StudioDefinition()
@@ -59,14 +54,13 @@ public class StudioDefinition
         UpdateStepConnections();
     }
 
+    // TODO! Move Finalize inside Step
     public void FinalizeStep(StudioStep step)
     {
-        step.MarkAsFinal();
+        step.IsFinal = true;
         step.Definition = this;
 
         UpdateStepConnections();
-
-        StepAdded?.Invoke(this, new StepEventArgs(step));
     }
 
     public void UpdateStepConnections()

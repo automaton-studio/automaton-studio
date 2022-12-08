@@ -57,22 +57,22 @@ public class AutoMapperProfile : Profile
         }
     }
 
-    public IEnumerable<StudioStep> CreateSteps(IEnumerable<Step> stepDtos)
+    public IEnumerable<StudioStep> CreateSteps(IEnumerable<Step> steps)
     {
-        foreach (var stepDto in stepDtos)
+        foreach (var step in steps)
         {
             // Use step name to create Domain step
-            var step = stepFactory.CreateStep(stepDto.Name);
+            var studioStep = stepFactory.CreateStep(step.Name);
 
             // Deserialized steps are marked as final 
-            step.MarkAsFinal();
+            studioStep.IsFinal = true;
 
             // Update step properties using AutoMapper
             var mapper = GetMapperInstance();
 
-            mapper.Map(stepDto, step);
+            mapper.Map(step, studioStep);
 
-            yield return step;
+            yield return studioStep;
         }
     }
 
