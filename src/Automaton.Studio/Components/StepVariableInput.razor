@@ -10,6 +10,8 @@ else
     <span @onclick:preventDefault class="designer-variable-name" @onclick="()=>StartEdit()">@Variable.Name</span>
 }
 
+<div class="properties-variable-description">@Variable.Description</div>
+
 @code {
     private bool editing;
 
@@ -59,4 +61,8 @@ else
             outline: 1px solid #1890FF;
             outline-offset: -1px;
         }
+
+    .properties-variable-description {
+        padding-left: 5px;
+    }
 </style>

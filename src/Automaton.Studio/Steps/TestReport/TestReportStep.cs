@@ -2,6 +2,7 @@
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
+using Automaton.Studio.Resources;
 
 namespace Automaton.Studio.Steps.TestReport;
 
@@ -49,6 +50,7 @@ public class TestReportStep : StudioStep
         {
             OldName = ReportVariableName,
             Name = $"{ReportVariableName}{Flow.GetNumberOfSteps<TestReportStep>()}",
+            Description = Variables.TestReport
         };
 
         SetVariable(ReportVariable);
