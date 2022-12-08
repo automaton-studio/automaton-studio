@@ -93,7 +93,7 @@ public class AuthStateProvider : AuthenticationStateProvider
         {
             var jsonWebToken = await authenticationStorage.GetJsonWebToken();
 
-            if (AccessTokenNotValid(jsonWebToken.AccessToken))
+            if (jsonWebToken == null || AccessTokenNotValid(jsonWebToken.AccessToken))
             {
                 jsonWebToken = await RefreshJsonWebTokenAsync();
             }
@@ -102,7 +102,7 @@ public class AuthStateProvider : AuthenticationStateProvider
 
             return jsonWebToken.AccessToken;
         }
-        catch (Exception)
+        catch
         {
             return string.Empty;        
         }     
