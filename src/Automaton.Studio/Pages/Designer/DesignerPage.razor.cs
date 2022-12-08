@@ -162,7 +162,7 @@ partial class DesignerPage : ComponentBase
         };
     }
 
-    private async Task OnWorkflowAddClick()
+    private async Task OnDefinitionAddClick()
     {
         var newDefinitionModel = new NewDefinitionModel
         {
@@ -179,20 +179,18 @@ partial class DesignerPage : ComponentBase
             DesignerViewModel.CreateDefinition(newDefinitionModel.Name);
             FlowExplorerViewModel.RefreshDefinitions();
 
-            DesignerViewModel.StepRemoved += OnStepRemoved;
-
             StateHasChanged();
 
             return Task.CompletedTask;
         };
     }
 
-    private void OnTabClose(string key)
-    {
-    }
-
     private void OnTabClick(string key)
     {
         DesignerViewModel.SetActiveDefinition(key);
+    }
+
+    private void OnTabClose(string key)
+    {
     }
 }
