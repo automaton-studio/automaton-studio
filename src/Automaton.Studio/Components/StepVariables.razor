@@ -5,9 +5,9 @@
 <Collapse Bordered="false" DefaultActiveKey="@(new[]{"1"})" Class="variables-collapse">
     <ChildContent>
         <Panel Header="Variables produced" Key="1" Class="variables-collapse-panel">
-            @foreach (var variable in step.Outputs.Values)
+            @foreach (var variable in Step.Outputs.Values)
             {
-                <StepVariableInput Step="@step" Variable="@variable" />
+                <StepVariableInput Step="@Step" Variable="@variable" />
             }
         </Panel>
     </ChildContent>
@@ -15,7 +15,7 @@
     
 @code {
     [Parameter]
-    public StudioStep step { get; set; }
+    public StudioStep Step { get; set; }
 
     protected override void OnInitialized()
     {
