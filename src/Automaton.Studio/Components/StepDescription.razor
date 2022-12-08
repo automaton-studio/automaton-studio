@@ -1,0 +1,27 @@
+﻿@using Automaton.Studio.Domain
+@using Automaton.Core.Models
+@using Blazored.FluentValidation
+
+<Space Class="step-description-space">
+    <SpaceItem><Icon Type="@step.Icon" Theme="outline"/></SpaceItem>
+    <SpaceItem>@step.Description</SpaceItem>
+    <SpaceItem><a href="@step.MoreInfo">More info</a></SpaceItem>
+</Space>
+    
+@code {
+    [Parameter]
+    public StudioStep step { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+}
+
+<style>
+    .step-description-space {
+        padding: 10px;
+        background-color : aliceblue;
+        width: 100%;
+    } 
+</style>

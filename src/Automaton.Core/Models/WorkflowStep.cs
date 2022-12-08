@@ -24,9 +24,6 @@ public abstract class WorkflowStep
 
     public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
 
-    /// <summary>
-    /// Outputs key is StepVariable.Key while value is StepVariable
-    /// </summary>
     public IDictionary<string, StepVariable> Outputs { get; set; } = new Dictionary<string, StepVariable>();
 
     protected abstract Task<ExecutionResult> RunAsync(StepExecutionContext context);

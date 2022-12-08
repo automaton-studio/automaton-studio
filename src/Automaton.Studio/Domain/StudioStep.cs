@@ -9,17 +9,45 @@ namespace Automaton.Studio.Domain;
 
 public abstract class StudioStep : INotifyPropertyChanged
 {
-    #region Events
-
     public event EventHandler<StepEventArgs> Finalize;
     public event EventHandler<StepEventArgs> Finalized;
     public event EventHandler<StepEventArgs> Created;
 
-    #endregion
-
     protected string StepClass { get; set; } = "designer-step";
     protected string SelectedStepClass { get; set; } = "designer-step-selected";
     protected string DisabledStepClass { get; set; } = "designer-step-disabled";
+
+    #region Automaton.Core
+
+    public string Id { get; set; }
+
+    public string Name { get; set; }
+
+    public string DisplayName { get; set; }
+
+    public string Description { get; set; }
+
+    public string MoreInfo { get; set; }
+
+    public string Type { get; set; }
+
+    public string Icon { get; set; }
+
+    public string CancelCondition { get; set; }
+
+    public virtual bool HasProperties { get; set; } = true;
+
+    public string NextStepId { get; set; }
+
+    public string ParentId { get; set; }
+
+    public bool IsFinal { get; set; }
+
+    public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
+
+    public IDictionary<string, StepVariable> Outputs { get; set; } = new Dictionary<string, StepVariable>();
+
+    #endregion
 
     public StudioDefinition Definition { get; set; }
 
@@ -39,39 +67,6 @@ public abstract class StudioStep : INotifyPropertyChanged
         }
     }
 
-    #region Automaton.Core
-
-    public string Id { get; set; }
-
-    public string Name { get; set; }
-
-    public string DisplayName { get; set; }
-
-    public string Description { get; set; }
-
-    public string Type { get; set; }
-
-    public string Icon { get; set; }
-
-    public string CancelCondition { get; set; }
-
-    public virtual bool HasProperties { get; set; } = true;
-
-    public string NextStepId { get; set; }
-
-    public string ParentId { get; set; }
-
-    public bool IsFinal { get; set; }
-
-    public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
-
-    /// <summary>
-    /// Outputs key is StepVariable.Key property while value is StepVariable
-    /// </summary>
-    public IDictionary<string, StepVariable> Outputs { get; set; } = new Dictionary<string, StepVariable>();
-
-    #endregion
-
     public StudioStep()
     {
         Class = StepClass;
@@ -86,6 +81,8 @@ public abstract class StudioStep : INotifyPropertyChanged
         Id = Guid.NewGuid().ToString();
         Name = descriptor.Name;
         DisplayName = descriptor.DisplayName;
+        Description = descriptor.Description;
+        MoreInfo = descriptor.MoreInfo;
         Type = descriptor.Type;
         Icon = descriptor.Icon;
         StepClass = "designer-step";
