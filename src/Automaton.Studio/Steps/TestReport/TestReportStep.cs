@@ -12,7 +12,7 @@ namespace Automaton.Studio.Steps.TestReport;
     DisplayName = "Test report",
     Category = "Test",
     Description = "Generates a report based on all the flow tests",
-    MoreInfo = "https://www.automaton.studio/documentation/testreportstep",
+    MoreInfo = "https://www.automaton.studio/documentation",
     Icon = "profile"
 )]
 public class TestReportStep : StudioStep

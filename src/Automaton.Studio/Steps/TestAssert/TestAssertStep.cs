@@ -9,6 +9,7 @@ namespace Automaton.Studio.Steps.TestAssert;
     DisplayName = "Test assert",
     Category = "Test",
     Description = "Test assertions",
+    MoreInfo = "https://www.automaton.studio/documentation",
     Icon = "schedule"
 )]
 public class TestAssertStep : StudioStep

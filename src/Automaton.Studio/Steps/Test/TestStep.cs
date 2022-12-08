@@ -10,6 +10,7 @@ namespace Automaton.Studio.Steps.Test;
     DisplayName = "Test",
     Category = "Test",
     Description = "Test",
+    MoreInfo = "https://www.automaton.studio/documentation",
     Icon = "schedule"
 )]
 public class TestStep : SequenceStep

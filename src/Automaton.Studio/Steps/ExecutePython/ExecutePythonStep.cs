@@ -11,6 +11,7 @@ namespace Automaton.Studio.Steps.ExecutePython;
     DisplayName = "Execute Python",
     Category = "Scripting",
     Description = "Execute Python script",
+    MoreInfo = "https://www.automaton.studio/documentation",
     Icon = "code"
 )]
 public class ExecutePythonStep : StudioStep
