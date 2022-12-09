@@ -1,5 +1,10 @@
-﻿using Automaton.Studio.Attributes;
+﻿using AntDesign;
+using Automaton.Core.Models;
+using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
+using Automaton.Studio.Events;
+using Automaton.Studio.Resources;
+using Automaton.Studio.Steps.TestReport;
 
 namespace Automaton.Studio.Steps.AddVariable;
 
@@ -8,20 +13,13 @@ namespace Automaton.Studio.Steps.AddVariable;
     Type = "AddVariable",
     DisplayName = "Add Variable",
     Category = "Variables",
-    Description = "Add Flow variable",
+    Description = "Set the value of a new or existing variable",
     MoreInfo = "https://www.automaton.studio/documentation",
     Icon = "field-string"
 )]
 public class AddVariableStep : StudioStep
 {
-    public string VariableName
-    {
-        get => Inputs.ContainsKey(nameof(VariableName)) ?
-               Inputs[nameof(VariableName)]?.ToString() : string.Empty;
-        set => Inputs[nameof(VariableName)] = value;
-    }
-
-    public string OldVariableName { get; set; }
+    private const string AddVariableKey = "NewVar";
 
     public string VariableValue
     {
@@ -30,9 +28,14 @@ public class AddVariableStep : StudioStep
         set => Inputs[nameof(VariableValue)] = value;
     }
 
-    public bool VariableNameIsTheSame()
+    public StepVariable VariableOutput =>
+        Outputs.ContainsKey(AddVariableKey) ?
+        Outputs[AddVariableKey] : null;
+
+    public AddVariableStep()
     {
-        return string.Compare(OldVariableName, VariableName, true) == 0;
+        Created += OnCreated;
+        ShowVariables = false;
     }
 
     public override Type GetDesignerComponent()
@@ -43,5 +46,18 @@ public class AddVariableStep : StudioStep
     public override Type GetPropertiesComponent()
     {
         return typeof(AddVariableProperties);
+    }
+
+    private void OnCreated(object sender, StepEventArgs e)
+    {
+        var variable = new StepVariable
+        {
+            Key = AddVariableKey,
+            OldName = AddVariableKey,
+            Name = $"{AddVariableKey}{Flow.GetNumberOfSteps<AddVariableStep>()}",
+            Value = VariableValue
+        };
+
+        SetVariable(variable);
     }
 }

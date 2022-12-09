@@ -37,6 +37,8 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public virtual bool HasProperties { get; set; } = true;
 
+    public bool ShowVariables { get; set; } = true;
+
     public string NextStepId { get; set; }
 
     public string ParentId { get; set; }
@@ -121,20 +123,20 @@ public abstract class StudioStep : INotifyPropertyChanged
         return !string.IsNullOrEmpty(ParentId);
     }
 
+    public bool HasVariables()
+    {
+        return Outputs.Any();
+    }
+
     public void SetVariable(StepVariable variable)
     {
-        if (Outputs.ContainsKey(variable.OldName))
+        if (Outputs.ContainsKey(variable.Key))
         {
-            Outputs.Remove(variable.OldName);
-        }
-
-        if (Outputs.ContainsKey(variable.Name))
-        {
-            Outputs[variable.Name] = variable;
+            Outputs[variable.Key] = variable;
         }
         else
         {
-            Outputs.Add(variable.Name, variable);
+            Outputs.Add(variable.Key, variable);
         }
 
         Flow.SetVariable(variable);

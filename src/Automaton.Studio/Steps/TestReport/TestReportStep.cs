@@ -11,13 +11,13 @@ namespace Automaton.Studio.Steps.TestReport;
     Type = "TestReport",
     DisplayName = "Test report",
     Category = "Test",
-    Description = "Generates a report based on all the flow tests",
+    Description = "Generates a report based on flow tests",
     MoreInfo = "https://www.automaton.studio/documentation",
     Icon = "profile"
 )]
 public class TestReportStep : StudioStep
 {
-    private const string ReportVariableName = "TestReport";
+    private const string ReportVariableKey = "TestReport";
 
     public int TotalTests { get; set; }
 
@@ -27,13 +27,19 @@ public class TestReportStep : StudioStep
 
     public string Report { get; set; }
 
-    public StepVariable ReportVariable { get; set; }
+    #region Variables
+
+    public StepVariable ReportVariable => 
+        Outputs.ContainsKey(ReportVariableKey) ?
+        Outputs[ReportVariableKey] : null;
+
+    #endregion
 
     public TestReportStep()
     {
         Created += OnCreated;
     }
-
+     
     public override Type GetDesignerComponent()
     {
         return typeof(TestReportDesigner);
@@ -46,13 +52,14 @@ public class TestReportStep : StudioStep
 
     private void OnCreated(object sender, StepEventArgs e)
     {
-        ReportVariable = new StepVariable
+        var reportVariable = new StepVariable
         {
-            OldName = ReportVariableName,
-            Name = $"{ReportVariableName}{Flow.GetNumberOfSteps<TestReportStep>()}",
+            Key = ReportVariableKey,
+            OldName = ReportVariableKey,
+            Name = $"{ReportVariableKey}{Flow.GetNumberOfSteps<TestReportStep>()}",
             Description = Variables.TestReport
         };
 
-        SetVariable(ReportVariable);
+        SetVariable(reportVariable);
     }
 }

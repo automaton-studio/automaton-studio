@@ -8,7 +8,7 @@ namespace Automaton.Studio.Steps.EmitLog;
     Type = "EmitLog",
     DisplayName = "Emit Log",
     Category = "Scripting",
-    Description = "Emit log to console",
+    Description = "Write text to the predefined log environment",
     MoreInfo = "https://www.automaton.studio/documentation",
     Icon = "message"
 )]

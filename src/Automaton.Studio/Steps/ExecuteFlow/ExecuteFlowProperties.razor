@@ -3,108 +3,113 @@
 
 @inherits FeedbackComponent<ExecuteFlowStep>
 
-<Form @ref="form"
-      Model="@step"
-      LabelColSpan="4"
-      WrapperColSpan="20">
+<StepProperties Step="@step">
 
-    <Validator>
-        <FluentValidationValidator @ref="fluentValidationValidator" />
-        <ValidationSummary />
-    </Validator>
+    <Form @ref="form"
+          Model="@step"
+          LabelColSpan="4"
+          WrapperColSpan="20">
 
-    <ChildContent>
-        <Select Mode="single"
-                @bind-Value="context.FlowId"
-                Placeholder="Select flow..."
-                OnFocus="context.OnFocus"
-                TItemValue="Guid"
-                TItem="Guid"
-                AllowClear>
-            <SelectOptions>
-                @foreach (var item in context.Flows)
-                {
-                    <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
-                }
-            </SelectOptions>
-        </Select>
+        <Validator>
+            <FluentValidationValidator @ref="fluentValidationValidator" />
+            <ValidationSummary />
+        </Validator>
 
-        <Tabs>
-            <TabPane Tab="Input Variables" Key="2">
-                <Space Direction="DirectionVHType.Vertical">
-                    <SpaceItem>
-                        <Button OnClick="AddInputVariable" Type="primary">
-                            Add
-                        </Button>
-                    </SpaceItem>
-                    <SpaceItem>
-                        <Table DataSource="context.InputVariables"
-                               ScrollY="200"
-                               ScrollBarWidth="5"
-                               HidePagination>
-                            <ChildContent Context="inputVariable">
-                                <Column Title="Name" TData="string">
-                                    <Input Type="text" @bind-Value="inputVariable.Name" AutoFocus />
-                                </Column>
-                                <Column Title="Value" TData="string">
-                                    <Input Type="text" @bind-Value="inputVariable.Value" />
-                                </Column>
-                                <ActionColumn Title="Action">
-                                    <Popconfirm Title="Sure to delete?"
-                                                OnConfirm="()=> DeleteInputVariable(inputVariable.Name)"
-                                                OkText="Yes"
-                                                CancelText="No">
-                                        <a>Delete</a>
-                                    </Popconfirm>
-                                </ActionColumn>
-                            </ChildContent>
-                        </Table>
-                    </SpaceItem>
-                </Space>
-            </TabPane>
+        <ChildContent>
+            <Select Mode="single"
+                    @bind-Value="context.FlowId"
+                    Placeholder="Select flow..."
+                    OnFocus="context.OnFocus"
+                    TItemValue="Guid"
+                    TItem="Guid"
+                    AllowClear>
+                <SelectOptions>
+                    @foreach (var item in context.Flows)
+                    {
+                        <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
+                    }
+                </SelectOptions>
+            </Select>
 
-            <TabPane Tab="Output Variables" Key="3">
-                <Space Direction="DirectionVHType.Vertical" Style="width: 100%">
-                    <SpaceItem>
-                        <Button OnClick="AddOutputVariable" Type="primary">
-                            Add
-                        </Button>
-                    </SpaceItem>
-                    <SpaceItem>
-                        <Table DataSource="context.OutputVariables"
-                               ScrollY="200px"
-                               ScrollBarWidth="5"
-                               HidePagination>
-                            <ChildContent Context="outputVariable">
-                                <Column Title="Name" TData="string">
-                                    <Input Type="text" @bind-Value="outputVariable.Name" AutoFocus />
-                                </Column>
-                                <ActionColumn Title="Action">
-                                    <Popconfirm Title="Sure to delete?"
-                                                OnConfirm="()=> DeleteOutputVariable(outputVariable.Name)"
-                                                OkText="Yes"
-                                                CancelText="No">
-                                        <a>Delete</a>
-                                    </Popconfirm>
-                                </ActionColumn>
-                            </ChildContent>
-                        </Table>
-                    </SpaceItem>
-                </Space>
-            </TabPane>
-        </Tabs>
+            <Tabs>
+                <TabPane Tab="Input Variables" Key="2">
+                    <Space Direction="DirectionVHType.Vertical">
+                        <SpaceItem>
+                            <Button OnClick="AddInputVariable" Type="primary">
+                                Add
+                            </Button>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Table DataSource="context.InputVariables"
+                                   ScrollY="200"
+                                   ScrollBarWidth="5"
+                                   HidePagination>
+                                <ChildContent Context="inputVariable">
+                                    <Column Title="Name" TData="string">
+                                        <Input Type="text" @bind-Value="inputVariable.Name" AutoFocus />
+                                    </Column>
+                                    <Column Title="Value" TData="string">
+                                        <Input Type="text" @bind-Value="inputVariable.Value" />
+                                    </Column>
+                                    <ActionColumn Title="Action">
+                                        <Popconfirm Title="Sure to delete?"
+                                                    OnConfirm="()=> DeleteInputVariable(inputVariable.Name)"
+                                                    OkText="Yes"
+                                                    CancelText="No">
+                                            <a>Delete</a>
+                                        </Popconfirm>
+                                    </ActionColumn>
+                                </ChildContent>
+                            </Table>
+                        </SpaceItem>
+                    </Space>
+                </TabPane>
 
-    </ChildContent>
-</Form>
+                <TabPane Tab="Output Variables" Key="3">
+                    <Space Direction="DirectionVHType.Vertical" Style="width: 100%">
+                        <SpaceItem>
+                            <Button OnClick="AddOutputVariable" Type="primary">
+                                Add
+                            </Button>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Table DataSource="context.OutputVariables"
+                                   ScrollY="200px"
+                                   ScrollBarWidth="5"
+                                   HidePagination>
+                                <ChildContent Context="outputVariable">
+                                    <Column Title="Name" TData="string">
+                                        <Input Type="text" @bind-Value="outputVariable.Name" AutoFocus />
+                                    </Column>
+                                    <ActionColumn Title="Action">
+                                        <Popconfirm Title="Sure to delete?"
+                                                    OnConfirm="()=> DeleteOutputVariable(outputVariable.Name)"
+                                                    OkText="Yes"
+                                                    CancelText="No">
+                                            <a>Delete</a>
+                                        </Popconfirm>
+                                    </ActionColumn>
+                                </ChildContent>
+                            </Table>
+                        </SpaceItem>
+                    </Space>
+                </TabPane>
+            </Tabs>
+
+        </ChildContent>
+    </Form>
+
+</StepProperties>
 
 @code {
-    private Form<ExecuteFlowStep> form;
     private ExecuteFlowStep step;
+    private Form<ExecuteFlowStep> form;
     private FluentValidationValidator fluentValidationValidator;
 
     protected override void OnInitialized()
     {
         step = this.Options;
+
         base.OnInitialized();
     }
 
@@ -125,10 +130,10 @@
             foreach (var variable in step.OutputVariables)
             {
                 step.SetVariable(new StepVariable
-                {
-                    Name = variable.Name, 
-                    Value = variable.Value
-                });
+                    {
+                        Name = variable.Name,
+                        Value = variable.Value
+                    });
             }
         }
 

@@ -1,0 +1,23 @@
+﻿@using AntDesign
+@using Automaton.Studio.Components
+
+<div>
+    <StepDescription Step="@Step"></StepDescription>
+</div>
+
+<div Class="step-properties-container">
+    @ChildContent
+</div>
+
+@if (Step.ShowVariables && Step.HasVariables())
+{
+    <div>
+        <StepVariables Step="@Step" />
+    </div>
+}
+
+<style>
+    .step-properties-container {
+        padding: 15px 0px 0px 0px;
+    }
+</style>

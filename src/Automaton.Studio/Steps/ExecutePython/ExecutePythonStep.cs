@@ -10,7 +10,7 @@ namespace Automaton.Studio.Steps.ExecutePython;
     Type = "ExecutePython",
     DisplayName = "Execute Python",
     Category = "Scripting",
-    Description = "Execute Python script",
+    Description = "Executes Python script and returns its output",
     MoreInfo = "https://www.automaton.studio/documentation",
     Icon = "code"
 )]

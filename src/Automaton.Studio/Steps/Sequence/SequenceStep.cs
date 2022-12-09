@@ -12,7 +12,7 @@ namespace Automaton.Studio.Steps.Sequence;
     Type = "Sequence",
     DisplayName = "Sequence",
     Category = "Sequence",
-    Description = "Sequence",
+    Description = "Container used to group steps together",
     Icon = "block"
 )]
 public class SequenceStep : StudioStep

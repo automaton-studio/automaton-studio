@@ -9,7 +9,7 @@ namespace Automaton.Studio.Steps.Test;
     Type = "Test",
     DisplayName = "Test",
     Category = "Test",
-    Description = "Test",
+    Description = "Container for testing if functionality behaves as intended",
     MoreInfo = "https://www.automaton.studio/documentation",
     Icon = "schedule"
 )]
