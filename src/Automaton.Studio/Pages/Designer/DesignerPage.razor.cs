@@ -77,7 +77,12 @@ partial class DesignerPage : ComponentBase
         };
     }
 
-    private void OnStepRemoved(object sender, StepEventArgs e)
+    private void OnStepDeleted(object sender, StepEventArgs e)
+    {
+        StateHasChanged();
+    }
+
+    private void OnStepFinalized(object sender, StepEventArgs e)
     {
         StateHasChanged();
     }
@@ -92,7 +97,8 @@ partial class DesignerPage : ComponentBase
 
             // Setup event handlers after flow is loaded
             DesignerViewModel.StepCreated += OnStepCreated;
-            DesignerViewModel.StepDeleted += OnStepRemoved;
+            DesignerViewModel.StepDeleted += OnStepDeleted;
+            DesignerViewModel.StepFinalized += OnStepFinalized;
         }
     }
 

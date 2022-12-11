@@ -20,6 +20,7 @@ public class DesignerViewModel
     public StudioDefinition ActiveDefinition { get; set; }
 
     public event EventHandler<StepEventArgs> StepCreated;
+    public event EventHandler<StepEventArgs> StepFinalized;
     public event EventHandler<StepEventArgs> StepDeleted;
 
     public bool CanExecuteFlow
@@ -131,6 +132,8 @@ public class DesignerViewModel
         ActiveDefinition.FinalizeStep(step);
 
         step.InvokeFinalized();
+
+        StepFinalized?.Invoke(this, new StepEventArgs(step));
     }
 
     public void UpdateStepConnections()
