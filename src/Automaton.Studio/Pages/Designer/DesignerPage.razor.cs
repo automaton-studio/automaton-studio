@@ -172,7 +172,8 @@ partial class DesignerPage : ComponentBase
 
         newDefinitionDialog.OnOk = () =>
         {
-            DesignerViewModel.CreateDefinition(newDefinitionModel.Name);
+            var definition = DesignerViewModel.CreateDefinition(newDefinitionModel.Name);
+            DesignerViewModel.SetActiveDefinition(definition);
             FlowExplorerViewModel.RefreshDefinitions();
 
             StateHasChanged();

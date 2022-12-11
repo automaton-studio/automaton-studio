@@ -53,7 +53,7 @@
 
         <Tabs Type="@TabType.EditableCard"
               Size="@TabSize.Small"
-              ActiveKey="@DesignerViewModel.GetActiveDefinitionId()"
+              ActiveKey="@DesignerViewModel.ActiveDefinition?.Id"
               DefaultActiveKey="@DesignerViewModel.GetStartupDefinitionId()"
               OnAddClick="OnDefinitionAddClick"
               OnTabClick="OnTabClick"

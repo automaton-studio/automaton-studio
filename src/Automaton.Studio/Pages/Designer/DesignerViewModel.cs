@@ -78,10 +78,11 @@ public class DesignerViewModel
         }
     }
 
-    public void CreateDefinition(string name)
+    public StudioDefinition CreateDefinition(string name)
     {
         var definition = Flow.CreateDefinition(name);
         definition.StepDeleted += OnStepDeleted;
+        return definition;
     }
 
     public IEnumerable<string> GetDefinitionNames()
@@ -102,11 +103,6 @@ public class DesignerViewModel
     public StudioDefinition GetActiveDefinition()
     {
         return ActiveDefinition;
-    }
-
-    public string GetActiveDefinitionId()
-    {
-        return ActiveDefinition != null ? ActiveDefinition.Id : string.Empty;
     }
 
     public string GetStartupDefinitionId()
