@@ -1,11 +1,9 @@
-﻿using AntDesign;
-using AutoMapper;
+﻿using AutoMapper;
 using Automaton.Core.Models;
 using Automaton.Core.Services;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
-using Automaton.Studio.Pages.Designer.Components.StepExplorer;
 using Automaton.Studio.Services;
 using System.Threading.Tasks;
 
@@ -53,12 +51,13 @@ public class DesignerViewModel
     public async Task LoadFlow(Guid flowId)
     {
         Flow = await flowService.Load(flowId);
-        ActiveDefinition = Flow.GetStartupDefinition();
 
         foreach (var definition in Flow.Definitions)
         {
             definition.StepDeleted += OnStepDeleted;
         }
+
+        ActiveDefinition = Flow.GetStartupDefinition();  
     }
 
     public async Task SaveFlow()
@@ -81,21 +80,13 @@ public class DesignerViewModel
 
     public void CreateDefinition(string name)
     {
-        // TODO! Flow should create and return definition
-        var definition = new StudioDefinition
-        {
-            Name = name,
-            Flow = this.Flow
-        };
-
+        var definition = Flow.CreateDefinition(name);
         definition.StepDeleted += OnStepDeleted;
-
-        Flow.Definitions.Add(definition);
     }
 
     public IEnumerable<string> GetDefinitionNames()
     {
-        return Flow.Definitions.Select(x => x.Name);
+        return Flow.GetDefinitionNames();
     }
 
     public void SetActiveDefinition(StudioDefinition definition)
@@ -123,9 +114,9 @@ public class DesignerViewModel
         return Flow.StartupDefinitionId;
     }
 
-    public void CreateStep(StepExplorerModel solutionStep)
+    public void CreateStep(string name)
     {
-        var step = stepFactory.CreateStep(solutionStep.Name);
+        var step = stepFactory.CreateStep(name);
         step.Definition = ActiveDefinition;
         step.InvokeCreated();
 

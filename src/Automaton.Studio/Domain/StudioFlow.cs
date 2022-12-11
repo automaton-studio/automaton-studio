@@ -24,6 +24,25 @@ public class StudioFlow
         OutputVariables = new Dictionary<string, object>();
     }
 
+
+    public StudioDefinition CreateDefinition(string name)
+    {
+        var definition = new StudioDefinition
+        {
+            Name = name,
+            Flow = this
+        };
+
+        Definitions.Add(definition);
+
+        return definition;
+    }
+
+    public IEnumerable<string> GetDefinitionNames()
+    {
+        return Definitions.Select(x => x.Name);
+    }
+
     public StudioDefinition GetStartupDefinition()
     {
         return Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);

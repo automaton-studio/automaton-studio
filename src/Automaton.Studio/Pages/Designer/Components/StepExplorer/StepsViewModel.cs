@@ -45,7 +45,7 @@ public class StepsViewModel : INotifyPropertyChanged
 
         if (!step.IsCategory())
         {
-            designerViewModel.CreateStep(step);
+            designerViewModel.CreateStep(step.Name);
         }
     }
 
