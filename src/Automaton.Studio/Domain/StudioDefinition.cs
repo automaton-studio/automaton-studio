@@ -15,7 +15,7 @@ public class StudioDefinition
 
     public StudioFlow Flow { get; set; }
 
-    public event EventHandler<StepEventArgs> StepRemoved;
+    public event EventHandler<StepEventArgs> StepDeleted;
 
     public StudioDefinition()
     {
@@ -27,7 +27,7 @@ public class StudioDefinition
     {
         Steps.Remove(step);
 
-        StepRemoved?.Invoke(this, new StepEventArgs(step));
+        StepDeleted?.Invoke(this, new StepEventArgs(step));
 
         Flow.DeleteVariables(step.GetVariables());
 
@@ -44,7 +44,7 @@ public class StudioDefinition
 
         foreach (var step in steps)
         {
-            StepRemoved?.Invoke(this, new StepEventArgs(step));
+            StepDeleted?.Invoke(this, new StepEventArgs(step));
 
             variables.AddRange(step.GetVariables());
         }

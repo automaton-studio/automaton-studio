@@ -92,7 +92,7 @@ partial class DesignerPage : ComponentBase
 
             // Setup event handlers after flow is loaded
             DesignerViewModel.StepCreated += OnStepCreated;
-            DesignerViewModel.StepRemoved += OnStepRemoved;
+            DesignerViewModel.StepDeleted += OnStepRemoved;
         }
     }
 
@@ -115,16 +115,12 @@ partial class DesignerPage : ComponentBase
         {
             DesignerViewModel.FinalizeStep(step);
 
-            StateHasChanged();
-
             return Task.CompletedTask;
         };
 
         result.OnCancel = () =>
         {
             DesignerViewModel.DeleteStep(step);
-
-            StateHasChanged();
 
             return Task.CompletedTask;
         };

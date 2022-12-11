@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AntDesign;
+using AutoMapper;
 using Automaton.Core.Models;
 using Automaton.Core.Services;
 using Automaton.Studio.Domain;
@@ -17,17 +18,11 @@ public class DesignerViewModel
     private readonly FlowService flowService;
     private readonly WorkflowExecuteService workflowExecuteService;
 
-    public StudioFlow Flow { get; set; }
-    public IList<StudioDefinition> Definitions { get; set; }
+    public StudioFlow Flow { get; set; } = new StudioFlow();
     public StudioDefinition ActiveDefinition { get; set; }
 
     public event EventHandler<StepEventArgs> StepCreated;
-
-    public event EventHandler<StepEventArgs> StepRemoved
-    {
-        add { ActiveDefinition.StepRemoved += value; }
-        remove { ActiveDefinition.StepRemoved -= value; }
-    }
+    public event EventHandler<StepEventArgs> StepDeleted;
 
     public bool CanExecuteFlow
     {
@@ -53,39 +48,17 @@ public class DesignerViewModel
         this.stepFactory = stepFactory;
         this.flowService = flowService;
         this.workflowExecuteService = workflowExecuteService;
-
-        Flow = new StudioFlow();
-        Definitions = new List<StudioDefinition>();
-    }
-
-    public void CreateDefinition(string name)
-    {
-        Definitions.Add(new StudioDefinition 
-        { 
-            Name = name, 
-            Flow = this.Flow 
-        });
-    }
-
-    public void CreateStep(StepExplorerModel solutionStep)
-    {
-        var step = stepFactory.CreateStep(solutionStep.Name);
-        step.Definition = ActiveDefinition;
-        step.InvokeCreated();
-
-        StepCreated?.Invoke(this, new StepEventArgs(step));
-    }
-
-    public void DeleteStep(StudioStep step)
-    {
-        ActiveDefinition.DeleteStep(step);
     }
 
     public async Task LoadFlow(Guid flowId)
     {
         Flow = await flowService.Load(flowId);
-        Definitions = Flow.Definitions;
         ActiveDefinition = Flow.GetStartupDefinition();
+
+        foreach (var definition in Flow.Definitions)
+        {
+            definition.StepDeleted += OnStepDeleted;
+        }
     }
 
     public async Task SaveFlow()
@@ -106,18 +79,23 @@ public class DesignerViewModel
         }
     }
 
-    public void FinalizeStep(StudioStep step)
+    public void CreateDefinition(string name)
     {
-        step.InvokeFinalize();
+        // TODO! Flow should create and return definition
+        var definition = new StudioDefinition
+        {
+            Name = name,
+            Flow = this.Flow
+        };
 
-        ActiveDefinition.FinalizeStep(step);
+        definition.StepDeleted += OnStepDeleted;
 
-        step.InvokeFinalized();
+        Flow.Definitions.Add(definition);
     }
 
     public IEnumerable<string> GetDefinitionNames()
     {
-        return Definitions.Select(x => x.Name);
+        return Flow.Definitions.Select(x => x.Name);
     }
 
     public void SetActiveDefinition(StudioDefinition definition)
@@ -127,7 +105,7 @@ public class DesignerViewModel
 
     public void SetActiveDefinition(string id)
     {
-        ActiveDefinition = Definitions.SingleOrDefault(x => x.Id == id);
+        ActiveDefinition = Flow.Definitions.SingleOrDefault(x => x.Id == id);
     }
 
     public StudioDefinition GetActiveDefinition()
@@ -145,8 +123,36 @@ public class DesignerViewModel
         return Flow.StartupDefinitionId;
     }
 
+    public void CreateStep(StepExplorerModel solutionStep)
+    {
+        var step = stepFactory.CreateStep(solutionStep.Name);
+        step.Definition = ActiveDefinition;
+        step.InvokeCreated();
+
+        StepCreated?.Invoke(this, new StepEventArgs(step));
+    }
+
+    public void DeleteStep(StudioStep step)
+    {
+        ActiveDefinition.DeleteStep(step);
+    }
+
+    public void FinalizeStep(StudioStep step)
+    {
+        step.InvokeFinalize();
+
+        ActiveDefinition.FinalizeStep(step);
+
+        step.InvokeFinalized();
+    }
+
     public void UpdateStepConnections()
     {
         ActiveDefinition.UpdateStepConnections();
+    }
+
+    private void OnStepDeleted(object sender, StepEventArgs e)
+    {
+        StepDeleted?.Invoke(this, new StepEventArgs(e.Step));
     }
 }

@@ -59,7 +59,7 @@
               OnTabClick="OnTabClick"
               OnClose="OnTabClose">
 
-            @foreach (var definition in DesignerViewModel.Definitions)
+            @foreach (var definition in DesignerViewModel.Flow.Definitions)
             {
                 <TabPane Key="@definition.Id" Tab="@definition.Name">
                     <Dropzone @ref="dropzone" 
