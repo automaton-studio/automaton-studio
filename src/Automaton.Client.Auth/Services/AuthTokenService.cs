@@ -22,7 +22,6 @@ public class AuthTokenService
     {
         this.configurationService = configurationService;
         this.httpClient = httpClient;
-        this.httpClient.BaseAddress = new Uri(configurationService.BaseUrl);
     }
 
     public async Task<JsonWebToken> GetJsonWebTokenAsync(string refreshToken)

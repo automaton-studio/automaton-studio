@@ -4,77 +4,76 @@ using Automaton.Studio.Server.Models;
 using Automaton.Studio.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Automaton.Studio.Server.Controllers
+namespace Automaton.Studio.Server.Controllers;
+
+public class FlowsController : BaseController
 {
-    public class FlowsController : BaseController
+    private readonly FlowsService flowsService;
+
+    public FlowsController
+    (
+        FlowsService flowsService
+    )
     {
-        private readonly FlowsService flowsService;
+        this.flowsService = flowsService;
+    }
 
-        public FlowsController
-        (
-            FlowsService flowsService
-        )
+    [HttpGet]
+    public IEnumerable<FlowInfo> Get()
+    {
+        return flowsService.List();
+    }
+
+    [HttpGet("{id}")]
+    public ActionResult<Flow> Get(Guid id)
+    {
+        var flow = flowsService.Get(id);
+
+        if (flow is null)
         {
-            this.flowsService = flowsService;
+            return NotFound();
         }
 
-        [HttpGet]
-        public IEnumerable<FlowInfo> Get()
-        {
-            return flowsService.List();
-        }
+        return Ok(flow);
+    }
 
-        [HttpGet("{id}")]
-        public ActionResult<Flow> Get(Guid id)
-        {
-            var flow = flowsService.Get(id);
+    [HttpPost]
+    public IActionResult Post(Flow flow)
+    {
+        var flowId = flowsService.Create(flow);
 
-            if (flow is null)
-            {
-                return NotFound();
-            }
+        var newFlow = flowsService.Get(flowId);
 
-            return Ok(flow);
-        }
+        return CreatedAtAction(nameof(Get), new { id = newFlow.Id }, newFlow);
+    }
 
-        [HttpPost]
-        public IActionResult Post(Flow flow)
-        {
-            var flowId = flowsService.Create(flow);
+    [HttpPut("{id}")]
+    public IActionResult Put(Guid id, Flow flow)
+    {
+        flowsService.Update(id, flow);
 
-            var newFlow = flowsService.Get(flowId);
+        return NoContent();
+    }
 
-            return CreatedAtAction(nameof(Get), new { id = newFlow.Id }, newFlow);
-        }
+    [HttpDelete("{id}")]
+    public IActionResult Delete(Guid id)
+    {
+        flowsService.Remove(id);
 
-        [HttpPut("{id}")]
-        public IActionResult Put(Guid id, Flow flow)
-        {
-            flowsService.Update(id, flow);
+        return NoContent();
+    }
 
-            return NoContent();
-        }
+    [HttpPost("run")]
+    public async Task<ActionResult> Post(ExecuteFlowCommand command, CancellationToken cancellationToken)
+    {
+        return Ok(await Mediator.Send(command, cancellationToken));
+    }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
-        {
-            flowsService.Remove(id);
+    [HttpGet("exists/{name}")]
+    public ActionResult<Flow> Exists(string name)
+    {
+        var exists = flowsService.Exists(name);
 
-            return NoContent();
-        }
-
-        [HttpPost("run")]
-        public async Task<ActionResult> Post(ExecuteFlowCommand command, CancellationToken cancellationToken)
-        {
-            return Ok(await Mediator.Send(command, cancellationToken));
-        }
-
-        [HttpGet("exists/{name}")]
-        public ActionResult<Flow> Exists(string name)
-        {
-            var exists = flowsService.Exists(name);
-
-            return exists ? Ok(exists) : NotFound();
-        }
+        return exists ? Ok(exists) : NotFound();
     }
 }

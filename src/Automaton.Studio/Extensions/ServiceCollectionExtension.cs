@@ -25,6 +25,9 @@ using Automaton.Studio.Steps.Test;
 using Automaton.Studio.Steps.Sequence;
 using Automaton.Studio.Steps.TestAssert;
 using Automaton.Studio.Steps.TestReport;
+using Microsoft.Extensions.Logging;
+using Automaton.Studio.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Automaton.Studio.Extensions;
 
@@ -51,6 +54,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<FlowsService>();
         services.AddScoped<RunnerService>();
         services.AddScoped<LocalStorageService>();
+        services.AddScoped<ErrorService>();
         services.AddSingleton<NavMenuService>();
 
         // ViewModels
@@ -87,9 +91,15 @@ public static class ServiceCollectionExtension
         services.AddScoped<JsInterop>();
 
         // Other
-        services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });
+        services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });
         services.AddScoped(typeof(DragDropService));
         services.AddScoped(service => new ConfigurationService(configuration));
+
+        services.AddSingleton<ILoggerProvider, ApplicationLoggerProvider>(services =>
+        {
+            var httpClient = services.GetService<HttpClient>();
+            return new ApplicationLoggerProvider(httpClient, new ConfigurationService(configuration));
+        });
 
         // Automapper profile
         services.AddScoped(provider => new MapperConfiguration(cfg =>

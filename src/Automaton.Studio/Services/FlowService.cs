@@ -1,8 +1,10 @@
-﻿using AutoMapper;
+﻿using AntDesign;
+using AutoMapper;
 using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
+using System.Reflection.Emit;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -31,6 +33,8 @@ public class FlowService
 
     public async Task<StudioFlow> Load(Guid id)
     {
+        logger.LogInformation(default(EventId), null, "Hello", null);
+
         var response = await httpClient.GetAsync($"{configService.FlowsUrl}/{id}");
 
         response.EnsureSuccessStatusCode();

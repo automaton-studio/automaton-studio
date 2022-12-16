@@ -1,10 +1,9 @@
 ﻿#nullable disable
 
-namespace Automaton.Studio.Server.Entities
+namespace Automaton.Studio.Server.Entities;
+
+public class FlowUser
 {
-    public class FlowUser
-    {
-        public Guid UserId { get; set; }
-        public Guid FlowId { get; set; }
-    }
+    public Guid UserId { get; set; }
+    public Guid FlowId { get; set; }
 }

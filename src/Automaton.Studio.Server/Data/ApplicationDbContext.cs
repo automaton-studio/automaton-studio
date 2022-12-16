@@ -16,6 +16,7 @@ namespace Automaton.Studio.Server.Data
         public virtual DbSet<FlowUser> FlowUsers { get; set; }
         public virtual DbSet<Runner> Runners { get; set; }
         public virtual DbSet<RunnerUser> RunnerUsers { get; set; }
+        public virtual DbSet<Log> Logs { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

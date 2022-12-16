@@ -1,8 +1,7 @@
-﻿namespace Automaton.Studio.Server.Entities
+﻿namespace Automaton.Studio.Server.Entities;
+
+public class RunnerUser
 {
-    public class RunnerUser
-    {
-        public Guid UserId { get; set; }
-        public Guid RunnerId { get; set; }
-    }
+    public Guid UserId { get; set; }
+    public Guid RunnerId { get; set; }
 }

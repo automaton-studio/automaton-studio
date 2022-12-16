@@ -29,7 +29,6 @@ public class AuthStateProvider : AuthenticationStateProvider
         ConfigurationService configService)
     {
         this.httpClient = httpClient;
-        this.httpClient.BaseAddress = new Uri(configService.BaseUrl);
         this.authenticationStorage = authenticationStorage;
         this.configService = configService;
         this.authTokenService = authTokenService;

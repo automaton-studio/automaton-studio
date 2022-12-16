@@ -2,6 +2,7 @@
 using Automaton.Studio.Pages.Flows.Components.NewFlow;
 using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Flows
@@ -13,7 +14,7 @@ namespace Automaton.Studio.Pages.Flows
         [Inject] private ModalService ModalService { get; set; }
         [Inject] private MessageService MessageService { get; set; }
         [Inject] public NavMenuService NavMenuService { get; set; }
-
+        [Inject] public ErrorService ErrorService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -23,6 +24,10 @@ namespace Automaton.Studio.Pages.Flows
             {
                 await FlowsViewModel.GetFlows();
                 await FlowsViewModel.GetRunners();
+            }
+            catch(Exception ex)
+            {
+                await ErrorService.ProcessError(ex);
             }
             finally
             {

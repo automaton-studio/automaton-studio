@@ -6,4 +6,13 @@ The difference from a normal menu item is the style that places it to the very b
 
 ``<MenuItem Key="4" Icon="poweroff" RouterMatch="NavLinkMatch.Prefix" Class="logout" Style="position: absolute; bottom: 0; z-index: 1; transition: all 0.2s;">Logout</MenuItem>``
 
+## Get authentication state and user information
+
+``
+var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+var user = authState.User;
+var claims = user.Claims?.ToList();
+``
+
+
 
