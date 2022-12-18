@@ -22,95 +22,95 @@ public class LogsService
         this.userId = userContextService.GetUserId();
     }
 
-    public IEnumerable<Log> List()
-    {
-        var logEntities =
-        (
-            from _log in dataContext.Logs
-            join _logUser in dataContext.Users
-            on _log.UserId equals _logUser.Id
-            where _logUser.Id == userId
-            select _log
-        );
+    //public IEnumerable<Log> List()
+    //{
+    //    var logEntities =
+    //    (
+    //        from _log in dataContext.Logs
+    //        join _logUser in dataContext.Users
+    //        on _log.UserId equals _logUser.Id
+    //        where _logUser.Id == userId
+    //        select _log
+    //    );
 
-        var logs = mapper.Map<IEnumerable<Log>>(logEntities);
+    //    var logs = mapper.Map<IEnumerable<Log>>(logEntities);
 
-        return logs;
-    }
+    //    return logs;
+    //}
 
-    public Log Get(Guid id)
-    {
-        var logEntity = 
-        (
-            from _log in dataContext.Logs
-            join _logUser in dataContext.Users
-            on _log.UserId equals _logUser.Id
-            where _log.Id == id && _logUser.Id == userId
-            select _log
-        )
-        .SingleOrDefault();
+    //public Log Get(Guid id)
+    //{
+    //    var logEntity = 
+    //    (
+    //        from _log in dataContext.Logs
+    //        join _logUser in dataContext.Users
+    //        on _log.UserId equals _logUser.Id
+    //        where _log.Id == id && _logUser.Id == userId
+    //        select _log
+    //    )
+    //    .SingleOrDefault();
 
-        var log = mapper.Map<Log>(logEntity);
+    //    var log = mapper.Map<Log>(logEntity);
 
-        return log;
-    }
+    //    return log;
+    //}
 
-    public Guid Create(Log log)
-    {
-        var logEntity = new Entities.Log
-        {
-            UserId = userId,
-            EventName = log.EventName,
-            CreatedDate = log.CreatedDate,
-            ExceptionMessage = log.ExceptionMessage,
-            LogLevel = log.LogLevel,
-            Source = log.Source,
-            StackTrace = log.StackTrace
-        };
+    //public Guid Create(Log log)
+    //{
+    //    var logEntity = new Entities.Log
+    //    {
+    //        UserId = userId,
+    //        EventName = log.EventName,
+    //        CreatedDate = log.CreatedDate,
+    //        ExceptionMessage = log.ExceptionMessage,
+    //        LogLevel = log.LogLevel,
+    //        Source = log.Source,
+    //        StackTrace = log.StackTrace
+    //    };
 
-        dataContext.Logs.Add(logEntity);
+    //    dataContext.Logs.Add(logEntity);
 
-        dataContext.SaveChanges();
+    //    dataContext.SaveChanges();
 
-        return logEntity.Id;
-    }
+    //    return logEntity.Id;
+    //}
 
-    public void Update(Guid id, Log log)
-    {
-        var logEntity =
-        (
-            from _log in dataContext.Logs
-            join _logUser in dataContext.Users
-            on _log.UserId equals _logUser.Id
-            where _log.Id == id && _logUser.Id == userId
-            select _log
-        )
-        .SingleOrDefault();
+    //public void Update(Guid id, Log log)
+    //{
+    //    var logEntity =
+    //    (
+    //        from _log in dataContext.Logs
+    //        join _logUser in dataContext.Users
+    //        on _log.UserId equals _logUser.Id
+    //        where _log.Id == id && _logUser.Id == userId
+    //        select _log
+    //    )
+    //    .SingleOrDefault();
 
-        logEntity.EventName = log.EventName;
-        logEntity.CreatedDate = log.CreatedDate;
-        logEntity.ExceptionMessage = log.ExceptionMessage;
-        logEntity.LogLevel = log.LogLevel;
-        logEntity.Source = log.Source;
-        logEntity.StackTrace = log.StackTrace;
+    //    logEntity.EventName = log.EventName;
+    //    logEntity.CreatedDate = log.CreatedDate;
+    //    logEntity.ExceptionMessage = log.ExceptionMessage;
+    //    logEntity.LogLevel = log.LogLevel;
+    //    logEntity.Source = log.Source;
+    //    logEntity.StackTrace = log.StackTrace;
 
-        dataContext.SaveChanges();
-    }
+    //    dataContext.SaveChanges();
+    //}
 
-    public void Remove(Guid id)
-    {
-        var log =
-        (
-            from _log in dataContext.Logs
-            join _logUser in dataContext.Users
-            on _log.UserId equals _logUser.Id
-            where _log.Id == id && _logUser.Id == userId
-            select _log
-        )
-        .SingleOrDefault();
+    //public void Remove(Guid id)
+    //{
+    //    var log =
+    //    (
+    //        from _log in dataContext.Logs
+    //        join _logUser in dataContext.Users
+    //        on _log.UserId equals _logUser.Id
+    //        where _log.Id == id && _logUser.Id == userId
+    //        select _log
+    //    )
+    //    .SingleOrDefault();
 
-        dataContext.Logs.Remove(log);
+    //    dataContext.Logs.Remove(log);
 
-        dataContext.SaveChanges();
-    }
+    //    dataContext.SaveChanges();
+    //}
 }

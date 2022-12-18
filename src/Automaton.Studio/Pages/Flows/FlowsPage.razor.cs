@@ -3,6 +3,7 @@ using Automaton.Studio.Pages.Flows.Components.NewFlow;
 using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Serilog;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Flows
@@ -22,6 +23,13 @@ namespace Automaton.Studio.Pages.Flows
 
             try
             {
+                ILogger log = new LoggerConfiguration()
+              .MinimumLevel.Verbose()
+              .WriteTo.Http(requestUri: "https://www.mylogs.com", queueLimitBytes: 1)
+              .CreateLogger();
+
+                log.Information("Logging {@Heartbeat} from {Computer}", 1, 1);
+
                 await FlowsViewModel.GetFlows();
                 await FlowsViewModel.GetRunners();
             }
