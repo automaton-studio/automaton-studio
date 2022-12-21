@@ -1,15 +1,17 @@
 ﻿using AntDesign;
-using Serilog;
+using Automaton.Studio.Logging;
+using Microsoft.Extensions.Logging;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services;
 
 public class ErrorService
 {
-    private readonly ILogger logger;
+    private readonly ILogger<ErrorService> logger;
     private readonly IMessageService messageService;
 
-    public ErrorService(ILogger logger, IMessageService messageService)
+    public ErrorService(ILogger<ErrorService> logger, IMessageService messageService)
     {
         this.logger = logger;
         this.messageService = messageService;
@@ -19,9 +21,16 @@ public class ErrorService
     {
         await messageService.Error("Something has gone wrong. Please contact support");
 
-        Log.Debug("Hello, browser!");
+        var message = new LogMessage
+        {
+            LogLevel = LogLevel.Error.ToString(),
+            ExceptionMessage = ex.Message,
+            StackTrace = ex.StackTrace,
+            Source = "Automaton",
+            CreatedDate = DateTime.Now,
+        };
 
-        logger.Information("Hello, browser!");
+        logger.Log(LogLevel.Error, 0, message, null, (logMessage, _) => JsonSerializer.Serialize(logMessage));
     }
 }
 

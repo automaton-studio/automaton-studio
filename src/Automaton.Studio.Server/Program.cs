@@ -13,17 +13,11 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Serilog.Sinks.MSSqlServer;
-using Serilog;
 using System.Reflection;
-
-const string connectionStringName = "DefaultConnection";
-const string schemaName = "dbo";
-const string tableName = "Logs";
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
-var connectionString = builder.Configuration.GetConnectionString(connectionStringName);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
@@ -48,27 +42,6 @@ services.AddMvc(options =>
         .Build();
     options.Filters.Add(new AuthorizeFilter(policy));
 });
-
-var configuration = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-    .Build();
-
-var columnOptionsSection = configuration.GetSection("Serilog:ColumnOptions");
-var sinkOptionsSection = configuration.GetSection("Serilog:SinkOptions");
-
-Serilog.Log.Logger = new LoggerConfiguration()
-    .WriteTo.MSSqlServer(
-        connectionString: connectionStringName,
-        sinkOptions: new MSSqlServerSinkOptions
-        {
-            TableName = tableName,
-            SchemaName = schemaName,
-            AutoCreateSqlTable = true
-        },
-        sinkOptionsSection: sinkOptionsSection,
-        appConfiguration: configuration,
-        columnOptionsSection: columnOptionsSection)
-    .CreateLogger();
 
 services.AddAccessTokenValidator();
 services.AddJwtAuthentication(builder.Configuration);
