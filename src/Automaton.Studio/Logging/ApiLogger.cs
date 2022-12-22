@@ -3,8 +3,8 @@ using Automaton.Studio.Services;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
-
 namespace Automaton.Studio.Logging;
 
 public class ApiLogger : ILogger
@@ -34,7 +34,7 @@ public class ApiLogger : ILogger
         {
             LogLevel = logLevel.ToString(),
             EventName = eventId.Name,
-            ExceptionMessage = exception?.Message,
+            Message = exception?.Message ?? JsonSerializer.Serialize(state),
             StackTrace = exception?.StackTrace,
             Source = AppInfo.AutomatonStudio,
             CreatedDate = DateTime.Now

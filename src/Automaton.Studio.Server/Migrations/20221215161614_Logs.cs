@@ -28,7 +28,7 @@ namespace Automaton.Studio.Server.Migrations
                     LogLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EventName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Source = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ExceptionMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StackTrace = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

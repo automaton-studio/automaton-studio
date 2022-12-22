@@ -14,13 +14,13 @@ public class LogsController : BaseController
     }
 
     [HttpGet]
-    public IEnumerable<Log> GetLogs()
+    public IEnumerable<LogMessage> GetLogs()
     {
         return logsService.List();
     }
 
     [HttpGet("{id}")]
-    public Log Get(Guid id)
+    public LogMessage Get(Guid id)
     {
         var log = logsService.Get(id);
 
@@ -28,7 +28,7 @@ public class LogsController : BaseController
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(Guid id, Log log)
+    public IActionResult Put(Guid id, LogMessage log)
     {
         logsService.Update(id, log);
 
@@ -36,7 +36,7 @@ public class LogsController : BaseController
     }
 
     [HttpPost]
-    public IActionResult Post(Log log)
+    public IActionResult Post(LogMessage log)
     {
         var logId = logsService.Create(log);
 

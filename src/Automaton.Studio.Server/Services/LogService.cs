@@ -22,7 +22,7 @@ public class LogsService
         this.userId = userContextService.GetUserId();
     }
 
-    public IEnumerable<Log> List()
+    public IEnumerable<LogMessage> List()
     {
         var logEntities =
         (
@@ -33,12 +33,12 @@ public class LogsService
             select _log
         );
 
-        var logs = mapper.Map<IEnumerable<Log>>(logEntities);
+        var logs = mapper.Map<IEnumerable<LogMessage>>(logEntities);
 
         return logs;
     }
 
-    public Log Get(Guid id)
+    public LogMessage Get(Guid id)
     {
         var logEntity = 
         (
@@ -50,19 +50,19 @@ public class LogsService
         )
         .SingleOrDefault();
 
-        var log = mapper.Map<Log>(logEntity);
+        var log = mapper.Map<LogMessage>(logEntity);
 
         return log;
     }
 
-    public Guid Create(Log log)
+    public Guid Create(LogMessage log)
     {
-        var logEntity = new Entities.Log
+        var logEntity = new Entities.LogMessage
         {
             UserId = userId,
             EventName = log.EventName,
             CreatedDate = log.CreatedDate,
-            ExceptionMessage = log.ExceptionMessage,
+            Message = log.Message,
             LogLevel = log.LogLevel,
             Source = log.Source,
             StackTrace = log.StackTrace
@@ -75,7 +75,7 @@ public class LogsService
         return logEntity.Id;
     }
 
-    public void Update(Guid id, Log log)
+    public void Update(Guid id, LogMessage log)
     {
         var logEntity =
         (
@@ -89,7 +89,7 @@ public class LogsService
 
         logEntity.EventName = log.EventName;
         logEntity.CreatedDate = log.CreatedDate;
-        logEntity.ExceptionMessage = log.ExceptionMessage;
+        logEntity.Message = log.Message;
         logEntity.LogLevel = log.LogLevel;
         logEntity.Source = log.Source;
         logEntity.StackTrace = log.StackTrace;

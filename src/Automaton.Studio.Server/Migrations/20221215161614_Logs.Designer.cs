@@ -176,7 +176,7 @@ namespace Automaton.Studio.Server.Migrations
                     b.Property<string>("EventName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ExceptionMessage")
+                    b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LogLevel")

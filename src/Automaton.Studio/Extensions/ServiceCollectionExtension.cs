@@ -54,7 +54,6 @@ public static class ServiceCollectionExtension
         services.AddScoped<FlowsService>();
         services.AddScoped<RunnerService>();
         services.AddScoped<LocalStorageService>();
-        services.AddScoped<ErrorService>();
         services.AddSingleton<NavMenuService>();
 
         // ViewModels

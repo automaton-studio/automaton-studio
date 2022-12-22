@@ -2,7 +2,7 @@
 using Automaton.Studio.Pages.Flows.Components.NewFlow;
 using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Flows
@@ -14,7 +14,7 @@ namespace Automaton.Studio.Pages.Flows
         [Inject] private ModalService ModalService { get; set; }
         [Inject] private MessageService MessageService { get; set; }
         [Inject] public NavMenuService NavMenuService { get; set; }
-        [Inject] public ErrorService ErrorService { get; set; }
+        [Inject]  private ILogger<FlowsPage> Logger { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -27,7 +27,8 @@ namespace Automaton.Studio.Pages.Flows
             }
             catch(Exception ex)
             {
-                await ErrorService.ProcessError(ex);
+                await MessageService.Error("Something has gone wrong. Please contact support");
+                Logger.LogError(ex, ex.Message);
             }
             finally
             {
