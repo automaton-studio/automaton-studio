@@ -14,7 +14,6 @@ namespace Automaton.Studio.Pages.Flows
         [Inject] private ModalService ModalService { get; set; }
         [Inject] private MessageService MessageService { get; set; }
         [Inject] public NavMenuService NavMenuService { get; set; }
-        [Inject]  private ILogger<FlowsPage> Logger { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -25,10 +24,9 @@ namespace Automaton.Studio.Pages.Flows
                 await FlowsViewModel.GetFlows();
                 await FlowsViewModel.GetRunners();
             }
-            catch(Exception ex)
+            catch
             {
-                await MessageService.Error("Something has gone wrong. Please contact support");
-                Logger.LogError(ex, ex.Message);
+                await MessageService.Error(Resources.Errors.FlowsListNotLoaded);
             }
             finally
             {

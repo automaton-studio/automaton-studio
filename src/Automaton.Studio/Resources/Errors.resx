@@ -126,8 +126,14 @@
   <data name="FlowNameExists" xml:space="preserve">
     <value>Flow name already exists</value>
   </data>
+  <data name="FlowNotCreated" xml:space="preserve">
+    <value>Flow could not be created</value>
+  </data>
   <data name="FlowRequired" xml:space="preserve">
     <value>Flow is required</value>
+  </data>
+  <data name="FlowsListNotLoaded" xml:space="preserve">
+    <value>Flow list could not be loaded</value>
   </data>
   <data name="LoginFailed" xml:space="preserve">
     <value>Invalid login attempt</value>
@@ -143,6 +149,9 @@
   </data>
   <data name="PasswordRequired" xml:space="preserve">
     <value>Password is required</value>
+  </data>
+  <data name="UnexpectedError" xml:space="preserve">
+    <value>Something has gone wrong. Please contact support.</value>
   </data>
   <data name="UserNameRequired" xml:space="preserve">
     <value>User name is required</value>

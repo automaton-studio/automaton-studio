@@ -34,7 +34,7 @@ public class ApiLogger : ILogger
         {
             LogLevel = logLevel.ToString(),
             EventName = eventId.Name,
-            Message = exception?.Message ?? JsonSerializer.Serialize(state),
+            ExceptionMessage = exception?.Message ?? JsonSerializer.Serialize(state),
             StackTrace = exception?.StackTrace,
             Source = AppInfo.AutomatonStudio,
             CreatedDate = DateTime.Now

@@ -88,11 +88,29 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Flow could not be created.
+        /// </summary>
+        public static string FlowNotCreated {
+            get {
+                return ResourceManager.GetString("FlowNotCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Flow is required.
         /// </summary>
         public static string FlowRequired {
             get {
                 return ResourceManager.GetString("FlowRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flow list could not be loaded.
+        /// </summary>
+        public static string FlowsListNotLoaded {
+            get {
+                return ResourceManager.GetString("FlowsListNotLoaded", resourceCulture);
             }
         }
         
@@ -138,6 +156,15 @@ namespace Automaton.Studio.Resources {
         public static string PasswordRequired {
             get {
                 return ResourceManager.GetString("PasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Something has gone wrong. Please contact support..
+        /// </summary>
+        public static string UnexpectedError {
+            get {
+                return ResourceManager.GetString("UnexpectedError", resourceCulture);
             }
         }
         

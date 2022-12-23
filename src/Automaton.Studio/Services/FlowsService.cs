@@ -38,7 +38,7 @@ public class FlowsService
         }
         catch (Exception ex)
         {
-            logger.LogError(AppLogEvents.Error, ex, "Failed to load flows list");
+            logger.LogError(AppLogEvents.Error, ex, ex.Message);
             throw;
         }   
     }

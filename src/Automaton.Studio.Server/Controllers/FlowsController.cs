@@ -10,10 +10,7 @@ public class FlowsController : BaseController
 {
     private readonly FlowsService flowsService;
 
-    public FlowsController
-    (
-        FlowsService flowsService
-    )
+    public FlowsController(FlowsService flowsService)
     {
         this.flowsService = flowsService;
     }
@@ -21,6 +18,7 @@ public class FlowsController : BaseController
     [HttpGet]
     public IEnumerable<FlowInfo> Get()
     {
+        throw new Exception("Unexpected!!");
         return flowsService.List();
     }
 
