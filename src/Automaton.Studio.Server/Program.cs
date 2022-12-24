@@ -13,11 +13,17 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Serilog.Sinks.MSSqlServer;
 using System.Reflection;
+
+const string ConnectionStringName = "DefaultConnection";
+const string LogEventsSchemaName = "dbo";
+const string LogEventsTable = "LogEvents";
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString(ConnectionStringName);
 
 services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
@@ -51,8 +57,35 @@ services.AddRazorPages();
 services.AddServerSideBlazor();
 services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 services.AddScoped<IDataContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
-
 services.AddControllers();
+
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .Build();
+
+var columnOptionsSection = configuration.GetSection("Serilog:ColumnOptions");
+var sinkOptionsSection = configuration.GetSection("Serilog:SinkOptions");
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.MSSqlServer(
+        connectionString: ConnectionStringName,
+        sinkOptions: new MSSqlServerSinkOptions
+        {
+            TableName = LogEventsTable,
+            SchemaName = LogEventsSchemaName,
+            AutoCreateSqlTable = true
+        },
+        sinkOptionsSection: sinkOptionsSection,
+        appConfiguration: configuration,
+        columnOptionsSection: columnOptionsSection)
+.CreateLogger();
+
+services.AddLogging(x =>
+{
+    x.ClearProviders();
+    x.AddSerilog(dispose: true);
+});
+
 services.AddScoped<FlowsService>();
 services.AddScoped<RunnerService>();
 services.AddScoped<UserContextService>();

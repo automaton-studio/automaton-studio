@@ -1,16 +1,19 @@
 using Automaton.Studio.Server.Models;
 using Automaton.Studio.Server.Services;
 using Microsoft.AspNetCore.Mvc;
+using Serilog.Events;
 
 namespace Automaton.Studio.Server.Controllers;
 
 public class LogsController : BaseController
 {
     private readonly LogsService logsService;
+    private readonly ILogger<LogsController> logger;
 
-    public LogsController(LogsService logsService)
+    public LogsController(LogsService logsService, ILogger<LogsController> logger)
     {
         this.logsService = logsService;
+        this.logger = logger;
     }
 
     [HttpGet]
@@ -35,14 +38,31 @@ public class LogsController : BaseController
         return NoContent();
     }
 
+    //[HttpPost]
+    //public IActionResult Post(LogMessage log)
+    //{
+    //    var logId = logsService.Create(log);
+
+    //    var newLog = logsService.Get(logId);
+
+    //    return CreatedAtAction(nameof(Get), new { id = newLog.Id }, newLog);
+    //}
+
     [HttpPost]
-    public IActionResult Post(LogMessage log)
+    public void Post([FromBody] LogEvent[] body)
     {
-        var logId = logsService.Create(log);
+        var nbrOfEvents = body.Length;
+        var apiKey = Request.Headers["X-Api-Key"].FirstOrDefault();
 
-        var newLog = logsService.Get(logId);
+        logger.LogInformation(
+            "Received batch of {count} log events from {sender}",
+            nbrOfEvents,
+            apiKey);
 
-        return CreatedAtAction(nameof(Get), new { id = newLog.Id }, newLog);
+        foreach (var logEvent in body)
+        {
+            logger.LogInformation("Message: {message}", logEvent.RenderMessage());
+        }
     }
 
     [HttpDelete("{id}")]

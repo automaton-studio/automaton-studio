@@ -14,6 +14,7 @@ public class FlowsService
     private readonly RunnerService runnerService;
     private readonly IMapper mapper;
     private readonly Guid userId;
+    private readonly ILogger<FlowsService> logger;
 
     public FlowsService
     (
@@ -21,7 +22,8 @@ public class FlowsService
         WorkflowExecuteService workflowExecuteService,
         RunnerService runnerService,
         UserContextService userContextService,
-        IMapper mapper
+        IMapper mapper,
+        ILogger<FlowsService> logger
     )
     {
         this.dataContext = dataContext;
@@ -29,6 +31,7 @@ public class FlowsService
         this.runnerService = runnerService;
         this.mapper = mapper;
         this.userId = userContextService.GetUserId();
+        this.logger = logger;
     }
 
     public IEnumerable<FlowInfo> List()

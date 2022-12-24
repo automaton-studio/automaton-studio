@@ -18,7 +18,6 @@ public class FlowsController : BaseController
     [HttpGet]
     public IEnumerable<FlowInfo> Get()
     {
-        throw new Exception("Unexpected!!");
         return flowsService.List();
     }
 
