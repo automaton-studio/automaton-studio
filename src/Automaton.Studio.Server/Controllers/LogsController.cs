@@ -1,7 +1,6 @@
 using Automaton.Studio.Server.Models;
 using Automaton.Studio.Server.Services;
 using Microsoft.AspNetCore.Mvc;
-using Serilog.Events;
 
 namespace Automaton.Studio.Server.Controllers;
 
@@ -38,31 +37,14 @@ public class LogsController : BaseController
         return NoContent();
     }
 
-    //[HttpPost]
-    //public IActionResult Post(LogMessage log)
-    //{
-    //    var logId = logsService.Create(log);
-
-    //    var newLog = logsService.Get(logId);
-
-    //    return CreatedAtAction(nameof(Get), new { id = newLog.Id }, newLog);
-    //}
-
     [HttpPost]
-    public void Post([FromBody] LogEvent[] body)
+    public IActionResult Post(LogMessage log)
     {
-        var nbrOfEvents = body.Length;
-        var apiKey = Request.Headers["X-Api-Key"].FirstOrDefault();
+        var logId = logsService.Create(log);
 
-        logger.LogInformation(
-            "Received batch of {count} log events from {sender}",
-            nbrOfEvents,
-            apiKey);
+        var newLog = logsService.Get(logId);
 
-        foreach (var logEvent in body)
-        {
-            logger.LogInformation("Message: {message}", logEvent.RenderMessage());
-        }
+        return CreatedAtAction(nameof(Get), new { id = newLog.Id }, newLog);
     }
 
     [HttpDelete("{id}")]
