@@ -1,12 +1,14 @@
 ﻿@inherits LayoutComponentBase
 
 @using Microsoft.AspNetCore.Components
+@using Serilog;
+@using Automaton.Studio.Logging
 
 <Layout Class="layout">
 
     <AuthorizeView>
         <Sider Theme="SiderTheme.Light" Collapsed="true" Class="left-sider">
-            <NavMenu/>
+            <NavMenu />
         </Sider>
     </AuthorizeView>
 
@@ -16,6 +18,23 @@
         </Content>
     </Layout>
 </Layout>
+
+
+@code {
+
+    [Inject] public CustomHttpClient CustomHttpClient { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Log.Logger = new LoggerConfiguration()
+          .WriteTo.Http(
+              requestUri: $"https://localhost:7091/api/logevents",
+              httpClient: CustomHttpClient,
+              queueLimitBytes: null)
+           .CreateLogger();
+    }
+
+}
 
 <style>
     .site-layout {
@@ -40,5 +59,4 @@
         .left-sider .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
             border-right: 1px solid #fff;
         }
-    
 </style>

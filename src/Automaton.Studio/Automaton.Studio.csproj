@@ -20,6 +20,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebView" Version="6.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="6.0.541" />
+    <PackageReference Include="Serilog" Version="2.12.1-dev-01635" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.1-dev-10301" />
+    <PackageReference Include="Serilog.Sinks.Http" Version="8.0.0" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.21" />
   </ItemGroup>
 

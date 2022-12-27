@@ -1,8 +1,10 @@
 ﻿using AntDesign;
+using Automaton.Studio.Logging;
 using Automaton.Studio.Pages.Flows.Components.NewFlow;
 using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
+using Serilog;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Flows
@@ -14,10 +16,18 @@ namespace Automaton.Studio.Pages.Flows
         [Inject] private ModalService ModalService { get; set; }
         [Inject] private MessageService MessageService { get; set; }
         [Inject] public NavMenuService NavMenuService { get; set; }
+        [Inject] public CustomHttpClient CustomHttpClient { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
             FlowsViewModel.Loading = true;
+
+            Log.Logger = new LoggerConfiguration()
+           .WriteTo.Http(
+               requestUri: $"https://localhost:7091/api/logevents",
+               httpClient: CustomHttpClient,
+               queueLimitBytes: null)
+            .CreateLogger();
 
             try
             {

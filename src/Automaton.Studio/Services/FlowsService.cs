@@ -1,6 +1,7 @@
 ﻿using Automaton.Studio.Errors;
 using Automaton.Studio.Models;
 using Microsoft.Extensions.Logging;
+using Serilog.Core;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -28,6 +29,8 @@ public class FlowsService
     {
         try
         {
+            logger.LogInformation("Loading flows list");
+
             var result = await httpClient.GetAsync(configService.FlowsUrl);
 
             result.EnsureSuccessStatusCode();

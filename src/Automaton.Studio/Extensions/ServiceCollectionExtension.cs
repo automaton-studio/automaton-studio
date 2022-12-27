@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using Automaton.Client.Auth.Extensions;
+using Automaton.Client.Auth.Interfaces;
 using Automaton.Core.Scripting;
 using Automaton.Studio.Config;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Factories;
+using Automaton.Studio.Logging;
+using Automaton.Studio.Mapper;
 using Automaton.Studio.Pages.Account;
 using Automaton.Studio.Pages.Designer;
 using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
@@ -14,20 +17,20 @@ using Automaton.Studio.Pages.Login;
 using Automaton.Studio.Services;
 using Automaton.Studio.Steps.AddVariable;
 using Automaton.Studio.Steps.EmitLog;
-using Automaton.Studio.Steps.ExecutePython;
 using Automaton.Studio.Steps.ExecuteFlow;
+using Automaton.Studio.Steps.ExecutePython;
+using Automaton.Studio.Steps.Sequence;
+using Automaton.Studio.Steps.Test;
+using Automaton.Studio.Steps.TestAssert;
+using Automaton.Studio.Steps.TestReport;
 using Blazored.LocalStorage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Net.Http;
-using Automaton.Studio.Mapper;
-using Automaton.Studio.Steps.Test;
-using Automaton.Studio.Steps.Sequence;
-using Automaton.Studio.Steps.TestAssert;
-using Automaton.Studio.Steps.TestReport;
 using Microsoft.Extensions.Logging;
-using Automaton.Studio.Logging;
-using Microsoft.Extensions.Options;
+using Serilog;
+using System.Configuration;
+using System.Diagnostics;
+using System.Net.Http;
 
 namespace Automaton.Studio.Extensions;
 
@@ -95,11 +98,26 @@ public static class ServiceCollectionExtension
         services.AddScoped(typeof(DragDropService));
         services.AddScoped(service => new ConfigurationService(configuration));
 
-        services.AddSingleton<ILoggerProvider, ApplicationLoggerProvider>(services =>
+        services.AddSingleton(sp => new CustomHttpClient(sp));
+
+        services.AddLogging(x =>
         {
-            var httpClient = services.GetService<HttpClient>();
-            return new ApplicationLoggerProvider(httpClient, new ConfigurationService(configuration));
+            x.ClearProviders();
+            x.AddSerilog(dispose: true);
         });
+
+        services.AddSingleton(Log.Logger);
+
+#if DEBUG
+        Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));
+        Serilog.Debugging.SelfLog.Enable(Console.Error);
+#endif
+
+        //services.AddSingleton<ILoggerProvider, ApplicationLoggerProvider>(services =>
+        //{
+        //    var httpClient = services.GetService<HttpClient>();
+        //    return new ApplicationLoggerProvider(httpClient, new ConfigurationService(configuration));
+        //});
 
         // Automapper profile
         services.AddScoped(provider => new MapperConfiguration(cfg =>
