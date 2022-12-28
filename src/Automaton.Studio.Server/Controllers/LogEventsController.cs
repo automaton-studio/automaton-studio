@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Serilog.Events;
+using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
+using System.Diagnostics;
 
 namespace Automaton.Studio.Server.Controllers;
 
@@ -24,21 +26,24 @@ public class LogEventsController : BaseController
         {
             switch (log.Level)
             {
-                //case LogEventLevel.Information:
-                //    logger.LogInformation(log.MessageTemplate);
-                //    break;
-                //case LogEventLevel.Debug:
-                //    logger.LogDebug(log.MessageTemplate);
-                //    break;
-                //case LogEventLevel.Warning:
-                //    logger.LogWarning(log.MessageTemplate);
-                //    break;
-                //case LogEventLevel.Error:
-                //    logger.LogError(new Exception(log.MessageTemplate), log.MessageTemplate);
-                //    break;
-                //case LogEventLevel.Fatal:
-                //    logger.LogCritical(new Exception(log.MessageTemplate), log.MessageTemplate);
-                //    break;
+                case "Information":
+                    logger.LogInformation(log.MessageTemplate, log.Properties.Values);
+                    break;
+                case "Debug":
+                    logger.LogDebug(log.MessageTemplate, log.Properties.Values);
+                    break;
+                case "Warning":
+                    logger.LogWarning(log.MessageTemplate, log.Properties.Values);
+                    break;
+                case "Error":
+                    logger.LogError(new Exception(log.MessageTemplate), log.RenderedMessage, log.Properties.Values);
+                    break;
+                case "Critical":
+                    logger.LogCritical(new Exception(log.MessageTemplate), log.RenderedMessage, log.Properties.Values);
+                    break;  
+                default:
+                    logger.LogInformation(log.MessageTemplate, log.Properties.Values);
+                    break;
             }
         }
     }
