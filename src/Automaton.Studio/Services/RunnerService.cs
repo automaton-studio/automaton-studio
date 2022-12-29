@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Automaton.Studio.Errors;
 using Automaton.Studio.Pages.Flows;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
@@ -42,7 +41,7 @@ public class RunnerService
         }
         catch (Exception ex)
         {
-            logger.LogError(AppLogEvents.Error, ex, "Failed to load runners list");
+            logger.LogError(ex, "Failed to load runners list");
         }
 
         return runners;

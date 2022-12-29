@@ -1,5 +1,4 @@
-﻿using Automaton.Studio.Errors;
-using Automaton.Studio.Models;
+﻿using Automaton.Studio.Models;
 using Microsoft.Extensions.Logging;
 using Serilog.Core;
 using System.Net.Http;
@@ -29,7 +28,7 @@ public class FlowsService
     {
         try
         {
-            logger.LogInformation("Loading flows list");
+            logger.LogInformation("Loading flows list for user {UserName}", "Razvan");
 
             var result = await httpClient.GetAsync(configService.FlowsUrl);
 
@@ -41,7 +40,7 @@ public class FlowsService
         }
         catch (Exception ex)
         {
-            logger.LogError(AppLogEvents.Error, ex, ex.Message);
+            logger.LogError("An error happened when loading flows lists. {Error}", new { ex.Message, ex.StackTrace});
             throw;
         }   
     }

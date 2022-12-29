@@ -1,5 +1,4 @@
 ﻿using Automaton.Studio.Server.Core.Commands;
-using Automaton.Studio.Server.Resources;
 using Automaton.Studio.Server.Services;
 using FluentValidation;
 
@@ -13,10 +12,10 @@ namespace Automaton.Studio.Server.Application.Commands.Validators
         {
             this.runnerService = runnerService;
 
-            RuleFor(x => x.Name).NotEmpty().MaximumLength(50).WithMessage(Errors.NameRequired);
+            RuleFor(x => x.Name).NotEmpty().MaximumLength(50).WithMessage(Resources.Errors.NameRequired);
 
             When(x => !string.IsNullOrEmpty(x.Name), () => {
-                RuleFor(x => x).Must(NameIsUnique).WithMessage(Errors.RunnerExists);
+                RuleFor(x => x).Must(NameIsUnique).WithMessage(Resources.Errors.RunnerExists);
             });     
         }
 
