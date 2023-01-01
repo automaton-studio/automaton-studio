@@ -6,6 +6,7 @@ using Automaton.Studio.Server.Hubs;
 using Automaton.Studio.Server.Services;
 using Common.Authentication;
 using Common.EF;
+using Destructurama;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -14,6 +15,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Serilog.Formatting.Compact;
+using Serilog.Formatting.Json;
 using Serilog.Sinks.MSSqlServer;
 using System.Reflection;
 
@@ -66,7 +69,16 @@ var configuration = new ConfigurationBuilder()
 var columnOptionsSection = configuration.GetSection("Serilog:ColumnOptions");
 var sinkOptionsSection = configuration.GetSection("Serilog:SinkOptions");
 
+var columnOpts = new ColumnOptions();
+columnOpts.Store.Remove(StandardColumn.Properties);
+columnOpts.Store.Add(StandardColumn.LogEvent);
+columnOpts.LogEvent.DataLength = 2048;
+
 Log.Logger = new LoggerConfiguration()
+    .Destructure.UsingAttributes()
+    .Destructure.JsonNetTypes()
+    .Enrich.With<EventTypeEnricher>()
+    .MinimumLevel.Verbose()
     .WriteTo.MSSqlServer(
         connectionString: ConnectionStringName,
         sinkOptions: new MSSqlServerSinkOptions
@@ -77,13 +89,13 @@ Log.Logger = new LoggerConfiguration()
         },
         sinkOptionsSection: sinkOptionsSection,
         appConfiguration: configuration,
-        columnOptionsSection: columnOptionsSection)
+        columnOptions: columnOpts,
+        logEventFormatter: new CompactJsonFormatter())
 .CreateLogger();
 
 services.AddLogging(x =>
 {
     x.ClearProviders();
-    x.AddSerilog(dispose: true);
 });
 
 services.AddScoped<FlowsService>();

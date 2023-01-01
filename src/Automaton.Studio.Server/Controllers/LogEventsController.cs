@@ -1,32 +1,29 @@
-using Automaton.Studio.Errors;
 using Automaton.Studio.Server.Services;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
+using Serilog.Events;
 
 namespace Automaton.Studio.Server.Controllers;
 
 public class LogEventsController : BaseController
 {
     private readonly Guid userId;
-    private readonly ILogger<LogEventsController> logger;
+    private readonly Serilog.ILogger logger;
 
-    public LogEventsController(ILogger<LogEventsController> logger, UserContextService userContextService)
+    public LogEventsController(UserContextService userContextService)
     {
         userId = userContextService.GetUserId(); ;
-        this.logger = logger; 
+        logger = Log.ForContext<LogEventsController>();
     }
 
     [HttpPost]
     public void Post([FromBody] LogEvent[] logs)
     {
-        logger.LogInformation("Received batch of {Count} log events from {User}", logs.Length, userId);
-
         foreach (var log in logs)
         {
-            Enum.TryParse(log.Level, out LogLevel logLevel);
+            Enum.TryParse(log.Level, out LogEventLevel logLevel);
 
-            log.Properties.Add("User", userId);
-
-            logger.Log(logLevel, new EventId(LogEventId.Client, nameof(LogEventId.Client)), log.MessageTemplate, log.Properties);
+            Log.Write(logLevel, log.MessageTemplate, log.Properties);
         }
     }
 }

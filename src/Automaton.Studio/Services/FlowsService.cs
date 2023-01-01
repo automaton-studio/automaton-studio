@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using Serilog.Core;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Serilog;
+using Newtonsoft.Json;
 
 namespace Automaton.Studio.Services;
 
@@ -10,16 +12,15 @@ public class FlowsService
 {
     private HttpClient httpClient;
     private readonly ConfigurationService configService;
-    private readonly ILogger<FlowsService> logger;
+    private readonly Serilog.ILogger logger;
 
     public FlowsService
     (
         ConfigurationService configService,
-        HttpClient httpClient,
-        ILogger<FlowsService> logger
+        HttpClient httpClient
     )
     {
-        this.logger = logger;
+        logger = Log.ForContext<FlowsService>();
         this.configService = configService;
         this.httpClient = httpClient;
     }
@@ -28,8 +29,6 @@ public class FlowsService
     {
         try
         {
-            logger.LogInformation("Loading flows list for user {UserName}", "Razvan");
-
             var result = await httpClient.GetAsync(configService.FlowsUrl);
 
             result.EnsureSuccessStatusCode();
@@ -40,7 +39,7 @@ public class FlowsService
         }
         catch (Exception ex)
         {
-            logger.LogError("An error happened when loading flows lists. {Error}", new { ex.Message, ex.StackTrace});
+            logger.Error("An error happened when loading flows list. {Message} and {StackTrace}", ex.Message, ex.StackTrace);
             throw;
         }   
     }

@@ -2,6 +2,7 @@
 @using Automaton.Studio.Pages
 @using Automaton.Studio.Logging
 @using Serilog;
+@using Serilog.Formatting.Json;
 
 <Router AppAssembly="@this.GetType().Assembly" PreferExactMatches="@true">
     <Found Context="routeData">
@@ -50,7 +51,8 @@
               .WriteTo.Http(
                   requestUri: $"https://localhost:7091/api/logevents",
                   httpClient: CustomHttpClient,
-                  queueLimitBytes: null)
+                  queueLimitBytes: null,
+                  textFormatter: new JsonFormatter())
               .CreateLogger());
     }
 }
