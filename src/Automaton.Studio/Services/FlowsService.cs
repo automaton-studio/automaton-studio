@@ -1,10 +1,7 @@
 ﻿using Automaton.Studio.Models;
-using Microsoft.Extensions.Logging;
-using Serilog.Core;
+using Serilog;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Serilog;
-using Newtonsoft.Json;
 
 namespace Automaton.Studio.Services;
 
@@ -29,8 +26,6 @@ public class FlowsService
     {
         try
         {
-            logger.Information("This is an info");
-
             var result = await httpClient.GetAsync(configService.FlowsUrl);
 
             result.EnsureSuccessStatusCode();
