@@ -29,6 +29,8 @@ public class FlowsService
     {
         try
         {
+            logger.Information("This is an info");
+
             var result = await httpClient.GetAsync(configService.FlowsUrl);
 
             result.EnsureSuccessStatusCode();

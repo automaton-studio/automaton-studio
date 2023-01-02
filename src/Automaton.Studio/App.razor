@@ -51,8 +51,7 @@
               .WriteTo.Http(
                   requestUri: $"https://localhost:7091/api/logevents",
                   httpClient: CustomHttpClient,
-                  queueLimitBytes: null,
-                  textFormatter: new JsonFormatter())
+                  queueLimitBytes: null)
               .CreateLogger());
     }
 }

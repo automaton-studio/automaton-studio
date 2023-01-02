@@ -33,8 +33,6 @@ public class FlowService
 
     public async Task<StudioFlow> Load(Guid id)
     {
-        logger.LogInformation(default(EventId), null, "Hello", null);
-
         var response = await httpClient.GetAsync($"{configService.FlowsUrl}/{id}");
 
         response.EnsureSuccessStatusCode();

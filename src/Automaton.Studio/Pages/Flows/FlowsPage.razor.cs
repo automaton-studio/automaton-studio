@@ -3,8 +3,6 @@ using Automaton.Studio.Logging;
 using Automaton.Studio.Pages.Flows.Components.NewFlow;
 using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Logging;
-using Serilog;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Flows
@@ -21,13 +19,6 @@ namespace Automaton.Studio.Pages.Flows
         protected override async Task OnInitializedAsync()
         {
             FlowsViewModel.Loading = true;
-
-            Log.Logger = new LoggerConfiguration()
-           .WriteTo.Http(
-               requestUri: $"https://localhost:7091/api/logevents",
-               httpClient: CustomHttpClient,
-               queueLimitBytes: null)
-            .CreateLogger();
 
             try
             {

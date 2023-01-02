@@ -18,17 +18,12 @@ namespace Automaton.Studio.Logging
 
         public void Configure(IConfiguration configuration)
         {
-            httpClient.DefaultRequestHeaders.Add("X-Api-Key", configuration["apiKey"]);
         }
 
         public async Task<HttpResponseMessage> PostAsync(string requestUri, Stream stream)
         {
             using var content = new StreamContent(stream);
             content.Headers.Add("Content-Type", "application/json");
-
-            // TODO! This is temporary to debug the incoming stream, elete it when ready.
-            //StreamReader reader = new StreamReader(stream);
-            //string text = reader.ReadToEnd();
 
             var response = await httpClient
                 .PostAsync(requestUri, content)
