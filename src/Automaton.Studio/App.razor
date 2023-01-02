@@ -1,3 +1,4 @@
+@using Automaton.Client.Auth.Services;
 @using Automaton.Studio.Shared
 @using Automaton.Studio.Pages
 @using Automaton.Studio.Logging
@@ -33,6 +34,7 @@
 @code {
 
     [Inject] public CustomHttpClient CustomHttpClient { get; set; }
+    [Inject] public ConfigurationService ConfigurationService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -49,7 +51,7 @@
         await Task.Run(() =>
             Log.Logger = new LoggerConfiguration()
               .WriteTo.Http(
-                  requestUri: $"https://localhost:7091/api/logevents",
+                  requestUri: ConfigurationService.LogsUrl,
                   httpClient: CustomHttpClient,
                   queueLimitBytes: null)
               .CreateLogger());

@@ -13,7 +13,8 @@ public class ConfigurationService
     public string RefreshAccessTokenUrl => authConfiguration.RefreshAccessTokenUrl;
     public int RefreshTokenExpirationMinutesCheck => authConfiguration.RefreshTokenExpirationMinutesCheck;
     public string BaseUrl => apiConfiguration.BaseUrl;
-
+    public string LogsUrl => $"{apiConfiguration.BaseUrl}{apiConfiguration.LogsUrl}";
+    
     public ConfigurationService(IConfiguration configuration)
     {
         this.configuration = configuration;
