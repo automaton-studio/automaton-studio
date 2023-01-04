@@ -2,7 +2,9 @@
 using Automaton.Core.Models;
 using Automaton.Core.Services;
 using Automaton.Studio.Server.Data;
+using Automaton.Studio.Server.Middleware;
 using Automaton.Studio.Server.Models;
+using Serilog;
 using System.Text.Json;
 
 namespace Automaton.Studio.Server.Services;
@@ -14,7 +16,7 @@ public class FlowsService
     private readonly RunnerService runnerService;
     private readonly IMapper mapper;
     private readonly Guid userId;
-    private readonly ILogger<FlowsService> logger;
+    private readonly Serilog.ILogger logger;
 
     public FlowsService
     (
@@ -22,8 +24,7 @@ public class FlowsService
         WorkflowExecuteService workflowExecuteService,
         RunnerService runnerService,
         UserContextService userContextService,
-        IMapper mapper,
-        ILogger<FlowsService> logger
+        IMapper mapper
     )
     {
         this.dataContext = dataContext;
@@ -31,7 +32,7 @@ public class FlowsService
         this.runnerService = runnerService;
         this.mapper = mapper;
         this.userId = userContextService.GetUserId();
-        this.logger = logger;
+        this.logger = Log.ForContext<FlowsService>();
     }
 
     public IEnumerable<FlowInfo> List()

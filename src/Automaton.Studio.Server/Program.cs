@@ -3,6 +3,7 @@ using Automaton.Studio.Server.Areas.Identity;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Entities;
 using Automaton.Studio.Server.Hubs;
+using Automaton.Studio.Server.Middleware;
 using Automaton.Studio.Server.Services;
 using Common.Authentication;
 using Common.EF;
@@ -15,16 +16,20 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Serilog.Events;
 using Serilog.Formatting.Compact;
-using Serilog.Formatting.Json;
 using Serilog.Sinks.MSSqlServer;
+using Serilog.Sinks.SystemConsole.Themes;
+using System.Data;
 using System.Reflection;
+using static IronPython.Modules.CTypes;
 
 const string ConnectionStringName = "DefaultConnection";
 const string LogEventsSchemaName = "dbo";
 const string LogEventsTable = "LogEvents";
 
 var builder = WebApplication.CreateBuilder(args);
+
 var services = builder.Services;
 var connectionString = builder.Configuration.GetConnectionString(ConnectionStringName);
 
@@ -66,19 +71,31 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
     .Build();
 
+
+services.AddTransient<UserNameEnricher>();
+services.AddHttpContextAccessor();
+
 var columnOptionsSection = configuration.GetSection("Serilog:ColumnOptions");
 var sinkOptionsSection = configuration.GetSection("Serilog:SinkOptions");
 
-var columnOpts = new ColumnOptions();
+var columnOpts = new ColumnOptions
+{
+    AdditionalColumns = new List<SqlColumn>()
+    {
+        new SqlColumn { DataType = SqlDbType.NVarChar, ColumnName = "EventType", AllowNull = true }
+    }
+};
+
 columnOpts.Store.Remove(StandardColumn.Properties);
 columnOpts.Store.Add(StandardColumn.LogEvent);
-columnOpts.LogEvent.DataLength = 2048;
 
-Log.Logger = new LoggerConfiguration()
-    .Destructure.UsingAttributes()
+builder.Host.UseSerilog((context, services, config) =>
+    config.Destructure.UsingAttributes()
     .Destructure.JsonNetTypes()
     .Enrich.With<EventTypeEnricher>()
-    .MinimumLevel.Verbose()
+    .Enrich.With(services.GetService<UserNameEnricher>())
+    .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+    .MinimumLevel.Information()
     .WriteTo.MSSqlServer(
         connectionString: ConnectionStringName,
         sinkOptions: new MSSqlServerSinkOptions
@@ -87,16 +104,11 @@ Log.Logger = new LoggerConfiguration()
             SchemaName = LogEventsSchemaName,
             AutoCreateSqlTable = true
         },
+        logEventFormatter: new CompactJsonFormatter(),
         sinkOptionsSection: sinkOptionsSection,
         appConfiguration: configuration,
-        columnOptions: columnOpts,
-        logEventFormatter: new CompactJsonFormatter())
-.CreateLogger();
+        columnOptions: columnOpts));
 
-services.AddLogging(x =>
-{
-    x.ClearProviders();
-});
 
 services.AddScoped<FlowsService>();
 services.AddScoped<RunnerService>();
@@ -119,6 +131,13 @@ services.AddAutomatonCore();
 
 var app = builder.Build();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseSerilogRequestLogging();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -136,8 +155,6 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapControllers();
 app.MapBlazorHub();
