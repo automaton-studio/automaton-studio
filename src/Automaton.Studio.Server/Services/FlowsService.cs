@@ -45,6 +45,8 @@ public class FlowsService
 
         var flows = mapper.Map<IEnumerable<FlowInfo>>(entityFlows);
 
+        throw new Exception("An error happened on flows list");
+
         return flows;
     }
 

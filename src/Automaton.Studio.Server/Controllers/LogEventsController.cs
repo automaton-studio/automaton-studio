@@ -1,6 +1,7 @@
 using Automaton.Studio.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using Serilog.Context;
 using Serilog.Events;
 
 namespace Automaton.Studio.Server.Controllers;
@@ -23,7 +24,10 @@ public class LogEventsController : BaseController
         {
             Enum.TryParse(log.Level, out LogEventLevel logLevel);
 
-            Log.Write(logLevel, log.MessageTemplate, log.Properties);
+            using (LogContext.PushProperty("ApplicationName", "Automaton.Studio.Client"))
+            {
+                Log.Write(logLevel, log.MessageTemplate, log.Properties);
+            }
         }
     }
 }

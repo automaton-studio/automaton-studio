@@ -91,11 +91,11 @@ columnOpts.Store.Add(StandardColumn.LogEvent);
 
 builder.Host.UseSerilog((context, services, config) =>
     config.Destructure.UsingAttributes()
+    .ReadFrom.Configuration(configuration)
     .Destructure.JsonNetTypes()
     .Enrich.With<EventTypeEnricher>()
     .Enrich.With(services.GetService<UserNameEnricher>())
     .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
-    .MinimumLevel.Information()
     .WriteTo.MSSqlServer(
         connectionString: ConnectionStringName,
         sinkOptions: new MSSqlServerSinkOptions
@@ -108,7 +108,6 @@ builder.Host.UseSerilog((context, services, config) =>
         sinkOptionsSection: sinkOptionsSection,
         appConfiguration: configuration,
         columnOptions: columnOpts));
-
 
 services.AddScoped<FlowsService>();
 services.AddScoped<RunnerService>();
