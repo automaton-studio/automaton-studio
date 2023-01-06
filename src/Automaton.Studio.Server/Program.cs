@@ -19,10 +19,8 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
 using Serilog.Sinks.MSSqlServer;
-using Serilog.Sinks.SystemConsole.Themes;
 using System.Data;
 using System.Reflection;
-using static IronPython.Modules.CTypes;
 
 const string ConnectionStringName = "DefaultConnection";
 const string LogEventsSchemaName = "dbo";
@@ -75,20 +73,6 @@ var configuration = new ConfigurationBuilder()
 services.AddTransient<UserNameEnricher>();
 services.AddHttpContextAccessor();
 
-var columnOptionsSection = configuration.GetSection("Serilog:ColumnOptions");
-var sinkOptionsSection = configuration.GetSection("Serilog:SinkOptions");
-
-var columnOpts = new ColumnOptions
-{
-    AdditionalColumns = new List<SqlColumn>()
-    {
-        new SqlColumn { DataType = SqlDbType.NVarChar, ColumnName = "EventType", AllowNull = true }
-    }
-};
-
-columnOpts.Store.Remove(StandardColumn.Properties);
-columnOpts.Store.Add(StandardColumn.LogEvent);
-
 builder.Host.UseSerilog((context, services, config) =>
     config.Destructure.UsingAttributes()
     .ReadFrom.Configuration(configuration)
@@ -98,16 +82,8 @@ builder.Host.UseSerilog((context, services, config) =>
     .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
     .WriteTo.MSSqlServer(
         connectionString: ConnectionStringName,
-        sinkOptions: new MSSqlServerSinkOptions
-        {
-            TableName = LogEventsTable,
-            SchemaName = LogEventsSchemaName,
-            AutoCreateSqlTable = true
-        },
-        logEventFormatter: new CompactJsonFormatter(),
-        sinkOptionsSection: sinkOptionsSection,
-        appConfiguration: configuration,
-        columnOptions: columnOpts));
+        tableName: LogEventsTable,
+        appConfiguration: configuration));
 
 services.AddScoped<FlowsService>();
 services.AddScoped<RunnerService>();
@@ -133,7 +109,19 @@ var app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseSerilogRequestLogging();
+app.UseSerilogRequestLogging(
+    options =>
+    {
+        options.MessageTemplate = "{ClientIP} {RequestScheme} {RequestHost} {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
+        options.EnrichDiagnosticContext = (diagnosticContext, httpContext) =>
+        {
+            diagnosticContext.Set("RequestHost", httpContext.Request.Host.Value);
+            diagnosticContext.Set("RequestScheme", httpContext.Request.Scheme);
+            diagnosticContext.Set("ClientIP", httpContext.Connection.RemoteIpAddress);
+            // TODO! Need to send UserAgent from Blazor application with each HttpClient request
+            diagnosticContext.Set("UserAgent", httpContext.Request.Headers["User-Agent"].FirstOrDefault());
+        };
+    });
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
