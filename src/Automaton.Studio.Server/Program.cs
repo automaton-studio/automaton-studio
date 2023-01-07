@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
@@ -73,6 +74,9 @@ var configuration = new ConfigurationBuilder()
 services.AddTransient<UserNameEnricher>();
 services.AddHttpContextAccessor();
 
+var sinkOptions = new MSSqlServerSinkOptions { TableName = "LogEvents" };
+var columnOptions = new ColumnOptions();
+
 builder.Host.UseSerilog((context, services, config) =>
     config.Destructure.UsingAttributes()
     .ReadFrom.Configuration(configuration)
@@ -81,9 +85,14 @@ builder.Host.UseSerilog((context, services, config) =>
     .Enrich.With(services.GetService<UserNameEnricher>())
     .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
     .WriteTo.MSSqlServer(
+        //  If provided, the settings of MSSqlServerSinkOptions and ColumnOptions
+        //  objects created in code are treated as a baseline
+        //  which is then updated from the external configuration data
         connectionString: ConnectionStringName,
-        tableName: LogEventsTable,
-        appConfiguration: configuration));
+        appConfiguration: configuration,
+        logEventFormatter: new CompactJsonFormatter(),
+        sinkOptions: sinkOptions,
+        columnOptions: columnOptions));
 
 services.AddScoped<FlowsService>();
 services.AddScoped<RunnerService>();
