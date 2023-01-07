@@ -22,8 +22,6 @@ using Serilog.Sinks.MSSqlServer;
 using System.Reflection;
 
 const string ConnectionStringName = "DefaultConnection";
-const string LogEventsSchemaName = "dbo";
-const string LogEventsTable = "LogEvents";
 
 var builder = WebApplication.CreateBuilder(args);
 
