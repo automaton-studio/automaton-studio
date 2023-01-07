@@ -19,6 +19,7 @@ namespace Automaton.Studio.Logging
 
         public void Configure(IConfiguration configuration)
         {
+            // Does nothing for now
         }
 
         public async Task<HttpResponseMessage> PostAsync(string requestUri, Stream stream)
@@ -32,6 +33,9 @@ namespace Automaton.Studio.Logging
             return response;
         }
 
-        public void Dispose() => httpClient?.Dispose();
+        public void Dispose()
+        {
+            httpClient?.Dispose();
+        }
     }
 }
