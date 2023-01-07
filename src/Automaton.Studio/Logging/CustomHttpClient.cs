@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using Serilog.Sinks.Http;
 using System.IO;
 using System.Net.Http;
@@ -22,12 +23,11 @@ namespace Automaton.Studio.Logging
 
         public async Task<HttpResponseMessage> PostAsync(string requestUri, Stream stream)
         {
-            using var content = new StreamContent(stream);
-            content.Headers.Add("Content-Type", "application/json");
-
-            var response = await httpClient
-                .PostAsync(requestUri, content)
-                .ConfigureAwait(false);
+            var reader = new StreamReader(stream);
+            var text = reader.ReadToEnd();
+            var logEvents = JsonConvert.DeserializeObject<IEnumerable<LogEvent>>(text);
+               
+            var response = await httpClient.PostAsJsonAsync(requestUri, logEvents);
 
             return response;
         }

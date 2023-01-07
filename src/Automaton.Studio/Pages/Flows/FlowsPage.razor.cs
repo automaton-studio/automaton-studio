@@ -1,5 +1,4 @@
 ﻿using AntDesign;
-using Automaton.Studio.Logging;
 using Automaton.Studio.Pages.Flows.Components.NewFlow;
 using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
@@ -14,7 +13,6 @@ namespace Automaton.Studio.Pages.Flows
         [Inject] private ModalService ModalService { get; set; }
         [Inject] private MessageService MessageService { get; set; }
         [Inject] public NavMenuService NavMenuService { get; set; }
-        [Inject] public CustomHttpClient CustomHttpClient { get; set; }
 
         protected override async Task OnInitializedAsync()
         {

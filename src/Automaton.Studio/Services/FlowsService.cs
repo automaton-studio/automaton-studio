@@ -36,7 +36,7 @@ public class FlowsService
         }
         catch (Exception ex)
         {
-            logger.Error("An error happened when loading flows list. {Message} and {StackTrace}", ex.Message, ex.StackTrace);
+            logger.Error(ex, "An error happened when loading flows list.");
             throw;
         }   
     }

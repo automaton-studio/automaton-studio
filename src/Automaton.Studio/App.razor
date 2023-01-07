@@ -50,10 +50,11 @@
     {
         await Task.Run(() =>
             Log.Logger = new LoggerConfiguration()
-              .WriteTo.Http(
-                  requestUri: ConfigurationService.LogsUrl,
-                  httpClient: CustomHttpClient,
-                  queueLimitBytes: null)
-              .CreateLogger());
+                .Enrich.FromLogContext()
+                .WriteTo.Http(
+                    requestUri: ConfigurationService.LogsUrl,
+                    httpClient: CustomHttpClient,
+                    queueLimitBytes: null)
+                .CreateLogger());
     }
 }
