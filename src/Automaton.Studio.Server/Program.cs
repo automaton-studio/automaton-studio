@@ -90,7 +90,6 @@ builder.Host.UseSerilog((context, services, config) =>
 services.AddScoped<FlowsService>();
 services.AddScoped<RunnerService>();
 services.AddScoped<UserContextService>();
-services.AddScoped<LogsService>();
 services.AddTransient<UserManagerService>();
 services.AddTransient<RoleManagerService>();
 
