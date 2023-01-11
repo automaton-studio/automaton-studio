@@ -1,11 +1,11 @@
 ﻿@attribute [AllowAnonymous]
-@page "/login"
+@page "/register"
 
 @using AntDesign
 @using Blazored.FluentValidation
 
 <Layout>
-    <Content Class="login">
+    <Content Class="register">
         <Form Loading="loading" 
             Model="@Model"
             Layout="@FormLayout.Vertical"
@@ -17,18 +17,18 @@
             </Validator>
 
             <ChildContent>
-                <Title Level="1">Sign in</Title>
-                <FormItem>
-                    Don't have an account? <a href="/register">Sign up</a>
-                </FormItem>
+                <Title Level="1">Sign up</Title>
                 <FormItem Label="Username">
                     <Input @bind-Value="@context.UserName" />
                 </FormItem>
                 <FormItem Label="Password">
                     <InputPassword @bind-Value="@context.Password" />
                 </FormItem>
-                <FormItem >
-                    <Checkbox @bind-Value="context.RememberMe">Remember me</Checkbox>
+                <FormItem Label="Confirm Password">
+                    <InputPassword @bind-Value="@context.ConfirmPassword" />
+                </FormItem>
+                <FormItem>
+                    <Checkbox @bind-Value="@context.AgreeWithTermsPrivacyPolicy">I agree with <a href="/#">Terms</a> and <a href="/#">Privacy Policy</a> </Checkbox>
                 </FormItem>
                 <FormItem WrapperColSpan="16">
                     <Button Type="@ButtonType.Primary" HtmlType="submit">
@@ -42,7 +42,7 @@
 </Layout>
 
 <style>
-    .login {
+    .register {
         position:absolute;
         left:50%;
         top:40%;

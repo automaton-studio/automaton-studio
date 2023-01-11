@@ -61,6 +61,24 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Must agree with Terms and Privacy Policy.
+        /// </summary>
+        public static string AgreeWithTermsPrivacyPolicy {
+            get {
+                return ResourceManager.GetString("AgreeWithTermsPrivacyPolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password confirmtation is required.
+        /// </summary>
+        public static string ConfirmPasswordRequired {
+            get {
+                return ResourceManager.GetString("ConfirmPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Definition name already exists.
         /// </summary>
         public static string DefinitionNameExists {
@@ -174,6 +192,15 @@ namespace Automaton.Studio.Resources {
         public static string UserNameRequired {
             get {
                 return ResourceManager.GetString("UserNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User registration failed.
+        /// </summary>
+        public static string UserRegistrationFailed {
+            get {
+                return ResourceManager.GetString("UserRegistrationFailed", resourceCulture);
             }
         }
         

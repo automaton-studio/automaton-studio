@@ -6,15 +6,15 @@ namespace AuthServer.Core.Events
 {
     public class UserRegisteredEvent : INotification 
     {
-        public Guid Id { get;  }
-        public String Email { get; }
-        public String FirstName { get;  }
-        public String LastName { get; }
+        public string? UserName { get; }
+        public string? Email { get; }
+        public string? FirstName { get;  }
+        public string? LastName { get; }
 
         [JsonConstructor]
-        public UserRegisteredEvent(Guid id, String email, String firstName, String lastName)
+        public UserRegisteredEvent(string userName, string email, string firstName, string lastName)
         {
-            this.Id = id;
+            this.Email = userName;
             this.Email = email;
             this.FirstName = firstName;
             this.LastName = lastName;

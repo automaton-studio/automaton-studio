@@ -9,7 +9,6 @@ namespace AuthServer.Core.Mappings
         public UserProfile()
         {
             CreateMap<RegisterUserCommand, UserRegisteredEvent>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(_ => Guid.NewGuid()))
                 .ForAllMembers(x => x.UseDestinationValue());
         }
     }

@@ -30,12 +30,11 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
 
         public async Task<Unit> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
         {
-            Guid id = command.Id != Guid.Empty ? command.Id : Guid.NewGuid();
-            await _userManagerService.CreateUser(new ApplicationUser()
+            await _userManagerService.CreateUser(new ApplicationUser
             {
-                Id = id,
-                FirstName = command.FirstName,
-                LastName = command.LastName,
+                Id = Guid.NewGuid(),
+                FirstName = command.FirstName ?? string.Empty,
+                LastName = command.LastName ?? string.Empty,
                 UserName = command.UserName,
                 Email = command.Email,
                 SecurityStamp = Guid.NewGuid().ToString()
@@ -45,6 +44,7 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
 
             var userRegisteredEvent = _mapper.Map<UserRegisteredEvent>(command);
             await _mediator.Publish(userRegisteredEvent, cancellationToken);
+
             _logger.Log(LogLevel.Debug, "UserRegistered Event Published.");
 
             return Unit.Value;

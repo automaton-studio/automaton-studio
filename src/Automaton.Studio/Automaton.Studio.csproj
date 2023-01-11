@@ -69,6 +69,13 @@
 
   
   <ItemGroup>
+    <Content Update="Pages\Register\UserRegisterPage.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
+  
+  <ItemGroup>
     <EmbeddedResource Update="Resources\AppInfo.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AppInfo.Designer.cs</LastGenOutput>

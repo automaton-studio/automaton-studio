@@ -19,11 +19,12 @@ namespace Automaton.Studio.Server.Controllers
         /// <returns>User fetch URL in headers</returns>
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> RegisterUser([FromBody] RegisterUserCommand registerUserCommand,
+        public async Task<IActionResult> RegisterUser(RegisterUserCommand registerUserCommand,
             CancellationToken ct)
         {
             await Mediator.Send(registerUserCommand, ct);
-            return CreatedAtRoute("User", new {id = registerUserCommand.Id}, registerUserCommand.Id);
+
+            return CreatedAtRoute("User", new {id = registerUserCommand.UserName}, registerUserCommand.UserName);
         }
 
         /// <summary>

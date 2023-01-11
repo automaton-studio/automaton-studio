@@ -14,6 +14,7 @@ using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
 using Automaton.Studio.Pages.Designer.Components.StepExplorer;
 using Automaton.Studio.Pages.Flows;
 using Automaton.Studio.Pages.Login;
+using Automaton.Studio.Pages.Register;
 using Automaton.Studio.Services;
 using Automaton.Studio.Steps.AddVariable;
 using Automaton.Studio.Steps.EmitLog;
@@ -50,9 +51,10 @@ public static class ServiceCollectionExtension
         services.AddBlazoredLocalStorage();
         services.AddAuthorizationCore();
         services.AddStudioAuthenication<LocalStorageService>();
-        services.AddScoped<AuthenticationService>();
 
         // Services
+        services.AddScoped<AuthenticationService>();
+        services.AddScoped<UserRegisterService>();
         services.AddScoped<FlowService>();
         services.AddScoped<FlowsService>();
         services.AddScoped<RunnerService>();
@@ -67,6 +69,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<StepsViewModel>();
         services.AddScoped<FlowExplorerViewModel>();
         services.AddScoped<LoginViewModel>();
+        services.AddScoped<UserRegisterViewModel>();
         services.AddScoped<AccountViewModel>();
 
         // Steps

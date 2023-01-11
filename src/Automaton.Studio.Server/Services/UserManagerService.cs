@@ -27,6 +27,7 @@ public class UserManagerService
         }
 
         var result = await _userManager.CreateAsync(user, password);
+
         if (!result.Succeeded)
         {
             var exceptionText = result.Errors.Aggregate(

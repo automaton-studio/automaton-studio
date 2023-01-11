@@ -16,7 +16,7 @@ namespace Automaton.Studio.Server.Controllers
         /// <returns>User fetch URL in headers</returns>
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> RegisterUser([FromBody] RegisterUserCommand registerUserCommand, CancellationToken cancellationToken)
+        public async Task<IActionResult> RegisterUser(RegisterUserCommand registerUserCommand, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
@@ -26,8 +26,8 @@ namespace Automaton.Studio.Server.Controllers
             await Mediator.Send(registerUserCommand, cancellationToken);
 
             return CreatedAtRoute("User", 
-                new {controller = "User", userId = registerUserCommand.Id},
-                registerUserCommand.Id);
+                new {controller = "User", userId = registerUserCommand.UserName},
+                registerUserCommand.UserName);
         }
 
         /// <summary>
