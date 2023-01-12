@@ -2,13 +2,14 @@
 using Automaton.Core.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Login;
 
 partial class LoginPage : ComponentBase
 {
-    private readonly bool loading = false;
+    private bool loading = false;
 
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
     [Inject] private LoginViewModel LoginViewModel { get; set; } = default!;
@@ -30,11 +31,17 @@ partial class LoginPage : ComponentBase
     {
         try
         {
+            loading = true;
+
             await LoginViewModel.Login();
         }
         catch (Exception ex)
         {
             await MessageService.Error(Resources.Errors.LoginFailed);
+        }
+        finally
+        {
+            loading = false;
         }
 
         NavigationManager.NavigateTo($"/");
@@ -42,6 +49,6 @@ partial class LoginPage : ComponentBase
 
     private void OnFinishFailed(EditContext editContext)
     {
-        // Do nothing if form validation fails
+        Task.Run(() => MessageService.Error(Resources.Errors.LoginFailed));
     }
 }
