@@ -14,8 +14,6 @@ partial class UserRegisterPage : ComponentBase
     [Inject] private UserRegisterViewModel UserRegisterViewModel { get; set; } = default!;
     [Inject] private MessageService MessageService { get; set; }
 
-    public UserRegisterModel Model => UserRegisterViewModel.UserRegisterDetails;
-
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();

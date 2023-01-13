@@ -8,6 +8,8 @@ namespace Automaton.Studio.Pages.Flows
 {
     partial class FlowsPage : ComponentBase
     {
+        public bool loading;
+
         [Inject] private NavigationManager NavigationManager { get; set; } = default!;
         [Inject] private FlowsViewModel FlowsViewModel { get; set; } = default!;
         [Inject] private ModalService ModalService { get; set; }
@@ -16,7 +18,7 @@ namespace Automaton.Studio.Pages.Flows
 
         protected override async Task OnInitializedAsync()
         {
-            FlowsViewModel.Loading = true;
+            loading = true;
 
             try
             {
@@ -29,7 +31,7 @@ namespace Automaton.Studio.Pages.Flows
             }
             finally
             {
-                FlowsViewModel.Loading = false;
+                loading = false;
             }
 
             await base.OnInitializedAsync();

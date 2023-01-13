@@ -6,14 +6,14 @@ namespace Automaton.Studio.Server.Core.Commands
 {
     public class RegisterUserCommand : IRequest
     {
-        //[Required(ErrorMessage = "First name value is mandatory")]
+        [Required(ErrorMessage = "First name value is mandatory")]
         public string? FirstName { get; }
 
-        //[Required(ErrorMessage = "Last name value is mandatory")]
+        [Required(ErrorMessage = "Last name value is mandatory")]
         public string? LastName { get; }
 
-        //[Required(ErrorMessage = "Email address value is mandatory")]
-        //[EmailAddress(ErrorMessage = "Invalid email address")]
+        [Required(ErrorMessage = "Email address value is mandatory")]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
         public string? Email { get; }
 
         [Required(ErrorMessage = "UserName value is mandatory")]

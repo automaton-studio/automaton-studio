@@ -1,4 +1,4 @@
-﻿using Automaton.Studio.Pages.Register;
+﻿using Automaton.Studio.Models;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -21,9 +21,11 @@ public class UserRegisterService
     {
         var userDetails = new
         {
-            UserName = userRegistration.UserName,
-            Password = userRegistration.Password,
-            Email = userRegistration.UserName
+            userRegistration.UserName,
+            userRegistration.FirstName,
+            userRegistration.LastName,
+            userRegistration.Email,
+            userRegistration.Password,
         };
 
         var result = await httpClient.PostAsJsonAsync(configService.RegisterUserUrl, userDetails);

@@ -123,11 +123,20 @@
   <data name="ConfirmPasswordRequired" xml:space="preserve">
     <value>Password confirmtation is required</value>
   </data>
+  <data name="ConfirmPasswordSameAsPassword" xml:space="preserve">
+    <value>Confirmed password must be the same as password</value>
+  </data>
   <data name="DefinitionNameExists" xml:space="preserve">
     <value>Definition name already exists</value>
   </data>
   <data name="DisplayNameRequired" xml:space="preserve">
     <value>Display name is required</value>
+  </data>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>Email is required</value>
+  </data>
+  <data name="FirstNameRequired" xml:space="preserve">
+    <value>First name is required</value>
   </data>
   <data name="FlowNameExists" xml:space="preserve">
     <value>Flow name already exists</value>
@@ -140,6 +149,9 @@
   </data>
   <data name="FlowsListNotLoaded" xml:space="preserve">
     <value>Flow list could not be loaded</value>
+  </data>
+  <data name="LastNameRequired" xml:space="preserve">
+    <value>Last name is required</value>
   </data>
   <data name="LoginFailed" xml:space="preserve">
     <value>Invalid login attempt</value>

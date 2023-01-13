@@ -5,48 +5,89 @@
 @using Blazored.FluentValidation
 
 <Layout>
-    <Content Class="register">
-        <Form Loading="loading" 
-            Model="@Model"
-            Layout="@FormLayout.Vertical"
-            OnFinish="OnFinish"
-            OnFinishFailed="OnFinishFailed">
+    <Content Id="register-user">
+        <GridRow Justify="center" Align="center" Style="height: 100%; align-items:center">
+            <GridCol>
+                <Form Loading="loading"
+                      Model="@UserRegisterViewModel"
+                      Layout="@FormLayout.Vertical"
+                      OnFinish="OnFinish"
+                      OnFinishFailed="OnFinishFailed">
 
-            <Validator>
-                <FluentValidationValidator/>
-            </Validator>
+                    <Validator>
+                        <FluentValidationValidator />
+                    </Validator>
 
-            <ChildContent>
-                <Title Level="1">Sign up</Title>
-                <FormItem Label="Username">
-                    <Input @bind-Value="@context.UserName" />
-                </FormItem>
-                <FormItem Label="Password">
-                    <InputPassword @bind-Value="@context.Password" />
-                </FormItem>
-                <FormItem Label="Confirm Password">
-                    <InputPassword @bind-Value="@context.ConfirmPassword" />
-                </FormItem>
-                <FormItem>
-                    <Checkbox @bind-Value="@context.AgreeWithTermsPrivacyPolicy">I agree with <a href="/#">Terms</a> and <a href="/#">Privacy Policy</a> </Checkbox>
-                </FormItem>
-                <FormItem WrapperColSpan="16">
-                    <Button Type="@ButtonType.Primary" HtmlType="submit">
-                        Submit
-                    </Button>
-                </FormItem>
-            </ChildContent>
+                    <ChildContent>
+                        <Title Level="1">Sign up</Title>
+                        <GridRow Gutter="(16, 0)" Justify="center">
+                            <GridCol Xs="24" Md="12">
+                                <FormItem Label="User Name">
+                                    <Input @bind-Value="@context.UserName" />
+                                </FormItem>
+                            </GridCol>
+                            <GridCol Xs="24" Md="12">
+                                <FormItem Label="Email">
+                                    <Input @bind-Value="@context.Email" />
+                                </FormItem>
+                            </GridCol>
+                        </GridRow>
 
-        </Form>
+                        <GridRow Gutter="(16, 0)">
+                            <GridCol Xs="24" Md="12">
+                                <FormItem Label="Password">
+                                    <InputPassword @bind-Value="@context.Password" />
+                                </FormItem>
+                            </GridCol>
+                            <GridCol Xs="24" Md="12">
+                                <FormItem Label="Confirm Password">
+                                    <InputPassword @bind-Value="@context.ConfirmPassword" />
+                                </FormItem>
+                            </GridCol>
+                        </GridRow>
+
+                        <GridRow Gutter="(16, 0)">
+                            <GridCol Xs="24" Md="12">
+                                <FormItem Label="First Name">
+                                    <Input @bind-Value="@context.FirstName" />
+                                </FormItem>
+                            </GridCol>
+                            <GridCol Xs="24" Md="12">
+                                <FormItem Label="Last Name">
+                                    <Input @bind-Value="@context.LastName" />
+                                </FormItem>
+                            </GridCol>
+                        </GridRow>
+
+                        <FormItem>
+                            <Checkbox @bind-Value="@context.AgreeWithTermsPrivacyPolicy">I agree with <a href="/#">Terms</a> and <a href="/#">Privacy Policy</a> </Checkbox>
+                        </FormItem>
+                        <FormItem WrapperColSpan="16">
+                            <Button Type="@ButtonType.Primary" HtmlType="submit">
+                                Submit
+                            </Button>
+                        </FormItem>
+                    </ChildContent>
+
+                </Form>
+
+            </GridCol>
+        </GridRow>
     </Content>
 </Layout>
 
 <style>
-    .register {
-        position:absolute;
-        left:50%;
-        top:40%;
-        margin:-120px 0 0 -80px;
+    #register-user {
+        height: 100%;
+        background-color: white;
+    }
+
+    .site-layout-content {
+        height: 100%;
+    }
+
+    .ant-layout {
+        height: 100%;
     }
 </style>
 

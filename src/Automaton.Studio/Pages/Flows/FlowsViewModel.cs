@@ -11,7 +11,6 @@ public class FlowsViewModel
     private readonly FlowService flowService;
     private readonly IMapper mapper;
 
-    public bool Loading { get; set; }
     public ICollection<FlowModel> Flows { get; set;  } = new List<FlowModel>();
     public ICollection<RunnerModel> Runners { get; set; } = new List<RunnerModel>();
 

@@ -79,6 +79,15 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirmed password must be the same as password.
+        /// </summary>
+        public static string ConfirmPasswordSameAsPassword {
+            get {
+                return ResourceManager.GetString("ConfirmPasswordSameAsPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Definition name already exists.
         /// </summary>
         public static string DefinitionNameExists {
@@ -93,6 +102,24 @@ namespace Automaton.Studio.Resources {
         public static string DisplayNameRequired {
             get {
                 return ResourceManager.GetString("DisplayNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email is required.
+        /// </summary>
+        public static string EmailRequired {
+            get {
+                return ResourceManager.GetString("EmailRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First name is required.
+        /// </summary>
+        public static string FirstNameRequired {
+            get {
+                return ResourceManager.GetString("FirstNameRequired", resourceCulture);
             }
         }
         
@@ -129,6 +156,15 @@ namespace Automaton.Studio.Resources {
         public static string FlowsListNotLoaded {
             get {
                 return ResourceManager.GetString("FlowsListNotLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last name is required.
+        /// </summary>
+        public static string LastNameRequired {
+            get {
+                return ResourceManager.GetString("LastNameRequired", resourceCulture);
             }
         }
         

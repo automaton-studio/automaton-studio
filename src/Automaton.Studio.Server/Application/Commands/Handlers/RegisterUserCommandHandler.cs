@@ -33,8 +33,8 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
             await _userManagerService.CreateUser(new ApplicationUser
             {
                 Id = Guid.NewGuid(),
-                FirstName = command.FirstName ?? string.Empty,
-                LastName = command.LastName ?? string.Empty,
+                FirstName = command.FirstName,
+                LastName = command.LastName,
                 UserName = command.UserName,
                 Email = command.Email,
                 SecurityStamp = Guid.NewGuid().ToString()
