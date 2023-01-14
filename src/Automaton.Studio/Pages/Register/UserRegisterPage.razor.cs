@@ -2,7 +2,6 @@
 using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Register;
@@ -18,6 +17,11 @@ partial class UserRegisterPage : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
+        if (!ConfigurationService.UserSignUp)
+        {
+            NavigationManager.NavigateTo("/notavailable");
+        }
+
         await base.OnInitializedAsync();
     }
 
@@ -38,7 +42,7 @@ partial class UserRegisterPage : ComponentBase
             loading = false;
         }
 
-        NavigationManager.NavigateTo($"/");
+        NavigationManager.NavigateTo("/");
     }
 
     private void OnFinishFailed(EditContext editContext)

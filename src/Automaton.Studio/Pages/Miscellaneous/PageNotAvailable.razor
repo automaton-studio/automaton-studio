@@ -1,0 +1,32 @@
+﻿@attribute [AllowAnonymous]
+@page "/notavailable"
+@using AntDesign
+
+<Layout>
+    <Content Id="page-not-available">
+        <Row Justify="center" Align="center" Style="height: 100%; align-items:center">
+            <Col>
+            <Empty Description="false">
+                <DescriptionTemplate>
+                    <span>Page not available</span>
+                </DescriptionTemplate>
+            </Empty>
+            </Col>
+        </Row>
+    </Content>
+</Layout>
+
+<style>
+    #page-not-available {
+        height: 100%;
+        background-color: white;
+    }
+
+    .site-layout-content {
+        height: 100%;
+    }
+
+    .ant-layout {
+        height: 100%;
+    }
+</style>
