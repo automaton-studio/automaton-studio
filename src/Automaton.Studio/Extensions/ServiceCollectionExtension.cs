@@ -92,6 +92,7 @@ public static class ServiceCollectionExtension
         // Models
         services.AddScoped<AppConfig>();
         services.AddScoped<ApiConfig>();
+        services.AddScoped<OptionalConfig>();
 
         // Javascript
         services.AddScoped<JsInterop>();

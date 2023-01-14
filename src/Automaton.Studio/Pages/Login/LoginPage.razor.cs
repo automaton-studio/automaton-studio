@@ -1,5 +1,6 @@
 ﻿using AntDesign;
 using Automaton.Core.Models;
+using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Runtime.CompilerServices;
@@ -14,6 +15,7 @@ partial class LoginPage : ComponentBase
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
     [Inject] private LoginViewModel LoginViewModel { get; set; } = default!;
     [Inject] private MessageService MessageService { get; set; }
+    [Inject] private ConfigurationService ConfigurationService { get; set; }
 
     public LoginModel Model => LoginViewModel.LoginDetails;
 

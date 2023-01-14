@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Runtime.CompilerServices;
@@ -13,6 +14,7 @@ partial class UserRegisterPage : ComponentBase
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
     [Inject] private UserRegisterViewModel UserRegisterViewModel { get; set; } = default!;
     [Inject] private MessageService MessageService { get; set; }
+    [Inject] private ConfigurationService ConfigurationService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

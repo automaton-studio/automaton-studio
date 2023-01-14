@@ -21,9 +21,14 @@
 
                     <ChildContent>
                         <Title Level="1">Sign in</Title>
-                        <FormItem>
-                            Don't have an account? <a href="/register">Sign up</a>
-                        </FormItem>
+
+                        @if (ConfigurationService.UserSignUp)
+                        {
+                            <FormItem>
+                                Don't have an account? <a href="/register">Sign up</a>
+                            </FormItem>
+                        }
+                       
                         <FormItem Label="User Name">
                             <Input @bind-Value="@context.UserName" />
                         </FormItem>
