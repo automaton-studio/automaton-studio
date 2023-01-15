@@ -18,7 +18,6 @@ namespace Automaton.Studio.Server.Controllers
         /// <param name="ct">Cancellation Token</param>
         /// <returns>User fetch URL in headers</returns>
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> RegisterUser(RegisterUserCommand registerUserCommand,
             CancellationToken ct)
         {
@@ -33,7 +32,6 @@ namespace Automaton.Studio.Server.Controllers
         /// <param name="userId">Unique user identifier</param>
         /// <returns>User profile data</returns>
         [HttpGet("{userId}", Name = "User")]
-        [AllowAnonymous]
         public async Task<ActionResult<UserDetails>> FindUserById([FromRoute, NotEmptyGuid] Guid userId)
         {
             return Ok(await Mediator.Send(new UserQuery {Id = userId}));

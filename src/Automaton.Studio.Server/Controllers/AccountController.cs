@@ -1,6 +1,8 @@
 ﻿using Automaton.Studio.Server.Core.Commands;
+using Automaton.Studio.Server.Services;
 using Common.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Automaton.Studio.Server.Controllers
@@ -8,6 +10,13 @@ namespace Automaton.Studio.Server.Controllers
     [Route("api/[controller]/[action]")]
     public class AccountController : BaseController
     {
+        private ConfigurationService configurationService;
+
+        public AccountController(ConfigurationService configurationService)
+        {
+            this.configurationService = configurationService;
+        }
+
         /// <summary>
         /// Registers new user
         /// </summary>
@@ -18,6 +27,11 @@ namespace Automaton.Studio.Server.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> RegisterUser(RegisterUserCommand registerUserCommand, CancellationToken cancellationToken)
         {
+            if (configurationService.NoUserSignUp)
+            {
+                return NotFound();
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -25,8 +39,8 @@ namespace Automaton.Studio.Server.Controllers
 
             await Mediator.Send(registerUserCommand, cancellationToken);
 
-            return CreatedAtRoute("User", 
-                new {controller = "User", userId = registerUserCommand.UserName},
+            return CreatedAtRoute("User",
+                new { controller = "User", userId = registerUserCommand.UserName },
                 registerUserCommand.UserName);
         }
 

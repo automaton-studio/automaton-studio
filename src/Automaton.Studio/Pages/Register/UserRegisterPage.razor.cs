@@ -17,7 +17,7 @@ partial class UserRegisterPage : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        if (!ConfigurationService.UserSignUp)
+        if (ConfigurationService.NoUserSignUp)
         {
             NavigationManager.NavigateTo("/notavailable");
         }
@@ -32,6 +32,8 @@ partial class UserRegisterPage : ComponentBase
             loading = true;
 
             await UserRegisterViewModel.Register();
+
+            NavigationManager.NavigateTo("/");
         }
         catch (Exception ex)
         {
@@ -41,8 +43,6 @@ partial class UserRegisterPage : ComponentBase
         {
             loading = false;
         }
-
-        NavigationManager.NavigateTo("/");
     }
 
     private void OnFinishFailed(EditContext editContext)

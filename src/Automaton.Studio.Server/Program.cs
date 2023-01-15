@@ -92,6 +92,7 @@ services.AddScoped<RunnerService>();
 services.AddScoped<UserContextService>();
 services.AddTransient<UserManagerService>();
 services.AddTransient<RoleManagerService>();
+services.AddScoped(service => new ConfigurationService(configuration));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddEndpointsApiExplorer();
