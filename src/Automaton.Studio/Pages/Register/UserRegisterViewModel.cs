@@ -30,7 +30,7 @@ public class UserRegisterViewModel
     public async Task Register()
     {
 
-        var userDetails = new UserRegisterModel
+        var userDetails = new UserRegister
         {
             UserName= UserName,
             FirstName = FirstName,

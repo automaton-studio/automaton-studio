@@ -1,22 +1,16 @@
-using Automaton.Studio.Server.Migrations;
-using Automaton.Studio.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Serilog.Context;
-using Serilog.Core;
-using Serilog.Core.Enrichers;
 using Serilog.Events;
 
 namespace Automaton.Studio.Server.Controllers;
 
 public class LogEventsController : BaseController
 {
-    private readonly Guid userId;
     private readonly Serilog.ILogger logger;
 
-    public LogEventsController(UserContextService userContextService)
+    public LogEventsController()
     {
-        userId = userContextService.GetUserId(); ;
         logger = Log.ForContext<LogEventsController>();
     }
 
@@ -36,7 +30,7 @@ public class LogEventsController : BaseController
 
                 var exception = HasException(log.Exception) ? GetException(log.Exception) : null;
 
-                Log.Write(logLevel, exception, log.MessageTemplate);
+                logger.Write(logLevel, exception, log.MessageTemplate);
             }
         }
     }

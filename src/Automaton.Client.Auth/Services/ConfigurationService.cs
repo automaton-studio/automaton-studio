@@ -10,6 +10,7 @@ public class ConfigurationService
     private readonly ApiConfig apiConfiguration = new();
 
     public string RegisterUserUrl => authConfiguration.RegisterUserUrl;
+    public string UpdateUserProfileUrl => authConfiguration.UpdateUserProfileUrl;
     public string LoginUserUrl => authConfiguration.LoginUserUrl;
     public string RefreshAccessTokenUrl => authConfiguration.RefreshAccessTokenUrl;
     public int RefreshTokenExpirationMinutesCheck => authConfiguration.RefreshTokenExpirationMinutesCheck;

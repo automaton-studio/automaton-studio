@@ -55,6 +55,7 @@ public static class ServiceCollectionExtension
         // Services
         services.AddScoped<AuthenticationService>();
         services.AddScoped<UserRegisterService>();
+        services.AddScoped<UserAccountService>();      
         services.AddScoped<FlowService>();
         services.AddScoped<FlowsService>();
         services.AddScoped<RunnerService>();

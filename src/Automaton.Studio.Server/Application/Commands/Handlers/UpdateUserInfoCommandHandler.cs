@@ -19,9 +19,14 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
         public async Task<Unit> Handle(UpdateUserInfoCommand command, CancellationToken cancellationToken)
         {
             await _userManager.UpdateProfile(
-                userId: command.Id,
-                firstName: command.FirstName,
-                lastName: command.LastName
+                new Models.UserProfile
+                {
+                    Id = command.Id.Value,
+                    FirstName = command.FirstName,
+                    LastName = command.LastName,
+                    UserName = command.UserName,
+                    Email = command.Email
+                }
             );
 
             await _dataContext.SaveChangesAsync(cancellationToken);

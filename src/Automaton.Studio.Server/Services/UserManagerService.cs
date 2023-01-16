@@ -1,4 +1,5 @@
 ﻿using Automaton.Studio.Server.Entities;
+using Automaton.Studio.Server.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace Automaton.Studio.Server.Services;
@@ -40,19 +41,26 @@ public class UserManagerService
     public async Task UpdatePassword(Guid userId, string oldPassword, string newPassword)
     {
         var user = await GetUserById(userId);
+
         var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+
         if (!result.Succeeded)
         {
             throw new Exception("Error in updating password!");
         }
     }
 
-    public async Task UpdateProfile(Guid userId, string firstName, string lastName)
+    public async Task UpdateProfile(UserProfile userProfile)
     {
-        var user = await GetUserById(userId);
-        user.FirstName = firstName;
-        user.LastName = lastName;
+        var user = await GetUserById(userProfile.Id);
+
+        user.FirstName = userProfile.FirstName;
+        user.LastName = userProfile.LastName;
+        user.UserName = userProfile.UserName;
+        user.Email = userProfile.Email;     
+
         var result = await _userManager.UpdateAsync(user);
+
         if (!result.Succeeded)
         {
             throw new Exception("Error in updating Profile!");

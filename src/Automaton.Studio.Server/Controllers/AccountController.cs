@@ -2,7 +2,6 @@
 using Automaton.Studio.Server.Services;
 using Common.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Automaton.Studio.Server.Controllers
@@ -17,12 +16,6 @@ namespace Automaton.Studio.Server.Controllers
             this.configurationService = configurationService;
         }
 
-        /// <summary>
-        /// Registers new user
-        /// </summary>
-        /// <param name="registerUserCommand">Information for registering a new user</param>
-        /// <param name="cancellationToken">Cancellation Token</param>
-        /// <returns>User fetch URL in headers</returns>
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> RegisterUser(RegisterUserCommand registerUserCommand, CancellationToken cancellationToken)
@@ -44,12 +37,6 @@ namespace Automaton.Studio.Server.Controllers
                 registerUserCommand.UserName);
         }
 
-        /// <summary>
-        /// Registers new user
-        /// </summary>
-        /// <param name="signInUserCommand">Information for authenticating a user</param>
-        /// <param name="cancellationToken">Cancellation Token</param>
-        /// <returns>JsonWebToken</returns>
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult<JsonWebToken>> LoginUser([FromBody] SignInUserCommand signInUserCommand, CancellationToken cancellationToken)
@@ -62,16 +49,26 @@ namespace Automaton.Studio.Server.Controllers
             return await Mediator.Send(signInUserCommand, cancellationToken);
         }
 
-        /// <summary>
-        /// Updates user password
-        /// </summary>
-        /// <param name="passwordUpdateCommand">User password update details</param>
-        /// <returns>Empty OK response</returns>
         [HttpPut]
         [Authorize]
-        public async Task<IActionResult> UpdateUserPassword([FromBody] UpdateUserPasswordCommand passwordUpdateCommand, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateUserPassword(UpdateUserPasswordCommand passwordUpdateCommand, CancellationToken cancellationToken)
         {
             await Mediator.Send(passwordUpdateCommand, cancellationToken);
+
+            return NoContent();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateUserProfile(UpdateUserInfoCommand profileUpdateCommand, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            profileUpdateCommand.Id = GetUserId();
+
+            await Mediator.Send(profileUpdateCommand, cancellationToken);
 
             return NoContent();
         }

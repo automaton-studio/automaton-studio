@@ -232,6 +232,15 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to update user profile.
+        /// </summary>
+        public static string UserProfileUpdateFailed {
+            get {
+                return ResourceManager.GetString("UserProfileUpdateFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User registration failed.
         /// </summary>
         public static string UserRegistrationFailed {
