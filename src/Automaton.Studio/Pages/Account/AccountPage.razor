@@ -2,32 +2,50 @@
 @using AntDesign
 @using Blazored.FluentValidation
 
-<Layout>
-    <Header Class="header">
+<Layout Class="designer-container">
+
+    <Sider Breakpoint="@BreakpointType.Lg"
+           CollapsedWidth="64"
+           @bind-Collapsed=@collapsed Theme="SiderTheme.Light">
+
         <Row>
-            <Col Flex=@("none") Class="page-title">
-            <Space Size="@AntSizeLDSType.Large">
-                <SpaceItem>
-                    <h3>Account</h3>
-                </SpaceItem>
-                <SpaceItem>
-
-                </SpaceItem>
-            </Space>
-            </Col>
-
-            <Col Class="right-actions">
-            <Space Class="right-header-items">
-                <Button Icon="poweroff" OnClick="Logout">
-                    Logout
-                </Button>
-            </Space>
+            <Col Span="24">
+            <div class="account-header">
+                <h3>Account</h3>
+            </div>
             </Col>
         </Row>
 
-    </Header>
+        <Menu Mode="MenuMode.Inline" DefaultSelectedKeys=@(new[]{"1"})>
+            <MenuItem Key="1">
+                <Icon Type="smile" Theme="outline" />
+                <span class="nav-text">Account Details</span>
+            </MenuItem>
+            <MenuItem Key="2">
+                <Icon Type="lock" Theme="outline" />
+                <span class="nav-text">Security</span>
+            </MenuItem>
+        </Menu>
+    </Sider>
 
     <Content>
+
+        <Header Class="header">
+            <Row>
+                <Col Flex=@("none") Class="page-title">
+                    <Space Size="@AntSizeLDSType.Large">
+                    </Space>
+                </Col>
+                <Col Class="right-actions">
+                    <Space Class="right-header-items">
+                        <Button Icon="poweroff" OnClick="Logout">
+                            Logout
+                        </Button>
+                    </Space>
+                </Col>
+            </Row>
+        </Header>
+
         <Form Loading="loading"
               Model="@AccountViewModel"
               Layout="@FormLayout.Vertical"
@@ -39,7 +57,6 @@
             </Validator>
 
             <ChildContent>
-                <Title Level="1">Sign up</Title>
                 <GridRow Gutter="(16, 0)" Justify="center">
                     <GridCol Xs="24" Md="12">
                         <FormItem Label="User Name">
@@ -89,9 +106,20 @@
         </Form>
 
     </Content>
+
 </Layout>
 
+@code {
+    bool collapsed;
+}
+
 <style>
+
+    .account-header {
+        background-color: #fff;
+        padding: 10px 0px 0px 20px;
+    }
+
     .header {
         background: #fff;
         margin-bottom: 5px;
@@ -114,6 +142,14 @@
 
     .right-actions {
         margin-left: auto;
+    }
+
+    .site-layout-content {
+        height: 100%;
+    }
+
+    .ant-layout {
+        height: 100%;
     }
 
 </style>
