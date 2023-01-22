@@ -11,6 +11,7 @@ public class ConfigurationService
 
     public string RegisterUserUrl => authConfiguration.RegisterUserUrl;
     public string UpdateUserProfileUrl => authConfiguration.UpdateUserProfileUrl;
+    public string GetUserProfileUrl => authConfiguration.GetUserProfileUrl;
     public string LoginUserUrl => authConfiguration.LoginUserUrl;
     public string RefreshAccessTokenUrl => authConfiguration.RefreshAccessTokenUrl;
     public int RefreshTokenExpirationMinutesCheck => authConfiguration.RefreshTokenExpirationMinutesCheck;

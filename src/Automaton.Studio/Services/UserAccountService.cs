@@ -17,9 +17,27 @@ public class UserAccountService
         this.configService = configService;
     }
 
-    public async Task UpdateUserProfile(UserUpdate userUpdate)
+    public async Task<UserProfile> GetUserProfile()
     {
-        var result = await httpClient.PutAsJsonAsync(configService.UpdateUserProfileUrl, userUpdate);
+        var result = await httpClient.GetAsync(configService.GetUserProfileUrl);
+
+        result.EnsureSuccessStatusCode();
+
+        var userProfile = await result.Content.ReadAsAsync<UserProfile>();
+
+        return userProfile;
+    }
+
+    public async Task UpdateUserProfile(UserProfile userProfile)
+    {
+        var result = await httpClient.PutAsJsonAsync(configService.UpdateUserProfileUrl, userProfile);
+
+        result.EnsureSuccessStatusCode();
+    }
+
+    public async Task UpdateUserPassword(UserPassword userSecurity)
+    {
+        var result = await httpClient.PutAsJsonAsync(configService.UpdateUserProfileUrl, userSecurity);
 
         result.EnsureSuccessStatusCode();
     }

@@ -72,7 +72,9 @@ public static class ServiceCollectionExtension
         services.AddScoped<LoginViewModel>();
         services.AddScoped<UserRegisterViewModel>();
         services.AddScoped<AccountViewModel>();
-
+        services.AddScoped<UserProfileViewModel>();
+        services.AddScoped<UserSecurityViewModel>();
+     
         // Steps
         services.AddScoped<IStepTypeDescriptor, StepTypeDescriptor>();
         services.AddScoped<StepFactory>();

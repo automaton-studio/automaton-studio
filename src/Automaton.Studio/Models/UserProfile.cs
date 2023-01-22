@@ -1,7 +1,9 @@
 ﻿namespace Automaton.Studio.Models;
 
-public class UserUpdate
+public class UserProfile
 {
+    public Guid Id { get; set; }
+
     public string FirstName { get; set; }
 
     public string LastName { get; set; }

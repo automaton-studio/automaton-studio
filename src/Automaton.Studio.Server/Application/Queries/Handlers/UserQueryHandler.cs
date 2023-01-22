@@ -18,7 +18,11 @@ namespace AuthServer.Application.Queries.Handlers
 
         public async Task<UserDetails> Handle(UserQuery request, CancellationToken cancellationToken)
         {
-            return _mapper.Map<UserDetails>(await _userManagerService.GetUserById(request.Id));
+            var user = await _userManagerService.GetUserById(request.Id);
+
+            var userDetails = _mapper.Map<UserDetails>(user);
+
+            return userDetails;
         }
     }
 }

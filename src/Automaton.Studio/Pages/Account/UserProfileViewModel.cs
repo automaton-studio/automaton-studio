@@ -3,9 +3,8 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Account;
 
-public class AccountViewModel
+public class UserProfileViewModel
 {
-    private readonly AuthenticationService authenticationService;
     private readonly UserAccountService userAccountService;
 
     public string UserName { get; set; }
@@ -16,25 +15,24 @@ public class AccountViewModel
 
     public string Email { get; set; }
 
-    public string Password { get; set; }
-
-    public string ConfirmPassword { get; set; }
-
-    public AccountViewModel(AuthenticationService authenticationService, 
-        UserAccountService userAccountService)
+    public UserProfileViewModel(UserAccountService userAccountService)
     {
-        this.authenticationService = authenticationService;
         this.userAccountService = userAccountService;
     }
 
-    public async Task Logout()
-    {   
-        await authenticationService.Logout();
+    public async Task LoadUserProfile()
+    {
+        var userProfile = await userAccountService.GetUserProfile();
+
+        UserName = userProfile.UserName; 
+        FirstName = userProfile.FirstName; 
+        LastName = userProfile.LastName;
+        Email = userProfile.Email;
     }
 
     public async Task UpdateUserProfile()
     {
-        var userUpdate = new Models.UserProfile
+        var userProfile = new Models.UserProfile
         {
             UserName = UserName,
             FirstName = FirstName,
@@ -42,6 +40,6 @@ public class AccountViewModel
             Email = Email
         };
 
-        await userAccountService.UpdateUserProfile(userUpdate);
+        await userAccountService.UpdateUserProfile(userProfile);
     }
 }

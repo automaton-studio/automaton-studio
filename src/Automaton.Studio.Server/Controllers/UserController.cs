@@ -27,6 +27,12 @@ namespace Automaton.Studio.Server.Controllers
             return CreatedAtRoute("User", new {id = registerUserCommand.UserName}, registerUserCommand.UserName);
         }
 
+        [HttpGet]
+        public async Task<ActionResult<UserDetails>> GetUserProfile()
+        {
+            return Ok(await Mediator.Send(new UserQuery { Id = GetUserId() }));
+        }
+
         /// <summary>
         /// Get user profile for the ID
         /// </summary>
