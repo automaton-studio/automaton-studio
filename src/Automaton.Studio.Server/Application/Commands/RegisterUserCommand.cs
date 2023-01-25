@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Automaton.Studio.Server.Core.Commands
 {
-    public class RegisterUserCommand : IRequest
+    public class RegisterUserCommand
     {
         [Required(ErrorMessage = "First name value is mandatory")]
         public string? FirstName { get; }
@@ -22,7 +22,6 @@ namespace Automaton.Studio.Server.Core.Commands
         [Required(ErrorMessage = "Password value is mandatory")]
         public string Password { get; }
 
-        [JsonConstructor]
         public RegisterUserCommand(string firstName, string lastName, string email,
             string password, string userName)
         {
