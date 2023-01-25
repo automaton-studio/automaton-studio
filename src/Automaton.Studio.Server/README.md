@@ -20,6 +20,12 @@ This change allows us to ship dotnet ef as a regular .NET CLI tool that can be i
 
 ``dotnet ef migrations add MigrationName --context AutomatonDbContext``
 
+### Swagger URLs
+
+https://localhost/swagger/v1/swagger.json
+https://localhost/swagger/index.html
+
+
 
 
 
