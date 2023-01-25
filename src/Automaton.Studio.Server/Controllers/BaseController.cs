@@ -16,7 +16,7 @@ namespace Automaton.Studio.Server.Controllers
         {
         }
 
-        public Guid GetUserId()
+        protected Guid GetUserId()
         {
             var userIdString = HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
