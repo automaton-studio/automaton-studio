@@ -1,19 +1,21 @@
-﻿using Common.Authentication;
-using MediatR;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace Automaton.Studio.Server.Core.Commands
 {
-    public class SignInUserCommand : IRequest<JsonWebToken>
+    public class SignInUserCommand
     {
-        public string Password { get; }
+        [Required(ErrorMessage = "UserName is mandatory")]
         public string UserName { get; }
 
+        [Required(ErrorMessage = "Password is mandatory")]
+        public string Password { get; }
+
         [JsonConstructor]
-        public SignInUserCommand(string password, string userName)
+        public SignInUserCommand(string userName, string password)
         {
-            Password = password;
             UserName = userName;
+            Password = password;
         }
     }
 }

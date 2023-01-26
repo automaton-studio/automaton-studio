@@ -3,8 +3,6 @@ using Automaton.Studio.Server.Core.Commands;
 using Automaton.Studio.Server.Models;
 using Automaton.Studio.Server.Services;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
-using System;
 
 namespace Automaton.Studio.Server.Controllers;
 
