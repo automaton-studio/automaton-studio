@@ -61,7 +61,16 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User profile was updated.
+        ///   Looks up a localized string similar to Password updated.
+        /// </summary>
+        internal static string UserPasswordUpdated {
+            get {
+                return ResourceManager.GetString("UserPasswordUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile updated.
         /// </summary>
         internal static string UserProfileUpdated {
             get {

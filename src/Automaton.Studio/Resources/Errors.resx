@@ -165,6 +165,12 @@
   <data name="NameRequired" xml:space="preserve">
     <value>Name is required</value>
   </data>
+  <data name="NewPasswordRequired" xml:space="preserve">
+    <value>New password is required</value>
+  </data>
+  <data name="OldPasswordRequired" xml:space="preserve">
+    <value>Old password is required</value>
+  </data>
   <data name="PasswordRequired" xml:space="preserve">
     <value>Password is required</value>
   </data>

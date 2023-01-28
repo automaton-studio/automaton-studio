@@ -1,7 +1,9 @@
-﻿using AutoMapper;
+﻿using AuthServer.Core.Events;
+using AutoMapper;
 using Automaton.Studio.Server.Core.Commands;
 using Automaton.Studio.Server.Entities;
 using Automaton.Studio.Server.Services;
+using Azure.Core;
 using Common.Authentication;
 using Common.EF;
 using Microsoft.AspNetCore.Authorization;
@@ -95,10 +97,18 @@ namespace Automaton.Studio.Server.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         public async Task<IActionResult> UpdateUserPassword(UpdateUserPasswordCommand passwordUpdateCommand, CancellationToken cancellationToken)
         {
-            await Mediator.Send(passwordUpdateCommand, cancellationToken);
+            var userId = GetUserId();
+
+            await _userManagerService.UpdatePassword
+            (
+                userId, 
+                passwordUpdateCommand.OldPassword, 
+                passwordUpdateCommand.NewPassword
+            );
+
+            await _dataContext.SaveChangesAsync(cancellationToken);
 
             return NoContent();
         }

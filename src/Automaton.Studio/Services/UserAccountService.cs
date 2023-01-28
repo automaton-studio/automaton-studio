@@ -37,7 +37,7 @@ public class UserAccountService
 
     public async Task UpdateUserPassword(UserPassword userSecurity)
     {
-        var result = await httpClient.PutAsJsonAsync(configService.UpdateUserProfileUrl, userSecurity);
+        var result = await httpClient.PutAsJsonAsync(configService.UpdateUserPasswordUrl, userSecurity);
 
         result.EnsureSuccessStatusCode();
     }

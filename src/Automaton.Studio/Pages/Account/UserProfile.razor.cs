@@ -11,7 +11,6 @@ namespace Automaton.Studio.Pages.Account
         private bool loading = false;
 
         [Inject] private UserProfileViewModel UserProfileViewModel { get; set; } = default!;
-        [Inject] private NavigationManager NavigationManager { get; set; } = default!;
         [Inject] public NavMenuService NavMenuService { get; set; }
         [Inject] private MessageService MessageService { get; set; }
 
@@ -29,6 +28,8 @@ namespace Automaton.Studio.Pages.Account
                 loading = true;
 
                 await UserProfileViewModel.UpdateUserProfile();
+
+                await MessageService.Info(Resources.Information.UserProfileUpdated);
             }
             catch (Exception ex)
             {
@@ -37,8 +38,6 @@ namespace Automaton.Studio.Pages.Account
             finally
             {
                 loading = false;
-
-                await MessageService.Info(Resources.Information.UserProfileUpdated);
             }
         }
 

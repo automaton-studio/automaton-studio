@@ -117,7 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="UserPasswordUpdated" xml:space="preserve">
+    <value>Password updated</value>
+  </data>
   <data name="UserProfileUpdated" xml:space="preserve">
-    <value>User profile was updated</value>
+    <value>Profile updated</value>
   </data>
 </root>

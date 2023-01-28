@@ -205,6 +205,24 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New password is required.
+        /// </summary>
+        public static string NewPasswordRequired {
+            get {
+                return ResourceManager.GetString("NewPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Old password is required.
+        /// </summary>
+        public static string OldPasswordRequired {
+            get {
+                return ResourceManager.GetString("OldPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password is required.
         /// </summary>
         public static string PasswordRequired {
