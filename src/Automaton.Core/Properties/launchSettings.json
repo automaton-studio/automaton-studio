@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Automaton.Core": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:62295;http://localhost:62298"
+    }
+  }
+}
