@@ -1,0 +1,39 @@
+﻿@using AntDesign
+@using Blazored.FluentValidation
+
+<h3>Security</h3>
+
+<Form Loading="loading"
+      Model="@UserSecurityViewModel"
+      Layout="@FormLayout.Vertical"
+      OnFinish="OnFinish"
+      OnFinishFailed="OnFinishFailed">
+
+    <Validator>
+        <FluentValidationValidator />
+    </Validator>
+
+    <ChildContent>
+
+        <GridRow Gutter="(16, 0)">
+            <GridCol Xs="24" Md="12">
+                <FormItem Label="Old Password">
+                    <InputPassword @bind-Value="@context.OldPassword" />
+                </FormItem>
+            </GridCol>
+            <GridCol Xs="24" Md="12">
+                <FormItem Label="New Password">
+                    <InputPassword @bind-Value="@context.NewPassword" />
+                </FormItem>
+            </GridCol>
+        </GridRow>
+
+        <FormItem WrapperColSpan="16">
+            <Button Type="@ButtonType.Primary" HtmlType="submit">
+                Submit
+            </Button>
+        </FormItem>
+    </ChildContent>
+
+</Form>
+
