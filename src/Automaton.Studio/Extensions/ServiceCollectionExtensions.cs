@@ -33,7 +33,7 @@ using System.Net.Http;
 
 namespace Automaton.Studio.Extensions;
 
-public static class ServiceCollectionExtension
+public static class ServiceCollectionExtensions
 {
     public static void AddStudio(this IServiceCollection services, IConfiguration configuration)
     {
