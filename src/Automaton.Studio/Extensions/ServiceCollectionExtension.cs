@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Automaton.App.Account;
 using Automaton.Client.Auth.Extensions;
 using Automaton.Core.Scripting;
 using Automaton.Studio.Config;
@@ -7,7 +8,6 @@ using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Logging;
 using Automaton.Studio.Mapper;
-using Automaton.Studio.Pages.Account;
 using Automaton.Studio.Pages.Designer;
 using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
 using Automaton.Studio.Pages.Designer.Components.StepExplorer;
@@ -71,7 +71,6 @@ public static class ServiceCollectionExtension
         services.AddScoped<FlowExplorerViewModel>();
         services.AddScoped<LoginViewModel>();
         services.AddScoped<UserRegisterViewModel>();
-        services.AddScoped<AccountViewModel>();
      
         // Steps
         services.AddScoped<IStepTypeDescriptor, StepTypeDescriptor>();
