@@ -1,3 +1,4 @@
+@using Automaton.App.Account.Account;
 @using Automaton.Client.Auth.Services;
 @using Automaton.Studio.Shared
 @using Automaton.Studio.Pages
@@ -5,7 +6,11 @@
 @using Serilog;
 @using Serilog.Formatting.Json;
 
-<Router AppAssembly="@this.GetType().Assembly" PreferExactMatches="@true">
+<Router 
+    AppAssembly="@this.GetType().Assembly"
+    AdditionalAssemblies="new[] { typeof(AccountPage).Assembly }" 
+    PreferExactMatches="@true">
+
     <Found Context="routeData">
         <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
             <NotAuthorized>

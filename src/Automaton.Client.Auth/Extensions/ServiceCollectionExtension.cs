@@ -22,6 +22,6 @@ public static class ServiceCollectionExtension
         services.AddScoped<AuthTokenService>();      
 
         // Models
-        services.AddScoped<AuthenticationConfig>();
+        services.AddScoped<AccountConfig>();
     }
 }

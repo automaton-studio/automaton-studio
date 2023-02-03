@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Automaton.Client.Auth.Extensions;
-using Automaton.Client.Auth.Interfaces;
 using Automaton.Core.Scripting;
 using Automaton.Studio.Config;
 using Automaton.Studio.Domain;
@@ -29,7 +28,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using System.Configuration;
 using System.Diagnostics;
 using System.Net.Http;
 
@@ -40,6 +38,8 @@ public static class ServiceCollectionExtension
     public static void AddStudio(this IServiceCollection services, IConfiguration configuration)
     {
         var configService = new ConfigurationService(configuration);
+
+        services.AddAccountApp(configuration);
 
         // Automaton Core
         services.AddAutomatonCore();
@@ -72,8 +72,6 @@ public static class ServiceCollectionExtension
         services.AddScoped<LoginViewModel>();
         services.AddScoped<UserRegisterViewModel>();
         services.AddScoped<AccountViewModel>();
-        services.AddScoped<UserProfileViewModel>();
-        services.AddScoped<UserSecurityViewModel>();
      
         // Steps
         services.AddScoped<IStepTypeDescriptor, StepTypeDescriptor>();

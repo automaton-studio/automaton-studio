@@ -6,7 +6,7 @@ namespace Automaton.Client.Auth.Services;
 public class ConfigurationService
 {
     private readonly IConfiguration configuration;
-    private readonly AuthenticationConfig authConfiguration = new();
+    private readonly AccountConfig authConfiguration = new();
     private readonly ApiConfig apiConfiguration = new();
 
     public string RegisterUserUrl => authConfiguration.RegisterUserUrl;
@@ -22,7 +22,7 @@ public class ConfigurationService
     public ConfigurationService(IConfiguration configuration)
     {
         this.configuration = configuration;
-        this.configuration.GetSection(nameof(AuthenticationConfig)).Bind(authConfiguration);
+        this.configuration.GetSection(nameof(AccountConfig)).Bind(authConfiguration);
         this.configuration.GetSection(nameof(ApiConfig)).Bind(apiConfiguration);
     }
 }

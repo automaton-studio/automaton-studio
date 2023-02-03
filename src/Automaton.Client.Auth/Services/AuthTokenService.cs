@@ -9,7 +9,7 @@ public class AuthTokenService
     private const string ApplicationJson = "application/json";
 
     private readonly ConfigurationService configurationService;
-    private readonly AuthenticationConfig authConfiguration = new();
+    private readonly AccountConfig authConfiguration = new();
     private readonly ApiConfig apiConfiguration = new();
     private readonly HttpClient httpClient;
 
@@ -41,7 +41,7 @@ public class AuthTokenService
         var jsonWebToken = JsonSerializer.Deserialize<JsonWebToken>(refreshContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
         if (jsonWebToken == null)
-        {
+        { 
             throw new Exception("Could not retrieve JWT");
         }
 
