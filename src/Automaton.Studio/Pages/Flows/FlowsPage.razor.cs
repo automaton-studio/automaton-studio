@@ -46,7 +46,7 @@ namespace Automaton.Studio.Pages.Flows
         {
             NavMenuService.EnableDesignerMenu();
 
-            NavigationManager.NavigateTo($"designer/{id}");
+            NavigationManager.NavigateTo($"flowdesigner/{id}");
         }
 
         private async Task DeleteFlow(Guid id)

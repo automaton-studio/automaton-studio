@@ -4,11 +4,14 @@
     <MenuItem Key="1" Icon="profile" RouterLink="/"> 
         Flows
     </MenuItem>
-    <MenuItem Key="2" Icon="desktop" RouterMatch="NavLinkMatch.Prefix" RouterLink="/designer/" Disabled=NavMenuService.IsDesignerDisabled()>
-        Designer
+    <MenuItem Key="2" Icon="apartment" RouterMatch="NavLinkMatch.Prefix" RouterLink="/flowdesigner/" Disabled=NavMenuService.IsDesignerDisabled()>
+        Flow Designer
+    </MenuItem>
+    <MenuItem Key="3" Icon="experiment" RouterMatch="NavLinkMatch.Prefix" RouterLink="/stepdesigner/">
+        Step Designer
     </MenuItem>
     <MenuDivider />
-    <MenuItem Key="3" Icon="user" RouterMatch="NavLinkMatch.Prefix" RouterLink="/account/">
+    <MenuItem Key="4" Icon="user" RouterMatch="NavLinkMatch.Prefix" RouterLink="/account/">
         Account
     </MenuItem>
 </Menu>
