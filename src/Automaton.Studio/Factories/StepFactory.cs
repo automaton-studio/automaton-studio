@@ -20,7 +20,7 @@ public class StepFactory
         this.serviceProvider = serviceProvider;
         this.stepTypeDescriptor = stepTypeDescriptor;
 
-        LoadSteps(new[] { Assembly.Load(StepsAssembly) });
+        LoadSteps();
     }
 
     public IEnumerable<StepExplorerModel> GetSteps()
@@ -38,14 +38,29 @@ public class StepFactory
         return step;
     }
 
-    private void LoadSteps(IEnumerable<Assembly> assemblies)
+    private void LoadSteps()
+    {        
+        LoadAssemblySteps();
+
+        LoadCustomSteps();
+    }
+
+    private void LoadAssemblySteps()
     {
+        var assemblies = new[] { Assembly.Load(StepsAssembly) };
+
         var stepTypes = assemblies.SelectMany(x => x.GetAllWithBaseClass<StudioStep>()).Where(x => !x.IsAbstract);
 
         foreach (var stepType in stepTypes)
         {
             AddStep(stepType);
         }
+    }
+
+    private void LoadCustomSteps()
+    {
+        // TODO!
+        // Load custom steps from database
     }
 
     private void AddStep(Type stepType)
