@@ -14,16 +14,16 @@ This change allows us to ship dotnet ef as a regular .NET CLI tool that can be i
 
 ### Run migration to create/update database
 
-``dotnet ef database update --context AutomatonDbContext``
+``dotnet ef database update --context ApplicationDbContext``
 
 ### Add migration
 
-``dotnet ef migrations add MigrationName --context AutomatonDbContext``
+``dotnet ef migrations add MigrationName --context ApplicationDbContext``
 
 ### Swagger URLs
 
-https://localhost/swagger/v1/swagger.json
-https://localhost/swagger/index.html
+https://localhost:7091/swagger/v1/swagger.json
+https://localhost:7091/swagger/index.html
 
 
 

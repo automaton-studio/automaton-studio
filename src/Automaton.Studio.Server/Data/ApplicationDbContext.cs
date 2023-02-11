@@ -16,6 +16,8 @@ namespace Automaton.Studio.Server.Data
         public virtual DbSet<FlowUser> FlowUsers { get; set; }
         public virtual DbSet<Runner> Runners { get; set; }
         public virtual DbSet<RunnerUser> RunnerUsers { get; set; }
+        public virtual DbSet<CustomStep> CustomSteps { get; set; }
+        public virtual DbSet<CustomStepUser> CustomStepUsers { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -58,6 +60,19 @@ namespace Automaton.Studio.Server.Data
                 entity.HasIndex(e => e.RunnerId, "IX_RunnerUser_RunnerId");
                 entity.Property(e => e.UserId).IsRequired();
                 entity.Property(e => e.RunnerId).IsRequired();
+            });
+
+            modelBuilder.Entity<CustomStep>(entity =>
+            {
+                entity.HasKey(e => new { e.Id });
+            });
+
+            modelBuilder.Entity<CustomStepUser>(entity =>
+            {
+                entity.HasKey(e => new { e.CustomStepId, e.UserId });
+                entity.HasIndex(e => e.CustomStepId, "IX_CustomStepUser_CustomStepId");
+                entity.Property(e => e.UserId).IsRequired();
+                entity.Property(e => e.CustomStepId).IsRequired();
             });
 
             modelBuilder.Entity<RefreshToken<Guid>>()

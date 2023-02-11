@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Automaton.Core.Models;
 using Automaton.Studio.Server.Models;
+using System.Text.Json;
 
 namespace Automaton.Studio.Server.Config
 {
@@ -27,7 +28,19 @@ namespace Automaton.Studio.Server.Config
         {
             CreateMap<Entities.Runner, Runner>();
             CreateMap<Entities.Flow, FlowInfo>();
+            CreateMap<Entities.CustomStep, CustomStep>().ForMember
+            (
+                source => source.Definition,
+                target => target.MapFrom(entity => CreateCustomStepDefinition(entity.Definition))
+            );
             CreateMap<Entities.ApplicationUser, UserDetails>();
+        }
+
+        private CustomStepDefinition CreateCustomStepDefinition(string stepDefinitionText)
+        {
+            var customStepDefinition = JsonSerializer.Deserialize<CustomStepDefinition>(stepDefinitionText);
+
+            return customStepDefinition;
         }
 
         public IEnumerable<WorkflowStep> ConvertSteps(IEnumerable<Step> steps)
@@ -41,7 +54,7 @@ namespace Automaton.Studio.Server.Config
                 // Update step properties using AutoMapper
                 var mapper = GetMapperInstance();
                 mapper.Map(step, targetStep);
-               
+
                 yield return targetStep;
             }
         }

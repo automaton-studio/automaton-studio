@@ -7,6 +7,7 @@ using Automaton.Studio.Models;
 using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
 using Automaton.Studio.Pages.Flows;
 using Automaton.Studio.Pages.Login;
+using Automaton.Studio.Steps.ExecuteFlow;
 
 namespace Automaton.Studio.Mapper;
 
@@ -35,7 +36,7 @@ public class AutoMapperProfile : Profile
         CreateMap<StudioDefinition, FlowExplorerDefinition>();
         CreateMap<LoginModel, LoginDetails>();
 
-        CreateMap<FlowInfo, Steps.ExecuteFlow.ExecuteFlowModel>();
+        CreateMap<FlowInfo, ExecuteFlowModel>();
 
         CreateMap<FlowInfo, FlowModel>();
         CreateMap<FlowModel, FlowInfo>();
