@@ -11,9 +11,9 @@ public class Custom : WorkflowStep
 
     public string? Code { get; set; }
 
-    public IList<Variable> InputVariables { get; set; }
+    public IList<Variable> CodeInputVariables { get; set; }
 
-    public IList<Variable> OutputVariables { get; set; }
+    public IList<Variable> CodeOutputVariables { get; set; }
 
     public Custom(ScriptEngineHost scriptHost)
     {
@@ -28,11 +28,11 @@ public class Custom : WorkflowStep
             Content = Code
         };
 
-        var inputVariablesDictionary = InputVariables.ToDictionary(x => x.Name, x => (object)x.Value);
+        var inputVariablesDictionary = CodeInputVariables.ToDictionary(x => x.Name, x => (object)x.Value);
 
         var scriptVariables = scriptHost.Execute(resource, inputVariablesDictionary);
 
-        foreach (var variable in OutputVariables)
+        foreach (var variable in CodeOutputVariables)
         {
             if (scriptVariables.ContainsKey(variable.Name))
             {

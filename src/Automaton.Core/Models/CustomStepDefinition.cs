@@ -2,7 +2,10 @@
 
 public class CustomStepDefinition
 {
-    public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
+    public string? Code { get; set; }
 
-    public IDictionary<string, StepVariable> Outputs { get; set; } = new Dictionary<string, StepVariable>();
+    public IList<Variable>? CodeInputVariables { get; set; }
+
+    public IList<Variable>? CodeOutputVariables { get; set; }
+
 }

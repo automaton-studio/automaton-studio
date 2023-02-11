@@ -2,6 +2,7 @@
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Pages.Designer.Components.StepExplorer;
+using Automaton.Studio.Steps.Custom;
 using System.Reflection;
 
 namespace Automaton.Studio.Factories;
@@ -49,7 +50,9 @@ public class StepFactory
     {
         var assemblies = new[] { Assembly.Load(StepsAssembly) };
 
-        var stepTypes = assemblies.SelectMany(x => x.GetAllWithBaseClass<StudioStep>()).Where(x => !x.IsAbstract);
+        var stepTypes = assemblies
+            .SelectMany(x => x.GetAllWithBaseClass<StudioStep>())
+            .Where(x => !x.IsAbstract && x != typeof(CustomStep));
 
         foreach (var stepType in stepTypes)
         {

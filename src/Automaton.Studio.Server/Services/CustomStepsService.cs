@@ -57,9 +57,9 @@ public class CustomStepsService
             DisplayName= step.DisplayName,
             Description= step.Description,
             Icon = step.Icon,
-            Definition = JsonSerializer.Serialize(step.Definition),
             Created = DateTime.UtcNow,
-            Updated = DateTime.UtcNow
+            Updated = DateTime.UtcNow,
+            Definition = JsonSerializer.Serialize(step.Definition)
         };
 
         dataContext.CustomSteps.Add(entity);
@@ -85,8 +85,8 @@ public class CustomStepsService
         entity.DisplayName = step.DisplayName;
         entity.Description = step.Description;
         entity.Icon = step.Icon;
-        entity.Definition = JsonSerializer.Serialize(step.Definition);
         entity.Updated = DateTime.UtcNow;
+        entity.Definition = JsonSerializer.Serialize(step.Definition);
 
         dataContext.SaveChanges();
     }

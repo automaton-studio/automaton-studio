@@ -36,7 +36,7 @@ namespace Automaton.Studio.Server.Config
             CreateMap<Entities.ApplicationUser, UserDetails>();
         }
 
-        private CustomStepDefinition CreateCustomStepDefinition(string stepDefinitionText)
+        private static CustomStepDefinition CreateCustomStepDefinition(string stepDefinitionText)
         {
             var customStepDefinition = JsonSerializer.Deserialize<CustomStepDefinition>(stepDefinitionText);
 
