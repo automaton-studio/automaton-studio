@@ -31,17 +31,8 @@ public class SequenceEndStep : StudioStep
 
     public string SequenceStepId
     {
-        get
-        {
-            return InputVariableExists(nameof(SequenceStepId)) ?
-                GetInputVariable(nameof(SequenceStepId)).ToString() : 
-                string.Empty;
-        }
-
-        set
-        {
-            SetInputVariable(nameof(SequenceStepId), value);
-        }
+        get => GetStringInputVariable(nameof(SequenceStepId));
+        set => SetInputVariable(nameof(SequenceStepId), value);
     }
 
     public override Type GetDesignerComponent()

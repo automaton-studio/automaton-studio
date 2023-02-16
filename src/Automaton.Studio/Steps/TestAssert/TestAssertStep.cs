@@ -16,17 +16,11 @@ public class TestAssertStep : StudioStep
 {
     public string Expression
     {
-        get => InputVariableExists(nameof(Expression)) ?
-                GetInputVariable(nameof(Expression)).ToString() : 
-                string.Empty;
+        get => GetStringInputVariable(nameof(Expression));
         set => SetInputVariable(nameof(Expression), value);
     }
 
     public string Error { get; set; }
-
-    public TestAssertStep()
-    {
-    }
 
     public override Type GetDesignerComponent()
     {

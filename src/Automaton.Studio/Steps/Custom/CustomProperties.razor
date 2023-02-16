@@ -114,11 +114,14 @@
         {
             foreach (var variable in step.CodeOutputVariables)
             {
-                step.SetVariable(new StepVariable
+                step.SetVariable
+                (
+                    new StepVariable
                     {
                         Name = variable.Name,
                         Value = variable.Value
-                    });
+                    }
+                );
             }
         }
 

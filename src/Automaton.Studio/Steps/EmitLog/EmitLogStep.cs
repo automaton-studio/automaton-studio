@@ -16,21 +16,8 @@ public class EmitLogStep : StudioStep
 {
     public string Message
     {
-        get
-        {
-            return InputVariableExists(nameof(Message)) ?
-                GetInputVariable(nameof(Message))?.ToString() : 
-                string.Empty;
-        }
-
-        set
-        {
-            SetInputVariable(nameof(Message), value);
-        }
-    }
-
-    public EmitLogStep()
-    {
+        get => GetStringInputVariable(nameof(Message));
+        set => SetInputVariable(nameof(Message), value);
     }
 
     public override Type GetDesignerComponent()

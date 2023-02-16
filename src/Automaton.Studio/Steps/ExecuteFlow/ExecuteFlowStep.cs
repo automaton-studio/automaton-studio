@@ -3,7 +3,6 @@ using Automaton.Core.Models;
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Services;
-using Newtonsoft.Json.Linq;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Steps.ExecuteFlow;
@@ -19,6 +18,10 @@ namespace Automaton.Studio.Steps.ExecuteFlow;
 )]
 public class ExecuteFlowStep : StudioStep
 {
+    private const string FlowIdName = nameof(FlowId);
+    private const string InputVariablesName = nameof(InputVariables);
+    private const string OutputVariablesName = nameof(OutputVariables);
+
     private readonly IMapper mapper;
     private readonly FlowsService flowsService;
 
@@ -35,69 +38,41 @@ public class ExecuteFlowStep : StudioStep
 
     public Guid FlowId
     {
-        get
-        {
-            if (Inputs.ContainsKey(nameof(FlowId)))
-            {
-                var guid = Inputs[nameof(FlowId)].ToString();
-                Guid.TryParse(guid, out Guid flowId);
-                return flowId;
-            }
-
-            return Guid.Empty;
-        }
-        set
-        {
-            SetInputVariable(nameof(FlowId), value);
-        }
+        get => GetFlowIdFromInput();
+        set => SetInputVariable(nameof(FlowId), value);
     }
 
     public IList<StepVariable> InputVariables
     {
         get
         {
-            if (Inputs.ContainsKey(nameof(InputVariables)))
-            {
-                if (Inputs[nameof(InputVariables)].Value is JArray array)
-                {
-                    Inputs[nameof(InputVariables)].Value = array.ToObject<List<StepVariable>>();
-                }
-            }
-            else
-            {
-                Inputs[nameof(InputVariables)].Value = new List<StepVariable>();
-            }
-
-            return Inputs[nameof(InputVariables)].Value as IList<StepVariable>;
+            var variables = GetInputVariable(InputVariablesName);
+            return variables as IList<StepVariable>;
         }
-        set => SetInputVariable(nameof(InputVariables), value);
+
+        set => SetInputVariable(InputVariablesName, value);
     }
 
+    /// <summary>
+    /// OutputVariables are stored in Inputs list because they are input required for step execution.
+    /// </summary>
     public IList<StepVariable> OutputVariables
     {
         get
         {
-            if (InputVariableExists(nameof(OutputVariables)))
-            {
-                if (GetInputVariable(nameof(OutputVariables)) is JArray array)
-                {
-                    SetInputVariable(nameof(OutputVariables), array.ToObject<List<StepVariable>>());
-                }
-            }
-            else
-            {
-                SetInputVariable(nameof(OutputVariables), new List<StepVariable>());
-            }
-
-            return Inputs[nameof(OutputVariables)] as IList<StepVariable>;
+            var variables = GetInputVariable(OutputVariablesName);
+            return variables as IList<StepVariable>;
         }
-        set => SetInputVariable(nameof(OutputVariables), value);
+        set => SetInputVariable(OutputVariablesName, value);
     }
 
     public ExecuteFlowStep(IMapper mapper, FlowsService flowsService)
     {
         this.flowsService = flowsService;
         this.mapper = mapper;
+
+        SetInputVariable(OutputVariablesName, new List<StepVariable>());
+        SetInputVariable(InputVariablesName, new List<StepVariable>());
     }
 
     public void OnFocus()
@@ -114,5 +89,12 @@ public class ExecuteFlowStep : StudioStep
     public override Type GetPropertiesComponent()
     {
         return typeof(ExecuteFlowProperties);
+    }
+
+    private Guid GetFlowIdFromInput()
+    {
+        var guid = GetStringInputVariable(FlowIdName);
+        Guid.TryParse(guid, out Guid flowId);
+        return flowId;
     }
 }

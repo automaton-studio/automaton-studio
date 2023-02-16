@@ -1,10 +1,7 @@
-﻿using AntDesign;
-using Automaton.Core.Models;
+﻿using Automaton.Core.Models;
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
-using Automaton.Studio.Resources;
-using Automaton.Studio.Steps.TestReport;
 
 namespace Automaton.Studio.Steps.AddVariable;
 
@@ -20,12 +17,12 @@ namespace Automaton.Studio.Steps.AddVariable;
 public class AddVariableStep : StudioStep
 {
     private const string AddVariableKey = "NewVar";
+    private const string VariableValueName = nameof(VariableValue);
 
     public StepVariable VariableValue
     {
-        get => Inputs.ContainsKey(nameof(VariableValue)) ?
-               Inputs[nameof(VariableValue)] : new StepVariable();
-        set => Inputs[nameof(VariableValue)] = value;
+        get => GetInputVariable(VariableValueName) as StepVariable;
+        set => SetInputVariable(VariableValueName, value);
     }
 
     public StepVariable VariableOutput =>
@@ -34,6 +31,8 @@ public class AddVariableStep : StudioStep
 
     public AddVariableStep()
     {
+        SetInputVariable(VariableValueName, new StepVariable());
+
         Created += OnCreated;
         ShowVariables = false;
     }

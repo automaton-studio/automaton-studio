@@ -34,17 +34,8 @@ public class SequenceStep : StudioStep
 
     public string SequenceEndStepId
     {
-        get
-        {
-            return InputVariableExists(nameof(SequenceEndStepId)) ?
-                GetInputVariable(nameof(SequenceEndStepId)).ToString() :
-                string.Empty;
-        }
-
-        set
-        {
-            SetInputVariable(nameof(SequenceEndStepId), value);
-        }
+        get => GetStringInputVariable(nameof(SequenceEndStepId));
+        set => SetInputVariable(nameof(SequenceEndStepId), value);
     }
 
     public IList<StudioStep> SequenceSteps { get; set; } = new List<StudioStep>();

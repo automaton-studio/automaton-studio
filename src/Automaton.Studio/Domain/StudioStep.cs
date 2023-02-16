@@ -94,12 +94,17 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public void SetInputVariable(string name, object value)
     {
-        Inputs[name] = new StepVariable { Value = value };
+        Inputs[name] = new StepVariable { Name = name, Value = value };
     }
 
     public object GetInputVariable(string name)
     {
         return Inputs[name].Value;
+    }
+
+    public string GetStringInputVariable(string name)
+    {
+        return Inputs.ContainsKey(name) ? Inputs[name].Value?.ToString() : string.Empty;
     }
 
     public bool InputVariableExists(string name)

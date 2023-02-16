@@ -1,48 +1,38 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
-using Newtonsoft.Json.Linq;
 
 namespace Automaton.Studio.Steps.Custom;
 
 [StepDescription(
-    Name = "ExecutePython",
-    Type = "ExecutePython",
-    DisplayName = "Execute Python",
+    Name = "Custom",
+    Type = "Custom",
+    DisplayName = "Execute Custom Step",
     Category = "Scripting",
-    Description = "Executes Python script and returns its output",
+    Description = "Executes Custom step",
     MoreInfo = "https://www.automaton.studio/documentation",
     Icon = "code"
 )]
 public class CustomStep : StudioStep
 {
+    private const string CodeOutputVariablesName = nameof(CodeOutputVariables);
+    private const string CodeInputVariablesName = nameof(CodeInputVariables);
+
     public string Code
     {
-        get => Inputs.ContainsKey(nameof(Code)) ?
-               Inputs[nameof(Code)]?.ToString() : string.Empty;
-        set => Inputs[nameof(Code)] = new StepVariable { Value = value };
+        get => GetStringInputVariable(nameof(Code));
+        set => SetInputVariable(nameof(Code), value);
     }
 
     public IList<StepVariable> CodeInputVariables
     {
         get
         {
-            if (Inputs.ContainsKey(nameof(CodeInputVariables)))
-            {
-                if (Inputs[nameof(CodeInputVariables)].Value is JArray array)
-                {
-                    Inputs[nameof(CodeInputVariables)].Value = array.ToObject<List<StepVariable>>();
-                }
-            }
-            else
-            {
-                SetInputVariable(nameof(CodeInputVariables), new List<StepVariable>());
-            }
-
-            return Inputs[nameof(CodeInputVariables)].Value as IList<StepVariable>;
+            var variables = GetInputVariable(CodeInputVariablesName);
+            return variables as IList<StepVariable>;
         }
 
-        set => SetInputVariable(nameof(CodeInputVariables), value);
+        set => SetInputVariable(CodeInputVariablesName, value);
     }
 
     /// <summary>
@@ -52,22 +42,16 @@ public class CustomStep : StudioStep
     {
         get
         {
-            if (Inputs.ContainsKey(nameof(CodeOutputVariables)))
-            {
-                if (Inputs[nameof(CodeOutputVariables)].Value is JArray array)
-                {
-                    Inputs[nameof(CodeOutputVariables)].Value = array.ToObject<List<StepVariable>>();
-                }
-            }
-            else
-            {
-                SetInputVariable(nameof(CodeOutputVariables), new List<StepVariable>());
-            }
-
-            return Inputs[nameof(CodeOutputVariables)].Value as IList<StepVariable>;
+            var variables = GetInputVariable(CodeOutputVariablesName);
+            return variables as IList<StepVariable>;
         }
+        set => SetInputVariable(CodeOutputVariablesName, value);
+    }
 
-        set => SetInputVariable(nameof(CodeOutputVariables), value);
+    public CustomStep()
+    {
+        SetInputVariable(CodeOutputVariablesName, new List<StepVariable>());
+        SetInputVariable(CodeInputVariablesName, new List<StepVariable>());
     }
 
     public override Type GetDesignerComponent()

@@ -1,7 +1,6 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
-using Newtonsoft.Json.Linq;
 
 namespace Automaton.Studio.Steps.ExecutePython;
 
@@ -17,11 +16,11 @@ namespace Automaton.Studio.Steps.ExecutePython;
 public class ExecutePythonStep : StudioStep
 {
     private const string CodeOutputVariablesName = nameof(CodeOutputVariables);
+    private const string CodeInputVariablesName = nameof(CodeInputVariables);
 
     public string Code
     {
-        get => Inputs.ContainsKey(nameof(Code)) ?
-               Inputs[nameof(Code)].Value.ToString() : string.Empty;
+        get => GetStringInputVariable(nameof(Code)); 
         set => SetInputVariable(nameof(Code), value);
     }
 
@@ -29,22 +28,11 @@ public class ExecutePythonStep : StudioStep
     {
         get
         {
-            if (InputVariableExists(nameof(CodeInputVariables)))
-            {
-                if (Inputs[nameof(CodeInputVariables)].Value is JArray array)
-                {
-                    Inputs[nameof(CodeInputVariables)].Value = array.ToObject<List<StepVariable>>();
-                }
-            }
-            else
-            {
-                SetInputVariable(nameof(CodeInputVariables), new List<StepVariable>());
-            }
-
-            return Inputs[nameof(CodeInputVariables)].Value as IList<StepVariable>;
+            var variables = GetInputVariable(CodeInputVariablesName);
+            return variables as IList<StepVariable>;
         }
 
-        set => SetInputVariable(nameof(CodeInputVariables), value);
+        set => SetInputVariable(CodeInputVariablesName, value);
     }
 
     /// <summary>
@@ -54,16 +42,16 @@ public class ExecutePythonStep : StudioStep
     {
         get
         {
-            var variables = GetInputVariable(CodeOutputVariablesName) as JArray;
-
-            return variables.ToObject<List<StepVariable>>();
+            var variables = GetInputVariable(CodeOutputVariablesName);
+            return variables as IList<StepVariable>;
         }
         set => SetInputVariable(CodeOutputVariablesName, value);
     }
 
     public ExecutePythonStep()
     {
-        SetInputVariable(nameof(CodeOutputVariables), new List<StepVariable>());
+        SetInputVariable(CodeOutputVariablesName, new List<StepVariable>());
+        SetInputVariable(CodeInputVariablesName, new List<StepVariable>());
     }
 
     public override Type GetDesignerComponent()
