@@ -45,7 +45,7 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public bool IsFinal { get; set; }
 
-    public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
+    public IDictionary<string, StepVariable> Inputs { get; set; } = new Dictionary<string, StepVariable>();
 
     public IDictionary<string, StepVariable> Outputs { get; set; } = new Dictionary<string, StepVariable>();
 
@@ -90,6 +90,21 @@ public abstract class StudioStep : INotifyPropertyChanged
         StepClass = "designer-step";
         SelectedStepClass = "designer-step-selected";
         DisabledStepClass = "designer-step-disabled";
+    }
+
+    public void SetInputVariable(string name, object value)
+    {
+        Inputs[name] = new StepVariable { Value = value };
+    }
+
+    public object GetInputVariable(string name)
+    {
+        return Inputs[name].Value;
+    }
+
+    public bool InputVariableExists(string name)
+    {
+        return Inputs.ContainsKey(name);
     }
 
     public virtual void Select()

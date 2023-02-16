@@ -1,6 +1,7 @@
-﻿using Automaton.Core.Enums;
+﻿using Automaton.Core.Attributes;
 using Automaton.Core.Parsers;
 using Newtonsoft.Json.Linq;
+using System.Reflection;
 
 namespace Automaton.Core.Models;
 
@@ -22,31 +23,11 @@ public abstract class WorkflowStep
 
     public WorkflowDefinition? WorkflowDefinition { get; set; }
 
-    public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
+    public IDictionary<string, StepVariable> Inputs { get; set; } = new Dictionary<string, StepVariable>();
 
     public IDictionary<string, StepVariable> Outputs { get; set; } = new Dictionary<string, StepVariable>();
 
     protected abstract Task<ExecutionResult> RunAsync(StepExecutionContext context);
-
-    public virtual async Task<ExecutionResult> ExecuteAsync(StepExecutionContext context)
-    {
-        foreach (var input in Inputs)
-        {
-            SetInputProperty(input, context);
-        }
-
-        var result = await RunAsync(context);
-
-        return result;
-    }
-
-    public void SetOutputVariable(string key, object value, Workflow workflow)
-    {
-        var variable = Outputs[key];
-        variable.Value = value;
-
-        workflow.SetVariable(variable);
-    }
 
     public void Setup(Step step, WorkflowDefinition workflowDefinition)
     {
@@ -62,30 +43,61 @@ public abstract class WorkflowStep
         WorkflowDefinition = workflowDefinition;
     }
 
-    private void SetInputProperty(KeyValuePair<string, object> input, StepExecutionContext context)
+    public virtual async Task<ExecutionResult> ExecuteAsync(StepExecutionContext context)
     {
-        var stepType = GetType();
+        SetProperties(context);
 
-        var stepProperty = stepType.GetProperty(input.Key);
+        return await RunAsync(context);
+    }
 
-        var value = ExpressionParser.Parse(input.Value, context.Workflow);
+    public void SetOutputVariable(string key, object value, Workflow workflow)
+    {
+        var variable = Outputs[key];
+        variable.Value = value;
 
-        if (value is JArray array)
+        workflow.SetVariable(variable);
+    }
+
+    private void SetProperties(StepExecutionContext context)
+    {
+        foreach (var input in Inputs)
         {
-            value = array.ToObject(stepProperty.PropertyType);
-        }
+            var stepType = GetType();
 
-        if (stepProperty.PropertyType.Name == nameof(Guid))
-        {
-            Guid.TryParse(value.ToString(), out var guidValue);
-            value = guidValue;
-        }
+            var stepProperty = stepType.GetProperty(input.Key);
 
-        if (stepProperty.PropertyType.Name == nameof(String))
-        {
-            value = value.ToString();
-        }
+            var variable = input.Value;
+            var value = variable.Value;
 
-        stepProperty.SetValue(this, value);
+            if (ShouldParseProperty(stepProperty))
+            {
+                value = ExpressionParser.Parse(value, context.Workflow);
+            }
+
+            if (value is JArray array)
+            {
+                value = array.ToObject(stepProperty.PropertyType);
+            }
+
+            if (stepProperty.PropertyType.Name == nameof(Guid))
+            {
+                Guid.TryParse(value.ToString(), out var guidValue);
+                value = guidValue;
+            }
+
+            if (stepProperty.PropertyType.Name == nameof(String))
+            {
+                value = value?.ToString();
+            }
+
+            stepProperty.SetValue(this, value);
+        }
+    }
+
+    private bool ShouldParseProperty(PropertyInfo stepProperty)
+    {
+        var propertyParsing = stepProperty.GetCustomAttributes<IgnorePropertyParsing>().SingleOrDefault();
+
+        return propertyParsing == null || !propertyParsing.Ignore;
     }
 }

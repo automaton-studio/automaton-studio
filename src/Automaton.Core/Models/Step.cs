@@ -1,6 +1,4 @@
-﻿using Automaton.Core.Enums;
-
-namespace Automaton.Core.Models;
+﻿namespace Automaton.Core.Models;
 
 public class Step
 {
@@ -14,7 +12,7 @@ public class Step
 
     public string Type { get; set; }
 
-    public IDictionary<string, object> Inputs { get; set; } = new Dictionary<string, object>();
+    public IDictionary<string, StepVariable> Inputs { get; set; } = new Dictionary<string, StepVariable>();
 
     public IDictionary<string, StepVariable> Outputs { get; set; } = new Dictionary<string, StepVariable>();
 

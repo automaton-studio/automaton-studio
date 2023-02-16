@@ -1,4 +1,5 @@
-﻿using Automaton.Core.Models;
+﻿using Automaton.Core.Attributes;
+using Automaton.Core.Models;
 using Automaton.Core.Scripting;
 
 namespace Automaton.Steps;
@@ -9,11 +10,14 @@ public class ExecutePython : WorkflowStep
 
     private readonly ScriptEngineHost scriptHost;
 
-    public string? Content { get; set; }
+    [IgnorePropertyParsing(true)]
+    public string? Code { get; set; }
 
-    public IList<Variable> InputVariables { get; set; }
+    [IgnorePropertyParsing(true)]
+    public IList<StepVariable> CodeInputVariables { get; set; }
 
-    public IList<Variable> OutputVariables { get; set; }
+    [IgnorePropertyParsing(true)]
+    public IList<StepVariable> CodeOutputVariables { get; set; }
 
     public ExecutePython(ScriptEngineHost scriptHost)
     {
@@ -25,14 +29,14 @@ public class ExecutePython : WorkflowStep
         var resource = new ScriptResource()
         {
             ContentType = ContentType,
-            Content = Content
+            Content = Code
         };
 
-        var inputVariablesDictionary = InputVariables.ToDictionary(x => x.Name, x => (object)x.Value);
+        var inputVariablesDictionary = CodeInputVariables.ToDictionary(x => x.Name, x => (object)x.Value);
 
         var scriptVariables = scriptHost.Execute(resource, inputVariablesDictionary);
 
-        foreach (var variable in OutputVariables)
+        foreach (var variable in CodeOutputVariables)
         {
             if (scriptVariables.ContainsKey(variable.Name))
             {

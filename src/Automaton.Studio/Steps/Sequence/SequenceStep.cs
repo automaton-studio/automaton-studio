@@ -36,13 +36,14 @@ public class SequenceStep : StudioStep
     {
         get
         {
-            return Inputs.ContainsKey(nameof(SequenceEndStepId)) ?
-                Inputs[nameof(SequenceEndStepId)].ToString() : string.Empty;
+            return InputVariableExists(nameof(SequenceEndStepId)) ?
+                GetInputVariable(nameof(SequenceEndStepId)).ToString() :
+                string.Empty;
         }
 
         set
         {
-            Inputs[nameof(SequenceEndStepId)] = value;
+            SetInputVariable(nameof(SequenceEndStepId), value);
         }
     }
 

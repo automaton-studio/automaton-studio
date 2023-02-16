@@ -16,60 +16,54 @@ namespace Automaton.Studio.Steps.ExecutePython;
 )]
 public class ExecutePythonStep : StudioStep
 {
-    public string Content
+    private const string CodeOutputVariablesName = nameof(CodeOutputVariables);
+
+    public string Code
     {
-        get => Inputs.ContainsKey(nameof(Content)) ?
-               Inputs[nameof(Content)]?.ToString() : string.Empty;
-        set => Inputs[nameof(Content)] = value;
+        get => Inputs.ContainsKey(nameof(Code)) ?
+               Inputs[nameof(Code)].Value.ToString() : string.Empty;
+        set => SetInputVariable(nameof(Code), value);
     }
 
-    public IList<Variable> InputVariables
+    public IList<StepVariable> CodeInputVariables
     {
         get
         {
-            if (Inputs.ContainsKey(nameof(InputVariables)))
+            if (InputVariableExists(nameof(CodeInputVariables)))
             {
-                if (Inputs[nameof(InputVariables)] is JArray array)
+                if (Inputs[nameof(CodeInputVariables)].Value is JArray array)
                 {
-                    Inputs[nameof(InputVariables)] = array.ToObject<List<Variable>>();
+                    Inputs[nameof(CodeInputVariables)].Value = array.ToObject<List<StepVariable>>();
                 }
             }
             else
             {
-                Inputs[nameof(InputVariables)] = new List<Variable>();
+                SetInputVariable(nameof(CodeInputVariables), new List<StepVariable>());
             }
 
-            return Inputs[nameof(InputVariables)] as IList<Variable>;
+            return Inputs[nameof(CodeInputVariables)].Value as IList<StepVariable>;
         }
-        set => Inputs[nameof(InputVariables)] = value;
+
+        set => SetInputVariable(nameof(CodeInputVariables), value);
     }
 
     /// <summary>
     /// OutputVariables are stored in Inputs list because they are input required for step execution.
     /// </summary>
-    public IList<Variable> OutputVariables
+    public IList<StepVariable> CodeOutputVariables
     {
         get
         {
-            if (Inputs.ContainsKey(nameof(OutputVariables)))
-            {
-                if (Inputs[nameof(OutputVariables)] is JArray array)
-                {
-                    Inputs[nameof(OutputVariables)] = array.ToObject<List<Variable>>();
-                }
-            }
-            else
-            {
-                Inputs[nameof(OutputVariables)] = new List<Variable>();
-            }
+            var variables = GetInputVariable(CodeOutputVariablesName) as JArray;
 
-            return Inputs[nameof(OutputVariables)] as IList<Variable>;
+            return variables.ToObject<List<StepVariable>>();
         }
-        set => Inputs[nameof(OutputVariables)] = value;
+        set => SetInputVariable(CodeOutputVariablesName, value);
     }
 
     public ExecutePythonStep()
     {
+        SetInputVariable(nameof(CodeOutputVariables), new List<StepVariable>());
     }
 
     public override Type GetDesignerComponent()

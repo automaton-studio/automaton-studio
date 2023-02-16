@@ -143,7 +143,7 @@
     public void AddInputVariable()
     {
         var variableName = $"Variable{step.InputVariables?.Count}";
-        step.InputVariables.Add(new Variable { Name = variableName });
+        step.InputVariables.Add(new StepVariable { Name = variableName });
     }
 
     public void DeleteInputVariable(string name)
@@ -155,7 +155,7 @@
     public void AddOutputVariable()
     {
         var variableName = $"Variable{step.OutputVariables?.Count}";
-        step.OutputVariables.Add(new Variable { Name = variableName });
+        step.OutputVariables.Add(new StepVariable { Name = variableName });
     }
 
     public void DeleteOutputVariable(string name)

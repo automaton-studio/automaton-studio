@@ -21,10 +21,10 @@ public class AddVariableStep : StudioStep
 {
     private const string AddVariableKey = "NewVar";
 
-    public string VariableValue
+    public StepVariable VariableValue
     {
         get => Inputs.ContainsKey(nameof(VariableValue)) ?
-               Inputs[nameof(VariableValue)]?.ToString() : string.Empty;
+               Inputs[nameof(VariableValue)] : new StepVariable();
         set => Inputs[nameof(VariableValue)] = value;
     }
 

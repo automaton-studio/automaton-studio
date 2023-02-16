@@ -7,20 +7,20 @@ public class ExecutePythonValidator : AbstractValidator<ExecutePythonStep>
 {
     public ExecutePythonValidator()
     {
-        RuleFor(x => x.Content).NotEmpty().WithMessage("Code required");
+        RuleFor(x => x.Code).NotEmpty().WithMessage("Code required");
 
-        When(x => x.InputVariables.Any(), () =>
+        When(x => x.CodeInputVariables.Any(), () =>
         {
-            RuleFor(x => x.InputVariables).Must(HaveValidVariableName).WithMessage("Input variable name not valid");
+            RuleFor(x => x.CodeInputVariables).Must(HaveValidVariableName).WithMessage("Input variable name not valid");
         });
 
-        When(x => x.OutputVariables.Any(), () =>
+        When(x => x.CodeOutputVariables.Any(), () =>
         {
-            RuleFor(x => x.OutputVariables).Must(HaveValidVariableName).WithMessage("Output variable name not valid");
+            RuleFor(x => x.CodeOutputVariables).Must(HaveValidVariableName).WithMessage("Output variable name not valid");
         });
     }
 
-    private bool HaveValidVariableName(IList<Variable> variables)
+    private bool HaveValidVariableName(IList<StepVariable> variables)
     {
         return !variables.Any(x => string.IsNullOrEmpty(x.Name));
     }

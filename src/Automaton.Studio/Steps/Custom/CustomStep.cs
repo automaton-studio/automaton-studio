@@ -20,52 +20,54 @@ public class CustomStep : StudioStep
     {
         get => Inputs.ContainsKey(nameof(Code)) ?
                Inputs[nameof(Code)]?.ToString() : string.Empty;
-        set => Inputs[nameof(Code)] = value;
+        set => Inputs[nameof(Code)] = new StepVariable { Value = value };
     }
 
-    public IList<Variable> CodeInputVariables
+    public IList<StepVariable> CodeInputVariables
     {
         get
         {
             if (Inputs.ContainsKey(nameof(CodeInputVariables)))
             {
-                if (Inputs[nameof(CodeInputVariables)] is JArray array)
+                if (Inputs[nameof(CodeInputVariables)].Value is JArray array)
                 {
-                    Inputs[nameof(CodeInputVariables)] = array.ToObject<List<Variable>>();
+                    Inputs[nameof(CodeInputVariables)].Value = array.ToObject<List<StepVariable>>();
                 }
             }
             else
             {
-                Inputs[nameof(CodeInputVariables)] = new List<Variable>();
+                SetInputVariable(nameof(CodeInputVariables), new List<StepVariable>());
             }
 
-            return Inputs[nameof(CodeInputVariables)] as IList<Variable>;
+            return Inputs[nameof(CodeInputVariables)].Value as IList<StepVariable>;
         }
-        set => Inputs[nameof(CodeInputVariables)] = value;
+
+        set => SetInputVariable(nameof(CodeInputVariables), value);
     }
 
     /// <summary>
     /// OutputVariables are stored in Inputs list because they are input required for step execution.
     /// </summary>
-    public IList<Variable> CodeOutputVariables
+    public IList<StepVariable> CodeOutputVariables
     {
         get
         {
             if (Inputs.ContainsKey(nameof(CodeOutputVariables)))
             {
-                if (Inputs[nameof(CodeOutputVariables)] is JArray array)
+                if (Inputs[nameof(CodeOutputVariables)].Value is JArray array)
                 {
-                    Inputs[nameof(CodeOutputVariables)] = array.ToObject<List<Variable>>();
+                    Inputs[nameof(CodeOutputVariables)].Value = array.ToObject<List<StepVariable>>();
                 }
             }
             else
             {
-                Inputs[nameof(CodeOutputVariables)] = new List<Variable>();
+                SetInputVariable(nameof(CodeOutputVariables), new List<StepVariable>());
             }
 
-            return Inputs[nameof(CodeOutputVariables)] as IList<Variable>;
+            return Inputs[nameof(CodeOutputVariables)].Value as IList<StepVariable>;
         }
-        set => Inputs[nameof(CodeOutputVariables)] = value;
+
+        set => SetInputVariable(nameof(CodeOutputVariables), value);
     }
 
     public override Type GetDesignerComponent()

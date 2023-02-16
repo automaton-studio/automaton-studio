@@ -18,13 +18,14 @@ public class EmitLogStep : StudioStep
     {
         get
         {
-            return Inputs.ContainsKey(nameof(Message)) ?
-                Inputs[nameof(Message)].ToString() : string.Empty;
+            return InputVariableExists(nameof(Message)) ?
+                GetInputVariable(nameof(Message))?.ToString() : 
+                string.Empty;
         }
 
         set
         {
-            Inputs[nameof(Message)] = value;
+            SetInputVariable(nameof(Message), value);
         }
     }
 

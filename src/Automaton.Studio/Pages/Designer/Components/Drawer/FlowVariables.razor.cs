@@ -17,22 +17,22 @@ public partial class FlowVariables
 
     [Inject] private ModalService ModalService { get; set; } = default!;
 
-    private IEnumerable<Variable> Variables
+    private IEnumerable<StepVariable> Variables
     {
         get
         {
-            return flow.Variables.Select(x => new Variable
+            return flow.Variables.Select(x => new StepVariable
             {
                 Name = x.Key,
             }).OrderBy(x => x.Name);
         }
     }
 
-    private IEnumerable<Variable> InputVariables
+    private IEnumerable<StepVariable> InputVariables
     {
         get
         {
-            return flow.InputVariables.Select(x => new Variable
+            return flow.InputVariables.Select(x => new StepVariable
             {
                 Name = x.Key,
                 Value = x.Value.ToString()
@@ -40,11 +40,11 @@ public partial class FlowVariables
         }
     }
 
-    private IEnumerable<Variable> OutputVariables
+    private IEnumerable<StepVariable> OutputVariables
     {
         get
         {
-            return flow.OutputVariables.Select(x => new Variable
+            return flow.OutputVariables.Select(x => new StepVariable
             {
                 Name = x.Key,
                 Value = x.Value.ToString()
@@ -81,7 +81,7 @@ public partial class FlowVariables
         };
     }
 
-    public async Task EditOutputVariable(Variable variable)
+    public async Task EditOutputVariable(StepVariable variable)
     {
         var outputVariableNames = flow.GetOutputVariableNames();
         var existingOutputVariables = outputVariableNames.Where(x => !x.Equals(variable.Name, StringComparison.OrdinalIgnoreCase));
@@ -113,7 +113,7 @@ public partial class FlowVariables
         };
     }
 
-    public void DeleteOutputVariable(Variable variable)
+    public void DeleteOutputVariable(StepVariable variable)
     {
         flow.OutputVariables.Remove(variable.Name);
     }
@@ -140,7 +140,7 @@ public partial class FlowVariables
         };
     }
 
-    public async Task EditInputVariable(Variable variable)
+    public async Task EditInputVariable(StepVariable variable)
     {
         var inputVariableNames = flow.GetInputVariableNames();
         var existingInputVariables = inputVariableNames.Where(x => !x.Equals(variable.Name, StringComparison.OrdinalIgnoreCase));
@@ -172,7 +172,7 @@ public partial class FlowVariables
         };
     }
 
-    public void DeleteInputVariable(Variable variable)
+    public void DeleteInputVariable(StepVariable variable)
     {
         flow.InputVariables.Remove(variable.Name);
     }

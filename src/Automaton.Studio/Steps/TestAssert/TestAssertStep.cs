@@ -16,9 +16,10 @@ public class TestAssertStep : StudioStep
 {
     public string Expression
     {
-        get => Inputs.ContainsKey(nameof(Expression)) ?
-               Inputs[nameof(Expression)]?.ToString() : string.Empty;
-        set => Inputs[nameof(Expression)] = value;
+        get => InputVariableExists(nameof(Expression)) ?
+                GetInputVariable(nameof(Expression)).ToString() : 
+                string.Empty;
+        set => SetInputVariable(nameof(Expression), value);
     }
 
     public string Error { get; set; }

@@ -56,7 +56,7 @@ public class StudioFlow
 
     public void SetVariable(StepVariable variable)
     {
-        if (!HasStepsUsingVariableOldName(variable))
+        if (HasStepsUsingVariableOldName(variable))
         {
             Variables.Remove(variable.OldName);
         }

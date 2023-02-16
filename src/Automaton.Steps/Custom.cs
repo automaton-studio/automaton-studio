@@ -11,9 +11,9 @@ public class Custom : WorkflowStep
 
     public string? Code { get; set; }
 
-    public IList<Variable> CodeInputVariables { get; set; }
+    public IList<StepVariable> CodeInputVariables { get; set; }
 
-    public IList<Variable> CodeOutputVariables { get; set; }
+    public IList<StepVariable> CodeOutputVariables { get; set; }
 
     public Custom(ScriptEngineHost scriptHost)
     {

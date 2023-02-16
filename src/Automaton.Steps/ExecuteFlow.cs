@@ -11,8 +11,8 @@ public class ExecuteFlow : WorkflowStep
     private WorkflowExecuteService workflowExecuteService;
 
     public Guid FlowId { get; set; }
-    public IList<Variable> InputVariables { get; set; }
-    public IList<Variable> OutputVariables { get; set; }
+    public IList<StepVariable> InputVariables { get; set; }
+    public IList<StepVariable> OutputVariables { get; set; }
 
     public ExecuteFlow
     (

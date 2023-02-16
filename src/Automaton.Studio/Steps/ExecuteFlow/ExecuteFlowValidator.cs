@@ -20,7 +20,7 @@ public class ExecuteFlowValidator : AbstractValidator<ExecuteFlowStep>
         });
     }
 
-    private bool HaveValidVariableName(IList<Variable> variables)
+    private bool HaveValidVariableName(IList<StepVariable> variables)
     {
         return !variables.Any(x => string.IsNullOrEmpty(x.Name));
     }

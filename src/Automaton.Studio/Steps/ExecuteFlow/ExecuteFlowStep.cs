@@ -48,50 +48,50 @@ public class ExecuteFlowStep : StudioStep
         }
         set
         {
-            Inputs[nameof(FlowId)] = value;
+            SetInputVariable(nameof(FlowId), value);
         }
     }
 
-    public IList<Variable> InputVariables
+    public IList<StepVariable> InputVariables
     {
         get
         {
             if (Inputs.ContainsKey(nameof(InputVariables)))
             {
-                if (Inputs[nameof(InputVariables)] is JArray array)
+                if (Inputs[nameof(InputVariables)].Value is JArray array)
                 {
-                    Inputs[nameof(InputVariables)] = array.ToObject<List<Variable>>();
+                    Inputs[nameof(InputVariables)].Value = array.ToObject<List<StepVariable>>();
                 }
             }
             else
             {
-                Inputs[nameof(InputVariables)] = new List<Variable>();
+                Inputs[nameof(InputVariables)].Value = new List<StepVariable>();
             }
 
-            return Inputs[nameof(InputVariables)] as IList<Variable>;
+            return Inputs[nameof(InputVariables)].Value as IList<StepVariable>;
         }
-        set => Inputs[nameof(InputVariables)] = value;
+        set => SetInputVariable(nameof(InputVariables), value);
     }
 
-    public IList<Variable> OutputVariables
+    public IList<StepVariable> OutputVariables
     {
         get
         {
-            if (Inputs.ContainsKey(nameof(OutputVariables)))
+            if (InputVariableExists(nameof(OutputVariables)))
             {
-                if (Inputs[nameof(OutputVariables)] is JArray array)
+                if (GetInputVariable(nameof(OutputVariables)) is JArray array)
                 {
-                    Inputs[nameof(OutputVariables)] = array.ToObject<List<Variable>>();
+                    SetInputVariable(nameof(OutputVariables), array.ToObject<List<StepVariable>>());
                 }
             }
             else
             {
-                Inputs[nameof(OutputVariables)] = new List<Variable>();
+                SetInputVariable(nameof(OutputVariables), new List<StepVariable>());
             }
 
-            return Inputs[nameof(OutputVariables)] as IList<Variable>;
+            return Inputs[nameof(OutputVariables)] as IList<StepVariable>;
         }
-        set => Inputs[nameof(OutputVariables)] = value;
+        set => SetInputVariable(nameof(OutputVariables), value);
     }
 
     public ExecuteFlowStep(IMapper mapper, FlowsService flowsService)
