@@ -102,16 +102,6 @@ public abstract class StudioStep : INotifyPropertyChanged
         return Inputs[name].Value;
     }
 
-    public string GetStringInputVariable(string name)
-    {
-        return Inputs.ContainsKey(name) ? Inputs[name].Value?.ToString() : string.Empty;
-    }
-
-    public bool InputVariableExists(string name)
-    {
-        return Inputs.ContainsKey(name);
-    }
-
     public virtual void Select()
     {
         Class = SelectedStepClass;

@@ -15,24 +15,16 @@ namespace Automaton.Studio.Steps.ExecutePython;
 )]
 public class ExecutePythonStep : StudioStep
 {
-    private const string CodeOutputVariablesName = nameof(CodeOutputVariables);
-    private const string CodeInputVariablesName = nameof(CodeInputVariables);
-
     public string Code
     {
-        get => GetStringInputVariable(nameof(Code)); 
+        get => GetInputVariable(nameof(Code)) as string;
         set => SetInputVariable(nameof(Code), value);
     }
 
     public IList<StepVariable> CodeInputVariables
     {
-        get
-        {
-            var variables = GetInputVariable(CodeInputVariablesName);
-            return variables as IList<StepVariable>;
-        }
-
-        set => SetInputVariable(CodeInputVariablesName, value);
+        get => GetInputVariable(nameof(CodeInputVariables)) as IList<StepVariable>;
+        set => SetInputVariable(nameof(CodeInputVariables), value);
     }
 
     /// <summary>
@@ -40,18 +32,15 @@ public class ExecutePythonStep : StudioStep
     /// </summary>
     public IList<StepVariable> CodeOutputVariables
     {
-        get
-        {
-            var variables = GetInputVariable(CodeOutputVariablesName);
-            return variables as IList<StepVariable>;
-        }
-        set => SetInputVariable(CodeOutputVariablesName, value);
+        get => GetInputVariable(nameof(CodeOutputVariables)) as IList<StepVariable>;
+        set => SetInputVariable(nameof(CodeOutputVariables), value);
     }
 
     public ExecutePythonStep()
     {
-        SetInputVariable(CodeOutputVariablesName, new List<StepVariable>());
-        SetInputVariable(CodeInputVariablesName, new List<StepVariable>());
+        SetInputVariable(nameof(Code), string.Empty);
+        SetInputVariable(nameof(CodeOutputVariables), new List<StepVariable>());
+        SetInputVariable(nameof(CodeInputVariables), new List<StepVariable>());
     }
 
     public override Type GetDesignerComponent()

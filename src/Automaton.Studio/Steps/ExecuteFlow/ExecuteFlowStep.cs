@@ -18,10 +18,6 @@ namespace Automaton.Studio.Steps.ExecuteFlow;
 )]
 public class ExecuteFlowStep : StudioStep
 {
-    private const string FlowIdName = nameof(FlowId);
-    private const string InputVariablesName = nameof(InputVariables);
-    private const string OutputVariablesName = nameof(OutputVariables);
-
     private readonly IMapper mapper;
     private readonly FlowsService flowsService;
 
@@ -44,13 +40,8 @@ public class ExecuteFlowStep : StudioStep
 
     public IList<StepVariable> InputVariables
     {
-        get
-        {
-            var variables = GetInputVariable(InputVariablesName);
-            return variables as IList<StepVariable>;
-        }
-
-        set => SetInputVariable(InputVariablesName, value);
+        get => GetInputVariable(nameof(InputVariables)) as IList<StepVariable>;
+        set => SetInputVariable(nameof(InputVariables), value);
     }
 
     /// <summary>
@@ -58,12 +49,8 @@ public class ExecuteFlowStep : StudioStep
     /// </summary>
     public IList<StepVariable> OutputVariables
     {
-        get
-        {
-            var variables = GetInputVariable(OutputVariablesName);
-            return variables as IList<StepVariable>;
-        }
-        set => SetInputVariable(OutputVariablesName, value);
+        get => GetInputVariable(nameof(OutputVariables)) as IList<StepVariable>;
+        set => SetInputVariable(nameof(OutputVariables), value);
     }
 
     public ExecuteFlowStep(IMapper mapper, FlowsService flowsService)
@@ -71,8 +58,8 @@ public class ExecuteFlowStep : StudioStep
         this.flowsService = flowsService;
         this.mapper = mapper;
 
-        SetInputVariable(OutputVariablesName, new List<StepVariable>());
-        SetInputVariable(InputVariablesName, new List<StepVariable>());
+        SetInputVariable(nameof(OutputVariables), new List<StepVariable>());
+        SetInputVariable(nameof(InputVariables), new List<StepVariable>());
     }
 
     public void OnFocus()
@@ -93,7 +80,7 @@ public class ExecuteFlowStep : StudioStep
 
     private Guid GetFlowIdFromInput()
     {
-        var guid = GetStringInputVariable(FlowIdName);
+        var guid = GetInputVariable(nameof(FlowId)) as string;
         Guid.TryParse(guid, out Guid flowId);
         return flowId;
     }
