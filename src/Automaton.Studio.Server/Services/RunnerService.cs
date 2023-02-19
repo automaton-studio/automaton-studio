@@ -21,39 +21,22 @@ public class RunnerService
         this.userId = userContextService.GetUserId();
     }
 
-    public async Task<IEnumerable<Runner>> List(CancellationToken cancellationToken)
+    public IEnumerable<Runner> List()
     {
-        var runners = await (from runner in dbContext.Runners
-            join runnerUser in dbContext.RunnerUsers
-            on runner.Id equals runnerUser.RunnerId
-            where runnerUser.UserId == userId
-            select runner).ToListAsync(cancellationToken);
+        var runners = dbContext.Runners.Where(x => x.RunnerUsers.Any(x => x.UserId == userId));
+        return runners;
+    }
+
+    public IEnumerable<Runner> List(IEnumerable<Guid> runnerIds)
+    {
+        var runners = dbContext.Runners.Where(x => x.RunnerUsers.Any(x => x.UserId == userId) && runnerIds.Contains(x.Id));
 
         return runners;
     }
 
-    public async Task<IEnumerable<Runner>> List(IEnumerable<Guid> runnerIds, CancellationToken cancellationToken)
+    public Runner Get(Guid id)
     {
-        var runners = await (from runner in dbContext.Runners
-            join runnerUser in dbContext.RunnerUsers
-            on runner.Id equals runnerUser.RunnerId
-            where runnerUser.UserId == userId && runnerIds.Contains(runner.Id)
-            select runner).ToListAsync(cancellationToken);
-
-        return runners;
-    }
-
-    public async Task<Runner> Get(Guid id, CancellationToken cancellationToken)
-    {
-        var runner =
-        (
-            from _runner in dbContext.Runners
-            join _runnerUser in dbContext.RunnerUsers
-            on _runner.Id equals _runnerUser.RunnerId
-            where _runner.Id == id && _runnerUser.UserId == userId
-            select _runner
-        )
-        .SingleOrDefault();
+        var runner = dbContext.Runners.SingleOrDefault(x => x.Id == id && x.RunnerUsers.Any(x => x.UserId == userId));
 
         // Because we update Runner's ConnectionId on the fly,
         // when retrieving data we get the cached version of it
@@ -75,14 +58,14 @@ public class RunnerService
         return runner;
     }
 
-    public async Task<int> Create(string name, CancellationToken cancellationToken)
+    public int Create(Models.RegisterRunnerDetails runnerDetails)
     {
         var runner = new Runner()
         {
-            Name = name
+            Name = runnerDetails.Name
         };
 
-        await dbContext.Runners.AddAsync(runner, cancellationToken);
+        dbContext.Runners.Add(runner);
 
         var runnerUser = new RunnerUser
         {
@@ -90,9 +73,9 @@ public class RunnerService
             UserId = userId
         };
 
-        await dbContext.RunnerUsers.AddAsync(runnerUser, cancellationToken);
+        dbContext.RunnerUsers.Add(runnerUser);
 
-        var result = await dbContext.SaveChangesAsync(cancellationToken);
+        var result = dbContext.SaveChanges();
 
         return result;
     }
@@ -101,7 +84,8 @@ public class RunnerService
     {
         var runnerEntity = dbContext.Runners
             .Include(x => x.RunnerUsers)
-            .SingleOrDefault(x => x.Name == runner.Name && x.RunnerUsers.Any(x => x.UserId == userId));
+            .SingleOrDefault(x => x.Name == runner.Name && 
+                x.RunnerUsers.Any(x => x.UserId == userId));
 
         if (runnerEntity == null)
         {
@@ -121,25 +105,23 @@ public class RunnerService
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<bool> Exists(string name, CancellationToken cancellationToken)
+    public bool Exists(string name)
     {
-        // Note: OrdinalCase comparison not working with this version of LinQ
-        var exists = await dbContext.Runners.AnyAsync(x =>
+        var exists = dbContext.Runners.Any(x =>
             x.Name.ToLower() == name.ToLower() &&
-            x.RunnerUsers.Any(x => x.UserId == userId), 
-            cancellationToken: cancellationToken);
+            x.RunnerUsers.Any(x => x.UserId == userId));
 
         return exists;
     }
 
-    public async Task ExecuteFlow(Guid flowId, IEnumerable<Guid> runnerIds, CancellationToken cancellationToken)
+    public async Task ExecuteFlow(Guid flowId, IEnumerable<Guid> runnerIds)
     {
         foreach (var runnerId in runnerIds)
         {
-            var runner = await Get(runnerId, cancellationToken);
+            var runner = Get(runnerId);
             var client = automatonHub.Clients.Client(runner.ConnectionId);
 
-            await client.SendAsync(AutomatonHubMethods.RunWorkflow, flowId, cancellationToken);
+            await client.SendAsync(AutomatonHubMethods.RunWorkflow, flowId);
         }
     }
 }

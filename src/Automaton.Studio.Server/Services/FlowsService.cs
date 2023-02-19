@@ -2,7 +2,6 @@
 using Automaton.Core.Models;
 using Automaton.Core.Services;
 using Automaton.Studio.Server.Data;
-using Automaton.Studio.Server.Middleware;
 using Automaton.Studio.Server.Models;
 using Serilog;
 using System.Text.Json;
@@ -37,28 +36,17 @@ public class FlowsService
 
     public IEnumerable<FlowInfo> List()
     {
-        var entityFlows = from flow in dataContext.Flows
-            join flowUser in dataContext.FlowUsers
-            on flow.Id equals flowUser.FlowId
-            where flowUser.UserId == userId
-            select flow;
-
-        var flows = mapper.Map<IEnumerable<FlowInfo>>(entityFlows);
+        var entities = dataContext.Flows.Where(x => x.FlowUsers.Any(x => x.UserId == userId));
+        var flows = mapper.Map<IEnumerable<FlowInfo>>(entities);
 
         return flows;
     }
 
     public Flow Get(Guid id)
     {
-        var flow = 
-        (
-            from _flow in dataContext.Flows
-            join _flowUser in dataContext.FlowUsers
-            on _flow.Id equals _flowUser.FlowId
-            where _flow.Id == id && _flowUser.UserId == userId
-            select DeserializeFlow(_flow.Body)
-        )
-        .SingleOrDefault();
+        var entity = dataContext.Flows.SingleOrDefault(x => x.Id == id && x.FlowUsers.Any(x => x.UserId == userId));
+
+        var flow = DeserializeFlow(entity.Body);
 
         return flow;
     }
@@ -93,15 +81,7 @@ public class FlowsService
 
     public void Update(Guid id, Flow flow)
     {
-        var entity =
-        (
-            from _flow in dataContext.Flows
-            join _flowUser in dataContext.FlowUsers
-            on _flow.Id equals _flowUser.FlowId
-            where _flow.Id == id && _flowUser.UserId == userId
-            select _flow
-        )
-        .SingleOrDefault();
+        var entity = dataContext.Flows.SingleOrDefault(x => x.Id == id && x.FlowUsers.Any(x => x.UserId == userId));
 
         entity.Name = flow.Name;
         entity.Body = JsonSerializer.Serialize(flow);
@@ -112,15 +92,7 @@ public class FlowsService
 
     public void Remove(Guid id)
     {
-        var flow =
-        (
-            from _flow in dataContext.Flows
-            join _flowUser in dataContext.FlowUsers
-            on _flow.Id equals _flowUser.FlowId
-            where _flow.Id == id && _flowUser.UserId == userId
-            select _flow
-        )
-        .SingleOrDefault();
+        var flow = dataContext.Flows.SingleOrDefault(x => x.Id == id && x.FlowUsers.Any(x => x.UserId == userId));
 
         dataContext.Flows.Remove(flow);
 
@@ -129,16 +101,9 @@ public class FlowsService
 
     public bool Exists(string name)
     {
-        var flows =
-        (
-            from _flow in dataContext.Flows
-            join _flowUser in dataContext.FlowUsers
-            on _flow.Id equals _flowUser.FlowId
-            where _flow.Name == name && _flowUser.UserId == userId
-            select _flow
-        );
+        var exists = dataContext.Flows.Any(x => x.Name == name && x.FlowUsers.Any(x => x.UserId == userId));
 
-        return flows.Any();
+        return exists;
     }
 
     /// <summary>
@@ -156,9 +121,9 @@ public class FlowsService
     /// <summary>
     /// Executes flow on runners
     /// </summary>
-    public async Task Execute(Guid flowId, IEnumerable<Guid> runnerIds, CancellationToken cancellationToken)
+    public async Task Execute(Guid flowId, IEnumerable<Guid> runnerIds)
     {
-        await runnerService.ExecuteFlow(flowId, runnerIds, cancellationToken);
+        await runnerService.ExecuteFlow(flowId, runnerIds);
     }
 
     private static Flow DeserializeFlow(string jsonFlow)

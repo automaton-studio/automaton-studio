@@ -1,5 +1,4 @@
 ﻿using Automaton.Core.Models;
-using Automaton.Studio.Server.Core.Commands;
 using Automaton.Studio.Server.Models;
 using Automaton.Studio.Server.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -61,9 +60,9 @@ public class FlowsController : BaseController
     }
 
     [HttpPost("run")]
-    public async Task<ActionResult> Post(ExecuteFlowCommand command, CancellationToken cancellationToken)
+    public ActionResult Post(ExecuteFlowDetails command)
     {
-        return Ok(await Mediator.Send(command, cancellationToken));
+        return Ok(flowsService.Execute(command.FlowId, command.RunnerIds));
     }
 
     [HttpGet("exists/{name}")]

@@ -1,29 +1,35 @@
 ﻿using Automaton.Studio.Server.Core.Commands;
 using Automaton.Studio.Server.Models;
+using Automaton.Studio.Server.Services;
 using Microsoft.AspNetCore.Mvc;
-using AuthServer.Core.Queries;
 
 namespace Automaton.Studio.Server.Controllers
 {
     public class RunnersController : BaseController
-    {        
-        [HttpPost("register")]
-        public async Task<ActionResult> Post([FromBody] RegisterRunnerCommand command, CancellationToken cancellationToken)
+    {
+        private readonly RunnerService runnersService;
+
+        public RunnersController(RunnerService runnersService)
         {
-            return Ok(await Mediator.Send(command, cancellationToken));
+            this.runnersService = runnersService;
+        }
+
+        [HttpPost("register")]
+        public ActionResult Post([FromBody] RegisterRunnerDetails registerRunnerDetails, CancellationToken cancellationToken)
+        {
+            return Ok(runnersService.Create(registerRunnerDetails));
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Runner>>> Get(CancellationToken cancellationToken)
+        public ActionResult<IEnumerable<Runner>> Get()
         {
-            var runnerQuery = new RunnerQuery();
-            return Ok(await Mediator.Send(runnerQuery, cancellationToken));
+            return Ok(runnersService.List());
         }
 
         [HttpGet("find")]
-        public async Task<ActionResult<IEnumerable<Runner>>> Get([FromBody] RunnerQuery runnerQuery, CancellationToken cancellationToken)
+        public async Task<ActionResult<IEnumerable<Runner>>> Get(IEnumerable<Guid> runnerIds)
         {
-            return Ok(await Mediator.Send(runnerQuery, cancellationToken));
+            return Ok(runnersService.List(runnerIds));
         }
     }
 }
