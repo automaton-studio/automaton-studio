@@ -17,21 +17,19 @@ namespace Automaton.Studio.Steps.AddVariable;
 public class AddVariableStep : StudioStep
 {
     private const string AddVariableKey = "NewVar";
-    private const string VariableValueName = nameof(VariableValue);
 
     public StepVariable VariableValue
     {
-        get => GetInputVariable(VariableValueName) as StepVariable;
-        set => SetInputVariable(VariableValueName, value);
+        get => GetInputVariable(nameof(VariableValue)) as StepVariable;
+        set => SetInputVariable(nameof(VariableValue), value);
     }
 
-    public StepVariable VariableOutput =>
-        Outputs.ContainsKey(AddVariableKey) ?
-        Outputs[AddVariableKey] : null;
+    public StepVariable VariableOutput => GetOutputVariable(AddVariableKey) as StepVariable;
 
     public AddVariableStep()
     {
-        SetInputVariable(VariableValueName, new StepVariable());
+        SetInputVariable(nameof(VariableValue), new StepVariable());
+        SetOutputVariable(AddVariableKey, new StepVariable());
 
         Created += OnCreated;
         ShowVariables = false;

@@ -102,6 +102,16 @@ public abstract class StudioStep : INotifyPropertyChanged
         return Inputs[name].Value;
     }
 
+    public void SetOutputVariable(string name, object value)
+    {
+        Outputs[name] = new StepVariable { Name = name, Value = value };
+    }
+
+    public object GetOutputVariable(string name)
+    {
+        return Outputs[name].Value;
+    }
+
     public virtual void Select()
     {
         Class = SelectedStepClass;

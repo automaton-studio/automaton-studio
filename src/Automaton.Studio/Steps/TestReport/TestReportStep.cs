@@ -29,14 +29,14 @@ public class TestReportStep : StudioStep
 
     #region Variables
 
-    public StepVariable ReportVariable => 
-        Outputs.ContainsKey(ReportVariableKey) ?
-        Outputs[ReportVariableKey] : null;
+    public StepVariable ReportVariable => GetOutputVariable(ReportVariableKey) as StepVariable;
 
     #endregion
 
     public TestReportStep()
     {
+        SetOutputVariable(ReportVariableKey, new StepVariable());
+
         Created += OnCreated;
     }
      
