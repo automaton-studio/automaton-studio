@@ -1,17 +1,16 @@
 ﻿using AntDesign;
 using Automaton.Studio.Pages.Flows.Components.NewFlow;
-using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Flows
+namespace Automaton.Studio.Pages.CustomSteps
 {
-    partial class FlowsPage : ComponentBase
+    partial class CustomStepsPage : ComponentBase
     {
         public bool loading;
 
         [Inject] private NavigationManager NavigationManager { get; set; } = default!;
-        [Inject] private FlowsViewModel FlowsViewModel { get; set; } = default!;
+        [Inject] private CustomStepsViewModel CustomStepsViewModel { get; set; } = default!;
         [Inject] private ModalService ModalService { get; set; }
         [Inject] private MessageService MessageService { get; set; }
 
@@ -21,8 +20,7 @@ namespace Automaton.Studio.Pages.Flows
 
             try
             {
-                await FlowsViewModel.GetFlows();
-                await FlowsViewModel.GetRunners();
+                await CustomStepsViewModel.GetCustomSteps();
             }
             catch
             {
@@ -36,19 +34,14 @@ namespace Automaton.Studio.Pages.Flows
             await base.OnInitializedAsync();
         }
 
-        private async Task RunFlow(FlowModel flow)
-        {
-            await FlowsViewModel.RunFlow(flow.Id, flow.RunnerIds);
-        }
-
         private void EditFlow(Guid id)
         {
-            NavigationManager.NavigateTo($"flowdesigner/{id}");
+            NavigationManager.NavigateTo($"customstepdesigner/{id}");
         }
 
         private async Task DeleteFlow(Guid id)
         {
-            await FlowsViewModel.DeleteFlow(id);
+            await CustomStepsViewModel.DeleteFlow(id);
 
             StateHasChanged();
         }
@@ -66,7 +59,7 @@ namespace Automaton.Studio.Pages.Flows
             {
                 try
                 {
-                    await FlowsViewModel.CreateFlow(newFlowModel.Name);
+                    await CustomStepsViewModel.CreateCustomStep(newFlowModel.Name);
                     StateHasChanged();
                 }
                 catch

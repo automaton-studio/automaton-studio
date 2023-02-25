@@ -12,6 +12,7 @@ public class ConfigurationService
 
     public string BaseUrl => apiConfiguration.BaseUrl;
     public string FlowsUrl => apiConfiguration.FlowsUrl;
+    public string CustomStepsUrl => apiConfiguration.CustomStepsUrl;
     public string RunnersUrl => apiConfiguration.RunnersUrl;
     public string LogsUrl => apiConfiguration.LogsUrl;
     public bool IsDesktop => appConfiguration.IsDesktop;

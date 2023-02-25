@@ -58,6 +58,7 @@ public class ExecuteFlowStep : StudioStep
         this.flowsService = flowsService;
         this.mapper = mapper;
 
+        SetInputVariable(nameof(FlowId), Guid.Empty);
         SetInputVariable(nameof(OutputVariables), new List<StepVariable>());
         SetInputVariable(nameof(InputVariables), new List<StepVariable>());
     }

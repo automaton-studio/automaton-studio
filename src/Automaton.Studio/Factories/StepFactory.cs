@@ -2,7 +2,6 @@
 using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Pages.Designer.Components.StepExplorer;
-using Automaton.Studio.Steps.Custom;
 using System.Reflection;
 
 namespace Automaton.Studio.Factories;

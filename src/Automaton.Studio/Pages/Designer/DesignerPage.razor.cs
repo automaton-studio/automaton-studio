@@ -25,8 +25,6 @@ partial class DesignerPage : ComponentBase
 
     [Inject] private DrawerService DrawerService { get; set; } = default!;
 
-    [Inject] public NavMenuService NavMenuService { get; set; }
-
     [Parameter] public string FlowId { get; set; }
 
     protected override async Task OnInitializedAsync()

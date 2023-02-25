@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Automaton.Studio.Server.Controllers;
 
-public class CustomStepController : BaseController
+public class CustomStepsController : BaseController
 {
     private readonly CustomStepsService customStepsService;
 
-    public CustomStepController(CustomStepsService customStepsService)
+    public CustomStepsController(CustomStepsService customStepsService)
     {
         this.customStepsService = customStepsService;
     }

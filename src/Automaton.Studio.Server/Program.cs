@@ -87,6 +87,7 @@ builder.Host.UseSerilog((context, services, config) =>
         sinkOptions: new MSSqlServerSinkOptions { TableName = "LogEvents" },
         columnOptions: new ColumnOptions()));
 
+services.AddScoped<CustomStepsService>();
 services.AddScoped<FlowsService>();
 services.AddScoped<RunnerService>();
 services.AddScoped<UserContextService>();

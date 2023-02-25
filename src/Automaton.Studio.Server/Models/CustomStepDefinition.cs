@@ -1,4 +1,6 @@
-﻿namespace Automaton.Core.Models;
+﻿using Automaton.Core.Models;
+
+namespace Automaton.Studio.Server.Models;
 
 public class CustomStepDefinition
 {
@@ -7,5 +9,4 @@ public class CustomStepDefinition
     public IList<StepVariable>? CodeInputVariables { get; set; }
 
     public IList<StepVariable>? CodeOutputVariables { get; set; }
-
 }

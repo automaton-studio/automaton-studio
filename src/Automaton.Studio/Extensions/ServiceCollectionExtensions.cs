@@ -8,6 +8,7 @@ using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Logging;
 using Automaton.Studio.Mapper;
+using Automaton.Studio.Pages.CustomSteps;
 using Automaton.Studio.Pages.Designer;
 using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
 using Automaton.Studio.Pages.Designer.Components.StepExplorer;
@@ -61,12 +62,12 @@ public static class ServiceCollectionExtensions
         services.AddScoped<FlowsService>();
         services.AddScoped<RunnerService>();
         services.AddScoped<LocalStorageService>();
-        services.AddSingleton<NavMenuService>();
         services.AddScoped<ErrorService>();
-
+        services.AddScoped<CustomStepsService>();
+        
         // ViewModels
         services.AddScoped<FlowsViewModel>();
-        services.AddScoped<FlowsViewModel>();
+        services.AddScoped<CustomStepsViewModel>();
         services.AddScoped<DesignerViewModel>();
         services.AddScoped<StepDesignerViewModel>();     
         services.AddScoped<StepsViewModel>();
