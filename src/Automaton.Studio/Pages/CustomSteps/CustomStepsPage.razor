@@ -7,10 +7,10 @@
             <Col Flex=@("none") Class="page-title">
                 <Space Size="@AntSizeLDSType.Large">
                     <SpaceItem>
-                        <h3>Flows</h3>
+                        <h3>Custom Steps</h3>
                     </SpaceItem>
                     <SpaceItem>
-                        <Button Class="new-button" Icon="plus" @onclick="@(() => NewFlowDialog())">
+                        <Button Class="new-button" Icon="plus" @onclick="@(() => NewCustomStepDialog())">
                             New
                         </Button>
                     </SpaceItem>
@@ -42,7 +42,7 @@
                 <div>
                     <Space>
                         <SpaceItem>
-                            <Button Icon="edit" @onclick="@(() => EditFlow(context.Id))">
+                            <Button Icon="edit" @onclick="@(() => EditCustomStep(context.Id))">
                                 Edit
                             </Button>
                         </SpaceItem>
@@ -51,7 +51,7 @@
                     <Dropdown Placement="@Placement.Bottom" Trigger="@(new Trigger[] { Trigger.Click })">
                         <Overlay>
                             <Menu>
-                                <MenuItem Icon="delete" OnClick="@(() => DeleteFlow(context.Id))">
+                                <MenuItem Icon="delete" OnClick="@(() => DeleteCustomStep(context.Id))">
                                     Delete
                                 </MenuItem>
                             </Menu>

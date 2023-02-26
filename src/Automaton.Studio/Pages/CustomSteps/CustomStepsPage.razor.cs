@@ -1,5 +1,5 @@
 ﻿using AntDesign;
-using Automaton.Studio.Pages.Flows.Components.NewFlow;
+using Automaton.Studio.Pages.CustomSteps.Components.NewCustomStep;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -24,7 +24,7 @@ namespace Automaton.Studio.Pages.CustomSteps
             }
             catch
             {
-                await MessageService.Error(Resources.Errors.FlowsListNotLoaded);
+                await MessageService.Error(Resources.Errors.CustomStepsListNotLoaded);
             }
             finally
             {
@@ -34,37 +34,37 @@ namespace Automaton.Studio.Pages.CustomSteps
             await base.OnInitializedAsync();
         }
 
-        private void EditFlow(Guid id)
+        private void EditCustomStep(Guid id)
         {
             NavigationManager.NavigateTo($"customstepdesigner/{id}");
         }
 
-        private async Task DeleteFlow(Guid id)
+        private async Task DeleteCustomStep(Guid id)
         {
-            await CustomStepsViewModel.DeleteFlow(id);
+            await CustomStepsViewModel.DeleteCustomStep(id);
 
             StateHasChanged();
         }
 
-        private async Task NewFlowDialog()
+        private async Task NewCustomStepDialog()
         {
-            var newFlowModel = new NewFlowModel();
+            var model = new NewCustomStepModel();
 
-            var modalRef = await ModalService.CreateModalAsync<NewFlowDialog, NewFlowModel>
+            var modalRef = await ModalService.CreateModalAsync<NewCustomStepDialog, NewCustomStepModel>
             (
-                new ModalOptions { Title = "New Flow" }, newFlowModel
+                new ModalOptions { Title = "New Custom Step" }, model
             );
 
             modalRef.OnOk = async () =>
             {
                 try
                 {
-                    await CustomStepsViewModel.CreateCustomStep(newFlowModel.Name);
+                    await CustomStepsViewModel.CreateCustomStep(model.Name);
                     StateHasChanged();
                 }
                 catch
                 {
-                    await MessageService.Error($"Flow {newFlowModel.Name} could not be created");
+                    await MessageService.Error($"Custom step {model.Name} could not be created");
                 }
             };
         }

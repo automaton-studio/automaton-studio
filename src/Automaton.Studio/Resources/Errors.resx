@@ -126,6 +126,9 @@
   <data name="ConfirmPasswordSameAsPassword" xml:space="preserve">
     <value>Confirmed password must be the same as password</value>
   </data>
+  <data name="CustomStepsListNotLoaded" xml:space="preserve">
+    <value>Custom steps list could not be loaded</value>
+  </data>
   <data name="DefinitionNameExists" xml:space="preserve">
     <value>Definition name already exists</value>
   </data>

@@ -40,7 +40,7 @@ public class CustomStepsViewModel
         CustomSteps.Add(customStepModel);
     }
 
-    public async Task DeleteFlow(Guid id)
+    public async Task DeleteCustomStep(Guid id)
     {
         await customStepsService.Delete(id);
 
