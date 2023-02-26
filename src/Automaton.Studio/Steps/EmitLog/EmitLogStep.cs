@@ -20,6 +20,11 @@ public class EmitLogStep : StudioStep
         set => SetInputVariable(nameof(Message), value);
     }
 
+    public EmitLogStep()
+    {
+        SetInputVariable(nameof(Message), string.Empty);
+    }
+
     public override Type GetDesignerComponent()
     {
         return typeof(EmitLogDesigner);
