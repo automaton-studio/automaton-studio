@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Automaton.Studio.Pages.CustomSteps.Components.NewCustomStep;
 using Automaton.Studio.Services;
 using System.Threading.Tasks;
 
@@ -27,15 +28,10 @@ public class CustomStepsViewModel
         CustomSteps = mapper.Map<ICollection<CustomStepModel>>(flowsInfo);
     }
 
-    public async Task CreateCustomStep(string name)
+    public async Task CreateCustomStep(NewCustomStepModel model)
     {
-        var customStep = await customStepsService.Create(name);
-
-        var customStepModel = new CustomStepModel
-        {
-            Id = customStep.Id,
-            Name = customStep.Name
-        };
+        var customStep = await customStepsService.Create(model.Name, model.DisplayName, model.Description);
+        var customStepModel = mapper.Map<CustomStepModel>(customStep);
 
         CustomSteps.Add(customStepModel);
     }

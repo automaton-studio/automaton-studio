@@ -2,8 +2,7 @@
 
 public class NewCustomStepModel
 {
-    public Guid Id { get; set; }
     public string Name { get; set; }
-    public string UserId { get; set; }
-    public string StartupWorkflowId { get; set; }
+    public string DisplayName { get; set; }
+    public string Description { get; set; }
 }

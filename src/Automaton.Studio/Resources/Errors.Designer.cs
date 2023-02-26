@@ -88,6 +88,15 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom step name already exists.
+        /// </summary>
+        public static string CustomStepNameExists {
+            get {
+                return ResourceManager.GetString("CustomStepNameExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom steps list could not be loaded.
         /// </summary>
         public static string CustomStepsListNotLoaded {

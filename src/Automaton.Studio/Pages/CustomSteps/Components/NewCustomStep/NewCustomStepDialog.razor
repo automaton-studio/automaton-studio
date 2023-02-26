@@ -3,17 +3,20 @@
 
 <Form @ref="form"
       Model="@flowModel"
-      LabelColSpan="4"
-      WrapperColSpan="20">
+      LabelColSpan="5">
     <Validator>
         <FluentValidationValidator @ref="fluentValidationValidator" />
-        @*We don't need a validation summary here because all validation is related to the Name field*@
-        @*<ValidationSummary />*@
     </Validator>
 
     <ChildContent>
         <FormItem Label="Name">
-            <Input @bind-Value="@context.Name" Placeholder="Enter flow name" />
+            <Input @bind-Value="@context.Name" Placeholder="Enter name" />
+        </FormItem>
+        <FormItem Label="Display Name">
+            <Input @bind-Value="@context.DisplayName" Placeholder="Enter display name" />
+        </FormItem>
+        <FormItem Label="Description">
+            <Input @bind-Value="@context.Description" Placeholder="Enter description" />
         </FormItem>
     </ChildContent>
 </Form>

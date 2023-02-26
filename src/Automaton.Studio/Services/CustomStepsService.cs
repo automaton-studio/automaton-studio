@@ -56,9 +56,14 @@ public class CustomStepsService
         return customStep;
     }
 
-    public async Task<CustomStep> Create(string name)
+    public async Task<CustomStep> Create(string name, string displayName, string description)
     {
-        var step = new CustomStep { Name = name };
+        var step = new CustomStep
+        {
+            Name = name,
+            DisplayName = displayName,
+            Description = description
+        };
 
         var response = await httpClient.PostAsJsonAsync(configService.CustomStepsUrl, step);
 

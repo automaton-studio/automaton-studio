@@ -59,7 +59,7 @@ namespace Automaton.Studio.Pages.CustomSteps
             {
                 try
                 {
-                    await CustomStepsViewModel.CreateCustomStep(model.Name);
+                    await CustomStepsViewModel.CreateCustomStep(model);
                     StateHasChanged();
                 }
                 catch
