@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Domain;
-using Automaton.Studio.Models;
 using Serilog;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -27,7 +26,7 @@ public class CustomStepsService
         this.mapper = mapper;
     }
 
-    public async Task<ICollection<CustomStepInfo>> List()
+    public async Task<ICollection<CustomStep>> List()
     {
         try
         {
@@ -35,7 +34,7 @@ public class CustomStepsService
 
             result.EnsureSuccessStatusCode();
 
-            var steps = await result.Content.ReadAsAsync<ICollection<CustomStepInfo>>();
+            var steps = await result.Content.ReadAsAsync<ICollection<CustomStep>>();
 
             return steps;
         }
