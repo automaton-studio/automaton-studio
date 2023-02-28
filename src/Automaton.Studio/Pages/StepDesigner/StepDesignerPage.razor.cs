@@ -11,9 +11,29 @@ namespace Automaton.Studio.Pages.StepDesigner
         [Inject] private ModalService ModalService { get; set; }
         [Inject] private MessageService MessageService { get; set; }
 
+        [Parameter] public string StepId { get; set; }
+
+        int currentStep;
+        private Type accountSection = typeof(StepDesignerPage);
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
+        }
+
+        private void OnStepsChange(int current)
+        {
+            this.currentStep = current;
+        }
+
+        private void NavigateToUserProfile()
+        {
+            accountSection = typeof(StepDesignerPage);
+        }
+
+        private void NavigateToUserSecurity()
+        {
+            accountSection = typeof(StepDesignerPage);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@page "/stepdesigner"
+﻿@page "/stepdesigner/{stepId}"
 @using AntDesign
 
 <Layout>
@@ -25,7 +25,22 @@
     </Header>
 
     <Content>
-        
+
+        <GridRow Justify="left" Align="left" Class="steps-header">
+            <GridCol>
+                <Steps Current=currentStep OnChange=OnStepsChange>
+                    <Step Title="Step 1" Description="This is a description." />
+                    <Step Title="Step 2" Description="This is a description." />
+                    <Step Title="Step 3" Description="This is a description." />
+                </Steps>
+            </GridCol>
+        </GridRow>
+
+        <GridRow Justify="left" Align="left" Class="account-form">
+            <GridCol>
+                <DynamicComponent Type="accountSection" />
+            </GridCol>
+        </GridRow>
     </Content>
 </Layout>
 
@@ -55,6 +70,14 @@
 
     .right-actions {
         margin-left: auto;
+    }
+
+    .steps-header {
+        background: #fff;
+        margin-bottom: 5px;
+        padding: 20px;
+        width: 100%;
+        box-shadow: 0 0px 1.5px rgba(0, 0, 0, 0.004), 0 0px 9px rgba(0, 0, 0, 0.07);
     }
 
 </style>

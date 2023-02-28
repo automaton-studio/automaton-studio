@@ -36,7 +36,7 @@ namespace Automaton.Studio.Pages.CustomSteps
 
         private void EditCustomStep(Guid id)
         {
-            NavigationManager.NavigateTo($"customstepdesigner/{id}");
+            NavigationManager.NavigateTo($"stepdesigner/{id}");
         }
 
         private async Task DeleteCustomStep(Guid id)
