@@ -10,9 +10,9 @@
                         <h3>Step Designer</h3>
                     </SpaceItem>
                     <SpaceItem>
-                        <Button Class="new-button" Icon="plus" @onclick="@(() => {})">
-                            New
-                        </Button>
+                    <Button Class="save-button" Icon="save" OnClick="Save">
+                            Save
+                    </Button>
                     </SpaceItem>
                 </Space>
             </Col>
@@ -28,7 +28,7 @@
 
         <GridRow Justify="left" Align="left" Class="steps-header">
             <GridCol>
-                <Steps Current=currentStep OnChange=OnStepsChange>
+                <Steps Current=currentStepSection OnChange=OnStepsChange>
                     <Step Title="Step 1" Description="This is a description." />
                     <Step Title="Step 2" Description="This is a description." />
                     <Step Title="Step 3" Description="This is a description." />
@@ -36,16 +36,16 @@
             </GridCol>
         </GridRow>
 
-        <GridRow Justify="left" Align="left" Class="account-form">
+        <GridRow Justify="left" Align="left" Class="steps-form">
             <GridCol>
-                <DynamicComponent Type="accountSection" />
+                <DynamicComponent Type="stepSection" Parameters="customStepParameters" />
             </GridCol>
         </GridRow>
     </Content>
 </Layout>
 
 <style>
-    .new-button {
+    .save-button {
         margin-bottom: 15px;
     }
 
@@ -78,6 +78,12 @@
         padding: 20px;
         width: 100%;
         box-shadow: 0 0px 1.5px rgba(0, 0, 0, 0.004), 0 0px 9px rgba(0, 0, 0, 0.07);
+    }
+
+    .steps-form {
+        background-color: #fff;
+        margin-top: 5px;
+        padding: 20px;
     }
 
 </style>

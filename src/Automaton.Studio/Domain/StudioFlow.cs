@@ -1,6 +1,4 @@
 ﻿using Automaton.Core.Models;
-using Automaton.Steps;
-using System.Collections.Generic;
 
 namespace Automaton.Studio.Domain;
 

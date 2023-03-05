@@ -1,0 +1,21 @@
+﻿@using Blazored.FluentValidation;
+
+<Form @ref="form"
+      Model="@CustomStep"
+      LabelColSpan="8">
+    <Validator>
+        <FluentValidationValidator @ref="fluentValidationValidator" />
+    </Validator>
+
+    <ChildContent>
+        <FormItem Label="Name">
+            <Input @bind-Value="@context.Name" Placeholder="Enter name" />
+        </FormItem>
+        <FormItem Label="Display Name">
+            <Input @bind-Value="@context.DisplayName" Placeholder="Enter display name" />
+        </FormItem>
+        <FormItem Label="Description">
+            <Input @bind-Value="@context.Description" Placeholder="Enter description" />
+        </FormItem>
+    </ChildContent>
+</Form>

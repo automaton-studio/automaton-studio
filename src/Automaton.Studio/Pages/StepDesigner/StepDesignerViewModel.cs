@@ -1,26 +1,30 @@
-﻿using AutoMapper;
+﻿using Automaton.Studio.Domain;
 using Automaton.Studio.Services;
+using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.StepDesigner;
 
 public class StepDesignerViewModel
 {
-    private readonly FlowsService flowsService;
-    private readonly RunnerService runnerService;
-    private readonly FlowService flowService;
-    private readonly IMapper mapper;
+    private readonly CustomStepsService customStepsService;
+
+    public CustomStep CustomStep { get; set; }
 
     public StepDesignerViewModel
     (
-        FlowsService flowsService,
-        RunnerService runnerService,
-        FlowService flowService,
-        IMapper mapper
+        CustomStepsService customStepsService
     )
     {
-        this.flowsService = flowsService;
-        this.runnerService = runnerService;
-        this.flowService = flowService;
-        this.mapper = mapper;
+        this.customStepsService = customStepsService;
+    }
+
+    public async Task Load(Guid id)
+    {
+        CustomStep = await customStepsService.Load(id);
+    }
+
+    public async Task Save()
+    {
+        await customStepsService.Update(CustomStep);
     }
 }
