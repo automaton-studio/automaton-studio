@@ -8,7 +8,7 @@ public class StepDesignerViewModel
 {
     private readonly CustomStepsService customStepsService;
 
-    public CustomStep CustomStep { get; set; }
+    public CustomStep CustomStep { get; set; } = new();
 
     public StepDesignerViewModel
     (

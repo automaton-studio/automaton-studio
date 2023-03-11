@@ -1,7 +1,7 @@
 ﻿using AntDesign;
 using Automaton.Studio.Domain;
-using Automaton.Studio.Pages.Designer;
-using Automaton.Studio.Pages.StepDesigner.Components;
+using Automaton.Studio.Pages.StepDesigner.Properties;
+using Blazored.FluentValidation;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -16,19 +16,16 @@ namespace Automaton.Studio.Pages.StepDesigner
         [Inject] private ModalService ModalService { get; set; }
         [Inject] private MessageService MessageService { get; set; }
 
-        private int currentStepSection;
+        private DynamicComponent? stepDesignerComponent;
         private Type stepSection = typeof(StepDesignerProperties);
         private Dictionary<string, object> customStepParameters;
-        private Dictionary<int, Type> stepSections;
+
+        private bool loading = false;
+        private Form<CustomStep> form;
+        private FluentValidationValidator fluentValidationValidator;
 
         public StepDesignerPage()
-        {
-            stepSections = new()
-            {
-                { 1,  typeof(StepDesignerProperties) },
-                { 2,  typeof(StepDesignerProperties) },
-                { 3,  typeof(StepDesignerProperties) }
-            };
+        {          
         }
 
         protected override async Task OnInitializedAsync()
@@ -43,16 +40,14 @@ namespace Automaton.Studio.Pages.StepDesigner
             await base.OnInitializedAsync();
         }
 
-        private void OnStepsChange(int stepSectionIndex)
+        private void NavigateToDetails()
         {
-            currentStepSection = stepSectionIndex;
-
-            NavigateToStepSection(currentStepSection);
+            stepSection = typeof(StepDesignerProperties);
         }
 
-        private void NavigateToStepSection(int stepSectionIndex)
+        private void NavigateToCode()
         {
-            stepSection = stepSections[stepSectionIndex];
+            stepSection = typeof(StepDesignerProperties);
         }
 
         private async Task Save()

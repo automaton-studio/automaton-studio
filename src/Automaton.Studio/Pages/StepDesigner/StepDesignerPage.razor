@@ -1,52 +1,89 @@
 ﻿@page "/stepdesigner/{stepId}"
 @using AntDesign
+@using Blazored.FluentValidation;
 
 <Layout>
-    <Header Class="header">
-        <Row>
-            <Col Flex=@("none") Class="page-title">
-                <Space Size="@AntSizeLDSType.Large">
-                    <SpaceItem>
-                        <h3>Step Designer</h3>
-                    </SpaceItem>
-                    <SpaceItem>
-                    <Button Class="save-button" Icon="save" OnClick="Save">
-                            Save
-                    </Button>
-                    </SpaceItem>
-                </Space>
-            </Col>
 
-            <Col Class="right-actions">
-                <Space Class="right-header-items"></Space>
+    <Sider Breakpoint="@BreakpointType.Lg"
+           CollapsedWidth="64"
+           @bind-Collapsed="@collapsed" Theme="SiderTheme.Light">
+
+        <Row>
+            <Col Span="24">
+            <div class="step-header">
+                <h3>Step</h3>
+            </div>
             </Col>
         </Row>
 
-    </Header>
+        <Row>
+            <Col Span="24">
+            <Menu Mode="MenuMode.Inline" DefaultSelectedKeys=@(new[]{"1"})>
+                <MenuItem Key="1" OnClick="NavigateToDetails">
+                    <Icon Type="smile" Theme="outline" />
+                    <span class="nav-text">Details</span>
+                </MenuItem>
+                <MenuItem Key="2" OnClick="NavigateToCode">
+                    <Icon Type="lock" Theme="outline" />
+                    <span class="nav-text">Code</span>
+                </MenuItem>
+            </Menu>
+            </Col>
+        </Row>
+    </Sider>
 
     <Content>
 
-        <GridRow Justify="left" Align="left" Class="steps-header">
-            <GridCol>
-                <Steps Current=currentStepSection OnChange=OnStepsChange>
-                    <Step Title="Step 1" Description="This is a description." />
-                    <Step Title="Step 2" Description="This is a description." />
-                    <Step Title="Step 3" Description="This is a description." />
-                </Steps>
-            </GridCol>
-        </GridRow>
+        <Header Class="header">
+            <Row>
+                <Col Flex=@("none") Class="page-title">
+                <Space Size="@AntSizeLDSType.Large">
+                    <SpaceItem>
+                        <Button Class="save-button" Icon="save" OnClick="Save">
+                            Save
+                        </Button>
+                    </SpaceItem>
+                </Space>
+                </Col>
 
-        <GridRow Justify="left" Align="left" Class="steps-form">
+                <Col Class="right-actions">
+                <Space Class="right-header-items"></Space>
+                </Col>
+            </Row>
+
+        </Header>
+        <GridRow Justify="left" Align="left" Class="step-form">
             <GridCol>
-                <DynamicComponent Type="stepSection" Parameters="customStepParameters" />
+                <Form @ref="form"
+                      Model="@StepDesignerViewModel.CustomStep"
+                      LabelColSpan="8">
+                    <Validator>
+                        <FluentValidationValidator @ref="fluentValidationValidator" />
+                    </Validator>
+                    <ChildContent>
+                        <DynamicComponent Type="stepSection" Parameters="customStepParameters" @ref="stepDesignerComponent" />
+                    </ChildContent>
+                </Form>
             </GridCol>
         </GridRow>
     </Content>
 </Layout>
 
+
+@code {
+    bool collapsed;
+}
+
 <style>
-    .save-button {
-        margin-bottom: 15px;
+    .step-header {
+        background-color: #fff;
+        padding: 10px 0px 0px 20px;
+    }
+
+    .step-form {
+        background-color: #fff;
+        margin: 10px;
+        padding: 20px;
     }
 
     .header {
@@ -62,6 +99,7 @@
         .header .right-header-items {
             float: right;
             padding-right: 10px;
+            margin-top: 8px;
         }
 
         .header .page-title {
@@ -72,18 +110,12 @@
         margin-left: auto;
     }
 
-    .steps-header {
-        background: #fff;
-        margin-bottom: 5px;
-        padding: 20px;
-        width: 100%;
-        box-shadow: 0 0px 1.5px rgba(0, 0, 0, 0.004), 0 0px 9px rgba(0, 0, 0, 0.07);
+    .site-layout-content {
+        height: 100%;
     }
 
-    .steps-form {
-        background-color: #fff;
-        margin-top: 5px;
-        padding: 20px;
+    .ant-layout {
+        height: 100%;
     }
 
 </style>
