@@ -11,5 +11,4 @@ namespace Automaton.Studio.Pages.StepDesigner
             RuleFor(x => x.DisplayName).NotEmpty().MaximumLength(256).WithMessage(Resources.Errors.DisplayNameRequired);
         }
     }
-
 }

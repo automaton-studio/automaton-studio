@@ -1,7 +1,7 @@
 ﻿using Automaton.Studio.Domain;
 using Microsoft.AspNetCore.Components;
 
-namespace Automaton.Studio.Pages.StepDesigner.Properties
+namespace Automaton.Studio.Pages.StepDesigner
 {
     public partial class StepDesignerProperties : ComponentBase
     {

@@ -56,9 +56,10 @@
             <GridCol>
                 <Form @ref="form"
                       Model="@StepDesignerViewModel.CustomStep"
+                      Loading="loading"
                       LabelColSpan="8">
                     <Validator>
-                        <FluentValidationValidator @ref="fluentValidationValidator" />
+                        <FluentValidationValidator />
                     </Validator>
                     <ChildContent>
                         <DynamicComponent Type="stepSection" Parameters="customStepParameters" @ref="stepDesignerComponent" />

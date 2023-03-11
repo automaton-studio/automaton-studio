@@ -106,6 +106,15 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom step update failed.
+        /// </summary>
+        public static string CustomStepUpdateFailed {
+            get {
+                return ResourceManager.GetString("CustomStepUpdateFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Definition name already exists.
         /// </summary>
         public static string DefinitionNameExists {

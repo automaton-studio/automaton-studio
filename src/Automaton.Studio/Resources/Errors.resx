@@ -132,6 +132,9 @@
   <data name="CustomStepsListNotLoaded" xml:space="preserve">
     <value>Custom steps list could not be loaded</value>
   </data>
+  <data name="CustomStepUpdateFailed" xml:space="preserve">
+    <value>Custom step update failed</value>
+  </data>
   <data name="DefinitionNameExists" xml:space="preserve">
     <value>Definition name already exists</value>
   </data>
