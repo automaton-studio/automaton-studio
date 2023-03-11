@@ -18,16 +18,16 @@
 
         <Row>
             <Col Span="24">
-            <Menu Mode="MenuMode.Inline" DefaultSelectedKeys=@(new[]{"1"})>
-                <MenuItem Key="1" OnClick="NavigateToDetails">
-                    <Icon Type="smile" Theme="outline" />
-                    <span class="nav-text">Details</span>
-                </MenuItem>
-                <MenuItem Key="2" OnClick="NavigateToCode">
-                    <Icon Type="lock" Theme="outline" />
-                    <span class="nav-text">Code</span>
-                </MenuItem>
-            </Menu>
+                <Menu Mode="MenuMode.Inline" DefaultSelectedKeys=@(new[]{"1"})>
+                    <MenuItem Key="1" OnClick="NavigateToDetails">
+                        <Icon Type="smile" Theme="outline" />
+                        <span class="nav-text">Details</span>
+                    </MenuItem>
+                    <MenuItem Key="2" OnClick="NavigateToCode">
+                        <Icon Type="lock" Theme="outline" />
+                        <span class="nav-text">Code</span>
+                    </MenuItem>
+                </Menu>
             </Col>
         </Row>
     </Sider>
@@ -37,27 +37,29 @@
         <Header Class="header">
             <Row>
                 <Col Flex=@("none") Class="page-title">
-                <Space Size="@AntSizeLDSType.Large">
-                    <SpaceItem>
-                        <Button Class="save-button" Icon="save" OnClick="Save">
-                            Save
-                        </Button>
-                    </SpaceItem>
-                </Space>
+                    <Space Size="@AntSizeLDSType.Large">
+                        <SpaceItem>
+                            <Button Class="save-button" Icon="save" OnClick="Save">
+                                Save
+                            </Button>
+                        </SpaceItem>
+                    </Space>
                 </Col>
 
                 <Col Class="right-actions">
-                <Space Class="right-header-items"></Space>
+                    <Space Class="right-header-items"></Space>
                 </Col>
             </Row>
 
         </Header>
-        <GridRow Justify="left" Align="left" Class="step-form">
+
+        <GridRow Justify="left" Align="left" Class="step-row">
             <GridCol>
                 <Form @ref="form"
                       Model="@StepDesignerViewModel.CustomStep"
                       Loading="loading"
-                      LabelColSpan="8">
+                      LabelColSpan="8"
+                      Class="step-form">
                     <Validator>
                         <FluentValidationValidator />
                     </Validator>
@@ -81,10 +83,15 @@
         padding: 10px 0px 0px 20px;
     }
 
-    .step-form {
+    .step-row {
         background-color: #fff;
         margin: 10px;
         padding: 20px;
+        height: calc(100vh - 63px);
+    }
+
+    .step-form {
+        height:100%;
     }
 
     .header {

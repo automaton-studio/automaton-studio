@@ -40,7 +40,7 @@ namespace Automaton.Studio.Pages.StepDesigner
 
         private void NavigateToCode()
         {
-            stepSection = typeof(StepDesignerProperties);
+            stepSection = typeof(CustomStepCode);
         }
 
         private async Task Save()
