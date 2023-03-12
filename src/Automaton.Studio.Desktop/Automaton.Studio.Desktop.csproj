@@ -7,6 +7,10 @@
     <IsShippingPackage>false</IsShippingPackage>
   </PropertyGroup>
 
+    <PropertyGroup>
+	    <UseRazorSourceGenerator>false</UseRazorSourceGenerator>
+    </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="7.0.58" />
   </ItemGroup>
