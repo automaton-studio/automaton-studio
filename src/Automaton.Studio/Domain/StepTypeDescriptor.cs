@@ -1,12 +1,11 @@
 using Automaton.Studio.Attributes;
-using Automaton.Studio.Domain.Interfaces;
 using System.Reflection;
 
 namespace Automaton.Studio.Domain;
 
-public class StepTypeDescriptor : IStepTypeDescriptor
+public class StepTypeDescriptor
 {
-    public IStepDescriptor Describe(Type stepType)
+    public StepDescriptor Describe(Type stepType)
     {
         var attribute = stepType.GetCustomAttribute<StepDescriptionAttribute>(false);
 

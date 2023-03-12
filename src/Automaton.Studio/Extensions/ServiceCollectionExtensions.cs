@@ -3,7 +3,6 @@ using Automaton.Client.Auth.Extensions;
 using Automaton.Core.Scripting;
 using Automaton.Studio.Config;
 using Automaton.Studio.Domain;
-using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Logging;
 using Automaton.Studio.Mapper;
@@ -75,7 +74,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<UserRegisterViewModel>();
      
         // Steps
-        services.AddScoped<IStepTypeDescriptor, StepTypeDescriptor>();
+        services.AddScoped<StepTypeDescriptor>();
         services.AddScoped<StepFactory>();
         services.AddSteps();
 

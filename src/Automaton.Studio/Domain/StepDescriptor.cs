@@ -1,8 +1,6 @@
-using Automaton.Studio.Domain.Interfaces;
-
 namespace Automaton.Studio.Domain;
 
-public class StepDescriptor : IStepDescriptor
+public class StepDescriptor
 {
     public string Name { get; set; }
     public string Type { get; set; }

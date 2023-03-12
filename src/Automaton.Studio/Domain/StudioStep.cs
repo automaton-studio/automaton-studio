@@ -1,5 +1,4 @@
 ﻿using Automaton.Core.Models;
-using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Events;
 using Automaton.Studio.Steps.Sequence;
 using System.ComponentModel;
@@ -78,7 +77,7 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public abstract Type GetPropertiesComponent();
 
-    public virtual void Setup(IStepDescriptor descriptor)
+    public virtual void Setup(StepDescriptor descriptor)
     {
         Id = Guid.NewGuid().ToString();
         Name = descriptor.Name;

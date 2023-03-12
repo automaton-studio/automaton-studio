@@ -1,5 +1,4 @@
 ﻿using Automaton.Studio.Domain;
-using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Pages.FlowDesigner.Components.StepExplorer;
 using System.Reflection;
@@ -11,11 +10,11 @@ public class StepFactory
     private const string StepsAssembly = "Automaton.Studio";
 
     private readonly IServiceProvider serviceProvider;
-    private readonly IStepTypeDescriptor stepTypeDescriptor;
+    private readonly StepTypeDescriptor stepTypeDescriptor;
     private readonly IDictionary<string, StepExplorerModel> solutionSteps = new Dictionary<string, StepExplorerModel>();
     private readonly IDictionary<string, Type> solutionTypes = new Dictionary<string, Type>();
 
-    public StepFactory(IStepTypeDescriptor stepTypeDescriptor, IServiceProvider serviceProvider)
+    public StepFactory(StepTypeDescriptor stepTypeDescriptor, IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider;
         this.stepTypeDescriptor = stepTypeDescriptor;
@@ -93,7 +92,7 @@ public class StepFactory
         }
     }
 
-    private static StepExplorerModel CreateStepExplorerModel(IStepDescriptor stepDescriptor)
+    private static StepExplorerModel CreateStepExplorerModel(StepDescriptor stepDescriptor)
     {
         var stepExplorerModel = new StepExplorerModel
         {

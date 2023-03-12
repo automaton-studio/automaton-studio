@@ -1,6 +1,5 @@
 ﻿using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
-using Automaton.Studio.Domain.Interfaces;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
 using System.Reflection;
@@ -47,7 +46,7 @@ public class SequenceStep : StudioStep
         Finalize += OnFinalize;
     }
 
-    public override void Setup(IStepDescriptor descriptor)
+    public override void Setup(StepDescriptor descriptor)
     {
         base.Setup(descriptor);
 
