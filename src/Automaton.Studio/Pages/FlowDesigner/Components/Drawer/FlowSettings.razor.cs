@@ -4,7 +4,7 @@ using Automaton.Studio.Domain;
 using Blazored.FluentValidation;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Designer.Components.Drawer;
+namespace Automaton.Studio.Pages.FlowDesigner.Components.Drawer;
 
 public partial class FlowSettings
 {

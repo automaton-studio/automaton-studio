@@ -2,16 +2,15 @@
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
-using Automaton.Studio.Pages.Designer.Components;
-using Automaton.Studio.Pages.Designer.Components.Drawer;
-using Automaton.Studio.Pages.Designer.Components.FlowExplorer;
-using Automaton.Studio.Pages.Designer.Components.NewDefinition;
+using Automaton.Studio.Pages.FlowDesigner.Components;
+using Automaton.Studio.Pages.FlowDesigner.Components.Drawer;
+using Automaton.Studio.Pages.FlowDesigner.Components.FlowExplorer;
+using Automaton.Studio.Pages.FlowDesigner.Components.NewDefinition;
 using Automaton.Studio.Resources;
-using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Designer;
+namespace Automaton.Studio.Pages.FlowDesigner;
 
 partial class DesignerPage : ComponentBase
 {

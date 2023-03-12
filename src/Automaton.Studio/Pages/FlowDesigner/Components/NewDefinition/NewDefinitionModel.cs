@@ -1,4 +1,4 @@
-﻿namespace Automaton.Studio.Pages.Designer.Components.NewDefinition;
+﻿namespace Automaton.Studio.Pages.FlowDesigner.Components.NewDefinition;
 
 public class NewDefinitionModel
 {

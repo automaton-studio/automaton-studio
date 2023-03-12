@@ -7,7 +7,7 @@ using Automaton.Studio.Factories;
 using Automaton.Studio.Services;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Designer;
+namespace Automaton.Studio.Pages.FlowDesigner;
 
 public class DesignerViewModel
 {

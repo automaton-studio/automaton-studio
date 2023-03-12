@@ -1,12 +1,12 @@
 ﻿using AntDesign;
 using Automaton.Studio.Domain;
-using Automaton.Studio.Pages.Designer.Components.NewDefinition;
+using Automaton.Studio.Pages.FlowDesigner.Components.NewDefinition;
 using Automaton.Studio.Resources;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Designer.Components.FlowExplorer;
+namespace Automaton.Studio.Pages.FlowDesigner.Components.FlowExplorer;
 
 partial class FlowExplorer : ComponentBase
 {

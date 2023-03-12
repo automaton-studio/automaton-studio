@@ -8,17 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Designer.Components;
+namespace Automaton.Studio.Pages.FlowDesigner.Components;
 
 public partial class Dropzone : ComponentBase
 {
-    #region Consts
-
     private const string ActiveStepSpacingClass = "step-active-spacing";
     private const string StepSpacingClass = "step-spacing";
-
-    #endregion
-
     private int _stepMargin = 10;
 
     [Inject] DragDropService DragDropService { get; set; }

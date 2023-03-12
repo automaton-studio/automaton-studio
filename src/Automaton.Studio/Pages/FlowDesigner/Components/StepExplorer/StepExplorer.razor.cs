@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Designer.Components.StepExplorer;
+namespace Automaton.Studio.Pages.FlowDesigner.Components.StepExplorer;
 
 partial class StepExplorer : ComponentBase
 {

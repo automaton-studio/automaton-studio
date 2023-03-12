@@ -1,4 +1,4 @@
-﻿namespace Automaton.Studio.Pages.Designer.Components.StepExplorer;
+﻿namespace Automaton.Studio.Pages.FlowDesigner.Components.StepExplorer;
 
 public class StepExplorerModel
 {

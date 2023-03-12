@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Domain;
 
-namespace Automaton.Studio.Pages.Designer.Components.FlowExplorer;
+namespace Automaton.Studio.Pages.FlowDesigner.Components.FlowExplorer;
 
 public class FlowExplorerViewModel
 {

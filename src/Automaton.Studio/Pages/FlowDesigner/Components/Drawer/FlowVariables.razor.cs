@@ -2,13 +2,13 @@
 using AntDesign;
 using Automaton.Core.Models;
 using Automaton.Studio.Domain;
-using Automaton.Studio.Pages.Designer.Components.NewVariable;
+using Automaton.Studio.Pages.FlowDesigner.Components.NewVariable;
 using Automaton.Studio.Resources;
 using Blazored.FluentValidation;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Designer.Components.Drawer;
+namespace Automaton.Studio.Pages.FlowDesigner.Components.Drawer;
 
 public partial class FlowVariables
 {

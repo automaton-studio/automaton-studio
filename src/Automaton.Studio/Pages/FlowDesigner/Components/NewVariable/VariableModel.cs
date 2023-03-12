@@ -1,4 +1,4 @@
-﻿namespace Automaton.Studio.Pages.Designer.Components.NewVariable;
+﻿namespace Automaton.Studio.Pages.FlowDesigner.Components.NewVariable;
 
 public class VariableModel
 {
