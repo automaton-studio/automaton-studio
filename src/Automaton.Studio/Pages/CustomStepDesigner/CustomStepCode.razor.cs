@@ -1,13 +1,13 @@
 ﻿using Automaton.Studio.Domain;
 using Microsoft.AspNetCore.Components;
 
-namespace Automaton.Studio.Pages.StepDesigner
+namespace Automaton.Studio.Pages.CustomStepDesigner
 {
-    public partial class StepDesignerProperties : ComponentBase
+    public partial class CustomStepCode : ComponentBase
     {
         [Parameter] public CustomStep CustomStep { get; set; } = new();
 
-        public StepDesignerProperties()
+        public CustomStepCode()
         {
         }       
     }

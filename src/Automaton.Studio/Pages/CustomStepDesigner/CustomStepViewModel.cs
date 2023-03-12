@@ -2,15 +2,15 @@
 using Automaton.Studio.Services;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.StepDesigner;
+namespace Automaton.Studio.Pages.CustomStepDesigner;
 
-public class StepDesignerViewModel
+public class CustomStepViewModel
 {
     private readonly CustomStepsService customStepsService;
 
     public CustomStep CustomStep { get; set; } = new();
 
-    public StepDesignerViewModel
+    public CustomStepViewModel
     (
         CustomStepsService customStepsService
     )

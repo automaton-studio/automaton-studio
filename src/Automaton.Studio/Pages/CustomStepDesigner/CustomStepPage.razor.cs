@@ -4,18 +4,18 @@ using Microsoft.AspNetCore.Components;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.StepDesigner
+namespace Automaton.Studio.Pages.CustomStepDesigner
 {
-    partial class StepDesignerPage : ComponentBase
+    partial class CustomStepPage : ComponentBase
     {
         private bool loading = false;
         private Form<CustomStep> form;
         private DynamicComponent? stepDesignerComponent;
-        private Type stepSection = typeof(StepDesignerProperties);
+        private Type stepSection = typeof(CustomStepProperties);
         private Dictionary<string, object> customStepParameters;
 
         [Inject] private NavigationManager NavigationManager { get; set; } = default!;
-        [Inject] private StepDesignerViewModel StepDesignerViewModel { get; set; } = default!;
+        [Inject] private CustomStepViewModel StepDesignerViewModel { get; set; } = default!;
         [Inject] private ModalService ModalService { get; set; }
         [Inject] private MessageService MessageService { get; set; }
 
@@ -35,7 +35,7 @@ namespace Automaton.Studio.Pages.StepDesigner
 
         private void NavigateToDetails()
         {
-            stepSection = typeof(StepDesignerProperties);
+            stepSection = typeof(CustomStepProperties);
         }
 
         private void NavigateToCode()

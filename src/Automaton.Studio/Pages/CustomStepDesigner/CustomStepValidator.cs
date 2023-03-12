@@ -1,7 +1,7 @@
 ﻿using Automaton.Studio.Domain;
 using FluentValidation;
 
-namespace Automaton.Studio.Pages.StepDesigner
+namespace Automaton.Studio.Pages.CustomStepDesigner
 {
     public class CustomStepValidator : AbstractValidator<CustomStep>
     {
