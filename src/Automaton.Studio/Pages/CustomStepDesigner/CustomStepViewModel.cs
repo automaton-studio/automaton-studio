@@ -24,23 +24,6 @@ public class CustomStepViewModel
     public async Task Load(Guid id)
     {
         CustomStep = await customStepsService.Load(id);
-
-        if (CustomStep.Definition == null) 
-        { 
-            CustomStep.Definition = new CustomStepDefinition(); 
-        }
-        else
-        {
-            if (CustomStep.Definition.CodeInputVariables == null)
-            {
-                CustomStep.Definition.CodeInputVariables = new List<StepVariable>();
-            }
-
-            if (CustomStep.Definition.CodeOutputVariables == null)
-            {
-                CustomStep.Definition.CodeOutputVariables = new List<StepVariable>();
-            }
-        }
     }
 
     public async Task Save()

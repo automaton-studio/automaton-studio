@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Automaton.Core.Models;
 using Automaton.Core.Services;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Models;
@@ -42,7 +43,7 @@ public class CustomStepsService
     {
         var stepEntity = dataContext.CustomSteps.SingleOrDefault(x => x.Id == id && x.CustomStepUsers.Any(x => x.UserId == userId));
         var step = mapper.Map<CustomStep>(stepEntity);
-
+ 
         return step;
     }
 
@@ -54,8 +55,8 @@ public class CustomStepsService
         {
             Id = step.Id,
             Name = step.Name,
-            DisplayName= step.DisplayName,
-            Description= step.Description,
+            DisplayName = step.DisplayName,
+            Description = step.Description,
             Icon = step.Icon,
             Created = DateTime.UtcNow,
             Updated = DateTime.UtcNow,
