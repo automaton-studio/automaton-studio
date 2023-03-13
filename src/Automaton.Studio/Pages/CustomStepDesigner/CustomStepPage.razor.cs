@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Microsoft.AspNetCore.Components;
 using System.Threading;
@@ -11,8 +12,6 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
         private bool loading = false;
         private Form<CustomStep> form;
         private DynamicComponent? stepDesignerComponent;
-        private Type stepSection = typeof(CustomStepProperties);
-        private Dictionary<string, object> customStepParameters;
 
         [Inject] private NavigationManager NavigationManager { get; set; } = default!;
         [Inject] private CustomStepViewModel StepDesignerViewModel { get; set; } = default!;
@@ -25,22 +24,27 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
         {
             await StepDesignerViewModel.Load(Guid.Parse(StepId));
 
-            customStepParameters = new()
-            {
-                { nameof(CustomStep), StepDesignerViewModel.CustomStep }
-            };
-
             await base.OnInitializedAsync();
         }
 
-        private void NavigateToDetails()
+        public void AddInputVariable()
         {
-            stepSection = typeof(CustomStepProperties);
+            StepDesignerViewModel.AddInputVariable();
         }
 
-        private void NavigateToCode()
+        public void DeleteInputVariable(string name)
         {
-            stepSection = typeof(CustomStepCode);
+            StepDesignerViewModel.DeleteInputVariable(name);
+        }
+
+        public void AddOutputVariable()
+        {
+            StepDesignerViewModel.AddOutputVariable();
+        }
+
+        public void DeleteOutputVariable(string name)
+        {
+            StepDesignerViewModel.DeleteOutputVariable(name);
         }
 
         private async Task Save()

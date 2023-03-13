@@ -4,40 +4,15 @@
 
 <Layout>
 
-    <Sider Breakpoint="@BreakpointType.Lg"
-           CollapsedWidth="64"
-           @bind-Collapsed="@collapsed" Theme="SiderTheme.Light">
-
-        <Row>
-            <Col Span="24">
-            <div class="step-header">
-                <h3>Step</h3>
-            </div>
-            </Col>
-        </Row>
-
-        <Row>
-            <Col Span="24">
-                <Menu Mode="MenuMode.Inline" DefaultSelectedKeys=@(new[]{"1"})>
-                    <MenuItem Key="1" OnClick="NavigateToDetails">
-                        <Icon Type="smile" Theme="outline" />
-                        <span class="nav-text">Details</span>
-                    </MenuItem>
-                    <MenuItem Key="2" OnClick="NavigateToCode">
-                        <Icon Type="lock" Theme="outline" />
-                        <span class="nav-text">Code</span>
-                    </MenuItem>
-                </Menu>
-            </Col>
-        </Row>
-    </Sider>
-
     <Content>
 
         <Header Class="header">
             <Row>
                 <Col Flex=@("none") Class="page-title">
-                    <Space Size="@AntSizeLDSType.Large">
+                <Space Size="@AntSizeLDSType.Large" Direction="DirectionVHType.Horizontal">
+                        <SpaceItem>
+                            <h3>Step</h3>
+                        </SpaceItem>
                         <SpaceItem>
                             <Button Class="save-button" Icon="save" OnClick="Save">
                                 Save
@@ -52,23 +27,101 @@
             </Row>
 
         </Header>
+      
+        <Form @ref="form"
+              Model="@StepDesignerViewModel.CustomStep"
+              Loading="loading"
+              Class="step-form">
+            <Validator>
+                <FluentValidationValidator />
+                <ValidationSummary />
+            </Validator>
 
-        <GridRow Justify="left" Align="left" Class="step-row">
-            <GridCol>
-                <Form @ref="form"
-                      Model="@StepDesignerViewModel.CustomStep"
-                      Loading="loading"
-                      LabelColSpan="8"
-                      Class="step-form">
-                    <Validator>
-                        <FluentValidationValidator />
-                    </Validator>
-                    <ChildContent>
-                        <DynamicComponent Type="stepSection" Parameters="customStepParameters" @ref="stepDesignerComponent" />
-                    </ChildContent>
-                </Form>
-            </GridCol>
-        </GridRow>
+            <ChildContent>
+                <Tabs>
+
+                    <TabPane Tab="Details" Key="1">
+                        <FormItem Label="Name">
+                            <Input @bind-Value="@StepDesignerViewModel.CustomStep.Name" Placeholder="Enter name" />
+                        </FormItem>
+                        <FormItem Label="Display Name">
+                            <Input @bind-Value="@StepDesignerViewModel.CustomStep.DisplayName" Placeholder="Enter display name" />
+                        </FormItem>
+                        <FormItem Label="Description">
+                            <Input @bind-Value="@StepDesignerViewModel.CustomStep.Description" Placeholder="Enter description" />
+                        </FormItem>
+                    </TabPane>
+
+                    <TabPane Tab="Code" Key="2">
+                        <TextArea Rows="6" @bind-Value="StepDesignerViewModel.CustomStep.Definition.Code" AutoFocus />
+                    </TabPane>
+
+                    <TabPane Tab="Input Variables" Key="3">
+                        <Space Direction="DirectionVHType.Vertical">
+                            <SpaceItem>
+                                <Button OnClick="AddInputVariable" Type="primary">
+                                    Add
+                                </Button>
+                            </SpaceItem>
+                            <SpaceItem>
+                                <Table DataSource="StepDesignerViewModel.CustomStep.Definition.CodeInputVariables"
+                                       ScrollY="200"
+                                       ScrollBarWidth="5"
+                                       HidePagination>
+                                    <ChildContent Context="inputVariable">
+                                        <Column Title="Name" TData="string">
+                                            <Input Type="text" @bind-Value="inputVariable.Name" AutoFocus />
+                                        </Column>
+                                        <Column Title="Value" TData="string">
+                                            <Input Type="text" @bind-Value="inputVariable.Value" />
+                                        </Column>
+                                        <ActionColumn Title="Action">
+                                            <Popconfirm Title="Sure to delete?"
+                                                        OnConfirm="()=> DeleteInputVariable(inputVariable.Name)"
+                                                        OkText="Yes"
+                                                        CancelText="No">
+                                                <a>Delete</a>
+                                            </Popconfirm>
+                                        </ActionColumn>
+                                    </ChildContent>
+                                </Table>
+                            </SpaceItem>
+                        </Space>
+                    </TabPane>
+
+                    <TabPane Tab="Output Variables" Key="4">
+                        <Space Direction="DirectionVHType.Vertical" Style="width: 100%">
+                            <SpaceItem>
+                                <Button OnClick="AddOutputVariable" Type="primary">
+                                    Add
+                                </Button>
+                            </SpaceItem>
+                            <SpaceItem>
+                                <Table DataSource="StepDesignerViewModel.CustomStep.Definition.CodeOutputVariables"
+                                       ScrollY="200px"
+                                       ScrollBarWidth="5"
+                                       HidePagination>
+                                    <ChildContent Context="outputVariable">
+                                        <Column Title="Name" TData="string">
+                                            <Input Type="text" @bind-Value="outputVariable.Name" AutoFocus />
+                                        </Column>
+                                        <ActionColumn Title="Action">
+                                            <Popconfirm Title="Sure to delete?"
+                                                        OnConfirm="()=> DeleteOutputVariable(outputVariable.Name)"
+                                                        OkText="Yes"
+                                                        CancelText="No">
+                                                <a>Delete</a>
+                                            </Popconfirm>
+                                        </ActionColumn>
+                                    </ChildContent>
+                                </Table>
+                            </SpaceItem>
+                        </Space>
+                    </TabPane>
+                </Tabs>
+            </ChildContent>
+        </Form>
+
     </Content>
 </Layout>
 
