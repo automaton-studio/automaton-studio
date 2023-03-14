@@ -10,28 +10,30 @@
             <Row>
                 <Col Flex=@("none") Class="page-title">
                 <Space Size="@AntSizeLDSType.Large" Direction="DirectionVHType.Horizontal">
-                        <SpaceItem>
-                            <h3>Step</h3>
-                        </SpaceItem>
-                        <SpaceItem>
-                            <Button Class="save-button" Icon="save" OnClick="Save">
-                                Save
-                            </Button>
-                        </SpaceItem>
-                    </Space>
+                    <SpaceItem>
+                        <h3>Step</h3>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Button Class="save-button" Icon="save" OnClick="Save">
+                            Save
+                        </Button>
+                    </SpaceItem>
+                </Space>
                 </Col>
 
                 <Col Class="right-actions">
-                    <Space Class="right-header-items"></Space>
+                <Space Class="right-header-items"></Space>
                 </Col>
             </Row>
 
         </Header>
-      
+
         <Form @ref="form"
               Model="@StepDesignerViewModel.CustomStep"
               Loading="loading"
-              Class="step-form">
+              Class="step-form"
+              Layout="@FormLayout.Vertical">
+
             <Validator>
                 <FluentValidationValidator />
                 <ValidationSummary />
@@ -39,21 +41,26 @@
 
             <ChildContent>
                 <Tabs>
-
                     <TabPane Tab="Details" Key="1">
-                        <FormItem Label="Name">
-                            <Input @bind-Value="@StepDesignerViewModel.CustomStep.Name" Placeholder="Enter name" />
-                        </FormItem>
-                        <FormItem Label="Display Name">
-                            <Input @bind-Value="@StepDesignerViewModel.CustomStep.DisplayName" Placeholder="Enter display name" />
-                        </FormItem>
-                        <FormItem Label="Description">
-                            <Input @bind-Value="@StepDesignerViewModel.CustomStep.Description" Placeholder="Enter description" />
-                        </FormItem>
+                        <Row>
+                            <FormItem Label="Name">
+                                <Input @bind-Value="@StepDesignerViewModel.CustomStep.Name" Placeholder="Enter name" />
+                            </FormItem>
+                        </Row>
+                        <Row>
+                            <FormItem Label="Display Name">
+                                <Input @bind-Value="@StepDesignerViewModel.CustomStep.DisplayName" Placeholder="Enter display name" />
+                            </FormItem>
+                        </Row>
+                        <Row>
+                            <FormItem Label="Description">
+                                <Input @bind-Value="@StepDesignerViewModel.CustomStep.Description" Placeholder="Enter description" />
+                            </FormItem>
+                        </Row>
                     </TabPane>
 
                     <TabPane Tab="Code" Key="2">
-                        <TextArea Rows="6" @bind-Value="StepDesignerViewModel.CustomStep.Definition.Code" AutoFocus />
+                        <TextArea Rows="6" Id="step-code" @bind-Value="StepDesignerViewModel.CustomStep.Definition.Code" AutoFocus />
                     </TabPane>
 
                     <TabPane Tab="Input Variables" Key="3">
@@ -136,15 +143,16 @@
         padding: 10px 0px 0px 20px;
     }
 
-    .step-row {
+    .step-form {
         background-color: #fff;
         margin: 10px;
         padding: 20px;
         height: calc(100vh - 63px);
     }
 
-    .step-form {
-        height:100%;
+    #step-code {
+        width: 100vw !important;
+        height: calc(100vh - 150px) !important;
     }
 
     .header {

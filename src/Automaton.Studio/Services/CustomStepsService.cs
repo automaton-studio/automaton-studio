@@ -11,19 +11,16 @@ public class CustomStepsService
     private HttpClient httpClient;
     private readonly ConfigurationService configService;
     private readonly ILogger logger;
-    private readonly IMapper mapper;
 
     public CustomStepsService
     (
         ConfigurationService configService,
-        HttpClient httpClient,
-        IMapper mapper
+        HttpClient httpClient
     )
     {
         logger = Log.ForContext<CustomStepsService>();
         this.configService = configService;
         this.httpClient = httpClient;
-        this.mapper = mapper;
     }
 
     public async Task<ICollection<CustomStep>> List()

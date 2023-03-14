@@ -1,7 +1,10 @@
 ﻿using Automaton.Studio.Domain;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Pages.FlowDesigner.Components.StepExplorer;
+using Automaton.Studio.Services;
+using Automaton.Studio.Steps;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Automaton.Studio.Factories;
 
@@ -10,21 +13,23 @@ public class StepFactory
     private const string StepsAssembly = "Automaton.Studio";
 
     private readonly IServiceProvider serviceProvider;
+    private readonly CustomStepsService customStepsService;
     private readonly StepTypeDescriptor stepTypeDescriptor;
-    private readonly IDictionary<string, StepExplorerModel> solutionSteps = new Dictionary<string, StepExplorerModel>();
+    private readonly IDictionary<string, StepExplorerModel> explorerSteps = new Dictionary<string, StepExplorerModel>();
     private readonly IDictionary<string, Type> solutionTypes = new Dictionary<string, Type>();
 
-    public StepFactory(StepTypeDescriptor stepTypeDescriptor, IServiceProvider serviceProvider)
+    public StepFactory(StepTypeDescriptor stepTypeDescriptor, IServiceProvider serviceProvider, CustomStepsService customStepsService)
     {
         this.serviceProvider = serviceProvider;
         this.stepTypeDescriptor = stepTypeDescriptor;
+        this.customStepsService = customStepsService;
 
         LoadSteps();
     }
 
     public IEnumerable<StepExplorerModel> GetSteps()
     {
-        return solutionSteps.Values;
+        return explorerSteps.Values;
     }
 
     public StudioStep CreateStep(string name, bool isFinal = false)
@@ -60,34 +65,53 @@ public class StepFactory
 
     private void LoadCustomSteps()
     {
-        // TODO!
-        // Load custom steps from database
+        var categoryModel = CreateStepCategoryExplorerModel("Custom");
+        explorerSteps.Add("Custom", categoryModel);
+
+        var customSteps = Task.Run(customStepsService.List).Result;
+
+        foreach(var customStep in customSteps)
+        {
+            var stepDescriptor = new StepDescriptor
+            {
+                Name = customStep.Name,
+                Type = nameof(CustomStep),
+                DisplayName = customStep.DisplayName,
+                Description = customStep.Description,
+                Category = "Custom"
+            };
+
+            var explorerStep = CreateStepExplorerModel(stepDescriptor);
+
+            var category = explorerSteps[stepDescriptor.Category];
+            category.Steps.Add(explorerStep);
+        }
     }
 
     private void AddStep(Type stepType)
     {
         var stepDescriptor = stepTypeDescriptor.Describe(stepType);
 
-        var solutionStep = CreateStepExplorerModel(stepDescriptor);
+        var explorerStep = CreateStepExplorerModel(stepDescriptor);
 
-        solutionTypes.Add(solutionStep.Name, stepType);
+        solutionTypes.Add(explorerStep.Name, stepType);
 
         if (stepDescriptor.VisibleInExplorer)
         {
             if (string.IsNullOrEmpty(stepDescriptor.Category))
             {
-                solutionSteps.Add(solutionStep.Name, solutionStep);
+                explorerSteps.Add(explorerStep.Name, explorerStep);
             }
             else
             {
-                if (!solutionSteps.ContainsKey(stepDescriptor.Category))
+                if (!explorerSteps.ContainsKey(stepDescriptor.Category))
                 {
                     var categoryModel = CreateStepCategoryExplorerModel(stepDescriptor.Category);
-                    solutionSteps.Add(stepDescriptor.Category, categoryModel);
+                    explorerSteps.Add(stepDescriptor.Category, categoryModel);
                 }
 
-                var category = solutionSteps[stepDescriptor.Category];
-                category.Steps.Add(solutionStep);
+                var category = explorerSteps[stepDescriptor.Category];
+                category.Steps.Add(explorerStep);
             }
         }
     }
