@@ -1,4 +1,5 @@
-﻿using Automaton.Studio.Domain;
+﻿using AntDesign;
+using Automaton.Studio.Domain;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Pages.FlowDesigner.Components.StepExplorer;
 using Automaton.Studio.Services;
@@ -32,10 +33,35 @@ public class StepFactory
         return explorerSteps.Values;
     }
 
-    public StudioStep CreateStep(string name, bool isFinal = false)
+    public StudioStep CreateStep(string name)
     {
         var descriptor = stepTypeDescriptor.Describe(solutionTypes[name]);
         var step = serviceProvider.GetService(solutionTypes[name]) as StudioStep;
+
+        step.Setup(descriptor);
+
+        return step;
+    }
+
+    public StudioStep CreateCustomStep(CustomStepExplorerModel customStepModel)
+    {
+        var descriptor = new StepDescriptor
+        {
+            Name = customStepModel.Name,
+            Type = customStepModel.Type,
+            DisplayName = customStepModel.DisplayName,
+            Description = customStepModel.Description,
+            Category = customStepModel.Category,
+            Icon = customStepModel.Icon,
+            VisibleInExplorer = customStepModel.VisibleInExplorer
+        };
+
+        var step = new Steps.Custom.CustomStep
+        {
+            Code = customStepModel.Definition.Code,
+            CodeInputVariables = customStepModel.Definition.CodeInputVariables,
+            CodeOutputVariables = customStepModel.Definition.CodeOutputVariables
+        };
 
         step.Setup(descriptor);
 
@@ -70,18 +96,20 @@ public class StepFactory
 
         var customSteps = Task.Run(customStepsService.List).Result;
 
-        foreach(var customStep in customSteps)
+        foreach (var customStep in customSteps)
         {
-            var stepDescriptor = new StepDescriptor
+            var stepDescriptor = new CustomStepDescriptor
             {
                 Name = customStep.Name,
                 Type = nameof(CustomStep),
                 DisplayName = customStep.DisplayName,
                 Description = customStep.Description,
-                Category = "Custom"
+                Category = "Custom",
+                Definition = customStep.Definition,
+                Icon = "code"
             };
 
-            var explorerStep = CreateStepExplorerModel(stepDescriptor);
+            var explorerStep = CreateCustomStepExplorerModel(stepDescriptor);
 
             var category = explorerSteps[stepDescriptor.Category];
             category.Steps.Add(explorerStep);
@@ -127,6 +155,23 @@ public class StepFactory
             Category = stepDescriptor.Category,
             VisibleInExplorer = stepDescriptor.VisibleInExplorer,
             Icon = stepDescriptor.Icon
+        };
+
+        return stepExplorerModel;
+    }
+
+    private static CustomStepExplorerModel CreateCustomStepExplorerModel(CustomStepDescriptor stepDescriptor)
+    {
+        var stepExplorerModel = new CustomStepExplorerModel
+        {
+            Name = stepDescriptor.Name,
+            Type = stepDescriptor.Type,
+            Description = stepDescriptor.Description,
+            DisplayName = stepDescriptor.DisplayName,
+            Category = stepDescriptor.Category,
+            VisibleInExplorer = stepDescriptor.VisibleInExplorer,
+            Icon = stepDescriptor.Icon,
+            Definition = stepDescriptor.Definition
         };
 
         return stepExplorerModel;
