@@ -1,11 +1,12 @@
-﻿using AntDesign;
+﻿using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Pages.FlowDesigner.Components.StepExplorer;
 using Automaton.Studio.Services;
-using Automaton.Studio.Steps;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Threading.Tasks;
+using static IronPython.Modules._ast;
 
 namespace Automaton.Studio.Factories;
 
@@ -43,6 +44,15 @@ public class StepFactory
         return step;
     }
 
+    public StudioStep CreateStudioStep(Step step)
+    {
+        var studioStep = serviceProvider.GetService(solutionTypes[step.Type]) as StudioStep;
+
+        studioStep.Setup(step);
+
+        return studioStep;
+    }
+
     public StudioStep CreateCustomStep(CustomStepExplorerModel customStepModel)
     {
         var descriptor = new StepDescriptor
@@ -53,6 +63,7 @@ public class StepFactory
             Description = customStepModel.Description,
             Category = customStepModel.Category,
             Icon = customStepModel.Icon,
+            MoreInfo = customStepModel.MoreInfo,
             VisibleInExplorer = customStepModel.VisibleInExplorer
         };
 
@@ -104,6 +115,7 @@ public class StepFactory
                 Type = nameof(CustomStep),
                 DisplayName = customStep.DisplayName,
                 Description = customStep.Description,
+                MoreInfo = string.Empty,
                 Category = "Custom",
                 Definition = customStep.Definition,
                 Icon = "code"

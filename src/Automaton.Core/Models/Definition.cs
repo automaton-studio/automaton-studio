@@ -1,6 +1,4 @@
-﻿using Automaton.Core.Enums;
-
-namespace Automaton.Core.Models;
+﻿namespace Automaton.Core.Models;
 
 public class Definition
 {

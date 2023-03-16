@@ -89,6 +89,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<TestReportStep>();
         services.AddTransient<SequenceStep>();
         services.AddTransient<SequenceEndStep>();
+        services.AddTransient<Steps.Custom.CustomStep>();
 
         // Models
         services.AddScoped<AppConfig>();

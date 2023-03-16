@@ -63,8 +63,6 @@ public class FlowService
     {
         var flowDto = mapper.Map<Flow>(flow);
 
-        var refreshTokenJson = JsonSerializer.Serialize(flowDto);
-
         var response = await httpClient.PutAsJsonAsync($"{configService.FlowsUrl}/{flow.Id}", flowDto);
 
         response.EnsureSuccessStatusCode();

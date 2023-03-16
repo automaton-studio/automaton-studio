@@ -3,7 +3,7 @@ using Automaton.Core.Scripting;
 
 namespace Automaton.Steps;
 
-public class Custom : WorkflowStep
+public class CustomStep : WorkflowStep
 {
     private const string ContentType = @"text/x-python";
 
@@ -15,7 +15,7 @@ public class Custom : WorkflowStep
 
     public IList<StepVariable> CodeOutputVariables { get; set; }
 
-    public Custom(ScriptEngineHost scriptHost)
+    public CustomStep(ScriptEngineHost scriptHost)
     {
         this.scriptHost = scriptHost;
     }

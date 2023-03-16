@@ -5,8 +5,8 @@ using Automaton.Studio.Domain;
 namespace Automaton.Studio.Steps.Custom;
 
 [StepDescription(
-    Name = "Custom",
-    Type = "Custom",
+    Name = "CustomStep",
+    Type = "CustomStep",
     DisplayName = "Execute Custom Step",
     Category = "Scripting",
     Description = "Executes Custom step",

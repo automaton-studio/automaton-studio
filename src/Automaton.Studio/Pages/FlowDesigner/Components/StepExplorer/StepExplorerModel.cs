@@ -9,6 +9,7 @@ public class StepExplorerModel
     public string Type { get; set; }
     public string Description { get; set; }
     public string Icon { get; set; } = DefaultIcon;
+    public string MoreInfo { get; set; } = string.Empty;
     public string Category { get; set; }
     public bool VisibleInExplorer { get; set; }
     public bool IsCustomStep { get; set; }

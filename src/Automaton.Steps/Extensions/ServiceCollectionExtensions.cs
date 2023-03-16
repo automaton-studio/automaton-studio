@@ -17,6 +17,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<Test>();
         services.AddTransient<TestAssert>();
         services.AddTransient<TestReport>();
+        services.AddTransient<CustomStep>();
 
         // Configuration
         services.AddTransient<ConfigService>();  

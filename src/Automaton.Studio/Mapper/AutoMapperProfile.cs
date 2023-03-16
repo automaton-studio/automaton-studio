@@ -65,13 +65,10 @@ public class AutoMapperProfile : Profile
     {
         foreach (var step in steps)
         {
-            // Use step name to create Domain step
-            var studioStep = stepFactory.CreateStep(step.Name);
+            var studioStep = stepFactory.CreateStudioStep(step);
 
-            // Deserialized steps are marked as final 
             studioStep.IsFinal = true;
 
-            // Update step properties using AutoMapper
             var mapper = GetMapperInstance();
 
             mapper.Map(step, studioStep);
