@@ -14,6 +14,10 @@ public class Step
 
     public string? MoreInfo { get; set; }
 
+    public string? Category { get; set; }
+
+    public bool VisibleInExplorer { get; set; }
+
     public string Icon { get; set; }
 
     public IDictionary<string, StepVariable> Inputs { get; set; } = new Dictionary<string, StepVariable>();

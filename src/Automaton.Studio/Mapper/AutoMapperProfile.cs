@@ -65,7 +65,7 @@ public class AutoMapperProfile : Profile
     {
         foreach (var step in steps)
         {
-            var studioStep = stepFactory.CreateStudioStep(step);
+            var studioStep = stepFactory.CreateStep(step);
 
             studioStep.IsFinal = true;
 

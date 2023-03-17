@@ -3,10 +3,8 @@ using Automaton.Studio.Domain;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Pages.FlowDesigner.Components.StepExplorer;
 using Automaton.Studio.Services;
-using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using System.Threading.Tasks;
-using static IronPython.Modules._ast;
 
 namespace Automaton.Studio.Factories;
 
@@ -44,18 +42,35 @@ public class StepFactory
         return step;
     }
 
-    public StudioStep CreateStudioStep(Step step)
+    public StudioStep CreateStep(Step step)
     {
         var studioStep = serviceProvider.GetService(solutionTypes[step.Type]) as StudioStep;
 
-        studioStep.Setup(step);
+        studioStep.Setup(new StepDescriptor
+        {
+            Name = step.Name,
+            Type = step.Type,
+            DisplayName = step.DisplayName,
+            Description = step.Description,
+            Category = step.Category,
+            Icon = step.Icon,
+            MoreInfo = step.MoreInfo,
+            VisibleInExplorer = step.VisibleInExplorer
+        });
 
         return studioStep;
     }
 
     public StudioStep CreateCustomStep(CustomStepExplorerModel customStepModel)
     {
-        var descriptor = new StepDescriptor
+        var step = new Steps.Custom.CustomStep
+        {
+            Code = customStepModel.Definition.Code,
+            CodeInputVariables = customStepModel.Definition.CodeInputVariables,
+            CodeOutputVariables = customStepModel.Definition.CodeOutputVariables
+        };
+
+        step.Setup(new StepDescriptor
         {
             Name = customStepModel.Name,
             Type = customStepModel.Type,
@@ -65,16 +80,7 @@ public class StepFactory
             Icon = customStepModel.Icon,
             MoreInfo = customStepModel.MoreInfo,
             VisibleInExplorer = customStepModel.VisibleInExplorer
-        };
-
-        var step = new Steps.Custom.CustomStep
-        {
-            Code = customStepModel.Definition.Code,
-            CodeInputVariables = customStepModel.Definition.CodeInputVariables,
-            CodeOutputVariables = customStepModel.Definition.CodeOutputVariables
-        };
-
-        step.Setup(descriptor);
+        });
 
         return step;
     }

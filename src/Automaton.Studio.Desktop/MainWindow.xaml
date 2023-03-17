@@ -6,7 +6,9 @@
         xmlns:shared="clr-namespace:Automaton.Studio;assembly=Automaton.Studio"
         xmlns:blazor="clr-namespace:Microsoft.AspNetCore.Components.WebView.Wpf;assembly=Microsoft.AspNetCore.Components.WebView.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Automaton"
+        Height="450" 
+        Width="800">
     
     <DockPanel>
         <!--<StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="CadetBlue">

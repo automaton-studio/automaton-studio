@@ -9,21 +9,25 @@
         <Header Class="header">
             <Row>
                 <Col Flex=@("none") Class="page-title">
-                <Space Size="@AntSizeLDSType.Large" Direction="DirectionVHType.Horizontal">
-                    <SpaceItem>
-                        <h3>Step</h3>
-                    </SpaceItem>
-                    <SpaceItem>
-                        <Button Class="save-button" Icon="save" OnClick="Save">
-                            Save
-                        </Button>
-                    </SpaceItem>
-                </Space>
+                    <Space Size="@AntSizeLDSType.Large" Direction="DirectionVHType.Horizontal" Align="center">
+                        <SpaceItem>
+                            <h3>Custom Step</h3>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Button Class="save-button" Icon="save" OnClick="Save">
+                                Save
+                            </Button>
+                        </SpaceItem>
+                    </Space>
                 </Col>
 
-                <Col Class="right-actions">
-                <Space Class="right-header-items"></Space>
-                </Col>
+                @*<Col Class="center-actions">
+                    <Space Class="center-header-items">
+                        <SpaceItem>
+                        @StepDesignerViewModel.CustomStep.Name
+                        </SpaceItem>
+                    </Space>
+                </Col>*@
             </Row>
 
         </Header>
@@ -55,6 +59,11 @@
                         <Row>
                             <FormItem Label="Description">
                                 <Input @bind-Value="@StepDesignerViewModel.CustomStep.Description" Placeholder="Enter description" />
+                            </FormItem>
+                        </Row>
+                        <Row>
+                            <FormItem Label="More info URL">
+                                <Input @bind-Value="@StepDesignerViewModel.CustomStep.MoreInfo" Placeholder="Enter description" />
                             </FormItem>
                         </Row>
                     </TabPane>
@@ -165,18 +174,20 @@
         padding: 0 20px 0 0;
     }
 
-        .header .right-header-items {
-            float: right;
-            padding-right: 10px;
-            margin-top: 8px;
+        .header .center-header-items {
+            margin-bottom: 15px;
         }
 
         .header .page-title {
             padding-left: 20px;
         }
 
-    .right-actions {
-        margin-left: auto;
+    .center-actions {
+        margin: auto;
+    }
+
+    .save-button {
+        margin-bottom: 15px;
     }
 
     .site-layout-content {

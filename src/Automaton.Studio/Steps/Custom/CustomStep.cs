@@ -11,7 +11,8 @@ namespace Automaton.Studio.Steps.Custom;
     Category = "Scripting",
     Description = "Executes Custom step",
     MoreInfo = "https://www.automaton.studio/documentation",
-    Icon = "code"
+    Icon = "code",
+    VisibleInExplorer = false
 )]
 public class CustomStep : StudioStep
 {

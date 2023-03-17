@@ -58,6 +58,9 @@ public class CustomStepsService
             DisplayName = step.DisplayName,
             Description = step.Description,
             Icon = step.Icon,
+            Category = step.Category,
+            MoreInfo = step.MoreInfo,
+            VisibleInExplorer = step.VisibleInExplorer,
             Created = DateTime.UtcNow,
             Updated = DateTime.UtcNow,
             Definition = JsonSerializer.Serialize(step.Definition)
@@ -86,6 +89,9 @@ public class CustomStepsService
         entity.DisplayName = step.DisplayName;
         entity.Description = step.Description;
         entity.Icon = step.Icon;
+        entity.Category = step.Category;
+        entity.MoreInfo = step.MoreInfo;
+        entity.VisibleInExplorer = step.VisibleInExplorer;
         entity.Updated = DateTime.UtcNow;
         entity.Definition = JsonSerializer.Serialize(step.Definition);
 
