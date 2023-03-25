@@ -128,7 +128,7 @@ public static class ServiceCollectionExtensions
         // Automapper profile
         services.AddScoped(provider => new MapperConfiguration(cfg =>
         {
-            cfg.AddProfile(new AutoMapperProfile(provider.GetService<StepFactory>()));
+            cfg.AddProfile(new AutoMapperProfile(provider));
         }).CreateMapper());
     }
 }

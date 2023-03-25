@@ -9,16 +9,17 @@ using Automaton.Studio.Pages.FlowDesigner.Components.FlowExplorer;
 using Automaton.Studio.Pages.Flows;
 using Automaton.Studio.Pages.Login;
 using Automaton.Studio.Steps.ExecuteFlow;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Automaton.Studio.Mapper;
 
 public class AutoMapperProfile : Profile
 {
-    private readonly StepFactory stepFactory;
+    private readonly IServiceProvider serviceProvider;
 
-    public AutoMapperProfile(StepFactory stepFactory)
+    public AutoMapperProfile(IServiceProvider serviceProvider)
     {
-        this.stepFactory = stepFactory;
+        this.serviceProvider = serviceProvider;
 
         CreateMap<StudioStep, Step>();
         CreateMap<StudioFlow, Flow>();
@@ -63,6 +64,8 @@ public class AutoMapperProfile : Profile
 
     public IEnumerable<StudioStep> CreateSteps(IEnumerable<Step> steps)
     {
+        var stepFactory = serviceProvider.GetService<StepFactory>();
+
         foreach (var step in steps)
         {
             var studioStep = stepFactory.CreateStep(step);
@@ -86,7 +89,7 @@ public class AutoMapperProfile : Profile
     {
         return new MapperConfiguration(mc =>
         {
-            mc.AddProfile(new AutoMapperProfile(stepFactory));
+            mc.AddProfile(new AutoMapperProfile(serviceProvider));
         }).CreateMapper();
     }
 }
