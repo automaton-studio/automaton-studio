@@ -108,28 +108,16 @@ public class StepFactory
 
     private void LoadCustomSteps()
     {
-        var categoryModel = CreateStepCategoryExplorerModel("Custom");
-        explorerSteps.Add("Custom", categoryModel);
+        var categoryModel = CreateStepCategoryExplorerModel(nameof(CustomStep));
+        explorerSteps.Add(nameof(CustomStep), categoryModel);
 
         var customSteps = Task.Run(customStepsService.List).Result;
 
         foreach (var customStep in customSteps)
         {
-            var stepDescriptor = new CustomStepDescriptor
-            {
-                Name = customStep.Name,
-                Type = nameof(CustomStep),
-                DisplayName = customStep.DisplayName,
-                Description = customStep.Description,
-                MoreInfo = string.Empty,
-                Category = "Custom",
-                Definition = customStep.Definition,
-                Icon = "code"
-            };
+            var explorerStep = CreateCustomStepExplorerModel(customStep);
 
-            var explorerStep = CreateCustomStepExplorerModel(stepDescriptor);
-
-            var category = explorerSteps[stepDescriptor.Category];
+            var category = explorerSteps[customStep.Category];
             category.Steps.Add(explorerStep);
         }
     }
@@ -178,18 +166,18 @@ public class StepFactory
         return stepExplorerModel;
     }
 
-    private static CustomStepExplorerModel CreateCustomStepExplorerModel(CustomStepDescriptor stepDescriptor)
+    private static CustomStepExplorerModel CreateCustomStepExplorerModel(CustomStep customStep)
     {
         var stepExplorerModel = new CustomStepExplorerModel
         {
-            Name = stepDescriptor.Name,
-            Type = stepDescriptor.Type,
-            Description = stepDescriptor.Description,
-            DisplayName = stepDescriptor.DisplayName,
-            Category = stepDescriptor.Category,
-            VisibleInExplorer = stepDescriptor.VisibleInExplorer,
-            Icon = stepDescriptor.Icon,
-            Definition = stepDescriptor.Definition
+            Name = customStep.Name,
+            Type = customStep.Type,
+            Description = customStep.Description,
+            DisplayName = customStep.DisplayName,
+            Category = customStep.Category,
+            VisibleInExplorer = customStep.VisibleInExplorer,
+            Icon = customStep.Icon,
+            Definition = customStep.Definition
         };
 
         return stepExplorerModel;

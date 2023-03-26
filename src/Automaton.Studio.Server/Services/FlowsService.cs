@@ -54,14 +54,16 @@ public class FlowsService
     public Guid Create(Flow flow)
     {
         flow.Id = Guid.NewGuid();
+        flow.Created = DateTime.UtcNow;
+        flow.Updated = DateTime.UtcNow;
 
         var flowEntity = new Entities.Flow
         {
             Id = flow.Id,
             Name = flow.Name,
             Body = JsonSerializer.Serialize(flow),
-            Created = DateTime.UtcNow,
-            Updated = DateTime.UtcNow
+            Created = flow.Created,
+            Updated = flow.Updated
         };
 
         dataContext.Flows.Add(flowEntity);

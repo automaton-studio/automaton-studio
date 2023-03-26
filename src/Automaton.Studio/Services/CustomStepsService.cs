@@ -59,7 +59,10 @@ public class CustomStepsService
         {
             Name = name,
             DisplayName = displayName,
-            Description = description
+            Description = description,
+            Type = nameof(CustomStep),
+            Category = nameof(CustomStep),
+            Icon = "code"
         };
 
         var response = await httpClient.PostAsJsonAsync(configService.CustomStepsUrl, step);

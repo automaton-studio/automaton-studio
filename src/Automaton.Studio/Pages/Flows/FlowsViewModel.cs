@@ -46,7 +46,9 @@ public class FlowsViewModel
         var flowModel = new FlowModel
         {
             Id = flow.Id,
-            Name = flow.Name
+            Name = flow.Name,
+            Created = flow.Created,
+            Updated = flow.Updated
         };
 
         Flows.Add(flowModel);

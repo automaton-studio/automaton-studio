@@ -119,12 +119,6 @@ public static class ServiceCollectionExtensions
         Serilog.Debugging.SelfLog.Enable(Console.Error);
 #endif
 
-        //services.AddSingleton<ILoggerProvider, ApplicationLoggerProvider>(services =>
-        //{
-        //    var httpClient = services.GetService<HttpClient>();
-        //    return new ApplicationLoggerProvider(httpClient, new ConfigurationService(configuration));
-        //});
-
         // Automapper profile
         services.AddScoped(provider => new MapperConfiguration(cfg =>
         {

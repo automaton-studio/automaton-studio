@@ -6,11 +6,13 @@ public class StudioFlow
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
+    public DateTime Created { get; set; }
+    public DateTime Updated { get; set; }
     public string StartupDefinitionId { get; set; }
     public IDictionary<string, object> Variables { get; set; }
     public IDictionary<string, object> InputVariables { get; set; }
     public IDictionary<string, object> OutputVariables { get; set; }
-    public IList<StudioDefinition> Definitions { get; set; }
+    public List<StudioDefinition> Definitions { get; set; }
 
     public StudioFlow()
     {

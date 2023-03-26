@@ -22,26 +22,26 @@ public class CustomStep : StudioStep
         set => SetInputVariable(nameof(Code), value);
     }
 
-    public IList<StepVariable> CodeInputVariables
+    public IList<CustomStepVariable> CodeInputVariables
     {
-        get => GetInputVariable(nameof(CodeInputVariables)) as IList<StepVariable>;
+        get => GetInputVariable(nameof(CodeInputVariables)) as IList<CustomStepVariable>;
         set => SetInputVariable(nameof(CodeInputVariables), value);
     }
 
     /// <summary>
     /// OutputVariables are stored in Inputs list because they are input required for step execution.
     /// </summary>
-    public IList<StepVariable> CodeOutputVariables
+    public IList<CustomStepVariable> CodeOutputVariables
     {
-        get => GetInputVariable(nameof(CodeOutputVariables)) as IList<StepVariable>;
+        get => GetInputVariable(nameof(CodeOutputVariables)) as IList<CustomStepVariable>;
         set => SetInputVariable(nameof(CodeOutputVariables), value);
     }
 
     public CustomStep()
     {
         SetInputVariable(nameof(Code), string.Empty);
-        SetInputVariable(nameof(CodeOutputVariables), new List<StepVariable>());
-        SetInputVariable(nameof(CodeInputVariables), new List<StepVariable>());
+        SetInputVariable(nameof(CodeOutputVariables), new List<CustomStepVariable>());
+        SetInputVariable(nameof(CodeInputVariables), new List<CustomStepVariable>());
     }
 
     public override Type GetDesignerComponent()

@@ -21,20 +21,11 @@ public class AutoMapperProfile : Profile
     {
         this.serviceProvider = serviceProvider;
 
-        CreateMap<StudioStep, Step>();
         CreateMap<StudioFlow, Flow>();
+        CreateMap<StudioStep, Step>();
+        CreateMap<Step, StudioStep>();
         CreateMap<StudioDefinition, Definition>();
         
-        CreateMap<Step, StudioStep>();
-        CreateMap<Flow, StudioFlow>().AfterMap((source, target) => FlowCreated(source, target));
-
-        CreateMap<Definition, StudioDefinition>().ForMember
-        (
-            source => source.Steps, 
-            target => target.MapFrom(entity => CreateSteps(entity.Steps))
-        )
-        .AfterMap((source, target) => DefinitionCreated(source, target));
-
         CreateMap<StudioDefinition, FlowExplorerDefinition>();
         CreateMap<LoginModel, LoginDetails>();
 
@@ -44,52 +35,5 @@ public class AutoMapperProfile : Profile
         CreateMap<FlowModel, FlowInfo>();
 
         CreateMap<CustomStep, CustomStepModel>();   
-    }
-
-    private static void FlowCreated(Flow source, StudioFlow target)
-    {
-        foreach(var definition in target.Definitions)
-        {
-            definition.Flow = target;
-        }
-    }
-
-    private static void DefinitionCreated(Definition source, StudioDefinition target)
-    {
-        foreach (var step in target.Steps)
-        {
-            step.Definition = target;
-        }
-    }
-
-    public IEnumerable<StudioStep> CreateSteps(IEnumerable<Step> steps)
-    {
-        var stepFactory = serviceProvider.GetService<StepFactory>();
-
-        foreach (var step in steps)
-        {
-            var studioStep = stepFactory.CreateStep(step);
-
-            studioStep.IsFinal = true;
-
-            var mapper = GetMapperInstance();
-
-            mapper.Map(step, studioStep);
-
-            yield return studioStep;
-        }
-    }
-
-    /// <summary>
-    /// This is a bit unusual, but we can't use the static Mapper version in this class.
-    /// Because we really need a maper instance, we create it like below.
-    /// </summary>
-    /// <returns>IMapper instance</returns>
-    private IMapper GetMapperInstance()
-    {
-        return new MapperConfiguration(mc =>
-        {
-            mc.AddProfile(new AutoMapperProfile(serviceProvider));
-        }).CreateMapper();
     }
 }

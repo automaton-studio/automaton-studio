@@ -7,8 +7,6 @@ public class StudioDefinition
 {
     public string Id { get; set; }
 
-    public int Version { get; set; }
-
     public string Name { get; set; }
 
     public List<StudioStep> Steps { get; set; } = new List<StudioStep>();
