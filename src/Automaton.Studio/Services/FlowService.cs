@@ -46,7 +46,14 @@ public class FlowService
 
     public async Task<StudioFlow> Create(string name)
     {
-        var flow = new Flow { Name = name };
+        var defaultDefinition = new Definition();
+
+        var flow = new Flow 
+        { 
+            Name = name,
+            StartupDefinitionId = defaultDefinition.Id,
+            Definitions = new List<Definition> { defaultDefinition }
+        };
 
         var response = await httpClient.PostAsJsonAsync(configService.FlowsUrl, flow);
         response.EnsureSuccessStatusCode();

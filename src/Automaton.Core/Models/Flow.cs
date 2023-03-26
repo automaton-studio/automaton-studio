@@ -7,18 +7,8 @@ public class Flow
     public string StartupDefinitionId { get; set; }
     public DateTime Created { get; set; }
     public DateTime Updated { get; set; }
-    public IDictionary<string, object> Variables { get; set; }
-    public IDictionary<string, object> InputVariables { get; set; }
-    public IDictionary<string, object> OutputVariables { get; set; }
-    public List<Definition> Definitions { get; set; }
-
-    public Flow()
-    {
-        var defaultDefinition = new Definition();
-        StartupDefinitionId = defaultDefinition.Id;
-        Definitions = new List<Definition> { defaultDefinition };
-        Variables = new Dictionary<string, object>();
-        InputVariables = new Dictionary<string, object>();
-        OutputVariables = new Dictionary<string, object>();
-    }
+    public IDictionary<string, object> Variables { get; set; } = new Dictionary<string, object>();
+    public IDictionary<string, object> InputVariables { get; set; } = new Dictionary<string, object>();
+    public IDictionary<string, object> OutputVariables { get; set; } = new Dictionary<string, object>();
+    public List<Definition> Definitions { get; set; } = new List<Definition>();
 }
