@@ -46,17 +46,7 @@ public class StepFactory
     {
         var studioStep = serviceProvider.GetService(solutionTypes[step.Type]) as StudioStep;
 
-        studioStep.Setup(new StepDescriptor
-        {
-            Name = step.Name,
-            Type = step.Type,
-            DisplayName = step.DisplayName,
-            Description = step.Description,
-            Category = step.Category,
-            Icon = step.Icon,
-            MoreInfo = step.MoreInfo,
-            VisibleInExplorer = step.VisibleInExplorer
-        });
+        studioStep.Setup(step);
 
         return studioStep;
     }

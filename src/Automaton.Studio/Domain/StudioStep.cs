@@ -91,6 +91,20 @@ public abstract class StudioStep : INotifyPropertyChanged
         DisabledStepClass = "designer-step-disabled";
     }
 
+    public virtual void Setup(Step step)
+    {
+        Name = step.Name;
+        Type = step.Type;
+        DisplayName = step.DisplayName;
+        Description = step.Description;
+        MoreInfo = step.MoreInfo;
+        Type = step.Type;
+        Icon = step.Icon;
+        StepClass = "designer-step";
+        SelectedStepClass = "designer-step-selected";
+        DisabledStepClass = "designer-step-disabled";
+    }
+
     public void SetInputVariable(string name, object value)
     {
         Inputs[name] = new StepVariable { Name = name, Value = value };

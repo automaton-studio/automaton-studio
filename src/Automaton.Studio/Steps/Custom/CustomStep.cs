@@ -1,6 +1,7 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
+using Newtonsoft.Json.Linq;
 
 namespace Automaton.Studio.Steps.Custom;
 
@@ -42,6 +43,25 @@ public class CustomStep : StudioStep
         SetInputVariable(nameof(Code), string.Empty);
         SetInputVariable(nameof(CodeOutputVariables), new List<CustomStepVariable>());
         SetInputVariable(nameof(CodeInputVariables), new List<CustomStepVariable>());
+    }
+
+    public override void Setup(Step step)
+    {
+        base.Setup(step);
+
+        Code = step.Inputs[nameof(Code)].Value as string;
+
+        if (step.Inputs[nameof(CodeInputVariables)].Value is JArray inputVariablesArray)
+        {
+            var stepProperty = GetType().GetProperty(nameof(CodeInputVariables));
+            CodeInputVariables = inputVariablesArray.ToObject(stepProperty.PropertyType) as IList<CustomStepVariable>;
+        }
+
+        if (step.Inputs[nameof(CodeOutputVariables)].Value is JArray outputVariablesArray)
+        {
+            var stepProperty = GetType().GetProperty(nameof(CodeOutputVariables));
+            CodeOutputVariables = outputVariablesArray.ToObject(stepProperty.PropertyType) as IList<CustomStepVariable>;
+        }
     }
 
     public override Type GetDesignerComponent()

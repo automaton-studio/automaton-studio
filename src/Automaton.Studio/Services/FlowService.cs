@@ -142,9 +142,7 @@ public class FlowService
         {
             var studioStep = stepFactory.CreateStep(step);
 
-            studioStep.IsFinal = true;
-
-            mapper.Map(step, studioStep);
+           
 
             yield return studioStep;
         }
