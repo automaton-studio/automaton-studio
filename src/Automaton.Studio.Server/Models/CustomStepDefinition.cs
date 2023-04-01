@@ -6,7 +6,7 @@ public class CustomStepDefinition
 {
     public string? Code { get; set; }
 
-    public IList<StepVariable>? CodeInputVariables { get; set; } = new List<StepVariable>();
+    public IList<CustomStepVariable>? CodeInputVariables { get; set; } = new List<CustomStepVariable>();
 
-    public IList<StepVariable>? CodeOutputVariables { get; set; } = new List<StepVariable>();
+    public IList<CustomStepVariable>? CodeOutputVariables { get; set; } = new List<CustomStepVariable>();
 }

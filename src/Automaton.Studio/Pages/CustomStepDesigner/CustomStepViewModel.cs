@@ -31,10 +31,16 @@ public class CustomStepViewModel
         await customStepsService.Update(CustomStep);
     }
 
-    public void AddInputVariable()
+    public void AddInputVariable(InputVariableModel variable)
     {
-        var variableName = $"Variable{CustomStepDefinition.CodeInputVariables?.Count}";
-        CustomStepDefinition.CodeInputVariables.Add(new CustomStepVariable { Name = variableName });
+        CustomStepDefinition.CodeInputVariables.Add
+        (
+            new CustomStepVariable
+            {
+                Name = variable.Name,
+                Type = variable.Type
+            }
+        );
     }
 
     public void DeleteInputVariable(string name)

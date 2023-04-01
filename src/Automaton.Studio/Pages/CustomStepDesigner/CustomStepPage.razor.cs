@@ -1,8 +1,6 @@
 ﻿using AntDesign;
-using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Microsoft.AspNetCore.Components;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.CustomStepDesigner
@@ -27,9 +25,27 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
             await base.OnInitializedAsync();
         }
 
-        public void AddInputVariable()
+        public async Task AddInputVariable()
         {
-            StepDesignerViewModel.AddInputVariable();
+            var inputVariable = new InputVariableModel();
+
+            var modalRef = await ModalService.CreateModalAsync<InputVariableDialog, InputVariableModel>
+            (
+                new ModalOptions { Title = "New Flow" }, inputVariable
+            );
+
+            modalRef.OnOk = async () =>
+            {
+                try
+                {
+                    StepDesignerViewModel.AddInputVariable(inputVariable);
+                    StateHasChanged();
+                }
+                catch
+                {
+                    await MessageService.Error($"Input variable {inputVariable.Name} could not be created");
+                }
+            };
         }
 
         public void DeleteInputVariable(string name)
