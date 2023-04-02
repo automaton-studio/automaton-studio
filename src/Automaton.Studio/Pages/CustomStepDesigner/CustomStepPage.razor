@@ -48,28 +48,28 @@
                     <TabPane Tab="Details" Key="1">
                         <Row>
                             <FormItem Label="Name">
-                                <Input @bind-Value="@StepDesignerViewModel.CustomStep.Name" Placeholder="Enter name" />
+                                <Input @bind-Value="@context.Name" Placeholder="Enter name" />
                             </FormItem>
                         </Row>
                         <Row>
                             <FormItem Label="Display Name">
-                                <Input @bind-Value="@StepDesignerViewModel.CustomStep.DisplayName" Placeholder="Enter display name" />
+                                <Input @bind-Value="@context.DisplayName" Placeholder="Enter display name" />
                             </FormItem>
                         </Row>
                         <Row>
                             <FormItem Label="Description">
-                                <Input @bind-Value="@StepDesignerViewModel.CustomStep.Description" Placeholder="Enter description" />
+                                <Input @bind-Value="@context.Description" Placeholder="Enter description" />
                             </FormItem>
                         </Row>
                         <Row>
                             <FormItem Label="More info URL">
-                                <Input @bind-Value="@StepDesignerViewModel.CustomStep.MoreInfo" Placeholder="Enter description" />
+                                <Input @bind-Value="@context.MoreInfo" Placeholder="Enter description" />
                             </FormItem>
                         </Row>
                     </TabPane>
 
                     <TabPane Tab="Code" Key="2">
-                        <TextArea Rows="6" Id="step-code" @bind-Value="StepDesignerViewModel.CustomStep.Definition.Code" AutoFocus />
+                        <TextArea Rows="6" Id="step-code" @bind-Value="context.Definition.Code" AutoFocus />
                     </TabPane>
 
                     <TabPane Tab="Input Variables" Key="3">
@@ -80,9 +80,9 @@
                                 </Button>
                             </SpaceItem>
                             <SpaceItem>
-                                <Table DataSource="StepDesignerViewModel.CustomStep.Definition.CodeInputVariables"
-                                       ScrollY="200"
-                                       ScrollBarWidth="5"
+                                <Table DataSource="@context.Definition.CodeInputVariables"
+                                       ScrollY="700"
+                                       ScrollBarWidth="5" Style="height:100%"
                                        HidePagination>
                                     <ChildContent Context="inputVariable">
                                         <Column Title="Name" TData="string">
@@ -113,7 +113,7 @@
                                 </Button>
                             </SpaceItem>
                             <SpaceItem>
-                                <Table DataSource="StepDesignerViewModel.CustomStep.Definition.CodeOutputVariables"
+                                <Table DataSource="context.Definition.CodeOutputVariables"
                                        ScrollY="200px"
                                        ScrollBarWidth="5"
                                        HidePagination>
