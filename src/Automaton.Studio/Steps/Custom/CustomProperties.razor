@@ -14,73 +14,12 @@
         </Validator>
 
         <ChildContent>
-            <Tabs>
-                <TabPane Tab="Code" Key="1">
-                    <TextArea Rows="6" @bind-Value="context.Code" AutoFocus />
-                </TabPane>
-                <TabPane Tab="Input Variables" Key="2">
-                    <Space Direction="DirectionVHType.Vertical">
-                        <SpaceItem>
-                            <Button OnClick="AddInputVariable" Type="primary">
-                                Add
-                            </Button>
-                        </SpaceItem>
-                        <SpaceItem>
-                            <Table DataSource="context.CodeInputVariables"
-                                   ScrollY="200"
-                                   ScrollBarWidth="5"
-                                   HidePagination>
-                                <ChildContent Context="inputVariable">
-                                    <Column Title="Name" TData="string">
-                                        <Input Type="text" @bind-Value="inputVariable.Name" AutoFocus />
-                                    </Column>
-                                    <Column Title="Value" TData="string">
-                                        <Input Type="text" @bind-Value="inputVariable.Value" />
-                                    </Column>
-                                    <ActionColumn Title="Action">
-                                        <Popconfirm Title="Sure to delete?"
-                                                    OnConfirm="()=> DeleteInputVariable(inputVariable.Name)"
-                                                    OkText="Yes"
-                                                    CancelText="No">
-                                            <a>Delete</a>
-                                        </Popconfirm>
-                                    </ActionColumn>
-                                </ChildContent>
-                            </Table>
-                        </SpaceItem>
-                    </Space>
-                </TabPane>
-
-                <TabPane Tab="Output Variables" Key="3">
-                    <Space Direction="DirectionVHType.Vertical" Style="width: 100%">
-                        <SpaceItem>
-                            <Button OnClick="AddOutputVariable" Type="primary">
-                                Add
-                            </Button>
-                        </SpaceItem>
-                        <SpaceItem>
-                            <Table DataSource="context.CodeOutputVariables"
-                                   ScrollY="200px"
-                                   ScrollBarWidth="5"
-                                   HidePagination>
-                                <ChildContent Context="outputVariable">
-                                    <Column Title="Name" TData="string">
-                                        <Input Type="text" @bind-Value="outputVariable.Name" AutoFocus />
-                                    </Column>
-                                    <ActionColumn Title="Action">
-                                        <Popconfirm Title="Sure to delete?"
-                                                    OnConfirm="()=> DeleteOutputVariable(outputVariable.Name)"
-                                                    OkText="Yes"
-                                                    CancelText="No">
-                                            <a>Delete</a>
-                                        </Popconfirm>
-                                    </ActionColumn>
-                                </ChildContent>
-                            </Table>
-                        </SpaceItem>
-                    </Space>
-                </TabPane>
-            </Tabs>
+            @foreach(var variable in step.CodeInputVariables)
+            {
+                <FormItem Label="@variable.Name">
+                    <Input @bind-Value="@variable.Value" Placeholder="@variable.Description" />
+                </FormItem>
+            }
         </ChildContent>
     </Form>
 
@@ -111,29 +50,5 @@
         var valid = fluentValidationValidator.Validate(options => options.IncludeAllRuleSets());
 
         args.Cancel = !valid;
-    }
-
-    public void AddInputVariable()
-    {
-        var variableName = $"Variable{step.CodeInputVariables?.Count}";
-        step.CodeInputVariables.Add(new CustomStepVariable { Name = variableName });
-    }
-
-    public void DeleteInputVariable(string name)
-    {
-        var variable = step.CodeInputVariables.SingleOrDefault(x => x.Name == name);
-        step.CodeInputVariables.Remove(variable);
-    }
-
-    public void AddOutputVariable()
-    {
-        var variableName = $"Variable{step.CodeOutputVariables?.Count}";
-        step.CodeOutputVariables.Add(new CustomStepVariable { Name = variableName });
-    }
-
-    public void DeleteOutputVariable(string name)
-    {
-        var variable = step.CodeOutputVariables.SingleOrDefault(x => x.Name == name);
-        step.CodeOutputVariables.Remove(variable);
     }
 }

@@ -9,14 +9,11 @@ public class CustomStepViewModel
 {
     private readonly CustomStepsService customStepsService;
 
+    private CustomStepDefinition CustomStepDefinition => CustomStep.Definition;
+
     public CustomStep CustomStep { get; set; } = new();
 
-    public CustomStepDefinition CustomStepDefinition => CustomStep.Definition;
-
-    public CustomStepViewModel
-    (
-        CustomStepsService customStepsService
-    )
+    public CustomStepViewModel(CustomStepsService customStepsService)
     {
         this.customStepsService = customStepsService;
     }
@@ -38,7 +35,8 @@ public class CustomStepViewModel
             new CustomStepVariable
             {
                 Name = variable.Name,
-                Type = variable.Type
+                Type = variable.Type,
+                Description = variable.Description
             }
         );
     }
