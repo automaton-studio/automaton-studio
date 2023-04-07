@@ -1,4 +1,5 @@
-﻿using Automaton.Core.Models;
+﻿using Automaton.Core.Attributes;
+using Automaton.Core.Models;
 using Automaton.Core.Scripting;
 
 namespace Automaton.Steps;
@@ -9,11 +10,14 @@ public class CustomStep : WorkflowStep
 
     private readonly ScriptEngineHost scriptHost;
 
+    [IgnorePropertyParsing(true)]
     public string? Code { get; set; }
 
-    public IList<StepVariable> CodeInputVariables { get; set; }
+    [IgnorePropertyParsing(true)]
+    public IList<CustomStepVariable> CodeInputVariables { get; set; }
 
-    public IList<StepVariable> CodeOutputVariables { get; set; }
+    [IgnorePropertyParsing(true)]
+    public IList<CustomStepVariable> CodeOutputVariables { get; set; }
 
     public CustomStep(ScriptEngineHost scriptHost)
     {
