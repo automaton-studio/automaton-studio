@@ -1,4 +1,6 @@
-﻿@using Blazored.FluentValidation;
+﻿@using Automaton.Studio.Domain;
+@using Automaton.Studio.Steps.Custom.Variables;
+@using Blazored.FluentValidation;
 @using Automaton.Core.Models;
 @inherits FeedbackComponent<CustomStep>
 
@@ -14,12 +16,11 @@
         </Validator>
 
         <ChildContent>
-            @foreach(var variable in step.CodeInputVariables)
+            @foreach (var variable in step.CodeInputVariables)
             {
                 <GridRow Gutter="(24, 0)" Class="variable-row">
-                <GridCol Xs="24" Md="24">
-                    <Text>@variable.Name</Text>
-                    <Input @bind-Value="@variable.Value" Placeholder="@variable.Description" />
+                    <GridCol Xs="24" Md="24">
+                        <DynamicComponent Type="GetVariableComponentType(variable.Type)" Parameters="GetVariableComponentParameters(variable)" />
                     </GridCol>
                 </GridRow>
             }
@@ -53,6 +54,22 @@
         var valid = fluentValidationValidator.Validate(options => options.IncludeAllRuleSets());
 
         args.Cancel = !valid;
+    }
+
+    private Type GetVariableComponentType(string type)
+    {
+        var variableType = Enum.Parse<VariableType>(type);
+
+        return variableType switch
+        {
+            VariableType.String => typeof(StringVariable),
+            _ => throw new NotImplementedException()
+        };
+    }
+
+    private Dictionary<string, object> GetVariableComponentParameters(CustomStepVariable customStepVariable)
+    {
+        return new Dictionary<string, object>() { { "Variable", customStepVariable } };
     }
 }
 

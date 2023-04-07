@@ -1,0 +1,6 @@
+﻿@using Automaton.Core.Models;
+@inherits StepVariable
+
+<Text>@Variable.Name</Text>
+<Input @bind-Value="@Variable.Value" Placeholder="@Variable.Description" />
+
