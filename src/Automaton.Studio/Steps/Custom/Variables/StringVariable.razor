@@ -2,5 +2,4 @@
 @inherits StepVariable
 
 <Text>@Variable.Name</Text>
-<Input @bind-Value="@Variable.Value" Placeholder="@Variable.Description" />
-
+<Input Type="Input.Text" TValue="string" Value="Variable.Value?.ToString()" OnChange="(x) => { Variable.Value = x; }" Placeholder="@Variable.Description" />
