@@ -93,6 +93,7 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public virtual void Setup(Step step)
     {
+        Id = step.Id;
         Name = step.Name;
         Type = step.Type;
         DisplayName = step.DisplayName;
