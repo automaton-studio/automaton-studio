@@ -128,7 +128,7 @@ public class FlowService
                 Steps = new List<StudioStep>(),
             };
 
-            var studioSteps = CreateSteps(definition.Steps);
+            var studioSteps = CreateSteps(studioDefinition, definition);
 
             studioDefinition.Steps.AddRange(studioSteps);
 
@@ -136,13 +136,12 @@ public class FlowService
         }
     }
 
-    private IEnumerable<StudioStep> CreateSteps(IEnumerable<Step> steps)
+    private IEnumerable<StudioStep> CreateSteps(StudioDefinition studioDefinition, Definition definition)
     {
-        foreach (var step in steps)
+        foreach (var step in definition.Steps)
         {
             var studioStep = stepFactory.CreateStep(step);
-
-           
+            studioStep.Definition = studioDefinition;
 
             yield return studioStep;
         }
