@@ -16,9 +16,12 @@
         <ChildContent>
             @foreach(var variable in step.CodeInputVariables)
             {
-                <FormItem Label="@variable.Name">
+                <GridRow Gutter="(24, 0)" Class="variable-row">
+                <GridCol Xs="24" Md="24">
+                    <Text>@variable.Name</Text>
                     <Input @bind-Value="@variable.Value" Placeholder="@variable.Description" />
-                </FormItem>
+                    </GridCol>
+                </GridRow>
             }
         </ChildContent>
     </Form>
@@ -52,3 +55,9 @@
         args.Cancel = !valid;
     }
 }
+
+<style>
+    .variable-row {
+        margin-bottom: 5px;
+    }
+</style>
