@@ -89,7 +89,17 @@
                                             <Input Type="text" @bind-Value="inputVariable.Name" AutoFocus />
                                         </Column>
                                         <Column Title="Type" TData="string">
-                                            <Input Type="text" @bind-Value="inputVariable.Type" />
+                                            <Select @bind-Value="inputVariable.Type"
+                                                    Placeholder="Select type..."
+                                                    TItemValue="string"
+                                                    TItem="string">
+                                                <SelectOptions>
+                                                @foreach (var variableType in VariableTypes)
+                                                {
+                                                    <SelectOption TItemValue="string" TItem="string" Value=@variableType Label=@variableType />
+                                                }
+                                                </SelectOptions>
+                                            </Select>
                                         </Column>
                                         <ActionColumn Title="Action">
                                             <Popconfirm Title="Sure to delete?"
@@ -120,6 +130,19 @@
                                     <ChildContent Context="outputVariable">
                                         <Column Title="Name" TData="string">
                                             <Input Type="text" @bind-Value="outputVariable.Name" AutoFocus />
+                                        </Column>
+                                        <Column Title="Type" TData="string">
+                                            <Select @bind-Value="outputVariable.Type"
+                                                    Placeholder="Select type..."
+                                                    TItemValue="string"
+                                                    TItem="string">
+                                                <SelectOptions>
+                                                    @foreach (var variableType in VariableTypes)
+                                                    {
+                                                        <SelectOption TItemValue="string" TItem="string" Value=@variableType Label=@variableType />
+                                                    }
+                                                </SelectOptions>
+                                            </Select>
                                         </Column>
                                         <ActionColumn Title="Action">
                                             <Popconfirm Title="Sure to delete?"

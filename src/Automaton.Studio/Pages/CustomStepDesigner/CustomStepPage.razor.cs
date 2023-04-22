@@ -10,6 +10,7 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
     {
         private bool loading = false;
         private Form<CustomStep> form;
+        private IEnumerable<string> VariableTypes { get; } = Enum.GetNames(typeof(VariableType));
 
         [Inject] private CustomStepViewModel StepDesignerViewModel { get; set; } = default!;
         [Inject] private ModalService ModalService { get; set; }

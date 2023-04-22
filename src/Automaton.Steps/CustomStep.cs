@@ -13,7 +13,6 @@ public class CustomStep : WorkflowStep
     [IgnorePropertyParsing(true)]
     public string? Code { get; set; }
 
-    [IgnorePropertyParsing(true)]
     public IList<CustomStepVariable> CodeInputVariables { get; set; }
 
     [IgnorePropertyParsing(true)]

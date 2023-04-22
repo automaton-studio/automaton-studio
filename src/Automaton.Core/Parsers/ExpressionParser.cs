@@ -1,4 +1,5 @@
 ﻿using Automaton.Core.Models;
+using Newtonsoft.Json.Linq;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
@@ -12,7 +13,18 @@ namespace Automaton.Core.Parsers
 
         public static object Parse(object expression, Workflow workflow)
         {
-            var variableNames = GetVariableNames(expression);
+            var stringExpression = string.Empty;
+
+            if (expression is CustomStepVariable customStepVariable)
+            {
+                stringExpression = customStepVariable.Value.ToString();
+            }
+            else
+            {
+                stringExpression = expression.ToString();
+            }
+
+            var variableNames = GetVariableNames(stringExpression);
             var parameterExpressions = GetParameterExpressions(variableNames, workflow);
             var sanitizedExpression = expression.ToString().Replace(Percentage, string.Empty);
 
@@ -28,9 +40,8 @@ namespace Automaton.Core.Parsers
             return expressionValue;
         }
 
-        private static IEnumerable<string> GetVariableNames(object inputValue)
+        private static IEnumerable<string> GetVariableNames(string inputString)
         {
-            var inputString = inputValue.ToString();
             var regex = new Regex(VariablePattern, RegexOptions.IgnoreCase);
             var matches = regex.Matches(inputString);
             var variableNames = matches.Select(x => x.Value.Replace(Percentage, string.Empty));
