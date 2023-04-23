@@ -101,6 +101,7 @@ public abstract class StudioStep : INotifyPropertyChanged
         MoreInfo = step.MoreInfo;
         Type = step.Type;
         Icon = step.Icon;
+        NextStepId = step.NextStepId;
         StepClass = "designer-step";
         SelectedStepClass = "designer-step-selected";
         DisabledStepClass = "designer-step-disabled";
