@@ -58,7 +58,7 @@ public abstract class WorkflowStep
         workflow.SetVariable(variable);
     }
 
-    private void SetProperties(StepExecutionContext context)
+    protected virtual void SetProperties(StepExecutionContext context)
     {
         foreach (var input in Inputs)
         {
@@ -68,6 +68,7 @@ public abstract class WorkflowStep
 
             var variable = input.Value;
             var value = variable.Value;
+
 
             if (ShouldParseProperty(stepProperty))
             {
@@ -94,7 +95,7 @@ public abstract class WorkflowStep
         }
     }
 
-    private bool ShouldParseProperty(PropertyInfo stepProperty)
+    protected bool ShouldParseProperty(PropertyInfo stepProperty)
     {
         var propertyParsing = stepProperty.GetCustomAttributes<IgnorePropertyParsing>().SingleOrDefault();
 

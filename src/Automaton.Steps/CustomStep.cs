@@ -1,6 +1,7 @@
 ﻿using Automaton.Core.Attributes;
 using Automaton.Core.Models;
 using Automaton.Core.Scripting;
+using Automaton.Core.Parsers;
 
 namespace Automaton.Steps;
 
@@ -21,6 +22,8 @@ public class CustomStep : WorkflowStep
     public CustomStep(ScriptEngineHost scriptHost)
     {
         this.scriptHost = scriptHost;
+        CodeInputVariables = new List<CustomStepVariable>();
+        CodeOutputVariables = new List<CustomStepVariable>();
     }
 
     protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
@@ -31,7 +34,7 @@ public class CustomStep : WorkflowStep
             Content = Code
         };
 
-        var inputVariablesDictionary = CodeInputVariables.ToDictionary(x => x.Name, x => (object)x.Value);
+        var inputVariablesDictionary = CodeInputVariables.ToDictionary(x => x.Name, x => x.Value);
 
         var scriptVariables = scriptHost.Execute(resource, inputVariablesDictionary);
 
@@ -45,5 +48,22 @@ public class CustomStep : WorkflowStep
         }
 
         return Task.FromResult(ExecutionResult.Next());
+    }
+
+    protected override void SetProperties(StepExecutionContext context)
+    {
+        Code = Inputs[nameof(Code)]?.Value?.ToString();
+
+        var codeInputVariables = Inputs[nameof(CodeInputVariables)].Value as IList<CustomStepVariable>;
+
+        foreach (var variable in codeInputVariables)
+        {
+            var variableValue = ExpressionParser.Parse(variable.Value, context.Workflow);
+            variable.Value = variableValue;
+
+            CodeInputVariables.Add(variable);
+        }
+
+
     }
 }
