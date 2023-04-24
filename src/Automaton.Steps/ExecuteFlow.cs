@@ -70,7 +70,7 @@ public class ExecuteFlow : WorkflowStep
             if (outputVariables.ContainsKey(variable.Name))
             {
                 variable.Value = outputVariables[variable.Name].ToString();
-                context.Workflow.Variables[variable.Name] = variable.Value;
+                context.Workflow.Variables[variable.Name] = variable;
             }
         }
     }

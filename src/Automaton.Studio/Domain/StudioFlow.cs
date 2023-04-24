@@ -9,7 +9,7 @@ public class StudioFlow
     public DateTime Created { get; set; }
     public DateTime Updated { get; set; }
     public string StartupDefinitionId { get; set; }
-    public IDictionary<string, object> Variables { get; set; }
+    public IDictionary<string, StepVariable> Variables { get; set; }
     public IDictionary<string, object> InputVariables { get; set; }
     public IDictionary<string, object> OutputVariables { get; set; }
     public List<StudioDefinition> Definitions { get; set; }
@@ -20,7 +20,7 @@ public class StudioFlow
         var defaultDefinition = new StudioDefinition { Flow = this };
         StartupDefinitionId = defaultDefinition.Id;
         Definitions = new List<StudioDefinition> { defaultDefinition };
-        Variables = new Dictionary<string, object>();
+        Variables = new Dictionary<string, StepVariable>();
         OutputVariables = new Dictionary<string, object>();
     }
 
@@ -67,7 +67,7 @@ public class StudioFlow
         }
         else
         {
-            Variables.Add(variable.Name, variable.Value);
+            Variables.Add(variable.Name, variable);
         }
     }
 

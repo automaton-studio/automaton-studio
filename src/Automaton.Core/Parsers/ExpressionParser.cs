@@ -32,7 +32,7 @@ namespace Automaton.Core.Parsers
                 return sanitizedExpression;
 
             var workflowVariables = workflow.GetVariables(variableNames);
-            var variableValues = workflowVariables.Select(x => x.Value);
+            var variableValues = workflowVariables.Select(x => x.Value?.Value);
 
             var lambdaExpresion = DynamicExpressionParser.ParseLambda(parameterExpressions.ToArray(), null, sanitizedExpression);
             var expressionValue = lambdaExpresion.Compile().DynamicInvoke(variableValues.ToArray());

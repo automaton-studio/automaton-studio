@@ -102,6 +102,8 @@ public abstract class StudioStep : INotifyPropertyChanged
         Type = step.Type;
         Icon = step.Icon;
         NextStepId = step.NextStepId;
+        Inputs = step.Inputs;
+        Outputs = step.Outputs;
         StepClass = "designer-step";
         SelectedStepClass = "designer-step-selected";
         DisabledStepClass = "designer-step-disabled";

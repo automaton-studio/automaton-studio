@@ -8,7 +8,7 @@ public class Workflow
 
     public string StartupDefinitionId { get; set; }
 
-    public IDictionary<string, object> Variables { get; set; }
+    public IDictionary<string, StepVariable> Variables { get; set; }
 
     public IDictionary<string, object> OutputVariables { get; set; }
 
@@ -18,7 +18,7 @@ public class Workflow
 
     public Workflow()
     {
-        Variables = new Dictionary<string, object>();
+        Variables = new Dictionary<string, StepVariable>();
         OutputVariables = new Dictionary<string, object>();
         InputVariables = new Dictionary<string, object>();
         Definitions = new List<WorkflowDefinition>();
@@ -29,14 +29,14 @@ public class Workflow
         return Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);
     }
 
-    public KeyValuePair<string, object> GetVariable(string key)
+    public KeyValuePair<string, StepVariable> GetVariable(string key)
     {
-        return new KeyValuePair<string, object>(key, Variables[key]);
+        return new KeyValuePair<string, StepVariable>(key, Variables[key]);
     }
 
-    public IEnumerable<KeyValuePair<string, object>> GetVariables(IEnumerable<string> names)
+    public IEnumerable<KeyValuePair<string, StepVariable>> GetVariables(IEnumerable<string> names)
     {
-        var variables = Variables.Where(x => names.Contains(x.Key)).Select(x => new KeyValuePair<string, object>(x.Key, x.Value));
+        var variables = Variables.Where(x => names.Contains(x.Key)).Select(x => new KeyValuePair<string, StepVariable>(x.Key, x.Value));
 
         return variables;
     }
@@ -45,11 +45,11 @@ public class Workflow
     {
         if (Variables.ContainsKey(variable.Name))
         {
-            Variables[variable.Name] = variable.Value;
+            Variables[variable.Name] = variable;
         }
         else
         {
-            Variables.Add(variable.Name, variable.Value);
+            Variables.Add(variable.Name, variable);
         }
     }
 }
