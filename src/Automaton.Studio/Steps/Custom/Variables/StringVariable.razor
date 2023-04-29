@@ -1,5 +1,5 @@
 ﻿@using Automaton.Core.Models;
-@inherits StepVariable
+@inherits BaseStepVariable
 
 <Text>@Variable.Name</Text>
 <Input Type="Input.Text" TValue="string" Value="Variable.Value?.ToString()" OnChange="(x) => { Variable.Value = x; }" Placeholder="@Variable.Description" />

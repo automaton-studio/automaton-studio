@@ -23,26 +23,26 @@ public class CustomStep : StudioStep
         set => SetInputValue(nameof(Code), value);
     }
 
-    public IList<CustomStepVariable> CodeInputVariables
+    public IList<StepVariable> CodeInputVariables
     {
-        get => GetInputValue(nameof(CodeInputVariables)) as IList<CustomStepVariable>;
+        get => GetInputValue(nameof(CodeInputVariables)) as IList<StepVariable>;
         set => SetInputValue(nameof(CodeInputVariables), value);
     }
 
     /// <summary>
     /// OutputVariables are stored in Inputs list because they are input required for step execution.
     /// </summary>
-    public IList<CustomStepVariable> CodeOutputVariables
+    public IList<StepVariable> CodeOutputVariables
     {
-        get => GetInputValue(nameof(CodeOutputVariables)) as IList<CustomStepVariable>;
+        get => GetInputValue(nameof(CodeOutputVariables)) as IList<StepVariable>;
         set => SetInputValue(nameof(CodeOutputVariables), value);
     }
 
     public CustomStep()
     {
         SetInputValue(nameof(Code), string.Empty);
-        SetInputValue(nameof(CodeOutputVariables), new List<CustomStepVariable>());
-        SetInputValue(nameof(CodeInputVariables), new List<CustomStepVariable>());
+        SetInputValue(nameof(CodeOutputVariables), new List<StepVariable>());
+        SetInputValue(nameof(CodeInputVariables), new List<StepVariable>());
     }
 
     public override void Setup(Step step)
@@ -54,13 +54,13 @@ public class CustomStep : StudioStep
         if (step.Inputs[nameof(CodeInputVariables)].Value is JArray inputVariablesArray)
         {
             var stepProperty = GetType().GetProperty(nameof(CodeInputVariables));
-            CodeInputVariables = inputVariablesArray.ToObject(stepProperty.PropertyType) as IList<CustomStepVariable>;
+            CodeInputVariables = inputVariablesArray.ToObject(stepProperty.PropertyType) as IList<StepVariable>;
         }
 
         if (step.Inputs[nameof(CodeOutputVariables)].Value is JArray outputVariablesArray)
         {
             var stepProperty = GetType().GetProperty(nameof(CodeOutputVariables));
-            CodeOutputVariables = outputVariablesArray.ToObject(stepProperty.PropertyType) as IList<CustomStepVariable>;
+            CodeOutputVariables = outputVariablesArray.ToObject(stepProperty.PropertyType) as IList<StepVariable>;
         }
     }
 

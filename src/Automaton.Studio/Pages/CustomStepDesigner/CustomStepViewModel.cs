@@ -32,7 +32,7 @@ public class CustomStepViewModel
     {
         CustomStepDefinition.CodeInputVariables.Add
         (
-            new CustomStepVariable
+            new StepVariable
             {
                 Name = variable.Name,
                 Type = variable.Type,
@@ -50,7 +50,7 @@ public class CustomStepViewModel
     public void AddOutputVariable()
     {
         var variableName = $"Variable{CustomStepDefinition.CodeOutputVariables?.Count}";
-        CustomStepDefinition.CodeOutputVariables.Add(new CustomStepVariable { Name = variableName });
+        CustomStepDefinition.CodeOutputVariables.Add(new StepVariable { Name = variableName });
     }
 
     public void DeleteOutputVariable(string name)

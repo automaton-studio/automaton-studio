@@ -15,7 +15,7 @@ namespace Automaton.Core.Parsers
         {
             var stringExpression = string.Empty;
 
-            if (expression is CustomStepVariable customStepVariable)
+            if (expression is StepVariable customStepVariable)
             {
                 stringExpression = customStepVariable.Value.ToString();
             }

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Components;
 
 namespace Automaton.Studio.Steps.Custom.Variables
 {
-    public abstract class StepVariable : ComponentBase
+    public abstract class BaseStepVariable : ComponentBase
     {
-        [Parameter] public CustomStepVariable Variable { get; set; }  
+        [Parameter] public StepVariable Variable { get; set; }  
     }
 }

@@ -14,16 +14,16 @@ public class CustomStep : WorkflowStep
     [IgnorePropertyParsing(true)]
     public string? Code { get; set; }
 
-    public IList<CustomStepVariable> CodeInputVariables { get; set; }
+    public IList<StepVariable> CodeInputVariables { get; set; }
 
     [IgnorePropertyParsing(true)]
-    public IList<CustomStepVariable> CodeOutputVariables { get; set; }
+    public IList<StepVariable> CodeOutputVariables { get; set; }
 
     public CustomStep(ScriptEngineHost scriptHost)
     {
         this.scriptHost = scriptHost;
-        CodeInputVariables = new List<CustomStepVariable>();
-        CodeOutputVariables = new List<CustomStepVariable>();
+        CodeInputVariables = new List<StepVariable>();
+        CodeOutputVariables = new List<StepVariable>();
     }
 
     protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
@@ -54,7 +54,7 @@ public class CustomStep : WorkflowStep
     {
         Code = Inputs[nameof(Code)]?.Value?.ToString();
 
-        var codeInputVariables = Inputs[nameof(CodeInputVariables)].Value as IList<CustomStepVariable>;
+        var codeInputVariables = Inputs[nameof(CodeInputVariables)].Value as IList<StepVariable>;
 
         foreach (var variable in codeInputVariables)
         {
