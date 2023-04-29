@@ -35,13 +35,13 @@ public class ExecuteFlowStep : StudioStep
     public Guid FlowId
     {
         get => GetFlowIdFromInput();
-        set => SetInputVariable(nameof(FlowId), value);
+        set => SetInputValue(nameof(FlowId), value);
     }
 
     public IList<StepVariable> InputVariables
     {
-        get => GetInputVariable(nameof(InputVariables)) as IList<StepVariable>;
-        set => SetInputVariable(nameof(InputVariables), value);
+        get => GetInputValue(nameof(InputVariables)) as IList<StepVariable>;
+        set => SetInputValue(nameof(InputVariables), value);
     }
 
     /// <summary>
@@ -49,8 +49,8 @@ public class ExecuteFlowStep : StudioStep
     /// </summary>
     public IList<StepVariable> OutputVariables
     {
-        get => GetInputVariable(nameof(OutputVariables)) as IList<StepVariable>;
-        set => SetInputVariable(nameof(OutputVariables), value);
+        get => GetInputValue(nameof(OutputVariables)) as IList<StepVariable>;
+        set => SetInputValue(nameof(OutputVariables), value);
     }
 
     public ExecuteFlowStep(IMapper mapper, FlowsService flowsService)
@@ -58,9 +58,9 @@ public class ExecuteFlowStep : StudioStep
         this.flowsService = flowsService;
         this.mapper = mapper;
 
-        SetInputVariable(nameof(FlowId), Guid.Empty);
-        SetInputVariable(nameof(OutputVariables), new List<StepVariable>());
-        SetInputVariable(nameof(InputVariables), new List<StepVariable>());
+        SetInputValue(nameof(FlowId), Guid.Empty);
+        SetInputValue(nameof(OutputVariables), new List<StepVariable>());
+        SetInputValue(nameof(InputVariables), new List<StepVariable>());
     }
 
     public void OnFocus()
@@ -81,7 +81,7 @@ public class ExecuteFlowStep : StudioStep
 
     private Guid GetFlowIdFromInput()
     {
-        var guid = GetInputVariable(nameof(FlowId)) as string;
+        var guid = GetInputValue(nameof(FlowId)) as string;
         Guid.TryParse(guid, out Guid flowId);
         return flowId;
     }

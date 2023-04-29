@@ -109,24 +109,43 @@ public abstract class StudioStep : INotifyPropertyChanged
         DisabledStepClass = "designer-step-disabled";
     }
 
-    public void SetInputVariable(string name, object value)
-    {
-        Inputs[name] = new StepVariable { Name = name, Value = value };
-    }
-
-    public object GetInputVariable(string name)
+    public object GetInputValue(string name)
     {
         return Inputs[name].Value;
     }
 
-    public void SetOutputVariable(string name, object value)
+    public void SetInputValue(string name, object value)
     {
-        Outputs[name] = new StepVariable { Name = name, Value = value };
+        Inputs[name] = new StepVariable { Name = name, Value = value };
     }
 
-    public object GetOutputVariable(string name)
+    public object GetOutputValue(string name)
     {
         return Outputs[name].Value;
+    }
+
+    public void SetOutputValue(string name, object value)
+    {
+        SetOutputVariable(new StepVariable { Name = name, Value = value });
+    }
+
+    public void SetOutputVariable(StepVariable variable)
+    {
+        if (Outputs.ContainsKey(variable.Name))
+        {
+            Outputs[variable.Name] = variable;
+        }
+        else
+        {
+            Outputs.Add(variable.Name, variable);
+        }
+
+        Flow.SetVariable(variable);
+    }
+
+    public IEnumerable<StepVariable> GetOutputVariables()
+    {
+        return Outputs.Values;
     }
 
     public virtual void Select()
@@ -158,30 +177,6 @@ public abstract class StudioStep : INotifyPropertyChanged
     public bool HasParent()
     {
         return !string.IsNullOrEmpty(ParentId);
-    }
-
-    public bool HasVariables()
-    {
-        return Outputs.Any();
-    }
-
-    public void SetVariable(StepVariable variable)
-    {
-        if (Outputs.ContainsKey(variable.Key))
-        {
-            Outputs[variable.Key] = variable;
-        }
-        else
-        {
-            Outputs.Add(variable.Key, variable);
-        }
-
-        Flow.SetVariable(variable);
-    }
-
-    public IEnumerable<StepVariable> GetVariables()
-    {
-        return Outputs.Values;
     }
 
     public void InvokeCreated()

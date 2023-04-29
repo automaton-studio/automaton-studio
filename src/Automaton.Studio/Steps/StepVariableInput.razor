@@ -33,19 +33,14 @@ else
 
     private void StartEdit()
     {
-        Variable.OldName = Variable.Name;
-
         editing = true;
     }
 
     private void StopEdit()
     {
-        if (Variable.VariableNameIsNotTheSame())
-        {
-            Step.SetVariable(Variable);
+        Step.SetOutputVariable(Variable);
 
-            editing = false;
-        }
+        editing = false;
     }
 }
 

@@ -8,7 +8,7 @@
     @ChildContent
 </div>
 
-@if (Step.ShowVariables && Step.HasVariables())
+@if (Step.ShowVariables && Step.Outputs.Any())
 {
     <div>
         <StepVariables Step="@Step" />

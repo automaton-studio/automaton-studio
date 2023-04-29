@@ -27,7 +27,7 @@ public class StudioDefinition
 
         StepDeleted?.Invoke(this, new StepEventArgs(step));
 
-        Flow.DeleteVariables(step.GetVariables());
+        Flow.DeleteVariables(step.GetOutputVariables());
 
         UpdateStepConnections();
     }
@@ -44,7 +44,7 @@ public class StudioDefinition
         {
             StepDeleted?.Invoke(this, new StepEventArgs(step));
 
-            variables.AddRange(step.GetVariables());
+            variables.AddRange(step.GetOutputVariables());
         }
 
         Flow.DeleteVariables(variables);

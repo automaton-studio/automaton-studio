@@ -29,13 +29,13 @@ public class TestReportStep : StudioStep
 
     #region Variables
 
-    public StepVariable ReportVariable => GetOutputVariable(ReportVariableKey) as StepVariable;
+    public StepVariable ReportVariable => GetOutputValue(ReportVariableKey) as StepVariable;
 
     #endregion
 
     public TestReportStep()
     {
-        SetOutputVariable(ReportVariableKey, new StepVariable());
+        SetOutputVariable(new StepVariable(ReportVariableKey));
 
         Created += OnCreated;
     }
@@ -54,12 +54,10 @@ public class TestReportStep : StudioStep
     {
         var reportVariable = new StepVariable
         {
-            Key = ReportVariableKey,
-            OldName = ReportVariableKey,
             Name = $"{ReportVariableKey}{Flow.GetNumberOfSteps<TestReportStep>()}",
             Description = Variables.TestReport
         };
 
-        SetVariable(reportVariable);
+        SetOutputVariable(reportVariable);
     }
 }

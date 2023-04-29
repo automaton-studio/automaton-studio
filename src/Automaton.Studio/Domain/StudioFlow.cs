@@ -56,11 +56,6 @@ public class StudioFlow
 
     public void SetVariable(StepVariable variable)
     {
-        if (HasStepsUsingVariableOldName(variable))
-        {
-            Variables.Remove(variable.OldName);
-        }
-
         if (Variables.ContainsKey(variable.Name))
         {
             Variables[variable.Name] = variable;
@@ -130,12 +125,9 @@ public class StudioFlow
 
     public void DeleteVariable(StepVariable variable)
     {
-        if (!HasStepsUsingVariableName(variable))
+        if (Variables.ContainsKey(variable.Name))
         {
-            if (Variables.ContainsKey(variable.Name))
-            {
-                Variables.Remove(variable.Name);
-            }
+            Variables.Remove(variable.Name);
         }
     }
 
@@ -145,21 +137,5 @@ public class StudioFlow
         {
             DeleteVariable(variable);
         }
-    }
-
-    private bool HasStepsUsingVariableOldName(StepVariable variable)
-    {
-        var stepVariables = Definitions.SelectMany(x => x.Steps).SelectMany(x => x.Outputs);
-        var variablesExists = stepVariables.Select(x => x.Value).Any(x => x.Name == variable.OldName);
-
-        return variablesExists;
-    }
-
-    private bool HasStepsUsingVariableName(StepVariable variable)
-    {
-        var stepVariables = Definitions.SelectMany(x => x.Steps).SelectMany(x => x.Outputs);
-        var variablesExists = stepVariables.Select(x => x.Value).Any(x => x.Name == variable.Name);
-
-        return variablesExists;
     }
 }

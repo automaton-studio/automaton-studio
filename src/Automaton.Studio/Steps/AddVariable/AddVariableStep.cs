@@ -20,16 +20,16 @@ public class AddVariableStep : StudioStep
 
     public StepVariable VariableValue
     {
-        get => GetInputVariable(nameof(VariableValue)) as StepVariable;
-        set => SetInputVariable(nameof(VariableValue), value);
+        get => GetInputValue(nameof(VariableValue)) as StepVariable;
+        set => SetInputValue(nameof(VariableValue), value);
     }
 
-    public StepVariable VariableOutput => GetOutputVariable(AddVariableKey) as StepVariable;
+    public StepVariable VariableOutput => GetOutputValue(AddVariableKey) as StepVariable;
 
     public AddVariableStep()
     {
-        SetInputVariable(nameof(VariableValue), new StepVariable());
-        SetOutputVariable(AddVariableKey, new StepVariable());
+        SetInputValue(nameof(VariableValue), new StepVariable());
+        SetOutputVariable(new StepVariable(AddVariableKey));
 
         Created += OnCreated;
         ShowVariables = false;
@@ -49,12 +49,10 @@ public class AddVariableStep : StudioStep
     {
         var variable = new StepVariable
         {
-            Key = AddVariableKey,
-            OldName = AddVariableKey,
             Name = $"{AddVariableKey}{Flow.GetNumberOfSteps<AddVariableStep>()}",
             Value = VariableValue
         };
 
-        SetVariable(variable);
+        SetOutputVariable(variable);
     }
 }

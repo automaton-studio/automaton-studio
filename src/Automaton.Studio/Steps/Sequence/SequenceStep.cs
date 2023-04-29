@@ -33,8 +33,8 @@ public class SequenceStep : StudioStep
 
     public string SequenceEndStepId
     {
-        get => GetInputVariable(nameof(SequenceEndStepId)) as string;
-        set => SetInputVariable(nameof(SequenceEndStepId), value);
+        get => GetInputValue(nameof(SequenceEndStepId)) as string;
+        set => SetInputValue(nameof(SequenceEndStepId), value);
     }
 
     public IList<StudioStep> SequenceSteps { get; set; } = new List<StudioStep>();

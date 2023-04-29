@@ -30,8 +30,8 @@ public class SequenceEndStep : StudioStep
 
     public string SequenceStepId
     {
-        get => GetInputVariable(nameof(SequenceStepId)) as string;
-        set => SetInputVariable(nameof(SequenceStepId), value);
+        get => GetInputValue(nameof(SequenceStepId)) as string;
+        set => SetInputValue(nameof(SequenceStepId), value);
     }
 
     public override Type GetDesignerComponent()

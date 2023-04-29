@@ -16,8 +16,8 @@ public class TestAssertStep : StudioStep
 {
     public string Expression
     {
-        get => GetInputVariable(nameof(Expression)) as string;
-        set => SetInputVariable(nameof(Expression), value);
+        get => GetInputValue(nameof(Expression)) as string;
+        set => SetInputValue(nameof(Expression), value);
     }
 
     public string Error { get; set; }

@@ -19,14 +19,14 @@ public class CustomStep : StudioStep
 {
     public string Code
     {
-        get => GetInputVariable(nameof(Code)) as string;
-        set => SetInputVariable(nameof(Code), value);
+        get => GetInputValue(nameof(Code)) as string;
+        set => SetInputValue(nameof(Code), value);
     }
 
     public IList<CustomStepVariable> CodeInputVariables
     {
-        get => GetInputVariable(nameof(CodeInputVariables)) as IList<CustomStepVariable>;
-        set => SetInputVariable(nameof(CodeInputVariables), value);
+        get => GetInputValue(nameof(CodeInputVariables)) as IList<CustomStepVariable>;
+        set => SetInputValue(nameof(CodeInputVariables), value);
     }
 
     /// <summary>
@@ -34,15 +34,15 @@ public class CustomStep : StudioStep
     /// </summary>
     public IList<CustomStepVariable> CodeOutputVariables
     {
-        get => GetInputVariable(nameof(CodeOutputVariables)) as IList<CustomStepVariable>;
-        set => SetInputVariable(nameof(CodeOutputVariables), value);
+        get => GetInputValue(nameof(CodeOutputVariables)) as IList<CustomStepVariable>;
+        set => SetInputValue(nameof(CodeOutputVariables), value);
     }
 
     public CustomStep()
     {
-        SetInputVariable(nameof(Code), string.Empty);
-        SetInputVariable(nameof(CodeOutputVariables), new List<CustomStepVariable>());
-        SetInputVariable(nameof(CodeInputVariables), new List<CustomStepVariable>());
+        SetInputValue(nameof(Code), string.Empty);
+        SetInputValue(nameof(CodeOutputVariables), new List<CustomStepVariable>());
+        SetInputValue(nameof(CodeInputVariables), new List<CustomStepVariable>());
     }
 
     public override void Setup(Step step)

@@ -16,13 +16,13 @@ public class EmitLogStep : StudioStep
 {
     public string Message
     {
-        get => GetInputVariable(nameof(Message)) as string;
-        set => SetInputVariable(nameof(Message), value);
+        get => GetInputValue(nameof(Message)) as string;
+        set => SetInputValue(nameof(Message), value);
     }
 
     public EmitLogStep()
     {
-        SetInputVariable(nameof(Message), string.Empty);
+        SetInputValue(nameof(Message), string.Empty);
     }
 
     public override Type GetDesignerComponent()
