@@ -43,7 +43,7 @@ public class CustomStep : WorkflowStep
             if (scriptVariables.ContainsKey(variable.Name))
             {
                 variable.Value = scriptVariables[variable.Name].ToString();
-                context.Workflow.Variables[variable.Name] = variable;
+                context.Workflow.SetVariable(variable);
             }
         }
 
