@@ -25,16 +25,35 @@ public class CustomStep : StudioStep
 
     public IList<StepVariable> CodeInputVariables
     {
-        get => GetInputValue(nameof(CodeInputVariables)) as IList<StepVariable>;
+        get
+        {
+            var value = GetInputValue(nameof(CodeInputVariables));
+
+            if (value is JArray)
+            {
+                return (value as JArray).ToObject<List<StepVariable>>();
+            }
+
+            return value as IList<StepVariable>;
+        }
+
         set => SetInputValue(nameof(CodeInputVariables), value);
     }
 
-    /// <summary>
-    /// OutputVariables are stored in Inputs list because they are input required for step execution.
-    /// </summary>
     public IList<StepVariable> CodeOutputVariables
     {
-        get => GetInputValue(nameof(CodeOutputVariables)) as IList<StepVariable>;
+        get
+        {
+            var value = GetInputValue(nameof(CodeOutputVariables));
+
+            if (value is JArray)
+            {
+                return (value as JArray).ToObject<List<StepVariable>>();
+            }
+
+            return value as IList<StepVariable>;
+        }
+
         set => SetInputValue(nameof(CodeOutputVariables), value);
     }
 
