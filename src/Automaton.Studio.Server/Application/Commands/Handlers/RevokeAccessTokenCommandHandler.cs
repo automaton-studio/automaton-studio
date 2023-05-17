@@ -19,15 +19,13 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
             _accessTokenManagerService = accessTokenManagerService;
         }
 
-        public async Task<Unit> Handle(RevokeAccessTokenCommand request, CancellationToken cancellationToken)
+        public async Task Handle(RevokeAccessTokenCommand request, CancellationToken cancellationToken)
         {
             await _accessTokenManagerService.DeactivateAccessTokenAsync(request.AccessToken);
 
-            await _mediator.Publish(new AccessTokenRevokedEvent(request.UserId, request.AccessToken),
-                cancellationToken);
-            _logger.Log(LogLevel.Debug, "AccessTokenRevoked Event Published.");
+            await _mediator.Publish(new AccessTokenRevokedEvent(request.UserId, request.AccessToken), cancellationToken);
 
-            return Unit.Value;
+            _logger.Log(LogLevel.Debug, "AccessTokenRevoked Event Published.");
         }
     }
 }

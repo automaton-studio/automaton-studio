@@ -21,7 +21,7 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
             _logger = logger;
         }
 
-        public async Task<Unit> Handle(RevokeRefreshTokenCommand request, CancellationToken cancellationToken)
+        public async Task Handle(RevokeRefreshTokenCommand request, CancellationToken cancellationToken)
         {
             var refreshToken = await _dataContext.Set<RefreshToken<Guid>>()
                 .SingleOrDefaultAsync(x => x.Token == request.Token && x.UserId == request.UserId, cancellationToken);
@@ -38,7 +38,6 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
                 new RefreshTokenRevokedEvent(refreshToken.Id, refreshToken.UserId, refreshToken.Token),
                 cancellationToken);
             _logger.Log(LogLevel.Debug, "RefreshTokenRevoked Event Published.");
-            return Unit.Value;
         }
     }
 }

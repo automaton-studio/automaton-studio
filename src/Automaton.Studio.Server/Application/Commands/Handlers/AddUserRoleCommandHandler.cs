@@ -16,11 +16,10 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
             _userManagerService = userManagerService;
         }
         
-        public async Task<Unit> Handle(AddUserRoleCommand command, CancellationToken cancellationToken)
+        public async Task Handle(AddUserRoleCommand command, CancellationToken cancellationToken)
         {
             await _userManagerService.AddRole(command.UserId, command.RoleName);
             await _dataContext.SaveChangesAsync(cancellationToken);
-            return  Unit.Value;
         }
     }
 }

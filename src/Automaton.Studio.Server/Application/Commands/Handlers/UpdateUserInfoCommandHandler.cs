@@ -16,7 +16,7 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
             _userManager = userManager;
         }
 
-        public async Task<Unit> Handle(UpdateUserInfoCommand command, CancellationToken cancellationToken)
+        public async Task Handle(UpdateUserInfoCommand command, CancellationToken cancellationToken)
         {
             await _userManager.UpdateProfile(
                 new Models.UserProfile
@@ -30,8 +30,6 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
             );
 
             await _dataContext.SaveChangesAsync(cancellationToken);
-            
-            return Unit.Value;
         }
     }
 }

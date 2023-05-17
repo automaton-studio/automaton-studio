@@ -100,7 +100,7 @@ services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
 services.AddAutoMapper(Assembly.GetExecutingAssembly());
-services.AddMediatR(Assembly.GetExecutingAssembly());
+services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Program>());
 
 services.AddScripting();
