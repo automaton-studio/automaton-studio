@@ -5,87 +5,97 @@
 @using Automaton.Studio.Pages.FlowDesigner.Components;
 @using Automaton.Studio.Domain;
 
-<Layout Class="designer-container">
-    <Sider Theme="SiderTheme.Light" Style="width: 300px">
-        <CascadingValue Value="DesignerViewModel.Flow">
-            <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="explorer-tabs">
-                <TabPane Key="1" Tab="Steps">
-                    <StepExplorer></StepExplorer>
-                </TabPane>
-                <TabPane Key="2" Tab="Flow">
-                    <FlowExplorer></FlowExplorer>
-                </TabPane>
-            </Tabs>
-        </CascadingValue>
-    </Sider>
+<Layout>
+    <Header Class="header">
+        <Row>
+            <Col Flex=@("none")>
+                <Space Size="@AntSizeLDSType.Large">
+                    <SpaceItem Class="header-item">
+                        <h3>Flows</h3>
+                    </SpaceItem>
+                </Space>
+            </Col>
 
-    <Content>
-        <Header Class="header">
-            <Row>
-                <Col Flex=@("none")>
-                <Space Class="actions-bar">
+            <Col Class="right-actions">
+                <Space Class="right-header-items">
                     <SpaceItem>
-                        <Button Icon="save" OnClick="SaveFlow">
+                        <Button Icon="save" Class="header-button" OnClick="SaveFlow">
                             Save
                         </Button>
                     </SpaceItem>
+
                     @if (DesignerViewModel.CanExecuteFlow)
                     {
                         <SpaceItem>
-                        <Button Icon="caret-right" OnClick="RunFlow">
-                            Run
-                        </Button>
+                            <Button Icon="caret-right" Class="header-button" OnClick="RunFlow">
+                                Run
+                            </Button>
                         </SpaceItem>
                     }
-                </Space>
-                </Col>
 
-                @*<Col Class="right-actions">
-                    <Space Class="right-header-items">
                     <SpaceItem>
-                    <Button Shape="circle" Type="ButtonType.Dashed" Icon="setting" Class="action-button"></Button>
+                        <Button Icon="save" Shape="@ButtonShape.Round" Class="header-button" OnClick="SaveFlow">
+                            Back to Flows
+                        </Button>
                     </SpaceItem>
-                    </Space>
-                    </Col>*@
-            </Row>
-        </Header>
+                </Space>
+            </Col>
+        </Row>
+    </Header>
 
-        <Tabs Type="@TabType.EditableCard"
-              Size="@TabSize.Small"
-              ActiveKey="@DesignerViewModel.ActiveDefinition?.Id"
-              DefaultActiveKey="@DesignerViewModel.GetStartupDefinitionId()"
-              OnAddClick="OnDefinitionAddClick"
-              OnTabClick="OnTabClick"
-              OnClose="OnTabClose">
+    <Layout Class="designer-container">
 
-            @foreach (var definition in DesignerViewModel.Flow.Definitions)
-            {
-                <TabPane Key="@definition.Id" Tab="@definition.Name">
-                    <Dropzone @ref="dropzone" 
-                        Class="dropzone"                       
-                        Steps="definition.Steps"
-                        ItemDrop="@((p)=>OnItemDrop(p))"
-                        ItemDoubleClick="@((p)=>OnItemDoubleClick(p))">
+        <Sider Theme="SiderTheme.Light" Style="width: 300px">
+            <CascadingValue Value="DesignerViewModel.Flow">
+                <Tabs DefaultActiveKey="1" TabPosition="@TabPosition.Bottom" Size="@TabSize.Small" Class="explorer-tabs">
+                    <TabPane Key="1" Tab="Steps">
+                        <StepExplorer></StepExplorer>
+                    </TabPane>
+                    <TabPane Key="2" Tab="Flow">
+                        <FlowExplorer></FlowExplorer>
+                    </TabPane>
+                </Tabs>
+            </CascadingValue>
+        </Sider>
 
-                        <DropzoneStep Step="@context" />
+        <Content>
+            <Tabs Type="@TabType.EditableCard"
+                  Size="@TabSize.Small"
+                  ActiveKey="@DesignerViewModel.ActiveDefinition?.Id"
+                  DefaultActiveKey="@DesignerViewModel.GetStartupDefinitionId()"
+                  OnAddClick="OnDefinitionAddClick"
+                  OnTabClick="OnTabClick"
+                  OnClose="OnTabClose">
 
-                    </Dropzone>
-                </TabPane>
-            }
-        </Tabs>
+                @foreach (var definition in DesignerViewModel.Flow.Definitions)
+                {
+                    <TabPane Key="@definition.Id" Tab="@definition.Name">
+                        <Dropzone @ref="dropzone"
+                              Class="dropzone"
+                              Steps="definition.Steps"
+                              ItemDrop="@((p)=>OnItemDrop(p))"
+                              ItemDoubleClick="@((p)=>OnItemDoubleClick(p))">
 
-    </Content>
+                            <DropzoneStep Step="@context" />
 
-    <Sider Theme=SiderTheme.Light Collapsed=true Class="right-sider">
-        <Menu Mode=MenuMode.Inline Theme=MenuTheme.Light Selectable=true Class="right-sider">
-            <MenuItem Key="1" Icon="setting" OnClick="OpenFlowSettings">
-                Settings
-            </MenuItem>
-            <MenuItem Key="2" OnClick="OpenFlowVariables" Icon="snippets">
-                Variables
-            </MenuItem>
-        </Menu>
-    </Sider>
+                        </Dropzone>
+                    </TabPane>
+                }
+            </Tabs>
+
+        </Content>
+
+        <Sider Theme=SiderTheme.Light Collapsed=true Class="right-sider">
+            <Menu Mode=MenuMode.Inline Theme=MenuTheme.Light Selectable=true Class="right-sider">
+                <MenuItem Key="1" Icon="setting" OnClick="OpenFlowSettings">
+                    Settings
+                </MenuItem>
+                <MenuItem Key="2" OnClick="OpenFlowVariables" Icon="snippets">
+                    Variables
+                </MenuItem>
+            </Menu>
+        </Sider>
+    </Layout>
 </Layout>
 
 <style>
@@ -95,7 +105,7 @@
 
     .dropzone {
         overflow: auto;
-        height: calc(100vh - 115px);
+        height: calc(100vh - 200px);
         /* Use flex to fill the remaining of dropzone in Dropzone.razor*/
         display: flex;
         flex-direction: column;
@@ -114,35 +124,6 @@
     div.ant-tabs-nav-wrap {
         padding-left: 5px;
     }
-
-    .header {
-        background: #fff;
-        margin-bottom: 5px;
-        height: 48px;
-        line-height: 48px;
-        width: 100%;
-        box-shadow: 0 0px 1.5px rgba(0, 0, 0, 0.004), 0 0px 9px rgba(0, 0, 0, 0.07);
-        padding: 0 20px 0 0;
-    }
-
-        .header .right-header-items {
-            float: right;
-            padding-right: 10px;
-        }
-
-        .header .page-title {
-            padding-left: 20px;
-        }
-
-    .right-sider {
-        max-width: 50px !important;
-        min-width: 50px !important;
-        background-color: #fafafa;
-    }
-
-        .right-sider .ant-menu-item {
-            padding-left: 15px !important;
-        }
 </style>
 
 
