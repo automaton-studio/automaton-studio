@@ -6,26 +6,27 @@
         <Row>
             <Col Flex=@("none") Class="page-title">
                 <Space Size="@AntSizeLDSType.Large">
-                    <SpaceItem>
+                <SpaceItem Class="header-item">
                         <h3>Custom Steps</h3>
-                    </SpaceItem>
-                    <SpaceItem>
-                        <Button Class="new-button" Icon="plus" @onclick="@(() => NewCustomStepDialog())">
-                            New
-                        </Button>
                     </SpaceItem>
                 </Space>
             </Col>
 
             <Col Class="right-actions">
-                <Space Class="right-header-items"></Space>
+                <Space Class="right-header-items">
+                    <SpaceItem>
+                    <Button Class="header-button" Icon="plus" @onclick="@(() => NewCustomStepDialog())">
+                            New
+                        </Button>
+                    </SpaceItem>
+                </Space>
             </Col>
         </Row>
 
     </Header>
 
     <Content>
-        <Table TItem="CustomStepModel" DataSource="@CustomStepsViewModel.CustomSteps" Loading="@loading">
+        <Table TItem="CustomStepModel" DataSource="@CustomStepsViewModel.CustomSteps" Class="autoscroll-list" Loading="@loading">
             <Column Title="Name" @bind-Field="@context.Name">
                 @context.Name
             </Column>
@@ -67,36 +68,6 @@
         </Table>
     </Content>
 </Layout>
-
-<style>
-    .new-button {
-        margin-bottom: 15px;
-    }
-
-    .header {
-        background: #fff;
-        margin-bottom: 5px;
-        height: 48px;
-        line-height: 48px;
-        width: 100%;
-        box-shadow: 0 0px 1.5px rgba(0, 0, 0, 0.004), 0 0px 9px rgba(0, 0, 0, 0.07);
-        padding: 0 20px 0 0;
-    }
-
-        .header .right-header-items {
-            float: right;
-            padding-right: 10px;
-        }
-
-        .header .page-title {
-            padding-left: 20px;
-        }
-
-    .right-actions {
-        margin-left: auto;
-    }
-
-</style>
 
 
 

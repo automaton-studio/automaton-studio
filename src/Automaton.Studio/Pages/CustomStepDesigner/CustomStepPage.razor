@@ -9,25 +9,28 @@
         <Header Class="header">
             <Row>
                 <Col Flex=@("none") Class="page-title">
-                    <Space Size="@AntSizeLDSType.Large" Direction="DirectionVHType.Horizontal" Align="center">
+                    <Space Size="@AntSizeLDSType.Large" Direction="DirectionVHType.Horizontal" Align="center">                  
+                        <SpaceItem Class="header-item">
+                        <Title Level="4" Editable EditConfig="stepNameEditableConfig">@stepNameEditableConfig?.Text</Title>
+                        </SpaceItem>                 
+                    </Space>
+                </Col>
+
+                <Col Class="right-actions">
+                    <Space Class="right-header-items">
                         <SpaceItem>
-                            <h3>Custom Step</h3>
-                        </SpaceItem>
-                        <SpaceItem>
-                            <Button Class="save-button" Icon="save" OnClick="Save">
+                            <Button Class="header-button" Icon="save" OnClick="Save">
                                 Save
+                            </Button>
+                        </SpaceItem>
+
+                        <SpaceItem>
+                            <Button Icon="arrow-left" Shape="@ButtonShape.Round" Class="header-button" OnClick="BackToCustomSteps">
+                                Back to Custom Steps
                             </Button>
                         </SpaceItem>
                     </Space>
                 </Col>
-
-                @*<Col Class="center-actions">
-                    <Space Class="center-header-items">
-                        <SpaceItem>
-                        @StepDesignerViewModel.CustomStep.Name
-                        </SpaceItem>
-                    </Space>
-                </Col>*@
             </Row>
 
         </Header>
@@ -170,11 +173,6 @@
 }
 
 <style>
-    .step-header {
-        background-color: #fff;
-        padding: 10px 0px 0px 20px;
-    }
-
     .step-form {
         background-color: #fff;
         padding: 20px;
@@ -184,32 +182,6 @@
     #step-code {
         width: 100vw !important;
         height: calc(100vh - 210px) !important;
-    }
-
-    .header {
-        background: #fff;
-        margin-bottom: 5px;
-        height: 48px;
-        line-height: 48px;
-        width: 100%;
-        box-shadow: 0 0px 1.5px rgba(0, 0, 0, 0.004), 0 0px 9px rgba(0, 0, 0, 0.07);
-        padding: 0 20px 0 0;
-    }
-
-        .header .center-header-items {
-            margin-bottom: 15px;
-        }
-
-        .header .page-title {
-            padding-left: 20px;
-        }
-
-    .center-actions {
-        margin: auto;
-    }
-
-    .save-button {
-        margin-bottom: 15px;
     }
 
 </style>

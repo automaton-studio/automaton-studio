@@ -16,15 +16,13 @@ partial class DesignerPage : ComponentBase
 {
     private Dropzone dropzone;
 
-    [Inject] private ModalService ModalService { get; set; } = default!;
-
-    [Inject] private DesignerViewModel DesignerViewModel { get; set; } = default!;
-
-    [Inject] private FlowExplorerViewModel FlowExplorerViewModel { get; set; } = default!;
-
-    [Inject] private DrawerService DrawerService { get; set; } = default!;
-
     [Parameter] public string FlowId { get; set; }
+
+    [Inject] private NavigationManager NavigationManager { get; set; } = default!;
+    [Inject] private ModalService ModalService { get; set; } = default!;
+    [Inject] private DesignerViewModel DesignerViewModel { get; set; } = default!;
+    [Inject] private FlowExplorerViewModel FlowExplorerViewModel { get; set; } = default!;
+    [Inject] private DrawerService DrawerService { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -192,5 +190,10 @@ partial class DesignerPage : ComponentBase
 
     private void OnTabClose(string key)
     {
+    }
+
+    private void BackToFlows()
+    {
+        NavigationManager.NavigateTo("/");
     }
 }

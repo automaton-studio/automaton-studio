@@ -26,7 +26,7 @@
     </Header>
 
     <Content>
-        <Table TItem="FlowModel" DataSource="@FlowsViewModel.Flows" Loading="@loading" Class="flows-list">
+        <Table TItem="FlowModel" DataSource="@FlowsViewModel.Flows" Loading="@loading" Class="autoscroll-list">
             <Column Title="Name" @bind-Field="@context.Name">
                 @context.Name
             </Column>
@@ -89,17 +89,5 @@
         </Table>
     </Content>
 </Layout>
-
-<style>
-    .flows-list {
-        overflow: auto;
-        height: calc(100vh - 200px);
-        /* Use flex to fill the remaining of dropzone in Dropzone.razor*/
-        display: flex;
-        flex-direction: column;
-    }
-
-</style>
-
 
 

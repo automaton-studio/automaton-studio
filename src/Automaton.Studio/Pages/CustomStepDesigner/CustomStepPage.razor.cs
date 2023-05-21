@@ -11,7 +11,9 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
         private bool loading = false;
         private Form<CustomStep> form;
         private IEnumerable<string> VariableTypes { get; } = Enum.GetNames(typeof(VariableType));
+        private TypographyEditableConfig stepNameEditableConfig;
 
+        [Inject] private NavigationManager NavigationManager { get; set; } = default!;
         [Inject] private CustomStepViewModel StepDesignerViewModel { get; set; } = default!;
         [Inject] private ModalService ModalService { get; set; }
         [Inject] private MessageService MessageService { get; set; }
@@ -21,6 +23,12 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
         protected override async Task OnInitializedAsync()
         {
             await StepDesignerViewModel.Load(Guid.Parse(StepId));
+
+            stepNameEditableConfig = new() 
+            { 
+                OnChange = OnNameChanged, 
+                Text = StepDesignerViewModel.CustomStep.Name 
+            };
 
             await base.OnInitializedAsync();
         }
@@ -84,6 +92,16 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
             {
                 loading = false;
             }
+        }
+
+        private void BackToCustomSteps()
+        {
+            NavigationManager.NavigateTo("/customsteps");
+        }
+
+        private void OnNameChanged(string name)
+        {
+            StepDesignerViewModel.CustomStep.Name = name;
         }
     }
 }

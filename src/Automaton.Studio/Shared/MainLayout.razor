@@ -2,7 +2,7 @@
 
 @using Microsoft.AspNetCore.Components
 
-<Layout Class="layout" Style="height: 100%">
+<Layout Class="main-layout">
 
     <AuthorizeView>
         <Sider Theme="SiderTheme.Dark">
@@ -20,85 +20,3 @@
         </Content>
     </Layout>
 </Layout>
-
-<style>
-    .main-header {
-        background: #fff;
-        height: 48px;
-        line-height: 48px;
-        width: 100%;
-        box-shadow: 0 0px 1.5px rgba(0, 0, 0, 0.004), 0 0px 9px rgba(0, 0, 0, 0.07);
-        padding: 0 20px 0 0;
-    }
-
-    .left-sider {
-        overflow: auto;
-        max-width: 50px !important;
-        min-width: 50px !important;
-    }
-
-        .left-sider .ant-menu-item {
-            padding-left: 17px !important;
-        }
-
-        .left-sider .ant-menu .ant-menu-root {
-            max-width: 50px !important;
-        }
-
-        .left-sider .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
-            border-right: 1px solid #fff;
-        }
-
-    .activities-container {
-        background-color: #fafafa;
-        height: 100%;
-    }
-
-    .activities-header {
-        background-color: #fff;
-        padding: 0px 0px 0px 20px;
-        margin-top: 5px;
-    }
-
-    .activities-search {
-        padding: 5px 10px 5px 10px;
-    }
-
-    .header {
-        background: #fff;
-        margin-bottom: 5px;
-        height: 48px;
-        line-height: 48px;
-        width: 100%;
-        box-shadow: 0 0px 1.5px rgba(0, 0, 0, 0.004), 0 0px 9px rgba(0, 0, 0, 0.07);
-        padding: 0 40px 0 10px;
-    }
-
-        .header .right-header-items {
-            float: right;
-            padding-right: 10px;
-        }
-
-        .header .header-item {
-            padding-right: 20px;
-        }
-
-        .header .header-button {
-            margin-bottom: 15px;
-        }
-
-    .right-sider {
-        max-width: 50px !important;
-        min-width: 50px !important;
-        background-color: #fafafa;
-    }
-
-        .right-sider .ant-menu-item {
-            padding-left: 15px !important;
-        }
-
-    .right-actions {
-        margin-left: auto;
-    }
-
-</style>
