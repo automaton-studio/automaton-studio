@@ -102,6 +102,7 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
         private void OnNameChanged(string name)
         {
             StepDesignerViewModel.CustomStep.Name = name;
+            StateHasChanged();
         }
     }
 }
