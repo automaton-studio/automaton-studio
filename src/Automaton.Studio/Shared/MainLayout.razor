@@ -12,37 +12,41 @@
 
     <Layout>
         <Content>
-            <Row Class="main-header">
-                <Col Flex=@("none")>
-                <Space Size="@AntSizeLDSType.Default">
-                    <SpaceItem>
-                        <Button Type="@ButtonType.Text" OnClick="ToggleCollapsed">
+            <AuthorizeView>
+                <Row Class="main-header">
+                    <Col Flex=@("none")>
+                    <Space Size="@AntSizeLDSType.Default">
+                        <SpaceItem>
+                            <Button Type="@ButtonType.Text" OnClick="ToggleCollapsed">
                                 @if (MenuCollapsed)
                                 {
-                                <Icon Type="menu-unfold"></Icon>
+                                    <Icon Type="menu-unfold"></Icon>
                                 }
                                 else
                                 {
-                                <Icon Type="menu-fold"></Icon>
+                                    <Icon Type="menu-fold"></Icon>
                                 }
-                        </Button>
-                    </SpaceItem>
-                </Space>
+                            </Button>
+                        </SpaceItem>
+                    </Space>
 
-                </Col>
+                    </Col>
 
-                <Col Class="right-actions">
-                <Space Class="right-header-items">
-                    <SpaceItem>
-                        <Button Icon="fullscreen" Type="@ButtonType.Text" OnClick="ToggleFullScreen"></Button>
-                    </SpaceItem>
-                    <SpaceItem>
-                        <Button Icon="poweroff" Type="@ButtonType.Text" OnClick="Logout"></Button>
-                    </SpaceItem>
-                </Space>
-                </Col>
-            </Row>
+                    <Col Class="right-actions">
+                    <Space Class="right-header-items">
+                        <SpaceItem>
+                            <Button Icon="fullscreen" Type="@ButtonType.Text" OnClick="ToggleFullScreen"></Button>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Button Icon="poweroff" Type="@ButtonType.Text" OnClick="Logout"></Button>
+                        </SpaceItem>
+                    </Space>
+                    </Col>
+                </Row>
+            </AuthorizeView>
+
             <div class="site-layout-content">@Body</div>
+
         </Content>
     </Layout>
 </Layout>
