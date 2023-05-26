@@ -21,6 +21,34 @@ namespace Automaton.Studio
                "import", "./JsInterop.js").AsTask());
         }
 
+        public async Task ToggleFullscreen()
+        {
+            var module = await moduleTask.Value;
+
+            await module.InvokeVoidAsync("toggleFullscreen");
+        }
+
+        public async Task<bool> IsFullscreen()
+        {
+            var module = await moduleTask.Value;
+
+            return await module.InvokeAsync<bool>("isFullscreen");
+        }
+
+        public async Task OpenFullscreen()
+        {
+            var module = await moduleTask.Value;
+
+            await module.InvokeVoidAsync("openFullscreen");
+        }
+
+        public async Task CloseFullscreen()
+        {
+            var module = await moduleTask.Value;
+
+            await module.InvokeVoidAsync("closeFullscreen");
+        }
+
         public async ValueTask<string> Prompt(string message)
         {
             var module = await moduleTask.Value;
