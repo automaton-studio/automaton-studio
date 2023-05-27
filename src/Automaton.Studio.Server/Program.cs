@@ -23,18 +23,19 @@ using System.Reflection;
 
 const string ConnectionStringName = "DefaultConnection";
 
-var builder = WebApplication.CreateBuilder(args);
+var applicationBuilder = WebApplication.CreateBuilder(args);
+var services = applicationBuilder.Services;
+var connectionString = applicationBuilder.Configuration.GetConnectionString(ConnectionStringName);
 
-var services = builder.Services;
-var connectionString = builder.Configuration.GetConnectionString(ConnectionStringName);
+var configurationBuilder = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .Build();
+
+var configurationService = new ConfigurationService(configurationBuilder);
 
 services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
 services.AddDatabaseDeveloperPageExceptionFilter();
-
-services.AddIdentity<ApplicationUser, ApplicationRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
 
 services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
 {
@@ -53,7 +54,7 @@ services.AddMvc(options =>
 });
 
 services.AddAccessTokenValidator();
-services.AddJwtAuthentication(builder.Configuration);
+services.AddJwtAuthentication(applicationBuilder.Configuration);
 services.AddHttpClient();
 
 services.AddRazorPages();
@@ -62,16 +63,12 @@ services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticati
 services.AddScoped<IDataContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
 services.AddControllers();
 
-var configuration = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-    .Build();
-
 services.AddTransient<UserNameEnricher>();
 services.AddHttpContextAccessor();
 
-builder.Host.UseSerilog((context, services, config) =>
+applicationBuilder.Host.UseSerilog((context, services, config) =>
     config.Destructure.UsingAttributes()
-    .ReadFrom.Configuration(configuration)
+    .ReadFrom.Configuration(configurationBuilder)
     .Destructure.JsonNetTypes()
     .Enrich.With<EventTypeEnricher>()
     .Enrich.With(services.GetService<UserNameEnricher>())
@@ -82,7 +79,7 @@ builder.Host.UseSerilog((context, services, config) =>
         //which is then updated from the external configuration data
         //https://github.com/serilog-mssql/serilog-sinks-mssqlserver
         connectionString: ConnectionStringName,
-        appConfiguration: configuration,
+        appConfiguration: configurationBuilder,
         logEventFormatter: new CompactJsonFormatter(),
         sinkOptions: new MSSqlServerSinkOptions { TableName = "LogEvents" },
         columnOptions: new ColumnOptions()));
@@ -93,7 +90,18 @@ services.AddScoped<RunnerService>();
 services.AddScoped<UserContextService>();
 services.AddTransient<UserManagerService>();
 services.AddTransient<RoleManagerService>();
-services.AddScoped(service => new ConfigurationService(configuration));
+services.AddScoped(service => configurationService);
+
+services.AddIdentity<ApplicationUser, ApplicationRole>(options => 
+{
+    options.Password.RequireDigit = configurationService.RequireDigit;
+    options.Password.RequireLowercase = configurationService.RequireLowercase;
+    options.Password.RequireUppercase = configurationService.RequireUppercase;
+    options.Password.RequireNonAlphanumeric = configurationService.RequireNonAlphanumeric;
+    options.Password.RequiredLength = configurationService.RequiredLength;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddEndpointsApiExplorer();
@@ -107,7 +115,7 @@ services.AddScripting();
 services.AddSteps();
 services.AddAutomatonCore();
 
-var app = builder.Build();
+var app = applicationBuilder.Build();
 
 app.UseAuthentication();
 app.UseAuthorization();
