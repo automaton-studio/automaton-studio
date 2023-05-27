@@ -37,6 +37,17 @@ services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(conn
 
 services.AddDatabaseDeveloperPageExceptionFilter();
 
+services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+{
+    options.Password.RequireDigit = configurationService.RequireDigit;
+    options.Password.RequireLowercase = configurationService.RequireLowercase;
+    options.Password.RequireUppercase = configurationService.RequireUppercase;
+    options.Password.RequireNonAlphanumeric = configurationService.RequireNonAlphanumeric;
+    options.Password.RequiredLength = configurationService.RequiredLength;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
+
 services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
 {
     builder
@@ -91,17 +102,6 @@ services.AddScoped<UserContextService>();
 services.AddTransient<UserManagerService>();
 services.AddTransient<RoleManagerService>();
 services.AddScoped(service => configurationService);
-
-services.AddIdentity<ApplicationUser, ApplicationRole>(options => 
-{
-    options.Password.RequireDigit = configurationService.RequireDigit;
-    options.Password.RequireLowercase = configurationService.RequireLowercase;
-    options.Password.RequireUppercase = configurationService.RequireUppercase;
-    options.Password.RequireNonAlphanumeric = configurationService.RequireNonAlphanumeric;
-    options.Password.RequiredLength = configurationService.RequiredLength;
-})
-.AddEntityFrameworkStores<ApplicationDbContext>()
-.AddDefaultTokenProviders();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddEndpointsApiExplorer();
