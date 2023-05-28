@@ -98,17 +98,25 @@ public class StepFactory
 
     private void LoadCustomSteps()
     {
-        var categoryModel = CreateStepCategoryExplorerModel("Custom steps");
-        explorerSteps.Add(nameof(CustomStep), categoryModel);
-
         var customSteps = Task.Run(customStepsService.List).Result;
 
         foreach (var customStep in customSteps)
         {
+            AddExplorerCategory(customStep.Category);
+
             var explorerStep = CreateCustomStepExplorerModel(customStep);
 
             var category = explorerSteps[customStep.Category];
             category.Steps.Add(explorerStep);
+        }
+    }
+
+    private void AddExplorerCategory(string categoryName)
+    {
+        if (!explorerSteps.ContainsKey(categoryName))
+        {
+            var categoryModel = CreateCategoryModel(categoryName);
+            explorerSteps.Add(categoryName, categoryModel);
         }
     }
 
@@ -130,7 +138,7 @@ public class StepFactory
             {
                 if (!explorerSteps.ContainsKey(stepDescriptor.Category))
                 {
-                    var categoryModel = CreateStepCategoryExplorerModel(stepDescriptor.Category);
+                    var categoryModel = CreateCategoryModel(stepDescriptor.Category);
                     explorerSteps.Add(stepDescriptor.Category, categoryModel);
                 }
 
@@ -173,7 +181,7 @@ public class StepFactory
         return stepExplorerModel;
     }
 
-    private static StepExplorerModel CreateStepCategoryExplorerModel(string category)
+    private static StepExplorerModel CreateCategoryModel(string category)
     {
         var stepExplorerModel = new StepExplorerModel
         {

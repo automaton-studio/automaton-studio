@@ -1,18 +1,19 @@
 ﻿using AntDesign;
 using Blazored.FluentValidation;
 using System.Threading.Tasks;
+using Automaton.Studio.Models;
 
-namespace Automaton.Studio.Pages.CustomSteps.Components.NewCustomStep;
+namespace Automaton.Studio.Pages.CustomSteps.Components.NewCustomStepDialog;
 
-public partial class NewCustomStepDialog : FeedbackComponent<NewCustomStepModel>
+public partial class NewCustomStepDialog : FeedbackComponent<NewCustomStep>
 {
-    private Form<NewCustomStepModel> form;
-    private NewCustomStepModel flowModel;
+    private Form<NewCustomStep> form;
+    private NewCustomStep model;
     private FluentValidationValidator fluentValidationValidator;
 
     protected override void OnInitialized()
     {
-        flowModel = this.Options;
+        model = this.Options;
         base.OnInitialized();
     }
 

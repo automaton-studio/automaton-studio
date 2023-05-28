@@ -15,7 +15,7 @@
             <Col Class="right-actions">
                 <Space Class="right-header-items">
                     <SpaceItem>
-                    <Button Class="header-button" Icon="plus" @onclick="@(() => NewCustomStepDialog())">
+                    <Button Class="header-button" Icon="plus" @onclick="@(() => ShowNewCustomStepDialog())">
                             New
                         </Button>
                     </SpaceItem>
@@ -26,7 +26,7 @@
     </Header>
 
     <Content>
-        <Table TItem="CustomStepModel" DataSource="@CustomStepsViewModel.CustomSteps" Class="autoscroll-list" Loading="@loading">
+        <Table TItem="CustomStepListItem" DataSource="@CustomStepsViewModel.CustomSteps" Class="autoscroll-list" Loading="@loading">
             <Column Title="Name" @bind-Field="@context.Name">
                 @context.Name
             </Column>

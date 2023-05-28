@@ -1,5 +1,6 @@
 ﻿using AntDesign;
-using Automaton.Studio.Pages.CustomSteps.Components.NewCustomStep;
+using Automaton.Studio.Models;
+using Automaton.Studio.Pages.CustomSteps.Components.NewCustomStepDialog;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -46,11 +47,11 @@ namespace Automaton.Studio.Pages.CustomSteps
             StateHasChanged();
         }
 
-        private async Task NewCustomStepDialog()
+        private async Task ShowNewCustomStepDialog()
         {
-            var model = new NewCustomStepModel();
+            var model = new NewCustomStep();
 
-            var modalRef = await ModalService.CreateModalAsync<NewCustomStepDialog, NewCustomStepModel>
+            var modalRef = await ModalService.CreateModalAsync<NewCustomStepDialog, NewCustomStep>
             (
                 new ModalOptions { Title = "New Custom Step" }, model
             );

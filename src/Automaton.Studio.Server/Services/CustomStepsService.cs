@@ -47,23 +47,20 @@ public class CustomStepsService
         return step;
     }
 
-    public Guid Create(CustomStep step)
-    {
-        step.Id = Guid.NewGuid();
-
+    public Guid Create(NewCustomStep step)
+    { 
         var entity = new Entities.CustomStep
         {
-            Id = step.Id,
+            Id = Guid.NewGuid(),
             Name = step.Name,
             DisplayName = step.DisplayName,
             Description = step.Description,
             Icon = step.Icon,
             Category = step.Category,
-            MoreInfo = step.MoreInfo,
-            VisibleInExplorer = step.VisibleInExplorer,
             Created = DateTime.UtcNow,
             Updated = DateTime.UtcNow,
-            Definition = JsonSerializer.Serialize(step.Definition)
+            MoreInfo = string.Empty,
+            Definition = JsonSerializer.Serialize(new CustomStepDefinition())
         };
 
         dataContext.CustomSteps.Add(entity);

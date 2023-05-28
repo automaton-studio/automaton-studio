@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Domain;
+using Automaton.Studio.Models;
 using Serilog;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -53,19 +54,9 @@ public class CustomStepsService
         return customStep;
     }
 
-    public async Task<CustomStep> Create(string name, string displayName, string description)
+    public async Task<CustomStep> Create(NewCustomStep customStep)
     {
-        var step = new CustomStep
-        {
-            Name = name,
-            DisplayName = displayName,
-            Description = description,
-            Type = nameof(CustomStep),
-            Category = "Custom Steps",
-            Icon = "code"
-        };
-
-        var response = await httpClient.PostAsJsonAsync(configService.CustomStepsUrl, step);
+        var response = await httpClient.PostAsJsonAsync(configService.CustomStepsUrl, customStep);
 
         response.EnsureSuccessStatusCode();
 

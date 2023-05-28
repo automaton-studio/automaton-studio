@@ -1,8 +1,10 @@
 ﻿@using Blazored.FluentValidation;
-@inherits FeedbackComponent<NewCustomStepModel>
+@using Automaton.Studio.Models
+
+@inherits FeedbackComponent<NewCustomStep>
 
 <Form @ref="form"
-      Model="@flowModel"
+      Model="@model"
       LabelColSpan="5">
     <Validator>
         <FluentValidationValidator @ref="fluentValidationValidator" />
@@ -14,6 +16,12 @@
         </FormItem>
         <FormItem Label="Display Name">
             <Input @bind-Value="@context.DisplayName" Placeholder="Enter display name" />
+        </FormItem>
+        <FormItem Label="Category">
+            <Input @bind-Value="@context.Category" Placeholder="Enter category" />
+        </FormItem>
+        <FormItem Label="Icon">
+            <Input @bind-Value="@context.Icon" Placeholder="Enter icon" />
         </FormItem>
         <FormItem Label="Description">
             <Input @bind-Value="@context.Description" Placeholder="Enter description" />

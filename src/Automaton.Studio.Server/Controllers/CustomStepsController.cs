@@ -32,7 +32,7 @@ public class CustomStepsController : BaseController
     }
 
     [HttpPost]
-    public IActionResult Post(Models.CustomStep customStep)
+    public IActionResult Post(Models.NewCustomStep customStep)
     {
         var customStepId = customStepsService.Create(customStep);
 

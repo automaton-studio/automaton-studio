@@ -1,10 +1,11 @@
-﻿using Automaton.Studio.Services;
+﻿using Automaton.Studio.Models;
+using Automaton.Studio.Services;
 using FluentValidation;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.CustomSteps.Components.NewCustomStep;
+namespace Automaton.Studio.Pages.CustomSteps.Components.NewCustomStepDialog;
 
-public class NewCustomStepValidator : AbstractValidator<NewCustomStepModel>
+public class NewCustomStepValidator : AbstractValidator<NewCustomStep>
 {
     private readonly CustomStepsService customStepsService;
 
