@@ -98,7 +98,7 @@ public class StepFactory
 
     private void LoadCustomSteps()
     {
-        var categoryModel = CreateStepCategoryExplorerModel(nameof(CustomStep));
+        var categoryModel = CreateStepCategoryExplorerModel("Custom steps");
         explorerSteps.Add(nameof(CustomStep), categoryModel);
 
         var customSteps = Task.Run(customStepsService.List).Result;

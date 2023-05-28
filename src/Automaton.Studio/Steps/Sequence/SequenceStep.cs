@@ -10,7 +10,7 @@ namespace Automaton.Studio.Steps.Sequence;
     Name = "Sequence",
     Type = "Sequence",
     DisplayName = "Sequence",
-    Category = "Sequence",
+    Category = "Flow control",
     Description = "Container used to group steps together",
     Icon = "block"
 )]

@@ -61,7 +61,7 @@ public class CustomStepsService
             DisplayName = displayName,
             Description = description,
             Type = nameof(CustomStep),
-            Category = nameof(CustomStep),
+            Category = "Custom Steps",
             Icon = "code"
         };
 

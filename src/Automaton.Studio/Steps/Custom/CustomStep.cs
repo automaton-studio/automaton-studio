@@ -9,7 +9,7 @@ namespace Automaton.Studio.Steps.Custom;
     Name = "CustomStep",
     Type = "CustomStep",
     DisplayName = "Execute Custom Step",
-    Category = "Scripting",
+    Category = "Custom steps",
     Description = "Executes Custom step",
     MoreInfo = "https://www.automaton.studio/documentation",
     Icon = "code",
