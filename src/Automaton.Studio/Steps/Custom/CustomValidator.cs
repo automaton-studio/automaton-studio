@@ -1,4 +1,5 @@
 ﻿using Automaton.Core.Models;
+using Automaton.Studio.Domain;
 using FluentValidation;
 
 namespace Automaton.Studio.Steps.Custom;
@@ -7,21 +8,30 @@ public class CustomValidator : AbstractValidator<CustomStep>
 {
     public CustomValidator()
     {
-        RuleFor(x => x.Code).NotEmpty().WithMessage("Code required");
-
         When(x => x.CodeInputVariables.Any(), () =>
         {
-            RuleFor(x => x.CodeInputVariables).Must(HaveValidVariableName).WithMessage("Input variable name not valid");
-        });
-
-        When(x => x.CodeOutputVariables.Any(), () =>
-        {
-            RuleFor(x => x.CodeOutputVariables).Must(HaveValidVariableName).WithMessage("Output variable name not valid");
+            RuleFor(x => x.CodeInputVariables).Must(CodeInputHaveValidValues).WithMessage("Input values not valid");
         });
     }
 
-    private bool HaveValidVariableName(IList<StepVariable> variables)
+    private bool CodeInputHaveValidValues(IList<StepVariable> variables)
     {
-        return !variables.Any(x => string.IsNullOrEmpty(x.Name));
+        return !variables.Any(x => InvalidVariableValue(x));
+    }
+
+    private static bool InvalidVariableValue(StepVariable variable)
+    {
+        var success = Enum.TryParse(variable.Type, true, out VariableType type);
+
+        if (!success)
+        {
+            return false;
+        }
+
+        return type switch
+        {
+            VariableType.String => string.IsNullOrEmpty(variable.Value?.ToString()),
+            _ => false,
+        };
     }
 }
