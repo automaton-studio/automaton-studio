@@ -20,7 +20,7 @@
             {
                 <GridRow Gutter="(24, 0)" Class="variable-row">
                     <GridCol Xs="24" Md="24">
-                        <DynamicComponent Type="GetVariableComponentType(variable.Type)" Parameters="GetVariableComponentParameters(variable)" />
+                        <DynamicComponent Type="GetVariableComponent(variable.Type)" Parameters="GetVariableComponentParameters(variable)" />
                     </GridCol>
                 </GridRow>
             }
@@ -56,7 +56,7 @@
         args.Cancel = !valid;
     }
 
-    private Type GetVariableComponentType(string type)
+    private Type GetVariableComponent(string type)
     {
         var variableType = Enum.Parse<VariableType>(type);
 
