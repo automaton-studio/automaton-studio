@@ -1,11 +1,11 @@
-﻿using Automaton.Studio.Domain;
+﻿using Automaton.Core.Enums;
 
 namespace Automaton.Studio.Pages.CustomStepDesigner;
 
 public class InputVariableModel
 {
     public string Name { get; set; }
-    public string Type { get; set; }
+    public VariableType Type { get; set; }
     public string Description { get; set; }
-    public IEnumerable<string> Types { get; } = Enum.GetNames(typeof(VariableType));
+    public IEnumerable<VariableType> Types { get; } = Enum.GetValues<VariableType>();
 }

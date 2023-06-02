@@ -1,5 +1,5 @@
-﻿using Automaton.Core.Models;
-using Automaton.Studio.Domain;
+﻿using Automaton.Core.Enums;
+using Automaton.Core.Models;
 using FluentValidation;
 
 namespace Automaton.Studio.Steps.Custom;
@@ -21,14 +21,7 @@ public class CustomValidator : AbstractValidator<CustomStep>
 
     private static bool InvalidVariableValue(StepVariable variable)
     {
-        var success = Enum.TryParse(variable.Type, true, out VariableType type);
-
-        if (!success)
-        {
-            return false;
-        }
-
-        return type switch
+        return variable.Type switch
         {
             VariableType.String => string.IsNullOrEmpty(variable.Value?.ToString()),
             _ => false,

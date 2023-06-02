@@ -1,5 +1,5 @@
 ﻿@using Blazored.FluentValidation;
-@using Automaton.Studio.Domain;
+@using Automaton.Core.Enums;
 @inherits FeedbackComponent<InputVariableModel>
 
 <Form @ref="form"
@@ -20,12 +20,12 @@
         <FormItem Label="Type">
             <Select @bind-Value="context.Type"
                     Placeholder="Select type..."
-                    TItemValue="string"
-                    TItem="string">
+                    TItemValue="VariableType"
+                    TItem="VariableType">
                 <SelectOptions>
                     @foreach (var item in context.Types)
                     {
-                        <SelectOption TItemValue="string" TItem="string" Value=@item Label=@item />
+                        <SelectOption TItemValue="VariableType" TItem="VariableType" Value=@item Label=@item.ToString() />
                     }
                 </SelectOptions>
             </Select>

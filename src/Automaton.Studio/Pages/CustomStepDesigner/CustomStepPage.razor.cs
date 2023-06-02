@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using Automaton.Core.Enums;
 using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Microsoft.AspNetCore.Components;
@@ -10,7 +11,7 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
     {
         private bool loading = false;
         private Form<CustomStep> form;
-        private IEnumerable<string> VariableTypes { get; } = Enum.GetNames(typeof(VariableType));
+        public IEnumerable<VariableType> VariableTypes { get; } = Enum.GetValues<VariableType>();
         private TypographyEditableConfig stepNameEditableConfig;
 
         [Inject] private NavigationManager NavigationManager { get; set; } = default!;

@@ -1,4 +1,4 @@
-﻿namespace Automaton.Studio.Domain
+﻿namespace Automaton.Core.Enums
 {
     public enum VariableType
     {
