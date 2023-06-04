@@ -25,7 +25,7 @@ public class AddVariableStep : StudioStep
         set => SetInputValue(nameof(VariableValue), value);
     }
 
-    public StepVariable VariableOutput { get; set; }
+    public StepVariable OutputVariable { get; set; }
 
     public AddVariableStep()
     {
@@ -47,12 +47,12 @@ public class AddVariableStep : StudioStep
 
     private void OnCreated(object sender, StepEventArgs e)
     {
-        VariableOutput = new StepVariable
+        OutputVariable = new StepVariable
         {
             Name = $"{AddVariableKey}{Flow.GetNumberOfSteps<AddVariableStep>()}",
             Value = VariableValue
         };
 
-        SetOutputVariable(VariableOutput);
+        SetOutputVariable(OutputVariable);
     }
 }

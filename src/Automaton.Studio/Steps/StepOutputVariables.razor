@@ -7,7 +7,7 @@
         <Panel Header="Variables produced" Key="1" Class="variables-collapse-panel">
             @foreach (var variable in Step.Outputs.Values)
             {
-                <StepVariableInput Step="@Step" Variable="@variable" />
+                <StepOutputVariable Step="@Step" Variable="@variable" />
             }
         </Panel>
     </ChildContent>
