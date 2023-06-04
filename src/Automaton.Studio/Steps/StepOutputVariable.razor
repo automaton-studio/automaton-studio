@@ -14,6 +14,7 @@ else
 
 @code {
     private bool editing;
+    private string originalName;
 
     [Parameter]
     public StepVariable Variable { get; set; }
@@ -33,12 +34,14 @@ else
 
     private void StartEdit()
     {
+        originalName = Variable.Name;
+
         editing = true;
     }
 
     private void StopEdit()
     {
-        Step.SetOutputVariable(Variable);
+        Step.UpdateOutputVariable(originalName, Variable);
 
         editing = false;
     }

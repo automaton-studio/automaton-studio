@@ -128,11 +128,31 @@ public abstract class StudioStep : INotifyPropertyChanged
         if (Outputs.ContainsKey(variable.Name))
         {
             Outputs[variable.Name] = variable;
+        } 
+        else
+        {
+            Outputs.Add(variable.Name, variable);
+        }
+
+        Flow.SetVariable(variable);
+    }
+
+    public void UpdateOutputVariable(string originalName, StepVariable variable)
+    {
+        if (Outputs.ContainsKey(originalName))
+            Outputs.Remove(originalName);
+
+        if (Outputs.ContainsKey(variable.Name))
+        {
+            Outputs[variable.Name] = variable;
         }
         else
         {
             Outputs.Add(variable.Name, variable);
         }
+
+        if (Flow.VariableExists(originalName))
+            Flow.DeleteVariable(originalName);
 
         Flow.SetVariable(variable);
     }

@@ -118,6 +118,10 @@ public class StudioFlow
         return OutputVariables.Keys;
     }
 
+    public void DeleteVariable(string name)
+    {
+        Variables.Remove(name);
+    }
 
     public void DeleteInputVariable(string variable)
     {
@@ -127,6 +131,11 @@ public class StudioFlow
     public void DeleteOutputVariable(string variable)
     {
         OutputVariables.Remove(variable);
+    }
+
+    public bool VariableExists(string name)
+    {
+        return Variables.ContainsKey(name);
     }
 
     public void DeleteVariable(StepVariable variable)
