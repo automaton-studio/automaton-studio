@@ -86,9 +86,6 @@ public abstract class StudioStep : INotifyPropertyChanged
         MoreInfo = descriptor.MoreInfo;
         Type = descriptor.Type;
         Icon = descriptor.Icon;
-        StepClass = "designer-step";
-        SelectedStepClass = "designer-step-selected";
-        DisabledStepClass = "designer-step-disabled";
     }
 
     public virtual void Setup(Step step)
@@ -104,9 +101,6 @@ public abstract class StudioStep : INotifyPropertyChanged
         NextStepId = step.NextStepId;
         Inputs = step.Inputs;
         Outputs = step.Outputs;
-        StepClass = "designer-step";
-        SelectedStepClass = "designer-step-selected";
-        DisabledStepClass = "designer-step-disabled";
     }
 
     public object GetInputValue(string name)

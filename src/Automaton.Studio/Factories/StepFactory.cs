@@ -37,6 +37,7 @@ public class StepFactory
         var descriptor = stepTypeDescriptor.Describe(solutionTypes[name]);
         var step = serviceProvider.GetService(solutionTypes[name]) as StudioStep;
         step.Definition = activeDefinition;
+
         step.Setup(descriptor);
 
         return step;
