@@ -64,22 +64,19 @@ public class CustomStep : StudioStep
         SetInputValue(nameof(CodeInputVariables), new List<StepVariable>());
     }
 
-    public override void Setup(Step step)
+    public override void Setup(StepDescriptor stepDescriptor)
     {
-        base.Setup(step);
+        base.Setup(stepDescriptor);
 
-        Code = step.Inputs[nameof(Code)].Value as string;
-
-        if (step.Inputs[nameof(CodeInputVariables)].Value is JArray inputVariablesArray)
+        foreach (var codeOutputVariable in CodeOutputVariables)
         {
-            var stepProperty = GetType().GetProperty(nameof(CodeInputVariables));
-            CodeInputVariables = inputVariablesArray.ToObject(stepProperty.PropertyType) as IList<StepVariable>;
-        }
+            var outputVariable = new StepVariable
+            {
+                Name = Flow.GenerateVariableName<CustomStep>(codeOutputVariable.Name),
+                Description = codeOutputVariable.Description
+            };
 
-        if (step.Inputs[nameof(CodeOutputVariables)].Value is JArray outputVariablesArray)
-        {
-            var stepProperty = GetType().GetProperty(nameof(CodeOutputVariables));
-            CodeOutputVariables = outputVariablesArray.ToObject(stepProperty.PropertyType) as IList<StepVariable>;
+            SetOutputVariable(outputVariable);
         }
     }
 

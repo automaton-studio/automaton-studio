@@ -32,35 +32,37 @@ public class StepFactory
         return explorerSteps.Values;
     }
 
-    public StudioStep CreateStep(string name)
+    public StudioStep CreateStep(string name, StudioDefinition activeDefinition)
     {
         var descriptor = stepTypeDescriptor.Describe(solutionTypes[name]);
         var step = serviceProvider.GetService(solutionTypes[name]) as StudioStep;
-
+        step.Definition = activeDefinition;
         step.Setup(descriptor);
 
         return step;
     }
 
-    public StudioStep CreateStep(Step step)
+    public StudioStep CreateStep(Step step, StudioDefinition activeDefinition)
     {
         var studioStep = serviceProvider.GetService(solutionTypes[step.Type]) as StudioStep;
+        studioStep.Definition = activeDefinition;
 
         studioStep.Setup(step);
 
         return studioStep;
     }
 
-    public StudioStep CreateCustomStep(CustomStepExplorerModel customStepModel)
+    public StudioStep CreateCustomStep(CustomStepExplorerModel customStepModel, StudioDefinition activeDefinition)
     {
-        var step = new Steps.Custom.CustomStep
+        var studioStep = new Steps.Custom.CustomStep
         {
             Code = customStepModel.Definition.Code,
             CodeInputVariables = customStepModel.Definition.CodeInputVariables,
-            CodeOutputVariables = customStepModel.Definition.CodeOutputVariables
+            CodeOutputVariables = customStepModel.Definition.CodeOutputVariables,
+            Definition = activeDefinition
         };
 
-        step.Setup(new StepDescriptor
+        studioStep.Setup(new StepDescriptor
         {
             Name = customStepModel.Name,
             Type = customStepModel.Type,
@@ -72,7 +74,7 @@ public class StepFactory
             VisibleInExplorer = customStepModel.VisibleInExplorer
         });
 
-        return step;
+        return studioStep;
     }
 
     private void LoadSteps()

@@ -1,4 +1,5 @@
 ﻿using Automaton.Core.Models;
+using Automaton.Studio.Steps.TestReport;
 
 namespace Automaton.Studio.Domain;
 
@@ -71,6 +72,11 @@ public class StudioFlow
         var count = Definitions.SelectMany(x => x.Steps).Count(x => x is T);
 
         return count;
+    }
+
+    public string GenerateVariableName<T>(string name)
+    {
+        return $"{name}{GetNumberOfSteps<T>()}";
     }
 
     public void SetInputVariable(string key, object value)

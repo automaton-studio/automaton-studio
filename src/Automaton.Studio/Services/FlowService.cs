@@ -140,8 +140,7 @@ public class FlowService
     {
         foreach (var step in definition.Steps)
         {
-            var studioStep = stepFactory.CreateStep(step);
-            studioStep.Definition = studioDefinition;
+            var studioStep = stepFactory.CreateStep(step, studioDefinition);
 
             yield return studioStep;
         }

@@ -124,8 +124,7 @@ public class SequenceStep : StudioStep
     {
         var stepDescription = typeof(SequenceEndStep).GetCustomAttribute<StepDescriptionAttribute>(false);
         
-        var sequenceEndStep = stepFactory.CreateStep(stepDescription?.Name) as SequenceEndStep;
-        sequenceEndStep.Definition = Definition;
+        var sequenceEndStep = stepFactory.CreateStep(stepDescription?.Name, Definition) as SequenceEndStep;
         sequenceEndStep.SequenceStepId = Id;
         sequenceEndStep.ParentId = ParentId;
         sequenceEndStep.IsFinal = true;

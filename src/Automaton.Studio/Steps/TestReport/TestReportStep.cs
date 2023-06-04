@@ -27,16 +27,8 @@ public class TestReportStep : StudioStep
 
     public string Report { get; set; }
 
-    #region Variables
-
-    public StepVariable ReportVariable => GetOutputValue(ReportVariableKey) as StepVariable;
-
-    #endregion
-
     public TestReportStep()
     {
-        SetOutputVariable(new StepVariable(ReportVariableKey));
-
         Created += OnCreated;
     }
      

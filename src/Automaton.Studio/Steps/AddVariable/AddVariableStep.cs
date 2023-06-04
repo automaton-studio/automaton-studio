@@ -2,6 +2,7 @@
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
+using IronPython.Compiler.Ast;
 
 namespace Automaton.Studio.Steps.AddVariable;
 
@@ -18,18 +19,17 @@ public class AddVariableStep : StudioStep
 {
     private const string AddVariableKey = "NewVar";
 
-    public StepVariable VariableValue
+    public string VariableValue
     {
-        get => GetInputValue(nameof(VariableValue)) as StepVariable;
+        get => GetInputValue(nameof(VariableValue)) as string;
         set => SetInputValue(nameof(VariableValue), value);
     }
 
-    public StepVariable VariableOutput => GetOutputValue(AddVariableKey) as StepVariable;
+    public StepVariable VariableOutput { get; set; }
 
     public AddVariableStep()
     {
-        SetInputValue(nameof(VariableValue), new StepVariable());
-        SetOutputVariable(new StepVariable(AddVariableKey));
+        SetInputValue(nameof(VariableValue), string.Empty);
 
         Created += OnCreated;
         ShowVariables = false;
@@ -47,12 +47,12 @@ public class AddVariableStep : StudioStep
 
     private void OnCreated(object sender, StepEventArgs e)
     {
-        var variable = new StepVariable
+        VariableOutput = new StepVariable
         {
             Name = $"{AddVariableKey}{Flow.GetNumberOfSteps<AddVariableStep>()}",
             Value = VariableValue
         };
 
-        SetOutputVariable(variable);
+        SetOutputVariable(VariableOutput);
     }
 }

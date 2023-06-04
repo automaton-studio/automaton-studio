@@ -7,7 +7,6 @@ using Automaton.Studio.Factories;
 using Automaton.Studio.Pages.FlowDesigner.Components.StepExplorer;
 using Automaton.Studio.Services;
 using System.Threading.Tasks;
-using static IronPython.Modules._ast;
 
 namespace Automaton.Studio.Pages.FlowDesigner;
 
@@ -85,6 +84,7 @@ public class DesignerViewModel
     {
         var definition = Flow.CreateDefinition(name);
         definition.StepDeleted += OnStepDeleted;
+
         return definition;
     }
 
@@ -115,11 +115,10 @@ public class DesignerViewModel
 
     public void CreateStep(StepExplorerModel customStepModel)
     {
-        var step = customStepModel is CustomStepExplorerModel ? 
-            stepFactory.CreateCustomStep(customStepModel as CustomStepExplorerModel) : 
-            stepFactory.CreateStep(customStepModel.Name);
+        var step = customStepModel is CustomStepExplorerModel ?
+            stepFactory.CreateCustomStep(customStepModel as CustomStepExplorerModel, ActiveDefinition) : 
+            stepFactory.CreateStep(customStepModel.Name, ActiveDefinition);
 
-        step.Definition = ActiveDefinition;
         step.InvokeCreated();
 
         StepCreated?.Invoke(this, new StepEventArgs(step));
