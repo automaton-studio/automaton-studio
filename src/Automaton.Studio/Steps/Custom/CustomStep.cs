@@ -1,6 +1,8 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
+using Automaton.Studio.Events;
+using Automaton.Studio.Steps.AddVariable;
 using Newtonsoft.Json.Linq;
 
 namespace Automaton.Studio.Steps.Custom;
@@ -62,12 +64,12 @@ public class CustomStep : StudioStep
         SetInputValue(nameof(Code), string.Empty);
         SetInputValue(nameof(CodeOutputVariables), new List<StepVariable>());
         SetInputValue(nameof(CodeInputVariables), new List<StepVariable>());
+
+        Created += OnCreated;
     }
 
-    public override void Setup(StepDescriptor stepDescriptor)
+    private void OnCreated(object sender, StepEventArgs e)
     {
-        base.Setup(stepDescriptor);
-
         foreach (var codeOutputVariable in CodeOutputVariables)
         {
             var outputVariable = new StepVariable
