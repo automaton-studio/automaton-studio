@@ -1,4 +1,5 @@
 ﻿using Automaton.Core.Attributes;
+using Automaton.Core.Extensions;
 using Automaton.Core.Parsers;
 using Newtonsoft.Json.Linq;
 using System.Reflection;
@@ -31,15 +32,19 @@ public abstract class WorkflowStep
 
     public void Setup(Step step, WorkflowDefinition workflowDefinition)
     {
-        Id = step.Id;
-        Name = step.Name;
-        DisplayName = step.DisplayName;
-        Description = step.Description;
-        Type = step.Type;
-        NextStepId = step.NextStepId;
-        ParentId = step.ParentId;
-        Inputs = step.Inputs;
-        Outputs = step.Outputs;
+        // Need to deep clone the incoming step to avoid Inputs and Outputs
+        // being updated during execution of the flow and then passed back to designer
+        var stepClone = step.CloneJson();
+
+        Id = stepClone.Id;
+        Name = stepClone.Name;
+        DisplayName = stepClone.DisplayName;
+        Description = stepClone.Description;
+        Type = stepClone.Type;
+        NextStepId = stepClone.NextStepId;
+        ParentId = stepClone.ParentId;
+        Inputs = stepClone.Inputs;
+        Outputs = stepClone.Outputs;
         WorkflowDefinition = workflowDefinition;
     }
 
