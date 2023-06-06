@@ -2,6 +2,7 @@
 using Automaton.Core.Models;
 using Automaton.Core.Scripting;
 using Automaton.Core.Parsers;
+using Newtonsoft.Json.Linq;
 
 namespace Automaton.Steps;
 
@@ -53,7 +54,16 @@ public class CustomStep : WorkflowStep
     {
         Code = Inputs[nameof(Code)]?.Value?.ToString();
 
-        var codeInputVariables = Inputs[nameof(CodeInputVariables)].Value as IList<StepVariable>;
+        IList<StepVariable>? codeInputVariables;
+
+        if (Inputs[nameof(CodeInputVariables)].Value is JArray codeInputArray)
+        {
+            codeInputVariables = codeInputArray.ToObject<IList<StepVariable>>();
+        }
+        else
+        {
+            codeInputVariables = Inputs[nameof(CodeInputVariables)].Value as IList<StepVariable>;
+        }
 
         foreach (var variable in codeInputVariables)
         {
@@ -63,6 +73,13 @@ public class CustomStep : WorkflowStep
             CodeInputVariables.Add(variable);
         }
 
-        CodeOutputVariables = Inputs[nameof(CodeOutputVariables)].Value as IList<StepVariable>;
+        if (Inputs[nameof(CodeOutputVariables)].Value is JArray codeOutputArray)
+        {
+            CodeOutputVariables = codeOutputArray.ToObject<IList<StepVariable>>();
+        }
+        else
+        {
+            CodeOutputVariables = Inputs[nameof(CodeOutputVariables)].Value as IList<StepVariable>;
+        }
     }
 }
