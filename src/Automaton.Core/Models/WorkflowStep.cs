@@ -55,6 +55,11 @@ public abstract class WorkflowStep
         return await RunAsync(context);
     }
 
+    public virtual WorkflowStep? GetNextStep()
+    {
+        return NextStepId != null ? WorkflowDefinition.Steps[NextStepId] : null;
+    }
+
     public void SetOutputVariable(string key, object value, Workflow workflow)
     {
         var variable = Outputs[key];

@@ -1,6 +1,4 @@
-﻿using Automaton.Core.Enums;
-
-namespace Automaton.Core.Models;
+﻿namespace Automaton.Core.Models;
 
 public class WorkflowDefinition
 {
@@ -11,10 +9,5 @@ public class WorkflowDefinition
     public WorkflowStep GetFirstStep()
     {
         return Steps.First().Value;
-    }
-
-    public WorkflowStep? GetNextStep(WorkflowStep step)
-    {
-        return step.NextStepId != null ? Steps[step.NextStepId] : null;
     }
 }

@@ -53,7 +53,7 @@ public class WorkflowExecuteService
                 });
             }
 
-            step = definition.GetNextStep(step);
+            step = step.GetNextStep();
         }
 
         return result;
