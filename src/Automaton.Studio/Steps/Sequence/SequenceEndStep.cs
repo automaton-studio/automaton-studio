@@ -6,9 +6,9 @@ namespace Automaton.Studio.Steps.Sequence;
 [StepDescription(
     Name = "SequenceEnd",
     Type = "SequenceEnd",
-    DisplayName = "End sequence",
+    DisplayName = "End",
     Category = "Flow control",
-    Description = "End sequence",
+    Description = "Ends a flow control",
     VisibleInExplorer = false,
     Icon = "flag"
 )]
