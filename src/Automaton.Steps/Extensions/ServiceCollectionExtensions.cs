@@ -14,6 +14,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<ExecuteFlow>();
         services.AddTransient<Sequence>();
         services.AddTransient<SequenceEnd>();
+        services.AddTransient<If>();
         services.AddTransient<Test>();
         services.AddTransient<TestAssert>();
         services.AddTransient<TestReport>();

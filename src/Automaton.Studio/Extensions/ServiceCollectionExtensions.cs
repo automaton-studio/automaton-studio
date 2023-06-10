@@ -19,6 +19,7 @@ using Automaton.Studio.Steps.AddVariable;
 using Automaton.Studio.Steps.EmitLog;
 using Automaton.Studio.Steps.ExecuteFlow;
 using Automaton.Studio.Steps.ExecutePython;
+using Automaton.Studio.Steps.If;
 using Automaton.Studio.Steps.Sequence;
 using Automaton.Studio.Steps.Test;
 using Automaton.Studio.Steps.TestAssert;
@@ -89,6 +90,7 @@ public static class ServiceCollectionExtensions
         services.AddTransient<TestReportStep>();
         services.AddTransient<SequenceStep>();
         services.AddTransient<SequenceEndStep>();
+        services.AddTransient<IfStep>();
         services.AddTransient<Steps.Custom.CustomStep>();
 
         // Models
