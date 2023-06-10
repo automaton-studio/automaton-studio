@@ -14,8 +14,6 @@ namespace Automaton.Studio.Steps.Sequence;
 )]
 public class SequenceEndStep : StudioStep
 {
-    public override bool HasProperties { get; set; } = false;
-
     public bool Collapsed { get; set; }
 
     public SequenceStep SequenceStep
@@ -32,6 +30,11 @@ public class SequenceEndStep : StudioStep
     {
         get => GetInputValue(nameof(SequenceStepId)) as string;
         set => SetInputValue(nameof(SequenceStepId), value);
+    }
+
+    public SequenceEndStep()
+    {
+        HasProperties = false;
     }
 
     public override Type GetDesignerComponent()

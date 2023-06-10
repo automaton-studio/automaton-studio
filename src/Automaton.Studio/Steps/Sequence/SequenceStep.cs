@@ -20,8 +20,6 @@ public class SequenceStep : StudioStep
 
     public bool Collapsed { get; set; }
 
-    public override bool HasProperties { get; set; }
-
     public SequenceEndStep SequenceEndStep 
     {
         get
@@ -42,7 +40,7 @@ public class SequenceStep : StudioStep
     public SequenceStep(StepFactory stepFactory)
     {
         this.stepFactory = stepFactory;
-
+        HasProperties = false;
         Finalize += OnFinalize;
     }
 

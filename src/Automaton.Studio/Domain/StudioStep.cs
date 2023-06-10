@@ -34,7 +34,7 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public string CancelCondition { get; set; }
 
-    public virtual bool HasProperties { get; set; } = true;
+    public bool HasProperties { get; set; } = true;
 
     public bool ShowVariables { get; set; } = true;
 
