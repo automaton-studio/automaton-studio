@@ -22,6 +22,11 @@ public class TestAssertStep : StudioStep
 
     public string Error { get; set; }
 
+    public TestAssertStep()
+    {
+        SetInputValue(nameof(Expression), string.Empty);
+    }
+
     public override Type GetDesignerComponent()
     {
         return typeof(TestAssertDesigner);
