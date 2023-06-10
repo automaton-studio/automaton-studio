@@ -25,6 +25,7 @@ public class IfStep : SequenceStep
     public IfStep(StepFactory stepFactory) : base(stepFactory)
     {
         SetInputValue(nameof(Expression), string.Empty);
+        HasProperties = true;
     }
 
     public override Type GetDesignerComponent()
