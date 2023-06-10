@@ -1,17 +1,7 @@
 ﻿@using Automaton.Studio.Steps.Sequence
-@using Automaton.Studio.Steps
+@inherits SequenceDesigner
 
 <SequenceDesigner Step=@Step>
 
 </SequenceDesigner>
-
-@code {
-    [Parameter]
-    public TestStep Step { get; set; }
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-    }
-}
 

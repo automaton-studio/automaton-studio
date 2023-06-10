@@ -1,7 +1,13 @@
-﻿namespace Automaton.Studio.Steps.Sequence;
+﻿using Automaton.Studio.Steps.Test;
+using Microsoft.AspNetCore.Components;
 
-public partial class TestDesigner : SequenceDesigner
+namespace Automaton.Studio.Steps.Sequence;
+
+public partial class TestDesigner : ComponentBase
 {
+    [Parameter]
+    public TestStep Step { get; set; }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
