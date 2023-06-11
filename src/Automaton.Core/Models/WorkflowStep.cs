@@ -79,7 +79,6 @@ public abstract class WorkflowStep
             var variable = input.Value;
             var value = variable.Value;
 
-
             if (ShouldParseProperty(stepProperty))
             {
                 value = ExpressionParser.Parse(value, context.Workflow);

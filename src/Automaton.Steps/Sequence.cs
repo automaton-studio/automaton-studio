@@ -12,7 +12,7 @@ public class Sequence : WorkflowStep
     /// </summary>
     public override async Task<ExecutionResult> ExecuteAsync(StepExecutionContext context)
     {
-        SequenceEndStepId = Inputs[nameof(SequenceEndStepId)].ToString();
+        SequenceEndStepId = Inputs[nameof(SequenceEndStepId)].Value.ToString();
 
         var result = await RunAsync(context);
 

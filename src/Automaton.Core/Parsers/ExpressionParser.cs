@@ -26,10 +26,12 @@ namespace Automaton.Core.Parsers
 
             var variableNames = GetVariableNames(stringExpression);
             var parameterExpressions = GetParameterExpressions(variableNames, workflow);
-            var sanitizedExpression = expression.ToString().Replace(Percentage, string.Empty);
+            var sanitizedExpression = stringExpression.Replace(Percentage, string.Empty);
 
             if (string.IsNullOrEmpty(sanitizedExpression))
-                return sanitizedExpression;
+            {
+                return string.Empty;
+            }
 
             var workflowVariables = workflow.GetVariables(variableNames);
             var variableValues = workflowVariables.Select(x => x.Value?.Value);

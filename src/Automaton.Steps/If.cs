@@ -1,44 +1,27 @@
 ﻿using Automaton.Core.Models;
+using Automaton.Core.Parsers;
 
 namespace Automaton.Steps;
 
 public class If : Sequence
 {
-    public string? EndStepId { get; set; }
-
-    /// <summary>
-    /// Need to override ExecuteAsync because we do not want SequenceEndStepId to be
-    /// evaluated during SetInputProperty() from parent class WorkflowStep.
-    /// </summary>
-    public override async Task<ExecutionResult> ExecuteAsync(StepExecutionContext context)
-    {
-        EndStepId = Inputs[nameof(EndStepId)].ToString();
-
-        var result = await RunAsync(context);
-
-        return result;
-    }
+    public StepVariable Expression { get; set; }
 
     protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
     {
+        Expression = Inputs[nameof(Expression)];
+
+        var result = ExpressionIsTrue(context.Workflow);
+
+        NextStepId = result ? NextStepId : SequenceEndStepId;
+
         return Task.FromResult(ExecutionResult.Next());
     }
 
-    protected IEnumerable<WorkflowStep> GetChildren()
+    private bool ExpressionIsTrue(Workflow workflow)
     {
-        var children = new List<WorkflowStep>();
+        var parsedExpression = ExpressionParser.Parse(Expression, workflow);
 
-        var nextStepId = NextStepId;
-
-        while (nextStepId != EndStepId)
-        {
-            var child = WorkflowDefinition.Steps[nextStepId];
-
-            children.Add(child);
-
-            nextStepId = child.NextStepId;
-        }
-
-        return children;
+        return parsedExpression is bool result && result;
     }
 }
