@@ -29,6 +29,11 @@ public class Workflow
         return Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);
     }
 
+    public bool VariableExists(string key)
+    {
+        return Variables.ContainsKey(key);
+    }
+
     public KeyValuePair<string, StepVariable> GetVariable(string key)
     {
         return new KeyValuePair<string, StepVariable>(key, Variables[key]);

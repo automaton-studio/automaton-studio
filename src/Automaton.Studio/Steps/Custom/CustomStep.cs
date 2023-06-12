@@ -74,6 +74,7 @@ public class CustomStep : StudioStep
         {
             var outputVariable = new StepVariable
             {
+                Id = codeOutputVariable.Id,
                 Name = Flow.GenerateVariableName<CustomStep>(codeOutputVariable.Name),
                 Description = codeOutputVariable.Description
             };
