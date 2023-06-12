@@ -41,9 +41,9 @@ public class CustomStep : WorkflowStep
 
         foreach (var variable in CodeOutputVariables)
         {
-            if (scriptVariables.ContainsKey(variable.Name))
+            if (scriptVariables.ContainsKey(variable.Id))
             {
-                variable.Value = scriptVariables[variable.Name].ToString();
+                variable.Value = scriptVariables[variable.Id].ToString();
                 context.Workflow.SetVariable(variable);
             }
         }
