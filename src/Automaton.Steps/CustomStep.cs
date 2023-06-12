@@ -17,14 +17,10 @@ public class CustomStep : WorkflowStep
 
     public IList<StepVariable> CodeInputVariables { get; set; }
 
-    [IgnorePropertyParsing(true)]
-    public IList<StepVariable> CodeOutputVariables { get; set; }
-
     public CustomStep(ScriptEngineHost scriptHost)
     {
         this.scriptHost = scriptHost;
         CodeInputVariables = new List<StepVariable>();
-        CodeOutputVariables = new List<StepVariable>();
     }
 
     protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
@@ -39,12 +35,12 @@ public class CustomStep : WorkflowStep
 
         var scriptVariables = scriptHost.Execute(resource, inputVariablesDictionary);
 
-        foreach (var variable in CodeOutputVariables)
+        foreach (var variable in Outputs)
         {
-            if (scriptVariables.ContainsKey(variable.Name))
+            if (scriptVariables.ContainsKey(variable.Value.Id))
             {
-                variable.Value = scriptVariables[variable.Name].ToString();
-                context.Workflow.SetVariable(variable);
+                variable.Value.Value = scriptVariables[variable.Value.Id].ToString();
+                context.Workflow.SetVariable(variable.Value);
             }
         }
 
@@ -72,15 +68,6 @@ public class CustomStep : WorkflowStep
             variable.Value = variableValue;
 
             CodeInputVariables.Add(variable);
-        }
-
-        if (Inputs[nameof(CodeOutputVariables)].Value is JArray codeOutputArray)
-        {
-            CodeOutputVariables = codeOutputArray.ToObject<IList<StepVariable>>();
-        }
-        else
-        {
-            CodeOutputVariables = Inputs[nameof(CodeOutputVariables)].Value as IList<StepVariable>;
         }
     }
 }
