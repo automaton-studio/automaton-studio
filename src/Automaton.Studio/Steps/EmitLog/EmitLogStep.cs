@@ -7,8 +7,8 @@ namespace Automaton.Studio.Steps.EmitLog;
     Name = "EmitLog",
     Type = "EmitLog",
     DisplayName = "Log message",
-    Category = "Flow control",
-    Description = "Write a message to the flow log",
+    Category = "Messages",
+    Description = "Log a flow message",
     MoreInfo = "https://www.automaton.studio/documentation",
     Icon = "message"
 )]
