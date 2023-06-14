@@ -40,12 +40,13 @@ partial class DesignerPage : ComponentBase
 
     private void OnStepCreated(object sender, StepEventArgs e)
     {
+        e.Step.IsNew = true;
         dropzone.SetActiveStep(e.Step);
     }
 
     private async Task OnItemDrop(StudioStep step)
     {
-        if (!step.IsFinal)
+        if (step.IsNew)
         {
             await NewStepDialog(step);
         }

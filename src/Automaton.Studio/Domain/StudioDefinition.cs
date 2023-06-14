@@ -55,7 +55,7 @@ public class StudioDefinition
     // TODO! Move Finalize inside Step
     public void FinalizeStep(StudioStep step)
     {
-        step.IsFinal = true;
+        step.IsNew = false;
         step.Definition = this;
 
         UpdateStepConnections();

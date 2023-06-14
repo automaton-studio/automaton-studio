@@ -65,9 +65,8 @@ public class SequenceStep : StudioStep
     {
         base.SetSelectClass();
 
-        if (!IsFinal)
+        if (IsNew)
             return;
-
         var childrenPlusEndStep = GetChildrenAndEndStep();
 
         foreach (var child in childrenPlusEndStep)
@@ -98,7 +97,7 @@ public class SequenceStep : StudioStep
 
     /// <summary>
     /// When finalized, each sequence must have a corresponding end sequence and
-    /// they must kno about each other.
+    /// they must know about each other.
     /// </summary>
     private void OnFinalize(object sender, StepEventArgs e)
     {
@@ -125,7 +124,7 @@ public class SequenceStep : StudioStep
         var sequenceEndStep = stepFactory.CreateStep(stepDescription?.Name, Definition) as SequenceEndStep;
         sequenceEndStep.SequenceStepId = Id;
         sequenceEndStep.ParentId = ParentId;
-        sequenceEndStep.IsFinal = true;
+        //sequenceEndStep.IsNew = false;
 
         return sequenceEndStep;
     }

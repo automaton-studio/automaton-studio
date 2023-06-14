@@ -42,7 +42,7 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public string ParentId { get; set; }
 
-    public bool IsFinal { get; set; }
+    public bool IsNew { get; set; }
 
     public IDictionary<string, StepVariable> Inputs { get; set; } = new Dictionary<string, StepVariable>();
 

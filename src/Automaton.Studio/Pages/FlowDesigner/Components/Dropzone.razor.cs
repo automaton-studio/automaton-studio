@@ -324,7 +324,6 @@ public partial class Dropzone : ComponentBase
         {
             foreach (var activeItem in activeItems)
             {
-                // if dragged to another dropzone
                 if (!Steps.Contains(activeItem))
                 {
                     //insert item to new zone
@@ -332,8 +331,8 @@ public partial class Dropzone : ComponentBase
                 }
                 else
                 {
-                    //insert item to new zone if not final
-                    if (!activeItem.IsFinal)
+                    //insert item to new zone if new
+                    if (activeItem.IsNew)
                         Steps.Insert(Steps.Count, activeItem);
                 }
             }
