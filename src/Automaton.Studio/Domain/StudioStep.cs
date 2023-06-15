@@ -11,6 +11,7 @@ public abstract class StudioStep : INotifyPropertyChanged
     public event EventHandler<StepEventArgs> Finalize;
     public event EventHandler<StepEventArgs> Finalized;
     public event EventHandler<StepEventArgs> Created;
+    public event EventHandler<StepEventArgs> Deleted;
 
     protected string StepClass { get; set; } = "designer-step";
     protected string SelectedStepClass { get; set; } = "designer-step-selected";
@@ -196,6 +197,11 @@ public abstract class StudioStep : INotifyPropertyChanged
     public void InvokeCreated()
     {
         Created?.Invoke(this, new StepEventArgs(this));
+    }
+
+    public void InvokeDeleted()
+    {
+        Deleted?.Invoke(this, new StepEventArgs(this));
     }
 
     public void InvokeFinalize()
