@@ -47,7 +47,6 @@ public class SequenceStep : StudioStep
         this.stepFactory = stepFactory;
         HasProperties = false;
         Finalized += OnFinalized;
-        Deleted += OnDeleted;
     }
 
     public override Type GetDesignerComponent()
@@ -90,11 +89,6 @@ public class SequenceStep : StudioStep
         var children = Definition.Steps.GetRange(sequenceStepIndex + 1, count);
 
         return children;
-    }
-
-    private void OnDeleted(object sender, StepEventArgs e)
-    {
-        Definition.DeleteStep(SequenceEndStep);
     }
 
     private void OnFinalized(object sender, StepEventArgs e)

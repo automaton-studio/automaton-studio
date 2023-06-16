@@ -1,5 +1,4 @@
 ﻿using Automaton.Core.Models;
-using Automaton.Studio.Events;
 
 namespace Automaton.Studio.Domain;
 
@@ -13,8 +12,6 @@ public class StudioDefinition
 
     public StudioFlow Flow { get; set; }
 
-    public event EventHandler<StepEventArgs> StepDeleted;
-
     public StudioDefinition()
     {
         Id = Guid.NewGuid().ToString();
@@ -25,9 +22,19 @@ public class StudioDefinition
     {
         Steps.Remove(step);
 
-        StepDeleted?.Invoke(this, new StepEventArgs(step));
-
         Flow.DeleteVariables(step.GetOutputVariables());
+
+        UpdateStepConnections();
+    }
+
+    public void DeleteSteps(IEnumerable<StudioStep> steps)
+    {
+        foreach (var step in steps)
+        {
+            Steps.Remove(step);
+
+            Flow.DeleteVariables(step.GetOutputVariables());
+        }
 
         UpdateStepConnections();
     }
@@ -38,21 +45,18 @@ public class StudioDefinition
 
         Steps.RemoveRange(index, count);
 
-        var variables = new List<StepVariable>();
+        var variablesToDelete = new List<StepVariable>();
 
         foreach (var step in steps)
         {
-            StepDeleted?.Invoke(this, new StepEventArgs(step));
-
-            variables.AddRange(step.GetOutputVariables());
+            variablesToDelete.AddRange(step.GetOutputVariables());
         }
 
-        Flow.DeleteVariables(variables);
+        Flow.DeleteVariables(variablesToDelete);
 
         UpdateStepConnections();
     }
 
-    // TODO! Move Finalize inside Step
     public void FinalizeStep(StudioStep step)
     {
         step.IsNew = false;

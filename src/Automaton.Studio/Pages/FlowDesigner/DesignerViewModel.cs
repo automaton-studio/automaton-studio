@@ -21,8 +21,6 @@ public class DesignerViewModel
     public StudioDefinition ActiveDefinition { get; set; }
 
     public event EventHandler<StepEventArgs> StepCreated;
-    public event EventHandler<StepEventArgs> StepFinalized;
-    public event EventHandler<StepEventArgs> StepDeleted;
 
     public bool CanExecuteFlow
     {
@@ -54,11 +52,6 @@ public class DesignerViewModel
     {
         Flow = await flowService.Load(flowId);
 
-        foreach (var definition in Flow.Definitions)
-        {
-            definition.StepDeleted += OnStepDeleted;
-        }
-
         ActiveDefinition = Flow.GetStartupDefinition();  
     }
 
@@ -83,7 +76,6 @@ public class DesignerViewModel
     public StudioDefinition CreateDefinition(string name)
     {
         var definition = Flow.CreateDefinition(name);
-        definition.StepDeleted += OnStepDeleted;
 
         return definition;
     }
@@ -133,22 +125,13 @@ public class DesignerViewModel
 
     public void FinalizeStep(StudioStep step)
     {
-        step.InvokeFinalize();
-
         ActiveDefinition.FinalizeStep(step);
 
         step.InvokeFinalized();
-
-        StepFinalized?.Invoke(this, new StepEventArgs(step));
     }
 
     public void UpdateStepConnections()
     {
         ActiveDefinition.UpdateStepConnections();
-    }
-
-    private void OnStepDeleted(object sender, StepEventArgs e)
-    {
-        StepDeleted?.Invoke(this, new StepEventArgs(e.Step));
     }
 }

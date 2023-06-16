@@ -77,11 +77,6 @@ partial class DesignerPage : ComponentBase
         StateHasChanged();
     }
 
-    private void OnStepFinalized(object sender, StepEventArgs e)
-    {
-        StateHasChanged();
-    }
-
     private async Task LoadFlow(Guid flowId)
     {
         if (flowId != Guid.Empty && DesignerViewModel.Flow.Id != flowId)
@@ -92,8 +87,6 @@ partial class DesignerPage : ComponentBase
 
             // Setup event handlers after flow is loaded
             DesignerViewModel.StepCreated += OnStepCreated;
-            DesignerViewModel.StepDeleted += OnStepDeleted;
-            DesignerViewModel.StepFinalized += OnStepFinalized;
         }
     }
 
