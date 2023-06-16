@@ -1,4 +1,5 @@
-﻿using Automaton.Studio.Attributes;
+﻿using Automaton.Core.Models;
+using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
@@ -17,6 +18,10 @@ namespace Automaton.Studio.Steps.Sequence;
 public class SequenceStep : StudioStep
 {
     private readonly StepFactory stepFactory;
+
+    protected override string StepClass { get; set; } = "designer-sequence-step";
+    protected override string SelectedStepClass { get; set; } = "designer-sequence-step-selected";
+    protected override string DisabledStepClass { get; set; } = "designer-sequence-step-disabled";
 
     public bool Collapsed { get; set; }
 
@@ -41,14 +46,8 @@ public class SequenceStep : StudioStep
     {
         this.stepFactory = stepFactory;
         HasProperties = false;
-        Finalize += OnFinalize;
-    }
-
-    public override void Setup(StepDescriptor descriptor)
-    {
-        base.Setup(descriptor);
-
-        SetupStepClass();
+        Finalized += OnFinalized;
+        Deleted += OnDeleted;
     }
 
     public override Type GetDesignerComponent()
@@ -65,8 +64,6 @@ public class SequenceStep : StudioStep
     {
         base.SetSelectClass();
 
-        if (IsNew)
-            return;
         var childrenPlusEndStep = GetChildrenAndEndStep();
 
         foreach (var child in childrenPlusEndStep)
@@ -95,11 +92,12 @@ public class SequenceStep : StudioStep
         return children;
     }
 
-    /// <summary>
-    /// When finalized, each sequence must have a corresponding end sequence and
-    /// they must know about each other.
-    /// </summary>
-    private void OnFinalize(object sender, StepEventArgs e)
+    private void OnDeleted(object sender, StepEventArgs e)
+    {
+        Definition.DeleteStep(SequenceEndStep);
+    }
+
+    private void OnFinalized(object sender, StepEventArgs e)
     {
         var sequenceEndStep = CreateSequenceEndStep();
 
@@ -124,17 +122,7 @@ public class SequenceStep : StudioStep
         var sequenceEndStep = stepFactory.CreateStep(stepDescription?.Name, Definition) as SequenceEndStep;
         sequenceEndStep.SequenceStepId = Id;
         sequenceEndStep.ParentId = ParentId;
-        //sequenceEndStep.IsNew = false;
 
         return sequenceEndStep;
-    }
-
-    private void SetupStepClass()
-    {
-        StepClass = "designer-sequence-step";
-        SelectedStepClass = "designer-sequence-step-selected";
-        DisabledStepClass = "designer-sequence-step-disabled";
-
-        Class = StepClass;
     }
 }

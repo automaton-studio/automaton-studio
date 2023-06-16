@@ -36,9 +36,34 @@ public class StepFactory
     {
         var descriptor = stepTypeDescriptor.Describe(solutionTypes[name]);
         var step = serviceProvider.GetService(solutionTypes[name]) as StudioStep;
+        step.Id = Guid.NewGuid().ToString();
+        step.Name = descriptor.Name;
+        step.DisplayName = descriptor.DisplayName;
+        step.Description = descriptor.Description;
+        step.MoreInfo = descriptor.MoreInfo;
+        step.Type = descriptor.Type;
+        step.Icon = descriptor.Icon;
         step.Definition = activeDefinition;
 
-        step.Setup(descriptor);
+        return step;
+    }
+
+    public StudioStep CreateCustomStep(CustomStepExplorerModel explorerStep, StudioDefinition activeDefinition)
+    {
+        var step = new Steps.Custom.CustomStep
+        {
+            Id = Guid.NewGuid().ToString(),
+            Code = explorerStep.Definition.Code,
+            CodeInputVariables = explorerStep.Definition.CodeInputVariables,
+            CodeOutputVariables = explorerStep.Definition.CodeOutputVariables,
+            Name = explorerStep.Name,
+            Type = explorerStep.Type,
+            DisplayName = explorerStep.DisplayName,
+            Description = explorerStep.Description,
+            Icon = explorerStep.Icon,
+            MoreInfo = explorerStep.MoreInfo,
+            Definition = activeDefinition,
+        };
 
         return step;
     }
@@ -46,34 +71,19 @@ public class StepFactory
     public StudioStep CreateStep(Step step, StudioDefinition activeDefinition)
     {
         var studioStep = serviceProvider.GetService(solutionTypes[step.Type]) as StudioStep;
+
+        studioStep.Id = step.Id;
+        studioStep.Name = step.Name;
+        studioStep.Type = step.Type;
+        studioStep.DisplayName = step.DisplayName;
+        studioStep.Description = step.Description;
+        studioStep.MoreInfo = step.MoreInfo;
+        studioStep.Type = step.Type;
+        studioStep.Icon = step.Icon;
+        studioStep.NextStepId = step.NextStepId;
+        studioStep.Inputs = step.Inputs;
+        studioStep.Outputs = step.Outputs;
         studioStep.Definition = activeDefinition;
-
-        studioStep.Setup(step);
-
-        return studioStep;
-    }
-
-    public StudioStep CreateCustomStep(CustomStepExplorerModel customStepModel, StudioDefinition activeDefinition)
-    {
-        var studioStep = new Steps.Custom.CustomStep
-        {
-            Code = customStepModel.Definition.Code,
-            CodeInputVariables = customStepModel.Definition.CodeInputVariables,
-            CodeOutputVariables = customStepModel.Definition.CodeOutputVariables,
-            Definition = activeDefinition
-        };
-
-        studioStep.Setup(new StepDescriptor
-        {
-            Name = customStepModel.Name,
-            Type = customStepModel.Type,
-            DisplayName = customStepModel.DisplayName,
-            Description = customStepModel.Description,
-            Category = customStepModel.Category,
-            Icon = customStepModel.Icon,
-            MoreInfo = customStepModel.MoreInfo,
-            VisibleInExplorer = customStepModel.VisibleInExplorer
-        });
 
         return studioStep;
     }
