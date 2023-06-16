@@ -13,9 +13,9 @@ public abstract class StudioStep : INotifyPropertyChanged
     public event EventHandler<StepEventArgs> Created;
     public event EventHandler<StepEventArgs> Deleted;
 
-    protected string StepClass { get; set; } = "designer-step";
-    protected string SelectedStepClass { get; set; } = "designer-step-selected";
-    protected string DisabledStepClass { get; set; } = "designer-step-disabled";
+    protected virtual string StepClass { get; set; } = "designer-step";
+    protected virtual string SelectedStepClass { get; set; } = "designer-step-selected";
+    protected virtual string DisabledStepClass { get; set; } = "designer-step-disabled";
 
     #region Automaton.Core
 
@@ -77,32 +77,6 @@ public abstract class StudioStep : INotifyPropertyChanged
     public abstract Type GetDesignerComponent();
 
     public abstract Type GetPropertiesComponent();
-
-    public virtual void Setup(StepDescriptor descriptor)
-    {
-        Id = Guid.NewGuid().ToString();
-        Name = descriptor.Name;
-        DisplayName = descriptor.DisplayName;
-        Description = descriptor.Description;
-        MoreInfo = descriptor.MoreInfo;
-        Type = descriptor.Type;
-        Icon = descriptor.Icon;
-    }
-
-    public virtual void Setup(Step step)
-    {
-        Id = step.Id;
-        Name = step.Name;
-        Type = step.Type;
-        DisplayName = step.DisplayName;
-        Description = step.Description;
-        MoreInfo = step.MoreInfo;
-        Type = step.Type;
-        Icon = step.Icon;
-        NextStepId = step.NextStepId;
-        Inputs = step.Inputs;
-        Outputs = step.Outputs;
-    }
 
     public object GetInputValue(string name)
     {

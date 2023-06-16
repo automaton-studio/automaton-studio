@@ -40,7 +40,6 @@ partial class DesignerPage : ComponentBase
 
     private void OnStepCreated(object sender, StepEventArgs e)
     {
-        e.Step.IsNew = true;
         dropzone.SetActiveStep(e.Step);
     }
 

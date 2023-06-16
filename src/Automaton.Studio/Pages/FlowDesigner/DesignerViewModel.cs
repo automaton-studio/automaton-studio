@@ -118,6 +118,8 @@ public class DesignerViewModel
         var step = customStepModel is CustomStepExplorerModel ?
             stepFactory.CreateCustomStep(customStepModel as CustomStepExplorerModel, ActiveDefinition) : 
             stepFactory.CreateStep(customStepModel.Name, ActiveDefinition);
+        
+        step.IsNew = true;
 
         step.InvokeCreated();
 

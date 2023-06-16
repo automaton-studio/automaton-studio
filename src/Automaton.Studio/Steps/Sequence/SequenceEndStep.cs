@@ -14,6 +14,10 @@ namespace Automaton.Studio.Steps.Sequence;
 )]
 public class SequenceEndStep : StudioStep
 {
+    protected override string StepClass { get; set; } = "designer-sequence-end-step";
+    protected override string SelectedStepClass { get; set; } = "designer-sequence-end-step-selected";
+    protected override string DisabledStepClass { get; set; } = "designer-sequence-end-step-disabled";
+
     public bool Collapsed { get; set; }
 
     public SequenceStep SequenceStep
@@ -50,21 +54,5 @@ public class SequenceEndStep : StudioStep
     public override void Select()
     {
         SequenceStep.Select();
-    }
-
-    public override void Setup(StepDescriptor descriptor)
-    {
-        base.Setup(descriptor);
-
-        SetupStepClass();
-    }
-
-    private void SetupStepClass()
-    {
-        StepClass = "designer-sequence-end-step";
-        SelectedStepClass = "designer-sequence-end-step-selected";
-        DisabledStepClass = "designer-sequence-end-step-disabled";
-
-        Class = StepClass;
     }
 }
