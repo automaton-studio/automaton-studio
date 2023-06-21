@@ -184,9 +184,4 @@ partial class DesignerPage : ComponentBase
     private void OnTabClose(string key)
     {
     }
-
-    private void BackToFlows()
-    {
-        NavigationManager.NavigateTo("/");
-    }
 }

@@ -95,11 +95,6 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
             }
         }
 
-        private void BackToCustomSteps()
-        {
-            NavigationManager.NavigateTo("/customsteps");
-        }
-
         private void OnNameChanged(string name)
         {
             StepDesignerViewModel.CustomStep.Name = name;
