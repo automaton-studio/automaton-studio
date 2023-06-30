@@ -79,9 +79,9 @@
 
         </Content>
 
-        <Sider Theme=SiderTheme.Light Width="400" Style="background-color: #fafafa; ">
+        <Sider Theme=SiderTheme.Light Width="300" DefaultCollapsed CollapsedWidth="0" Style="background-color: #fafafa;" @ref="flowToolSider">
             <CascadingValue Value="DesignerViewModel.Flow">
-                <DynamicComponent Type="rightTool" />
+                <DynamicComponent Type="flowToolPanel"/>
             </CascadingValue>
         </Sider>
 
