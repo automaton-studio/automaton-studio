@@ -79,6 +79,12 @@
 
         </Content>
 
+        <Sider Theme=SiderTheme.Light Width="400" Style="background-color: #fafafa; ">
+            <CascadingValue Value="DesignerViewModel.Flow">
+                <DynamicComponent Type="rightTool" />
+            </CascadingValue>
+        </Sider>
+
         <Sider Theme=SiderTheme.Light Collapsed=true Class="right-sider">
             <Menu Mode=MenuMode.Inline Theme=MenuTheme.Light Selectable=true Class="right-sider">
                 <MenuItem Key="1" Icon="setting" OnClick="OpenFlowSettings">

@@ -2,33 +2,32 @@
 using AntDesign;
 using Automaton.Studio.Domain;
 using Blazored.FluentValidation;
+using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.FlowDesigner.Components.Drawer;
 
-public partial class FlowSettings
+public partial class FlowSettings : ComponentBase
 {
-    private StudioFlow flow;
+    [CascadingParameter]
+    private StudioFlow Flow { get; set; }
+
     private FluentValidationValidator fluentValidationValidator;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-
-        flow = this.Options;
     }
 
     public async Task Submit()
     {
         if (fluentValidationValidator.Validate(options => options.IncludeAllRuleSets()))
         {
-            var drawerRef = base.FeedbackRef as DrawerRef<bool>;
-            await drawerRef!.CloseAsync(true);
+            
         }
     }
 
     public async Task Cancel()
     {
-        await CloseFeedbackAsync();
     }
 }

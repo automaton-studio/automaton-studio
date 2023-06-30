@@ -10,9 +10,11 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.FlowDesigner.Components.Drawer;
 
-public partial class FlowVariables
+public partial class FlowVariables : ComponentBase
 {
-    private StudioFlow flow;
+    [CascadingParameter]
+    private StudioFlow Flow { get; set; }
+
     private FluentValidationValidator fluentValidationValidator;
 
     [Inject] private ModalService ModalService { get; set; } = default!;
@@ -21,7 +23,7 @@ public partial class FlowVariables
     {
         get
         {
-            return flow.Variables.Select(x => new StepVariable
+            return Flow.Variables.Select(x => new StepVariable
             {
                 Name = x.Key,
             }).OrderBy(x => x.Name);
@@ -32,7 +34,7 @@ public partial class FlowVariables
     {
         get
         {
-            return flow.InputVariables.Select(x => new StepVariable
+            return Flow.InputVariables.Select(x => new StepVariable
             {
                 Name = x.Key,
                 Value = x.Value.ToString()
@@ -44,7 +46,7 @@ public partial class FlowVariables
     {
         get
         {
-            return flow.OutputVariables.Select(x => new StepVariable
+            return Flow.OutputVariables.Select(x => new StepVariable
             {
                 Name = x.Key,
                 Value = x.Value.ToString()
@@ -55,15 +57,13 @@ public partial class FlowVariables
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-
-        flow = this.Options;
     }
 
     public async Task AddOutputVariable()
     {
         var newDefinitionModel = new VariableModel
         {
-            ExistingNames = flow.GetOutputVariableNames()
+            ExistingNames = Flow.GetOutputVariableNames()
         };
 
         var newVariableDialog = await ModalService.CreateModalAsync<VariableDialog, VariableModel>
@@ -73,9 +73,9 @@ public partial class FlowVariables
 
         newVariableDialog.OnOk = () =>
         {
-            flow.SetOutputVariable(newDefinitionModel.Name, newDefinitionModel.Value);
+            Flow.SetOutputVariable(newDefinitionModel.Name, newDefinitionModel.Value);
 
-            StateHasChanged();
+            //StateHasChanged();
 
             return Task.CompletedTask;
         };
@@ -83,7 +83,7 @@ public partial class FlowVariables
 
     public async Task EditOutputVariable(StepVariable variable)
     {
-        var outputVariableNames = flow.GetOutputVariableNames();
+        var outputVariableNames = Flow.GetOutputVariableNames();
         var existingOutputVariables = outputVariableNames.Where(x => !x.Equals(variable.Name, StringComparison.OrdinalIgnoreCase));
 
         var updatedVariable = new VariableModel
@@ -102,12 +102,12 @@ public partial class FlowVariables
         {
             if (!variable.Name.Equals(updatedVariable.Name, StringComparison.OrdinalIgnoreCase))
             {
-                flow.DeleteOutputVariable(variable.Name);
+                Flow.DeleteOutputVariable(variable.Name);
             }
 
-            flow.SetOutputVariable(updatedVariable.Name, updatedVariable.Value);
+            Flow.SetOutputVariable(updatedVariable.Name, updatedVariable.Value);
 
-            StateHasChanged();
+            //StateHasChanged();
 
             return Task.CompletedTask;
         };
@@ -115,14 +115,14 @@ public partial class FlowVariables
 
     public void DeleteOutputVariable(StepVariable variable)
     {
-        flow.OutputVariables.Remove(variable.Name);
+        Flow.OutputVariables.Remove(variable.Name);
     }
 
     public async Task AddInputVariable()
     {
         var newDefinitionModel = new VariableModel
         {
-            ExistingNames = flow.GetInputVariableNames()
+            ExistingNames = Flow.GetInputVariableNames()
         };
 
         var newVariableDialog = await ModalService.CreateModalAsync<VariableDialog, VariableModel>
@@ -132,9 +132,9 @@ public partial class FlowVariables
 
         newVariableDialog.OnOk = () =>
         {
-            flow.SetInputVariable(newDefinitionModel.Name, newDefinitionModel.Value);
+            Flow.SetInputVariable(newDefinitionModel.Name, newDefinitionModel.Value);
 
-            StateHasChanged();
+            //StateHasChanged();
 
             return Task.CompletedTask;
         };
@@ -142,7 +142,7 @@ public partial class FlowVariables
 
     public async Task EditInputVariable(StepVariable variable)
     {
-        var inputVariableNames = flow.GetInputVariableNames();
+        var inputVariableNames = Flow.GetInputVariableNames();
         var existingInputVariables = inputVariableNames.Where(x => !x.Equals(variable.Name, StringComparison.OrdinalIgnoreCase));
 
         var updatedVariable = new VariableModel
@@ -161,12 +161,12 @@ public partial class FlowVariables
         {
             if (!variable.Name.Equals(updatedVariable.Name, StringComparison.OrdinalIgnoreCase))
             {
-                flow.DeleteInputVariable(variable.Name);
+                Flow.DeleteInputVariable(variable.Name);
             }
 
-            flow.SetInputVariable(updatedVariable.Name, updatedVariable.Value);
+            Flow.SetInputVariable(updatedVariable.Name, updatedVariable.Value);
 
-            StateHasChanged();
+            //StateHasChanged();
 
             return Task.CompletedTask;
         };
@@ -174,11 +174,11 @@ public partial class FlowVariables
 
     public void DeleteInputVariable(StepVariable variable)
     {
-        flow.InputVariables.Remove(variable.Name);
+        Flow.InputVariables.Remove(variable.Name);
     }
 
     public async Task Cancel()
     {
-        await CloseFeedbackAsync();
+        //await CloseFeedbackAsync();
     }
 }

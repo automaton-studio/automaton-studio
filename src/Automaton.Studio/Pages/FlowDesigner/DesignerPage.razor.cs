@@ -15,6 +15,7 @@ namespace Automaton.Studio.Pages.FlowDesigner;
 partial class DesignerPage : ComponentBase
 {
     private Dropzone dropzone;
+    private Type rightTool = typeof(FlowSettings);
 
     [Parameter] public string FlowId { get; set; }
 
@@ -120,36 +121,14 @@ partial class DesignerPage : ComponentBase
         };
     }
 
-    private async Task OpenFlowSettings()
+    private void OpenFlowSettings()
     {
-        var options = new DrawerOptions()
-        {
-            Title = Labels.Settings,
-            Width = 350
-        };
-
-        var drawerRef = await DrawerService.CreateAsync<FlowSettings, StudioFlow, bool>(options, DesignerViewModel.Flow);
-
-        drawerRef.OnClosed = async result =>
-        {
-            await InvokeAsync(StateHasChanged);
-        };
+        rightTool = typeof(FlowSettings);
     }
 
-    private async Task OpenFlowVariables()
+    private void OpenFlowVariables()
     {
-        var options = new DrawerOptions()
-        {
-            Title = Labels.Variables,
-            Width = 350
-        };
-
-        var drawerRef = await DrawerService.CreateAsync<FlowVariables, StudioFlow, bool>(options, DesignerViewModel.Flow);
-
-        drawerRef.OnClosed = async result =>
-        {
-            await InvokeAsync(StateHasChanged);
-        };
+        rightTool = typeof(FlowVariables);
     }
 
     private async Task OnDefinitionAddClick()
