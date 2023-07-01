@@ -2,6 +2,7 @@
 @using Automaton.Studio.Domain
 @using Blazored.FluentValidation
 
+
 <Form 
       Model="@Flow"
       Loading="loading"
@@ -14,6 +15,9 @@
     </Validator>
 
     <ChildContent>
+        <GridRow>
+            <Title Level="3">Settings</Title>
+        </GridRow>
         <GridRow >
             <GridCol >
                 <FormItem Label="Name">
