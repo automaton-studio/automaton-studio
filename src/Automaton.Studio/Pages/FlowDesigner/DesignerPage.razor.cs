@@ -15,12 +15,11 @@ namespace Automaton.Studio.Pages.FlowDesigner;
 partial class DesignerPage : ComponentBase
 {
     private Dropzone dropzone;
-    private Type flowToolPanel = typeof(FlowSettings);
-    private Sider flowToolSider;
+    private Sider toolsSider;
+    private Type toolsPanel = typeof(FlowSettings);
 
     [Parameter] public string FlowId { get; set; }
 
-    [Inject] private NavigationManager NavigationManager { get; set; } = default!;
     [Inject] private ModalService ModalService { get; set; } = default!;
     [Inject] private DesignerViewModel DesignerViewModel { get; set; } = default!;
     [Inject] private FlowExplorerViewModel FlowExplorerViewModel { get; set; } = default!;
@@ -123,16 +122,16 @@ partial class DesignerPage : ComponentBase
 
     private void OpenFlowSettings()
     {
-        flowToolSider.Collapsed = (!flowToolSider.Collapsed && flowToolPanel != typeof(FlowSettings)) ? 
-            false : !flowToolSider.Collapsed;
-        flowToolPanel = typeof(FlowSettings);
+        toolsSider.Collapsed = (!toolsSider.Collapsed && toolsPanel != typeof(FlowSettings)) ? 
+            false : !toolsSider.Collapsed;
+        toolsPanel = typeof(FlowSettings);
     }
 
     private void OpenFlowVariables()
     {
-        flowToolSider.Collapsed = (!flowToolSider.Collapsed && flowToolPanel != typeof(FlowVariables)) ? 
-            false : !flowToolSider.Collapsed;
-        flowToolPanel = typeof(FlowVariables);
+        toolsSider.Collapsed = (!toolsSider.Collapsed && toolsPanel != typeof(FlowVariables)) ? 
+            false : !toolsSider.Collapsed;
+        toolsPanel = typeof(FlowVariables);
     }
 
     private async Task OnDefinitionAddClick()
