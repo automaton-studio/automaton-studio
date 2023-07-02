@@ -10,17 +10,17 @@ public class Workflow
 
     public IDictionary<string, StepVariable> Variables { get; set; }
 
-    public IDictionary<string, object> OutputVariables { get; set; }
+    public IDictionary<string, StepVariable> OutputVariables { get; set; }
 
-    public IDictionary<string, object> InputVariables { get; set; }
+    public IDictionary<string, StepVariable> InputVariables { get; set; }
 
     public List<WorkflowDefinition> Definitions { get; set; }
 
     public Workflow()
     {
         Variables = new Dictionary<string, StepVariable>();
-        OutputVariables = new Dictionary<string, object>();
-        InputVariables = new Dictionary<string, object>();
+        OutputVariables = new Dictionary<string, StepVariable>();
+        InputVariables = new Dictionary<string, StepVariable>();
         Definitions = new List<WorkflowDefinition>();
     }
 

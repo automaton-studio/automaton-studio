@@ -1,5 +1,6 @@
 ﻿
 using AntDesign;
+using Automaton.Core.Enums;
 using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Pages.FlowDesigner.Components.NewVariable;
@@ -16,6 +17,7 @@ public partial class FlowVariables : ComponentBase
     private StudioFlow Flow { get; set; }
 
     private FluentValidationValidator fluentValidationValidator;
+    public IEnumerable<VariableType> VariableTypes { get; } = Enum.GetValues<VariableType>();
 
     [Inject] private ModalService ModalService { get; set; } = default!;
 
@@ -61,19 +63,19 @@ public partial class FlowVariables : ComponentBase
 
     public async Task AddOutputVariable()
     {
-        var newDefinitionModel = new VariableModel
+        var newVariableModel = new VariableModel
         {
             ExistingNames = Flow.GetOutputVariableNames()
         };
 
         var newVariableDialog = await ModalService.CreateModalAsync<VariableDialog, VariableModel>
         (
-            new ModalOptions { Title = Labels.Variable }, newDefinitionModel
+            new ModalOptions { Title = Labels.Variable }, newVariableModel
         );
 
         newVariableDialog.OnOk = () =>
         {
-            Flow.SetOutputVariable(newDefinitionModel.Name, newDefinitionModel.Value);
+            Flow.SetOutputVariable(new StepVariable { Name = newVariableModel.Name, Value = newVariableModel.Value });
 
             //StateHasChanged();
 
@@ -105,7 +107,7 @@ public partial class FlowVariables : ComponentBase
                 Flow.DeleteOutputVariable(variable.Name);
             }
 
-            Flow.SetOutputVariable(updatedVariable.Name, updatedVariable.Value);
+            Flow.SetOutputVariable(new StepVariable { Name = updatedVariable.Name, Value = updatedVariable.Value });
 
             //StateHasChanged();
 
@@ -120,19 +122,19 @@ public partial class FlowVariables : ComponentBase
 
     public async Task AddInputVariable()
     {
-        var newDefinitionModel = new VariableModel
+        var newVariableModel = new VariableModel
         {
             ExistingNames = Flow.GetInputVariableNames()
         };
 
         var newVariableDialog = await ModalService.CreateModalAsync<VariableDialog, VariableModel>
         (
-            new ModalOptions { Title = Labels.Variable }, newDefinitionModel
+            new ModalOptions { Title = Labels.Variable }, newVariableModel
         );
 
         newVariableDialog.OnOk = () =>
         {
-            Flow.SetInputVariable(newDefinitionModel.Name, newDefinitionModel.Value);
+            Flow.SetInputVariable(new StepVariable { Name = newVariableModel.Name, Value = newVariableModel.Value });
 
             //StateHasChanged();
 
@@ -164,7 +166,7 @@ public partial class FlowVariables : ComponentBase
                 Flow.DeleteInputVariable(variable.Name);
             }
 
-            Flow.SetInputVariable(updatedVariable.Name, updatedVariable.Value);
+            Flow.SetInputVariable(new StepVariable { Name = updatedVariable.Name, Value = updatedVariable.Value });
 
             //StateHasChanged();
 
