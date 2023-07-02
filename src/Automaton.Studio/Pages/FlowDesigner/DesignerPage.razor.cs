@@ -15,14 +15,14 @@ namespace Automaton.Studio.Pages.FlowDesigner;
 partial class DesignerPage : ComponentBase
 {
     private Dropzone dropzone;
+    private Sider toolsSider;
+    private Type toolsPanel = typeof(FlowSettings);
 
     [Parameter] public string FlowId { get; set; }
 
-    [Inject] private NavigationManager NavigationManager { get; set; } = default!;
     [Inject] private ModalService ModalService { get; set; } = default!;
     [Inject] private DesignerViewModel DesignerViewModel { get; set; } = default!;
     [Inject] private FlowExplorerViewModel FlowExplorerViewModel { get; set; } = default!;
-    [Inject] private DrawerService DrawerService { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -120,36 +120,18 @@ partial class DesignerPage : ComponentBase
         };
     }
 
-    private async Task OpenFlowSettings()
+    private void OpenFlowSettings()
     {
-        var options = new DrawerOptions()
-        {
-            Title = Labels.Settings,
-            Width = 350
-        };
-
-        var drawerRef = await DrawerService.CreateAsync<FlowSettings, StudioFlow, bool>(options, DesignerViewModel.Flow);
-
-        drawerRef.OnClosed = async result =>
-        {
-            await InvokeAsync(StateHasChanged);
-        };
+        toolsSider.Collapsed = (!toolsSider.Collapsed && toolsPanel != typeof(FlowSettings)) ? 
+            false : !toolsSider.Collapsed;
+        toolsPanel = typeof(FlowSettings);
     }
 
-    private async Task OpenFlowVariables()
+    private void OpenFlowVariables()
     {
-        var options = new DrawerOptions()
-        {
-            Title = Labels.Variables,
-            Width = 350
-        };
-
-        var drawerRef = await DrawerService.CreateAsync<FlowVariables, StudioFlow, bool>(options, DesignerViewModel.Flow);
-
-        drawerRef.OnClosed = async result =>
-        {
-            await InvokeAsync(StateHasChanged);
-        };
+        toolsSider.Collapsed = (!toolsSider.Collapsed && toolsPanel != typeof(FlowVariables)) ? 
+            false : !toolsSider.Collapsed;
+        toolsPanel = typeof(FlowVariables);
     }
 
     private async Task OnDefinitionAddClick()

@@ -1,5 +1,4 @@
 ﻿using Automaton.Core.Models;
-using Automaton.Studio.Steps.TestReport;
 
 namespace Automaton.Studio.Domain;
 
@@ -11,8 +10,8 @@ public class StudioFlow
     public DateTime Updated { get; set; }
     public string StartupDefinitionId { get; set; }
     public IDictionary<string, StepVariable> Variables { get; set; }
-    public IDictionary<string, object> InputVariables { get; set; }
-    public IDictionary<string, object> OutputVariables { get; set; }
+    public IDictionary<string, StepVariable> InputVariables { get; set; }
+    public IDictionary<string, StepVariable> OutputVariables { get; set; }
     public List<StudioDefinition> Definitions { get; set; }
 
     public StudioFlow()
@@ -22,7 +21,8 @@ public class StudioFlow
         StartupDefinitionId = defaultDefinition.Id;
         Definitions = new List<StudioDefinition> { defaultDefinition };
         Variables = new Dictionary<string, StepVariable>();
-        OutputVariables = new Dictionary<string, object>();
+        InputVariables = new Dictionary<string, StepVariable>();
+        OutputVariables = new Dictionary<string, StepVariable>();
     }
 
 
@@ -67,39 +67,27 @@ public class StudioFlow
         }
     }
 
-    public int GetNumberOfSteps<T>()
+    public void SetInputVariable(StepVariable variable)
     {
-        var count = Definitions.SelectMany(x => x.Steps).Count(x => x is T);
-
-        return count;
-    }
-
-    public string GenerateVariableName<T>(string name)
-    {
-        return $"{name}{GetNumberOfSteps<T>()}";
-    }
-
-    public void SetInputVariable(string key, object value)
-    {
-        if (InputVariables.ContainsKey(key))
+        if (InputVariables.ContainsKey(variable.Name))
         {
-            InputVariables[key] = value;
+            InputVariables[variable.Name] = variable;
         }
         else
         {
-            InputVariables.Add(key, value);
+            InputVariables.Add(variable.Name, variable);
         }
     }
 
-    public void SetOutputVariable(string key, object value)
+    public void SetOutputVariable(StepVariable variable)
     {
-        if (OutputVariables.ContainsKey(key))
+        if (OutputVariables.ContainsKey(variable.Name))
         {
-            OutputVariables[key] = value;
+            OutputVariables[variable.Name] = variable;
         }
         else
         {
-            OutputVariables.Add(key, value);
+            OutputVariables.Add(variable.Name, variable);
         }
     }
 
@@ -152,5 +140,17 @@ public class StudioFlow
         {
             DeleteVariable(variable);
         }
+    }
+
+    public string GenerateVariableName<T>(string name)
+    {
+        return $"{name}{GetNumberOfSteps<T>()}";
+    }
+
+    public int GetNumberOfSteps<T>()
+    {
+        var count = Definitions.SelectMany(x => x.Steps).Count(x => x is T);
+
+        return count;
     }
 }

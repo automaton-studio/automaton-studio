@@ -1,87 +1,166 @@
 ﻿@using Automaton.Studio.Resources
 @using Automaton.Studio.Domain
 @using Blazored.FluentValidation
-@inherits FeedbackComponent<StudioFlow, bool>
+@using Automaton.Core.Enums;
 
-<div>
-    <h4>Flow</h4>
+<Content Class="variables-form">
 
-    <Row>
-        <Col Span="24">
-        <AntList DataSource="@Variables" Size="small" Class="scrollable-list">
-            <ChildContent Context="item">
-                <ListItem Style="padding-left: 0px; padding-bottom: 2px; padding-top: 2px">
-                    <Button Type="@ButtonType.Link" Size="@ButtonSize.Small">@item.Name</Button>
-                </ListItem>
-            </ChildContent>
-        </AntList>
-        </Col>
-    </Row>
-
-    <br />
-
-    <h4>Input</h4>
+    <Title Level="4">Variables</Title>
 
     <Row>
         <Col Span="24">
-        <AntList DataSource="@InputVariables" Size="small" Class="scrollable-list">
-            <ChildContent Context="item">
-                <ListItem Style="padding-left: 0px; padding-bottom: 2px; padding-top: 2px">
-                    <Button Type="@ButtonType.Link" Size="@ButtonSize.Small" OnClick="@(() => EditInputVariable(item))">@item.Name</Button>
-                    <Button Shape="@ButtonShape.Circle" Style="float:right" Icon="delete" Size="@ButtonSize.Small" OnClick="@(() => DeleteInputVariable(item))"></Button>
-                </ListItem>
-            </ChildContent>
-        </AntList>
+            <Collapse DefaultActiveKey="@(new[]{"1"})" Bordered="false" Class="variables-collapse-panel">
+                <Panel Key="1">
+                    <HeaderTemplate>
+                        <Row>
+                            <Col Span="20">
+                            <b>Flow Variables</b>
+                            </Col>
+                            <Col Span="4">
+                            <Button Shape="@ButtonShape.Circle"
+                                    Icon="plus"
+                                    Size="@ButtonSize.Small"
+                                    OnClick="AddInputVariable">
+                            </Button>
+                            </Col>
+                        </Row>
+                    </HeaderTemplate>
+                    <ChildContent>
+                        <AntList DataSource="@Variables" Size="small" Class="scrollable-list">
+                            <ChildContent Context="item">
+                                <ListItem Style="padding-left: 0px; padding-bottom: 2px; padding-top: 2px">
+                                    <Button Type="@ButtonType.Link" Size="@ButtonSize.Small">@item.Name</Button>
+                                    <div class="designer-step-actions-icon">
+                                        <Dropdown Placement="@Placement.Left" Trigger="@(new Trigger[] { Trigger.Click })">
+                                            <Overlay>
+                                                <Menu>
+                                                    <MenuItem Icon="edit">
+                                                        Edit
+                                                    </MenuItem>
+                                                    <MenuItem Icon="delete">
+                                                        Delete
+                                                    </MenuItem>
+                                                </Menu>
+                                            </Overlay>
+                                            <ChildContent>
+                                                <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
+                                                    <Icon Type="more" Theme="outline" />
+                                                </a>
+                                            </ChildContent>
+                                        </Dropdown>
+                                    </div>
+                                </ListItem>
+                            </ChildContent>
+                        </AntList>
+                    </ChildContent>
+                </Panel>
+            </Collapse>
         </Col>
     </Row>
-
-    <Row>
-        <Col Offset="10">
-        <Space>
-            <SpaceItem>
-                <Tooltip Title="@Labels.AddVariable">
-                    <Button Type="@ButtonType.Primary"
-                            Shape="@ButtonShape.Circle"
-                            Icon="plus"
-                            Size="@ButtonSize.Small"
-                            Class="add-variable-button"
-                            OnClick="AddInputVariable">
-                    </Button>
-                </Tooltip>
-            </SpaceItem>
-        </Space>
-        </Col>
-    </Row>
-
-    <h4>Output</h4>
 
     <Row>
         <Col Span="24">
-        <AntList DataSource="@OutputVariables" Size="small" Class="scrollable-list">
-            <ChildContent Context="item">
-                <ListItem Style="padding-left: 0px; padding-bottom: 2px; padding-top: 2px">
-                    <Button Type="@ButtonType.Link" Size="@ButtonSize.Small" OnClick="@(() => EditOutputVariable(item))">@item.Name</Button>
-                    <Button Shape="@ButtonShape.Circle" Style="float:right" Icon="delete" Size="@ButtonSize.Small" OnClick="@(() => DeleteOutputVariable(item))"></Button>
-                </ListItem>
-            </ChildContent>
-        </AntList>
+        <Collapse DefaultActiveKey="@(new[]{"1"})" Bordered="false" Class="variables-collapse-panel">
+            <Panel Key="1">
+                <HeaderTemplate>
+                    <Row>
+                        <Col Span="20">
+                        <b>Input Variables</b>
+                        </Col>
+                        <Col Span="4">
+                        <Button Shape="@ButtonShape.Circle"
+                                Icon="plus"
+                                Size="@ButtonSize.Small"
+                                OnClick="AddInputVariable">
+                        </Button>
+                        </Col>
+                    </Row>
+                </HeaderTemplate>
+                <ChildContent>
+                    <AntList DataSource="@InputVariables" Size="small" Class="scrollable-list">
+                        <ChildContent Context="item">
+                            <ListItem>
+                                <Button Type="@ButtonType.Link" Size="@ButtonSize.Small">@item.Name</Button>
+                                <div class="designer-step-actions-icon">
+                                    <Dropdown Placement="@Placement.Left" Trigger="@(new Trigger[] { Trigger.Click })">
+                                        <Overlay>
+                                            <Menu>
+                                                <MenuItem Icon="edit" OnClick="@(() => EditInputVariable(item))">
+                                                    Edit
+                                                </MenuItem>
+                                                <MenuItem Icon="delete" OnClick="@(() => DeleteInputVariable(item))">
+                                                    Delete
+                                                </MenuItem>
+                                            </Menu>
+                                        </Overlay>
+                                        <ChildContent>
+                                            <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
+                                                <Icon Type="more" Theme="outline" />
+                                            </a>
+                                        </ChildContent>
+                                    </Dropdown>
+                                </div>
+                            </ListItem>
+                        </ChildContent>
+                    </AntList>
+                </ChildContent>
+            </Panel>
+        </Collapse>
         </Col>
     </Row>
 
     <Row>
-        <Col Offset="10">
-        <Tooltip Title="@Labels.AddVariable">
-            <Button Type="@ButtonType.Primary"
-                    Shape="@ButtonShape.Circle"
-                    Icon="plus"
-                    Size="@ButtonSize.Small"
-                    Class="add-variable-button"
-                    OnClick="AddOutputVariable">
-            </Button>
-        </Tooltip>
+        <Col Span="24">
+        <Collapse DefaultActiveKey="@(new[]{"1"})" Bordered="false" Class="variables-collapse-panel">
+            <Panel Key="1">
+                <HeaderTemplate>
+                    <Row>
+                        <Col Span="20">
+                        <b>Output Variables</b>
+                        </Col>
+                        <Col Span="4">
+                        <Button Shape="@ButtonShape.Circle"
+                                Icon="plus"
+                                Size="@ButtonSize.Small"
+                                OnClick="AddOutputVariable">
+                        </Button>
+                        </Col>
+                    </Row>
+                </HeaderTemplate>
+                <ChildContent>
+                    <AntList DataSource="@OutputVariables" Size="small" Class="scrollable-list">
+                        <ChildContent Context="item">
+                            <ListItem>
+                                <Button Type="@ButtonType.Link" Size="@ButtonSize.Small">@item.Name</Button>
+                                <div class="designer-step-actions-icon">
+                                    <Dropdown Placement="@Placement.Left" Trigger="@(new Trigger[] { Trigger.Click })">
+                                        <Overlay>
+                                            <Menu>
+                                                <MenuItem Icon="edit" OnClick="@(() => EditOutputVariable(item))">
+                                                    Edit
+                                                </MenuItem>
+                                                <MenuItem Icon="delete" OnClick="@(() => DeleteOutputVariable(item))">
+                                                    Delete
+                                                </MenuItem>
+                                            </Menu>
+                                        </Overlay>
+                                        <ChildContent>
+                                            <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
+                                                <Icon Type="more" Theme="outline" />
+                                            </a>
+                                        </ChildContent>
+                                    </Dropdown>
+                                </div>
+                            </ListItem>
+                        </ChildContent>
+                    </AntList>
+                </ChildContent>
+            </Panel>
+        </Collapse>
         </Col>
     </Row>
-</div>
+
+</Content>
 
 <style>
     .scrollable-list {
@@ -93,6 +172,29 @@
         margin-top: 10px;
     }
 
+    .variables-form {
+        background-color: #fff;
+        padding: 20px;
+        height: calc(100vh - 140px);
+        overflow: auto;
+        overflow-x: hidden;
+    }
+
+    .variables-collapse-panel {
+        background-color: #efefef;
+        border-radius: 2px;
+        margin-bottom: 24px;
+        border-radius: 5px;
+    }
+
+    .ant-collapse-content-box {
+        background-color: #fcfcfc;
+        border-radius: 0px 0px 5px 5px;
+    }
+
+    .designer-step-actions-icon {
+        padding: 0px 12px 0px 12px;
+    }
 </style>
 
 

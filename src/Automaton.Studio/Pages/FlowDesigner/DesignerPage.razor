@@ -52,7 +52,7 @@
             </CascadingValue>
         </Sider>
 
-        <Content>
+        <Content Class="content-container">
             <Tabs Type="@TabType.EditableCard"
                   Size="@TabSize.Small"
                   ActiveKey="@DesignerViewModel.ActiveDefinition?.Id"
@@ -76,15 +76,20 @@
                     </TabPane>
                 }
             </Tabs>
-
         </Content>
 
-        <Sider Theme=SiderTheme.Light Collapsed=true Class="right-sider">
-            <Menu Mode=MenuMode.Inline Theme=MenuTheme.Light Selectable=true Class="right-sider">
+        <Sider Theme="SiderTheme.Light" CollapsedWidth="0" Width="400" DefaultCollapsed Class="tools-sider" @ref="toolsSider">
+            <CascadingValue Value="DesignerViewModel.Flow">
+                <DynamicComponent Type="toolsPanel"/>
+            </CascadingValue>
+        </Sider>
+
+        <Sider Theme="SiderTheme.Light" CollapsedWidth="50" DefaultCollapsed Class="settings-sider">
+            <Menu Mode="MenuMode.Inline" Theme="MenuTheme.Light">
                 <MenuItem Key="1" Icon="setting" OnClick="OpenFlowSettings">
                     Settings
                 </MenuItem>
-                <MenuItem Key="2" OnClick="OpenFlowVariables" Icon="snippets">
+                <MenuItem Key="2" Icon="snippets" OnClick="OpenFlowVariables">
                     Variables
                 </MenuItem>
             </Menu>
@@ -93,8 +98,13 @@
 </Layout>
 
 <style>
+
+    .content-container {
+        background-color: #fff;
+    }
+
     .designer-container {
-        background-color: #FFF;
+        background-color: #fafafa;
     }
 
     .dropzone {
@@ -118,6 +128,16 @@
     div.ant-tabs-nav-wrap {
         padding-left: 5px;
     }
+
+    .settings-sider {
+        background-color: #fafafa;
+    }
+
+    .tools-sider {
+        background-color: #fafafa;
+        margin: 0 0 0 2px;
+    }
+
 </style>
 
 

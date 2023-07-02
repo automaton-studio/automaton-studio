@@ -125,16 +125,6 @@ a, .btn-link {
         margin-bottom: 15px;
     }
 
-.right-sider {
-    max-width: 50px !important;
-    min-width: 50px !important;
-    background-color: #fafafa;
-}
-
-    .right-sider .ant-menu-item {
-        padding-left: 15px !important;
-    }
-
 .right-actions {
     margin-left: auto;
 }

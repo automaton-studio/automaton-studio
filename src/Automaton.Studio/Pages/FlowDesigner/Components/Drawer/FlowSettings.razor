@@ -1,37 +1,45 @@
 ﻿@using Automaton.Studio.Resources
 @using Automaton.Studio.Domain
 @using Blazored.FluentValidation
-@inherits FeedbackComponent<StudioFlow, bool>
+
 
 <Form 
-      Model="@flow"
-      LabelColSpan="4"
-      WrapperColSpan="20">
+      Model="@Flow"
+      Loading="loading"
+      Layout="@FormLayout.Vertical"
+      OnFinish="OnFinish"
+      OnFinishFailed="OnFinishFailed"
+      Class="flow-settings-form">
     <Validator>
         <FluentValidationValidator @ref="fluentValidationValidator" />
     </Validator>
 
     <ChildContent>
-        <Row Gutter="16">
-            <AntDesign.Col Span="24">
+        <GridRow>
+            <Title Level="3">Settings</Title>
+        </GridRow>
+        <GridRow >
+            <GridCol >
                 <FormItem Label="Name">
                     <Input @bind-Value="@context.Name" Placeholder=@Placeholders.EnterFlowName />
                 </FormItem>
-            </AntDesign.Col>
-        </Row>
-        <br />
-        <Row>
-            <AntDesign.Col Span="11"></AntDesign.Col>
-            <AntDesign.Col Span="13">
-                <Space>
-                    <SpaceItem>
-                        <Button Type="default" OnClick="Cancel">Cancel</Button>
-                    </SpaceItem>
-                    <SpaceItem>
-                        <Button Type="primary" OnClick="Submit">Submit</Button>
-                    </SpaceItem>
-                </Space>
-            </AntDesign.Col>
-        </Row>
+            </GridCol>
+        </GridRow>
+
+        <FormItem >
+            <Button Type="@ButtonType.Primary" HtmlType="submit">
+                Submit
+            </Button>
+        </FormItem>
     </ChildContent>
 </Form>
+
+<style>
+    .flow-settings-form {
+        background-color: #fff;
+        padding: 20px;
+        height: calc(100vh - 140px);
+        overflow: auto;
+        overflow-x: hidden;
+    }
+</style>

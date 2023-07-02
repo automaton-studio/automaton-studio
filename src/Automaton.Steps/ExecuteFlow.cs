@@ -32,7 +32,7 @@ public class ExecuteFlow : WorkflowStep
         {
             var flow = await Load(FlowId);
 
-            var inputVariables = InputVariables.ToDictionary(x => x.Name, x => (object)x.Value);
+            var inputVariables = InputVariables.ToDictionary(x => x.Name, x => x);
 
             SetFlowInputVariables(flow, inputVariables);
 
@@ -52,7 +52,7 @@ public class ExecuteFlow : WorkflowStep
         return flow;
     }
 
-    private static void SetFlowInputVariables(Flow flow, IDictionary<string?, object?> inputVariables)
+    private static void SetFlowInputVariables(Flow flow, IDictionary<string?, StepVariable?> inputVariables)
     {
         foreach (var key in inputVariables.Keys)
         {
@@ -63,13 +63,13 @@ public class ExecuteFlow : WorkflowStep
         }
     }
 
-    private void SetStepOutputVariables(IDictionary<string?, object?> outputVariables, StepExecutionContext context)
+    private void SetStepOutputVariables(IDictionary<string?, StepVariable?> outputVariables, StepExecutionContext context)
     {
         foreach (var variable in OutputVariables)
         {
             if (outputVariables.ContainsKey(variable.Name))
             {
-                variable.Value = outputVariables[variable.Name].ToString();
+                variable.Value = outputVariables[variable.Name].Value;
                 context.Workflow.SetVariable(variable);
             }
         }
