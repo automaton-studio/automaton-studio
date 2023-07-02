@@ -6,11 +6,11 @@ public class VariableValidator : AbstractValidator<VariableModel>
 {
     public VariableValidator()
     {
-        RuleFor(x => x.Name).NotEmpty().MaximumLength(50).WithMessage(Resources.Errors.NameRequired);
+        RuleFor(x => x.Name).NotEmpty().MaximumLength(256).WithMessage(Resources.Errors.NameRequired);
 
         When(x => !string.IsNullOrEmpty(x.Name), () => {
             RuleFor(x => x).Must(NameIsUnique).WithMessage(Resources.Errors.NameExists);
-        });     
+        });
     }
 
     private bool NameIsUnique(VariableModel model)

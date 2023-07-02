@@ -1,16 +1,22 @@
 ﻿@using Automaton.Studio.Domain
 @using Automaton.Core.Models
 
-@if (editing)
-{
-    <Input Type="text" @bind-Value="@Variable.Name" OnBlur="StopEdit" OnPressEnter="OnPressEnter" AutoFocus />
-}
-else
-{
-    <span @onclick:preventDefault class="designer-variable-name" @onclick="()=>StartEdit()">@Variable.Name</span>
-}
+<div class="step-output-variable">
 
-<div class="properties-variable-description">@Variable.Description</div>
+    @if (editing)
+    {
+        <Input Type="text" @bind-Value="@Variable.Name" OnBlur="StopEdit" OnPressEnter="OnPressEnter" AutoFocus />
+    }
+    else
+    {
+        <span @onclick:preventDefault class="designer-variable-name" @onclick="()=>StartEdit()">@Variable.Name</span>
+    }
+
+    <Tooltip Title="@Variable.Description">
+        <Icon Type="question-circle" Theme="outline" />
+    </Tooltip>
+
+</div>
 
 @code {
     private bool editing;
@@ -51,7 +57,7 @@ else
     .designer-variable-name {
         color: #1890FF;
         background-color: #E6F0FF;
-        padding: 2px 5px;
+        padding: 3px 5px;
         border-radius: 10px;
     }
 
@@ -62,5 +68,9 @@ else
 
     .properties-variable-description {
         padding-left: 5px;
+    }
+
+    .step-output-variable {
+        padding: 2px 0 4px 0;
     }
 </style>

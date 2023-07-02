@@ -1,5 +1,6 @@
 ﻿@using Automaton.Studio.Resources
 @using Blazored.FluentValidation;
+@using Automaton.Core.Enums;
 @inherits FeedbackComponent<VariableModel>
 
 <Form Model="@model"
@@ -14,8 +15,24 @@
         <FormItem Label="Name">
             <Input @bind-Value="@context.Name" Placeholder=@Placeholders.EnterVariableName />
         </FormItem>
-        <FormItem Label="Value">
-            <Input @bind-Value="@context.Value" Placeholder=@Placeholders.EnterVariableValue />
+        <FormItem Label="Type">
+            <Select @bind-Value="context.Type"
+                    Placeholder="Select type..."
+                    TItemValue="VariableType"
+                    TItem="VariableType">
+                <SelectOptions>
+                    @foreach (var variableType in VariableTypes)
+                    {
+                        <SelectOption TItemValue="VariableType" TItem="VariableType" Value=@variableType Label=@variableType.ToString() />
+                    }
+                </SelectOptions>
+            </Select>
+        </FormItem>
+@*        <FormItem Label="Value">
+            <Input Type="Input.Text" TValue="string" Value="context.Value?.ToString()" OnChange="(x) => { context.Value = x; }" Placeholder=@Placeholders.EnterVariableValue />
+        </FormItem>
+*@        <FormItem Label="Description">
+            <Input @bind-Value="@context.Description" Placeholder=@Placeholders.EnterDescription />
         </FormItem>
     </ChildContent>
 </Form>

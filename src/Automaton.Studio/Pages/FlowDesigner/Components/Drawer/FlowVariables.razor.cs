@@ -63,19 +63,25 @@ public partial class FlowVariables : ComponentBase
 
     public async Task AddOutputVariable()
     {
-        var newVariableModel = new VariableModel
+        var newVariable = new VariableModel
         {
             ExistingNames = Flow.GetOutputVariableNames()
         };
 
         var newVariableDialog = await ModalService.CreateModalAsync<VariableDialog, VariableModel>
         (
-            new ModalOptions { Title = Labels.Variable }, newVariableModel
+            new ModalOptions { Title = Labels.Variable }, newVariable
         );
 
         newVariableDialog.OnOk = () =>
         {
-            Flow.SetOutputVariable(new StepVariable { Name = newVariableModel.Name, Value = newVariableModel.Value });
+            Flow.SetOutputVariable(new StepVariable 
+            { 
+                Name = newVariable.Name, 
+                Value = newVariable.Value,
+                Type = newVariable.Type,
+                Description = newVariable.Description
+            });
 
             //StateHasChanged();
 
@@ -92,7 +98,9 @@ public partial class FlowVariables : ComponentBase
         {
             ExistingNames = existingOutputVariables,
             Name = variable.Name,
-            Value = variable.Value
+            Type = variable.Type,
+            Value = variable.Value,
+            Description = variable.Description
         };
 
         var newVariableDialog = await ModalService.CreateModalAsync<VariableDialog, VariableModel>
@@ -122,19 +130,25 @@ public partial class FlowVariables : ComponentBase
 
     public async Task AddInputVariable()
     {
-        var newVariableModel = new VariableModel
+        var newVariable = new VariableModel
         {
             ExistingNames = Flow.GetInputVariableNames()
         };
 
         var newVariableDialog = await ModalService.CreateModalAsync<VariableDialog, VariableModel>
         (
-            new ModalOptions { Title = Labels.Variable }, newVariableModel
+            new ModalOptions { Title = Labels.Variable }, newVariable
         );
 
         newVariableDialog.OnOk = () =>
         {
-            Flow.SetInputVariable(new StepVariable { Name = newVariableModel.Name, Value = newVariableModel.Value });
+            Flow.SetInputVariable(new StepVariable 
+            { 
+                Name = newVariable.Name, 
+                Type = newVariable.Type, 
+                Value = newVariable.Value,
+                Description = newVariable.Description
+            });
 
             //StateHasChanged();
 
@@ -151,7 +165,9 @@ public partial class FlowVariables : ComponentBase
         {
             ExistingNames = existingInputVariables,
             Name = variable.Name,
-            Value = variable.Value
+            Value = variable.Value,
+            Type = variable.Type,
+            Description = variable.Description
         };
 
         var newVariableDialog = await ModalService.CreateModalAsync<VariableDialog, VariableModel>
@@ -166,7 +182,13 @@ public partial class FlowVariables : ComponentBase
                 Flow.DeleteInputVariable(variable.Name);
             }
 
-            Flow.SetInputVariable(new StepVariable { Name = updatedVariable.Name, Value = updatedVariable.Value });
+            Flow.SetInputVariable(new StepVariable 
+            {
+                Name = updatedVariable.Name,
+                Type = updatedVariable.Type,
+                Value = updatedVariable.Value,
+                Description = updatedVariable.Description
+            });
 
             //StateHasChanged();
 

@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using Automaton.Core.Enums;
 using Blazored.FluentValidation;
 using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@ public partial class VariableDialog : FeedbackComponent<VariableModel>
 {
     private VariableModel model;
     private FluentValidationValidator validator;
+    private IEnumerable<VariableType> VariableTypes { get; } = Enum.GetValues<VariableType>();
 
     protected override void OnInitialized()
     {

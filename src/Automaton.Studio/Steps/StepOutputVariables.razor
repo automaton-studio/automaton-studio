@@ -2,17 +2,21 @@
 @using Automaton.Core.Models
 @using Blazored.FluentValidation
 
-<Collapse Bordered="false" DefaultActiveKey="@(new[]{"1"})" Class="variables-collapse">
-    <ChildContent>
-        <Panel Header="Variables produced" Key="1" Class="variables-collapse-panel">
+<Collapse Bordered="false" DefaultActiveKey="@(new[]{"1"})" Class="output-variables-collapse">
+    <Panel Key="1" Class="output-variables-collapse-panel">
+        <HeaderTemplate>
+            Variables produced
+        </HeaderTemplate>
+        <ChildContent>
             @foreach (var variable in Step.Outputs.Values)
             {
                 <StepOutputVariable Step="@Step" Variable="@variable" />
             }
-        </Panel>
-    </ChildContent>
+        </ChildContent>
+    </Panel>
+
 </Collapse>
-    
+
 @code {
     [Parameter]
     public StudioStep Step { get; set; }
@@ -24,21 +28,21 @@
 }
 
 <style>
-    .variables-collapse .ant-collapse-header-text {
-        font-weight: bold;
-        padding-left: 0px;
-    }
 
-    .variables-collapse .ant-collapse-borderless > .ant-collapse-item:last-child, 
-    .ant-collapse-borderless > .ant-collapse-item:last-child .ant-collapse-header {
-        padding-left: 0px;
-    }
-
-    [data-theme='compact'] 
-    .variables-collapse .variables-collapse-panel,
-    .variables-collapse .variables-collapse-panel {
-        background: #fff;
+    .output-variables-collapse {
         border: 0px;
         overflow: hidden;
     }
+
+    .output-variables-collapse-panel .ant-collapse-header {
+        background: #fff;
+        font-weight: bold;
+        padding-left: 0px !important;
+        padding-bottom: 0px !important  ;
+    }
+
+    .output-variables-collapse-panel .ant-collapse-content-box {
+        background: #fff;
+    }
+
 </style>
