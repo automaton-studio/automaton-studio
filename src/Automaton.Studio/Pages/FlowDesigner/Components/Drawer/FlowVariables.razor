@@ -63,11 +63,12 @@
                         <b>Input Variables</b>
                         </Col>
                         <Col Span="4">
-                        <Button Shape="@ButtonShape.Circle"
-                                Icon="plus"
-                                Size="@ButtonSize.Small"
-                                OnClick="AddInputVariable">
-                        </Button>
+                            <Button Shape="@ButtonShape.Circle"
+                                    Icon="plus"
+                                    Size="@ButtonSize.Small"
+                                    OnClick="AddInputVariable"
+                                    OnClickStopPropagation>
+                            </Button>                       
                         </Col>
                     </Row>
                 </HeaderTemplate>
@@ -117,7 +118,8 @@
                         <Button Shape="@ButtonShape.Circle"
                                 Icon="plus"
                                 Size="@ButtonSize.Small"
-                                OnClick="AddOutputVariable">
+                                OnClick="AddOutputVariable"
+                                OnClickStopPropagation>
                         </Button>
                         </Col>
                     </Row>
