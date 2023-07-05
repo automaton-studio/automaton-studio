@@ -12,9 +12,9 @@
         <span @onclick:preventDefault class="designer-variable-name" @onclick="()=>StartEdit()">@Variable.Name</span>
     }
 
-    <Tooltip Title="@Variable.Description">
-        <Icon Type="question-circle" Theme="outline" />
-    </Tooltip>
+    <Popover Content="@Variable.Description" Trigger="@(new AntDesign.Trigger[] { AntDesign.Trigger.Click})">
+         <Button Shape="@ButtonShape.Circle"Icon="question"Size="@ButtonSize.Small"> </Button>
+    </Popover>
 
 </div>
 
