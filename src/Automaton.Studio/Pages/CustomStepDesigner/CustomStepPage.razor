@@ -122,7 +122,8 @@
                             </SpaceItem>
                             <SpaceItem>
                                 <Table DataSource="context.Definition.CodeOutputVariables"
-                                       ScrollY="200px"
+                                       RowExpandable="@((record)=>true)"
+                                       ScrollY="calc(100vh - 310px);"
                                        ScrollBarWidth="5"
                                        HidePagination>
                                     <ChildContent Context="outputVariable">
@@ -154,6 +155,20 @@
                                             </Popconfirm>
                                         </ActionColumn>
                                     </ChildContent>
+                                    <ExpandTemplate Context="outputVariable2">
+                                        <GridRow Gutter="(16, 0)" Class="expanded-content">
+                                            <GridCol Xs="6" Md="6">
+                                                <FormItem Label="Description">
+                                                    <Input Type="text" @bind-Value="outputVariable2.Data.Description" />
+                                                </FormItem>
+                                            </GridCol>
+                                            <GridCol Xs="6" Md="6">
+                                                <FormItem Label="Value">
+                                                    <Input Type="text" @bind-Value="outputVariable2.Data.Value" />
+                                                </FormItem>
+                                            </GridCol>
+                                        </GridRow>                                      
+	                                </ExpandTemplate>
                                 </Table>
                             </SpaceItem>
                         </Space>
@@ -180,6 +195,10 @@
     #step-code {
         width: 100vw !important;
         height: calc(100vh - 210px) !important;
+    }
+
+    .expanded-content {
+        padding: 0 50px 0 50px;
     }
 
 </style>
