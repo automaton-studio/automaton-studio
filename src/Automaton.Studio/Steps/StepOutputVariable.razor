@@ -12,9 +12,9 @@
         <span @onclick:preventDefault class="designer-variable-name" @onclick="()=>StartEdit()">@Variable.Name</span>
     }
 
-    <Popover Content="@Variable.Description" Trigger="@(new AntDesign.Trigger[] { AntDesign.Trigger.Click})">
-         <Button Shape="@ButtonShape.Circle"Icon="question"Size="@ButtonSize.Small"> </Button>
-    </Popover>
+    <div class="designer-variable-description">
+        @Variable.Description
+    </div>
 
 </div>
 
@@ -57,7 +57,7 @@
     .designer-variable-name {
         color: #1890FF;
         background-color: #E6F0FF;
-        padding: 3px 5px;
+        padding: 3px 7px 4px 7px;
         border-radius: 10px;
     }
 
@@ -65,6 +65,11 @@
             outline: 1px solid #1890FF;
             outline-offset: -1px;
         }
+
+    .designer-variable-description {
+        padding: 0 0 0 5px;
+        font-size: 0.9em;
+    }
 
     .properties-variable-description {
         padding-left: 5px;
