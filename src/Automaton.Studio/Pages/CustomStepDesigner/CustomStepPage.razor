@@ -79,7 +79,8 @@
                             </SpaceItem>
                             <SpaceItem>
                                 <Table DataSource="@context.Definition.CodeInputVariables"
-                                       ScrollY="calc(100vh - 270px);"
+                                       RowExpandable="@((record)=>true)"
+                                       ScrollY="calc(100vh - 310px);"
                                        ScrollBarWidth="5"
                                        HidePagination>
                                     <ChildContent Context="inputVariable">
@@ -108,6 +109,20 @@
                                             </Popconfirm>
                                         </ActionColumn>
                                     </ChildContent>
+                                    <ExpandTemplate Context="inputVariable2">
+                                        <GridRow Gutter="(16, 0)" Class="expanded-content">
+                                            <GridCol Xs="6" Md="6">
+                                                <FormItem Label="Description">
+                                                    <Input Type="text" @bind-Value="inputVariable2.Data.Description" />
+                                                </FormItem>
+                                            </GridCol>
+                                            <GridCol Xs="6" Md="6">
+                                                <FormItem Label="Value">
+                                                    <Input Type="text" TValue="string" Value="inputVariable2.Data.Value?.ToString()" OnChange="(x) => { inputVariable2.Data.Value = x; }" />
+                                                </FormItem>
+                                            </GridCol>
+                                        </GridRow>
+                                    </ExpandTemplate>
                                 </Table>
                             </SpaceItem>
                         </Space>
@@ -164,7 +179,7 @@
                                             </GridCol>
                                             <GridCol Xs="6" Md="6">
                                                 <FormItem Label="Value">
-                                                    <Input Type="text" @bind-Value="outputVariable2.Data.Value" />
+                                                    <Input Type="text" TValue="string" Value="outputVariable2.Data.Value?.ToString()" OnChange="(x) => { outputVariable2.Data.Value = x; }" />
                                                 </FormItem>
                                             </GridCol>
                                         </GridRow>                                      
