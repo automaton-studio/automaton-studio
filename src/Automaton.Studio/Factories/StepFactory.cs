@@ -169,6 +169,7 @@ public class StepFactory
             Type = stepDescriptor.Type,
             Description = stepDescriptor.Description,
             DisplayName = stepDescriptor.DisplayName,
+            MoreInfo = stepDescriptor.MoreInfo,
             Category = stepDescriptor.Category,
             VisibleInExplorer = stepDescriptor.VisibleInExplorer,
             Icon = stepDescriptor.Icon
@@ -185,6 +186,7 @@ public class StepFactory
             Type = customStep.Type,
             Description = customStep.Description,
             DisplayName = customStep.DisplayName,
+            MoreInfo = customStep.MoreInfo,
             Category = customStep.Category,
             VisibleInExplorer = customStep.VisibleInExplorer,
             Icon = customStep.Icon,
@@ -203,6 +205,7 @@ public class StepFactory
             Description = category,
             DisplayName = category,
             Category = string.Empty,
+            MoreInfo = string.Empty,
             VisibleInExplorer = true,
             Icon = string.Empty
         };
