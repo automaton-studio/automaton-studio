@@ -7,8 +7,6 @@
       Model="@Flow"
       Loading="loading"
       Layout="@FormLayout.Vertical"
-      OnFinish="OnFinish"
-      OnFinishFailed="OnFinishFailed"
       Class="flow-settings-form">
     <Validator>
         <FluentValidationValidator @ref="fluentValidationValidator" />
@@ -18,19 +16,13 @@
         <GridRow>
             <Title Level="3">Settings</Title>
         </GridRow>
-        <GridRow >
-            <GridCol >
+        <GridRow>
+            <GridCol Md="24" Xs="24">
                 <FormItem Label="Name">
                     <Input @bind-Value="@context.Name" Placeholder=@Placeholders.EnterFlowName />
                 </FormItem>
             </GridCol>
         </GridRow>
-
-        <FormItem >
-            <Button Type="@ButtonType.Primary" HtmlType="submit">
-                Submit
-            </Button>
-        </FormItem>
     </ChildContent>
 </Form>
 
