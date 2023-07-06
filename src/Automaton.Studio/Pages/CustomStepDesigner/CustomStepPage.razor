@@ -44,26 +44,33 @@
             <ChildContent>
                 <Tabs>
                     <TabPane Tab="Details" Key="1">
-                        <Row>
+
+                    <Row Gutter="(16, 0)" Justify="left">
+                        <Col Xs="24" Md="6">
                             <FormItem Label="Name">
                                 <Input @bind-Value="@context.Name" Placeholder="Enter name" />
                             </FormItem>
-                        </Row>
-                        <Row>
+                        </Col>
+                        <Col Xs="24" Md="6">
                             <FormItem Label="Display Name">
                                 <Input @bind-Value="@context.DisplayName" Placeholder="Enter display name" />
                             </FormItem>
-                        </Row>
-                        <Row>
+                        </Col>
+                    </Row>
+
+                    <Row Gutter="(16, 0)" Justify="left">
+                        <Col Xs="24" Md="6">
                             <FormItem Label="Description">
                                 <Input @bind-Value="@context.Description" Placeholder="Enter description" />
                             </FormItem>
-                        </Row>
-                        <Row>
+                        </Col>
+                        <Col Xs="24" Md="6">
                             <FormItem Label="More info URL">
                                 <Input @bind-Value="@context.MoreInfo" Placeholder="Enter description" />
                             </FormItem>
-                        </Row>
+                        </Col>
+                    </Row>
+
                     </TabPane>
 
                     <TabPane Tab="Code" Key="2">
