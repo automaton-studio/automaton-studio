@@ -9,12 +9,8 @@
 
         <Header Class="header">
             <Row>
-                <Col Flex=@("none") Class="page-title">
-                    <Space Size="@AntSizeLDSType.Large" Direction="DirectionVHType.Horizontal" Align="center">                  
-                        <SpaceItem Class="header-item">
-                        <Title Level="4" Editable EditConfig="stepNameEditableConfig">@StepDesignerViewModel.CustomStep.Name</Title>
-                        </SpaceItem>                 
-                    </Space>
+                <Col>
+                    <Title Level="4" Editable EditConfig="stepNameEditableConfig" Class="editable-title">@StepDesignerViewModel.CustomStep.Name</Title>
                 </Col>
 
                 <Col Class="right-actions">
@@ -44,33 +40,31 @@
             <ChildContent>
                 <Tabs>
                     <TabPane Tab="Details" Key="1">
+                        <Row Gutter="(16, 0)" Justify="left">
+                            <Col Xs="24" Md="6">
+                                <FormItem Label="Name">
+                                    <Input @bind-Value="@context.Name" Placeholder="Enter name" />
+                                </FormItem>
+                            </Col>
+                            <Col Xs="24" Md="6">
+                                <FormItem Label="Display Name">
+                                    <Input @bind-Value="@context.DisplayName" Placeholder="Enter display name" />
+                                </FormItem>
+                            </Col>
+                        </Row>
 
-                    <Row Gutter="(16, 0)" Justify="left">
-                        <Col Xs="24" Md="6">
-                            <FormItem Label="Name">
-                                <Input @bind-Value="@context.Name" Placeholder="Enter name" />
-                            </FormItem>
-                        </Col>
-                        <Col Xs="24" Md="6">
-                            <FormItem Label="Display Name">
-                                <Input @bind-Value="@context.DisplayName" Placeholder="Enter display name" />
-                            </FormItem>
-                        </Col>
-                    </Row>
-
-                    <Row Gutter="(16, 0)" Justify="left">
-                        <Col Xs="24" Md="6">
-                            <FormItem Label="Description">
-                                <Input @bind-Value="@context.Description" Placeholder="Enter description" />
-                            </FormItem>
-                        </Col>
-                        <Col Xs="24" Md="6">
-                            <FormItem Label="More info URL">
-                                <Input @bind-Value="@context.MoreInfo" Placeholder="Enter description" />
-                            </FormItem>
-                        </Col>
-                    </Row>
-
+                        <Row Gutter="(16, 0)" Justify="left">
+                            <Col Xs="24" Md="6">
+                                <FormItem Label="Description">
+                                    <Input @bind-Value="@context.Description" Placeholder="Enter description" />
+                                </FormItem>
+                            </Col>
+                            <Col Xs="24" Md="6">
+                                <FormItem Label="More info URL">
+                                    <Input @bind-Value="@context.MoreInfo" Placeholder="Enter description" />
+                                </FormItem>
+                            </Col>
+                        </Row>
                     </TabPane>
 
                     <TabPane Tab="Code" Key="2">
@@ -221,6 +215,14 @@
 
     .expanded-content {
         padding: 0 50px 0 50px;
+    }
+
+    .editable-title {
+        padding: 18px 0 0 10px;
+    }
+
+    .header .ant-typography-edit-content {
+        padding-top: 18px;
     }
 
 </style>
