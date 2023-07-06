@@ -2,4 +2,21 @@
 @inherits BaseStepVariable
 
 <Text>@Variable.Name</Text>
-<Input Type="Input.Text" TValue="string" Value="Variable.Value?.ToString()" OnChange="(x) => { Variable.Value = x; }" Placeholder="@Variable.Description" />
+
+<Row>
+    <Col Md="22">
+        <Input Type="Input.Text" TValue="string" Value="Variable.Value?.ToString()" OnChange="(x) => { Variable.Value = x; }" Placeholder="@Variable.Description" />
+    </Col>
+    <Col Md="2">
+    <Popover Content="@Variable.Description" Trigger="@(new AntDesign.Trigger[] { AntDesign.Trigger.Click})" Class="variable-description">
+        <Button Shape="@ButtonShape.Circle" Icon="question" Size="@ButtonSize.Small"></Button>
+        </Popover>
+    </Col>
+</Row>
+
+<style>
+    .variable-description {
+        float: right;
+        margin: 3px 5px 0 0;
+    }
+</style>
