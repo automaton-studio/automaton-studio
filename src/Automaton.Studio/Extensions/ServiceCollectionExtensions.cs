@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Automaton.Client.Auth.Extensions;
+using Automaton.Core.Logs;
 using Automaton.Core.Scripting;
 using Automaton.Studio.Config;
 using Automaton.Studio.Domain;
@@ -107,6 +108,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped(service => new ConfigurationService(configuration));
 
         services.AddSingleton(sp => new CustomHttpClient(sp));
+        services.AddSingleton(sp => new WorkflowSink());
 
         services.AddLogging(x =>
         {

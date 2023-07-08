@@ -1,19 +1,19 @@
-﻿using Automaton.Core.Models;
-using Microsoft.Extensions.Logging;
+﻿using Automaton.Core.Logs;
+using Automaton.Core.Models;
+using Serilog;
+using Serilog.Context;
 
 namespace Automaton.Core.Services;
 
 public class WorkflowExecuteService
 {
-    protected readonly ILogger logger;
-    protected readonly IServiceProvider serviceProvider;
+    private readonly ILogger logger;
     private readonly WorkflowConvertService flowConvertService;
 
-    public WorkflowExecuteService(IServiceProvider serviceProvider, WorkflowConvertService flowConvertService, ILoggerFactory loggerFactory)
+    public WorkflowExecuteService(WorkflowConvertService flowConvertService)
     {
-        this.serviceProvider = serviceProvider;
         this.flowConvertService = flowConvertService;
-        logger = loggerFactory.CreateLogger<WorkflowExecuteService>();
+        logger = Log.ForContext<WorkflowExecuteService>();
     }
 
     public async Task<WorkflowExecutorResult> Execute(Workflow workflow, CancellationToken cancellationToken = default)
@@ -22,38 +22,43 @@ public class WorkflowExecuteService
         var definition = workflow.GetStartupDefinition();
         var step = definition.GetFirstStep();
 
-        while (step != null)
+        using (LogContext.PushProperty("WorkflowId", workflow.Id))
         {
-            try
+            using (LogContext.PushProperty("WorkflowName", workflow.Name))
             {
-                var context = new StepExecutionContext
+                logger.Information("Execute workflow {0}", workflow.Name);
+
+                while (step != null)
                 {
-                    Workflow = workflow,
-                    Definition = definition,
-                    Step = step,
-                    CancellationToken = cancellationToken
-                };
+                    var context = new StepExecutionContext
+                    {
+                        Workflow = workflow,
+                        Definition = definition,
+                        Step = step,
+                        CancellationToken = cancellationToken,
+                    };
 
-                logger.LogInformation("Start step {0} execution on workflow {1}", context.Step.Name, context.Definition.Id);
+                    try
+                    {
+                        logger.Information("Execute step {0}", step.Name);
 
-                await context.Step.ExecuteAsync(context);
+                        await step.ExecuteAsync(context);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.Error(ex, "Step {0} encountered an error. Message: {1}", step.Id, ex.Message);
 
-                logger.LogInformation("End step {0} execution on workflow {1}", context.Step.Name, context.Definition.Id);
+                        result.Errors.Add(new ExecutionError
+                        {
+                            WorkflowId = definition.Id,
+                            ErrorTime = DateTime.UtcNow,
+                            Message = ex.Message
+                        });
+                    }
 
+                    step = step.GetNextStep();
+                }
             }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "Workflow {0} raised error on step {1} execution. Message: {2}", definition.Id, step.Id, ex.Message);
-
-                result.Errors.Add(new ExecutionError
-                {
-                    WorkflowId = definition.Id,
-                    ErrorTime = DateTime.UtcNow,
-                    Message = ex.Message
-                });
-            }
-
-            step = step.GetNextStep();
         }
 
         return result;

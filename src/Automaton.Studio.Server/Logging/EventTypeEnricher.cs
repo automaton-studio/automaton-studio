@@ -2,7 +2,7 @@ using Murmur;
 using Serilog.Core;
 using System.Text;
 
-class EventTypeEnricher : ILogEventEnricher
+public class EventTypeEnricher : ILogEventEnricher
 {
     public void Enrich(Serilog.Events.LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
     {

@@ -92,6 +92,7 @@ applicationBuilder.Host.UseSerilog((context, services, config) =>
         //https://github.com/serilog-mssql/serilog-sinks-mssqlserver
         connectionString: ConnectionStringName,
         appConfiguration: configurationBuilder,
+        // Below configuration is overritten by configuration from appsettings.json
         logEventFormatter: new CompactJsonFormatter(),
         sinkOptions: new MSSqlServerSinkOptions { TableName = "LogEvents" },
         columnOptions: new ColumnOptions()));

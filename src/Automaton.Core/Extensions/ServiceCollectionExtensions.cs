@@ -1,4 +1,5 @@
-﻿using Automaton.Core.Services;
+﻿using Automaton.Core.Logs;
+using Automaton.Core.Services;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
@@ -8,6 +9,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<WorkflowExecuteService>();
         services.AddScoped<WorkflowConvertService>();
+        services.AddSingleton(sp => new WorkflowSink());
 
         return services;
     }

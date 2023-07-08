@@ -1,5 +1,6 @@
 @using Automaton.App.Account.Account;
 @using Automaton.Client.Auth.Services;
+@using Automaton.Core.Logs;
 @using Automaton.Studio.Shared
 @using Automaton.Studio.Pages
 @using Automaton.Studio.Logging
@@ -40,6 +41,7 @@
 
     [Inject] public CustomHttpClient CustomHttpClient { get; set; }
     [Inject] public ConfigurationService ConfigurationService { get; set; }
+    [Inject] public WorkflowSink WorkflowSink { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -60,6 +62,7 @@
                     requestUri: ConfigurationService.LogsUrl,
                     httpClient: CustomHttpClient,
                     queueLimitBytes: null)
+                .WriteTo.Sink(WorkflowSink)
                 .CreateLogger());
     }
 }
