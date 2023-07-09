@@ -8,7 +8,7 @@ public class EmitLog : WorkflowStep
 
     protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
     {
-        logger.Information(Message);
+        logger.Information("Write message: {0}", Message);
 
         return Task.FromResult(ExecutionResult.Next());
     }
