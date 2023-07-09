@@ -2,12 +2,15 @@
 using Automaton.Core.Extensions;
 using Automaton.Core.Parsers;
 using Newtonsoft.Json.Linq;
+using Serilog;
 using System.Reflection;
 
 namespace Automaton.Core.Models;
 
 public abstract class WorkflowStep
 {
+    protected readonly ILogger logger;
+
     public virtual string Id { get; set; }
 
     public virtual string Name { get; set; }
@@ -29,6 +32,11 @@ public abstract class WorkflowStep
     public IDictionary<string, StepVariable> Outputs { get; set; } = new Dictionary<string, StepVariable>();
 
     protected abstract Task<ExecutionResult> RunAsync(StepExecutionContext context);
+
+    public WorkflowStep()
+    {
+        logger = Log.ForContext<WorkflowStep>();
+    }
 
     public void Setup(Step step, WorkflowDefinition workflowDefinition)
     {

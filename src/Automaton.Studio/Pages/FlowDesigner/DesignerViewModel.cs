@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Automaton.Core.Logs;
 using Automaton.Core.Models;
 using Automaton.Core.Services;
 using Automaton.Studio.Domain;
@@ -17,11 +16,9 @@ public class DesignerViewModel
     private readonly StepFactory stepFactory;
     private readonly FlowService flowService;
     private readonly WorkflowExecuteService workflowExecuteService;
-    private WorkflowSink workflowSink;
 
     public StudioFlow Flow { get; set; } = new StudioFlow();
     public StudioDefinition ActiveDefinition { get; set; }
-    public IList<Serilog.Events.LogEvent> Logs => workflowSink.Logs;
 
     public event EventHandler<StepEventArgs> StepCreated;
 
@@ -42,15 +39,13 @@ public class DesignerViewModel
         IMapper mapper,
         StepFactory stepFactory,
         FlowService flowService,
-        WorkflowExecuteService workflowExecuteService,
-        WorkflowSink workflowSink
+        WorkflowExecuteService workflowExecuteService
     )
     {
         this.mapper = mapper;
         this.stepFactory = stepFactory;
         this.flowService = flowService;
         this.workflowExecuteService = workflowExecuteService;
-        this.workflowSink = workflowSink;
     }
 
     public async Task LoadFlow(Guid flowId)

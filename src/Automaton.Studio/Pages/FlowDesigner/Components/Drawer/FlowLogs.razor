@@ -1,0 +1,50 @@
+﻿@using Automaton.Studio.Resources
+@using Automaton.Studio.Domain
+@using Blazored.FluentValidation
+
+<Form Model="@WorkflowSink"
+      Layout="@FormLayout.Vertical"
+      Class="flow-logs-form">
+
+    <ChildContent>
+        <GridRow>
+            <Col Span="20">
+            <Title Level="3">Logs</Title>
+            </Col>
+            <Col Span="4">
+            <Button Icon="delete"
+                    Size="@ButtonSize.Small"
+                    Class="flow-log-action"
+                    OnClick="ClearLogs"
+                    OnClickStopPropagation>
+            </Button>
+            </Col>
+
+        </GridRow>
+        <GridRow>
+            <GridCol Md="24" Xs="24">
+                <FormItem>
+                    <TextArea Id="flow-logs" Value="@context.Logs" />
+                </FormItem>
+            </GridCol>
+        </GridRow>
+    </ChildContent>
+</Form>
+
+<style>
+    .flow-logs-form {
+        background-color: #fff;
+        padding: 20px 20px 0px 20px;
+        overflow: hidden;
+    }
+
+    .flow-log-action {
+        margin-top: 8px;
+    }
+
+    #flow-logs {
+        width: 100vw !important;
+        height: calc(100vh - 225px) !important;
+        font-size: smaller;
+    }
+</style>

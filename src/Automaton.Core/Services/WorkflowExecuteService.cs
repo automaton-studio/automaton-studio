@@ -22,44 +22,42 @@ public class WorkflowExecuteService
         var definition = workflow.GetStartupDefinition();
         var step = definition.GetFirstStep();
 
-        using (LogContext.PushProperty("WorkflowId", workflow.Id))
+        PushWorkflowLogContext(workflow);
+
+        logger.Information("[Start workflow] {0}", workflow.Name);
+
+        while (step != null)
         {
-            using (LogContext.PushProperty("WorkflowName", workflow.Name))
+            var context = new StepExecutionContext
             {
-                logger.Information("Execute workflow {0}", workflow.Name);
+                Workflow = workflow,
+                Definition = definition,
+                Step = step,
+                CancellationToken = cancellationToken,
+            };
 
-                while (step != null)
-                {
-                    var context = new StepExecutionContext
-                    {
-                        Workflow = workflow,
-                        Definition = definition,
-                        Step = step,
-                        CancellationToken = cancellationToken,
-                    };
+            try
+            {
+                logger.Information("[Execute step] {0}", step.Name);
 
-                    try
-                    {
-                        logger.Information("Execute step {0}", step.Name);
-
-                        await step.ExecuteAsync(context);
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.Error(ex, "Step {0} encountered an error. Message: {1}", step.Id, ex.Message);
-
-                        result.Errors.Add(new ExecutionError
-                        {
-                            WorkflowId = definition.Id,
-                            ErrorTime = DateTime.UtcNow,
-                            Message = ex.Message
-                        });
-                    }
-
-                    step = step.GetNextStep();
-                }
+                await step.ExecuteAsync(context);
             }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "[Error] Step {0} encountered an error. Message: {1}", step.Id, ex.Message);
+
+                result.Errors.Add(new ExecutionError
+                {
+                    WorkflowId = definition.Id,
+                    ErrorTime = DateTime.UtcNow,
+                    Message = ex.Message
+                });
+            }
+
+            step = step.GetNextStep();
         }
+
+        logger.Information("[End workflow] {0}", workflow.Name);
 
         return result;
     }
@@ -71,5 +69,12 @@ public class WorkflowExecuteService
         var result = await Execute(workflow, cancellationToken);
 
         return result;
+    }
+
+    private static void PushWorkflowLogContext(Workflow workflow)
+    {
+        LogContext.PushProperty(LogPropertyKey.WorkflowExecution, true);
+        LogContext.PushProperty(LogPropertyKey.WorkflowId, workflow.Id);
+        LogContext.PushProperty(LogPropertyKey.WorkflowName, workflow.Name);
     }
 }

@@ -134,6 +134,13 @@ partial class DesignerPage : ComponentBase
         toolsPanel = typeof(FlowVariables);
     }
 
+    private void OpenFlowLogs()
+    {
+        toolsSider.Collapsed = (!toolsSider.Collapsed && toolsPanel != typeof(FlowLogs)) ?
+            false : !toolsSider.Collapsed;
+        toolsPanel = typeof(FlowLogs);
+    }
+
     private async Task OnDefinitionAddClick()
     {
         var newDefinitionModel = new NewDefinitionModel
