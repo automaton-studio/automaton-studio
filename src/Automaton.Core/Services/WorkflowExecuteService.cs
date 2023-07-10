@@ -38,7 +38,7 @@ public class WorkflowExecuteService
 
             try
             {
-                logger.Information("[Execute step] {0}", step.Name);
+                logger.Information("[Execute] {0}", step.Name);
 
                 await step.ExecuteAsync(context);
             }
