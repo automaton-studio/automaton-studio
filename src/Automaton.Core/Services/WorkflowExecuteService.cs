@@ -22,7 +22,9 @@ public class WorkflowExecuteService
         var definition = workflow.GetStartupDefinition();
         var step = definition.GetFirstStep();
 
-        PushWorkflowLogContext(workflow);
+        LogContext.PushProperty(LogPropertyKey.WorkflowExecution, true);
+        LogContext.PushProperty(LogPropertyKey.WorkflowId, workflow.Id);
+        LogContext.PushProperty(LogPropertyKey.WorkflowName, workflow.Name);
 
         logger.Information("[Start workflow] {0}", workflow.Name);
 
@@ -69,12 +71,5 @@ public class WorkflowExecuteService
         var result = await Execute(workflow, cancellationToken);
 
         return result;
-    }
-
-    private static void PushWorkflowLogContext(Workflow workflow)
-    {
-        LogContext.PushProperty(LogPropertyKey.WorkflowExecution, true);
-        LogContext.PushProperty(LogPropertyKey.WorkflowId, workflow.Id);
-        LogContext.PushProperty(LogPropertyKey.WorkflowName, workflow.Name);
     }
 }
