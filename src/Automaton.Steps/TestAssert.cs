@@ -26,7 +26,11 @@ public class TestAssert : WorkflowStep
 
     protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
     {
+        logger.Information("""Evaluating expression "{0}" """, Expression);
+
         var result = ExpressionParser.Parse(Expression, context.Workflow);
+
+        logger.Information("""Expression "{0}" result is {1}""", Expression, result);
 
         if (result is not bool)
         {
@@ -36,7 +40,7 @@ public class TestAssert : WorkflowStep
         else if (!(bool)result)
         {
             Error = $"Expression \"{Expression}\" was not true";
-            logger.Error("""Expression "{0}"was not true""", Expression);
+            logger.Error("""Expression "{0}" was not true""", Expression);
         }
 
         if (ParentTest != null && !string.IsNullOrEmpty(Error))
