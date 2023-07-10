@@ -31,10 +31,12 @@ public class TestAssert : WorkflowStep
         if (result is not bool)
         {
             Error = $"Could not evaluate expression \"{Expression}\" to a boolean value";
+            logger.Error("""Could not evaluate expression "{0}" to a boolean value""", Expression);
         }
         else if (!(bool)result)
         {
             Error = $"Expression \"{Expression}\" was not true";
+            logger.Error("""Expression "{0}"was not true""", Expression);
         }
 
         if (ParentTest != null && !string.IsNullOrEmpty(Error))
