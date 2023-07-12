@@ -155,7 +155,6 @@ public abstract class StudioStep : INotifyPropertyChanged
         return Class == SelectedStepClass;
     }
 
-
     public bool IsVisible()
     {
         return !Hidden;

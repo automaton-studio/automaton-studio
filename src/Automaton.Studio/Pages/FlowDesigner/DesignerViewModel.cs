@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+//using Automaton.Core.Events;
 using Automaton.Core.Models;
 using Automaton.Core.Services;
 using Automaton.Studio.Domain;
@@ -133,5 +134,10 @@ public class DesignerViewModel
     public void UpdateStepConnections()
     {
         ActiveDefinition.UpdateStepConnections();
+    }
+
+    public void SelectStep(string stepId)
+    {
+        Flow.SelectStep(stepId);
     }
 }

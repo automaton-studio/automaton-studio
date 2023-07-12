@@ -4,6 +4,8 @@ namespace Automaton.Studio.Domain;
 
 public class StudioFlow
 {
+    private StudioStep selectedStep;
+
     public Guid Id { get; set; }
     public string Name { get; set; }
     public DateTime Created { get; set; }
@@ -13,6 +15,9 @@ public class StudioFlow
     public IDictionary<string, StepVariable> InputVariables { get; set; }
     public IDictionary<string, StepVariable> OutputVariables { get; set; }
     public List<StudioDefinition> Definitions { get; set; }
+    public Dictionary<string, StudioStep> Steps => Definitions
+        .SelectMany(d => d.Steps.Select(x => x))
+        .ToDictionary(x => x.Id, x => x);
 
     public StudioFlow()
     {
@@ -24,7 +29,6 @@ public class StudioFlow
         InputVariables = new Dictionary<string, StepVariable>();
         OutputVariables = new Dictionary<string, StepVariable>();
     }
-
 
     public StudioDefinition CreateDefinition(string name)
     {
@@ -152,5 +156,16 @@ public class StudioFlow
         var count = Definitions.SelectMany(x => x.Steps).Count(x => x is T);
 
         return count;
+    }
+
+    public void SelectStep(string stepId)
+    {
+        if (selectedStep != null)
+        {
+            selectedStep.Unselect();
+        }
+
+        selectedStep = Steps[stepId];
+        selectedStep.Select();
     }
 }

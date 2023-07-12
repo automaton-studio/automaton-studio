@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using Automaton.Core.Events;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
@@ -7,16 +8,19 @@ using Automaton.Studio.Pages.FlowDesigner.Components.Drawer;
 using Automaton.Studio.Pages.FlowDesigner.Components.FlowExplorer;
 using Automaton.Studio.Pages.FlowDesigner.Components.NewDefinition;
 using Automaton.Studio.Resources;
+using MediatR;
 using Microsoft.AspNetCore.Components;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.FlowDesigner;
 
-partial class DesignerPage : ComponentBase
+partial class DesignerPage : INotificationHandler<ExecuteStepNotification>
 {
     private Dropzone dropzone;
     private Sider toolsSider;
     private Type toolsPanel = typeof(FlowSettings);
+    public static event EventHandler<ExecuteStepEventArgs> OnExecuteStep;
 
     [Parameter] public string FlowId { get; set; }
 
@@ -31,6 +35,12 @@ partial class DesignerPage : ComponentBase
         await LoadFlow(flowId);
 
         await base.OnInitializedAsync();
+
+        OnExecuteStep += (sender, changed) =>
+        {
+            DesignerViewModel.SelectStep(changed.StepId);
+            InvokeAsync(StateHasChanged);
+        };
     }
 
     public async Task RunFlow()
@@ -172,5 +182,11 @@ partial class DesignerPage : ComponentBase
 
     private void OnTabClose(string key)
     {
+    }
+
+    public Task Handle(ExecuteStepNotification notification, CancellationToken cancellationToken)
+    {
+        OnExecuteStep?.Invoke(this, new ExecuteStepEventArgs() { StepId = notification.StepId });
+        return Task.CompletedTask;
     }
 }

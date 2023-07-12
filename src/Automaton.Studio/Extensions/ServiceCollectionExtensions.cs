@@ -26,12 +26,14 @@ using Automaton.Studio.Steps.Test;
 using Automaton.Studio.Steps.TestAssert;
 using Automaton.Studio.Steps.TestReport;
 using Blazored.LocalStorage;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Reflection;
 
 namespace Automaton.Studio.Extensions;
 
@@ -53,6 +55,8 @@ public static class ServiceCollectionExtensions
         services.AddBlazoredLocalStorage();
         services.AddAuthorizationCore();
         services.AddStudioAuthenication<LocalStorageService>();
+
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
         // Services
         services.AddScoped<AuthenticationService>();

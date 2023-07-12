@@ -1,5 +1,7 @@
-﻿using Automaton.Core.Logs;
+﻿using Automaton.Core.Events;
+using Automaton.Core.Logs;
 using Automaton.Core.Models;
+using MediatR;
 using Serilog;
 using Serilog.Context;
 
@@ -7,11 +9,13 @@ namespace Automaton.Core.Services;
 
 public class WorkflowExecuteService
 {
+    private IMediator mediator;
     private readonly ILogger logger;
     private readonly WorkflowConvertService flowConvertService;
 
-    public WorkflowExecuteService(WorkflowConvertService flowConvertService)
+    public WorkflowExecuteService(WorkflowConvertService flowConvertService, IMediator mediator)
     {
+        this.mediator = mediator;
         this.flowConvertService = flowConvertService;
         logger = Log.ForContext<WorkflowExecuteService>();
     }
@@ -41,6 +45,10 @@ public class WorkflowExecuteService
             try
             {
                 logger.Information("[Execute] {0}", step.Name);
+
+                await mediator.Publish(new ExecuteStepNotification { StepId = step.Id }, cancellationToken);
+
+                await Task.Delay(1000, cancellationToken);
 
                 await step.ExecuteAsync(context);
             }
