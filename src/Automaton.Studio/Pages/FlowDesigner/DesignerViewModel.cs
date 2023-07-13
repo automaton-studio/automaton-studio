@@ -7,6 +7,7 @@ using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Pages.FlowDesigner.Components.StepExplorer;
 using Automaton.Studio.Services;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.FlowDesigner;
@@ -70,7 +71,7 @@ public class DesignerViewModel
             // Debug functionality where user can add breakpoints and
             // investigate the values of Flow variables
             var flow = mapper.Map<Flow>(Flow);
-            await workflowExecuteService.Execute(flow);
+            await workflowExecuteService.Execute(flow, CancellationToken.None, 100);
         }
     }
 
