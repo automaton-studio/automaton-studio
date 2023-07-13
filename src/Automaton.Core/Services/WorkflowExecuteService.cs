@@ -20,7 +20,7 @@ public class WorkflowExecuteService
         logger = Log.ForContext<WorkflowExecuteService>();
     }
 
-    public async Task<WorkflowExecutorResult> Execute(Workflow workflow, CancellationToken cancellationToken = default)
+    public async Task<WorkflowExecutorResult> Execute(Workflow workflow, CancellationToken cancellationToken = default, int executeDelay = 0)
     {
         var result = new WorkflowExecutorResult();
         var definition = workflow.GetStartupDefinition();
@@ -48,9 +48,12 @@ public class WorkflowExecuteService
 
                 await mediator.Publish(new ExecuteStepNotification { StepId = step.Id }, cancellationToken);
 
-                await Task.Delay(1000, cancellationToken);
-
                 await step.ExecuteAsync(context);
+
+                if (executeDelay > 0)
+                {
+                    await Task.Delay(executeDelay, cancellationToken);
+                }
             }
             catch (Exception ex)
             {
@@ -72,11 +75,11 @@ public class WorkflowExecuteService
         return result;
     }
 
-    public async Task<WorkflowExecutorResult> Execute(Flow flow, CancellationToken cancellationToken = default)
+    public async Task<WorkflowExecutorResult> Execute(Flow flow, CancellationToken cancellationToken = default, int executeDelay = 0)
     {
         var workflow = flowConvertService.ConvertFlow(flow);
 
-        var result = await Execute(workflow, cancellationToken);
+        var result = await Execute(workflow, cancellationToken, executeDelay);
 
         return result;
     }
