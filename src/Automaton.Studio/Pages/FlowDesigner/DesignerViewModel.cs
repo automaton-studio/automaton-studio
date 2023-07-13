@@ -24,18 +24,6 @@ public class DesignerViewModel
 
     public event EventHandler<StepEventArgs> StepCreated;
 
-    public bool CanExecuteFlow
-    {
-        get
-        {
-#if DEBUG
-            return true;
-#else
-            return configService.IsDesktop;
-#endif
-        }
-    }
-
     public DesignerViewModel
     (
         IMapper mapper,
@@ -64,15 +52,12 @@ public class DesignerViewModel
 
     public async Task RunFlow()
     {
-        if (CanExecuteFlow)
-        {
-            // TODO! Need a way to update Flow variables on the fly
-            // during Workflow execution. This way we can introduce a
-            // Debug functionality where user can add breakpoints and
-            // investigate the values of Flow variables
-            var flow = mapper.Map<Flow>(Flow);
-            await workflowExecuteService.Execute(flow, CancellationToken.None, 100);
-        }
+        // TODO! Need a way to update Flow variables on the fly
+        // during Workflow execution. This way we can introduce a
+        // Debug functionality where user can add breakpoints and
+        // investigate the values of Flow variables
+        var flow = mapper.Map<Flow>(Flow);
+        await workflowExecuteService.Execute(flow, CancellationToken.None, 100);
     }
 
     public StudioDefinition CreateDefinition(string name)
