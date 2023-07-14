@@ -1,10 +1,8 @@
-using Automaton.Steps;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Services;
 using Automaton.Studio.Steps.Sequence;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +12,8 @@ public partial class Dropzone : ComponentBase
 {
     private const string ActiveStepSpacingClass = "step-active-spacing";
     private const string StepSpacingClass = "step-spacing";
-    private int _stepMargin = 10;
+
+    private int stepMargin = 10;
 
     [Inject] DragDropService DragDropService { get; set; }
 
@@ -429,7 +428,7 @@ public partial class Dropzone : ComponentBase
     {
         if (step is SequenceEndStep sequenceEnd && !sequenceEnd.Collapsed)
         {
-            _stepMargin -= 20;
+            stepMargin -= 20;
         }
     }
 
@@ -437,7 +436,7 @@ public partial class Dropzone : ComponentBase
     {
         if (step is SequenceStep sequence && !sequence.Collapsed)
         {
-            _stepMargin += 20;
+            stepMargin += 20;
         }
     }
 
@@ -462,7 +461,7 @@ public partial class Dropzone : ComponentBase
 
     private string GetStepMargin()
     {
-        return $"{_stepMargin}px";
+        return $"{stepMargin}px";
     }
 
     private string CheckIfDragOperationIsInProgess()

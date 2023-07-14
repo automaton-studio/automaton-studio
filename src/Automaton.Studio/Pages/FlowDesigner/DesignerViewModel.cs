@@ -122,8 +122,8 @@ public class DesignerViewModel
         ActiveDefinition.UpdateStepConnections();
     }
 
-    public void SelectStep(string stepId)
+    public void SetExecutingStep(string stepId)
     {
-        Flow.SelectStep(stepId);
+        Flow.SetExecutingStep(stepId);
     }
 }

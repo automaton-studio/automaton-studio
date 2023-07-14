@@ -5,6 +5,7 @@ namespace Automaton.Studio.Domain;
 public class StudioFlow
 {
     private StudioStep selectedStep;
+    private StudioStep executingStep;
 
     public Guid Id { get; set; }
     public string Name { get; set; }
@@ -158,14 +159,11 @@ public class StudioFlow
         return count;
     }
 
-    public void SelectStep(string stepId)
+    public void SetExecutingStep(string stepId)
     {
-        if (selectedStep != null)
-        {
-            selectedStep.Unselect();
-        }
+        executingStep?.UnsetExecuting();
 
-        selectedStep = Steps[stepId];
-        selectedStep.Select();
+        executingStep = Steps[stepId];
+        executingStep.SetExecuting();
     }
 }

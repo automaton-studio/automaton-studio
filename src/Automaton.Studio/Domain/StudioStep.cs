@@ -43,6 +43,8 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public bool IsNew { get; set; }
 
+    public bool IsExecuting { get; private set; }
+
     public IDictionary<string, StepVariable> Inputs { get; set; } = new Dictionary<string, StepVariable>();
 
     public IDictionary<string, StepVariable> Outputs { get; set; } = new Dictionary<string, StepVariable>();
@@ -173,6 +175,16 @@ public abstract class StudioStep : INotifyPropertyChanged
     public void InvokeFinalized()
     {
         Finalized?.Invoke(this, new StepEventArgs(this));
+    }
+
+    public void SetExecuting()
+    {
+        IsExecuting = true;
+    }
+
+    public void UnsetExecuting()
+    {
+        IsExecuting = false;
     }
 
     #region INotifyPropertyChanged

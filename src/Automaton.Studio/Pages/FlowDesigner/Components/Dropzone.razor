@@ -20,50 +20,75 @@
      @ondragstart:stopPropagation
      ondragstart="event.dataTransfer.setData('text', event.target.id);">
 
-    <div @ondrop="()=>OnSpacerDrop()"
-         @ondrop:stopPropagation
-         @ondragleave="()=>OnSpacerDragLeave()"
-         @ondragenter="()=>OnSpacerDragEnter()"
-         class="@GetSpacerClass(null)">
-    </div>
-
-    @{
-        foreach (var step in Steps)
-        {
-            BeforeStepRender(step);
-
-            <div id="@step.Id" draggable="@IsStepDragable(step)"
-             @ondragstart="()=>OnStepDragStart(step)"
-             @ondragend="()=>OnStepDragEnd()"
-             @ondragenter="()=>OnStepDragEnter(step)"
-             @ondragover="(x)=>OnStepDragOver(x, step)"
-             @ondragleave="()=>OnStepDragLeave()"
-             @ondrop="()=>OnSpacerDrop()"
-             @onclick="()=>OnStepClick(step)"
-             @ondblclick="()=>OnStepDoubleClick(step)"
-             @ondblclick:stopPropagation="true"
-             @onmousedown="()=>OnStepMouseDown(step)"
-             @onmousedown:stopPropagation="true"
-             class="@GetClassesForDraggable(step)
-             @CheckIfDragOperationIsInProgess()
-             @CheckIfDraggable(step) @CheckVisibility(step)"
-             style="margin-left: @GetStepMargin()">
-
-                @ChildContent(step)
-
-            </div>
-
-            <div @ondrop="()=>OnSpacerDrop()"
+    <div style="float: left;
+        min-width: 50px;
+        max-width: 50px;
+        padding: 15px 2px 2px 2px;
+        margin-right: 10px;">
+        @{
+            int i = 1;
+            foreach (var step in Steps)
+                {
+                    <div style="height: 72px; width: 100%; text-align: center; padding: 20px 2px 0 20px; border-right: 1px solid #EEE;">
+                     @if(step.IsExecuting)
+                    {
+                        <b>@i</b>
+                    }
+                    else
+                    {
+                        @i
+                    }
+                </div>
+                <div class="step-spacing"></div>
+                i++;
+            }
+            }
+        </div>
+    <div style="padding-left: 50px;">
+        <div @ondrop="()=>OnSpacerDrop()"
              @ondrop:stopPropagation
              @ondragleave="()=>OnSpacerDragLeave()"
-             @ondragenter="()=>OnSpacerDragEnter(step)"
-             class="@GetSpacerClass(step) @CheckVisibility(step)">
-            </div>
+             @ondragenter="()=>OnSpacerDragEnter()"
+             class="@GetSpacerClass(null)">
+        </div>
 
-            AfterStepRender(step);
+        @{
+            foreach (var step in Steps)
+            {
+                BeforeStepRender(step);
+
+                <div id="@step.Id" draggable="@IsStepDragable(step)"
+                 @ondragstart="()=>OnStepDragStart(step)"
+                 @ondragend="()=>OnStepDragEnd()"
+                 @ondragenter="()=>OnStepDragEnter(step)"
+                 @ondragover="(x)=>OnStepDragOver(x, step)"
+                 @ondragleave="()=>OnStepDragLeave()"
+                 @ondrop="()=>OnSpacerDrop()"
+                 @onclick="()=>OnStepClick(step)"
+                 @ondblclick="()=>OnStepDoubleClick(step)"
+                 @ondblclick:stopPropagation="true"
+                 @onmousedown="()=>OnStepMouseDown(step)"
+                 @onmousedown:stopPropagation="true"
+                 class="@GetClassesForDraggable(step)
+                 @CheckIfDragOperationIsInProgess()
+                 @CheckIfDraggable(step) @CheckVisibility(step)"
+                 style="margin-left: @GetStepMargin()">
+
+                    @ChildContent(step)
+
+                </div>
+
+                <div @ondrop="()=>OnSpacerDrop()"
+                 @ondrop:stopPropagation
+                 @ondragleave="()=>OnSpacerDragLeave()"
+                 @ondragenter="()=>OnSpacerDragEnter(step)"
+                 class="@GetSpacerClass(step) @CheckVisibility(step)">
+                </div>
+
+                AfterStepRender(step);
+            }
         }
-    }
-
+    </div>
 </div>
 
 <style>
@@ -82,10 +107,16 @@
     .step-spacing {
         height: 15px;
         min-height: 15px;
+        border-right: 1px solid #EEE;
     }
 
     .step-visibility {
         display: none;
+    }
+
+    .step-spacing {
+        height: 15px;
+        min-height: 15px;
     }
 
 </style>

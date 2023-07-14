@@ -38,7 +38,7 @@ partial class DesignerPage : INotificationHandler<ExecuteStepNotification>
 
         OnExecuteStep += (sender, changed) =>
         {
-            DesignerViewModel.SelectStep(changed.StepId);
+            DesignerViewModel.SetExecutingStep(changed.StepId);
             InvokeAsync(StateHasChanged);
         };
     }
