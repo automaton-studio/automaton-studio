@@ -10,6 +10,8 @@ namespace Automaton.Studio.Steps;
 
 public partial class StepDesigner : ComponentBase
 {
+    private const int DefaultStepMargin = 10;
+
     [Parameter]
     public StudioStep Step { get; set; }
 
@@ -72,7 +74,9 @@ public partial class StepDesigner : ComponentBase
 
     private int GetStepMargin()
     {
-        var stepMargin = Step.GetNestedLevel() * ConfigurationService.StepMarginOffset;
+        var nestedLevel = Step.GetNestedLevel();
+
+        var stepMargin = nestedLevel == 0 ? DefaultStepMargin : nestedLevel * ConfigurationService.StepMarginOffset;
 
         return stepMargin;
     }

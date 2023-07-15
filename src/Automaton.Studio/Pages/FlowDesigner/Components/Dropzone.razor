@@ -20,13 +20,22 @@
      ondragstart="event.dataTransfer.setData('text', event.target.id);">
 
     <div>
+        <GridRow Wrap="false" Justify="center" Align="middle">
+
+                    <GridCol Flex=@("50px")>                      
+                    </GridCol>
+
+                    <GridCol Flex=@("auto")>
+
         <div @ondrop="()=>OnSpacerDrop()"
              @ondrop:stopPropagation
              @ondragleave="()=>OnSpacerDragLeave()"
              @ondragenter="()=>OnSpacerDragEnter()"
              class="@GetSpacerClass(null)">
         </div>
+        </GridCol>
 
+               </GridRow>
         @{
             foreach (var step in Steps)
             {       

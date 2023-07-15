@@ -117,7 +117,7 @@ public partial class Dropzone : ComponentBase, IDisposable
             {
                 step.ParentId = prevStep.Id;
             }
-            else if (!string.IsNullOrEmpty(prevStep.ParentId))
+            else if (prevStep.HasParent())
             {
                 step.ParentId = prevStep.ParentId;
             }
@@ -126,10 +126,9 @@ public partial class Dropzone : ComponentBase, IDisposable
                 step.ParentId = null;
             }
         }
-
-        if (step.HasParent())
+        else
         {
-            step.Hidden = step.Parent.Collapsed;
+            step.ParentId = null;
         }
     }
 

@@ -2,6 +2,7 @@
 using Automaton.Studio.Domain;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Resources;
+using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -9,6 +10,8 @@ namespace Automaton.Studio.Steps.Sequence;
 
 public partial class SequenceDesigner : ComponentBase
 {
+    private const int DefaultStepMargin = 10;
+
     [Parameter]
     public SequenceStep Step { get; set; }
 
@@ -17,6 +20,9 @@ public partial class SequenceDesigner : ComponentBase
 
     [Inject] 
     private ModalService ModalService { get; set; } = default!;
+
+    [Inject]
+    private ConfigurationService ConfigurationService { get; set; }
 
     protected override void OnInitialized()
     {
@@ -89,5 +95,14 @@ public partial class SequenceDesigner : ComponentBase
     private string GetExpandCollapseIcon()
     {
         return Step.Collapsed ? "right" : "down";
+    }
+
+    private int GetStepMargin()
+    {
+        var nestedLevel = Step.GetNestedLevel();
+
+        var stepMargin = nestedLevel == 0 ? DefaultStepMargin : nestedLevel * ConfigurationService.StepMarginOffset;
+
+        return stepMargin;
     }
 }
