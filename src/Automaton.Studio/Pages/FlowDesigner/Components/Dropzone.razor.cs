@@ -230,7 +230,7 @@ public partial class Dropzone : ComponentBase, IDisposable
         return spacerClass;
     }
 
-    private string GetClassesForDraggable(StudioStep item)
+    private string GetDraggableClass(StudioStep item)
     {
         var builder = new StringBuilder();
         builder.Append("plk-dd-draggable");
@@ -424,7 +424,7 @@ public partial class Dropzone : ComponentBase, IDisposable
         return firstHalf;
     }
 
-    private string CheckIfDraggable(StudioStep step)
+    private string GetNoDragableClass(StudioStep step)
     {
         if (AllowsDrag == null)
             return string.Empty;
@@ -443,7 +443,7 @@ public partial class Dropzone : ComponentBase, IDisposable
         return !step.IsVisible() ? "step-invisible" : string.Empty;
     }
 
-    private string CheckIfDragOperationIsInProgess()
+    private string GetDragOperationClass()
     {
         var activeItems = DragDropService.ActiveSteps;
         return activeItems.Any() ? "plk-dd-inprogess" : string.Empty;

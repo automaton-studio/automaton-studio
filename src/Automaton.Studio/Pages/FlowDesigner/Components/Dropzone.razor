@@ -51,9 +51,9 @@
                              @onmousedown="()=>OnStepMouseDown(step)"
                              @onmousedown:stopPropagation="true"
                              class="step-container
-                             @GetClassesForDraggable(step)
-                             @CheckIfDragOperationIsInProgess()
-                             @CheckIfDraggable(step) 
+                             @GetDraggableClass(step)
+                             @GetDragOperationClass()
+                             @GetNoDragableClass(step) 
                              @GetStepVisibilityClass(step)">
 
                                 @ChildContent(step)
