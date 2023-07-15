@@ -2,6 +2,7 @@
 using Automaton.Studio.Domain;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Resources;
+using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -17,6 +18,9 @@ public partial class StepDesigner : ComponentBase
 
     [Inject] 
     private ModalService ModalService { get; set; } = default!;
+
+    [Inject]
+    private ConfigurationService ConfigurationService { get; set; }
 
     protected override void OnInitialized()
     {
@@ -64,5 +68,12 @@ public partial class StepDesigner : ComponentBase
         step.Definition.DeleteStep(step);
 
         StateHasChanged();
+    }
+
+    private int GetStepMargin()
+    {
+        var stepMargin = Step.GetNestedLevel() * ConfigurationService.StepMarginOffset;
+
+        return stepMargin;
     }
 }

@@ -1,0 +1,29 @@
+﻿@using Automaton.Studio.Domain
+
+@code {
+    [Parameter]
+    public StudioStep Step { get; set; }
+
+    [Parameter]
+    public int Line { get; set; }
+}
+
+<div class="step-line-number">
+
+    @if (Step.IsExecuting)
+    {
+        <b>@(Line)</b>
+    }
+    else
+    {
+        @(Line)
+    }
+
+</div>
+
+<style>
+    .step-line-number {
+        padding-bottom: 15px;
+        text-align: center;
+    }
+</style>

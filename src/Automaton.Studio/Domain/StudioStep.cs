@@ -187,6 +187,20 @@ public abstract class StudioStep : INotifyPropertyChanged
         IsExecuting = false;
     }
 
+    public int GetNestedLevel()
+    {
+        int level = 0;
+
+        if (HasParent())
+        {
+            level++;
+
+            Parent.GetNestedLevel();
+        }
+
+        return level;
+    }
+
     #region INotifyPropertyChanged
 
     public event PropertyChangedEventHandler PropertyChanged;

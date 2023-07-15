@@ -77,6 +77,7 @@ public class StepFactory
         studioStep.Type = step.Type;
         studioStep.DisplayName = step.DisplayName;
         studioStep.Description = step.Description;
+        studioStep.ParentId = step.ParentId;
         studioStep.MoreInfo = step.MoreInfo;
         studioStep.Type = step.Type;
         studioStep.Icon = step.Icon;

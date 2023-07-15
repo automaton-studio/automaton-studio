@@ -13,8 +13,6 @@ public partial class Dropzone : ComponentBase
     private const string ActiveStepSpacingClass = "step-active-spacing";
     private const string StepSpacingClass = "step-spacing";
 
-    private int stepMargin = 10;
-
     [Inject] DragDropService DragDropService { get; set; }
 
     [Inject] JsInterop JsInterop { get; set; }
@@ -123,7 +121,7 @@ public partial class Dropzone : ComponentBase
             }
             else
             {
-                step.ParentId = string.Empty;
+                step.ParentId = null;
             }
         }
 
@@ -135,7 +133,7 @@ public partial class Dropzone : ComponentBase
 
     private void UpdateStepVisibility(StudioStep step, StudioStep prevStep)
     {
-        if (step.Parent != null)
+        if (step.HasParent())
         {
             step.Hidden = step.Parent.Collapsed;
         }
@@ -424,22 +422,6 @@ public partial class Dropzone : ComponentBase
         return firstHalf;
     }
 
-    private void BeforeStepRender(StudioStep step)
-    {
-        if (step is SequenceEndStep sequenceEnd && !sequenceEnd.Collapsed)
-        {
-            stepMargin -= 20;
-        }
-    }
-
-    private void AfterStepRender(StudioStep step)
-    {
-        if (step is SequenceStep sequence && !sequence.Collapsed)
-        {
-            stepMargin += 20;
-        }
-    }
-
     private string CheckIfDraggable(StudioStep step)
     {
         if (AllowsDrag == null)
@@ -454,14 +436,9 @@ public partial class Dropzone : ComponentBase
         return "plk-dd-noselect";
     }
 
-    private string CheckVisibility(StudioStep step)
+    private string GetStepVisibilityClass(StudioStep step)
     {
-        return !step.IsVisible() ? "step-visibility" : string.Empty;
-    }
-
-    private string GetStepMargin()
-    {
-        return $"{stepMargin}px";
+        return !step.IsVisible() ? "step-invisible" : string.Empty;
     }
 
     private string CheckIfDragOperationIsInProgess()

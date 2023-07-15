@@ -78,7 +78,7 @@ public partial class SequenceDesigner : ComponentBase
 
     private void SetChildrenColapse(bool collapsed)
     {
-        var children = Step.GetChildren().Where(x => x.ParentId == Step.Id || !x.Parent.Collapsed);
+        var children = Step.GetChildren().Where(x => x.ParentId == Step.Id || (x.Parent != null && !x.Parent.Collapsed));
 
         foreach (var child in children)
         {

@@ -2,5 +2,5 @@
 
 public class AppConfig
 {
-    public bool IsDesktop { get; set; }
+    public int StepMarginOffset { get; set; }
 }
