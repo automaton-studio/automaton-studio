@@ -1,7 +1,6 @@
 @using Automaton.Studio.Domain;
 @using System.Text
 @using Automaton.Studio.Steps.Sequence
-@implements IDisposable
 
 <div class="@GetClassesForDropzone()"
      @ondragover:preventDefault
@@ -29,19 +28,12 @@
         </div>
 
         @{
-            var lineNumber = 0;
-
             foreach (var step in Steps)
             {       
                 <GridRow Wrap="false" Justify="center" Align="middle">
-                    <GridCol Flex=@("50px")>
 
-                        @if(step.IsVisible())
-                        {
-                            <LineNumber Step="step" Line="lineNumber"></LineNumber>
-                            lineNumber++;
-                        }
-                   
+                    <GridCol Flex=@("50px")>                      
+                        <LineNumber Step="step" Line="@GetVisibleStepIndex(step)"></LineNumber>
                     </GridCol>
 
                     <GridCol Flex=@("auto")>

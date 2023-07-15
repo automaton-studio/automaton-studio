@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.FlowDesigner.Components;
 
-public partial class Dropzone : ComponentBase
+public partial class Dropzone : ComponentBase, IDisposable
 {
     private const string ActiveStepSpacingClass = "step-active-spacing";
     private const string StepSpacingClass = "step-spacing";
@@ -44,6 +44,8 @@ public partial class Dropzone : ComponentBase
     [Parameter] public string Class { get; set; }
 
     [Parameter] public Func<StudioStep, string> ItemWrapperClass { get; set; }
+
+    public IList<StudioStep> VisibleSteps => Steps.Where(x => x.IsVisible()).ToList();
 
     protected override void OnInitialized()
     {
@@ -445,6 +447,11 @@ public partial class Dropzone : ComponentBase
     {
         var activeItems = DragDropService.ActiveSteps;
         return activeItems.Any() ? "plk-dd-inprogess" : string.Empty;
+    }
+
+    private int GetVisibleStepIndex(StudioStep step)
+    {
+        return VisibleSteps.IndexOf(step);
     }
 
     public void Dispose()
