@@ -10,8 +10,6 @@ namespace Automaton.Studio.Steps;
 
 public partial class StepDesigner : ComponentBase
 {
-    private const int DefaultStepMargin = 10;
-
     [Parameter]
     public StudioStep Step { get; set; }
 
@@ -20,9 +18,6 @@ public partial class StepDesigner : ComponentBase
 
     [Inject] 
     private ModalService ModalService { get; set; } = default!;
-
-    [Inject]
-    private ConfigurationService ConfigurationService { get; set; }
 
     protected override void OnInitialized()
     {
@@ -70,14 +65,5 @@ public partial class StepDesigner : ComponentBase
         step.Definition.DeleteStep(step);
 
         StateHasChanged();
-    }
-
-    private int GetStepMargin()
-    {
-        var nestedLevel = Step.GetNestedLevel();
-
-        var stepMargin = nestedLevel == 0 ? DefaultStepMargin : nestedLevel * ConfigurationService.StepMarginOffset;
-
-        return stepMargin;
     }
 }

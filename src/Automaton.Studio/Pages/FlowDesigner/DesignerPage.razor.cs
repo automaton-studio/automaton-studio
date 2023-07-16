@@ -109,8 +109,9 @@ partial class DesignerPage : INotificationHandler<ExecuteStepNotification>
     {
         if (!step.HasProperties)
         {
-            DesignerViewModel.FinalizeStep(step);
+            step.InvokeFinalize();
             dropzone.SelectStep(step);
+
             return;
         }
 
@@ -118,7 +119,8 @@ partial class DesignerPage : INotificationHandler<ExecuteStepNotification>
 
         result.OnOk = () =>
         {
-            DesignerViewModel.FinalizeStep(step);
+            step.InvokeFinalize();
+            dropzone.SelectStep(step);
 
             return Task.CompletedTask;
         };

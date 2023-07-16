@@ -60,7 +60,6 @@ public class StudioDefinition
     public void FinalizeStep(StudioStep step)
     {
         step.Definition = this;
-        step.Finalized();
         UpdateStepConnections();
     }
 

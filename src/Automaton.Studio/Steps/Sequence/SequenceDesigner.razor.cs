@@ -96,13 +96,4 @@ public partial class SequenceDesigner : ComponentBase
     {
         return Step.Collapsed ? "right" : "down";
     }
-
-    private int GetStepMargin()
-    {
-        var nestedLevel = Step.GetNestedLevel();
-
-        var stepMargin = nestedLevel == 0 ? DefaultStepMargin : nestedLevel * ConfigurationService.StepMarginOffset;
-
-        return stepMargin;
-    }
 }

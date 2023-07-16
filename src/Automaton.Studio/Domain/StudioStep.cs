@@ -1,5 +1,4 @@
-﻿using AntDesign;
-using Automaton.Core.Models;
+﻿using Automaton.Core.Models;
 using Automaton.Studio.Events;
 using Automaton.Studio.Steps.Sequence;
 using System.ComponentModel;
@@ -9,7 +8,10 @@ namespace Automaton.Studio.Domain;
 
 public abstract class StudioStep : INotifyPropertyChanged
 {
+    private const int DefaultMargin = 10;
+
     public event EventHandler<StepEventArgs> Created;
+    public event EventHandler<StepEventArgs> Finalize;
 
     protected virtual string StepClass { get; set; } = "designer-step";
     protected virtual string SelectedStepClass { get; set; } = "designer-step-selected";
@@ -169,9 +171,11 @@ public abstract class StudioStep : INotifyPropertyChanged
         Created?.Invoke(this, new StepEventArgs(this));
     }
 
-    public virtual void Finalized()
+    public void InvokeFinalize()
     {
         IsNew = false;
+
+        Finalize?.Invoke(this, new StepEventArgs(this));
     }
 
     public void SetExecuting()
@@ -184,15 +188,20 @@ public abstract class StudioStep : INotifyPropertyChanged
         IsExecuting = false;
     }
 
-    public int GetNestedLevel()
+    public int GetMargin()
     {
-        int level = 0;
+        var level = GetNestedLevel();
 
+        var stepMargin = level * DefaultMargin;
+
+        return stepMargin;
+    }
+
+    private int GetNestedLevel(int level = 1)
+    {
         if (HasParent())
         {
-            level++;
-
-            Parent.GetNestedLevel();
+            return Parent.GetNestedLevel(++level);
         }
 
         return level;

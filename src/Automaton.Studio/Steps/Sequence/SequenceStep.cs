@@ -46,6 +46,7 @@ public class SequenceStep : StudioStep
     {
         this.stepFactory = stepFactory;
         HasProperties = false;
+        Finalize += OnFinalize;
     }
 
     public override Type GetDesignerComponent()
@@ -63,6 +64,18 @@ public class SequenceStep : StudioStep
         base.Select();
 
         var childrenPlusEndStep = GetChildrenAndEndStep();
+
+        foreach (var child in childrenPlusEndStep)
+        {
+            child.Select();
+        }
+    }
+
+    public void SelectNoEndStep()
+    {
+        base.Select();
+
+        var childrenPlusEndStep = GetChildren();
 
         foreach (var child in childrenPlusEndStep)
         {
@@ -90,10 +103,8 @@ public class SequenceStep : StudioStep
         return children;
     }
 
-    public override void Finalized()
+    private void OnFinalize(object sender, StepEventArgs e)
     {
-        base.Finalized();
-
         var sequenceEndStep = CreateSequenceEndStep();
 
         // Start and end sequences must know about each other

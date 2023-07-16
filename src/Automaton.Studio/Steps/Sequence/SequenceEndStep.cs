@@ -1,5 +1,8 @@
-﻿using Automaton.Studio.Attributes;
+﻿using Automaton.Core.Models;
+using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
+using Automaton.Studio.Events;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Automaton.Studio.Steps.Sequence;
 
@@ -53,6 +56,8 @@ public class SequenceEndStep : StudioStep
 
     public override void Select()
     {
-        SequenceStep.Select();
-    }
+        base.Select();
+
+        SequenceStep.SelectNoEndStep();
+    } 
 }
