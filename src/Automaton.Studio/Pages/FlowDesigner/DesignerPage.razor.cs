@@ -17,7 +17,7 @@ namespace Automaton.Studio.Pages.FlowDesigner;
 
 partial class DesignerPage : INotificationHandler<ExecuteStepNotification>
 {
-    private Dropzone dropzone;
+    private Designer designer;
     private Sider toolsSider;
     private Type toolsPanel = typeof(FlowSettings);
     public static event EventHandler<ExecuteStepEventArgs> OnExecuteStep;
@@ -50,7 +50,7 @@ partial class DesignerPage : INotificationHandler<ExecuteStepNotification>
 
     private void OnStepCreated(object sender, StepEventArgs e)
     {
-        dropzone.SetActiveStep(e.Step);
+        designer.SetActiveStep(e.Step);
     }
 
     private async Task OnItemDrop(StudioStep step)
@@ -110,7 +110,7 @@ partial class DesignerPage : INotificationHandler<ExecuteStepNotification>
         if (!step.HasProperties)
         {
             step.InvokeFinalize();
-            dropzone.SelectStep(step);
+            designer.SelectStep(step);
 
             return;
         }
@@ -120,7 +120,7 @@ partial class DesignerPage : INotificationHandler<ExecuteStepNotification>
         result.OnOk = () =>
         {
             step.InvokeFinalize();
-            dropzone.SelectStep(step);
+            designer.SelectStep(step);
 
             return Task.CompletedTask;
         };

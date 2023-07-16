@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Components.Rendering;
 using Automaton.Studio.Domain;
 
-namespace Automaton.Studio.Pages.FlowDesigner.Components;
+namespace Automaton.Studio.Pages.FlowDesigner;
 
-public class DropzoneStep : ComponentBase
+public class DesignerStep : ComponentBase
 {
     [Parameter]
     public StudioStep Step { get; set; }

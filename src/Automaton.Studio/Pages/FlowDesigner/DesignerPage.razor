@@ -61,15 +61,15 @@
                 @foreach (var definition in DesignerViewModel.Flow.Definitions)
                 {
                     <TabPane Key="@definition.Id" Tab="@definition.Name">
-                        <Dropzone @ref="dropzone"
+                        <Designer @ref="designer"
                               Class="dropzone"
                               Steps="definition.Steps"
                               ItemDrop="@((p)=>OnItemDrop(p))"
                               ItemDoubleClick="@((p)=>OnItemDoubleClick(p))">
 
-                            <DropzoneStep Step="@context" />
+                            <DesignerStep Step="@context" />
 
-                        </Dropzone>
+                        </Designer>
                     </TabPane>
                 }
             </Tabs>

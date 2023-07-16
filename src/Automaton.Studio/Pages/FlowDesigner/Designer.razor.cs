@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Components.Web;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.FlowDesigner.Components;
+namespace Automaton.Studio.Pages.FlowDesigner;
 
-public partial class Dropzone : ComponentBase, IDisposable
+public partial class Designer : ComponentBase, IDisposable
 {
     private const string ActiveStepSpacingClass = "step-active-spacing";
     private const string StepSpacingClass = "step-spacing";
