@@ -110,6 +110,7 @@ partial class DesignerPage : INotificationHandler<ExecuteStepNotification>
         if (!step.HasProperties)
         {
             DesignerViewModel.FinalizeStep(step);
+            dropzone.SelectStep(step);
             return;
         }
 

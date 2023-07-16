@@ -57,15 +57,6 @@ public partial class Dropzone : ComponentBase, IDisposable
     public void SetActiveStep(StudioStep step)
     {
         DragDropService.ActiveSteps = new List<StudioStep> { step };
-
-        // Unselect all the previous selected activities
-        UnselectSteps();
-
-        // Select the step being dragged
-        foreach (var activeItem in DragDropService.ActiveSteps)
-        {
-            activeItem.Select();
-        }
     }
 
     private void OnSpacerDrop()
@@ -293,13 +284,16 @@ public partial class Dropzone : ComponentBase, IDisposable
 
     private void OnStepMouseDown(StudioStep step)
     {
-        // Unselect all the previous selected activities
-        UnselectSteps();
-
-        // Select the one under the mouse cursor
-        step.Select();
+        SelectStep(step);
 
         ItemMouseDown.InvokeAsync(step);
+    }
+
+    public void SelectStep(StudioStep step)
+    {
+        UnselectSteps();
+
+        step.Select();
     }
 
     private void OnStepDoubleClick(StudioStep item)

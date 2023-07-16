@@ -1,4 +1,5 @@
-﻿using Automaton.Core.Models;
+﻿using AntDesign;
+using Automaton.Core.Models;
 using Automaton.Studio.Events;
 using Automaton.Studio.Steps.Sequence;
 using System.ComponentModel;
@@ -8,7 +9,6 @@ namespace Automaton.Studio.Domain;
 
 public abstract class StudioStep : INotifyPropertyChanged
 {
-    public event EventHandler<StepEventArgs> Finalized;
     public event EventHandler<StepEventArgs> Created;
 
     protected virtual string StepClass { get; set; } = "designer-step";
@@ -147,11 +147,6 @@ public abstract class StudioStep : INotifyPropertyChanged
         Class = StepClass;
     }
 
-    public virtual void SetSelectClass()
-    {
-        Class = SelectedStepClass;
-    }
-
     public bool IsSelected()
     {
         return Class == SelectedStepClass;
@@ -169,12 +164,14 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public void InvokeCreated()
     {
+        IsNew = true;
+
         Created?.Invoke(this, new StepEventArgs(this));
     }
 
-    public void InvokeFinalized()
+    public virtual void Finalized()
     {
-        Finalized?.Invoke(this, new StepEventArgs(this));
+        IsNew = false;
     }
 
     public void SetExecuting()

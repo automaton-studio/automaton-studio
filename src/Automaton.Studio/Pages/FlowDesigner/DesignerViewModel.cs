@@ -98,10 +98,6 @@ public class DesignerViewModel
             stepFactory.CreateCustomStep(customStepModel as CustomStepExplorerModel, ActiveDefinition) : 
             stepFactory.CreateStep(customStepModel.Name, ActiveDefinition);
         
-        step.IsNew = true;
-
-        step.InvokeCreated();
-
         StepCreated?.Invoke(this, new StepEventArgs(step));
     }
 
@@ -113,8 +109,6 @@ public class DesignerViewModel
     public void FinalizeStep(StudioStep step)
     {
         ActiveDefinition.FinalizeStep(step);
-
-        step.InvokeFinalized();
     }
 
     public void UpdateStepConnections()
