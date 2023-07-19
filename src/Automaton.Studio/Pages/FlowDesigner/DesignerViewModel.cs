@@ -21,7 +21,18 @@ public class DesignerViewModel
 
     public StudioFlow Flow { get; set; } = new StudioFlow();
     public StudioDefinition ActiveDefinition { get; set; }
-    public bool CanExecuteFlow => configurationService.IsDesktop;
+
+    public bool CanExecuteFlow
+    {
+        get
+        {
+#if DEBUG
+            return true;
+#else
+            return configurationService.IsDesktop;
+#endif
+        }
+    }
 
     public event EventHandler<StepEventArgs> StepCreated;
 
