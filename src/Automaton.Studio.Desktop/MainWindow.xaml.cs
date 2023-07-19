@@ -15,14 +15,6 @@ namespace Automaton.Studio.Desktop
 
             InitializeComponent();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show(
-                owner: this,
-                messageBoxText: $"Current counter value is: {App.AppState.Counter}",
-                caption: "Counter");
-        }
     }
 
     // Workaround for compiler error "error MC3050: Cannot find the type 'local:Main'"
