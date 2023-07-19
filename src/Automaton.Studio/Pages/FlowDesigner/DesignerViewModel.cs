@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-//using Automaton.Core.Events;
 using Automaton.Core.Models;
 using Automaton.Core.Services;
 using Automaton.Studio.Domain;
@@ -18,21 +17,25 @@ public class DesignerViewModel
     private readonly StepFactory stepFactory;
     private readonly FlowService flowService;
     private readonly WorkflowExecuteService workflowExecuteService;
+    private readonly ConfigurationService configurationService;
 
     public StudioFlow Flow { get; set; } = new StudioFlow();
     public StudioDefinition ActiveDefinition { get; set; }
+    public bool CanExecuteFlow => configurationService.IsDesktop;
 
     public event EventHandler<StepEventArgs> StepCreated;
 
     public DesignerViewModel
     (
         IMapper mapper,
+        ConfigurationService configurationService,
         StepFactory stepFactory,
         FlowService flowService,
         WorkflowExecuteService workflowExecuteService
     )
     {
         this.mapper = mapper;
+        this.configurationService = configurationService;
         this.stepFactory = stepFactory;
         this.flowService = flowService;
         this.workflowExecuteService = workflowExecuteService;
@@ -56,6 +59,12 @@ public class DesignerViewModel
         // during Workflow execution. This way we can introduce a
         // Debug functionality where user can add breakpoints and
         // investigate the values of Flow variables
+
+        if (!CanExecuteFlow)
+        {
+            throw new Exception("Now allowed to execute flow from designer");
+        }
+
         var flow = mapper.Map<Flow>(Flow);
         await workflowExecuteService.Execute(flow, CancellationToken.None, 100);
     }

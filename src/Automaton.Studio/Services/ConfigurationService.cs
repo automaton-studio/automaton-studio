@@ -15,6 +15,7 @@ public class ConfigurationService
     public string CustomStepsUrl => apiConfiguration.CustomStepsUrl;
     public string RunnersUrl => apiConfiguration.RunnersUrl;
     public string LogsUrl => apiConfiguration.LogsUrl;
+    public bool IsDesktop => appConfiguration.IsDesktop;
     public bool UserSignUp => optionalConfiguration.UserSignUp;
     public bool NoUserSignUp => !UserSignUp;
 

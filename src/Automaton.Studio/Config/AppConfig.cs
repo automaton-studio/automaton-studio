@@ -2,4 +2,5 @@
 
 public class AppConfig
 {
+    public bool IsDesktop { get; set; }
 }
