@@ -9,7 +9,7 @@ namespace Automaton.Core.Services;
 
 public class WorkflowExecuteService
 {
-    private IMediator mediator;
+    private readonly IMediator mediator;
     private readonly ILogger logger;
     private readonly WorkflowConvertService flowConvertService;
 
@@ -20,7 +20,7 @@ public class WorkflowExecuteService
         logger = Log.ForContext<WorkflowExecuteService>();
     }
 
-    private async Task<WorkflowExecutorResult> Execute(Workflow workflow, CancellationToken cancellationToken = default, int executeDelay = 0)
+    private async Task<WorkflowExecutorResult> Execute(Workflow workflow, int executeDelay = 0, CancellationToken cancellationToken = default)
     {
         var result = new WorkflowExecutorResult();
         var definition = workflow.GetStartupDefinition();
@@ -75,11 +75,16 @@ public class WorkflowExecuteService
         return result;
     }
 
-    public async Task<WorkflowExecutorResult> Execute(Flow flow, CancellationToken cancellationToken = default, int executeDelay = 0)
+    public async Task<WorkflowExecutorResult> Execute(Flow flow, int executeDelay = 0, CancellationToken cancellationToken = default)
     {
         var workflow = flowConvertService.ConvertFlow(flow);
 
-        var result = await Execute(workflow, cancellationToken, executeDelay);
+        workflow.SetWorkflowVariable += async (sender, e) =>
+        {
+            await mediator.Publish(new SetVariableNotification { Variable = e.Variable }, cancellationToken);
+        };
+
+        var result = await Execute(workflow, executeDelay, cancellationToken);
 
         return result;
     }

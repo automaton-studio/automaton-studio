@@ -1,25 +1,31 @@
 ﻿
 using AntDesign;
 using Automaton.Core.Enums;
+using Automaton.Core.Events;
 using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Pages.FlowDesigner.Components.NewVariable;
 using Automaton.Studio.Resources;
 using Blazored.FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Components;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.FlowDesigner.Components.Drawer;
 
-public partial class FlowVariables : ComponentBase
+public partial class FlowVariables : ComponentBase, INotificationHandler<SetVariableNotification>
 {
+    private FluentValidationValidator fluentValidationValidator;
+
+    public IEnumerable<VariableType> VariableTypes { get; } = Enum.GetValues<VariableType>();
+    public static event EventHandler<SetVariableEventArgs> SetFlowVariable;
+
     [CascadingParameter]
     private StudioFlow Flow { get; set; }
 
-    private FluentValidationValidator fluentValidationValidator;
-    public IEnumerable<VariableType> VariableTypes { get; } = Enum.GetValues<VariableType>();
-
-    [Inject] private ModalService ModalService { get; set; } = default!;
+    [Inject]
+    private ModalService ModalService { get; set; } = default!;
 
     private IEnumerable<StepVariable> Variables
     {
@@ -28,6 +34,8 @@ public partial class FlowVariables : ComponentBase
             return Flow.Variables.Select(x => new StepVariable
             {
                 Name = x.Key,
+                Value = x.Value.Value,
+                Description = x.Value.Description
             }).OrderBy(x => x.Name);
         }
     }
@@ -39,7 +47,8 @@ public partial class FlowVariables : ComponentBase
             return Flow.InputVariables.Select(x => new StepVariable
             {
                 Name = x.Key,
-                Value = x.Value.ToString()
+                Value = x.Value.Value,
+                Description = x.Value.Description
             }).OrderBy(x => x.Name);
         }
     }
@@ -51,13 +60,16 @@ public partial class FlowVariables : ComponentBase
             return Flow.OutputVariables.Select(x => new StepVariable
             {
                 Name = x.Key,
-                Value = x.Value.ToString()
+                Value = x.Value.Value,
+                Description = x.Value.Description
             }).OrderBy(x => x.Name);
         }
     }
 
     protected override async Task OnInitializedAsync()
     {
+        SetFlowVariable += OnSetFlowVariable;
+
         await base.OnInitializedAsync();
     }
 
@@ -204,5 +216,16 @@ public partial class FlowVariables : ComponentBase
     public async Task Cancel()
     {
         //await CloseFeedbackAsync();
+    }
+
+    public Task Handle(SetVariableNotification notification, CancellationToken cancellationToken)
+    {
+        SetFlowVariable?.Invoke(this, new SetVariableEventArgs(notification.Variable));
+        return Task.CompletedTask;
+    }
+
+    private void OnSetFlowVariable(object sender, SetVariableEventArgs e)
+    {
+        Flow.Variables[e.Variable.Name] = e.Variable;
     }
 }

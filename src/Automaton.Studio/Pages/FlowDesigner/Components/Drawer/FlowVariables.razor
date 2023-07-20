@@ -25,7 +25,8 @@
                             <ChildContent Context="item">
                                 <ListItem Style="padding-left: 0px; padding-bottom: 2px; padding-top: 2px">
                                     <Button Type="@ButtonType.Link" Size="@ButtonSize.Small">@item.Name</Button>
-                                    <div class="designer-step-actions-icon">
+                                    @item.Value?.ToString()
+                                <div class="designer-step-actions-icon">
                                         <Dropdown Placement="@Placement.Left" Trigger="@(new Trigger[] { Trigger.Click })">
                                             <Overlay>
                                                 <Menu>

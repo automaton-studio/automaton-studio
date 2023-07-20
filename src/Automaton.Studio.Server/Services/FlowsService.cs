@@ -115,7 +115,7 @@ public class FlowsService
     {
         var flow = Get(flowId);
 
-        var result = await workflowExecuteService.Execute(flow, cancellationToken);
+        var result = await workflowExecuteService.Execute(flow, cancellationToken: cancellationToken);
 
         return result;
     }

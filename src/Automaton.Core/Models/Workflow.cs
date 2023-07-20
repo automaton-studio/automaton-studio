@@ -1,4 +1,7 @@
-﻿namespace Automaton.Core.Models;
+﻿using Automaton.Core.Events;
+using System;
+
+namespace Automaton.Core.Models;
 
 public class Workflow
 {
@@ -15,6 +18,8 @@ public class Workflow
     public IDictionary<string, StepVariable> InputVariables { get; set; }
 
     public List<WorkflowDefinition> Definitions { get; set; }
+
+    public event EventHandler<SetVariableEventArgs> SetWorkflowVariable;
 
     public Workflow()
     {
@@ -56,5 +61,7 @@ public class Workflow
         {
             Variables.Add(variable.Name, variable);
         }
+
+        SetWorkflowVariable?.Invoke(this, new SetVariableEventArgs(variable));
     }
 }

@@ -3,7 +3,6 @@ using Automaton.Core.Events;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
-using Automaton.Studio.Pages.FlowDesigner.Components;
 using Automaton.Studio.Pages.FlowDesigner.Components.Drawer;
 using Automaton.Studio.Pages.FlowDesigner.Components.FlowExplorer;
 using Automaton.Studio.Pages.FlowDesigner.Components.NewDefinition;
@@ -20,7 +19,7 @@ partial class DesignerPage : INotificationHandler<ExecuteStepNotification>
     private Designer designer;
     private Sider toolsSider;
     private Type toolsPanel = typeof(FlowSettings);
-    public static event EventHandler<ExecuteStepEventArgs> OnExecuteStep;
+    public static event EventHandler<ExecuteStepEventArgs> ExecuteStep;
 
     [Parameter] public string FlowId { get; set; }
 
@@ -34,18 +33,20 @@ partial class DesignerPage : INotificationHandler<ExecuteStepNotification>
 
         await LoadFlow(flowId);
 
-        await base.OnInitializedAsync();
+        ExecuteStep += OnExecutingStep;
 
-        OnExecuteStep += (sender, changed) =>
-        {
-            DesignerViewModel.SetExecutingStep(changed.StepId);
-            InvokeAsync(StateHasChanged);
-        };
+        await base.OnInitializedAsync();
     }
 
     public async Task RunFlow()
     {
         await DesignerViewModel.RunFlow();
+    }
+
+    public Task Handle(ExecuteStepNotification notification, CancellationToken cancellationToken)
+    {
+        ExecuteStep?.Invoke(this, new ExecuteStepEventArgs() { StepId = notification.StepId });
+        return Task.CompletedTask;
     }
 
     private void OnStepCreated(object sender, StepEventArgs e)
@@ -187,9 +188,10 @@ partial class DesignerPage : INotificationHandler<ExecuteStepNotification>
     {
     }
 
-    public Task Handle(ExecuteStepNotification notification, CancellationToken cancellationToken)
+    private void OnExecutingStep(object sender, ExecuteStepEventArgs e)
     {
-        OnExecuteStep?.Invoke(this, new ExecuteStepEventArgs() { StepId = notification.StepId });
-        return Task.CompletedTask;
+        DesignerViewModel.SetExecutingStep(e.StepId);
+
+        InvokeAsync(StateHasChanged);
     }
 }

@@ -164,6 +164,7 @@ public class StudioFlow
         executingStep?.UnsetExecuting();
 
         executingStep = Steps[stepId];
+
         executingStep.SetExecuting();
     }
 }
