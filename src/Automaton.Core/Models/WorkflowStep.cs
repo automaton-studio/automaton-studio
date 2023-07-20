@@ -112,7 +112,7 @@ public abstract class WorkflowStep
         }
     }
 
-    protected bool ShouldParseProperty(PropertyInfo stepProperty)
+    private static bool ShouldParseProperty(PropertyInfo stepProperty)
     {
         var propertyParsing = stepProperty.GetCustomAttributes<IgnorePropertyParsing>().SingleOrDefault();
 
