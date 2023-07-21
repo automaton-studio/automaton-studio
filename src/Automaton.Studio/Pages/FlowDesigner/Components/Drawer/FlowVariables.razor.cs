@@ -5,6 +5,7 @@ using Automaton.Core.Events;
 using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Pages.FlowDesigner.Components.NewVariable;
+using Automaton.Studio.Pages.FlowDesigner.Components.ViewVariable;
 using Automaton.Studio.Resources;
 using Blazored.FluentValidation;
 using MediatR;
@@ -18,14 +19,15 @@ public partial class FlowVariables : ComponentBase, INotificationHandler<SetVari
 {
     private FluentValidationValidator fluentValidationValidator;
 
-    public IEnumerable<VariableType> VariableTypes { get; } = Enum.GetValues<VariableType>();
-    public static event EventHandler<SetVariableEventArgs> SetFlowVariable;
-
     [CascadingParameter]
     private StudioFlow Flow { get; set; }
 
     [Inject]
     private ModalService ModalService { get; set; } = default!;
+
+    public IEnumerable<VariableType> VariableTypes { get; } = Enum.GetValues<VariableType>();
+
+    public static event EventHandler<SetVariableEventArgs> SetFlowVariable;
 
     private IEnumerable<StepVariable> Variables
     {
@@ -216,6 +218,27 @@ public partial class FlowVariables : ComponentBase, INotificationHandler<SetVari
     public async Task Cancel()
     {
         //await CloseFeedbackAsync();
+    }
+
+    public async Task ViewVariable(StepVariable variable)
+    {
+        var viewVariableModel = new ViewVariableModel
+        {
+            Variable = variable,
+            Flow = Flow
+        };
+
+        var newVariableDialog = await ModalService.CreateModalAsync<ViewVariableDialog, ViewVariableModel>
+        (
+            new ModalOptions { Title = Labels.VariableValue }, viewVariableModel
+        );
+
+        newVariableDialog.OnOk = () =>
+        {
+            //StateHasChanged();
+
+            return Task.CompletedTask;
+        };
     }
 
     public Task Handle(SetVariableNotification notification, CancellationToken cancellationToken)

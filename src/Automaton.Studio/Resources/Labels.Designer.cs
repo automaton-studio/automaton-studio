@@ -131,5 +131,14 @@ namespace Automaton.Studio.Resources {
                 return ResourceManager.GetString("Variables", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Variable Value.
+        /// </summary>
+        internal static string VariableValue {
+            get {
+                return ResourceManager.GetString("VariableValue", resourceCulture);
+            }
+        }
     }
 }

@@ -1,0 +1,36 @@
+﻿@using Automaton.Studio.Resources
+@using Blazored.FluentValidation;
+@using Automaton.Core.Enums;
+@using Automaton.Core.Models;
+
+@inherits FeedbackComponent<ViewVariableModel>
+
+<Form Model="@model">
+    <Validator>
+        <FluentValidationValidator @ref="validator" />
+        <ValidationSummary />
+    </Validator>
+
+    <ChildContent>
+        <Row>
+            <Col>
+            <Space Direction="DirectionVHType.Horizontal">
+                <SpaceItem><VariableName Name="@context.Variable.Name" Flow="@context.Flow" /></SpaceItem>
+                <SpaceItem>(@context.Variable.Type value)</SpaceItem>
+            </Space>
+            </Col>
+        </Row>
+        <Row>
+            <Col>
+                <TextArea Rows="10" Id="variable-value" Value="@context.Variable.Value?.ToString()" />
+            </Col>
+        </Row>
+    </ChildContent>
+</Form>
+
+<style>
+    #variable-value {
+        width: 100vw !important;
+        margin-top: 10px;
+    }
+</style>

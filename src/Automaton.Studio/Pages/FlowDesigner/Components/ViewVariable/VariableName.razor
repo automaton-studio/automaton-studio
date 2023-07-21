@@ -1,0 +1,66 @@
+﻿@using Automaton.Studio.Domain
+@using Automaton.Core.Models
+
+<div class="step-output-variable">
+
+    @if (editing)
+    {
+        <Input Type="text" @bind-Value="@Name" OnBlur="StopEdit" OnPressEnter="OnPressEnter" AutoFocus />
+    }
+    else
+    {
+        <span @onclick:preventDefault class="designer-variable-name" @onclick="()=>StartEdit()">@Name</span>
+    }
+
+</div>
+
+@code {
+    private bool editing;
+    private string originalName;
+
+    [Parameter]
+    public string Name { get; set; }
+
+    [Parameter]
+    public StudioFlow Flow { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    private void OnPressEnter()
+    {
+        StopEdit();
+    }
+
+    private void StartEdit()
+    {
+        originalName = Name;
+
+        editing = true;
+    }
+
+    private void StopEdit()
+    {
+        editing = false;
+    }
+}
+
+<style>
+    .designer-variable-name {
+        color: #1890FF;
+        background-color: #E6F0FF;
+        padding: 3px 7px 4px 7px;
+        border-radius: 10px;
+    }
+
+        .designer-variable-name:hover {
+            outline: 1px solid #1890FF;
+            outline-offset: -1px;
+        }
+
+    .step-output-variable {
+        padding: 2px 0 4px 0;
+    }
+</style>

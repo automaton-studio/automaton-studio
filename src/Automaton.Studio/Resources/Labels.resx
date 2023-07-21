@@ -141,4 +141,7 @@
   <data name="Variables" xml:space="preserve">
     <value>Variables</value>
   </data>
+  <data name="VariableValue" xml:space="preserve">
+    <value>Variable Value</value>
+  </data>
 </root>

@@ -60,6 +60,11 @@ public class StudioFlow
         Definitions.Remove(definition);
     }
 
+    public StepVariable GetVariable(string name)
+    {
+        return Variables[name];
+    }
+
     public void SetVariable(StepVariable variable)
     {
         if (Variables.ContainsKey(variable.Name))

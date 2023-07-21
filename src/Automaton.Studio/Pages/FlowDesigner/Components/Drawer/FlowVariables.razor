@@ -9,48 +9,53 @@
 
     <Row>
         <Col Span="24">
-            <Collapse DefaultActiveKey="@(new[]{"1"})" Bordered="false" Class="variables-collapse-panel">
-                <Panel Key="1">
-                    <HeaderTemplate>
-                        <Row>
-                            <Col Span="20">
-                                <b>Flow Variables</b>
-                            </Col>
-                            <Col Span="4">
-                            </Col>
-                        </Row>
-                    </HeaderTemplate>
-                    <ChildContent>
-                        <AntList DataSource="@Variables" Size="small" Class="scrollable-list">
-                            <ChildContent Context="item">
-                                <ListItem Style="padding-left: 0px; padding-bottom: 2px; padding-top: 2px">
-                                    <Button Type="@ButtonType.Link" Size="@ButtonSize.Small">@item.Name</Button>
-                                    @item.Value?.ToString()
+        <Collapse DefaultActiveKey="@(new[]{"1"})" Bordered="false" Class="variables-collapse-panel">
+            <Panel Key="1">
+                <HeaderTemplate>
+                    <Row>
+                        <Col Span="20">
+                        <b>Flow Variables</b>
+                        </Col>
+                        <Col Span="4">
+                        </Col>
+                    </Row>
+                </HeaderTemplate>
+                <ChildContent>
+                    <AntList DataSource="@Variables" Size="small" Class="scrollable-list">
+                        <ChildContent Context="item">
+                            <ListItem Style="padding-left: 0px; padding-bottom: 2px; padding-top: 2px">
+
+                                <Button Type="@ButtonType.Link" Size="@ButtonSize.Small" OnClick="@(() => ViewVariable(item))">@item.Name</Button>
+
+                                <span class="ellipsis">@item.Value?.ToString()</span>
+                                
                                 <div class="designer-step-actions-icon">
-                                        <Dropdown Placement="@Placement.Left" Trigger="@(new Trigger[] { Trigger.Click })">
-                                            <Overlay>
-                                                <Menu>
-                                                    <MenuItem Icon="edit">
-                                                        Edit
-                                                    </MenuItem>
-                                                    <MenuItem Icon="delete">
-                                                        Delete
-                                                    </MenuItem>
-                                                </Menu>
-                                            </Overlay>
-                                            <ChildContent>
-                                                <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
-                                                    <Icon Type="more" Theme="outline" />
-                                                </a>
-                                            </ChildContent>
-                                        </Dropdown>
-                                    </div>
-                                </ListItem>
-                            </ChildContent>
-                        </AntList>
-                    </ChildContent>
-                </Panel>
-            </Collapse>
+                                    <Dropdown Placement="@Placement.Left" Trigger="@(new Trigger[] { Trigger.Click })">
+                                        <Overlay>
+                                            <Menu>
+                                                <MenuItem Icon="eye" OnClick="@(() => ViewVariable(item))">
+                                                    View
+                                                </MenuItem>
+
+                                                <MenuItem Icon="search">
+                                                    Find Usages
+                                                </MenuItem>
+                                            </Menu>
+                                        </Overlay>
+                                        <ChildContent>
+                                            <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
+                                                <Icon Type="more" Theme="outline" />
+                                            </a>
+                                        </ChildContent>
+                                    </Dropdown>
+                                </div>
+
+                            </ListItem>
+                        </ChildContent>
+                    </AntList>
+                </ChildContent>
+            </Panel>
+        </Collapse>
         </Col>
     </Row>
 
@@ -64,12 +69,12 @@
                         <b>Input Variables</b>
                         </Col>
                         <Col Span="4">
-                            <Button Shape="@ButtonShape.Circle"
-                                    Icon="plus"
-                                    Size="@ButtonSize.Small"
-                                    OnClick="AddInputVariable"
-                                    OnClickStopPropagation>
-                            </Button>                       
+                        <Button Shape="@ButtonShape.Circle"
+                                Icon="plus"
+                                Size="@ButtonSize.Small"
+                                OnClick="AddInputVariable"
+                                OnClickStopPropagation>
+                        </Button>
                         </Col>
                     </Row>
                 </HeaderTemplate>
@@ -192,6 +197,15 @@
 
     .designer-step-actions-icon {
         padding: 0px 12px 0px 12px;
+    }
+
+    .ellipsis {
+        display: inline-block;
+        overflow: hidden;
+        overflow-wrap: normal;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100px;
     }
 </style>
 
