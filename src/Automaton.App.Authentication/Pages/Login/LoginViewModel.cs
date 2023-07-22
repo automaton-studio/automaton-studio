@@ -1,30 +1,29 @@
-﻿using AutoMapper;
+﻿using Automaton.App.Authentication.Services;
 using Automaton.Client.Auth.Models;
-using Automaton.Studio.Services;
-using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Login;
+namespace Automaton.App.Authentication.Pages.Login;
 
 public class LoginViewModel
 {
-    private readonly IMapper mapper;
     private readonly AuthenticationService authenticationService;
 
-    public LoginModel LoginDetails { get; set;  } = new LoginModel();
+    public LoginModel LoginModel { get; set;  } = new LoginModel();
 
     public LoginViewModel
     (
-        IMapper mapper,
         AuthenticationService authenticationService
     )
     {
-        this.mapper = mapper;
         this.authenticationService = authenticationService;
     }
 
     public async Task Login()
     {
-        var loginDetails = mapper.Map<LoginDetails>(LoginDetails);
+        var loginDetails = new LoginDetails(LoginModel.UserName, LoginModel.Password)
+        {
+            RememberMe = LoginModel.RememberMe
+        };
+
         await authenticationService.Login(loginDetails);
     }
 }

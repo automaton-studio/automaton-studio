@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Automaton.Studio.Pages.Login;
+namespace Automaton.App.Authentication.Pages.Login;
 
 public class LoginValidator : AbstractValidator<LoginModel>
 {

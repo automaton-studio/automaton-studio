@@ -1,10 +1,9 @@
 ﻿using AntDesign;
-using Automaton.Studio.Services;
+using Automaton.App.Authentication.Config;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Register;
+namespace Automaton.App.Authentication.Pages.Register;
 
 partial class UserRegisterPage : ComponentBase
 {
@@ -19,7 +18,7 @@ partial class UserRegisterPage : ComponentBase
     {
         if (ConfigurationService.NoUserSignUp)
         {
-            NavigationManager.NavigateTo("/notavailable");
+            NavigationManager.NavigateTo("/registernotavailable");
         }
 
         await base.OnInitializedAsync();

@@ -1,14 +1,13 @@
-﻿using Automaton.Client.Auth.Interfaces;
+﻿using Automaton.App.Authentication.Config;
+using Automaton.Client.Auth.Interfaces;
 using Automaton.Client.Auth.Models;
 using Automaton.Client.Auth.Providers;
 using Microsoft.AspNetCore.Components.Authorization;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
-namespace Automaton.Studio.Services;
+namespace Automaton.App.Authentication.Services;
 
 public class AuthenticationService
 {
@@ -18,12 +17,12 @@ public class AuthenticationService
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
     private readonly AuthenticationStateProvider authStateProvider;
-    private readonly Client.Auth.Services.ConfigurationService configService;
+    private readonly ConfigurationService configService;
     private readonly IAuthenticationStorage authenticationStorage;
 
-    public AuthenticationService(HttpClient automatonHttpClient, 
+    public AuthenticationService(HttpClient automatonHttpClient,
         AuthenticationStateProvider authStateProvider,
-        Client.Auth.Services.ConfigurationService configService,
+        ConfigurationService configService,
         IAuthenticationStorage localStorage)
     {
         this.httpClient = automatonHttpClient;

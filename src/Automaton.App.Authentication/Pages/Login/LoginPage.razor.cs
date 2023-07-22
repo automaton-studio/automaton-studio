@@ -1,10 +1,9 @@
 ﻿using AntDesign;
-using Automaton.Studio.Services;
+using Automaton.App.Authentication.Config;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using System.Threading.Tasks;
 
-namespace Automaton.Studio.Pages.Login;
+namespace Automaton.App.Authentication.Pages.Login;
 
 partial class LoginPage : ComponentBase
 {
@@ -15,7 +14,7 @@ partial class LoginPage : ComponentBase
     [Inject] private MessageService MessageService { get; set; }
     [Inject] private ConfigurationService ConfigurationService { get; set; }
 
-    public LoginModel Model => LoginViewModel.LoginDetails;
+    public LoginModel Model => LoginViewModel.LoginModel;
 
     protected override async Task OnInitializedAsync()
     {

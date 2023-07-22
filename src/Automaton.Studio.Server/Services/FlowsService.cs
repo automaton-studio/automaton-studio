@@ -108,9 +108,6 @@ public class FlowsService
         return exists;
     }
 
-    /// <summary>
-    /// Executes flow on server
-    /// </summary>
     public async Task<WorkflowExecutorResult> Execute(Guid flowId, CancellationToken cancellationToken)
     {
         var flow = Get(flowId);
@@ -120,9 +117,6 @@ public class FlowsService
         return result;
     }
 
-    /// <summary>
-    /// Executes flow on runners
-    /// </summary>
     public async Task Execute(Guid flowId, IEnumerable<Guid> runnerIds)
     {
         await runnerService.ExecuteFlow(flowId, runnerIds);

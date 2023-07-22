@@ -1,8 +1,7 @@
-﻿using Automaton.Studio.Models;
-using Automaton.Studio.Services;
-using System.Threading.Tasks;
+﻿using Automaton.App.Authentication.Models;
+using Automaton.App.Authentication.Services;
 
-namespace Automaton.Studio.Pages.Register;
+namespace Automaton.App.Authentication.Pages.Register;
 
 public class UserRegisterViewModel
 {

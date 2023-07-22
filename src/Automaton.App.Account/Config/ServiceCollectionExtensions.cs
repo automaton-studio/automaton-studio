@@ -5,7 +5,7 @@ using Automaton.App.Account.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Automaton.Studio.Extensions;
+namespace Automaton.App.Account.Config;
 
 public static class ServiceCollectionExtensions
 {

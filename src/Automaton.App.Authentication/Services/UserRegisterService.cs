@@ -1,9 +1,7 @@
-﻿using Automaton.Studio.Models;
-using System.Net.Http;
+﻿using Automaton.App.Authentication.Models;
 using System.Net.Http.Json;
-using System.Threading.Tasks;
 
-namespace Automaton.Studio.Services;
+namespace Automaton.App.Authentication.Services;
 
 public class UserRegisterService
 {

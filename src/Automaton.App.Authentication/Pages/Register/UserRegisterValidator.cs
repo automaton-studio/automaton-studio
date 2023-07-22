@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Automaton.Studio.Pages.Register;
+namespace Automaton.App.Authentication.Pages.Register;
 
 public class UserRegisterValidator : AbstractValidator<UserRegisterViewModel>
 {

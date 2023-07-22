@@ -16,6 +16,7 @@
     <PackageReference Include="Blazored.FluentValidation" Version="2.1.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebView" Version="7.0.5" />
@@ -28,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Automaton.App.Account\Automaton.App.Account.csproj" />
+    <ProjectReference Include="..\Automaton.App.Authentication\Automaton.App.Authentication.csproj" />
     <ProjectReference Include="..\Automaton.Client.Auth\Automaton.Client.Auth.csproj" />
     <ProjectReference Include="..\Automaton.Core.Scripting\Automaton.Core.Scripting.csproj" />
     <ProjectReference Include="..\Automaton.Core\Automaton.Core.csproj" />
@@ -75,9 +77,6 @@
 
   
   <ItemGroup>
-    <Content Update="Pages\Register\UserRegisterPage.razor">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </Content>
     <Content Update="Steps\Custom\CustomDesigner.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>

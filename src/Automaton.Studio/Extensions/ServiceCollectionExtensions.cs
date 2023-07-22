@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Automaton.App.Account.Config;
+using Automaton.App.Authentication.Config;
 using Automaton.Client.Auth.Extensions;
 using Automaton.Core.Logs;
 using Automaton.Core.Scripting;
@@ -13,8 +15,6 @@ using Automaton.Studio.Pages.FlowDesigner;
 using Automaton.Studio.Pages.FlowDesigner.Components.FlowExplorer;
 using Automaton.Studio.Pages.FlowDesigner.Components.StepExplorer;
 using Automaton.Studio.Pages.Flows;
-using Automaton.Studio.Pages.Login;
-using Automaton.Studio.Pages.Register;
 using Automaton.Studio.Services;
 using Automaton.Studio.Steps.AddVariable;
 using Automaton.Studio.Steps.EmitLog;
@@ -26,7 +26,6 @@ using Automaton.Studio.Steps.Test;
 using Automaton.Studio.Steps.TestAssert;
 using Automaton.Studio.Steps.TestReport;
 using Blazored.LocalStorage;
-using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -41,10 +40,11 @@ public static class ServiceCollectionExtensions
 {
     public static void AddStudio(this IServiceCollection services, IConfiguration configuration)
     {
-        var configService = new ConfigurationService(configuration);
+        var configService = new Services.ConfigurationService(configuration);
 
         services.AddAccountApp(configuration);
-
+        services.AddAuthenticationApp(configuration);
+  
         // Automaton Core
         services.AddAutomatonCore();
 
@@ -59,8 +59,6 @@ public static class ServiceCollectionExtensions
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
         // Services
-        services.AddScoped<AuthenticationService>();
-        services.AddScoped<UserRegisterService>();
         services.AddScoped<UserAccountService>();      
         services.AddScoped<FlowService>();
         services.AddScoped<FlowsService>();
@@ -76,8 +74,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<CustomStepViewModel>();     
         services.AddScoped<StepsViewModel>();
         services.AddScoped<FlowExplorerViewModel>();
-        services.AddScoped<LoginViewModel>();
-        services.AddScoped<UserRegisterViewModel>();
      
         // Steps
         services.AddScoped<StepTypeDescriptor>();
@@ -109,7 +105,7 @@ public static class ServiceCollectionExtensions
         // Other
         services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });
         services.AddScoped(typeof(DragDropService));
-        services.AddScoped(service => new ConfigurationService(configuration));
+        services.AddScoped(service => new Services.ConfigurationService(configuration));
 
         services.AddSingleton(sp => new CustomHttpClient(sp));
         services.AddSingleton(sp => new WorkflowSink());
