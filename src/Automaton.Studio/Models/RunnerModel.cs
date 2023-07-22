@@ -1,4 +1,4 @@
-﻿namespace Automaton.Studio.Pages.Flows;
+﻿namespace Automaton.Studio.Models;
 
 public class RunnerModel
 {

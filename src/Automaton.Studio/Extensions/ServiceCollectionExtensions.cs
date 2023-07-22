@@ -15,6 +15,7 @@ using Automaton.Studio.Pages.FlowDesigner;
 using Automaton.Studio.Pages.FlowDesigner.Components.FlowExplorer;
 using Automaton.Studio.Pages.FlowDesigner.Components.StepExplorer;
 using Automaton.Studio.Pages.Flows;
+using Automaton.Studio.Pages.Runners;
 using Automaton.Studio.Services;
 using Automaton.Studio.Steps.AddVariable;
 using Automaton.Studio.Steps.EmitLog;
@@ -69,6 +70,7 @@ public static class ServiceCollectionExtensions
         
         // ViewModels
         services.AddScoped<FlowsViewModel>();
+        services.AddScoped<RunnersViewModel>();
         services.AddScoped<CustomStepsViewModel>();
         services.AddScoped<DesignerViewModel>();
         services.AddScoped<CustomStepViewModel>();     
