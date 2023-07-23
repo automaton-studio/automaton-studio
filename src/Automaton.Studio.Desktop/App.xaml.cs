@@ -15,8 +15,6 @@ public partial class App : Application
     public static IConfiguration Configuration { get; private set; }
     public static IServiceCollection ServiceCollection { get; private set; }
 
-    public static AppState AppState => new();
-
     protected override void OnStartup(StartupEventArgs e)
     {
         var builder = new ConfigurationBuilder()
@@ -41,7 +39,6 @@ public partial class App : Application
 
         // Main window
         services.AddSingleton(Configuration);
-        services.AddSingleton<AppState>(AppState);
         services.AddTransient(typeof(MainWindow));
     }
 

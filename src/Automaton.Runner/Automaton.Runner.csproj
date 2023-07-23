@@ -10,13 +10,31 @@
 
   <ItemGroup>
     <PackageReference Include="AntDesign" Version="0.15.0-alpha.4" />
+    <PackageReference Include="Blazored.FluentValidation" Version="2.1.0" />
+    <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="7.0.92" />
+    <PackageReference Include="Serilog" Version="3.0.1" />
+    <PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Automaton.App.Authentication\Automaton.App.Authentication.csproj" />
+    <ProjectReference Include="..\Automaton.Client.Auth\Automaton.Client.Auth.csproj" />
+    <ProjectReference Include="..\Automaton.Core\Automaton.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Update="wwwroot\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\" />
   </ItemGroup>
 
 </Project>
