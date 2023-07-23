@@ -38,6 +38,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Studio.Server", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.App.Authentication", "src\Automaton.App.Authentication\Automaton.App.Authentication.csproj", "{3BA98BEC-F5ED-4247-AF71-4734640F2F8F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.Runner.Old", "src\Automaton.Runner.Old\Automaton.Runner.Old.csproj", "{A12336EB-8E92-46CF-9B35-D29E7A178832}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +96,10 @@ Global
 		{3BA98BEC-F5ED-4247-AF71-4734640F2F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BA98BEC-F5ED-4247-AF71-4734640F2F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BA98BEC-F5ED-4247-AF71-4734640F2F8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A12336EB-8E92-46CF-9B35-D29E7A178832}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A12336EB-8E92-46CF-9B35-D29E7A178832}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A12336EB-8E92-46CF-9B35-D29E7A178832}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A12336EB-8E92-46CF-9B35-D29E7A178832}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,138 @@
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+a, .btn-link {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.content {
+    padding-top: 1.1rem;
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+.main-layout {
+    height: 100%;
+}
+
+.main-header {
+    background: #fff;
+    height: 48px;
+    line-height: 48px;
+    width: 100%;
+    box-shadow: 0 0px 1.5px rgba(0, 0, 0, 0.004), 0 0px 9px rgba(0, 0, 0, 0.07);
+}
+
+    .main-header .right-header-items {
+        float: right;
+        padding-right: 20px;
+    }
+
+    .main-header .header-item {
+        padding-right: 20px;
+    }
+
+
+.left-sider {
+    overflow: auto;
+    max-width: 50px !important;
+    min-width: 50px !important;
+}
+
+    .left-sider .ant-menu-item {
+        padding-left: 17px !important;
+    }
+
+    .left-sider .ant-menu .ant-menu-root {
+        max-width: 50px !important;
+    }
+
+    .left-sider .ant-menu-inline, .ant-menu-vertical, .ant-menu-vertical-left {
+        border-right: 1px solid #fff;
+    }
+
+.activities-container {
+    background-color: #fafafa;
+    height: 100%;
+}
+
+.activities-header {
+    background-color: #fff;
+    padding: 0px 0px 0px 20px;
+    margin-top: 5px;
+}
+
+.activities-search {
+    padding: 5px 10px 5px 10px;
+}
+
+.header {
+    background: #fff !important;
+    margin-bottom: 5px;
+    height: 48px;
+    line-height: 48px;
+    width: 100%;
+    box-shadow: 0 0px 1.5px rgba(0, 0, 0, 0.004), 0 0px 9px rgba(0, 0, 0, 0.07);
+    padding: 0 40px 0 10px !important;
+}
+
+    .header .right-header-items {
+        float: right;
+        padding-right: 10px;
+    }
+
+    .header .header-item {
+        padding-right: 20px;
+    }
+
+    .header .header-button {
+        margin-bottom: 15px;
+    }
+
+.right-actions {
+    margin-left: auto;
+}
+
+.autoscroll-list {
+    overflow: auto;
+    height: calc(100vh - 200px);
+    /* Use flex to fill the remaining of dropzone in Dropzone.razor*/
+    display: flex;
+    flex-direction: column;
+}

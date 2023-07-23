@@ -1,93 +1,20 @@
-﻿using Automaton.Runner.Enums;
-using Automaton.Runner.ViewModels;
-using System.Threading.Tasks;
-using Wpf.Ui.Controls;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Windows;
 
-namespace Automaton.Runner;
-
-public partial class MainWindow : UiWindow
+namespace Automaton.Runner
 {
-    public MainWindowViewModel ViewModel { get; private set; }
-
-    public MainWindow()
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
     {
-        Closing += WindowClosing;
-
-        InitializeComponent();
-    }
-
-    protected override async void OnInitialized(EventArgs e)
-    {
-        ViewModel = DataContext as MainWindowViewModel;
-
-        await Initialize();
-
-        base.OnInitialized(e);
-    }
-
-    public void NavigateToLogin()
-    {
-        ViewModel.ApplyLoginMenuVisibility();
-        NavigateTo(RunnerPages.Login);
-    }
-
-    public void NavigateToRegistration()
-    {
-        ViewModel.ApplyRegistrationMenuVisibility();
-        NavigateTo(RunnerPages.Registration);
-    }
-
-    public void NavigateToDashboard()
-    {
-        ViewModel.ApplyHomeMenuVisibility();
-        NavigateTo(RunnerPages.Dashboard);
-    }
-
-    private async Task Initialize()
-    {
-        ViewModel.InitializeNavigation();
-
-        if (ViewModel.IsAuthenticated())
+        public MainWindow()
         {
-            if (ViewModel.IsRunnerRegistered())
-            {
-                NavigateToDashboard();
-            }
-            else
-            {
-                NavigateToRegistration();
-            }
+            InitializeComponent();
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddWpfBlazorWebView();
+            Resources.Add("services", serviceCollection.BuildServiceProvider());
         }
-        else
-        {
-            NavigateToLogin();
-        }
-    }
-
-    public void ConnectedToServer()
-    {
-        ServerConnectionIcon.SetResourceReference(ForegroundProperty, "PaletteGreenBrush");
-    }
-
-    public void DisconnectedFromServer()
-    {
-        ServerConnectionIcon.SetResourceReference(ForegroundProperty, "PaletteRedBrush");
-    }
-
-    private void NavigateTo(RunnerPages page)
-    {
-        RootNavigation.Navigate(page.ToString());
-        RootNavigation.SelectedPageIndex = (sbyte)page;
-    }
-
-    private async void LogoutClick(object sender, RoutedEventArgs e)
-    {
-        await ViewModel.Logout();
-        NavigateToLogin();
-    }
-
-    private async void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
-    {
-        await ViewModel.Disconnect();
     }
 }
