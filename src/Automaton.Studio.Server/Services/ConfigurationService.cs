@@ -18,6 +18,7 @@ public class ConfigurationService
     public ConfigurationService(IConfiguration configuration)
     {
         this.configuration = configuration;
+
         this.configuration.GetSection(nameof(OptionalConfig)).Bind(optionalConfig);
         this.configuration.GetSection(nameof(UserPasswordConfig)).Bind(userPasswordConfig);
     }

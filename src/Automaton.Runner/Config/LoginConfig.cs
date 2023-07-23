@@ -1,4 +1,4 @@
-﻿namespace Automaton.App.Authentication.Config;
+﻿namespace Automaton.Runner.Config;
 
 public class LoginConfig
 {

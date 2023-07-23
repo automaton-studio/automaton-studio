@@ -46,7 +46,7 @@ namespace Automaton.Runner
 
             services.AddSingleton(Configuration);
             services.AddSingleton(service => new ConfigService(Configuration));
-            services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(configService.ApiConfig.BaseUrl) });
+            services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });
 
             services.AddAuthenticationApp(Configuration);
             services.AddAutomatonCore();

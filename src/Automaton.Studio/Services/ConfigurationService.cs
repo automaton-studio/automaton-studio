@@ -8,7 +8,6 @@ public class ConfigurationService
     private readonly IConfiguration configuration;
     private readonly AppConfig appConfiguration = new();
     private readonly ApiConfig apiConfiguration = new();
-    private readonly OptionalConfig optionalConfiguration = new();
 
     public string BaseUrl => apiConfiguration.BaseUrl;
     public string FlowsUrl => apiConfiguration.FlowsUrl;
@@ -16,14 +15,11 @@ public class ConfigurationService
     public string RunnersUrl => apiConfiguration.RunnersUrl;
     public string LogsUrl => apiConfiguration.LogsUrl;
     public bool IsDesktop => appConfiguration.IsDesktop;
-    public bool UserSignUp => optionalConfiguration.UserSignUp;
-    public bool NoUserSignUp => !UserSignUp;
 
     public ConfigurationService(IConfiguration configuration)
     {
         this.configuration = configuration;
         this.configuration.GetSection(nameof(AppConfig)).Bind(appConfiguration);
         this.configuration.GetSection(nameof(ApiConfig)).Bind(apiConfiguration);
-        this.configuration.GetSection(nameof(OptionalConfig)).Bind(optionalConfiguration);
     }
 }
