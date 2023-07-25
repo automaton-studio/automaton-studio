@@ -12,14 +12,23 @@ namespace Automaton.Runner.Shared
         private bool MenuCollapsed { get; set; }
 
         [Inject] HttpClient HttpClient { get; set; }
+        [Inject] AuthenticationStateProvider AuthStateProvider { get; set; }
+        [Inject] IAuthenticationStorage AuthenticationStorage { get; set; }
+        [Inject] NavigationManager NavigationManager { get; set; } = default!;
 
         void ToggleCollapsed()
         {
             MenuCollapsed = !MenuCollapsed;
         }
 
-        public void Logout()
+        public async Task Logout()
         {
+            await AuthenticationStorage.DeleteJsonWebToken();
+
+            ((AuthStateProvider)AuthStateProvider).NotifyUserLogout();
+            HttpClient.DefaultRequestHeaders.Authorization = null;
+
+            NavigationManager.NavigateTo($"/");
         }
     }
 }

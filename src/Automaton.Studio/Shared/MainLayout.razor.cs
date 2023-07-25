@@ -12,12 +12,10 @@ namespace Automaton.Studio.Shared
         private bool MenuCollapsed { get; set; }
 
         [Inject] HttpClient HttpClient { get; set; }
-
         [Inject] JsInterop JsInterop { get; set; }
-
         [Inject] IAuthenticationStorage AuthenticationStorage { get; set; }
-
         [Inject] AuthenticationStateProvider AuthStateProvider { get; set; }
+        [Inject] NavigationManager NavigationManager { get; set; } = default!;
 
         void ToggleCollapsed()
         {
@@ -35,6 +33,8 @@ namespace Automaton.Studio.Shared
 
             ((AuthStateProvider)AuthStateProvider).NotifyUserLogout();
             HttpClient.DefaultRequestHeaders.Authorization = null;
+
+            NavigationManager.NavigateTo($"/");
         }
     }
 }
