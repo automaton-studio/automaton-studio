@@ -1,93 +1,61 @@
-﻿using Automaton.Runner.Enums;
-using Automaton.Runner.ViewModels;
-using System.Threading.Tasks;
-using Wpf.Ui.Controls;
+﻿using Automaton.Client.Auth.Interfaces;
+using Automaton.Runner.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.IO;
+using System.Net.Http;
+using System.Windows;
+using Automaton.Client.Auth.Extensions;
+using Blazored.LocalStorage;
+using System.Configuration;
+using Automaton.App.Authentication.Config;
 
-namespace Automaton.Runner;
-
-public partial class MainWindow : UiWindow
+namespace Automaton.Runner
 {
-    public MainWindowViewModel ViewModel { get; private set; }
-
-    public MainWindow()
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
     {
-        Closing += WindowClosing;
+        private const string AppSettings = "appsettings.json";
 
-        InitializeComponent();
-    }
+        public static IConfiguration Configuration { get; private set; }
 
-    protected override async void OnInitialized(EventArgs e)
-    {
-        ViewModel = DataContext as MainWindowViewModel;
-
-        await Initialize();
-
-        base.OnInitialized(e);
-    }
-
-    public void NavigateToLogin()
-    {
-        ViewModel.ApplyLoginMenuVisibility();
-        NavigateTo(RunnerPages.Login);
-    }
-
-    public void NavigateToRegistration()
-    {
-        ViewModel.ApplyRegistrationMenuVisibility();
-        NavigateTo(RunnerPages.Registration);
-    }
-
-    public void NavigateToDashboard()
-    {
-        ViewModel.ApplyHomeMenuVisibility();
-        NavigateTo(RunnerPages.Dashboard);
-    }
-
-    private async Task Initialize()
-    {
-        ViewModel.InitializeNavigation();
-
-        if (ViewModel.IsAuthenticated())
+        public MainWindow()
         {
-            if (ViewModel.IsRunnerRegistered())
-            {
-                NavigateToDashboard();
-            }
-            else
-            {
-                NavigateToRegistration();
-            }
+            InitializeComponent();
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile(AppSettings, false, true);
+
+            Configuration = builder.Build();
+
+            var configService = new ConfigService(Configuration);
+
+            var services = new ServiceCollection();
+
+            // Authentication & Authorization
+            services.AddBlazoredLocalStorage();
+            services.AddAuthorizationCore();
+            services.AddStudioAuthenication<LocalStorageService>(Configuration);
+
+            services.AddWpfBlazorWebView();
+            services.AddAntDesign();
+
+            services.AddSingleton(Configuration);
+            services.AddSingleton(service => new ConfigService(Configuration));
+            services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });
+
+            services.AddAuthenticationApp(Configuration);
+            services.AddAutomatonCore();
+
+            // Main window
+            services.AddTransient(typeof(MainWindow));
+
+
+            Resources.Add("services", services.BuildServiceProvider());
         }
-        else
-        {
-            NavigateToLogin();
-        }
-    }
-
-    public void ConnectedToServer()
-    {
-        ServerConnectionIcon.SetResourceReference(ForegroundProperty, "PaletteGreenBrush");
-    }
-
-    public void DisconnectedFromServer()
-    {
-        ServerConnectionIcon.SetResourceReference(ForegroundProperty, "PaletteRedBrush");
-    }
-
-    private void NavigateTo(RunnerPages page)
-    {
-        RootNavigation.Navigate(page.ToString());
-        RootNavigation.SelectedPageIndex = (sbyte)page;
-    }
-
-    private async void LogoutClick(object sender, RoutedEventArgs e)
-    {
-        await ViewModel.Logout();
-        NavigateToLogin();
-    }
-
-    private async void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
-    {
-        await ViewModel.Disconnect();
     }
 }

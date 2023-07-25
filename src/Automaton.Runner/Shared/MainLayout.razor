@@ -1,0 +1,48 @@
+﻿@inherits LayoutComponentBase
+
+<Layout Class="main-layout" Id="main-layout">
+
+    <AuthorizeView>
+        <Sider Collapsed="MenuCollapsed" Theme="SiderTheme.Dark">
+            <NavMenu Collapsed="MenuCollapsed" />
+        </Sider>
+    </AuthorizeView>
+
+    <Layout>
+        <Content>
+            <AuthorizeView>
+                <Row Class="main-header">
+                    <Col Flex=@("none")>
+                    <Space Size="@AntSizeLDSType.Default">
+                        <SpaceItem>
+                            <Button Type="@ButtonType.Text" OnClick="ToggleCollapsed">
+                                @if (MenuCollapsed)
+                                {
+                                    <Icon Type="menu-unfold"></Icon>
+                                }
+                                else
+                                {
+                                    <Icon Type="menu-fold"></Icon>
+                                }
+                            </Button>
+                        </SpaceItem>
+                    </Space>
+
+                    </Col>
+
+                    <Col Class="right-actions">
+                    <Space Class="right-header-items">
+                        <SpaceItem>
+                            <Button Icon="poweroff" Type="@ButtonType.Text" OnClick="Logout"></Button>
+                        </SpaceItem>
+                    </Space>
+                    </Col>
+                </Row>
+            </AuthorizeView>
+
+            <div class="site-layout-content">@Body</div>
+
+        </Content>
+    </Layout>
+</Layout>
+

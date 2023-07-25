@@ -55,7 +55,7 @@ public static class ServiceCollectionExtensions
         // Authentication & Authorization
         services.AddBlazoredLocalStorage();
         services.AddAuthorizationCore();
-        services.AddStudioAuthenication<LocalStorageService>();
+        services.AddStudioAuthenication<LocalStorageService>(configuration);
 
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
@@ -99,7 +99,7 @@ public static class ServiceCollectionExtensions
         // Models
         services.AddScoped<AppConfig>();
         services.AddScoped<ApiConfig>();
-        services.AddScoped<OptionalConfig>();
+        services.AddScoped<AuthenticationConfig>();
 
         // Javascript
         services.AddScoped<JsInterop>();

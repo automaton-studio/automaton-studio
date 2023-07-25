@@ -1,5 +1,5 @@
-﻿using Automaton.App.Account.Config;
-using Automaton.App.Account.Models;
+﻿using Automaton.App.Account.Models;
+using Automaton.Client.Auth.Services;
 using System.Net.Http.Json;
 
 namespace Automaton.App.Account.Services;
@@ -7,9 +7,9 @@ namespace Automaton.App.Account.Services;
 public class UserAccountService
 {
     private readonly HttpClient httpClient;
-    private readonly ConfigurationService configService;
+    private readonly ClientAuthConfigurationService configService;
 
-    public UserAccountService(HttpClient httpClient, ConfigurationService configService)
+    public UserAccountService(HttpClient httpClient, ClientAuthConfigurationService configService)
     {
         this.httpClient = httpClient;
         this.configService = configService;

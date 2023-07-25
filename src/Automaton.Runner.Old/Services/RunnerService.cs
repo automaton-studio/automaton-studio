@@ -26,7 +26,7 @@ public class RunnerService
         var runnerNameJson = JsonConvert.SerializeObject(new { Name = runnerName });
         var runnerNameContent = new StringContent(runnerNameJson, Encoding.UTF8, "application/json");
 
-        var response = await httpClient.PostAsync(configService.ApiConfig.RegistrationApiUrl, runnerNameContent);
+        var response = await httpClient.PostAsync(configService.ApiConfig.RegistrationUrl, runnerNameContent);
 
         response.EnsureSuccessStatusCode();
 

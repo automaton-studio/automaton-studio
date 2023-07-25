@@ -25,7 +25,6 @@ public class Startup
         services.AddServerSideBlazor();
         services.AddAntDesign();
         services.AddStudio(Configuration);
-        services.AddSingleton<AppState>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

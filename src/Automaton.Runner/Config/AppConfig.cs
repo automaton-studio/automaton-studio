@@ -1,4 +1,4 @@
-﻿namespace Automaton.Runner.Core.Config;
+﻿namespace Automaton.Runner.Config;
 
 public class AppConfig
 {

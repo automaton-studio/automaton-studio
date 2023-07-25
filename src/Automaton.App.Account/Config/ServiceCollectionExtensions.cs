@@ -2,6 +2,7 @@
 using Automaton.App.Account.Account;
 using Automaton.App.Account.Config;
 using Automaton.App.Account.Services;
+using Automaton.Client.Auth.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,7 +18,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<UserSecurityViewModel>();
 
         // Services
-        services.AddScoped(service => new ConfigurationService(configuration));
         services.AddScoped<UserAccountService>();
     }
 }

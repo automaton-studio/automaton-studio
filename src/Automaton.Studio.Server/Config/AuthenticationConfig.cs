@@ -1,6 +1,6 @@
 ﻿namespace Automaton.Studio.Server.Config;
 
-public class OptionalConfig
+public class AuthenticationConfig
 {
     public bool UserSignUp { get; set; }
 }

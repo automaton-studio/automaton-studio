@@ -3,10 +3,10 @@ using Microsoft.Extensions.Configuration;
 
 namespace Automaton.Client.Auth.Services;
 
-public class ConfigurationService
+public class ClientAuthConfigurationService
 {
     private readonly IConfiguration configuration;
-    private readonly AccountConfig authConfiguration = new();
+    private readonly ClientAuthConfig authConfiguration = new();
     private readonly ApiConfig apiConfiguration = new();
 
     public string RegisterUserUrl => authConfiguration.RegisterUserUrl;
@@ -19,10 +19,10 @@ public class ConfigurationService
     public string BaseUrl => apiConfiguration.BaseUrl;
     public string LogsUrl => $"{apiConfiguration.BaseUrl}{apiConfiguration.LogsUrl}";
 
-    public ConfigurationService(IConfiguration configuration)
+    public ClientAuthConfigurationService(IConfiguration configuration)
     {
         this.configuration = configuration;
-        this.configuration.GetSection(nameof(AccountConfig)).Bind(authConfiguration);
+        this.configuration.GetSection(nameof(ClientAuthConfig)).Bind(authConfiguration);
         this.configuration.GetSection(nameof(ApiConfig)).Bind(apiConfiguration);
     }
 }

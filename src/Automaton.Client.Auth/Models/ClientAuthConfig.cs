@@ -1,6 +1,6 @@
 ﻿namespace Automaton.Client.Auth.Models;
 
-public class AccountConfig
+public class ClientAuthConfig
 {
     public string RegisterUserUrl { get; set; }
     public string UpdateUserProfileUrl { get; set; }

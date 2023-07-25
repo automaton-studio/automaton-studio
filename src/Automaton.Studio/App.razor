@@ -41,7 +41,7 @@
 @code {
 
     [Inject] public CustomHttpClient CustomHttpClient { get; set; }
-    [Inject] public ConfigurationService ConfigurationService { get; set; }
+    [Inject] public ClientAuthConfigurationService ClientAuthConfigurationService { get; set; }
     [Inject] public WorkflowSink WorkflowSink { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -60,7 +60,7 @@
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .WriteTo.Http(
-                    requestUri: ConfigurationService.LogsUrl,
+                    requestUri: ClientAuthConfigurationService.LogsUrl,
                     httpClient: CustomHttpClient,
                     queueLimitBytes: null)
                 .WriteTo.Sink(WorkflowSink)
