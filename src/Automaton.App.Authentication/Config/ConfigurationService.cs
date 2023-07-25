@@ -5,18 +5,16 @@ namespace Automaton.App.Authentication.Config;
 public class ConfigurationService
 {
     private readonly IConfiguration configuration;
-    private readonly LoginConfig loginConfiguration = new();
-    private readonly OptionalConfig optionalConfiguration = new();
+    private readonly AuthenticationConfig authenticationConfig = new();
 
-    public bool UserSignUp => optionalConfiguration.UserSignUp;
+    public bool UserSignUp => authenticationConfig.UserSignUp;
     public bool NoUserSignUp => !UserSignUp;
-    public string LoginUserUrl => loginConfiguration.LoginUserUrl;
+    public string LoginUserUrl => authenticationConfig.LoginUserUrl;
 
     public ConfigurationService(IConfiguration configuration)
     {
         this.configuration = configuration;
 
-        this.configuration.GetSection(nameof(LoginConfig)).Bind(loginConfiguration);
-        this.configuration.GetSection(nameof(OptionalConfig)).Bind(optionalConfiguration);
+        this.configuration.GetSection(nameof(AuthenticationConfig)).Bind(authenticationConfig);
     }
 }

@@ -6,7 +6,7 @@ public class AutomatonHttpClient
 {
     public HttpClient Client { get; }
 
-    public AutomatonHttpClient(HttpClient httpClient, ConfigurationService configService)
+    public AutomatonHttpClient(HttpClient httpClient, ClientAuthConfigurationService configService)
     {
         Client = httpClient;
         Client.BaseAddress = new Uri(configService.BaseUrl);

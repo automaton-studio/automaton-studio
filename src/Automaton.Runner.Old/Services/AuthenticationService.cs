@@ -2,6 +2,7 @@
 using Automaton.Client.Auth.Interfaces;
 using Automaton.Client.Auth.Models;
 using Automaton.Client.Auth.Providers;
+using Automaton.Client.Auth.Services;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -18,12 +19,12 @@ public class AuthenticationService
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
     private readonly AuthStateProvider authStateProvider;
-    private readonly Client.Auth.Services.ConfigurationService configService;
+    private readonly ClientAuthConfigurationService configService;
     private readonly IAuthenticationStorage authenticationStorage;
 
     public AuthenticationService(AutomatonHttpClient automatonHttpClient,
         AuthStateProvider authStateProvider,
-        Client.Auth.Services.ConfigurationService configService,
+        ClientAuthConfigurationService configService,
         IAuthenticationStorage localStorage)
     {
         this.httpClient = automatonHttpClient.Client;

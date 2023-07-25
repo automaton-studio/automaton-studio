@@ -1,4 +1,5 @@
-﻿using Automaton.Runner.Config;
+﻿using Automaton.App.Authentication.Config;
+using Automaton.Runner.Config;
 using Automaton.Runner.Storage;
 using Microsoft.Extensions.Configuration;
 
@@ -11,16 +12,13 @@ public class ConfigService
 
     private readonly AppConfig appConfig = new();
     private readonly ApiConfig apiConfig = new();
-    private readonly OptionalConfig optionalConfig = new();
-    private readonly LoginConfig loginConfig = new();
+    private readonly AuthenticationConfig authenticationConfig = new();
 
     public string RunnerName => appConfig.RunnerName;
     public string BaseUrl => apiConfig.BaseUrl;
     public string WorkflowHubUrl => apiConfig.WorkflowHubUrl;
     public string FlowsUrl => apiConfig.FlowsUrl;
-    public bool UserSignUp => optionalConfig.UserSignUp;
-    public bool NoUserSignUp => !UserSignUp;
-    public string LoginUserUrl => loginConfig.LoginUserUrl;
+    public string LoginUserUrl => authenticationConfig.LoginUserUrl;
 
     public ConfigService(IConfiguration configuration)
     {
@@ -29,9 +27,7 @@ public class ConfigService
         applicationStorage = new ApplicationStorage();
 
         this.configuration.GetSection(nameof(ApiConfig)).Bind(apiConfig);
-        this.configuration.GetSection(nameof(LoginConfig)).Bind(loginConfig);
-        this.configuration.GetSection(nameof(OptionalConfig)).Bind(optionalConfig);
-
+        this.configuration.GetSection(nameof(AuthenticationConfig)).Bind(authenticationConfig);
         appConfig = applicationStorage.GetApplicationConfiguration();
     }
 }

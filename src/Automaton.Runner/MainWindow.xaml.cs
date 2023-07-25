@@ -39,7 +39,7 @@ namespace Automaton.Runner
             // Authentication & Authorization
             services.AddBlazoredLocalStorage();
             services.AddAuthorizationCore();
-            services.AddStudioAuthenication<LocalStorageService>();
+            services.AddStudioAuthenication<LocalStorageService>(Configuration);
 
             services.AddWpfBlazorWebView();
             services.AddAntDesign();

@@ -8,8 +8,8 @@ public class AuthTokenService
 {
     private const string ApplicationJson = "application/json";
 
-    private readonly ConfigurationService configurationService;
-    private readonly AccountConfig authConfiguration = new();
+    private readonly ClientAuthConfigurationService configurationService;
+    private readonly ClientAuthConfig authConfiguration = new();
     private readonly ApiConfig apiConfiguration = new();
     private readonly HttpClient httpClient;
 
@@ -18,7 +18,7 @@ public class AuthTokenService
     public int RefreshTokenExpirationMinutesCheck => authConfiguration.RefreshTokenExpirationMinutesCheck;
     public string BaseUrl => apiConfiguration.BaseUrl;
 
-    public AuthTokenService(ConfigurationService configurationService, HttpClient httpClient)
+    public AuthTokenService(ClientAuthConfigurationService configurationService, HttpClient httpClient)
     {
         this.configurationService = configurationService;
         this.httpClient = httpClient;

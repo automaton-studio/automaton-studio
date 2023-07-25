@@ -42,7 +42,7 @@ public static class ServiceCollectionExtension
         services.AddSingleton<ApplicationStorage>();
 
         // Other
-        services.AddStudioAuthenication<AuthenticationStorage>();
+        //services.AddStudioAuthenication<AuthenticationStorage>(null);
 
         services.AddScoped<TokenAuthHeaderHandler>();
         services.AddScoped<AutomatonHttpClient>();

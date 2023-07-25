@@ -18,7 +18,7 @@ public class AuthStateProvider : AuthenticationStateProvider
 
     private readonly HttpClient httpClient;
     private readonly IAuthenticationStorage authenticationStorage;
-    private readonly ConfigurationService configService;
+    private readonly ClientAuthConfigurationService configService;
     private readonly AuthenticationState anonymousState;
     private readonly JsonSerializerOptions options;
     private readonly AuthTokenService authTokenService;  
@@ -26,7 +26,7 @@ public class AuthStateProvider : AuthenticationStateProvider
     public AuthStateProvider(HttpClient httpClient,
         IAuthenticationStorage authenticationStorage,
         AuthTokenService authTokenService,
-        ConfigurationService configService)
+        ClientAuthConfigurationService configService)
     {
         this.httpClient = httpClient;
         this.authenticationStorage = authenticationStorage;

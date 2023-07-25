@@ -3,13 +3,14 @@ using Automaton.Client.Auth.Models;
 using Automaton.Client.Auth.Providers;
 using Automaton.Client.Auth.Services;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Automaton.Client.Auth.Extensions;
 
 public static class ServiceCollectionExtension
 {
-    public static void AddStudioAuthenication<T>(this IServiceCollection services) where T : class, IAuthenticationStorage
+    public static void AddStudioAuthenication<T>(this IServiceCollection services, IConfiguration configuration) where T : class, IAuthenticationStorage
     {
         // Providers
         services.AddScoped<AuthStateProvider>();
@@ -18,10 +19,10 @@ public static class ServiceCollectionExtension
         // Services
         services.AddScoped<T>();
         services.AddScoped<IAuthenticationStorage>(sp => sp.GetService<T>());
-        services.AddScoped<ConfigurationService>();
+        services.AddScoped(service => new ClientAuthConfigurationService(configuration));
         services.AddScoped<AuthTokenService>();      
 
         // Models
-        services.AddScoped<AccountConfig>();
+        services.AddScoped<ClientAuthConfig>();
     }
 }

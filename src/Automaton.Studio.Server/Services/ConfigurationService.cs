@@ -5,10 +5,10 @@ namespace Automaton.Studio.Server.Services;
 public class ConfigurationService
 {
     private readonly IConfiguration configuration;
-    private readonly OptionalConfig optionalConfig = new();
+    private readonly AuthenticationConfig authenticationConfig = new();
     private readonly UserPasswordConfig userPasswordConfig = new();
 
-    public bool NoUserSignUp => !optionalConfig.UserSignUp;
+    public bool NoUserSignUp => !authenticationConfig.UserSignUp;
     public bool RequireDigit => userPasswordConfig.RequireDigit;
     public bool RequireLowercase => userPasswordConfig.RequireLowercase;
     public bool RequireUppercase => userPasswordConfig.RequireUppercase;
@@ -19,7 +19,7 @@ public class ConfigurationService
     {
         this.configuration = configuration;
 
-        this.configuration.GetSection(nameof(OptionalConfig)).Bind(optionalConfig);
+        this.configuration.GetSection(nameof(AuthenticationConfig)).Bind(authenticationConfig);
         this.configuration.GetSection(nameof(UserPasswordConfig)).Bind(userPasswordConfig);
     }
 }

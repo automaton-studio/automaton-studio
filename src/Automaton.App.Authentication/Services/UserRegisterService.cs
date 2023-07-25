@@ -1,4 +1,5 @@
 ﻿using Automaton.App.Authentication.Models;
+using Automaton.Client.Auth.Services;
 using System.Net.Http.Json;
 
 namespace Automaton.App.Authentication.Services;
@@ -6,13 +7,12 @@ namespace Automaton.App.Authentication.Services;
 public class UserRegisterService
 {
     private readonly HttpClient httpClient;
-    private readonly Client.Auth.Services.ConfigurationService configService;
+    private readonly ClientAuthConfigurationService clientAuthConfigService;
 
-    public UserRegisterService(HttpClient httpClient, 
-        Client.Auth.Services.ConfigurationService configService)
+    public UserRegisterService(HttpClient httpClient, ClientAuthConfigurationService clientAuthConfigService)
     {
         this.httpClient = httpClient;
-        this.configService = configService;
+        this.clientAuthConfigService = clientAuthConfigService;
     }
 
     public async Task Register(UserRegister userRegistration)
@@ -26,7 +26,7 @@ public class UserRegisterService
             userRegistration.Password,
         };
 
-        var result = await httpClient.PostAsJsonAsync(configService.RegisterUserUrl, userDetails);
+        var result = await httpClient.PostAsJsonAsync(clientAuthConfigService.RegisterUserUrl, userDetails);
 
         result.EnsureSuccessStatusCode();
     }
