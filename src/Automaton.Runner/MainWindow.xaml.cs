@@ -10,6 +10,7 @@ using Automaton.Client.Auth.Extensions;
 using Blazored.LocalStorage;
 using System.Configuration;
 using Automaton.App.Authentication.Config;
+using Microsoft.AspNetCore.Components.WebView.Wpf;
 
 namespace Automaton.Runner
 {
@@ -42,6 +43,9 @@ namespace Automaton.Runner
             services.AddStudioAuthenication<LocalStorageService>(Configuration);
 
             services.AddWpfBlazorWebView();
+#if DEBUG
+            services.AddBlazorWebViewDeveloperTools();
+#endif
             services.AddAntDesign();
 
             services.AddSingleton(Configuration);
@@ -53,7 +57,6 @@ namespace Automaton.Runner
 
             // Main window
             services.AddTransient(typeof(MainWindow));
-
 
             Resources.Add("services", services.BuildServiceProvider());
         }
