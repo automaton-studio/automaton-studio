@@ -11,6 +11,7 @@ using Blazored.LocalStorage;
 using System.Configuration;
 using Automaton.App.Authentication.Config;
 using Microsoft.AspNetCore.Components.WebView.Wpf;
+using Automaton.Runner.Extensions;
 
 namespace Automaton.Runner
 {
@@ -33,8 +34,6 @@ namespace Automaton.Runner
 
             Configuration = builder.Build();
 
-            var configService = new ConfigService(Configuration);
-
             var services = new ServiceCollection();
 
             // Authentication & Authorization
@@ -49,13 +48,12 @@ namespace Automaton.Runner
             services.AddAntDesign();
 
             services.AddSingleton(Configuration);
-            services.AddSingleton(service => new ConfigService(Configuration));
-            services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });
+            services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(new ConfigService(Configuration).BaseUrl) });
 
             services.AddAuthenticationApp(Configuration);
             services.AddAutomatonCore();
+            services.AddApplication(Configuration);
 
-            // Main window
             services.AddTransient(typeof(MainWindow));
 
             Resources.Add("services", services.BuildServiceProvider());

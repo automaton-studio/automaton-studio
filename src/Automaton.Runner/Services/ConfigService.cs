@@ -15,6 +15,7 @@ public class ConfigService
     private readonly AuthenticationConfig authenticationConfig = new();
 
     public string RunnerName => appConfig.RunnerName;
+    public bool RunnerRegistered => appConfig.RunnerRegistered;
     public string BaseUrl => apiConfig.BaseUrl;
     public string WorkflowHubUrl => apiConfig.WorkflowHubUrl;
     public string FlowsUrl => apiConfig.FlowsUrl;
