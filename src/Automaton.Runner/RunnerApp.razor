@@ -10,7 +10,7 @@
             PreferExactMatches="@true">
 
         <Found Context="routeData">
-            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@Layout">
                 <NotAuthorized>
                     @if (context.User.Identity?.IsAuthenticated != true)
                     {
@@ -37,9 +37,20 @@
 
 @code {
 
+    [Inject] Services.ConfigService ConfigService { get; set; }
+    [Inject] NavigationManager NavigationManager { get; set; } = default!;
+
+    private Type Layout { get; set; } = typeof(MainLayout);
+
     protected override async Task OnInitializedAsync()
     {
         await ConfigureSerilog();
+
+        if (string.IsNullOrEmpty(ConfigService.RunnerName))
+        {
+            Layout = typeof(SetupLayout);
+            NavigationManager.NavigateTo($"/setup");
+        }
     }
 
     /// <summary>

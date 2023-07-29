@@ -2,7 +2,7 @@
 
 namespace Automaton.Runner.Shared
 {
-    public partial class InstallLayout : LayoutComponentBase
+    public partial class SetupLayout : LayoutComponentBase
     {
         private bool MenuCollapsed { get; set; }
 
