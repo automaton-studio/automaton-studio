@@ -1,17 +1,16 @@
 ﻿using Automaton.Client.Auth.Interfaces;
 using Automaton.Client.Auth.Models;
 using Blazored.LocalStorage;
-using System.Threading.Tasks;
 
-namespace Automaton.Studio.Services
+namespace Automaton.Client.Auth.Services
 {
-    public class LocalStorageService : IAuthenticationStorage
+    public class AuthenticationStorageService : IAuthenticationStorage
     {
         private const string JsonWebToken = "jsonWebToken";
 
         private readonly ILocalStorageService localStorage;
 
-        public LocalStorageService
+        public AuthenticationStorageService
         (
            ILocalStorageService localStorage
         )
