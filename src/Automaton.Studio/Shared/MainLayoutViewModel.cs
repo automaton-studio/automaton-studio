@@ -1,30 +1,20 @@
-﻿using Automaton.Client.Auth.Interfaces;
-using Automaton.Client.Auth.Providers;
-using Microsoft.AspNetCore.Components.Authorization;
-using System.Net.Http;
+﻿using Automaton.App.Authentication.Services;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Shared
 {
     public class MainLayoutViewModel
     {
-        private readonly HttpClient httpClient;
-        private readonly IAuthenticationStorage authenticationStorage;
-        private readonly AuthenticationStateProvider authStateProvider;
+        private readonly AuthenticationService authenticationService;
 
-        public MainLayoutViewModel(HttpClient httpClient, IAuthenticationStorage authenticationStorage, AuthenticationStateProvider authStateProvider)
+        public MainLayoutViewModel(AuthenticationService authenticationService)
         {
-            this.httpClient = httpClient;
-            this.authenticationStorage = authenticationStorage;
-            this.authStateProvider = authStateProvider;
+            this.authenticationService = authenticationService;
         }
 
         public async Task Logout()
         {
-            await authenticationStorage.DeleteJsonWebToken();
-
-            ((AuthStateProvider)authStateProvider).NotifyUserLogout();
-            httpClient.DefaultRequestHeaders.Authorization = null;
+            await authenticationService.Logout();
         }
     }
 }

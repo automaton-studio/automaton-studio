@@ -33,6 +33,8 @@ public static class ServiceCollectionExtension
         //services.AddScoped<LoginValidator>();
         //services.AddScoped<RegistrationValidator>();
 
+        services.AddScoped<JsInterop>();
+
         // Storage
         services.AddSingleton<ApplicationStorage>();
 

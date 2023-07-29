@@ -1,4 +1,5 @@
-﻿using Automaton.Runner.Services;
+﻿using Automaton.App.Authentication.Services;
+using Automaton.Runner.Services;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace Automaton.Runner.Shared
         [Inject] NavigationManager NavigationManager { get; set; } = default!;
         [Inject] MainLayoutViewModel MainLayoutViewModel { get; set; }
         [Inject] ConfigService ConfigService { get; set; }
+        [Inject] AuthenticationService AuthenticationService { get; set; }
 
         public bool IsRunnerRegistered()
         {
@@ -26,7 +28,7 @@ namespace Automaton.Runner.Shared
 
         public async Task Logout()
         {
-            await MainLayoutViewModel.Logout();
+            await AuthenticationService.Logout();
 
             NavigationManager.NavigateTo($"/");
         }
