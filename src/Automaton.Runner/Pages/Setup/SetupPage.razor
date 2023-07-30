@@ -1,3 +1,37 @@
 ﻿@page "/setup"
 
-<h1>Setup</h1>
+<Layout Id="setup-layout">
+    <GridRow Class="setup-page">
+        <GridCol Xs="24" Md="6" Class="setup-steps">
+
+            <Steps Direction="vertical" Current="0" >
+                <Step Title="Details" Description="Runner details" />
+                <Step Title="Install" Description="Install as a service" />
+            </Steps>
+
+        </GridCol>
+        <GridCol Xs="24" Md="18" Class="setup-content">
+            <DynamicComponent Type="setupStep" />
+        </GridCol>
+    </GridRow>
+</Layout>
+
+<style>
+    #setup-layout {
+        height: 100vh;
+    }
+
+    .setup-page {
+        margin: 10px;
+        height: 100vh;
+    }
+
+    .setup-steps {
+        background-color: #f0f0f0;
+        padding: 20px;
+    }
+
+    .setup-content {
+        padding: 20px;
+    }
+</style>

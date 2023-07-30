@@ -30,6 +30,7 @@ a, .btn-link {
 
 #app {
     height: 100%;
+    background-color: #fff;
 }
 
 #blazor-error-ui {
@@ -51,9 +52,15 @@ a, .btn-link {
         top: 0.5rem;
     }
 
-.main-layout {
+#main-layout {
     height: 100%;
+    background-color: #fff;
 }
+
+    #main-layout .ant-layout {
+        background-color: #fff;
+    }
+
 
 .main-header {
     background: #fff;

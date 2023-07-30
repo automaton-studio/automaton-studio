@@ -1,5 +1,6 @@
 ﻿using Automaton.Client.Auth.Handlers;
 using Automaton.Client.Auth.Http;
+using Automaton.Runner.Pages.Setup;
 using Automaton.Runner.Services;
 using Automaton.Runner.Shared;
 using Automaton.Runner.Storage;
@@ -13,6 +14,9 @@ public static class ServiceCollectionExtension
     public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton(service => new ConfigService(configuration));
+        services.AddSingleton<ApplicationService>();
+        services.AddSingleton<HubService>();
+        services.AddSingleton<RunnerService>();
 
         //// Scripting
         //services.AddScripting();
@@ -20,23 +24,15 @@ public static class ServiceCollectionExtension
         //// Steps
         //services.AddSteps();
 
-        // Services
-        //services.AddSingleton<RunnerService>();
-        //services.AddSingleton<HubService>();
-        //services.AddScoped<FlowService>();
-        //services.AddScoped<AuthenticationService>();
-
         // View models
         services.AddSingleton<MainLayoutViewModel>();
+        services.AddSingleton<SetupViewModel>();  
 
         // Validators
         //services.AddScoped<LoginValidator>();
         //services.AddScoped<RegistrationValidator>();
 
         services.AddScoped<JsInterop>();
-
-        // Storage
-        services.AddSingleton<ApplicationStorage>();
 
         services.AddScoped<TokenAuthHeaderHandler>();
         services.AddScoped<AutomatonHttpClient>();
