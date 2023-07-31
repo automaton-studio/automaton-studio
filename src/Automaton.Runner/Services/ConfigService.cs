@@ -15,10 +15,10 @@ public class ConfigService
 
     public string RunnerName => appConfig.RunnerName;
     public string ServerUrl => appConfig.ServerUrl;
-    public bool RunnerRegistered => appConfig.RunnerRegistered;
     public string BaseUrl => apiConfig.BaseUrl;
     public string WorkflowHubUrl => apiConfig.WorkflowHubUrl;
     public string FlowsUrl => apiConfig.FlowsUrl;
+    public string RegistrationUrl => apiConfig.RegistrationUrl;
     public string LoginUserUrl => authenticationConfig.LoginUserUrl;
 
     public ConfigService(IConfiguration configuration)
@@ -31,4 +31,6 @@ public class ConfigService
         var applicationService = new ApplicationService();
         appConfig = applicationService.GetApplicationConfiguration();
     }
+
+    public bool IsRunnerRegistered() => appConfig.IsRunnerRegistered();
 }

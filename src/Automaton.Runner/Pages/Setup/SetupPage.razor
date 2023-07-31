@@ -4,14 +4,14 @@
     <GridRow Class="setup-page">
         <GridCol Xs="24" Md="6" Class="setup-steps">
 
-            <Steps Direction="vertical" Current="0" >
+            <Steps Direction="vertical" Current="SetupViewModel.CurrentSetupStep">
                 <Step Title="Details" Description="Runner details" />
                 <Step Title="Install" Description="Install as a service" />
             </Steps>
 
         </GridCol>
         <GridCol Xs="24" Md="18" Class="setup-content">
-            <DynamicComponent Type="setupStep" />
+            <DynamicComponent Type="SetupViewModel.SetupStepComponent" Parameters="SetupViewModel.SetupStepParameters" />
         </GridCol>
     </GridRow>
 </Layout>

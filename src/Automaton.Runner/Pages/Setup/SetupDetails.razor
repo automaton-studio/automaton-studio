@@ -15,13 +15,13 @@
 
     <ChildContent>
         <GridRow Gutter="(16, 0)" Justify="center">
-            <GridCol Xs="24" Md="12">
-                <FormItem Label="User Name">
+            <GridCol Xs="24" Md="24">
+                <FormItem Label="Server URL">
                     <Input @bind-Value="@context.ServerUrl" />
                 </FormItem>
             </GridCol>
-            <GridCol Xs="24" Md="12">
-                <FormItem Label="Email">
+            <GridCol Xs="24" Md="24">
+                <FormItem Label="Runner name">
                     <Input @bind-Value="@context.RunnerName" />
                 </FormItem>
             </GridCol>
@@ -29,7 +29,7 @@
 
         <FormItem WrapperColSpan="16">
             <Button Type="@ButtonType.Primary" HtmlType="submit">
-                Submit
+                Register
             </Button>
         </FormItem>
     </ChildContent>

@@ -41,8 +41,7 @@ public class ApplicationService
 
     private AppConfig? GetAppConfig()
     {
-        var applicationConfigProperty = application.Properties[ApplicationConfig];
-        var appConfig = JsonConvert.DeserializeObject<AppConfig>(applicationConfigProperty.ToString());
+        var appConfig = application.Properties[ApplicationConfig] as AppConfig;
 
         return appConfig;
     }

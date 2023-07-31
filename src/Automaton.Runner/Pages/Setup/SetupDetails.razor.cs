@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using Automaton.Core.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System;
@@ -10,7 +11,8 @@ public partial class SetupDetails : ComponentBase
 {
     private bool loading = false;
 
-    [Inject] private SetupViewModel SetupViewModel { get; set; } = default!;
+    [Parameter] public SetupViewModel SetupViewModel { get; set; }
+
     [Inject] private MessageService MessageService { get; set; }
 
     protected override async Task OnInitializedAsync()

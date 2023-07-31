@@ -22,13 +22,24 @@ public class RunnerService
 
     public async Task Register(string name, string serverUrl)
     {
-        var runnerNameJson = JsonConvert.SerializeObject(new { Name = name });
+        RegisterClientSettings(name, serverUrl);
+
+        await RegisterServerSettings(name, serverUrl);
+    }
+
+    private void RegisterClientSettings(string name, string serverUrl)
+    {
+        applicationService.SetServerUrl(serverUrl);
+        applicationService.SetRunnerName(name);
+    }
+
+    private async Task RegisterServerSettings(string runnerName, string serverUrl)
+    {
+        var runnerNameJson = JsonConvert.SerializeObject(new { Name = runnerName });
         var runnerNameContent = new StringContent(runnerNameJson, Encoding.UTF8, "application/json");
 
-        var response = await httpClient.PostAsync(serverUrl, runnerNameContent);
+        var response = await httpClient.PostAsync($"{serverUrl}/{configService.RegistrationUrl}", runnerNameContent);
 
         response.EnsureSuccessStatusCode();
-
-        applicationService.SetRunnerName(name);
     }
 }

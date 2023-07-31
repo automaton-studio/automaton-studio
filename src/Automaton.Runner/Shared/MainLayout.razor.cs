@@ -16,7 +16,7 @@ namespace Automaton.Runner.Shared
 
         public bool IsRunnerRegistered()
         {
-            var registered = ConfigService.RunnerRegistered;
+            var registered = ConfigService.IsRunnerRegistered();
 
             return registered;
         }
