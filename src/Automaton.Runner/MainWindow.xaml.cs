@@ -1,5 +1,7 @@
 ﻿using Automaton.App.Authentication.Config;
 using Automaton.Client.Auth.Extensions;
+using Automaton.Client.Auth.Interfaces;
+using Automaton.Client.Auth.Services;
 using Automaton.Runner.Extensions;
 using Automaton.Runner.Services;
 using Blazored.LocalStorage;
@@ -36,6 +38,9 @@ namespace Automaton.Runner
 
             // Authentication & Authorization
             services.AddBlazoredLocalStorage();
+
+            services.AddScoped<IAuthenticationStorage, Services.DesktopAuthenticationStorage>();
+
             services.AddAuthorizationCore();
             services.AddStudioAuthentication(Configuration);
 

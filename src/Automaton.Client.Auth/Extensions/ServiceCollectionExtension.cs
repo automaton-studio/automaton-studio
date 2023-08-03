@@ -17,7 +17,6 @@ public static class ServiceCollectionExtension
         services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
 
         // Services
-        services.AddScoped<IAuthenticationStorage, AuthenticationStorageService>();
         services.AddScoped(service => new ClientAuthConfigurationService(configuration));
         services.AddScoped<AuthTokenService>();      
 

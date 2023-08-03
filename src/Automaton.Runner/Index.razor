@@ -1,3 +1,17 @@
 ﻿@page "/"
 
 <h1>Index</h1>
+
+@code {
+
+    [Inject] Services.ConfigService ConfigService { get; set; }
+    [Inject] NavigationManager NavigationManager { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        if (string.IsNullOrEmpty(ConfigService.RunnerName))
+        {
+            NavigationManager.NavigateTo($"/setup");
+        }
+    }
+}

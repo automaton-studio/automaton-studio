@@ -4,13 +4,13 @@ using Blazored.LocalStorage;
 
 namespace Automaton.Client.Auth.Services
 {
-    public class AuthenticationStorageService : IAuthenticationStorage
+    public class WebAuthenticationStorage : IAuthenticationStorage
     {
         private const string JsonWebToken = "jsonWebToken";
 
         private readonly ILocalStorageService localStorage;
 
-        public AuthenticationStorageService
+        public WebAuthenticationStorage
         (
            ILocalStorageService localStorage
         )

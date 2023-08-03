@@ -2,6 +2,8 @@
 using Automaton.App.Account.Config;
 using Automaton.App.Authentication.Config;
 using Automaton.Client.Auth.Extensions;
+using Automaton.Client.Auth.Interfaces;
+using Automaton.Client.Auth.Services;
 using Automaton.Core.Logs;
 using Automaton.Core.Scripting;
 using Automaton.Studio.Config;
@@ -59,6 +61,7 @@ public static class ServiceCollectionExtensions
         services.AddStudioAuthentication(configuration);
 
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+        services.AddScoped<IAuthenticationStorage, WebAuthenticationStorage>();
 
         // Services
         services.AddScoped<UserAccountService>();      
