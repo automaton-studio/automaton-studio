@@ -9,9 +9,5 @@
 
     protected override void OnInitialized()
     {
-        if (string.IsNullOrEmpty(ConfigService.RunnerName))
-        {
-            NavigationManager.NavigateTo($"/setup");
-        }
     }
 }
