@@ -9,12 +9,12 @@ public class ConfigService
 {
     private readonly IConfiguration configuration;
 
-    private readonly AppConfig appConfig = new();
     private readonly ApiConfig apiConfig = new();
     private readonly AuthenticationConfig authenticationConfig = new();
+    private readonly ApplicationService applicationService = new();
 
-    public string RunnerName => appConfig.RunnerName;
-    public string ServerUrl => appConfig.ServerUrl;
+    public string RunnerName => applicationService.GetRunnerName();
+    public string ServerUrl => applicationService.GetServerUrl();
     public string BaseUrl => apiConfig.BaseUrl;
     public string WorkflowHubUrl => apiConfig.WorkflowHubUrl;
     public string FlowsUrl => apiConfig.FlowsUrl;
@@ -27,10 +27,7 @@ public class ConfigService
 
         this.configuration.GetSection(nameof(ApiConfig)).Bind(apiConfig);
         this.configuration.GetSection(nameof(AuthenticationConfig)).Bind(authenticationConfig);
-
-        var applicationService = new ApplicationService();
-        appConfig = applicationService.GetApplicationConfiguration();
     }
 
-    public bool IsRunnerRegistered() => appConfig.IsRunnerRegistered();
+    public bool IsRunnerRegistered() => applicationService.IsRunnerRegistered();
 }

@@ -14,6 +14,7 @@ public partial class SetupDetails : ComponentBase
     [Parameter] public SetupViewModel SetupViewModel { get; set; }
 
     [Inject] private MessageService MessageService { get; set; }
+    [Inject] private NavigationManager NavigationManager { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -29,6 +30,8 @@ public partial class SetupDetails : ComponentBase
             await SetupViewModel.RegisterRunner();
 
             await MessageService.Info("Runner Registered");
+
+            NavigationManager.NavigateTo($"/");
         }
         catch (Exception ex)
         {

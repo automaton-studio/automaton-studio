@@ -1,58 +1,28 @@
-﻿using Automaton.Runner.Config;
-using Newtonsoft.Json;
-using System.Windows;
-
-namespace Automaton.Runner.Storage;
+﻿namespace Automaton.Runner.Storage;
 
 public class ApplicationService
 {
-    private const string ApplicationConfig = "ApplicationConfig";
-    private readonly App application = (App)Application.Current;
-
-    public AppConfig GetApplicationConfiguration()
-    {
-        var appConfig = AppConfigExists() ? GetAppConfig() : NewAppConfig();
-
-        return appConfig;
-    }
-
     public void SetRunnerName(string runnerName)
     {
-        var appConfig = GetApplicationConfiguration();
+        Properties.Settings.Default.RunnerName = runnerName;
+        Properties.Settings.Default.Save();
+    }
 
-        appConfig.RunnerName = runnerName;
-
-        SaveAppConfig(appConfig);
+    public string GetRunnerName()
+    {
+        return Properties.Settings.Default.RunnerName;
     }
 
     public void SetServerUrl(string serverUrl)
     {
-        var appConfig = GetApplicationConfiguration();
-
-        appConfig.ServerUrl = serverUrl;
-
-        SaveAppConfig(appConfig);
+        Properties.Settings.Default.ServerUrl = serverUrl;
+        Properties.Settings.Default.Save();
     }
 
-    private void SaveAppConfig(AppConfig applicationConfiguration)
+    public string GetServerUrl()
     {
-        application.Properties[ApplicationConfig] = applicationConfiguration;
+        return Properties.Settings.Default.ServerUrl;
     }
 
-    private AppConfig? GetAppConfig()
-    {
-        var appConfig = application.Properties[ApplicationConfig] as AppConfig;
-
-        return appConfig;
-    }
-
-    private bool AppConfigExists()
-    {
-        return application.Properties.Contains(ApplicationConfig);
-    }
-
-    private AppConfig NewAppConfig()
-    {
-        return new AppConfig();
-    }
+    public bool IsRunnerRegistered() => !string.IsNullOrEmpty(GetRunnerName());
 }
