@@ -1,6 +1,6 @@
 ﻿namespace Automaton.Runner.Storage;
 
-public class ApplicationService
+public class ApplicationStorage
 {
     public void SetRunnerName(string runnerName)
     {

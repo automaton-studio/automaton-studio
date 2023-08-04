@@ -1,16 +1,15 @@
 ﻿using Automaton.App.Authentication.Config;
 using Automaton.Client.Auth.Extensions;
 using Automaton.Client.Auth.Interfaces;
-using Automaton.Client.Auth.Services;
 using Automaton.Runner.Extensions;
 using Automaton.Runner.Services;
 using Blazored.LocalStorage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Configuration;
 using System.IO;
 using System.Net.Http;
+using System.Reflection;
 using System.Windows;
 
 namespace Automaton.Runner
@@ -36,6 +35,9 @@ namespace Automaton.Runner
 
             var services = new ServiceCollection();
 
+            services.AddScoped<JsInterop>();
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+
             // Authentication & Authorization
             services.AddBlazoredLocalStorage();
 
@@ -49,6 +51,8 @@ namespace Automaton.Runner
             services.AddBlazorWebViewDeveloperTools();
 #endif
             services.AddAntDesign();
+            services.AddScoped<JsInterop>();
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
             services.AddSingleton(Configuration);
             services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(new ConfigService(Configuration).BaseUrl) });

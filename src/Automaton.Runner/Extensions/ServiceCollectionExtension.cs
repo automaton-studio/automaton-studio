@@ -14,7 +14,7 @@ public static class ServiceCollectionExtension
     public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton(service => new ConfigService(configuration));
-        services.AddSingleton<ApplicationService>();
+        services.AddSingleton<ApplicationStorage>();
         services.AddSingleton<HubService>();
         services.AddSingleton<RunnerService>();
 
@@ -31,8 +31,6 @@ public static class ServiceCollectionExtension
         // Validators
         //services.AddScoped<LoginValidator>();
         //services.AddScoped<RegistrationValidator>();
-
-        services.AddScoped<JsInterop>();
 
         services.AddScoped<TokenAuthHeaderHandler>();
         services.AddScoped<AutomatonHttpClient>();

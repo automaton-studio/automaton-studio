@@ -1,5 +1,6 @@
 ﻿using Automaton.Client.Auth.Http;
 using Automaton.Runner.Storage;
+using MediatR;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
@@ -11,9 +12,9 @@ public class RunnerService
 {
     private readonly ConfigService configService;
     private readonly HttpClient httpClient;
-    private readonly ApplicationService applicationService;
+    private readonly ApplicationStorage applicationService;
 
-    public RunnerService(AutomatonHttpClient httpClient, ConfigService configService, ApplicationService applicationStorage)
+    public RunnerService(AutomatonHttpClient httpClient, ConfigService configService, ApplicationStorage applicationStorage)
     {
         this.httpClient = httpClient.Client;
         this.configService = configService;
@@ -23,7 +24,6 @@ public class RunnerService
     public async Task Register(string name, string serverUrl)
     {
         RegisterClientSettings(name, serverUrl);
-
         await RegisterServerSettings(name, serverUrl);
     }
 

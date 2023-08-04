@@ -13,6 +13,7 @@
     <PackageReference Include="AntDesign" Version="0.15.0-alpha.4" />
     <PackageReference Include="Blazored.FluentValidation" Version="2.1.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
+    <PackageReference Include="MediatR" Version="12.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="7.0.5" />
@@ -73,6 +74,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Events\" />
   </ItemGroup>
 
 </Project>

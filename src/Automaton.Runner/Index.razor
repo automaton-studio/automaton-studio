@@ -1,4 +1,5 @@
 ﻿@page "/"
+@layout MainLayout
 
 <h1>Index</h1>
 
@@ -9,5 +10,9 @@
 
     protected override void OnInitialized()
     {
+        if (!ConfigService.IsRunnerRegistered())
+        {
+            NavigationManager.NavigateTo($"/setup");
+        }      
     }
 }

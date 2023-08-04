@@ -1,7 +1,4 @@
 @using Automaton.App.Authentication.Pages.Login;
-@using Automaton.Client.Auth.Services;
-@using Serilog;
-@using Serilog.Formatting.Json;
 
 <CascadingAuthenticationState>
     <Router 
@@ -10,7 +7,7 @@
             PreferExactMatches="@true">
 
         <Found Context="routeData">
-            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@Layout">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="typeof(MainLayout)">
                 <NotAuthorized>
                     @if (context.User.Identity?.IsAuthenticated != true)
                     {
@@ -23,6 +20,7 @@
                 </NotAuthorized>
             </AuthorizeRouteView>
         </Found>
+
         <NotFound>
             <LayoutView Layout="@typeof(MiscellaneousLayout)">
                 <CustomNotFound />
@@ -34,35 +32,3 @@
 @*To display the pop-up component dynamically, we need to add the <AntContainer /> component in App.razor*@
 @*https://github.com/ant-design-blazor/ant-design-blazor*@
 <AntContainer />
-
-@code {
-
-    [Inject] Services.ConfigService ConfigService { get; set; }
-    [Inject] NavigationManager NavigationManager { get; set; } = default!;
-
-    private Type Layout { get; set; } = typeof(MainLayout);
-
-    protected override async Task OnInitializedAsync()
-    {
-        await ConfigureSerilog();
-
-        if (string.IsNullOrEmpty(ConfigService.RunnerName))
-        {
-            Layout = typeof(SetupLayout);
-            NavigationManager.NavigateTo($"/setup");
-        }
-    }
-
-    /// <summary>
-    /// Configure Serilog here because we need the injected CustomHttpClient
-    /// and I did not know how to generate it in ServiceCollectionExtension.AddStudio()
-    /// </summary>
-    /// <returns></returns>
-    private async Task ConfigureSerilog()
-    {
-        await Task.Run(() =>
-            Log.Logger = new LoggerConfiguration()
-                .Enrich.FromLogContext()
-                .CreateLogger());
-    }
-}
