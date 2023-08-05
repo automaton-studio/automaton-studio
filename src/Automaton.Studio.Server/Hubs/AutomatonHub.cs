@@ -40,8 +40,8 @@ public class AutomatonHub : Hub
 
     private string GetRunnerName()
     {
-        var httpCtx = Context.GetHttpContext();
-        var runnerName = httpCtx.Request.Headers[RunnerNameHeader].ToString();
+        var httpContext = Context.GetHttpContext();
+        var runnerName = httpContext.Request.Headers[RunnerNameHeader].ToString();
 
         return runnerName;
     }

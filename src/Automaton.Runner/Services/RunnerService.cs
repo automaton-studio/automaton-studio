@@ -1,10 +1,12 @@
 ﻿using Automaton.Client.Auth.Http;
+using Automaton.Runner.Models;
 using Automaton.Runner.Storage;
 using MediatR;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Automaton.Runner.Services;
 
@@ -21,24 +23,29 @@ public class RunnerService
         this.applicationService = applicationStorage;
     }
 
-    public async Task Register(string name, string serverUrl)
-    {
-        RegisterClientSettings(name, serverUrl);
-        await RegisterServerSettings(name, serverUrl);
-    }
-
-    private void RegisterClientSettings(string name, string serverUrl)
+    public async Task SetupRunnerDetails(string runnerName, string serverUrl)
     {
         applicationService.SetServerUrl(serverUrl);
-        applicationService.SetRunnerName(name);
+        applicationService.SetRunnerName(runnerName);
+
+        var runnerNameJson = JsonConvert.SerializeObject(new { Name = runnerName });
+        var runnerNameContent = new StringContent(runnerNameJson, Encoding.UTF8, "application/json");
+        var response = await httpClient.PostAsync($"{serverUrl}/{configService.RegistrationUrl}", runnerNameContent);
+        response.EnsureSuccessStatusCode();
+
+        response = await httpClient.GetAsync($"{serverUrl}/{configService.RunnerByNameUrl}/{runnerName}");
+        response.EnsureSuccessStatusCode();
+        var runner = await response.Content.ReadAsAsync<RunnerDetails>();
+
+        applicationService.SetRunnerId(runner.Id);
     }
 
-    private async Task RegisterServerSettings(string runnerName, string serverUrl)
+    public async Task UpdateRunnerName(string runnerName)
     {
         var runnerNameJson = JsonConvert.SerializeObject(new { Name = runnerName });
         var runnerNameContent = new StringContent(runnerNameJson, Encoding.UTF8, "application/json");
 
-        var response = await httpClient.PostAsync($"{serverUrl}/{configService.RegistrationUrl}", runnerNameContent);
+        var response = await httpClient.PutAsync($"{configService.BaseUrl}/{configService.RegistrationUrl}/{configService.RunnerId}", runnerNameContent);
 
         response.EnsureSuccessStatusCode();
     }

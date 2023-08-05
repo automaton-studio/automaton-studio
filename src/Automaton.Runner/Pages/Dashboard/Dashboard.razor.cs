@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using AntDesign;
+using Automaton.Runner.Storage;
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Threading.Tasks;
 
@@ -19,6 +21,11 @@ namespace Automaton.Runner.Pages.Dashboard
             }
 
             await DashboardViewModel.ConnectHub();
+        }
+
+        private void OnNameChanged(string name)
+        {
+            DashboardViewModel.RunnerName = name;
         }
     }
 }

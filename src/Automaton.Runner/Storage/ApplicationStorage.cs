@@ -13,6 +13,17 @@ public class ApplicationStorage
         return Properties.Settings.Default.RunnerName;
     }
 
+    public void SetRunnerId(string id)
+    {
+        Properties.Settings.Default.RunnerId = id;
+        Properties.Settings.Default.Save();
+    }
+
+    public string GetRunnerId()
+    {
+        return Properties.Settings.Default.RunnerId;
+    }
+
     public void SetServerUrl(string serverUrl)
     {
         Properties.Settings.Default.ServerUrl = serverUrl;

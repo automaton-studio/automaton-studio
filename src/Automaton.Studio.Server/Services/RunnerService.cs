@@ -3,6 +3,7 @@ using Automaton.Studio.Server.Entities;
 using Automaton.Studio.Server.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace Automaton.Studio.Server.Services;
 
@@ -34,7 +35,7 @@ public class RunnerService
         return runners;
     }
 
-    public Runner Get(Guid id)
+    public Runner GetRunner(Guid id)
     {
         var runner = dbContext.Runners.SingleOrDefault(x => x.Id == id && x.RunnerUsers.Any(x => x.UserId == userId));
 
@@ -58,7 +59,33 @@ public class RunnerService
         return runner;
     }
 
-    public int Create(Models.RegisterRunnerDetails runnerDetails)
+    public Runner GetRunnerByName(string name)
+    {
+        var runner = dbContext.Runners.SingleOrDefault(x =>
+            x.Name.ToLower() == name.ToLower() &&
+            x.RunnerUsers.Any(x => x.UserId == userId));
+
+        // Because we update Runner's ConnectionId on the fly,
+        // when retrieving data we get the cached version of it
+        // with previous ConnectionId. There is no need to do the
+        // same thing with other entities if they aren't updated
+        // in the same way as the Runner entity.
+
+        // Here are some ideas to fix the issue:
+        // https://stackoverflow.com/a/51290890/778863
+        // http://codethug.com/2016/02/19/Entity-Framework-Cache-Busting/
+
+        // Solution 1. Reload the entity 
+        dbContext.Entry(runner).Reload();
+
+        // Solution 2. Detach the entity to remove it from context’s cache.
+        // dbContext.Entry(entity).State = EntityState.Detached;
+        // entity = dbContext.Runners.Find(id);
+
+        return runner;
+    }
+
+    public int SetupRunnerDetails(Models.RegisterRunnerDetails runnerDetails)
     {
         var runner = new Runner()
         {
@@ -78,6 +105,30 @@ public class RunnerService
         var result = dbContext.SaveChanges();
 
         return result;
+    }
+
+    public async Task UpdateRunnerDetails(Guid id, Models.UpdateRunnerDetails runnerDetails, CancellationToken cancellationToken)
+    {
+        var runner = dbContext.Runners
+        .Include(x => x.RunnerUsers)
+           .SingleOrDefault(x => x.Id == runnerDetails.Id &&
+               x.RunnerUsers.Any(x => x.UserId == userId));
+
+        if (runner == null)
+        {
+            throw new ArgumentException("Runner not found");
+        }
+
+        runner.Name = runnerDetails.Name;
+
+        // Mark entity as modified
+        dbContext.Entry(runner).State = EntityState.Modified;
+
+        // Update runner entity
+        dbContext.Update(runner);
+
+        // Save changes
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 
     public async Task Update(Models.Runner runner, CancellationToken cancellationToken)
@@ -118,7 +169,7 @@ public class RunnerService
     {
         foreach (var runnerId in runnerIds)
         {
-            var runner = Get(runnerId);
+            var runner = GetRunner(runnerId);
             var client = automatonHub.Clients.Client(runner.ConnectionId);
 
             await client.SendAsync(AutomatonHubMethods.RunWorkflow, flowId);

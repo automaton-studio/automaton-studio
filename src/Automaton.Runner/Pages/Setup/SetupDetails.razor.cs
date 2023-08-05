@@ -26,7 +26,7 @@ public partial class SetupDetails : ComponentBase
         {
             loading = true;
 
-            await SetupViewModel.RegisterRunner();
+            await SetupViewModel.SetupRunner();
 
             await MessageService.Info("Runner Registered");
 

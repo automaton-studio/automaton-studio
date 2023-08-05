@@ -25,7 +25,9 @@
             <SpaceItem>@DashboardViewModel.ConnectionText</SpaceItem>
         </Space>
     </DescriptionsItem>
-    <DescriptionsItem Title="Runner name" Span="3">@DashboardViewModel.RunnerName</DescriptionsItem>
+    <DescriptionsItem Title="Runner name" Span="3">
+        <Title Level="4" Editable EditConfig="new TypographyEditableConfig {OnChange = OnNameChanged,Text = DashboardViewModel.RunnerName}" Class="editable-label">@DashboardViewModel.RunnerName</Title>
+    </DescriptionsItem>
     <DescriptionsItem Title="Server URL" Span="3">@DashboardViewModel.ServerUrl</DescriptionsItem>
 </Descriptions>
 
@@ -43,6 +45,11 @@
     .status-disconnected {
         color: red;
         font-size: 26px;
+    }
+
+    .editable-label  {
+        font-size: 1em !important;
+        font-weight: normal !important;
     }
 </style>
 

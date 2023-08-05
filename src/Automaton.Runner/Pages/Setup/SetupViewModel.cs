@@ -27,9 +27,9 @@ public class SetupViewModel
         };
     }
 
-    public async Task RegisterRunner()
+    public async Task SetupRunner()
     {
-        await runnerService.Register(RunnerName, ServerUrl);
+        await runnerService.SetupRunnerDetails(RunnerName, ServerUrl);
     }
 
     public void NavigateToDetails()
