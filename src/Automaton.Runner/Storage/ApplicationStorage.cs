@@ -25,4 +25,5 @@ public class ApplicationStorage
     }
 
     public bool IsRunnerRegistered() => !string.IsNullOrEmpty(GetRunnerName());
+    public bool IsServerRegistered() => !string.IsNullOrEmpty(GetServerUrl());
 }

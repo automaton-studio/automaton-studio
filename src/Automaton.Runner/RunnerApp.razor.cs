@@ -1,5 +1,4 @@
-﻿using Automaton.Runner.Storage;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Serilog;
 using System.Threading.Tasks;
 
@@ -7,9 +6,7 @@ namespace Automaton.Runner
 {
     public partial class RunnerApp : ComponentBase
     {
-        [Inject] Services.ConfigService ConfigService { get; set; }
-        [Inject] NavigationManager NavigationManager { get; set; } = default!;
-        [Inject] ApplicationStorage ApplicationStorage { get; set; } = default!;
+        [Inject] RunnerAppViewModel RunnerAppViewModel { get; set; }
 
         protected override async Task OnInitializedAsync()
         {

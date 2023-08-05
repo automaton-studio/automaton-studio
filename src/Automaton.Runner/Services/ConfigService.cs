@@ -30,4 +30,5 @@ public class ConfigService
     }
 
     public bool IsRunnerRegistered() => applicationStorage.IsRunnerRegistered();
+    public bool IsServerRegistered() => applicationStorage.IsServerRegistered();
 }

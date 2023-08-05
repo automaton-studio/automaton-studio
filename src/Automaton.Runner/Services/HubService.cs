@@ -69,6 +69,11 @@ public class HubService
         }
     }
 
+    public bool IsConnected()
+    {
+        return connection.State == HubConnectionState.Connected;
+    }
+
     private async Task ConnectionClosed(Exception arg)
     {
         if (disconnectedOnApplicationClose)
