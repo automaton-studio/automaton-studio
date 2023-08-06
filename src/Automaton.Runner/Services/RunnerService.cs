@@ -23,6 +23,9 @@ public class RunnerService
 
     public async Task SetupRunnerDetails(string runnerName, string serverUrl)
     {
+        // Need to use serverUrl because configuration is not updated,
+        // so AutomatonHttpClient does not know what's the BaseUrl yet.
+
         var runnerNameJson = JsonConvert.SerializeObject(new RunnerDetails { Name = runnerName });
         var runnerNameContent = new StringContent(runnerNameJson, Encoding.UTF8, "application/json");
         var response = await httpClient.PostAsync($"{serverUrl}/{configService.RunnersUrl}", runnerNameContent);
