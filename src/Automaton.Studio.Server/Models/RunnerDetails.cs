@@ -2,7 +2,7 @@
 
 namespace Automaton.Studio.Server.Models
 {
-    public class RegisterRunnerDetails : IRequest
+    public class RunnerDetails : IRequest
     {
         public string Name { get; set; }
     }

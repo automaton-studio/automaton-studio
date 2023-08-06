@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace Automaton.Studio.Server.Validators
 {
-    public class RegisterRunnerValidator : AbstractValidator<RegisterRunnerDetails>
+    public class RegisterRunnerValidator : AbstractValidator<RunnerDetails>
     {
         private readonly RunnerService runnerService;
 
@@ -19,7 +19,7 @@ namespace Automaton.Studio.Server.Validators
             });     
         }
 
-        private bool NameIsUnique(RegisterRunnerDetails command)
+        private bool NameIsUnique(RunnerDetails command)
         {
             /// You should NOT use asynchronous rules when using ASP.NET automatic validation
             /// as ASP.NET’s validation pipeline is not asynchronous.

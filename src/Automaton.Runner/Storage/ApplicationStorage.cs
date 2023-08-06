@@ -35,6 +35,6 @@ public class ApplicationStorage
         return Properties.Settings.Default.ServerUrl;
     }
 
-    public bool IsRunnerRegistered() => !string.IsNullOrEmpty(GetRunnerName());
+    public bool IsRunnerRegistered() => !string.IsNullOrEmpty(GetRunnerId());
     public bool IsServerRegistered() => !string.IsNullOrEmpty(GetServerUrl());
 }

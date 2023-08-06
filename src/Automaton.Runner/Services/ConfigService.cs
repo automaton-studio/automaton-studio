@@ -16,11 +16,12 @@ public class ConfigService
     public string ServerUrl => applicationStorage.GetServerUrl();
     public string RunnerId => applicationStorage.GetRunnerId();
     public string RunnerName => applicationStorage.GetRunnerName();
+
     public string BaseUrl => apiConfig.BaseUrl;
     public string WorkflowHubUrl => apiConfig.WorkflowHubUrl;
     public string FlowsUrl => apiConfig.FlowsUrl;
-    public string RegistrationUrl => apiConfig.RegistrationUrl;
-    public string RunnerByNameUrl => apiConfig.RunnerByNameUrl;
+    public string RunnersUrl => apiConfig.RunnersUrl;
+
     public string LoginUserUrl => authenticationConfig.LoginUserUrl;
 
     public ConfigService(IConfiguration configuration)

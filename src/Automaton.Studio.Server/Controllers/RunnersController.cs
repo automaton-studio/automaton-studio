@@ -1,5 +1,4 @@
-﻿using Automaton.Studio.Server.Core.Commands;
-using Automaton.Studio.Server.Models;
+﻿using Automaton.Studio.Server.Models;
 using Automaton.Studio.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,21 +26,21 @@ namespace Automaton.Studio.Server.Controllers
         }
 
         [HttpGet("find")]
-        public async Task<ActionResult<IEnumerable<Runner>>> Get(IEnumerable<Guid> runnerIds)
+        public ActionResult<IEnumerable<Runner>> Get(IEnumerable<Guid> runnerIds)
         {
             return Ok(runnersService.List(runnerIds));
         }
 
-        [HttpPost("register")]
-        public ActionResult Post([FromBody] RegisterRunnerDetails registerRunnerDetails, CancellationToken cancellationToken)
+        [HttpPost]
+        public ActionResult Post(Runner runner, CancellationToken cancellationToken)
         {
-            return Ok(runnersService.SetupRunnerDetails(registerRunnerDetails));
+            return Ok(runnersService.AddRunner(runner));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, UpdateRunnerDetails runnerDetails, CancellationToken cancellationToken)
+        public async Task<IActionResult> Put(Guid id, Runner runnerDetails, CancellationToken cancellationToken)
         {
-            await runnersService.UpdateRunnerDetails(id, runnerDetails, cancellationToken);
+            await runnersService.Update(id, runnerDetails, cancellationToken);
 
             return NoContent();
         }

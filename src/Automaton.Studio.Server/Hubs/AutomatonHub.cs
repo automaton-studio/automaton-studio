@@ -8,6 +8,7 @@ namespace Automaton.Studio.Server.Hubs;
 public class AutomatonHub : Hub
 {
     private const string UserIdClaim = "uid";
+    private const string RunnerIdHeader = "RunnerId";
     private const string RunnerNameHeader = "RunnerName";
 
     private readonly RunnerService runnerService;
@@ -19,9 +20,9 @@ public class AutomatonHub : Hub
 
     public override async Task OnConnectedAsync()
     {
-        var runnerName = GetRunnerName();
+        var runner = GetRunner();
 
-        await Clients.Caller.SendAsync("WelcomeRunner", $"Welcome {runnerName}");
+        await Clients.Caller.SendAsync("WelcomeRunner", $"Welcome {runner.Name}");
 
         await UpdateRunnerConnection();
 
@@ -38,12 +39,21 @@ public class AutomatonHub : Hub
         return !string.IsNullOrEmpty(runnerName);
     }
 
-    private string GetRunnerName()
+    private Models.Runner GetRunner()
     {
         var httpContext = Context.GetHttpContext();
+        var runnerId = httpContext.Request.Headers[RunnerIdHeader].ToString();
         var runnerName = httpContext.Request.Headers[RunnerNameHeader].ToString();
+        var connectionId = Context.ConnectionId;
 
-        return runnerName;
+        var runner = new Models.Runner
+        { 
+            Id = Guid.Parse(runnerId),
+            Name = runnerName,
+            ConnectionId = connectionId
+        };
+
+        return runner;
     }
 
     private string GetUserId()
@@ -58,12 +68,8 @@ public class AutomatonHub : Hub
 
     private async Task UpdateRunnerConnection()
     {
-        var runner = new Models.Runner
-        {
-            Name = GetRunnerName(),
-            ConnectionId = Context.ConnectionId
-        };
+        var runner = GetRunner();
 
-        await runnerService.Update(runner, CancellationToken.None);
+        await runnerService.Update(runner.Id.Value, runner, CancellationToken.None);
     }
 }

@@ -9,14 +9,7 @@ public class AuthTokenService
     private const string ApplicationJson = "application/json";
 
     private readonly ClientAuthConfigurationService configurationService;
-    private readonly ClientAuthConfig authConfiguration = new();
-    private readonly ApiConfig apiConfiguration = new();
     private readonly HttpClient httpClient;
-
-    public string LoginUserUrl => authConfiguration.LoginUserUrl;
-    public string RefreshAccessTokenUrl => authConfiguration.RefreshAccessTokenUrl;
-    public int RefreshTokenExpirationMinutesCheck => authConfiguration.RefreshTokenExpirationMinutesCheck;
-    public string BaseUrl => apiConfiguration.BaseUrl;
 
     public AuthTokenService(ClientAuthConfigurationService configurationService, HttpClient httpClient)
     {

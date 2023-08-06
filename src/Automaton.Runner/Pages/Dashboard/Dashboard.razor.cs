@@ -12,6 +12,8 @@ namespace Automaton.Runner.Pages.Dashboard
         [Inject] NavigationManager NavigationManager { get; set; } = default!;
         [Inject] DashboardViewModel DashboardViewModel { get; set; }
 
+        TypographyEditableConfig runnerNameEditableConfig;
+
         protected override async Task OnInitializedAsync()
         {
             if (!ConfigService.IsRunnerRegistered())
@@ -21,11 +23,17 @@ namespace Automaton.Runner.Pages.Dashboard
             }
 
             await DashboardViewModel.ConnectHub();
+
+            runnerNameEditableConfig = new TypographyEditableConfig
+            {
+                OnChange = OnNameChanged,
+                Text = DashboardViewModel.RunnerName
+            };
         }
 
         private void OnNameChanged(string name)
         {
-            DashboardViewModel.RunnerName = name;
+            Task.Run(async () => await DashboardViewModel.UpdateRunnerName(name)).Wait();
         }
     }
 }

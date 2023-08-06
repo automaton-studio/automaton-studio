@@ -17,7 +17,7 @@ public class ClientAuthConfigurationService
     public string RefreshAccessTokenUrl => authConfiguration.RefreshAccessTokenUrl;
     public int RefreshTokenExpirationMinutesCheck => authConfiguration.RefreshTokenExpirationMinutesCheck;
     public string BaseUrl => apiConfiguration.BaseUrl;
-    public string LogsUrl => $"{apiConfiguration.BaseUrl}{apiConfiguration.LogsUrl}";
+    public string LogsUrl => $"{apiConfiguration.BaseUrl}/{apiConfiguration.LogsUrl}";
 
     public ClientAuthConfigurationService(IConfiguration configuration)
     {

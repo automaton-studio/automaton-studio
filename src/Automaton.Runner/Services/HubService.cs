@@ -10,6 +10,7 @@ namespace Automaton.Runner.Services;
 
 public class HubService
 {
+    private const string RunnerIdHeader = "RunnerId";
     private const string RunnerNameHeader = "RunnerName";
     private const string RunWorkflow = "RunWorkflow";
     private const string WelcomeRunner = "WelcomeRunner";
@@ -35,16 +36,17 @@ public class HubService
         this.authStateProvider = authStateProvider;
     }
 
-    public async Task ConnectToServer(string runnerName)
+    public async Task ConnectToServer()
     {
         try
         {
-            var hubUrl = $"{configService.BaseUrl}{configService.WorkflowHubUrl}";
+            var hubUrl = $"{configService.BaseUrl}/{configService.WorkflowHubUrl}";
 
             connection = new HubConnectionBuilder().WithUrl(hubUrl, options =>
             {
                 options.AccessTokenProvider = async () => await authStateProvider.GetAccessTokenAsync();
-                options.Headers.Add(RunnerNameHeader, runnerName);
+                options.Headers.Add(RunnerIdHeader, configService.RunnerId);
+                options.Headers.Add(RunnerNameHeader, configService.RunnerName);
             })
             .Build();
 

@@ -3,7 +3,6 @@ using Automaton.Studio.Server.Entities;
 using Automaton.Studio.Server.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
 
 namespace Automaton.Studio.Server.Services;
 
@@ -85,7 +84,7 @@ public class RunnerService
         return runner;
     }
 
-    public int SetupRunnerDetails(Models.RegisterRunnerDetails runnerDetails)
+    public int AddRunner(Models.Runner runnerDetails)
     {
         var runner = new Runner()
         {
@@ -107,50 +106,35 @@ public class RunnerService
         return result;
     }
 
-    public async Task UpdateRunnerDetails(Guid id, Models.UpdateRunnerDetails runnerDetails, CancellationToken cancellationToken)
+    public async Task Update(Guid id, Models.Runner runner, CancellationToken cancellationToken)
     {
-        var runner = dbContext.Runners
-        .Include(x => x.RunnerUsers)
-           .SingleOrDefault(x => x.Id == runnerDetails.Id &&
-               x.RunnerUsers.Any(x => x.UserId == userId));
-
-        if (runner == null)
-        {
-            throw new ArgumentException("Runner not found");
-        }
-
-        runner.Name = runnerDetails.Name;
-
-        // Mark entity as modified
-        dbContext.Entry(runner).State = EntityState.Modified;
-
-        // Update runner entity
-        dbContext.Update(runner);
-
-        // Save changes
-        await dbContext.SaveChangesAsync(cancellationToken);
-    }
-
-    public async Task Update(Models.Runner runner, CancellationToken cancellationToken)
-    {
-        var runnerEntity = dbContext.Runners
+        var entity = dbContext.Runners
             .Include(x => x.RunnerUsers)
-            .SingleOrDefault(x => x.Name == runner.Name && 
+            .SingleOrDefault(x => x.Id == id && 
                 x.RunnerUsers.Any(x => x.UserId == userId));
 
-        if (runnerEntity == null)
+        if (entity == null)
         {
             throw new ArgumentException("Runner not found");
         }
 
-        // Update connection id
-        runnerEntity.ConnectionId = runner.ConnectionId;
+        if (string.IsNullOrEmpty(runner.Name))
+        {
+            throw new ArgumentException("Runner name can not be empty");
+        }
+
+        if (!string.IsNullOrEmpty(runner.ConnectionId))
+        {
+            entity.ConnectionId = runner.ConnectionId;
+        }
+
+        entity.Name = runner.Name;
 
         // Mark entity as modified
-        dbContext.Entry(runnerEntity).State = EntityState.Modified;
+        dbContext.Entry(entity).State = EntityState.Modified;
 
         // Update runner entity
-        dbContext.Update(runnerEntity);
+        dbContext.Update(entity);
 
         // Save changes
         await dbContext.SaveChangesAsync(cancellationToken);
