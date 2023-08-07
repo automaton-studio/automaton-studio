@@ -1,0 +1,43 @@
+﻿@page "/settings"
+
+<Layout Id="setup-layout">
+    <Header Class="header">
+        <Row>
+            <Col Flex=@("none")>
+            <Space Size="@AntSizeLDSType.Large">
+                <SpaceItem Class="header-item">
+                    <Title Level="4">Settings</Title>
+                </SpaceItem>
+            </Space>
+            </Col>
+
+            <Col Class="right-actions">
+            <Space Class="right-header-items">
+            </Space>
+            </Col>
+        </Row>
+    </Header>
+
+    <Content>
+        <GridRow Class="setup-page">
+            <GridCol Md="12" Class="setup-content">
+                <Settings SettingsViewModel="@SetupViewModel" />
+            </GridCol>
+        </GridRow>
+    </Content>
+</Layout>
+
+<style>
+    #setup-layout {
+        height: 100vh;
+    }
+
+    .setup-page {
+        margin: 10px;
+        height: 100vh;
+    }
+
+    .setup-content {
+        padding: 20px;
+    }
+</style>

@@ -1,0 +1,36 @@
+﻿@using AntDesign
+@using Blazored.FluentValidation
+
+<Form Loading="loading"
+      Model="@SettingsViewModel"
+      Layout="@FormLayout.Vertical"
+      OnFinish="OnFinish"
+      OnFinishFailed="OnFinishFailed">
+
+    <Validator>
+        <FluentValidationValidator />
+    </Validator>
+
+    <ChildContent>
+        <GridRow Gutter="(16, 0)" Justify="center">
+            <GridCol Xs="24" Md="24">
+                <FormItem Label="Server URL">
+                    <Input @bind-Value="@context.ServerUrl" />
+                </FormItem>
+            </GridCol>
+            <GridCol Xs="24" Md="24">
+                <FormItem Label="Runner name">
+                    <Input @bind-Value="@context.RunnerName" />
+                </FormItem>
+            </GridCol>
+        </GridRow>
+
+        <FormItem WrapperColSpan="16">
+            <Button Type="@ButtonType.Primary" HtmlType="submit">
+                Save
+            </Button>
+        </FormItem>
+    </ChildContent>
+
+</Form>
+

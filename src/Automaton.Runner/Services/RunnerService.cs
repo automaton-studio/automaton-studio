@@ -40,8 +40,10 @@ public class RunnerService
         applicationService.SetRunnerName(runner.Name);
     }
 
-    public async Task UpdateRunnerName(string runnerName)
+    public async Task UpdateRunnerDetails(string runnerName, string serverUrl)
     {
+        applicationService.SetServerUrl(serverUrl);
+
         var runnerNameJson = JsonConvert.SerializeObject(new RunnerDetails { Name = runnerName });
         var runnerContent = new StringContent(runnerNameJson, Encoding.UTF8, "application/json");
         var response = await httpClient.PutAsync($"{configService.RunnersUrl}/{configService.RunnerId}", runnerContent);

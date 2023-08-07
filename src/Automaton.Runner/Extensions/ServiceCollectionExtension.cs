@@ -2,6 +2,7 @@
 using Automaton.Client.Auth.Handlers;
 using Automaton.Client.Auth.Http;
 using Automaton.Runner.Pages.Dashboard;
+using Automaton.Runner.Pages.Settings;
 using Automaton.Runner.Pages.Setup;
 using Automaton.Runner.Services;
 using Automaton.Runner.Shared;
@@ -29,6 +30,7 @@ public static class ServiceCollectionExtension
         services.AddSingleton<SetupViewModel>();
         services.AddSingleton<RunnerAppViewModel>();
         services.AddSingleton<DashboardViewModel>();
+        services.AddSingleton<SettingsViewModel>();
 
         // Validators
         //services.AddScoped<LoginValidator>();

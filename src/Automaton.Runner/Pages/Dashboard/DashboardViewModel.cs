@@ -9,7 +9,6 @@ public class DashboardViewModel
 {
     private ConfigService configService;
     private HubService hubService;
-    private RunnerService runnerService;
 
     public string ConnectionText { get; set; }
     public string ConnectionIcon { get; set; }
@@ -17,10 +16,9 @@ public class DashboardViewModel
     public string RunnerId { get; set; }
     public string RunnerName { get; set; }
 
-    public DashboardViewModel(HubService hubService, RunnerService runnerService, ConfigService configService)
+    public DashboardViewModel(HubService hubService, ConfigService configService)
     {
         this.hubService = hubService;
-        this.runnerService = runnerService;
         this.configService = configService;
 
         hubService.Connected += HubServiceConnected;
@@ -62,13 +60,6 @@ public class DashboardViewModel
     {
         ConnectionText = Messages.Disconnected;
         ConnectionIcon = "status-disconnected";
-    }
-
-    public async Task UpdateRunnerName(string name)
-    {
-        await runnerService.UpdateRunnerName(name);
-
-        RunnerName = name;
     }
 
     private void HubServiceConnected(object sender, EventArgs e)
