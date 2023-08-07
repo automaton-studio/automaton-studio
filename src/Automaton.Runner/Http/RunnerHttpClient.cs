@@ -1,12 +1,14 @@
-﻿using Automaton.Client.Auth.Services;
+﻿using Automaton.Runner.Services;
+using System;
+using System.Net.Http;
 
-namespace Automaton.Client.Auth.Http;
+namespace Automaton.Runner.Http;
 
-public class AutomatonHttpClient
+public class RunnerHttpClient
 {
     public HttpClient Client { get; }
 
-    public AutomatonHttpClient(HttpClient httpClient, ClientAuthConfigurationService configService)
+    public RunnerHttpClient(HttpClient httpClient, ConfigService configService)
     {
         Client = httpClient;
         Client.BaseAddress = new Uri(configService.BaseUrl);

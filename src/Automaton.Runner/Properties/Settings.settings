@@ -8,9 +8,6 @@
     <Setting Name="RunnerName" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="ServerUrl" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="RunnerId" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>

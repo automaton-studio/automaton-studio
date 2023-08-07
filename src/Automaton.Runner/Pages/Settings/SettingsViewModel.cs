@@ -1,5 +1,4 @@
 ﻿using Automaton.Runner.Services;
-using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner.Pages.Settings;
@@ -10,7 +9,6 @@ public class SettingsViewModel
     private readonly ConfigService configService;
 
     public string RunnerName { get; set; }
-    public string ServerUrl { get; set; }
 
     public SettingsViewModel(RunnerService runnerService, ConfigService configService)
     {
@@ -21,11 +19,10 @@ public class SettingsViewModel
     public void LoadSettings()
     {
         RunnerName = configService.RunnerName;
-        ServerUrl = configService.ServerUrl;
     }
 
     public async Task SaveSettings()
     {
-        await runnerService.UpdateRunnerDetails(RunnerName, ServerUrl);
+        await runnerService.UpdateRunnerDetails(RunnerName);
     }
 }

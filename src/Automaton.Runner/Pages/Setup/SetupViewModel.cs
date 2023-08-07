@@ -10,7 +10,6 @@ public class SetupViewModel
     private readonly RunnerService runnerService;
 
     public string RunnerName { get; set; }
-    public string ServerUrl { get; set; }
     public int CurrentSetupStep { get; set; }
     public Type SetupStepComponent { get; set; }
     public Dictionary<string, object> SetupStepParameters { get; set; }
@@ -29,7 +28,7 @@ public class SetupViewModel
 
     public async Task SetupRunner()
     {
-        await runnerService.SetupRunnerDetails(RunnerName, ServerUrl);
+        await runnerService.SetupRunnerDetails(RunnerName);
     }
 
     public void NavigateToDetails()

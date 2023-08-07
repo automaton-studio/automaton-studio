@@ -12,7 +12,6 @@ public class DashboardViewModel
 
     public string ConnectionText { get; set; }
     public string ConnectionIcon { get; set; }
-    public string ServerUrl { get; set; }
     public string RunnerId { get; set; }
     public string RunnerName { get; set; }
 
@@ -29,7 +28,6 @@ public class DashboardViewModel
     {
         RunnerId = configService.IsRunnerRegistered() ? configService.RunnerId : Messages.RunnerNotRegistered;
         RunnerName = configService.IsRunnerRegistered() ? configService.RunnerName : Messages.RunnerNotRegistered;
-        ServerUrl = configService.IsServerRegistered() ? configService.ServerUrl : Messages.ServerNotRegistered;
 
         if (configService.IsRunnerRegistered())
         {

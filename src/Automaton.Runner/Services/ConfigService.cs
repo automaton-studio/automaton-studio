@@ -13,7 +13,6 @@ public class ConfigService
     private readonly AuthenticationConfig authenticationConfig = new();
     private readonly ApplicationStorage applicationStorage = new();
 
-    public string ServerUrl => applicationStorage.GetServerUrl();
     public string RunnerId => applicationStorage.GetRunnerId();
     public string RunnerName => applicationStorage.GetRunnerName();
 
@@ -33,5 +32,4 @@ public class ConfigService
     }
 
     public bool IsRunnerRegistered() => applicationStorage.IsRunnerRegistered();
-    public bool IsServerRegistered() => applicationStorage.IsServerRegistered();
 }

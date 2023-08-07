@@ -50,18 +50,6 @@ namespace Automaton.Runner.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string ServerUrl {
-            get {
-                return ((string)(this["ServerUrl"]));
-            }
-            set {
-                this["ServerUrl"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string RunnerId {
             get {
                 return ((string)(this["RunnerId"]));

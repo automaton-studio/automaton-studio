@@ -1,6 +1,6 @@
-﻿using Automaton.Client.Auth.Http;
-using Automaton.Core.Models;
+﻿using Automaton.Core.Models;
 using Automaton.Core.Services;
+using Automaton.Runner.Http;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -15,7 +15,7 @@ public class FlowService
 
     public FlowService(WorkflowExecuteService workflowExecuteService, 
         ConfigService configService, 
-        AutomatonHttpClient httpClient)
+        RunnerHttpClient httpClient)
     {
         this.workflowExecuteService = workflowExecuteService;
         this.configService = configService;

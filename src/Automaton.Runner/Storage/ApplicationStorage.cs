@@ -24,17 +24,5 @@ public class ApplicationStorage
         return Properties.Settings.Default.RunnerId;
     }
 
-    public void SetServerUrl(string serverUrl)
-    {
-        Properties.Settings.Default.ServerUrl = serverUrl;
-        Properties.Settings.Default.Save();
-    }
-
-    public string GetServerUrl()
-    {
-        return Properties.Settings.Default.ServerUrl;
-    }
-
     public bool IsRunnerRegistered() => !string.IsNullOrEmpty(GetRunnerId());
-    public bool IsServerRegistered() => !string.IsNullOrEmpty(GetServerUrl());
 }
