@@ -10,15 +10,36 @@ This change allows us to ship dotnet ef as a regular .NET CLI tool that can be i
 
 ``dotnet tool install --global dotnet-ef``
 
-## SQL Setup
+## Database Providers Setup
+
+### Handle multiple providers migration
+https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/projects?tabs=dotnet-core-cli
 
 ### Run migration to create/update database
 
-``dotnet ef database update --context ApplicationDbContext``
+``dotnet ef database update --context ApplicationDbContext --project Automaton.Studio.Server.MySql.Migrations``
+
+From VS Package Manager Console
+
+``Update-Database``
+
+It will aply migrations for the provider specified in app.settings:
+
+``
+  "AppConfig": {
+    "DatabaseType":  "MySql"
+  },
+``
+
+Valid entries are:
+
+* MySql
+* MsSql
 
 ### Add migration
 
-``dotnet ef migrations add MigrationName --context ApplicationDbContext``
+``dotnet ef migrations add MigrationName --project Automaton.Studio.Server.MsSql.Migrations.csproj``
+``dotnet ef migrations add MigrationName --project Automaton.Studio.Server.MySql.Migrations.csproj``
 
 ### Swagger URLs
 

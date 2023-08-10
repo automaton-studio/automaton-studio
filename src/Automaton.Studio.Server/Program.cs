@@ -22,11 +22,8 @@ using Serilog.Formatting.Compact;
 using Serilog.Sinks.MSSqlServer;
 using System.Reflection;
 
-const string ConnectionStringName = "DefaultConnection";
-
 var applicationBuilder = WebApplication.CreateBuilder(args);
-var services = applicationBuilder.Services;
-var connectionString = applicationBuilder.Configuration.GetConnectionString(ConnectionStringName);
+var configurationManager = applicationBuilder.Configuration;
 
 var configurationBuilder = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -34,7 +31,21 @@ var configurationBuilder = new ConfigurationBuilder()
 
 var configurationService = new ConfigurationService(configurationBuilder);
 
-services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+var services = applicationBuilder.Services;
+
+services.AddDbContext<ApplicationDbContext>(
+    options => _ = configurationService.DatabaseType switch
+    {
+        "MsSql" => options.UseSqlServer(
+            configurationManager.GetConnectionString("MsSqlConnection"),
+            x => x.MigrationsAssembly("Automaton.Studio.Server.MsSql.Migrations")),
+
+        "MySql" => options.UseMySQL(
+            configurationManager.GetConnectionString("MySqlConnection"),
+            x => x.MigrationsAssembly("Automaton.Studio.Server.MySql.Migrations")),
+
+        _ => throw new Exception($"Unsupported provider: {configurationService.DatabaseType}")
+    });
 
 services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -90,12 +101,16 @@ applicationBuilder.Host.UseSerilog((context, services, config) =>
         //objects created in code are treated as a baseline
         //which is then updated from the external configuration data
         //https://github.com/serilog-mssql/serilog-sinks-mssqlserver
-        connectionString: ConnectionStringName,
+        connectionString: configurationManager.GetConnectionString("MsSqlConnection"),
         appConfiguration: configurationBuilder,
         // Below configuration is overritten by configuration from appsettings.json
         logEventFormatter: new CompactJsonFormatter(),
         sinkOptions: new MSSqlServerSinkOptions { TableName = "LogEvents" },
-        columnOptions: new ColumnOptions()));
+        columnOptions: new ColumnOptions())
+    //.WriteTo.MySQL(
+    //    connectionString: configurationManager.GetConnectionString("MySqlConnection"),
+    //    tableName: "Logs")
+    );
 
 services.AddScoped<CustomStepsService>();
 services.AddScoped<FlowsService>();
@@ -119,7 +134,7 @@ services.AddAutomatonCore();
 
 var app = applicationBuilder.Build();
 
-app.ApplyMigrations();
+//app.ApplyMigrations();
 
 app.UseSerilogRequestLogging(
     options =>
