@@ -19,8 +19,9 @@ namespace Common.Authentication
         {
         }
 
-        public RefreshToken(TKey userId, long dayToExpire = 3)
+        public RefreshToken(TKey id, TKey userId, long dayToExpire = 3)
         {
+            Id = id;
             UserId = userId;
             CreatedAt = DateTime.Now;
             Token = RefreshToken<TKey>.GenerateToken();

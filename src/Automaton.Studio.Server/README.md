@@ -17,6 +17,8 @@ https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/projects?t
 
 ### Run migration to create/update database
 
+From console
+
 ``dotnet ef database update --context ApplicationDbContext --project Automaton.Studio.Server.MySql.Migrations``
 
 From VS Package Manager Console

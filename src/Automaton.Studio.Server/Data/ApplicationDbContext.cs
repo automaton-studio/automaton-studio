@@ -77,7 +77,6 @@ namespace Automaton.Studio.Server.Data
 
             modelBuilder.Entity<RefreshToken<Guid>>()
                 .Property(s => s.Id)
-                .HasDefaultValueSql("NEWID()")
                 .IsRequired();
 
             modelBuilder.Entity<RefreshToken<Guid>>()

@@ -46,7 +46,7 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
                 throw new Exception($"User: '{refreshToken.UserId}' not found.");
             }
 
-            var newRefreshToken = new RefreshToken<Guid>(user.Id, 4);
+            var newRefreshToken = new RefreshToken<Guid>(Guid.NewGuid(), user.Id, 4);
 
             try
             {
