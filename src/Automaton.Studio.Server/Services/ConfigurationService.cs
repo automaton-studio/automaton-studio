@@ -8,6 +8,9 @@ public class ConfigurationService
     private readonly AppConfig appConfig = new();
     private readonly UserPasswordConfig userPasswordConfig = new();
 
+    public const string MsSqlDatabaseType = "MsSql";
+    public const string MySqlDatabaseType = "MySql";
+
     public string DatabaseType => appConfig.DatabaseType;
     public int RefreshTokenLifetime => appConfig.RefreshTokenLifetime;
     public bool NoUserSignUp => !appConfig.UserSignUp;
@@ -23,5 +26,15 @@ public class ConfigurationService
         this.configuration = configuration;
         this.configuration.GetSection(nameof(AppConfig)).Bind(appConfig);
         this.configuration.GetSection(nameof(UserPasswordConfig)).Bind(userPasswordConfig);
+    }
+
+    public bool IsDatabaseTypeMsSql()
+    {
+        return DatabaseType == MsSqlDatabaseType;
+    }
+
+    public bool IsDatabaseTypeMySql()
+    {
+        return DatabaseType == MySqlDatabaseType;
     }
 }

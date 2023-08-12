@@ -2,15 +2,12 @@ using Automaton.Core.Scripting;
 using Automaton.Studio.Server.Areas.Identity;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Entities;
-using Automaton.Studio.Server.Extensions;
 using Automaton.Studio.Server.Hubs;
 using Automaton.Studio.Server.Middleware;
 using Automaton.Studio.Server.Services;
 using Common.Authentication;
-using Common.EF;
 using Destructurama;
 using FluentValidation.AspNetCore;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -36,11 +33,11 @@ var services = applicationBuilder.Services;
 services.AddDbContext<ApplicationDbContext>(
     options => _ = configurationService.DatabaseType switch
     {
-        "MsSql" => options.UseSqlServer(
+        ConfigurationService.MsSqlDatabaseType => options.UseSqlServer(
             configurationManager.GetConnectionString("MsSqlConnection"),
             x => x.MigrationsAssembly("Automaton.Studio.Server.MsSql.Migrations")),
 
-        "MySql" => options.UseMySQL(
+        ConfigurationService.MySqlDatabaseType => options.UseMySQL(
             configurationManager.GetConnectionString("MySqlConnection"),
             x => x.MigrationsAssembly("Automaton.Studio.Server.MySql.Migrations")),
 
@@ -95,20 +92,21 @@ applicationBuilder.Host.UseSerilog((context, services, config) =>
     .Enrich.With<EventTypeEnricher>()
     .Enrich.With(services.GetService<UserNameEnricher>())
     .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
-    .WriteTo.MSSqlServer(
-        //If provided, the settings of MSSqlServerSinkOptions and ColumnOptions
-        //objects created in code are treated as a baseline
-        //which is then updated from the external configuration data
-        //https://github.com/serilog-mssql/serilog-sinks-mssqlserver
-        connectionString: configurationManager.GetConnectionString("MsSqlConnection"),
-        appConfiguration: configurationBuilder,
-        // Below configuration is overritten by configuration from appsettings.json
-        logEventFormatter: new CompactJsonFormatter(),
-        sinkOptions: new MSSqlServerSinkOptions { TableName = "LogEvents" },
-        columnOptions: new ColumnOptions())
-    //.WriteTo.MySQL(
-    //    connectionString: configurationManager.GetConnectionString("MySqlConnection"),
-    //    tableName: "Logs")
+    .WriteTo.Conditional(evt => configurationService.IsDatabaseTypeMsSql(), 
+        wt => wt.MSSqlServer(
+            //If provided, the settings of MSSqlServerSinkOptions and ColumnOptions
+            //objects created in code are treated as a baseline
+            //which is then updated from the external configuration data
+            //https://github.com/serilog-mssql/serilog-sinks-mssqlserver
+            connectionString: configurationManager.GetConnectionString("MsSqlConnection"),
+            appConfiguration: configurationBuilder,
+            // Below configuration is overritten by configuration from appsettings.json
+            logEventFormatter: new CompactJsonFormatter(),
+            sinkOptions: new MSSqlServerSinkOptions { TableName = "LogEvents" }))
+    .WriteTo.Conditional(evt => configurationService.IsDatabaseTypeMySql(),
+        wt => wt.MySQL(
+            connectionString: configurationManager.GetConnectionString("MySqlConnection"),
+            tableName: "Logs"))
     );
 
 services.AddScoped<CustomStepsService>();
