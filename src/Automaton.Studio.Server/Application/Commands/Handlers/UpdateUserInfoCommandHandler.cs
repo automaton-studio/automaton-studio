@@ -1,4 +1,5 @@
 ﻿using Automaton.Studio.Server.Core.Commands;
+using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Services;
 using Common.EF;
 using MediatR;
@@ -7,10 +8,10 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
 {
     public class UpdateUserInfoCommandHandler : IRequestHandler<UpdateUserInfoCommand>
     {
-        private readonly IDataContext dataContext;
+        private readonly ApplicationDbContext dataContext;
         private readonly UserManagerService userManager;
 
-        public UpdateUserInfoCommandHandler(IDataContext dataContext, UserManagerService userManager)
+        public UpdateUserInfoCommandHandler(ApplicationDbContext dataContext, UserManagerService userManager)
         {
             this.dataContext = dataContext;
             this.userManager = userManager;

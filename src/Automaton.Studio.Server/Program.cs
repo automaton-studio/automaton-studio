@@ -83,7 +83,6 @@ services.AddHttpClient();
 services.AddRazorPages();
 services.AddServerSideBlazor();
 services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
-services.AddScoped<IDataContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
 services.AddControllers();
 
 services.AddTransient<UserNameEnricher>();

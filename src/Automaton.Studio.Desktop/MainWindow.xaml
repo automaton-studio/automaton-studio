@@ -7,7 +7,8 @@
         xmlns:blazor="clr-namespace:Microsoft.AspNetCore.Components.WebView.Wpf;assembly=Microsoft.AspNetCore.Components.WebView.Wpf"
         mc:Ignorable="d"
         Title="Automaton Studio"
-        WindowState="Maximized">
+        Height="700" 
+        Width="1000">
     
     <DockPanel>
         <blazor:BlazorWebView HostPage="wwwroot\index.html" Services="{StaticResource services}">

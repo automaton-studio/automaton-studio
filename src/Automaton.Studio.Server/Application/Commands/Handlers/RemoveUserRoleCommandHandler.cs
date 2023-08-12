@@ -1,4 +1,5 @@
 ﻿using Automaton.Studio.Server.Core.Commands;
+using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Services;
 using Common.EF;
 using MediatR;
@@ -7,10 +8,10 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
 {
     public class RemoveUserRoleCommandHandler : IRequestHandler<RemoveUserRoleCommand>
     {
-        private readonly IDataContext dataContext;
+        private readonly ApplicationDbContext dataContext;
         private readonly UserManagerService userManagerService;
         
-        public RemoveUserRoleCommandHandler(IDataContext dataContext,UserManagerService userManagerService)
+        public RemoveUserRoleCommandHandler(ApplicationDbContext dataContext,UserManagerService userManagerService)
         {
             this.dataContext = dataContext;
             this.userManagerService = userManagerService;

@@ -1,6 +1,7 @@
 ﻿using AuthServer.Core.Events;
 using AutoMapper;
 using Automaton.Studio.Server.Core.Commands;
+using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Entities;
 using Automaton.Studio.Server.Services;
 using Azure.Core;
@@ -16,15 +17,15 @@ namespace Automaton.Studio.Server.Controllers
     public class AccountController : BaseController
     {
         private readonly ConfigurationService configurationService;
-        private readonly IDataContext _dataContext;
+        private readonly ApplicationDbContext _dataContext;
         private readonly UserManagerService _userManagerService;
         private readonly IMapper _mapper;
         private readonly ILogger<AccountController> _logger;
         private readonly IJwtService _jwtService;
 
 
-        public AccountController(ConfigurationService configurationService, 
-            IDataContext dataContext, IMapper mapper,
+        public AccountController(ConfigurationService configurationService,
+            ApplicationDbContext dataContext, IMapper mapper,
             ILogger<AccountController> logger,
             UserManagerService userManagerService,
             IJwtService jwtService)

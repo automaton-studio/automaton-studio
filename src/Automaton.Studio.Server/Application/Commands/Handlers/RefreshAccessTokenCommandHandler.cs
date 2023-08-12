@@ -1,5 +1,6 @@
 ﻿using AuthServer.Core.Events;
 using Automaton.Studio.Server.Core.Commands;
+using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Services;
 using Common.Authentication;
 using Common.EF;
@@ -11,14 +12,14 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
 {
     public class RefreshAccessTokenCommandHandler : IRequestHandler<RefreshAccessTokenCommand, JsonWebToken>
     {
-        private readonly IDataContext dataContext;
+        private readonly ApplicationDbContext dataContext;
         private readonly IJwtService jwtService;
         private readonly IMediator mediator;
         private readonly UserManagerService userManagerService;
         private readonly ILogger<RefreshAccessTokenCommandHandler> logger;
         private readonly ConfigurationService configurationService;
 
-        public RefreshAccessTokenCommandHandler(IDataContext dataContext, IJwtService jwtService, IMediator mediator,
+        public RefreshAccessTokenCommandHandler(ApplicationDbContext dataContext, IJwtService jwtService, IMediator mediator,
             UserManagerService userManagerService, ILogger<RefreshAccessTokenCommandHandler> logger, ConfigurationService configurationService)
         {
             this.dataContext = dataContext;

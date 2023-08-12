@@ -1,5 +1,6 @@
 ﻿using AuthServer.Core.Events;
 using Automaton.Studio.Server.Core.Commands;
+using Automaton.Studio.Server.Data;
 using Common.Authentication;
 using Common.EF;
 using MediatR;
@@ -9,11 +10,11 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
 {
     public class RevokeRefreshTokenCommandHandler : IRequestHandler<RevokeRefreshTokenCommand>
     {
-        private readonly IDataContext dataContext;
+        private readonly ApplicationDbContext dataContext;
         private readonly IMediator mediator;
         private readonly ILogger<RevokeRefreshTokenCommandHandler> logger;
 
-        public RevokeRefreshTokenCommandHandler(IDataContext dataContext, IMediator mediator,
+        public RevokeRefreshTokenCommandHandler(ApplicationDbContext dataContext, IMediator mediator,
             ILogger<RevokeRefreshTokenCommandHandler> logger)
         {
             this.dataContext = dataContext;
