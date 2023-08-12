@@ -8,6 +8,6 @@ public class WorkflowDefinition
 
     public WorkflowStep? GetFirstStep()
     {
-        return Steps.Any() ? Steps.First().Value : null;
+        return Steps?.Values.FirstOrDefault();
     }
 }
