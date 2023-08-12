@@ -2,7 +2,6 @@
 {
     public class AuthenticationSettings
     {
-        public bool UseCookie { get; set; }
         public HMacSettings HMacSettings { get; set; }
         public RsaSettings RsaSettings { get; set; }
     }

@@ -3,10 +3,10 @@ using System.Security.Cryptography;
 
 namespace Common.Authentication
 {
-    public class RefreshToken<TKey> where TKey : IEquatable<TKey>
+    public class RefreshToken
     {
-        public TKey Id { get; private set; }
-        public TKey UserId { get; private set; }
+        public Guid Id { get; private set; }
+        public Guid UserId { get; private set; }
         public string Token { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime? RevokedAt { get; private set; }
@@ -19,12 +19,12 @@ namespace Common.Authentication
         {
         }
 
-        public RefreshToken(TKey id, TKey userId, long dayToExpire = 3)
+        public RefreshToken(Guid userId, long dayToExpire = 3)
         {
-            Id = id;
+            Id = Guid.NewGuid();
             UserId = userId;
             CreatedAt = DateTime.Now;
-            Token = RefreshToken<TKey>.GenerateToken();
+            Token = RefreshToken.GenerateToken();
             Expires = DateTime.Now.AddDays(dayToExpire);
         }
 

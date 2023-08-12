@@ -6,31 +6,32 @@ using Common.EF;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Immutable;
-using System.Security.Authentication;
 
 namespace Automaton.Studio.Server.Application.Commands.Handlers
 {
     public class RefreshAccessTokenCommandHandler : IRequestHandler<RefreshAccessTokenCommand, JsonWebToken>
     {
-        private readonly IDataContext _dataContext;
-        private readonly IJwtService _jwtService;
-        private readonly IMediator _mediator;
-        private readonly UserManagerService _userManagerService;
-        private readonly ILogger<RefreshAccessTokenCommandHandler> _logger;
+        private readonly IDataContext dataContext;
+        private readonly IJwtService jwtService;
+        private readonly IMediator mediator;
+        private readonly UserManagerService userManagerService;
+        private readonly ILogger<RefreshAccessTokenCommandHandler> logger;
+        private readonly ConfigurationService configurationService;
 
         public RefreshAccessTokenCommandHandler(IDataContext dataContext, IJwtService jwtService, IMediator mediator,
-            UserManagerService userManagerService, ILogger<RefreshAccessTokenCommandHandler> logger)
+            UserManagerService userManagerService, ILogger<RefreshAccessTokenCommandHandler> logger, ConfigurationService configurationService)
         {
-            _dataContext = dataContext;
-            _jwtService = jwtService;
-            _mediator = mediator;
-            _userManagerService = userManagerService;
-            _logger = logger;
+            this.dataContext = dataContext;
+            this.jwtService = jwtService;
+            this.mediator = mediator;
+            this.userManagerService = userManagerService;
+            this.logger = logger;
+            this.configurationService = configurationService;
         }
 
         public async Task<JsonWebToken> Handle(RefreshAccessTokenCommand request, CancellationToken cancellationToken)
         {
-            var refreshToken = await _dataContext.Set<RefreshToken<Guid>>()
+            var refreshToken = await dataContext.Set<RefreshToken>()
                 .SingleOrDefaultAsync(x => x.Token == request.Token, cancellationToken);
 
             if (refreshToken == null)
@@ -40,35 +41,37 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
 
             refreshToken.ValidateRefreshToken();
 
-            var user = await _userManagerService.GetUserById(refreshToken.UserId);
+            var user = await userManagerService.GetUserById(refreshToken.UserId);
             if (user == null)
             {
                 throw new Exception($"User: '{refreshToken.UserId}' not found.");
             }
 
-            var newRefreshToken = new RefreshToken<Guid>(Guid.NewGuid(), user.Id, 4);
+            var newRefreshToken = new RefreshToken(user.Id, configurationService.RefreshTokenLifetime);
 
             try
             {
-                _dataContext.BeginTransaction();
-                _dataContext.Set<RefreshToken<Guid>>().Remove(refreshToken);
-                await _dataContext.Set<RefreshToken<Guid>>().AddAsync(newRefreshToken, cancellationToken);
-                await _dataContext.SaveChangesAsync(cancellationToken);
-                _dataContext.Commit();
+                dataContext.BeginTransaction();
+                dataContext.Set<RefreshToken>().Remove(refreshToken);
+                await dataContext.Set<RefreshToken>().AddAsync(newRefreshToken, cancellationToken);
+                await dataContext.SaveChangesAsync(cancellationToken);
+                dataContext.Commit();
             }
             catch
             {
-                _dataContext.Rollback();
+                dataContext.Rollback();
                 throw;
             }
 
             var claims = GetCustomClaimsForUser(user.Id);
-            var roles = (await _userManagerService.GetRoles(user.Id)).ToImmutableList();
-            var jwt = _jwtService.GenerateToken(user.Id.ToString("N"), user.UserName, roles, claims);
+            var roles = (await userManagerService.GetRoles(user.Id)).ToImmutableList();
+            var jwt = jwtService.GenerateToken(user.Id.ToString("N"), user.UserName, roles, claims);
             jwt.RefreshToken = newRefreshToken.Token;
-            await _mediator.Publish(new AccessTokenRefreshedEvent(user.Id, jwt.AccessToken, newRefreshToken.Token),
-                cancellationToken);
-            _logger.Log(LogLevel.Debug, "AccessTokenRefreshed Event Published.");
+
+            await mediator.Publish(new AccessTokenRefreshedEvent(user.Id, jwt.AccessToken, newRefreshToken.Token), cancellationToken);
+
+            logger.Log(LogLevel.Debug, "AccessTokenRefreshed Event Published.");
+
             return jwt;
         }
 

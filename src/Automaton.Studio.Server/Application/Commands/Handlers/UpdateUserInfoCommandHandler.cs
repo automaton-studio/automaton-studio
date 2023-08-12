@@ -7,18 +7,18 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
 {
     public class UpdateUserInfoCommandHandler : IRequestHandler<UpdateUserInfoCommand>
     {
-        private readonly IDataContext _dataContext;
-        private readonly UserManagerService _userManager;
+        private readonly IDataContext dataContext;
+        private readonly UserManagerService userManager;
 
         public UpdateUserInfoCommandHandler(IDataContext dataContext, UserManagerService userManager)
         {
-            _dataContext = dataContext;
-            _userManager = userManager;
+            this.dataContext = dataContext;
+            this.userManager = userManager;
         }
 
         public async Task Handle(UpdateUserInfoCommand command, CancellationToken cancellationToken)
         {
-            await _userManager.UpdateProfile(
+            await userManager.UpdateProfile(
                 new Models.UserProfile
                 {
                     Id = command.Id.Value,
@@ -29,7 +29,7 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
                 }
             );
 
-            await _dataContext.SaveChangesAsync(cancellationToken);
+            await dataContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

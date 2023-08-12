@@ -11,7 +11,7 @@ namespace Automaton.Studio.Server.Data
     {
         private IDbContextTransaction _transaction;
 
-        public virtual DbSet<RefreshToken<Guid>> RefreshTokens { get; set; }
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
         public virtual DbSet<Flow> Flows { get; set; }
         public virtual DbSet<FlowUser> FlowUsers { get; set; }
         public virtual DbSet<Runner> Runners { get; set; }
@@ -67,32 +67,32 @@ namespace Automaton.Studio.Server.Data
                 entity.Property(e => e.CustomStepId).IsRequired();
             });
 
-            modelBuilder.Entity<RefreshToken<Guid>>()
+            modelBuilder.Entity<RefreshToken>()
                 .ToTable("RefreshTokens");
 
-            modelBuilder.Entity<RefreshToken<Guid>>()
+            modelBuilder.Entity<RefreshToken>()
                 .HasKey(x => x.Id);
 
-            modelBuilder.Entity<RefreshToken<Guid>>().Property(x => x.UserId);
+            modelBuilder.Entity<RefreshToken>().Property(x => x.UserId);
 
-            modelBuilder.Entity<RefreshToken<Guid>>()
+            modelBuilder.Entity<RefreshToken>()
                 .Property(s => s.Id)
                 .IsRequired();
 
-            modelBuilder.Entity<RefreshToken<Guid>>()
+            modelBuilder.Entity<RefreshToken>()
                 .Property(s => s.Token)
                 .IsRequired();
 
-            modelBuilder.Entity<RefreshToken<Guid>>()
+            modelBuilder.Entity<RefreshToken>()
                 .Property(s => s.RevokedAt)
                 .IsRequired(false);
 
-            modelBuilder.Entity<RefreshToken<Guid>>()
+            modelBuilder.Entity<RefreshToken>()
                 .Property(s => s.CreatedAt)
                 .IsRequired()
                 .HasDefaultValue(DateTime.Now);
 
-            modelBuilder.Entity<RefreshToken<Guid>>()
+            modelBuilder.Entity<RefreshToken>()
                 .Property(s => s.Expires)
                 .IsRequired();
         }

@@ -7,19 +7,19 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
 {
     public class RemoveUserRoleCommandHandler : IRequestHandler<RemoveUserRoleCommand>
     {
-        private readonly IDataContext _dataContext;
-        private readonly UserManagerService _userManagerService;
+        private readonly IDataContext dataContext;
+        private readonly UserManagerService userManagerService;
         
         public RemoveUserRoleCommandHandler(IDataContext dataContext,UserManagerService userManagerService)
         {
-            _dataContext = dataContext;
-            _userManagerService = userManagerService;
+            this.dataContext = dataContext;
+            this.userManagerService = userManagerService;
         }
         
         public async Task Handle(RemoveUserRoleCommand request, CancellationToken cancellationToken)
         {
-            await _userManagerService.RemoveRole(request.UserId, request.RoleName);
-            await _dataContext.SaveChangesAsync(cancellationToken);
+            await userManagerService.RemoveRole(request.UserId, request.RoleName);
+            await dataContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

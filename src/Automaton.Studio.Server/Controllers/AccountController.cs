@@ -84,13 +84,13 @@ namespace Automaton.Studio.Server.Controllers
                 throw new Exception("Invalid credentials.");
             }
 
-            var refreshToken = new RefreshToken<Guid>(Guid.NewGuid(), user.Id, 4);
+            var refreshToken = new RefreshToken(user.Id, configurationService.RefreshTokenLifetime);
             var roles = (await _userManagerService.GetRoles(user.Id)).ToImmutableList();
             var jwt = _jwtService.GenerateToken(user.Id.ToString(), user.UserName, roles, GetCustomClaimsForUser(user.Id));
 
             jwt.RefreshToken = refreshToken.Token;
 
-            await _dataContext.Set<RefreshToken<Guid>>().AddAsync(refreshToken, cancellationToken);
+            await _dataContext.Set<RefreshToken>().AddAsync(refreshToken, cancellationToken);
             await _dataContext.SaveChangesAsync(cancellationToken);
 
             return jwt;

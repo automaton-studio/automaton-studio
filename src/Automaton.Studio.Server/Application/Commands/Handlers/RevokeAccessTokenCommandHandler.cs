@@ -7,25 +7,25 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
 {
     public class RevokeAccessTokenCommandHandler : IRequestHandler<RevokeAccessTokenCommand>
     {
-        private readonly IMediator _mediator;
-        private readonly ILogger<RevokeAccessTokenCommandHandler> _logger;
-        private readonly IAccessTokenManagerService _accessTokenManagerService;
+        private readonly IMediator mediator;
+        private readonly ILogger<RevokeAccessTokenCommandHandler> logger;
+        private readonly IAccessTokenManagerService accessTokenManagerService;
 
         public RevokeAccessTokenCommandHandler(IMediator mediator, ILogger<RevokeAccessTokenCommandHandler> logger,
             IAccessTokenManagerService accessTokenManagerService)
         {
-            _mediator = mediator;
-            _logger = logger;
-            _accessTokenManagerService = accessTokenManagerService;
+            this.mediator = mediator;
+            this.logger = logger;
+            this.accessTokenManagerService = accessTokenManagerService;
         }
 
         public async Task Handle(RevokeAccessTokenCommand request, CancellationToken cancellationToken)
         {
-            await _accessTokenManagerService.DeactivateAccessTokenAsync(request.AccessToken);
+            await accessTokenManagerService.DeactivateAccessTokenAsync(request.AccessToken);
 
-            await _mediator.Publish(new AccessTokenRevokedEvent(request.UserId, request.AccessToken), cancellationToken);
+            await mediator.Publish(new AccessTokenRevokedEvent(request.UserId, request.AccessToken), cancellationToken);
 
-            _logger.Log(LogLevel.Debug, "AccessTokenRevoked Event Published.");
+            logger.Log(LogLevel.Debug, "AccessTokenRevoked Event Published.");
         }
     }
 }
