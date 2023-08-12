@@ -8,18 +8,23 @@
 
     <ChildContent>
         <GridRow>
-            <Col Span="20">
-            <Title Level="3">Logs</Title>
+            <Col>
+            <Space Direction="DirectionVHType.Horizontal" Align="center">
+                <SpaceItem>
+                    <Title Level="3">Logs</Title>
+                </SpaceItem>
+                <SpaceItem>
+                    <Tooltip Placement="@Placement.Top" Title="Clear">
+                        <Button Icon="delete"
+                                Size="@ButtonSize.Small"
+                                Class="flow-logs-clear"
+                                OnClick="ClearLogs"
+                                OnClickStopPropagation>
+                        </Button>
+                    </Tooltip>
+                </SpaceItem>
+            </Space>
             </Col>
-            <Col Span="4">
-            <Button Icon="delete"
-                    Size="@ButtonSize.Small"
-                    Class="flow-log-action"
-                    OnClick="ClearLogs"
-                    OnClickStopPropagation>
-            </Button>
-            </Col>
-
         </GridRow>
         <GridRow>
             <GridCol Md="24" Xs="24">
@@ -38,8 +43,8 @@
         overflow: hidden;
     }
 
-    .flow-log-action {
-        margin-top: 8px;
+    .flow-logs-clear {
+        margin-bottom: 4px;
     }
 
     #flow-logs {
