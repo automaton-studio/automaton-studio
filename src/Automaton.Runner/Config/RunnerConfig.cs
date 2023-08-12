@@ -1,6 +1,6 @@
 ﻿namespace Automaton.Runner.Config;
 
-public class ApiConfig
+public class RunnerConfig
 {
     public string BaseUrl { get; set; }
     public string WorkflowHubUrl { get; set; }

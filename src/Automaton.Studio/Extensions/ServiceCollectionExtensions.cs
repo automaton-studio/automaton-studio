@@ -103,7 +103,6 @@ public static class ServiceCollectionExtensions
         // Models
         services.AddScoped<AppConfig>();
         services.AddScoped<ApiConfig>();
-        services.AddScoped<AuthenticationConfig>();
 
         // Javascript
         services.AddScoped<JsInterop>();

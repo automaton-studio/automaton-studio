@@ -1,11 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Automaton.Client.Auth.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace Automaton.App.Authentication.Config;
 
 public class ConfigurationService
 {
     private readonly IConfiguration configuration;
-    private readonly AuthenticationConfig authenticationConfig = new();
+    private readonly ClientAuthConfig authenticationConfig = new();
 
     public bool UserSignUp => authenticationConfig.UserSignUp;
     public bool NoUserSignUp => !UserSignUp;
@@ -15,6 +16,6 @@ public class ConfigurationService
     {
         this.configuration = configuration;
 
-        this.configuration.GetSection(nameof(AuthenticationConfig)).Bind(authenticationConfig);
+        this.configuration.GetSection(nameof(ClientAuthConfig)).Bind(authenticationConfig);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Automaton.App.Authentication.Config;
+using Automaton.Client.Auth.Models;
 using Automaton.Runner.Config;
 using Automaton.Runner.Storage;
 using Microsoft.Extensions.Configuration;
@@ -9,8 +10,8 @@ public class ConfigService
 {
     private readonly IConfiguration configuration;
 
-    private readonly ApiConfig apiConfig = new();
-    private readonly AuthenticationConfig authenticationConfig = new();
+    private readonly Automaton.Runner.Config.RunnerConfig apiConfig = new();
+    private readonly ClientAuthConfig authenticationConfig = new();
     private readonly ApplicationStorage applicationStorage = new();
 
     public string RunnerId => applicationStorage.GetRunnerId();
@@ -27,8 +28,8 @@ public class ConfigService
     {
         this.configuration = configuration;
 
-        this.configuration.GetSection(nameof(ApiConfig)).Bind(apiConfig);
-        this.configuration.GetSection(nameof(AuthenticationConfig)).Bind(authenticationConfig);
+        this.configuration.GetSection(nameof(Automaton.Runner.Config.RunnerConfig)).Bind(apiConfig);
+        this.configuration.GetSection(nameof(ClientAuthConfig)).Bind(authenticationConfig);
     }
 
     public bool IsRunnerRegistered() => applicationStorage.IsRunnerRegistered();

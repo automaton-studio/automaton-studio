@@ -11,22 +11,6 @@ namespace Automaton.Studio.Server.Controllers
     [Route("api/[controller]/[action]")]
     public class UserController : BaseController
     {
-        /// <summary>
-        /// Registers new user
-        /// </summary>
-        /// <param name="registerUserCommand"></param>
-        /// <param name="ct">Cancellation Token</param>
-        /// <returns>User fetch URL in headers</returns>
-        [HttpPost]
-        [Authorize(Policy = "Admin")]
-        public async Task<IActionResult> RegisterUser(RegisterUserCommand registerUserCommand,
-            CancellationToken ct)
-        {
-            await Mediator.Send(registerUserCommand, ct);
-
-            return CreatedAtRoute("User", new {id = registerUserCommand.UserName}, registerUserCommand.UserName);
-        }
-
         [HttpGet]
         public async Task<ActionResult<UserDetails>> GetUserProfile()
         {
