@@ -26,7 +26,7 @@ public class WorkflowExecuteService
         var definition = workflow.GetStartupDefinition();
         var step = definition.GetFirstStep();
 
-        LogContext.PushProperty(LogPropertyKey.WorkflowExecution, true);
+        LogContext.PushProperty(LogPropertyKey.Workflow, true);
         LogContext.PushProperty(LogPropertyKey.WorkflowId, workflow.Id);
         LogContext.PushProperty(LogPropertyKey.WorkflowName, workflow.Name);
 
