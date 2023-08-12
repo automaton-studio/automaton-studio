@@ -6,8 +6,8 @@ public class WorkflowDefinition
 
     public IDictionary<string, WorkflowStep> Steps { get; set; } = new Dictionary<string, WorkflowStep>();
 
-    public WorkflowStep GetFirstStep()
+    public WorkflowStep? GetFirstStep()
     {
-        return Steps.First().Value;
+        return Steps.Any() ? Steps.First().Value : null;
     }
 }
