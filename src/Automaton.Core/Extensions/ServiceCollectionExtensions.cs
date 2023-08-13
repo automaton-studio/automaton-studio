@@ -9,7 +9,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddTransient<WorkflowExecuteService>();
         services.AddScoped<WorkflowConvertService>();
-        services.AddSingleton(sp => new WorkflowSink());
+        services.AddSingleton(sp => new WorkflowLogsSink());
 
         return services;
     }

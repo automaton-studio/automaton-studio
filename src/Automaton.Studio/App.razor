@@ -42,7 +42,7 @@
 
     [Inject] public CustomHttpClient CustomHttpClient { get; set; }
     [Inject] public ClientAuthConfigurationService ClientAuthConfigurationService { get; set; }
-    [Inject] public WorkflowSink WorkflowSink { get; set; }
+    [Inject] public WorkflowLogsSink WorkflowSink { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

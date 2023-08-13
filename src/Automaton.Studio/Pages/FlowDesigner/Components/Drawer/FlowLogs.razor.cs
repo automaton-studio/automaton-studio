@@ -11,7 +11,7 @@ public partial class FlowLogs : ComponentBase
     private StudioFlow Flow { get; set; }
 
     [Inject]
-    public WorkflowSink WorkflowSink { get; set; }
+    public WorkflowLogsSink WorkflowSink { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

@@ -113,7 +113,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped(service => new Services.ConfigurationService(configuration));
 
         services.AddSingleton(sp => new CustomHttpClient(sp));
-        services.AddSingleton(sp => new WorkflowSink());
+        services.AddSingleton(sp => new WorkflowLogsSink());
 
         services.AddLogging(x =>
         {
