@@ -7,6 +7,6 @@ public static class EventLogExtensions
 {
     public static bool IsWorkflow(this LogEvent logEvent)
     {
-        return logEvent.Properties.ContainsKey(LogProperties.Workflow);
+        return logEvent.Properties.ContainsKey(LogContextProperties.Workflow);
     }
 }

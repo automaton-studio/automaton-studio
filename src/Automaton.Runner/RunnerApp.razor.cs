@@ -14,7 +14,7 @@ namespace Automaton.Runner
         }
 
         /// <summary>
-        /// Configure Serilog here because we need the injected CustomHttpClient
+        /// Configure Serilog here because we need the injected SerilogHttpClient
         /// and I did not know how to generate it in ServiceCollectionExtension.AddStudio()
         /// </summary>
         /// <returns></returns>

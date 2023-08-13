@@ -2,11 +2,13 @@
 @using Automaton.App.Authentication.Pages.Login;
 @using Automaton.Client.Auth.Services;
 @using Automaton.Core.Logs;
+@using Automaton.Studio.Services;
 @using Automaton.Studio.Shared
 @using Automaton.Studio.Pages
 @using Automaton.Studio.Logging
 @using Serilog;
 @using Serilog.Formatting.Json;
+@using Serilog.Sinks.Http.HttpClients;
 
 <Router 
     AppAssembly="@this.GetType().Assembly"
@@ -40,8 +42,9 @@
 
 @code {
 
-    [Inject] public CustomHttpClient CustomHttpClient { get; set; }
-    [Inject] public ClientAuthConfigurationService ClientAuthConfigurationService { get; set; }
+    [Inject] public HttpClient HttpClient { get; set; }
+    [Inject] public SerilogHttpClient SerilogHttpClient { get; set; }
+    [Inject] public ConfigurationService ConfigurationService { get; set; }
     [Inject] public WorkflowLogsSink WorkflowSink { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -50,7 +53,7 @@
     }
 
     /// <summary>
-    /// Configure Serilog here because we need the injected CustomHttpClient
+    /// Configure Serilog here because we need the injected SerilogHttpClient
     /// and I did not know how to generate it in ServiceCollectionExtension.AddStudio()
     /// </summary>
     /// <returns></returns>
@@ -60,8 +63,8 @@
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
                 .WriteTo.Http(
-                    requestUri: ClientAuthConfigurationService.LogsUrl,
-                    httpClient: CustomHttpClient,
+                    requestUri: $"{ConfigurationService.BaseUrl}/{ConfigurationService.LogsUrl}",
+                    httpClient: new SerilogHttpClient(HttpClient),
                     queueLimitBytes: null)
                 .WriteTo.Sink(WorkflowSink)
                 .CreateLogger());

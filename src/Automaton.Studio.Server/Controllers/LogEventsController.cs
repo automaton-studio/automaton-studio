@@ -1,3 +1,5 @@
+using Automaton.Core.Logs;
+using Automaton.Studio.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Serilog.Context;
@@ -15,17 +17,17 @@ public class LogEventsController : BaseController
     }
 
     [HttpPost]
-    public void Post(LogEvent[] logs)
+    public IActionResult Post(SerilogHttpLogEvent[] logs)
     {
         foreach (var log in logs)
         {
             Enum.TryParse(log.Level, out LogEventLevel logLevel);
 
-            using (LogContext.PushProperty("ApplicationName", "Automaton.Studio.Client"))
+            using (Serilog.Context.LogContext.PushProperty("ApplicationName", "Automaton.Studio.Client"))
             {
                 foreach (var property in log.Properties)
                 {
-                    LogContext.PushProperty(property.Key, property.Value);
+                    Serilog.Context.LogContext.PushProperty(property.Key, property.Value);
                 }
 
                 var exception = HasException(log.Exception) ? GetException(log.Exception) : null;
@@ -33,6 +35,8 @@ public class LogEventsController : BaseController
                 logger.Write(logLevel, exception, log.MessageTemplate);
             }
         }
+
+        return NoContent();
     }
 
     private static bool HasException(string? exceptionText)

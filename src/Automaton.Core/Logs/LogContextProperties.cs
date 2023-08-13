@@ -1,6 +1,6 @@
 ﻿namespace Automaton.Core.Logs
 {
-    public class LogProperties
+    public class LogContextProperties
     {
         public const string Workflow = "Workflow";
         public const string WorkflowId = "WorkflowId";

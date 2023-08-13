@@ -34,6 +34,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Serilog.Sinks.Http;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Reflection;
@@ -109,10 +110,12 @@ public static class ServiceCollectionExtensions
 
         // Other
         services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });
+        
+        services.AddSingleton(sp => new SerilogHttpClient(new HttpClient { BaseAddress = new Uri(configService.BaseUrl) }));
+
         services.AddScoped(typeof(DragDropService));
         services.AddScoped(service => new Services.ConfigurationService(configuration));
 
-        services.AddSingleton(sp => new CustomHttpClient(sp));
         services.AddSingleton(sp => new WorkflowLogsSink());
 
         services.AddLogging(x =>

@@ -26,14 +26,22 @@ public class DashboardViewModel
 
     public async Task ConnectHub()
     {
-        RunnerId = configService.IsRunnerRegistered() ? configService.RunnerId : Messages.RunnerNotRegistered;
-        RunnerName = configService.IsRunnerRegistered() ? configService.RunnerName : Messages.RunnerNotRegistered;
-
-        if (configService.IsRunnerRegistered())
+        try
         {
-            SetConnecting();
+            RunnerId = configService.IsRunnerRegistered() ? configService.RunnerId : Messages.RunnerNotRegistered;
+            RunnerName = configService.IsRunnerRegistered() ? configService.RunnerName : Messages.RunnerNotRegistered;
 
-            await hubService.ConnectToServer();
+            if (configService.IsRunnerRegistered())
+            {
+                SetConnecting();
+
+                await hubService.ConnectToServer();
+            }
+        }
+        catch (Exception ex)
+        {
+
+            throw;
         }
     }
 
