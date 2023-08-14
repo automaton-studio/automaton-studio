@@ -7,7 +7,7 @@ namespace Automaton.Runner.Pages.Dashboard;
 
 public class DashboardViewModel
 {
-    private ConfigService configService;
+    private ConfigurationService configService;
     private HubService hubService;
 
     public string ConnectionText { get; set; }
@@ -15,7 +15,7 @@ public class DashboardViewModel
     public string RunnerId { get; set; }
     public string RunnerName { get; set; }
 
-    public DashboardViewModel(HubService hubService, ConfigService configService)
+    public DashboardViewModel(HubService hubService, ConfigurationService configService)
     {
         this.hubService = hubService;
         this.configService = configService;

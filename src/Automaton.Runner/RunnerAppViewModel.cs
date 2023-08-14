@@ -4,9 +4,9 @@ namespace Automaton.Runner;
 
 public class RunnerAppViewModel
 {
-    private ConfigService configService;
+    private ConfigurationService configService;
 
-    public RunnerAppViewModel(ConfigService configService)
+    public RunnerAppViewModel(ConfigurationService configService)
     {
         this.configService = configService;
     }

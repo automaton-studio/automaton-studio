@@ -23,17 +23,14 @@ public class LogEventsController : BaseController
         {
             Enum.TryParse(log.Level, out LogEventLevel logLevel);
 
-            using (Serilog.Context.LogContext.PushProperty("ApplicationName", "Automaton.Studio.Client"))
+            foreach (var property in log.Properties)
             {
-                foreach (var property in log.Properties)
-                {
-                    Serilog.Context.LogContext.PushProperty(property.Key, property.Value);
-                }
-
-                var exception = HasException(log.Exception) ? GetException(log.Exception) : null;
-
-                logger.Write(logLevel, exception, log.MessageTemplate);
+                LogContext.PushProperty(property.Key, property.Value);
             }
+
+            var exception = HasException(log.Exception) ? GetException(log.Exception) : null;
+
+            logger.Write(logLevel, exception, log.MessageTemplate);
         }
 
         return NoContent();

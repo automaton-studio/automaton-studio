@@ -15,7 +15,7 @@ public static class ServiceCollectionExtension
 {
     public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSingleton(service => new ConfigService(configuration));
+        services.AddSingleton(service => new ConfigurationService(configuration));
         services.AddSingleton<ApplicationStorage>();
         services.AddSingleton<HubService>();
         services.AddSingleton<RunnerService>();

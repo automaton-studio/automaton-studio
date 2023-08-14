@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Automaton.Core.Logs;
+using Automaton.Runner.Logging;
+using Automaton.Runner.Services;
+using Microsoft.AspNetCore.Components;
 using Serilog;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner
@@ -7,6 +11,9 @@ namespace Automaton.Runner
     public partial class RunnerApp : ComponentBase
     {
         [Inject] RunnerAppViewModel RunnerAppViewModel { get; set; }
+        [Inject] public HttpClient HttpClient { get; set; }
+        [Inject] public SerilogHttpClient SerilogHttpClient { get; set; }
+        [Inject] public ConfigurationService ConfigurationService { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -23,7 +30,13 @@ namespace Automaton.Runner
             await Task.Run(() =>
                 Log.Logger = new LoggerConfiguration()
                     .Enrich.FromLogContext()
+                    .Enrich.With(new ApplicationEnricher(ConfigurationService))
+                    .WriteTo.Http(
+                        requestUri: $"{ConfigurationService.BaseUrl}/{ConfigurationService.LogsUrl}",
+                        httpClient: new SerilogHttpClient(HttpClient),
+                        queueLimitBytes: null)
                     .CreateLogger());
+
         }
     }
 }

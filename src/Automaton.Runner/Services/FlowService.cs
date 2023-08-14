@@ -10,11 +10,11 @@ namespace Automaton.Runner.Services;
 public class FlowService
 {
     private readonly HttpClient httpClient;
-    private readonly ConfigService configService;
+    private readonly ConfigurationService configService;
     private readonly WorkflowExecuteService workflowExecuteService;
 
     public FlowService(WorkflowExecuteService workflowExecuteService, 
-        ConfigService configService, 
+        ConfigurationService configService, 
         RunnerHttpClient httpClient)
     {
         this.workflowExecuteService = workflowExecuteService;

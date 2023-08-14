@@ -34,7 +34,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using Serilog.Sinks.Http;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Reflection;
@@ -65,6 +64,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IAuthenticationStorage, WebAuthenticationStorage>();
 
         // Services
+        services.AddScoped<Services.ConfigurationService>();
         services.AddScoped<UserAccountService>();      
         services.AddScoped<FlowService>();
         services.AddScoped<FlowsService>();
@@ -109,22 +109,17 @@ public static class ServiceCollectionExtensions
         services.AddScoped<JsInterop>();
 
         // Other
-        services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });
-        
+        services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });      
         services.AddSingleton(sp => new SerilogHttpClient(new HttpClient { BaseAddress = new Uri(configService.BaseUrl) }));
+        services.AddSingleton(sp => new WorkflowLogsSink());
 
         services.AddScoped(typeof(DragDropService));
-        services.AddScoped(service => new Services.ConfigurationService(configuration));
-
-        services.AddSingleton(sp => new WorkflowLogsSink());
 
         services.AddLogging(x =>
         {
             x.ClearProviders();
             x.AddSerilog(dispose: true);
         });
-
-        services.AddSingleton(Log.Logger);
 
 #if DEBUG
         Serilog.Debugging.SelfLog.Enable(msg => Debug.WriteLine(msg));

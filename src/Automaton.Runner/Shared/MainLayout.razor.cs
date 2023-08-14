@@ -11,7 +11,7 @@ namespace Automaton.Runner.Shared
 
         [Inject] NavigationManager NavigationManager { get; set; } = default!;
         [Inject] MainLayoutViewModel MainLayoutViewModel { get; set; }
-        [Inject] ConfigService ConfigService { get; set; }
+        [Inject] ConfigurationService ConfigService { get; set; }
         [Inject] AuthenticationService AuthenticationService { get; set; }
 
         public bool IsRunnerRegistered()

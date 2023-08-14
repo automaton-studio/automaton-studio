@@ -10,11 +10,11 @@ namespace Automaton.Runner.Services;
 
 public class RunnerService
 {
-    private readonly ConfigService configService;
+    private readonly ConfigurationService configService;
     private readonly HttpClient httpClient;
     private readonly ApplicationStorage applicationService;
 
-    public RunnerService(RunnerHttpClient httpClient, ConfigService configService, ApplicationStorage applicationStorage)
+    public RunnerService(RunnerHttpClient httpClient, ConfigurationService configService, ApplicationStorage applicationStorage)
     {
         this.httpClient = httpClient.Client;
         this.configService = configService;

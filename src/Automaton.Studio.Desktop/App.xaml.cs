@@ -11,7 +11,6 @@ public partial class App : Application
 {
     private const string AppSettings = "appsettings.json";
 
-    public static IServiceProvider ServiceProvider { get; private set; }
     public static IConfiguration Configuration { get; private set; }
     public static IServiceCollection ServiceCollection { get; private set; }
 
@@ -24,22 +23,13 @@ public partial class App : Application
         Configuration = builder.Build();
         ServiceCollection = new ServiceCollection();
 
-        ConfigureServices(ServiceCollection);
+        ServiceCollection.AddWpfBlazorWebView();
+        ServiceCollection.AddBlazorWebView();
+        ServiceCollection.AddAntDesign();
+        ServiceCollection.AddStudio(Configuration);
 
-        ServiceProvider = ServiceCollection.BuildServiceProvider();
-    }
-
-    private static void ConfigureServices(IServiceCollection services)
-    {
-        // Application
-        services.AddWpfBlazorWebView();
-        services.AddBlazorWebView();
-        services.AddAntDesign();
-        services.AddStudio(Configuration);
-
-        // Main window
-        services.AddSingleton(Configuration);
-        services.AddTransient(typeof(MainWindow));
+        ServiceCollection.AddSingleton(Configuration);
+        ServiceCollection.AddTransient(typeof(MainWindow));
     }
 
     private void Application_Startup(object sender, StartupEventArgs e)

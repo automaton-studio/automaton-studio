@@ -21,6 +21,7 @@ namespace Automaton.Core.Logs
 
         public void Configure(IConfiguration configuration)
         {
+            // Does nothing for now
         }
 
         public async Task<HttpResponseMessage> PostAsync(string requestUri, Stream stream)

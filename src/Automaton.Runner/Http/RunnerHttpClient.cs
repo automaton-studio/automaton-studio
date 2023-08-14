@@ -8,7 +8,7 @@ public class RunnerHttpClient
 {
     public HttpClient Client { get; }
 
-    public RunnerHttpClient(HttpClient httpClient, ConfigService configService)
+    public RunnerHttpClient(HttpClient httpClient, ConfigurationService configService)
     {
         Client = httpClient;
         Client.BaseAddress = new Uri(configService.BaseUrl);

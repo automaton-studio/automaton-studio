@@ -6,11 +6,11 @@ namespace Automaton.Runner.Pages.Settings;
 public class SettingsViewModel
 {
     private readonly RunnerService runnerService;
-    private readonly ConfigService configService;
+    private readonly ConfigurationService configService;
 
     public string RunnerName { get; set; }
 
-    public SettingsViewModel(RunnerService runnerService, ConfigService configService)
+    public SettingsViewModel(RunnerService runnerService, ConfigurationService configService)
     {
         this.configService = configService;
         this.runnerService = runnerService;

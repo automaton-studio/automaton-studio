@@ -1,12 +1,14 @@
 ﻿using Automaton.App.Authentication.Config;
 using Automaton.Client.Auth.Extensions;
 using Automaton.Client.Auth.Interfaces;
+using Automaton.Core.Logs;
 using Automaton.Runner.Extensions;
 using Automaton.Runner.Services;
 using Blazored.LocalStorage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Configuration;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
@@ -33,6 +35,8 @@ namespace Automaton.Runner
 
             Configuration = builder.Build();
 
+            var configService = new Services.ConfigurationService(Configuration);
+
             var services = new ServiceCollection();
 
             services.AddScoped<JsInterop>();
@@ -41,7 +45,7 @@ namespace Automaton.Runner
             // Authentication & Authorization
             services.AddBlazoredLocalStorage();
 
-            services.AddScoped<IAuthenticationStorage, Services.DesktopAuthenticationStorage>();
+            services.AddScoped<IAuthenticationStorage, DesktopAuthenticationStorage>();
 
             services.AddAuthorizationCore();
             services.AddStudioAuthentication(Configuration);
@@ -55,7 +59,8 @@ namespace Automaton.Runner
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
             services.AddSingleton(Configuration);
-            services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(new ConfigService(Configuration).BaseUrl) });
+            services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });
+            services.AddSingleton(sp => new SerilogHttpClient(new HttpClient { BaseAddress = new Uri(configService.BaseUrl) }));
 
             services.AddAuthenticationApp(Configuration);
             services.AddAutomatonCore();

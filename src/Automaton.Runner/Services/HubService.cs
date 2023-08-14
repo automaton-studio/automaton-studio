@@ -19,14 +19,14 @@ public class HubService
     private HubConnection connection;
     private readonly FlowService workflowService;
     private readonly AuthStateProvider authStateProvider;
-    private readonly ConfigService configService;
+    private readonly ConfigurationService configService;
     private readonly ILogger<HubService> logger;
     private bool disconnectedOnApplicationClose;
 
     public event EventHandler Connected;
     public event EventHandler Disconnected;
 
-    public HubService(ConfigService configService,
+    public HubService(ConfigurationService configService,
         FlowService workflowService,
         AuthStateProvider authStateProvider,
         IAuthenticationStorage storageService)

@@ -1,34 +1,36 @@
-﻿using Automaton.App.Authentication.Config;
-using Automaton.Client.Auth.Models;
+﻿using Automaton.Client.Auth.Models;
 using Automaton.Runner.Config;
 using Automaton.Runner.Storage;
 using Microsoft.Extensions.Configuration;
 
 namespace Automaton.Runner.Services;
 
-public class ConfigService
+public class ConfigurationService
 {
     private readonly IConfiguration configuration;
 
-    private readonly Automaton.Runner.Config.RunnerConfig apiConfig = new();
+    private readonly AppConfig appConfig = new();
     private readonly ClientAuthConfig authenticationConfig = new();
     private readonly ApplicationStorage applicationStorage = new();
 
     public string RunnerId => applicationStorage.GetRunnerId();
     public string RunnerName => applicationStorage.GetRunnerName();
 
-    public string BaseUrl => apiConfig.BaseUrl;
-    public string WorkflowHubUrl => apiConfig.WorkflowHubUrl;
-    public string FlowsUrl => apiConfig.FlowsUrl;
-    public string RunnersUrl => apiConfig.RunnersUrl;
+    public string BaseUrl => appConfig.BaseUrl;
+    public string WorkflowHubUrl => appConfig.WorkflowHubUrl;
+    public string FlowsUrl => appConfig.FlowsUrl;
+    public string RunnersUrl => appConfig.RunnersUrl;
+    public string LogsUrl => appConfig.LogsUrl;
+    public string ApplicationName => appConfig.ApplicationName;
+    public string ApplicationType => appConfig.ApplicationType;
 
     public string LoginUserUrl => authenticationConfig.LoginUserUrl;
 
-    public ConfigService(IConfiguration configuration)
+    public ConfigurationService(IConfiguration configuration)
     {
         this.configuration = configuration;
 
-        this.configuration.GetSection(nameof(Automaton.Runner.Config.RunnerConfig)).Bind(apiConfig);
+        this.configuration.GetSection(nameof(Automaton.Runner.Config.AppConfig)).Bind(appConfig);
         this.configuration.GetSection(nameof(ClientAuthConfig)).Bind(authenticationConfig);
     }
 

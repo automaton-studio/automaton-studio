@@ -62,6 +62,7 @@
         await Task.Run(() =>
             Log.Logger = new LoggerConfiguration()
                 .Enrich.FromLogContext()
+                .Enrich.With(new ApplicationEnricher(ConfigurationService))
                 .WriteTo.Http(
                     requestUri: $"{ConfigurationService.BaseUrl}/{ConfigurationService.LogsUrl}",
                     httpClient: new SerilogHttpClient(HttpClient),
