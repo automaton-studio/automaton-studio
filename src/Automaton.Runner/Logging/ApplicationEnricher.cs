@@ -14,7 +14,7 @@ public class ApplicationEnricher : ILogEventEnricher
 
     public void Enrich(Serilog.Events.LogEvent logEvent, ILogEventPropertyFactory factory)
     {
-        var applicatioName = factory.CreateProperty(nameof(configurationService.ApplicationName), configurationService.ApplicationName);
+        var applicatioName = factory.CreateProperty(nameof(configurationService.ApplicationName), configurationService.RunnerName);
         logEvent.AddPropertyIfAbsent(applicatioName);
 
         var applicationType = factory.CreateProperty(nameof(configurationService.ApplicationType), configurationService.ApplicationType);
