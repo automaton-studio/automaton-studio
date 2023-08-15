@@ -7,13 +7,13 @@ using Serilog.Events;
 
 namespace Automaton.Studio.Server.Controllers;
 
-public class LogEventsController : BaseController
+public class ClientLogsController : BaseController
 {
     private readonly Serilog.ILogger logger;
 
-    public LogEventsController()
+    public ClientLogsController()
     {
-        logger = Log.ForContext<LogEventsController>();
+        logger = Log.ForContext<ClientLogsController>();
     }
 
     [HttpPost]
