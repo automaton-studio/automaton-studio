@@ -1,8 +1,7 @@
 ﻿using Automaton.Client.Auth.Interfaces;
 using Automaton.Client.Auth.Providers;
-using Automaton.Runner.Resources;
 using Microsoft.AspNetCore.SignalR.Client;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 
@@ -12,16 +11,16 @@ public class HubService
 {
     private const string RunnerIdHeader = "RunnerId";
     private const string RunnerNameHeader = "RunnerName";
-    private const string RunWorkflow = "RunWorkflow";
-    private const string WelcomeRunner = "WelcomeRunner";
+
+    private const string RunWorkflowMethod = "RunWorkflow";
     private const string PingMethod = "Ping";
 
     private HubConnection connection;
     private readonly FlowService workflowService;
     private readonly AuthStateProvider authStateProvider;
     private readonly ConfigurationService configService;
-    private readonly ILogger<HubService> logger;
-    private bool disconnectedOnApplicationClose;
+    private readonly ILogger logger;
+    private readonly string hubServer;
 
     public event EventHandler Connected;
     public event EventHandler Disconnected;
@@ -34,15 +33,34 @@ public class HubService
         this.configService = configService;
         this.workflowService = workflowService;
         this.authStateProvider = authStateProvider;
+
+        hubServer = $"{configService.BaseUrl}/{configService.WorkflowHubUrl}";
+        logger = Log.ForContext<HubService>();
     }
 
     public async Task ConnectToServer()
     {
         try
         {
-            var hubUrl = $"{configService.BaseUrl}/{configService.WorkflowHubUrl}";
+            BuildConnection();
 
-            connection = new HubConnectionBuilder().WithUrl(hubUrl, options =>
+            await Connect();
+        }
+        catch (Exception ex)
+        {
+            logger.Error(ex, "Runner {0} could not connect to server {1}", configService.RunnerName, hubServer);
+        }
+    }
+
+    public bool IsConnected()
+    {
+        return connection?.State == HubConnectionState.Connected;
+    }
+
+    private void BuildConnection()
+    {
+        connection = new HubConnectionBuilder()
+            .WithUrl(hubServer, options =>
             {
                 options.AccessTokenProvider = async () => await authStateProvider.GetAccessTokenAsync();
                 options.Headers.Add(RunnerIdHeader, configService.RunnerId);
@@ -50,57 +68,54 @@ public class HubService
             })
             .Build();
 
-            connection.On<Guid>(RunWorkflow, async (workflowId) =>
-            {
-                await workflowService.RunFlow(workflowId);
-            });
+        connection.On<Guid>(RunWorkflowMethod, RunWorkflow);
+        connection.On<string>(PingMethod, Ping);
 
-            connection.On<string>(WelcomeRunner, (name) =>
-            {
-            });
-
-            await connection.StartAsync();
-
-            Connected?.Invoke(this, null);
-
-            connection.Closed += ConnectionClosed;
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, Errors.CannotConnectToServer);
-        }
+        connection.Closed += ConnectionClosed;
     }
 
-    public bool IsConnected()
+    private async Task Connect()
     {
-        return connection.State == HubConnectionState.Connected;
+        logger.Information("Runner {0} is connecting to server {1}", configService.RunnerName, hubServer);
+
+        await connection.StartAsync();
+        InvokeConnected();
+    }
+
+    private void InvokeConnected()
+    {
+        Connected?.Invoke(this, null);
+
+        logger.Information("Runner {0} connected to server {1}", configService.RunnerName, hubServer);
+    }
+
+    private void InvokeDisconnected()
+    {
+        logger.Information("Runner {0} disconnected from server {1}", configService.RunnerName, hubServer);
+
+        Disconnected?.Invoke(this, null);
     }
 
     private async Task ConnectionClosed(Exception arg)
     {
-        if (disconnectedOnApplicationClose)
+        try
         {
-            Disconnected?.Invoke(this, null);
+            InvokeDisconnected();
+            await Connect();
         }
-        else
+        catch (Exception ex)
         {
-            await connection.StartAsync();
-            Connected?.Invoke(this, null);
-        }
-    }
-
-    public async Task Disconnect()
-    {
-        if (connection?.State == HubConnectionState.Connected)
-        {
-            disconnectedOnApplicationClose = true;
-            await connection.StopAsync();
-            await connection.DisposeAsync();
+            logger.Error(ex, "An error occured when runner {0} was reconnecting to server {1}", configService.RunnerName, hubServer);
         }
     }
 
-    public async Task Ping(string runnerName)
+    private async Task RunWorkflow(Guid workflowId)
     {
-        var result = await connection.InvokeAsync<bool>(PingMethod, runnerName);
+        await workflowService.RunFlow(workflowId);
+    }
+
+    private async Task<string> Ping(string name)
+    {
+        return await Task.Run(() => "Pong");
     }
 }

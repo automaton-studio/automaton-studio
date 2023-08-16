@@ -123,9 +123,6 @@
   <data name="AuthenticationError" xml:space="preserve">
     <value>Authentication error</value>
   </data>
-  <data name="CannotConnectToServer" xml:space="preserve">
-    <value>Could not connect to the server</value>
-  </data>
   <data name="CanNotRegisterRunner" xml:space="preserve">
     <value>Can not register runner</value>
   </data>

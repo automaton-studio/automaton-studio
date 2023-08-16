@@ -8,67 +8,65 @@ using Blazored.LocalStorage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Configuration;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
 using System.Windows;
 
-namespace Automaton.Runner
+namespace Automaton.Runner;
+
+/// <summary>
+/// Interaction logic for MainWindow.xaml
+/// </summary>
+public partial class MainWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    private const string AppSettings = "appsettings.json";
+
+    public static IConfiguration Configuration { get; private set; }
+    public static Services.ConfigurationService ConfigurationService { get; private set; }
+
+    public MainWindow()
     {
-        private const string AppSettings = "appsettings.json";
+        InitializeComponent();
 
-        public static IConfiguration Configuration { get; private set; }
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile(AppSettings, false, true);
 
-        public MainWindow()
-        {
-            InitializeComponent();
+        Configuration = builder.Build();
+        ConfigurationService = new Services.ConfigurationService(Configuration);
 
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile(AppSettings, false, true);
+        var services = new ServiceCollection();
 
-            Configuration = builder.Build();
+        services.AddScoped<JsInterop>();
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
-            var configService = new Services.ConfigurationService(Configuration);
+        // Authentication & Authorization
+        services.AddBlazoredLocalStorage();
 
-            var services = new ServiceCollection();
+        services.AddScoped<IAuthenticationStorage, DesktopAuthenticationStorage>();
 
-            services.AddScoped<JsInterop>();
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+        services.AddAuthorizationCore();
+        services.AddStudioAuthentication(Configuration);
 
-            // Authentication & Authorization
-            services.AddBlazoredLocalStorage();
-
-            services.AddScoped<IAuthenticationStorage, DesktopAuthenticationStorage>();
-
-            services.AddAuthorizationCore();
-            services.AddStudioAuthentication(Configuration);
-
-            services.AddWpfBlazorWebView();
+        services.AddWpfBlazorWebView();
 #if DEBUG
-            services.AddBlazorWebViewDeveloperTools();
+        services.AddBlazorWebViewDeveloperTools();
 #endif
-            services.AddAntDesign();
-            services.AddScoped<JsInterop>();
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+        services.AddAntDesign();
+        services.AddScoped<JsInterop>();
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
-            services.AddSingleton(Configuration);
-            services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });
-            services.AddSingleton(sp => new SerilogHttpClient(new HttpClient { BaseAddress = new Uri(configService.BaseUrl) }));
+        services.AddSingleton(Configuration);
+        services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(ConfigurationService.BaseUrl) });
+        services.AddSingleton(sp => new SerilogHttpClient(new HttpClient { BaseAddress = new Uri(ConfigurationService.BaseUrl) }));
 
-            services.AddAuthenticationApp(Configuration);
-            services.AddAutomatonCore();
-            services.AddApplication(Configuration);
+        services.AddAuthenticationApp(Configuration);
+        services.AddAutomatonCore();
+        services.AddApplication(Configuration);
 
-            services.AddTransient(typeof(MainWindow));
+        services.AddTransient(typeof(MainWindow));
 
-            Resources.Add("services", services.BuildServiceProvider());
-        }
+        Resources.Add("services", services.BuildServiceProvider());
     }
 }

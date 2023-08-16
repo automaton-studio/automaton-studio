@@ -65,7 +65,7 @@ public class ExecuteFlowStep : StudioStep
 
     public void OnFocus()
     {
-        var flowsInfo = Task.Run(async () => await this.flowsService.List()).Result;
+        var flowsInfo = Task.Run(this.flowsService.List).Result;
         Flows = this.mapper.Map<ICollection<ExecuteFlowModel>>(flowsInfo);
     }
 

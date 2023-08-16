@@ -79,15 +79,6 @@ namespace Automaton.Runner.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not connect to the server.
-        /// </summary>
-        public static string CannotConnectToServer {
-            get {
-                return ResourceManager.GetString("CannotConnectToServer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Can not register runner.
         /// </summary>
         public static string CanNotRegisterRunner {
