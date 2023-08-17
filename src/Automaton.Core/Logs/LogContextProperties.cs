@@ -2,11 +2,11 @@
 {
     public class LogContextProperties
     {
-        public const string Workflow = "Workflow";
+        public const string WorkflowExecution = "WorkflowExecution";
         public const string WorkflowId = "WorkflowId";
         public const string WorkflowName = "WorkflowName";
 
-        public const string Runner = "Runner";
+        public const string RunnerExecution = "RunnerExecution";
         public const string RunnerId = "RunnerId";
         public const string RunnerName = "RunnerName";
     }

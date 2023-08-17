@@ -18,7 +18,7 @@ public class WorkflowLogsSink : ILogEventSink
         if (logEvent == null) 
             throw new ArgumentNullException(nameof(logEvent));
 
-        if (logEvent.IsWorkflow())
+        if (logEvent.IsWorkflowExecution())
             logEvents.Add(logEvent);
     }
 

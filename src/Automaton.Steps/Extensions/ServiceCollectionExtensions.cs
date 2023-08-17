@@ -20,7 +20,6 @@ public static class ServiceCollectionExtensions
         services.AddTransient<TestReport>();
         services.AddTransient<CustomStep>();
 
-        // Configuration
         services.AddTransient<ConfigService>();  
     }
 }

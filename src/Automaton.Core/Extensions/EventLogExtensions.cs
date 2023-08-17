@@ -5,8 +5,8 @@ namespace Automaton.Core.Extensions;
 
 public static class EventLogExtensions
 {
-    public static bool IsWorkflow(this LogEvent logEvent)
+    public static bool IsWorkflowExecution(this LogEvent logEvent)
     {
-        return logEvent.Properties.ContainsKey(LogContextProperties.Workflow);
+        return logEvent.Properties.ContainsKey(LogContextProperties.WorkflowExecution);
     }
 }

@@ -26,11 +26,11 @@ public class WorkflowExecuteService
         var definition = workflow.GetStartupDefinition();
         var step = definition.GetFirstStep();
 
-        LogContext.PushProperty(LogContextProperties.Workflow, true);
+        LogContext.PushProperty(LogContextProperties.WorkflowExecution, true);
         LogContext.PushProperty(LogContextProperties.WorkflowId, workflow.Id);
         LogContext.PushProperty(LogContextProperties.WorkflowName, workflow.Name);
 
-        logger.Information("[Start workflow] {0}", workflow.Name);
+        logger.Information("Start workflow: {0}", workflow.Name);
 
         while (step != null)
         {
@@ -44,7 +44,7 @@ public class WorkflowExecuteService
 
             try
             {
-                logger.Information("[Execute] {0}", step.Name);
+                logger.Information("Execute step: {0}", step.Name);
 
                 await mediator.Publish(new ExecuteStepNotification { StepId = step.Id }, cancellationToken);
 
@@ -57,7 +57,7 @@ public class WorkflowExecuteService
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "[Error] Step {0} encountered an error. Message: {1}", step.Id, ex.Message);
+                logger.Error(ex, "Step: {0} encountered an error. Message: {1}", step.Id, ex.Message);
 
                 result.Errors.Add(new ExecutionError
                 {
@@ -70,7 +70,7 @@ public class WorkflowExecuteService
             step = step.GetNextStep();
         }
 
-        logger.Information("[End workflow] {0}", workflow.Name);
+        logger.Information("End workflow: {0}", workflow.Name);
 
         return result;
     }
