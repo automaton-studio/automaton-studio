@@ -28,6 +28,7 @@
     <ProjectReference Include="..\Automaton.App.Authentication\Automaton.App.Authentication.csproj" />
     <ProjectReference Include="..\Automaton.Client.Auth\Automaton.Client.Auth.csproj" />
     <ProjectReference Include="..\Automaton.Core\Automaton.Core.csproj" />
+    <ProjectReference Include="..\Automaton.Steps\Automaton.Steps.csproj" />
   </ItemGroup>
 
   <ItemGroup>

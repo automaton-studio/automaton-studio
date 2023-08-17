@@ -126,7 +126,7 @@ services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecut
 services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Program>());
 
 services.AddScripting();
-services.AddSteps();
+services.AddAutomatonSteps();
 services.AddAutomatonCore();
 
 var app = applicationBuilder.Build();

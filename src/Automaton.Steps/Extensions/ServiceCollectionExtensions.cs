@@ -5,7 +5,7 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddSteps(this IServiceCollection services)
+    public static void AddAutomatonSteps(this IServiceCollection services)
     {
         // Note: Must be transient for some reason
         services.AddTransient<EmitLog>();

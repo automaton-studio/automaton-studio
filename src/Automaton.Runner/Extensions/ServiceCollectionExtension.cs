@@ -21,19 +21,12 @@ public static class ServiceCollectionExtension
         services.AddSingleton<RunnerService>();
         services.AddScoped<FlowService>();
 
-        //// Scripting
-        //services.AddScripting();
-
         // View models
         services.AddSingleton<MainLayoutViewModel>();
         services.AddSingleton<SetupViewModel>();
         services.AddSingleton<RunnerAppViewModel>();
         services.AddSingleton<DashboardViewModel>();
         services.AddSingleton<SettingsViewModel>();
-
-        // Validators
-        //services.AddScoped<LoginValidator>();
-        //services.AddScoped<RegistrationValidator>();
 
         services.AddScoped<TokenAuthHeaderHandler>();
         services.AddScoped<RunnerHttpClient>();

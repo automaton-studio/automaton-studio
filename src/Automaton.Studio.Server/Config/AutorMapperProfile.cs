@@ -20,7 +20,7 @@ namespace Automaton.Studio.Server.Config
         {
             serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging();
-            serviceCollection.AddSteps();
+            serviceCollection.AddAutomatonSteps();
             serviceProvider = serviceCollection.BuildServiceProvider();
         }
 

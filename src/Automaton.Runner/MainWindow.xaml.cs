@@ -63,6 +63,7 @@ public partial class MainWindow : Window
 
         services.AddAuthenticationApp(Configuration);
         services.AddAutomatonCore();
+        services.AddAutomatonSteps();
         services.AddApplication(Configuration);
 
         services.AddTransient(typeof(MainWindow));

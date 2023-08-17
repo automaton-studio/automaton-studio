@@ -49,8 +49,10 @@ public static class ServiceCollectionExtensions
         services.AddAccountApp(configuration);
         services.AddAuthenticationApp(configuration);
   
-        // Automaton Core
         services.AddAutomatonCore();
+        services.AddAutomatonSteps();
+        services.AddScoped<StepTypeDescriptor>();
+        services.AddScoped<StepFactory>();
 
         // Scripting
         services.AddScripting();
@@ -81,11 +83,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<StepsViewModel>();
         services.AddScoped<FlowExplorerViewModel>();
         services.AddScoped<MainLayoutViewModel>(); 
-
-        // Steps
-        services.AddScoped<StepTypeDescriptor>();
-        services.AddScoped<StepFactory>();
-        services.AddSteps();
 
         // Studio steps
         // Note: Must be transient for some reason
