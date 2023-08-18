@@ -58,6 +58,8 @@ public abstract class WorkflowStep
 
     public virtual async Task<ExecutionResult> ExecuteAsync(StepExecutionContext context)
     {
+        logger.Information("Execute step: {0}", Name);
+
         SetProperties(context);
 
         return await RunAsync(context);

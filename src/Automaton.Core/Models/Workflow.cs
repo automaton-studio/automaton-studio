@@ -19,7 +19,7 @@ public class Workflow
 
     public List<WorkflowDefinition> Definitions { get; set; }
 
-    public event EventHandler<SetVariableEventArgs> SetWorkflowVariable;
+    public event EventHandler<SetVariableNotification> SetWorkflowVariable;
 
     public Workflow()
     {
@@ -62,6 +62,6 @@ public class Workflow
             Variables.Add(variable.Name, variable);
         }
 
-        SetWorkflowVariable?.Invoke(this, new SetVariableEventArgs(variable));
+        SetWorkflowVariable?.Invoke(this, new SetVariableNotification(variable));
     }
 }

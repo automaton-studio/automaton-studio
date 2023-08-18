@@ -27,7 +27,7 @@ public partial class FlowVariables : ComponentBase, INotificationHandler<SetVari
 
     public IEnumerable<VariableType> VariableTypes { get; } = Enum.GetValues<VariableType>();
 
-    public static event EventHandler<SetVariableEventArgs> SetFlowVariable;
+    public static event EventHandler<SetVariableNotification> SetFlowVariable;
 
     private IEnumerable<StepVariable> Variables
     {
@@ -243,11 +243,11 @@ public partial class FlowVariables : ComponentBase, INotificationHandler<SetVari
 
     public Task Handle(SetVariableNotification notification, CancellationToken cancellationToken)
     {
-        SetFlowVariable?.Invoke(this, new SetVariableEventArgs(notification.Variable));
+        SetFlowVariable?.Invoke(this, new SetVariableNotification(notification.Variable));
         return Task.CompletedTask;
     }
 
-    private void OnSetFlowVariable(object sender, SetVariableEventArgs e)
+    private void OnSetFlowVariable(object sender, SetVariableNotification e)
     {
         Flow.Variables[e.Variable.Name] = e.Variable;
     }

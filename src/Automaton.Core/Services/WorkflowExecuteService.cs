@@ -44,14 +44,9 @@ public class WorkflowExecuteService
 
             try
             {
-                logger.Information("Execute step: {0}", step.Name);
+                await mediator.Publish(new ExecuteStepNotification(step.Id), cancellationToken);
 
-                await mediator.Publish(new ExecuteStepNotification { StepId = step.Id }, cancellationToken);
-
-                if (executeDelay > 0)
-                {
-                    await Task.Delay(executeDelay, cancellationToken);
-                }
+                await Task.Delay(executeDelay, cancellationToken);
 
                 await step.ExecuteAsync(context);
             }
@@ -81,7 +76,7 @@ public class WorkflowExecuteService
 
         workflow.SetWorkflowVariable += async (sender, e) =>
         {
-            await mediator.Publish(new SetVariableNotification { Variable = e.Variable }, cancellationToken);
+            await mediator.Publish(new SetVariableNotification(e.Variable), cancellationToken);
         };
 
         var result = await Execute(workflow, executeDelay, cancellationToken);

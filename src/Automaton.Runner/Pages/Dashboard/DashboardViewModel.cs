@@ -1,5 +1,8 @@
-﻿using Automaton.Runner.Resources;
+﻿using Automaton.Core.Events;
+using Automaton.Runner.Resources;
 using Automaton.Runner.Services;
+using MediatR;
+using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Threading.Tasks;
 
@@ -19,29 +22,34 @@ public class DashboardViewModel
     {
         this.hubService = hubService;
         this.configService = configService;
-
-        hubService.Connected += HubServiceConnected;
-        hubService.Disconnected += HubServiceDisconnected;
     }
 
     public async Task ConnectHub()
     {
-        try
+        RunnerId = configService.IsRunnerRegistered() ? configService.RunnerId : Messages.RunnerNotRegistered;
+        RunnerName = configService.IsRunnerRegistered() ? configService.RunnerName : Messages.RunnerNotRegistered;
+
+        if (configService.IsRunnerRegistered())
         {
-            RunnerId = configService.IsRunnerRegistered() ? configService.RunnerId : Messages.RunnerNotRegistered;
-            RunnerName = configService.IsRunnerRegistered() ? configService.RunnerName : Messages.RunnerNotRegistered;
+            SetConnecting();
 
-            if (configService.IsRunnerRegistered())
-            {
-                SetConnecting();
-
-                await hubService.ConnectToServer();
-            }
+            await hubService.ConnectToServer();
         }
-        catch (Exception ex)
-        {
+    }
 
-            throw;
+    public void SetHubConnection(HubConnectionState hubConnectionState)
+    {
+        switch (hubConnectionState)
+        {
+            case HubConnectionState.Connected:
+                SetConnected();
+                break;
+            case HubConnectionState.Reconnecting:
+                SetConnecting();
+                break;
+            case HubConnectionState.Disconnected:
+                SetDisconnected();
+                break;
         }
     }
 
@@ -50,32 +58,22 @@ public class DashboardViewModel
         return hubService.IsConnected();
     }
 
-    public void SetConnecting()
+    private void SetConnecting()
     {
         ConnectionText = Messages.Connecting;
         ConnectionIcon = "status-connecting";
     }
 
-    public void SetConnected()
+    private void SetConnected()
     {
         ConnectionText = Messages.Connected;
         ConnectionIcon = "status-connected";
     }
 
-    public void SetDisconnected()
+    private void SetDisconnected()
     {
         ConnectionText = Messages.Disconnected;
         ConnectionIcon = "status-disconnected";
-    }
-
-    private void HubServiceConnected(object sender, EventArgs e)
-    {
-        SetConnected();
-    }
-
-    private void HubServiceDisconnected(object sender, EventArgs e)
-    {
-        SetDisconnected();
     }
 }
 

@@ -1,5 +1,7 @@
 ﻿using Automaton.Client.Auth.Interfaces;
 using Automaton.Client.Auth.Providers;
+using Automaton.Core.Events;
+using MediatR;
 using Microsoft.AspNetCore.SignalR.Client;
 using Serilog;
 using System;
@@ -19,23 +21,24 @@ public class HubService
     private readonly FlowService workflowService;
     private readonly AuthStateProvider authStateProvider;
     private readonly ConfigurationService configService;
+    private readonly IMediator mediator;
     private readonly ILogger logger;
     private readonly string hubServer;
-
-    public event EventHandler Connected;
-    public event EventHandler Disconnected;
 
     public HubService(ConfigurationService configService,
         FlowService workflowService,
         AuthStateProvider authStateProvider,
-        IAuthenticationStorage storageService)
+        IAuthenticationStorage storageService,
+        IMediator mediator)
     {
         this.configService = configService;
         this.workflowService = workflowService;
         this.authStateProvider = authStateProvider;
+        this.mediator = mediator;
 
         hubServer = $"{configService.BaseUrl}/{configService.WorkflowHubUrl}";
         logger = Log.ForContext<HubService>();
+        this.mediator = mediator;
     }
 
     public async Task ConnectToServer()
@@ -66,12 +69,15 @@ public class HubService
                 options.Headers.Add(RunnerIdHeader, configService.RunnerId);
                 options.Headers.Add(RunnerNameHeader, configService.RunnerName);
             })
+            .WithAutomaticReconnect()
             .Build();
 
         connection.On<Guid>(RunWorkflowMethod, RunWorkflow);
         connection.On<string>(PingMethod, Ping);
 
         connection.Closed += ConnectionClosed;
+        connection.Reconnecting += ConnectionReconnecting;
+        connection.Reconnected += ConnectionReconnected;
     }
 
     private async Task Connect()
@@ -79,34 +85,38 @@ public class HubService
         logger.Information("Runner {0} is connecting to server {1}", configService.RunnerName, hubServer);
 
         await connection.StartAsync();
-        InvokeConnected();
-    }
-
-    private void InvokeConnected()
-    {
-        Connected?.Invoke(this, null);
 
         logger.Information("Runner {0} connected to server {1}", configService.RunnerName, hubServer);
+
+        await mediator.Publish(new HubConnectionNotification(HubConnectionState.Connected));
     }
 
-    private void InvokeDisconnected()
-    {
-        logger.Information("Runner {0} disconnected from server {1}", configService.RunnerName, hubServer);
-
-        Disconnected?.Invoke(this, null);
-    }
-
-    private async Task ConnectionClosed(Exception arg)
+    private async Task ConnectionClosed(Exception? arg)
     {
         try
         {
-            InvokeDisconnected();
-            await Connect();
+            logger.Information("Runner {0} disconnected from server {1}", configService.RunnerName, hubServer);
+
+            await mediator.Publish(new HubConnectionNotification(HubConnectionState.Disconnected));
         }
         catch (Exception ex)
         {
             logger.Error(ex, "An error occured when runner {0} was reconnecting to server {1}", configService.RunnerName, hubServer);
         }
+    }
+
+    private async Task ConnectionReconnecting(Exception? arg)
+    {
+        await mediator.Publish(new HubConnectionNotification(HubConnectionState.Reconnecting));
+
+        logger.Information("Runner {0} connecting to server {1}", configService.RunnerName, hubServer);
+    }
+
+    private async Task ConnectionReconnected(string? arg)
+    {
+        await mediator.Publish(new HubConnectionNotification(HubConnectionState.Connected));
+
+        logger.Information("Runner {0} connected to server {1}", configService.RunnerName, hubServer);
     }
 
     private async Task RunWorkflow(Guid workflowId)

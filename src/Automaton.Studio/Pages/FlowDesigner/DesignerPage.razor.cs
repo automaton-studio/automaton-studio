@@ -19,7 +19,7 @@ partial class DesignerPage : INotificationHandler<ExecuteStepNotification>
     private Designer designer;
     private Sider toolsSider;
     private Type toolsPanel = typeof(FlowSettings);
-    public static event EventHandler<ExecuteStepEventArgs> ExecuteStep;
+    public static event EventHandler<ExecuteStepNotification> ExecuteStep;
 
     [Parameter] public string FlowId { get; set; }
 
@@ -45,7 +45,8 @@ partial class DesignerPage : INotificationHandler<ExecuteStepNotification>
 
     public Task Handle(ExecuteStepNotification notification, CancellationToken cancellationToken)
     {
-        ExecuteStep?.Invoke(this, new ExecuteStepEventArgs() { StepId = notification.StepId });
+        ExecuteStep?.Invoke(this, new ExecuteStepNotification(notification.StepId));
+
         return Task.CompletedTask;
     }
 
@@ -188,7 +189,7 @@ partial class DesignerPage : INotificationHandler<ExecuteStepNotification>
     {
     }
 
-    private void OnExecutingStep(object sender, ExecuteStepEventArgs e)
+    private void OnExecutingStep(object sender, ExecuteStepNotification e)
     {
         DesignerViewModel.SetExecutingStep(e.StepId);
 
