@@ -34,6 +34,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{3A9D60E6-C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.App.Account", "src\Automaton.App.Account\Automaton.App.Account.csproj", "{63857FA8-8625-4EB7-8697-0F0B82A6A921}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automaton.App.Authentication", "src\Automaton.App.Authentication\Automaton.App.Authentication.csproj", "{CEA570AA-FD53-46D7-9A09-CC3859635DBC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,10 @@ Global
 		{63857FA8-8625-4EB7-8697-0F0B82A6A921}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63857FA8-8625-4EB7-8697-0F0B82A6A921}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63857FA8-8625-4EB7-8697-0F0B82A6A921}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEA570AA-FD53-46D7-9A09-CC3859635DBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEA570AA-FD53-46D7-9A09-CC3859635DBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEA570AA-FD53-46D7-9A09-CC3859635DBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEA570AA-FD53-46D7-9A09-CC3859635DBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +95,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C2DBF366-732A-43C3-B44F-3D0DD548A364} = {F8CF6650-9B57-4FF4-9049-0307F7A91F0A}
 		{63857FA8-8625-4EB7-8697-0F0B82A6A921} = {3A9D60E6-C5CA-43AF-9B9A-68F2355FA369}
+		{CEA570AA-FD53-46D7-9A09-CC3859635DBC} = {3A9D60E6-C5CA-43AF-9B9A-68F2355FA369}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {83E26756-FC19-479A-9074-C74CC45932CF}
