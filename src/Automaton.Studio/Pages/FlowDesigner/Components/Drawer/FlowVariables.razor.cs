@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.FlowDesigner.Components.Drawer;
 
-public partial class FlowVariables : ComponentBase, INotificationHandler<SetVariableNotification>
+public partial class FlowVariables : ComponentBase, INotificationHandler<SetVariableNotification>, IDisposable
 {
     private FluentValidationValidator fluentValidationValidator;
 
@@ -250,5 +250,10 @@ public partial class FlowVariables : ComponentBase, INotificationHandler<SetVari
     private void OnSetFlowVariable(object sender, SetVariableNotification e)
     {
         Flow.Variables[e.Variable.Name] = e.Variable;
+    }
+
+    public void Dispose()
+    {
+        SetFlowVariable -= OnSetFlowVariable;
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Runner.Pages.Dashboard
 {
-    public partial class Dashboard : ComponentBase, INotificationHandler<HubConnectionNotification>
+    public partial class Dashboard : ComponentBase, INotificationHandler<HubConnectionNotification>, IDisposable
     {
         private static event EventHandler<HubConnectionNotification> HubConnectionChange;
 
@@ -32,7 +32,8 @@ namespace Automaton.Runner.Pages.Dashboard
 
             HubConnectionChange += OnHubConnectionChange;
 
-            await DashboardViewModel.ConnectHub();
+            if (!DashboardViewModel.IsRunnerConnected())
+                await DashboardViewModel.ConnectHub();
         }
 
         private void OnHubConnectionChange(object? sender, HubConnectionNotification e)
@@ -40,6 +41,11 @@ namespace Automaton.Runner.Pages.Dashboard
             DashboardViewModel.SetHubConnection(e.HubConnectionState);
 
             InvokeAsync(StateHasChanged);
+        }
+
+        public void Dispose()
+        {
+            HubConnectionChange -= OnHubConnectionChange;
         }
     }
 }
