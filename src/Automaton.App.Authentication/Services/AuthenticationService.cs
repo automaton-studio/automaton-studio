@@ -1,7 +1,9 @@
 ﻿using Automaton.App.Authentication.Config;
+using Automaton.App.Authentication.Events;
 using Automaton.Client.Auth.Interfaces;
 using Automaton.Client.Auth.Models;
 using Automaton.Client.Auth.Providers;
+using MediatR;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http.Headers;
 using System.Text;
@@ -19,16 +21,19 @@ public class AuthenticationService
     private readonly AuthenticationStateProvider authStateProvider;
     private readonly ConfigurationService configService;
     private readonly IAuthenticationStorage authenticationStorage;
+    private readonly IMediator mediator;
 
     public AuthenticationService(HttpClient automatonHttpClient,
         AuthenticationStateProvider authStateProvider,
         ConfigurationService configService,
-        IAuthenticationStorage localStorage)
+        IAuthenticationStorage localStorage,
+        IMediator mediator)
     {
         this.httpClient = automatonHttpClient;
         this.authStateProvider = authStateProvider;
         this.configService = configService;
         this.authenticationStorage = localStorage;
+        this.mediator = mediator;
         this.options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
     }
 
@@ -48,6 +53,8 @@ public class AuthenticationService
 
         ((AuthStateProvider)authStateProvider).NotifyUserAuthentication(token.AccessToken);
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Bearer, token.AccessToken);
+
+        await mediator.Publish(new UserLoginNotification());
     }
 
     public async Task Logout()
@@ -56,5 +63,7 @@ public class AuthenticationService
 
         ((AuthStateProvider)authStateProvider).NotifyUserLogout();
         httpClient.DefaultRequestHeaders.Authorization = null;
+
+        await mediator.Publish(new UserLogoutNotification());
     }
 }
