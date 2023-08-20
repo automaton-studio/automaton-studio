@@ -96,7 +96,6 @@ public class HubService
     {
         try
         {
-
             logger.Information("Runner {0} is connecting to server {1}", configService.RunnerName, hubServer);
 
             await mediator.Publish(new HubConnectionNotification(HubConnectionState.Connecting));

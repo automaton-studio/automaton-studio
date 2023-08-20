@@ -58,36 +58,11 @@ public class RunnerService
         return runner;
     }
 
-    public Runner GetRunnerByName(string name)
-    {
-        var runner = dbContext.Runners.SingleOrDefault(x =>
-            x.Name.ToLower() == name.ToLower() &&
-            x.RunnerUsers.Any(x => x.UserId == userId));
-
-        // Because we update Runner's ConnectionId on the fly,
-        // when retrieving data we get the cached version of it
-        // with previous ConnectionId. There is no need to do the
-        // same thing with other entities if they aren't updated
-        // in the same way as the Runner entity.
-
-        // Here are some ideas to fix the issue:
-        // https://stackoverflow.com/a/51290890/778863
-        // http://codethug.com/2016/02/19/Entity-Framework-Cache-Busting/
-
-        // Solution 1. Reload the entity 
-        dbContext.Entry(runner).Reload();
-
-        // Solution 2. Detach the entity to remove it from context’s cache.
-        // dbContext.Entry(entity).State = EntityState.Detached;
-        // entity = dbContext.Runners.Find(id);
-
-        return runner;
-    }
-
     public int AddRunner(Models.Runner runnerDetails)
     {
         var runner = new Runner()
         {
+            Id = runnerDetails.Id,
             Name = runnerDetails.Name
         };
 

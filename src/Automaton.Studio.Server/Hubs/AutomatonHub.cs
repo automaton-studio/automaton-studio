@@ -70,6 +70,6 @@ public class AutomatonHub : Hub
     {
         var runner = GetRunner();
 
-        await runnerService.Update(runner.Id.Value, runner, CancellationToken.None);
+        await runnerService.Update(runner.Id, runner, CancellationToken.None);
     }
 }

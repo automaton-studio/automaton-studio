@@ -34,13 +34,11 @@ public class DashboardViewModel
         switch (hubConnectionState)
         {
             case HubConnectionState.Connecting:
+            case HubConnectionState.Reconnecting:
                 SetConnecting();
                 break;
             case HubConnectionState.Connected:
                 SetConnected();
-                break;
-            case HubConnectionState.Reconnecting:
-                SetConnecting();
                 break;
             case HubConnectionState.Disconnected:
                 SetDisconnected();

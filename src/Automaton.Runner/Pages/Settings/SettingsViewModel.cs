@@ -23,6 +23,6 @@ public class SettingsViewModel
 
     public async Task SaveSettings()
     {
-        await runnerService.UpdateRunnerDetails(RunnerName);
+        await runnerService.UpdateRunner(RunnerName);
     }
 }

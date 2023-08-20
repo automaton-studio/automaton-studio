@@ -19,12 +19,6 @@ namespace Automaton.Studio.Server.Controllers
             return Ok(runnersService.List());
         }
 
-        [HttpGet("byname/{name}")]
-        public ActionResult<Runner> GetByName(string name)
-        {
-            return Ok(runnersService.GetRunnerByName(name));
-        }
-
         [HttpGet("find")]
         public ActionResult<IEnumerable<Runner>> Get(IEnumerable<Guid> runnerIds)
         {

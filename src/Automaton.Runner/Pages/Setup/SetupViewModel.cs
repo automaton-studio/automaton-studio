@@ -28,7 +28,7 @@ public class SetupViewModel
 
     public async Task SetupRunner()
     {
-        await runnerService.SetupRunnerDetails(RunnerName);
+        await runnerService.SetupRunner(RunnerName);
     }
 
     public void NavigateToDetails()

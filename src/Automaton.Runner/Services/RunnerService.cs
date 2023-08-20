@@ -2,6 +2,7 @@
 using Automaton.Runner.Models;
 using Automaton.Runner.Storage;
 using Newtonsoft.Json;
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,24 +22,32 @@ public class RunnerService
         this.applicationService = applicationStorage;
     }
 
-    public async Task SetupRunnerDetails(string runnerName)
+    public async Task SetupRunner(string runnerName)
     {
-        var runnerNameJson = JsonConvert.SerializeObject(new RunnerDetails { Name = runnerName });
+        var runnerDetails = new RunnerDetails 
+        { 
+            Id = Guid.NewGuid().ToString(),
+            Name = runnerName 
+        };
+
+        var runnerNameJson = JsonConvert.SerializeObject(runnerDetails);
         var runnerNameContent = new StringContent(runnerNameJson, Encoding.UTF8, "application/json");
         var response = await httpClient.PostAsync($"{configService.RunnersUrl}", runnerNameContent);
         response.EnsureSuccessStatusCode();
 
-        response = await httpClient.GetAsync($"{configService.RunnersUrl}/byname/{runnerName}");
-        response.EnsureSuccessStatusCode();
-        var runner = await response.Content.ReadAsAsync<RunnerDetails>();
-
-        applicationService.SetRunnerId(runner.Id);
-        applicationService.SetRunnerName(runner.Name);
+        applicationService.SetRunnerId(runnerDetails.Id);
+        applicationService.SetRunnerName(runnerDetails.Name);
     }
 
-    public async Task UpdateRunnerDetails(string runnerName)
+    public async Task UpdateRunner(string runnerName)
     {
-        var runnerNameJson = JsonConvert.SerializeObject(new RunnerDetails { Name = runnerName });
+        var runnerDetails = new RunnerDetails
+        {
+            Id = configService.RunnerId,
+            Name = runnerName
+        };
+
+        var runnerNameJson = JsonConvert.SerializeObject(runnerDetails);
         var runnerContent = new StringContent(runnerNameJson, Encoding.UTF8, "application/json");
         var response = await httpClient.PutAsync($"{configService.RunnersUrl}/{configService.RunnerId}", runnerContent);
         response.EnsureSuccessStatusCode();
