@@ -1,6 +1,7 @@
 ﻿using Automaton.Core.Events;
 using MediatR;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

@@ -1,9 +1,6 @@
-﻿using Automaton.Core.Events;
-using Automaton.Runner.Resources;
+﻿using Automaton.Runner.Resources;
 using Automaton.Runner.Services;
-using MediatR;
 using Microsoft.AspNetCore.SignalR.Client;
-using System;
 using System.Threading.Tasks;
 
 namespace Automaton.Runner.Pages.Dashboard;
@@ -29,18 +26,16 @@ public class DashboardViewModel
         RunnerId = configService.IsRunnerRegistered() ? configService.RunnerId : Messages.RunnerNotRegistered;
         RunnerName = configService.IsRunnerRegistered() ? configService.RunnerName : Messages.RunnerNotRegistered;
 
-        if (configService.IsRunnerRegistered())
-        {
-            SetConnecting();
-
-            await hubService.ConnectToServer();
-        }
+        await hubService.ConnectToServer();
     }
 
     public void SetHubConnection(HubConnectionState hubConnectionState)
     {
         switch (hubConnectionState)
         {
+            case HubConnectionState.Connecting:
+                SetConnecting();
+                break;
             case HubConnectionState.Connected:
                 SetConnected();
                 break;
