@@ -5,9 +5,11 @@ using Automaton.Core.Logs;
 using Automaton.Runner.Extensions;
 using Automaton.Runner.Services;
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Net.Http;
 using System.Reflection;
@@ -21,7 +23,6 @@ namespace Automaton.Runner;
 public partial class MainWindow : Window
 {
     private const string AppSettings = "appsettings.json";
-
     public static IConfiguration Configuration { get; private set; }
     public static Services.ConfigurationService ConfigurationService { get; private set; }
 
@@ -69,5 +70,42 @@ public partial class MainWindow : Window
         services.AddTransient(typeof(MainWindow));
 
         Resources.Add("services", services.BuildServiceProvider());
+    }
+
+    private void OnOpenClick(object sender, RoutedEventArgs e)
+    {
+        Show();
+
+        WindowState = WindowState.Normal;
+    }
+
+    private void OnExitClick(object sender, RoutedEventArgs e)
+    {
+        Application.Current.Shutdown();
+    }
+
+    /// <summary>
+    /// Minimize to system tray when application is minimized.
+    /// </summary>
+    protected override void OnStateChanged(EventArgs e)
+    {
+        if (WindowState == WindowState.Minimized) 
+            Hide();
+
+        base.OnStateChanged(e);
+    }
+
+    /// <summary>
+    /// Minimize to system tray when application is closed.
+    /// </summary>
+    protected override void OnClosing(CancelEventArgs e)
+    {
+        // setting cancel to true will cancel the close request
+        // so the application is not closed
+        e.Cancel = true;
+
+        Hide();
+
+        base.OnClosing(e);
     }
 }
