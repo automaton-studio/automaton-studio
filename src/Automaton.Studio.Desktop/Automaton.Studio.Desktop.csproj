@@ -9,7 +9,12 @@
 
     <PropertyGroup>
 	    <UseRazorSourceGenerator>false</UseRazorSourceGenerator>
+	    <ApplicationIcon>Icon.ico</ApplicationIcon>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Content Include="Icon.ico" />
+    </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="7.0.92" />

@@ -7,10 +7,11 @@
     <UseWPF>true</UseWPF>
 	  <RootNamespace>Automaton.Runner</RootNamespace>
 	  <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+	  <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Icons\Icon.ico" />
+    <Resource Include="Icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,12 +36,6 @@
     <ProjectReference Include="..\Automaton.Client.Auth\Automaton.Client.Auth.csproj" />
     <ProjectReference Include="..\Automaton.Core\Automaton.Core.csproj" />
     <ProjectReference Include="..\Automaton.Steps\Automaton.Steps.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Icons\Icon.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
 
   <ItemGroup>

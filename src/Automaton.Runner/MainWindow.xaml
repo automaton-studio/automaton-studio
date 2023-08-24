@@ -14,7 +14,7 @@
     <Grid>
         <tb:TaskbarIcon
             x:Name="RunnerTaskbarIcon"
-            IconSource="/Icons/Icon.ico"
+            IconSource="Icon.ico"
             ToolTipText="Automaton Runner">
             <!-- Set a simple context menu  -->
             <tb:TaskbarIcon.ContextMenu>
