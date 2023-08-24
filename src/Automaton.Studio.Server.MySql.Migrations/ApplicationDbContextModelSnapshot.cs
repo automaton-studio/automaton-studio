@@ -203,6 +203,44 @@ namespace Automaton.Studio.Server.Migrations
                     b.ToTable("Flows");
                 });
 
+            modelBuilder.Entity("Automaton.Studio.Server.Entities.FlowExecution", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("Finished")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("FlowId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("Started")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FlowExecutions");
+                });
+
+            modelBuilder.Entity("Automaton.Studio.Server.Entities.FlowExecutionUser", b =>
+                {
+                    b.Property<Guid>("FlowExecutionId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("FlowExecutionId", "UserId");
+
+                    b.HasIndex(new[] { "FlowExecutionId" }, "IX_FlowExecutionUser_FlowExecutionId");
+
+                    b.ToTable("FlowExecutionUsers");
+                });
+
             modelBuilder.Entity("Automaton.Studio.Server.Entities.FlowUser", b =>
                 {
                     b.Property<Guid>("FlowId")
@@ -250,7 +288,7 @@ namespace Automaton.Studio.Server.Migrations
                     b.ToTable("RunnerUsers");
                 });
 
-            modelBuilder.Entity("Common.Authentication.RefreshToken<System.Guid>", b =>
+            modelBuilder.Entity("Common.Authentication.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -259,7 +297,7 @@ namespace Automaton.Studio.Server.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 8, 10, 12, 18, 52, 578, DateTimeKind.Local).AddTicks(455));
+                        .HasDefaultValue(new DateTime(2023, 8, 24, 23, 33, 43, 528, DateTimeKind.Local).AddTicks(2381));
 
                     b.Property<DateTime>("Expires")
                         .HasColumnType("datetime(6)");
@@ -387,6 +425,15 @@ namespace Automaton.Studio.Server.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Automaton.Studio.Server.Entities.FlowExecutionUser", b =>
+                {
+                    b.HasOne("Automaton.Studio.Server.Entities.FlowExecution", null)
+                        .WithMany("FlowExecutionUsers")
+                        .HasForeignKey("FlowExecutionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Automaton.Studio.Server.Entities.FlowUser", b =>
                 {
                     b.HasOne("Automaton.Studio.Server.Entities.Flow", null)
@@ -464,6 +511,11 @@ namespace Automaton.Studio.Server.Migrations
             modelBuilder.Entity("Automaton.Studio.Server.Entities.Flow", b =>
                 {
                     b.Navigation("FlowUsers");
+                });
+
+            modelBuilder.Entity("Automaton.Studio.Server.Entities.FlowExecution", b =>
+                {
+                    b.Navigation("FlowExecutionUsers");
                 });
 
             modelBuilder.Entity("Automaton.Studio.Server.Entities.Runner", b =>

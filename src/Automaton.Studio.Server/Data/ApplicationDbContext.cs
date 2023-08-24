@@ -14,6 +14,8 @@ namespace Automaton.Studio.Server.Data
         public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
         public virtual DbSet<Flow> Flows { get; set; }
         public virtual DbSet<FlowUser> FlowUsers { get; set; }
+        public virtual DbSet<FlowExecution> FlowExecutions { get; set; }
+        public virtual DbSet<FlowExecutionUser> FlowExecutionUsers { get; set; }
         public virtual DbSet<Runner> Runners { get; set; }
         public virtual DbSet<RunnerUser> RunnerUsers { get; set; }
         public virtual DbSet<CustomStep> CustomSteps { get; set; }
@@ -39,6 +41,19 @@ namespace Automaton.Studio.Server.Data
                 entity.HasIndex(e => e.FlowId, "IX_FlowUser_FlowId");
                 entity.Property(e => e.UserId).IsRequired();
                 entity.Property(e => e.FlowId).IsRequired();
+            });
+
+            modelBuilder.Entity<FlowExecution>(entity =>
+            {
+                entity.HasKey(e => new { e.Id });
+            });
+
+            modelBuilder.Entity<FlowExecutionUser>(entity =>
+            {
+                entity.HasKey(e => new { e.FlowExecutionId, e.UserId });
+                entity.HasIndex(e => e.FlowExecutionId, "IX_FlowExecutionUser_FlowExecutionId");
+                entity.Property(e => e.UserId).IsRequired();
+                entity.Property(e => e.FlowExecutionId).IsRequired();
             });
 
             modelBuilder.Entity<Runner>(entity =>
