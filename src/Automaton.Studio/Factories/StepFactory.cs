@@ -90,6 +90,9 @@ public class StepFactory
         studioStep.Outputs = step.Outputs;
         studioStep.Definition = activeDefinition;
 
+        // Note: Do not call Created() because this method is used
+        // when loading a flow and we do no need all it's logic
+
         return studioStep;
     }
 
