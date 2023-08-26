@@ -108,7 +108,7 @@ public class FlowsService
         return exists;
     }
 
-    public async Task<WorkflowExecutorResult> Execute(Guid flowId, CancellationToken cancellationToken)
+    public async Task<WorkflowExecution> Execute(Guid flowId, CancellationToken cancellationToken)
     {
         var flow = Get(flowId);
 

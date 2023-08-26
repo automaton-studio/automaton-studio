@@ -84,7 +84,7 @@ public class HubService
             })
             .Build();
 
-        connection.On<Guid>(RunWorkflowMethod, RunWorkflow);
+        connection.On<Guid>(RunWorkflowMethod, ExecuteWorkflow);
         connection.On<string>(PingMethod, Ping);
 
         connection.Closed += ConnectionClosed;
@@ -138,9 +138,9 @@ public class HubService
         logger.Information("Runner {0} connected to server {1}", configService.RunnerName, hubServer);
     }
 
-    private async Task RunWorkflow(Guid workflowId)
+    private async Task ExecuteWorkflow(Guid workflowId)
     {
-        await workflowService.RunFlow(workflowId);
+        await workflowService.ExecuteWorkflow(workflowId);
     }
 
     private async Task<string> Ping(string name)
