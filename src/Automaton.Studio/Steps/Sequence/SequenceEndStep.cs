@@ -58,6 +58,7 @@ public class SequenceEndStep : StudioStep
     {
         base.Select();
 
+        // TODO! SequenceStep can be null.
         SequenceStep.SelectNoEndStep();
     } 
 }

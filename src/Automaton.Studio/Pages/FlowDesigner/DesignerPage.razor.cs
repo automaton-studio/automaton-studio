@@ -59,7 +59,7 @@ partial class DesignerPage : ComponentBase, INotificationHandler<ExecuteStepNoti
     {
         if (step.IsNew)
         {
-            await NewStepDialog(step);
+            await AddStepDialog(step);
         }
         else
         {
@@ -107,13 +107,11 @@ partial class DesignerPage : ComponentBase, INotificationHandler<ExecuteStepNoti
         await DesignerViewModel.SaveFlow();
     }
 
-    private async Task NewStepDialog(StudioStep step)
+    private async Task AddStepDialog(StudioStep step)
     {
         if (!step.HasProperties)
         {
-            step.InvokeFinalize();
-            designer.SelectStep(step);
-
+            designer.CompleteStep(step);
             return;
         }
 
@@ -121,8 +119,7 @@ partial class DesignerPage : ComponentBase, INotificationHandler<ExecuteStepNoti
 
         result.OnOk = () =>
         {
-            step.InvokeFinalize();
-            designer.SelectStep(step);
+            designer.CompleteStep(step);
 
             return Task.CompletedTask;
         };

@@ -128,7 +128,7 @@ public class DesignerViewModel
 
     public void FinalizeStep(StudioStep step)
     {
-        ActiveDefinition.FinalizeStep(step);
+        ActiveDefinition.CompleteStep(step);
     }
 
     public void UpdateStepConnections()

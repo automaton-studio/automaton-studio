@@ -11,7 +11,6 @@ public abstract class StudioStep : INotifyPropertyChanged
     private const int DefaultMargin = 10;
 
     public event EventHandler<StepEventArgs> Created;
-    public event EventHandler<StepEventArgs> Finalize;
 
     protected virtual string StepClass { get; set; } = "designer-step";
     protected virtual string SelectedStepClass { get; set; } = "designer-step-selected";
@@ -149,6 +148,12 @@ public abstract class StudioStep : INotifyPropertyChanged
         Class = StepClass;
     }
 
+    public virtual void Complete()
+    {
+        IsNew = false;
+        Definition.CompleteStep(this);
+    }
+
     public bool IsSelected()
     {
         return Class == SelectedStepClass;
@@ -169,13 +174,6 @@ public abstract class StudioStep : INotifyPropertyChanged
         IsNew = true;
 
         Created?.Invoke(this, new StepEventArgs(this));
-    }
-
-    public void InvokeFinalize()
-    {
-        IsNew = false;
-
-        Finalize?.Invoke(this, new StepEventArgs(this));
     }
 
     public void SetExecuting()

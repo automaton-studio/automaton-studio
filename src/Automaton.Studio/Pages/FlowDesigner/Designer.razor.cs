@@ -296,6 +296,12 @@ public partial class Designer : ComponentBase, IDisposable
         step.Select();
     }
 
+    public void CompleteStep(StudioStep step)
+    {
+        step.Complete();
+        SelectStep(step);
+    }
+
     private void OnStepDoubleClick(StudioStep item)
     {
         ItemDoubleClick.InvokeAsync(item);

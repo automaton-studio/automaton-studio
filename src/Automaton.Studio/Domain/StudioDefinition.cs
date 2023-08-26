@@ -57,7 +57,7 @@ public class StudioDefinition
         UpdateStepConnections();
     }
 
-    public void FinalizeStep(StudioStep step)
+    public void CompleteStep(StudioStep step)
     {
         step.Definition = this;
         UpdateStepConnections();
@@ -65,9 +65,14 @@ public class StudioDefinition
 
     public void UpdateStepConnections()
     {
-        for(var i = 0; i < Steps.Count; i++)
+        for (var i = 0; i < Steps.Count; i++)
         {
-            Steps[i].NextStepId = i != Steps.Count - 1 ? Steps[i + 1].Id : null;
+            Steps[i].NextStepId = GetNextStepId(i);
         }
+    }
+
+    private string GetNextStepId(int i)
+    {
+        return i < Steps.Count - 1 ? Steps[i + 1].Id : null;
     }
 }

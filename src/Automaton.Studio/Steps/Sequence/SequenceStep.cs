@@ -46,7 +46,6 @@ public class SequenceStep : StudioStep
     {
         this.stepFactory = stepFactory;
         HasProperties = false;
-        Finalize += OnFinalize;
     }
 
     public override Type GetDesignerComponent()
@@ -103,10 +102,17 @@ public class SequenceStep : StudioStep
         return children;
     }
 
-    private void OnFinalize(object sender, StepEventArgs e)
+    public override void Complete()
     {
+        base.Complete();
+
         var sequenceEndStep = CreateSequenceEndStep();
 
+        AddEndSequenceStep(sequenceEndStep);
+    }
+
+    private void AddEndSequenceStep(SequenceEndStep sequenceEndStep)
+    {
         // Start and end sequences must know about each other
         SequenceEndStepId = sequenceEndStep.Id;
 
@@ -114,7 +120,7 @@ public class SequenceStep : StudioStep
         Definition.Steps.Insert(Definition.Steps.IndexOf(this) + 1, sequenceEndStep);
 
         // Ask definition to finalize sequence end
-        Definition.FinalizeStep(sequenceEndStep);
+        Definition.CompleteStep(sequenceEndStep);
     }
 
     /// <summary>
