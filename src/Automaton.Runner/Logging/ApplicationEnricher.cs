@@ -18,9 +18,6 @@ public class ApplicationEnricher : ILogEventEnricher
         var applicatioName = factory.CreateProperty(nameof(configurationService.ApplicationName), configurationService.ApplicationName);
         logEvent.AddPropertyIfAbsent(applicatioName);
 
-        var runner = factory.CreateProperty(LogContextProperties.RunnerExecution, true);
-        logEvent.AddPropertyIfAbsent(runner);
-
         var runnerId = factory.CreateProperty(LogContextProperties.RunnerId, configurationService.RunnerId);
         logEvent.AddPropertyIfAbsent(runnerId);
 
