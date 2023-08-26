@@ -20,14 +20,16 @@ public class WorkflowExecuteService
         logger = Log.ForContext<WorkflowExecuteService>();
     }
 
-    private async Task<WorkflowExecutorResult> Execute(Workflow workflow, int executeDelay = 0, CancellationToken cancellationToken = default)
+    private async Task<WorkflowExecution> Execute(Workflow workflow, int executeDelay = 0, CancellationToken cancellationToken = default)
     {
-        var result = new WorkflowExecutorResult();
+        var workflowExecution = new WorkflowExecution();
+        workflowExecution.Start(workflow.Id);
+
         var definition = workflow.GetStartupDefinition();
         var step = definition.GetFirstStep();
 
-        LogContext.PushProperty(LogContextProperties.WorkflowExecution, true);
         LogContext.PushProperty(LogContextProperties.WorkflowId, workflow.Id);
+        LogContext.PushProperty(LogContextProperties.WorkflowExecutionId, workflowExecution.Id);
         LogContext.PushProperty(LogContextProperties.WorkflowName, workflow.Name);
 
         logger.Information("Start workflow: {0}", workflow.Name);
@@ -44,22 +46,16 @@ public class WorkflowExecuteService
 
             try
             {
-                await mediator.Publish(new ExecuteStepNotification(step.Id), cancellationToken);
+                await DelayStepExecution(executeDelay, cancellationToken);
 
-                await Task.Delay(executeDelay, cancellationToken);
+                await SendStepExecutionNotification(step, cancellationToken);
 
                 await step.ExecuteAsync(context);
             }
             catch (Exception ex)
             {
                 logger.Error(ex, "Step: {0} encountered an error. Message: {1}", step.Id, ex.Message);
-
-                result.Errors.Add(new ExecutionError
-                {
-                    WorkflowId = definition.Id,
-                    ErrorTime = DateTime.UtcNow,
-                    Message = ex.Message
-                });
+                workflowExecution.Error();
             }
 
             step = step.GetNextStep();
@@ -67,10 +63,17 @@ public class WorkflowExecuteService
 
         logger.Information("End workflow: {0}", workflow.Name);
 
-        return result;
+        workflowExecution.Finish();
+
+        return workflowExecution;
     }
 
-    public async Task<WorkflowExecutorResult> Execute(Flow flow, int executeDelay = 0, CancellationToken cancellationToken = default)
+    private static async Task DelayStepExecution(int executeDelay, CancellationToken cancellationToken)
+    {
+        await Task.Delay(executeDelay, cancellationToken);
+    }
+
+    public async Task<WorkflowExecution> Execute(Flow flow, int executeDelay = 0, CancellationToken cancellationToken = default)
     {
         var workflow = flowConvertService.ConvertFlow(flow);
 
@@ -82,5 +85,10 @@ public class WorkflowExecuteService
         var result = await Execute(workflow, executeDelay, cancellationToken);
 
         return result;
+    }
+
+    private async Task SendStepExecutionNotification(WorkflowStep step, CancellationToken cancellationToken)
+    {
+        await mediator.Publish(new ExecuteStepNotification(step.Id), cancellationToken);
     }
 }
