@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.FlowDesigner;
 
-partial class DesignerPage : INotificationHandler<ExecuteStepNotification>
+partial class DesignerPage : ComponentBase, INotificationHandler<ExecuteStepNotification>
 {
     private Designer designer;
     private Sider toolsSider;
@@ -194,5 +194,10 @@ partial class DesignerPage : INotificationHandler<ExecuteStepNotification>
         DesignerViewModel.SetExecutingStep(e.StepId);
 
         InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        ExecuteStep -= OnExecutingStep;
     }
 }
