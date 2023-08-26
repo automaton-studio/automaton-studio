@@ -26,11 +26,6 @@ public class TestReportStep : StudioStep
     public int FailedTests { get; set; }
 
     public string Report { get; set; }
-
-    public TestReportStep()
-    {
-        Created += OnCreated;
-    }
      
     public override Type GetDesignerComponent()
     {
@@ -42,8 +37,10 @@ public class TestReportStep : StudioStep
         return typeof(TestReportProperties);
     }
 
-    private void OnCreated(object sender, StepEventArgs e)
+    public override void Created()
     {
+        base.Created();
+
         var reportVariable = new StepVariable
         {
             Name = $"{ReportVariableKey}{Flow.GetNumberOfSteps<TestReportStep>()}",

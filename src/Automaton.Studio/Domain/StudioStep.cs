@@ -1,5 +1,4 @@
 ﻿using Automaton.Core.Models;
-using Automaton.Studio.Events;
 using Automaton.Studio.Steps.Sequence;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -9,8 +8,6 @@ namespace Automaton.Studio.Domain;
 public abstract class StudioStep : INotifyPropertyChanged
 {
     private const int DefaultMargin = 10;
-
-    public event EventHandler<StepEventArgs> Created;
 
     protected virtual string StepClass { get; set; } = "designer-step";
     protected virtual string SelectedStepClass { get; set; } = "designer-step-selected";
@@ -154,6 +151,11 @@ public abstract class StudioStep : INotifyPropertyChanged
         Definition.CompleteStep(this);
     }
 
+    public virtual void Created()
+    {
+        IsNew = true;
+    }
+
     public bool IsSelected()
     {
         return Class == SelectedStepClass;
@@ -167,13 +169,6 @@ public abstract class StudioStep : INotifyPropertyChanged
     public bool HasParent()
     {
         return !string.IsNullOrEmpty(ParentId);
-    }
-
-    public void InvokeCreated()
-    {
-        IsNew = true;
-
-        Created?.Invoke(this, new StepEventArgs(this));
     }
 
     public void SetExecuting()

@@ -31,7 +31,6 @@ public class AddVariableStep : StudioStep
     {
         SetInputValue(nameof(VariableValue), string.Empty);
 
-        Created += OnCreated;
         ShowVariables = false;
     }
 
@@ -45,8 +44,10 @@ public class AddVariableStep : StudioStep
         return typeof(AddVariableProperties);
     }
 
-    private void OnCreated(object sender, StepEventArgs e)
+    public override void Created()
     {
+        base.Created();
+
         OutputVariable = new StepVariable
         {
             Name = $"{AddVariableKey}{Flow.GetNumberOfSteps<AddVariableStep>()}",

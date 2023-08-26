@@ -112,23 +112,26 @@ partial class DesignerPage : ComponentBase, INotificationHandler<ExecuteStepNoti
         if (!step.HasProperties)
         {
             designer.CompleteStep(step);
+
+            await InvokeAsync(StateHasChanged);
+
             return;
         }
 
         var result = await step.DisplayPropertiesDialog(ModalService);
 
-        result.OnOk = () =>
+        result.OnOk = async () =>
         {
             designer.CompleteStep(step);
 
-            return Task.CompletedTask;
+            await InvokeAsync(StateHasChanged);
         };
 
-        result.OnCancel = () =>
+        result.OnCancel = async () =>
         {
             DesignerViewModel.DeleteStep(step);
 
-            return Task.CompletedTask;
+            await InvokeAsync(StateHasChanged);
         };
     }
 

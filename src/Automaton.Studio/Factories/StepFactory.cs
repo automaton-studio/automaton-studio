@@ -45,7 +45,7 @@ public class StepFactory
         step.Icon = descriptor.Icon;
         step.Definition = activeDefinition;
 
-        step.InvokeCreated();
+        step.Created();
 
         return step;
     }
@@ -67,7 +67,7 @@ public class StepFactory
             Definition = activeDefinition,
         };
 
-        step.InvokeCreated();
+        step.Created();
 
         return step;
     }
