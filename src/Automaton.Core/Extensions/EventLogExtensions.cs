@@ -7,6 +7,6 @@ public static class EventLogExtensions
 {
     public static bool IsWorkflowExecution(this LogEvent logEvent)
     {
-        return logEvent.Properties.ContainsKey(LogContextProperties.WorkflowExecution);
+        return logEvent.Properties.ContainsKey(LogContextProperties.WorkflowExecutionId);
     }
 }
