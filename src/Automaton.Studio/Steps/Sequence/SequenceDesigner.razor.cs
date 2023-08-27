@@ -1,8 +1,10 @@
 ﻿using AntDesign;
 using Automaton.Studio.Domain;
+using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Resources;
 using Automaton.Studio.Services;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -12,17 +14,12 @@ public partial class SequenceDesigner : ComponentBase
 {
     private const int DefaultStepMargin = 10;
 
-    [Parameter]
-    public SequenceStep Step { get; set; }
+    [Parameter] public SequenceStep Step { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
-    [Parameter] 
-    public RenderFragment ChildContent { get; set; }
-
-    [Inject] 
-    private ModalService ModalService { get; set; } = default!;
-
-    [Inject]
-    private ConfigurationService ConfigurationService { get; set; }
+    [Inject] private ModalService ModalService { get; set; } = default!;
+    [Inject] private ConfigurationService ConfigurationService { get; set; }
+    [Inject] private IMediator Mediator { get; set; }
 
     protected override void OnInitialized()
     {
@@ -72,6 +69,8 @@ public partial class SequenceDesigner : ComponentBase
         var count = endSequenceStepIndex - sequenceStepIndex;
 
         step.Definition.DeleteSteps(sequenceStepIndex, count + 1);
+
+        Mediator.Publish(new FlowUpdateNotification());
     }
 
     private void ToggleContent()

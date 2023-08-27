@@ -1,8 +1,9 @@
 ﻿using AntDesign;
 using Automaton.Studio.Domain;
+using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Resources;
-using Automaton.Studio.Services;
+using MediatR;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -10,14 +11,11 @@ namespace Automaton.Studio.Steps;
 
 public partial class StepDesigner : ComponentBase
 {
-    [Parameter]
-    public StudioStep Step { get; set; }
+    [Parameter] public StudioStep Step { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
-    [Parameter] 
-    public RenderFragment ChildContent { get; set; }
-
-    [Inject] 
-    private ModalService ModalService { get; set; } = default!;
+    [Inject] private ModalService ModalService { get; set; }
+    [Inject] private IMediator Mediator { get; set; }
 
     protected override void OnInitialized()
     {
@@ -64,6 +62,6 @@ public partial class StepDesigner : ComponentBase
     {
         step.Definition.DeleteStep(step);
 
-        StateHasChanged();
+        Mediator.Publish(new FlowUpdateNotification());
     }
 }

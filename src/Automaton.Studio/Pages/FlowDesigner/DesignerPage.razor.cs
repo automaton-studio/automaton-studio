@@ -14,26 +14,30 @@ using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.FlowDesigner;
 
-partial class DesignerPage : ComponentBase, INotificationHandler<ExecuteStepNotification>
+partial class DesignerPage : ComponentBase, 
+    INotificationHandler<ExecuteStepNotification>,
+    INotificationHandler<FlowUpdateNotification>
 {
     private Designer designer;
     private Sider toolsSider;
     private Type toolsPanel = typeof(FlowSettings);
-    public static event EventHandler<ExecuteStepNotification> ExecuteStep;
 
     [Parameter] public string FlowId { get; set; }
-
     [Inject] private ModalService ModalService { get; set; } = default!;
     [Inject] private DesignerViewModel DesignerViewModel { get; set; } = default!;
     [Inject] private FlowExplorerViewModel FlowExplorerViewModel { get; set; } = default!;
 
+    public static event EventHandler<ExecuteStepNotification> ExecuteStep;
+    public static event EventHandler<FlowUpdateNotification> FlowUpdate;
+
     protected override async Task OnInitializedAsync()
     {
+        ExecuteStep += OnExecuteStep;
+        FlowUpdate += OnFlowUpdate;
+
         Guid.TryParse(FlowId, out var flowId);
 
         await LoadFlow(flowId);
-
-        ExecuteStep += OnExecutingStep;
 
         await base.OnInitializedAsync();
     }
@@ -46,6 +50,13 @@ partial class DesignerPage : ComponentBase, INotificationHandler<ExecuteStepNoti
     public Task Handle(ExecuteStepNotification notification, CancellationToken cancellationToken)
     {
         ExecuteStep?.Invoke(this, new ExecuteStepNotification(notification.StepId));
+
+        return Task.CompletedTask;
+    }
+
+    public Task Handle(FlowUpdateNotification notification, CancellationToken cancellationToken)
+    {
+        FlowUpdate?.Invoke(this, new FlowUpdateNotification());
 
         return Task.CompletedTask;
     }
@@ -189,15 +200,21 @@ partial class DesignerPage : ComponentBase, INotificationHandler<ExecuteStepNoti
     {
     }
 
-    private void OnExecutingStep(object sender, ExecuteStepNotification e)
+    private void OnExecuteStep(object sender, ExecuteStepNotification e)
     {
         DesignerViewModel.SetExecutingStep(e.StepId);
 
         InvokeAsync(StateHasChanged);
     }
 
+    private void OnFlowUpdate(object sender, FlowUpdateNotification e)
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
     public void Dispose()
     {
-        ExecuteStep -= OnExecutingStep;
+        ExecuteStep -= OnExecuteStep;
+        FlowUpdate -= OnFlowUpdate;
     }
 }
