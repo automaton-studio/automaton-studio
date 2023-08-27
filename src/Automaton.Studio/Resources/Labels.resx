@@ -123,6 +123,12 @@
   <data name="DefinitionName" xml:space="preserve">
     <value>Definition name</value>
   </data>
+  <data name="DeleteStep" xml:space="preserve">
+    <value>Delete step</value>
+  </data>
+  <data name="DeleteStepConfirmation" xml:space="preserve">
+    <value>Are you sure to delete this step?</value>
+  </data>
   <data name="NewFlow" xml:space="preserve">
     <value>New Flow</value>
   </data>

@@ -12,11 +12,8 @@ namespace Automaton.Studio.Steps.Sequence;
 
 public partial class SequenceDesigner : ComponentBase
 {
-    private const int DefaultStepMargin = 10;
-
     [Parameter] public SequenceStep Step { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
-
     [Inject] private ModalService ModalService { get; set; } = default!;
     [Inject] private ConfigurationService ConfigurationService { get; set; }
     [Inject] private IMediator Mediator { get; set; }
@@ -62,15 +59,24 @@ public partial class SequenceDesigner : ComponentBase
         };
     }
 
-    private void OnDelete(StudioStep step)
+    private async Task OnDelete(StudioStep step)
     {
-        var sequenceStepIndex = Step.Definition.Steps.IndexOf(Step);
-        var endSequenceStepIndex = Step.Definition.Steps.IndexOf(Step.SequenceEndStep);
-        var count = endSequenceStepIndex - sequenceStepIndex;
+        var newVariableDialog = await ModalService.ConfirmAsync(new ConfirmOptions()
+        {
+            Title = Labels.DeleteStep,
+            Content = Labels.DeleteStepConfirmation,
+            OnOk = e =>
+            {
+                var sequenceStepIndex = Step.Definition.Steps.IndexOf(Step);
+                var endSequenceStepIndex = Step.Definition.Steps.IndexOf(Step.SequenceEndStep);
+                var count = endSequenceStepIndex - sequenceStepIndex;
 
-        step.Definition.DeleteSteps(sequenceStepIndex, count + 1);
+                step.Definition.DeleteSteps(sequenceStepIndex, count + 1);
+                Mediator.Publish(new FlowUpdateNotification());
 
-        Mediator.Publish(new FlowUpdateNotification());
+                return Task.CompletedTask;
+            }
+        });  
     }
 
     private void ToggleContent()

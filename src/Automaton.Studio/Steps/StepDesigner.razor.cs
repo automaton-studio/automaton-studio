@@ -2,6 +2,7 @@
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
+using Automaton.Studio.Pages.FlowDesigner.Components.NewVariable;
 using Automaton.Studio.Resources;
 using MediatR;
 using Microsoft.AspNetCore.Components;
@@ -13,7 +14,6 @@ public partial class StepDesigner : ComponentBase
 {
     [Parameter] public StudioStep Step { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
-
     [Inject] private ModalService ModalService { get; set; }
     [Inject] private IMediator Mediator { get; set; }
 
@@ -58,10 +58,20 @@ public partial class StepDesigner : ComponentBase
         };
     }
 
-    private void OnDelete(StudioStep step)
+    private async Task OnDelete(StudioStep step)
     {
-        step.Definition.DeleteStep(step);
+        var newVariableDialog = await ModalService.ConfirmAsync(new ConfirmOptions()
+        {
+            Title = Labels.DeleteStep,
+            Content = Labels.DeleteStepConfirmation,
+            OnOk = e => 
+            {
+                step.Definition.DeleteStep(step);
 
-        Mediator.Publish(new FlowUpdateNotification());
+                Mediator.Publish(new FlowUpdateNotification());
+
+                return Task.CompletedTask;
+            }
+        });
     }
 }
