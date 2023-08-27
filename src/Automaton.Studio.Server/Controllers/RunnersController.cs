@@ -28,7 +28,7 @@ namespace Automaton.Studio.Server.Controllers
         [HttpPost]
         public ActionResult Post(Runner runner, CancellationToken cancellationToken)
         {
-            return Ok(runnersService.AddRunner(runner));
+            return Ok(runnersService.Add(runner));
         }
 
         [HttpPut("{id}")]

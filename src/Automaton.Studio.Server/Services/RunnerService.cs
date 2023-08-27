@@ -34,7 +34,7 @@ public class RunnerService
         return runners;
     }
 
-    public Runner GetRunner(Guid id)
+    public Runner Get(Guid id)
     {
         var runner = dbContext.Runners.SingleOrDefault(x => x.Id == id && x.RunnerUsers.Any(x => x.UserId == userId));
 
@@ -58,12 +58,12 @@ public class RunnerService
         return runner;
     }
 
-    public int AddRunner(Models.Runner runnerDetails)
+    public int Add(Models.Runner runnerModel)
     {
         var runner = new Runner()
         {
-            Id = runnerDetails.Id,
-            Name = runnerDetails.Name
+            Id = runnerModel.Id,
+            Name = runnerModel.Name
         };
 
         dbContext.Runners.Add(runner);
@@ -83,26 +83,16 @@ public class RunnerService
 
     public async Task Update(Guid id, Models.Runner runner, CancellationToken cancellationToken)
     {
-        var entity = dbContext.Runners
-            .Include(x => x.RunnerUsers)
-            .SingleOrDefault(x => x.Id == id && 
-                x.RunnerUsers.Any(x => x.UserId == userId));
-
-        if (entity == null)
-        {
-            throw new ArgumentException("Runner not found");
-        }
-
         if (string.IsNullOrEmpty(runner.Name))
         {
             throw new ArgumentException("Runner name can not be empty");
         }
 
-        if (!string.IsNullOrEmpty(runner.ConnectionId))
-        {
-            entity.ConnectionId = runner.ConnectionId;
-        }
+        var entity = dbContext.Runners
+            .Include(x => x.RunnerUsers)
+            .SingleOrDefault(x => x.Id == id && x.RunnerUsers.Any(x => x.UserId == userId));
 
+        entity.ConnectionId = runner.ConnectionId;
         entity.Name = runner.Name;
 
         // Mark entity as modified
@@ -128,7 +118,7 @@ public class RunnerService
     {
         foreach (var runnerId in runnerIds)
         {
-            var runner = GetRunner(runnerId);
+            var runner = Get(runnerId);
             var client = automatonHub.Clients.Client(runner.ConnectionId);
 
             await client.SendAsync(AutomatonHubMethods.RunWorkflow, flowId);
