@@ -59,7 +59,7 @@ public partial class Designer : ComponentBase, IDisposable
         DragDropService.ActiveSteps = new List<StudioStep> { step };
     }
 
-    private void OnSpacerDrop()
+    private void OnDrop()
     {
         if (!IsDropAllowed())
         {
@@ -305,64 +305,6 @@ public partial class Designer : ComponentBase, IDisposable
     private void OnStepDoubleClick(StudioStep item)
     {
         ItemDoubleClick.InvokeAsync(item);
-    }
-
-    private void OnDropzoneDrop()
-    {
-        if (!IsDropAllowed())
-        {
-            DragDropService.Reset();
-            return;
-        }
-
-        var activeItems = DragDropService.ActiveSteps;
-
-        // no direct drag target
-        if (DragDropService.DragTargetStep == null)
-        {
-            foreach (var activeItem in activeItems)
-            {
-                if (!Steps.Contains(activeItem))
-                {
-                    //insert item to new zone
-                    Steps.Insert(Steps.Count, activeItem);
-                }
-                else
-                {
-                    //insert item to new zone if new
-                    if (activeItem.IsNew)
-                        Steps.Insert(Steps.Count, activeItem);
-                }
-            }
-        }
-        // we have a direct target
-        else
-        {
-            foreach (var activeItem in activeItems)
-            {
-                // if dragged to another dropzone
-                if (!Steps.Contains(activeItem))
-                {
-                    //swap target with active item
-                    Swap(DragDropService.DragTargetStep, activeItem);
-                }
-                else
-                {
-                    // if dragged to the same dropzone
-                    //swap target with active item
-                    Swap(DragDropService.DragTargetStep, activeItem);
-                }
-            }
-        }
-
-        foreach (var activeItem in activeItems)
-        {
-            ItemDrop.InvokeAsync(activeItem);
-        }
-
-        DragDropService.Reset();
-
-        StateHasChanged();
     }
 
     private void Swap(StudioStep draggedOverItem, StudioStep activeItem)

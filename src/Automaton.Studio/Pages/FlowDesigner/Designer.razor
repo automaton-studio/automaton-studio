@@ -7,7 +7,7 @@
      @ondragover="()=>{}"
      @ondragenter:preventDefault
      @ondragenter="()=>{}"
-     @ondrop="()=>OnDropzoneDrop()"
+     @ondrop="()=>OnDrop()"
      @onmousedown="()=>OnDropzoneMouseDown()"
      @onclick="()=>OnDropzoneClick()"
      @ondrop:preventDefault
@@ -23,7 +23,7 @@
         <GridRow Wrap="false" Justify="center" Align="middle">
             <GridCol Flex=@("50px")></GridCol>
             <GridCol Flex=@("auto")>
-                <div @ondrop="()=>OnSpacerDrop()"
+                <div @ondrop="()=>OnDrop()"
                      @ondrop:stopPropagation
                      @ondragleave="()=>OnSpacerDragLeave()"
                      @ondragenter="()=>OnSpacerDragEnter()"
@@ -49,7 +49,7 @@
                              @ondragenter="()=>OnStepDragEnter(step)"
                              @ondragover="(x)=>OnStepDragOver(x, step)"
                              @ondragleave="()=>OnStepDragLeave()"
-                             @ondrop="()=>OnSpacerDrop()"
+                             @ondrop="()=>OnDrop()"
                              @onclick="()=>OnStepClick(step)"
                              @ondblclick="()=>OnStepDoubleClick(step)"
                              @ondblclick:stopPropagation="true"
@@ -63,7 +63,7 @@
 
                                 @ChildContent(step)
 
-                                <div @ondrop="()=>OnSpacerDrop()"
+                                <div @ondrop="()=>OnDrop()"
                                     @ondrop:stopPropagation
                                     @ondragleave="()=>OnSpacerDragLeave()"
                                     @ondragenter="()=>OnSpacerDragEnter(step)"
