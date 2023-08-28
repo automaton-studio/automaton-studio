@@ -5,17 +5,17 @@ using Serilog;
 
 namespace Automaton.Core.Services;
 
-public class FlowExecuteService
+public class CoreFlowExecuteService
 {
     private readonly IMediator mediator;
     private readonly ILogger logger;
-    private readonly CoreFlowConvertService flowConvertService;
+    private readonly FlowConvertService flowConvertService;
 
-    public FlowExecuteService(CoreFlowConvertService flowConvertService, IMediator mediator)
+    public CoreFlowExecuteService(FlowConvertService flowConvertService, IMediator mediator)
     {
         this.mediator = mediator;
         this.flowConvertService = flowConvertService;
-        logger = Log.ForContext<FlowExecuteService>();
+        logger = Log.ForContext<CoreFlowExecuteService>();
     }
 
     public async Task<WorkflowExecution> Execute(Flow flow, CancellationToken cancellationToken = default)

@@ -8,7 +8,7 @@ public class ExecuteFlow : WorkflowStep
 {
     private readonly ConfigService configService;
     private readonly HttpClient httpClient;
-    private readonly FlowExecuteService flowExecuteService;
+    private readonly CoreFlowExecuteService flowExecuteService;
 
     public Guid FlowId { get; set; }
     public IList<StepVariable> InputVariables { get; set; }
@@ -18,7 +18,7 @@ public class ExecuteFlow : WorkflowStep
     (
         ConfigService configService, 
         HttpClient httpClient,
-        FlowExecuteService workflowExecuteService
+        CoreFlowExecuteService workflowExecuteService
     )
     {
         this.configService = configService;

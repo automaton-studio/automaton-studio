@@ -26,9 +26,9 @@ namespace Automaton.Studio.Server.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post(FlowExecution runner, CancellationToken cancellationToken)
+        public ActionResult Post(FlowExecution flowExecution, CancellationToken cancellationToken)
         {
-            return Ok(flowExecutionService.Add(runner));
+            return Ok(flowExecutionService.Add(flowExecution));
         }
 
         [HttpPut("{id}")]

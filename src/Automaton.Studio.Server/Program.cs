@@ -112,6 +112,7 @@ applicationBuilder.Host.UseSerilog((context, services, config) =>
 services.AddScoped<CustomStepsService>();
 services.AddScoped<FlowsService>();
 services.AddScoped<RunnerService>();
+services.AddScoped<FlowExecutionService>();
 services.AddScoped<UserContextService>();
 services.AddTransient<UserManagerService>();
 services.AddTransient<RoleManagerService>();

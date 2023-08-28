@@ -5,25 +5,29 @@ namespace Automaton.Core.Models;
 public class WorkflowExecution
 {
     private bool hasErrors;
+    private WorkflowStatus workflowStatus;
 
     public Guid Id { get; set; }
     public Guid FlowId { get; set; }
     public DateTime Started { get; set; }
     public DateTime Finished { get; set; }
-    public WorkflowStatus Status { get; set; }
+    public string Status
+    {
+        get { return workflowStatus.ToString(); }
+    }
 
     public void Start(Guid flowId)
     {
         Id = Guid.NewGuid();
         FlowId = flowId;
         Started = DateTime.UtcNow;
-        Status = WorkflowStatus.Working;
+        workflowStatus = WorkflowStatus.Working;
     }
 
     public void Finish()
     {
         Finished = DateTime.UtcNow;
-        Status = hasErrors ? WorkflowStatus.Error : WorkflowStatus.Success;
+        workflowStatus = hasErrors ? WorkflowStatus.Error : WorkflowStatus.Success;
     }
 
     public void Error()

@@ -6,6 +6,7 @@ using Automaton.Client.Auth.Interfaces;
 using Automaton.Client.Auth.Services;
 using Automaton.Core.Logs;
 using Automaton.Core.Scripting;
+using Automaton.Core.Services;
 using Automaton.Studio.Config;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Factories;
@@ -73,7 +74,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<RunnerService>();
         services.AddScoped<ErrorService>();
         services.AddScoped<CustomStepsService>();
-        
+        services.AddScoped<StudioFlowExecuteService>();
+
         // ViewModels
         services.AddScoped<FlowsViewModel>();
         services.AddScoped<RunnersViewModel>();

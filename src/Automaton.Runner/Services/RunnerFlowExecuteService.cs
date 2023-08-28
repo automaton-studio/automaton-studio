@@ -20,15 +20,15 @@ public class RunnerFlowExecuteService
     private readonly ILogger logger;
     private readonly HttpClient httpClient;
     private readonly ConfigurationService configurationService;
-    private readonly CoreFlowConvertService flowConvertService;
+    private readonly FlowConvertService flowConvertService;
 
-    public RunnerFlowExecuteService(CoreFlowConvertService flowConvertService, ConfigurationService configurationService, HttpClient httpClient, IMediator mediator)
+    public RunnerFlowExecuteService(FlowConvertService flowConvertService, ConfigurationService configurationService, HttpClient httpClient, IMediator mediator)
     {
         this.mediator = mediator;
         this.httpClient = httpClient;
         this.configurationService = configurationService;
         this.flowConvertService = flowConvertService;
-        logger = Log.ForContext<FlowExecuteService>();
+        logger = Log.ForContext<CoreFlowExecuteService>();
     }
 
     public async Task<WorkflowExecution> Execute(Flow flow, CancellationToken cancellationToken = default)

@@ -19,35 +19,33 @@ public class StudioFlowExecuteService
     private readonly ILogger logger;
     private readonly HttpClient httpClient;
     private readonly ConfigurationService configurationService;
-    private readonly CoreFlowConvertService flowConvertService;
+    private readonly FlowConvertService flowConvertService;
 
-    public StudioFlowExecuteService(CoreFlowConvertService flowConvertService, ConfigurationService configurationService, HttpClient httpClient, IMediator mediator) 
+    public StudioFlowExecuteService(FlowConvertService flowConvertService, ConfigurationService configurationService, HttpClient httpClient, IMediator mediator) 
     {
         this.mediator = mediator;
         this.httpClient = httpClient;
         this.configurationService = configurationService;
         this.flowConvertService = flowConvertService;
-        logger = Log.ForContext<FlowExecuteService>();
+        logger = Log.ForContext<CoreFlowExecuteService>();
     }
 
     public async Task<WorkflowExecution> Execute(Flow flow, int executeDelay = 0, CancellationToken cancellationToken = default)
     {
         var workflow = flowConvertService.ConvertFlow(flow);
 
-        workflow.SetWorkflowVariable += async (sender, e) =>
-        {
-            await mediator.Publish(new SetVariableNotification(e.Variable), cancellationToken);
-        };
-
         var result = await Execute(workflow, executeDelay, cancellationToken);
-
-        await SendWorkflowExecutionResult(result);
 
         return result;
     }
 
     private async Task<WorkflowExecution> Execute(Workflow workflow, int executeDelay = 0, CancellationToken cancellationToken = default)
     {
+        workflow.SetWorkflowVariable += async (sender, e) =>
+        {
+            await mediator.Publish(new SetVariableNotification(e.Variable), cancellationToken);
+        };
+
         var workflowExecution = new WorkflowExecution();
         workflowExecution.Start(workflow.Id);
 

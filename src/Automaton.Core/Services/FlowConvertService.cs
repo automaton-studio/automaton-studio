@@ -3,11 +3,11 @@ using Automaton.Studio.Extensions;
 
 namespace Automaton.Core.Services;
 
-public class CoreFlowConvertService
+public class FlowConvertService
 {
     private readonly IServiceProvider serviceProvider;
 
-    public CoreFlowConvertService(IServiceProvider serviceProvider)
+    public FlowConvertService(IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider;
     }
