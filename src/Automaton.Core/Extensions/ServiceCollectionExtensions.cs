@@ -7,8 +7,8 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddAutomatonCore(this IServiceCollection services)
     {
-        services.AddTransient<WorkflowExecuteService>();
-        services.AddScoped<WorkflowConvertService>();
+        services.AddTransient<FlowExecuteService>();
+        services.AddScoped<CoreFlowConvertService>();
 
         return services;
     }

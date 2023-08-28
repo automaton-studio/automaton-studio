@@ -1,23 +1,49 @@
 ﻿using Automaton.Core.Events;
 using Automaton.Core.Logs;
 using Automaton.Core.Models;
+using Automaton.Core.Services;
 using MediatR;
-using Serilog;
+using Newtonsoft.Json;
 using Serilog.Context;
+using Serilog;
+using System.Net.Http;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace Automaton.Core.Services;
+namespace Automaton.Studio.Services;
 
-public class WorkflowExecuteService
+public class StudioFlowExecuteService
 {
     private readonly IMediator mediator;
     private readonly ILogger logger;
-    private readonly WorkflowConvertService flowConvertService;
+    private readonly HttpClient httpClient;
+    private readonly ConfigurationService configurationService;
+    private readonly CoreFlowConvertService flowConvertService;
 
-    public WorkflowExecuteService(WorkflowConvertService flowConvertService, IMediator mediator)
+    public StudioFlowExecuteService(CoreFlowConvertService flowConvertService, ConfigurationService configurationService, HttpClient httpClient, IMediator mediator) 
     {
         this.mediator = mediator;
+        this.httpClient = httpClient;
+        this.configurationService = configurationService;
         this.flowConvertService = flowConvertService;
-        logger = Log.ForContext<WorkflowExecuteService>();
+        logger = Log.ForContext<FlowExecuteService>();
+    }
+
+    public async Task<WorkflowExecution> Execute(Flow flow, int executeDelay = 0, CancellationToken cancellationToken = default)
+    {
+        var workflow = flowConvertService.ConvertFlow(flow);
+
+        workflow.SetWorkflowVariable += async (sender, e) =>
+        {
+            await mediator.Publish(new SetVariableNotification(e.Variable), cancellationToken);
+        };
+
+        var result = await Execute(workflow, executeDelay, cancellationToken);
+
+        await SendWorkflowExecutionResult(result);
+
+        return result;
     }
 
     private async Task<WorkflowExecution> Execute(Workflow workflow, int executeDelay = 0, CancellationToken cancellationToken = default)
@@ -65,6 +91,8 @@ public class WorkflowExecuteService
 
         workflowExecution.Finish();
 
+        await SendWorkflowExecutionResult(workflowExecution);
+
         return workflowExecution;
     }
 
@@ -73,22 +101,16 @@ public class WorkflowExecuteService
         await Task.Delay(executeDelay, cancellationToken);
     }
 
-    public async Task<WorkflowExecution> Execute(Flow flow, int executeDelay = 0, CancellationToken cancellationToken = default)
-    {
-        var workflow = flowConvertService.ConvertFlow(flow);
-
-        workflow.SetWorkflowVariable += async (sender, e) =>
-        {
-            await mediator.Publish(new SetVariableNotification(e.Variable), cancellationToken);
-        };
-
-        var result = await Execute(workflow, executeDelay, cancellationToken);
-
-        return result;
-    }
-
     private async Task SendStepExecutionNotification(WorkflowStep step, CancellationToken cancellationToken)
     {
         await mediator.Publish(new ExecuteStepNotification(step.Id), cancellationToken);
+    }
+
+    private async Task SendWorkflowExecutionResult(WorkflowExecution workflowExecution)
+    {
+        var workflowExecutionJson = JsonConvert.SerializeObject(workflowExecution);
+        var workflowExecutionContent = new StringContent(workflowExecutionJson, Encoding.UTF8, "application/json");
+        var response = await httpClient.PostAsync($"{configurationService.FlowExecutionUrl}", workflowExecutionContent);
+        response.EnsureSuccessStatusCode();
     }
 }

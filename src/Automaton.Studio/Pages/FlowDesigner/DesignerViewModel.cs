@@ -16,7 +16,7 @@ public class DesignerViewModel
     private readonly IMapper mapper;
     private readonly StepFactory stepFactory;
     private readonly FlowService flowService;
-    private readonly WorkflowExecuteService workflowExecuteService;
+    private readonly StudioFlowExecuteService workflowExecuteService;
     private readonly ConfigurationService configurationService;
 
     public StudioFlow Flow { get; set; } = new StudioFlow();
@@ -42,7 +42,7 @@ public class DesignerViewModel
         ConfigurationService configurationService,
         StepFactory stepFactory,
         FlowService flowService,
-        WorkflowExecuteService workflowExecuteService
+        StudioFlowExecuteService workflowExecuteService
     )
     {
         this.mapper = mapper;

@@ -140,7 +140,7 @@ public class HubService
 
     private async Task ExecuteWorkflow(Guid workflowId)
     {
-        await workflowService.ExecuteWorkflow(workflowId);
+        await workflowService.ExecuteFlow(workflowId);
     }
 
     private async Task<string> Ping(string name)

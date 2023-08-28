@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Automaton.Core.Models;
-using Automaton.Core.Services;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Models;
 using Serilog;
@@ -11,7 +9,6 @@ namespace Automaton.Studio.Server.Services;
 public class CustomStepsService
 {
     private readonly ApplicationDbContext dataContext;
-    private readonly WorkflowExecuteService workflowExecuteService;
     private readonly IMapper mapper;
     private readonly Guid userId;
     private readonly Serilog.ILogger logger;
@@ -19,13 +16,11 @@ public class CustomStepsService
     public CustomStepsService
     (
         ApplicationDbContext dataContext,
-        WorkflowExecuteService workflowExecuteService,
         UserContextService userContextService,
         IMapper mapper
     )
     {
         this.dataContext = dataContext;
-        this.workflowExecuteService = workflowExecuteService;
         this.mapper = mapper;
         this.userId = userContextService.GetUserId();
         this.logger = Log.ForContext<FlowsService>();

@@ -8,7 +8,7 @@ public class ExecuteFlow : WorkflowStep
 {
     private readonly ConfigService configService;
     private readonly HttpClient httpClient;
-    private WorkflowExecuteService workflowExecuteService;
+    private readonly FlowExecuteService flowExecuteService;
 
     public Guid FlowId { get; set; }
     public IList<StepVariable> InputVariables { get; set; }
@@ -17,13 +17,13 @@ public class ExecuteFlow : WorkflowStep
     public ExecuteFlow
     (
         ConfigService configService, 
-        HttpClient httpClient, 
-        WorkflowExecuteService workflowExecuteService
+        HttpClient httpClient,
+        FlowExecuteService workflowExecuteService
     )
     {
         this.configService = configService;
         this.httpClient = httpClient;
-        this.workflowExecuteService = workflowExecuteService;
+        this.flowExecuteService = workflowExecuteService;
     }
 
     protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
@@ -36,7 +36,7 @@ public class ExecuteFlow : WorkflowStep
 
             SetFlowInputVariables(flow, inputVariables);
 
-            await workflowExecuteService.Execute(flow);
+            await flowExecuteService.Execute(flow);
 
             SetStepOutputVariables(flow.OutputVariables, context);
         });

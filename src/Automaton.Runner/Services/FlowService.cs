@@ -11,22 +11,22 @@ public class FlowService
 {
     private readonly HttpClient httpClient;
     private readonly ConfigurationService configService;
-    private readonly WorkflowExecuteService workflowExecuteService;
+    private readonly RunnerFlowExecuteService flowExecuteService;
 
-    public FlowService(WorkflowExecuteService workflowExecuteService, 
+    public FlowService(RunnerFlowExecuteService workflowExecuteService, 
         ConfigurationService configService, 
         RunnerHttpClient httpClient)
     {
-        this.workflowExecuteService = workflowExecuteService;
+        this.flowExecuteService = workflowExecuteService;
         this.configService = configService;
         this.httpClient = httpClient.Client;
     }
 
-    public async Task ExecuteWorkflow(Guid flowId)
+    public async Task ExecuteFlow(Guid flowId)
     {
         var flow = await Load(flowId);
 
-        await workflowExecuteService.Execute(flow);
+        await flowExecuteService.Execute(flow);
     }
 
     private async Task<Flow> Load(Guid id)

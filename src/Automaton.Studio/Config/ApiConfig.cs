@@ -7,4 +7,5 @@ public class ApiConfig
     public string CustomStepsUrl { get; set; }
     public string RunnersUrl { get; set; }
     public string LogsUrl { get; set; }
+    public string FlowExecutionUrl { get; set; }
 }

@@ -11,7 +11,6 @@ namespace Automaton.Studio.Server.Services;
 public class FlowsService
 {
     private readonly ApplicationDbContext dataContext;
-    private readonly WorkflowExecuteService workflowExecuteService;
     private readonly RunnerService runnerService;
     private readonly IMapper mapper;
     private readonly Guid userId;
@@ -20,14 +19,12 @@ public class FlowsService
     public FlowsService
     (
         ApplicationDbContext dataContext,
-        WorkflowExecuteService workflowExecuteService,
         RunnerService runnerService,
         UserContextService userContextService,
         IMapper mapper
     )
     {
         this.dataContext = dataContext;
-        this.workflowExecuteService = workflowExecuteService;
         this.runnerService = runnerService;
         this.mapper = mapper;
         this.userId = userContextService.GetUserId();
@@ -106,15 +103,6 @@ public class FlowsService
         var exists = dataContext.Flows.Any(x => x.Name == name && x.FlowUsers.Any(x => x.UserId == userId));
 
         return exists;
-    }
-
-    public async Task<WorkflowExecution> Execute(Guid flowId, CancellationToken cancellationToken)
-    {
-        var flow = Get(flowId);
-
-        var result = await workflowExecuteService.Execute(flow, cancellationToken: cancellationToken);
-
-        return result;
     }
 
     public async Task Execute(Guid flowId, IEnumerable<Guid> runnerIds)

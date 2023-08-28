@@ -21,6 +21,7 @@ public class ConfigurationService
     public string FlowsUrl => appConfig.FlowsUrl;
     public string RunnersUrl => appConfig.RunnersUrl;
     public string LogsUrl => appConfig.LogsUrl;
+    public string FlowExecutionUrl => appConfig.FlowExecutionUrl;
     public string ApplicationName => appConfig.ApplicationName;
     public string ApplicationType => appConfig.ApplicationType;
 
@@ -30,7 +31,7 @@ public class ConfigurationService
     {
         this.configuration = configuration;
 
-        this.configuration.GetSection(nameof(Automaton.Runner.Config.AppConfig)).Bind(appConfig);
+        this.configuration.GetSection(nameof(AppConfig)).Bind(appConfig);
         this.configuration.GetSection(nameof(ClientAuthConfig)).Bind(authenticationConfig);
     }
 
