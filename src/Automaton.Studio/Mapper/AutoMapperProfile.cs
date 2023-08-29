@@ -25,6 +25,7 @@ public class AutoMapperProfile : Profile
         CreateMap<FlowInfo, ExecuteFlowModel>();
         CreateMap<FlowInfo, FlowModel>();
         CreateMap<FlowModel, FlowInfo>();
+        CreateMap<WorkflowExecution, FlowExecution>();
         CreateMap<CustomStep, CustomStepListItem>();   
     }
 }

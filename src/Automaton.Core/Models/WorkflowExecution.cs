@@ -2,7 +2,7 @@
 
 namespace Automaton.Core.Models;
 
-public class WorkflowExecution
+public class WorkflowExecution : IDisposable
 {
     private bool hasErrors;
     private WorkflowStatus workflowStatus;
@@ -16,7 +16,7 @@ public class WorkflowExecution
         get { return workflowStatus.ToString(); }
     }
 
-    public void Start(Guid flowId)
+    public WorkflowExecution(Guid flowId)
     {
         Id = Guid.NewGuid();
         FlowId = flowId;
@@ -24,14 +24,14 @@ public class WorkflowExecution
         workflowStatus = WorkflowStatus.Working;
     }
 
-    public void Finish()
+    public void HasErrors()
+    {
+        hasErrors = true;
+    }
+
+    public void Dispose()
     {
         Finished = DateTime.UtcNow;
         workflowStatus = hasErrors ? WorkflowStatus.Error : WorkflowStatus.Success;
-    }
-
-    public void Error()
-    {
-        hasErrors = true;
     }
 }

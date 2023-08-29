@@ -20,6 +20,7 @@ public static class ServiceCollectionExtension
         services.AddSingleton<HubService>();
         services.AddSingleton<RunnerService>();
         services.AddScoped<FlowService>();
+        services.AddScoped<FlowExecutionsService>();
         services.AddScoped<RunnerFlowExecuteService>();
 
         // View models

@@ -71,6 +71,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<FlowsService>();
         services.AddScoped<RunnerService>();
         services.AddScoped<ErrorService>();
+        services.AddScoped<FlowExecutionsService>();
         services.AddScoped<CustomStepsService>();
         services.AddScoped<StudioFlowExecuteService>();
 

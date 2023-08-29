@@ -5,7 +5,6 @@ using Automaton.Core.Logs;
 using Automaton.Runner.Extensions;
 using Automaton.Runner.Services;
 using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -66,6 +65,7 @@ public partial class MainWindow : Window
         services.AddAutomatonCore();
         services.AddAutomatonSteps();
         services.AddApplication(Configuration);
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         services.AddTransient(typeof(MainWindow));
 

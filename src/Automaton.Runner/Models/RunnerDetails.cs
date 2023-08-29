@@ -1,9 +1,8 @@
-﻿namespace Automaton.Runner.Models
+﻿namespace Automaton.Runner.Models;
+
+public class RunnerDetails
 {
-    internal class RunnerDetails
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string ConnectionId { get; set; }
-    }
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public string ConnectionId { get; set; }
 }

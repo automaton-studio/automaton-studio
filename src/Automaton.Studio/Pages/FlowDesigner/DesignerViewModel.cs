@@ -13,6 +13,8 @@ namespace Automaton.Studio.Pages.FlowDesigner;
 
 public class DesignerViewModel
 {
+    private const int FlowDelay = 100;
+
     private readonly IMapper mapper;
     private readonly StepFactory stepFactory;
     private readonly FlowService flowService;
@@ -66,18 +68,13 @@ public class DesignerViewModel
 
     public async Task RunFlow()
     {
-        // TODO! Need a way to update Flow variables on the fly
-        // during Workflow execution. This way we can introduce a
-        // Debug functionality where user can add breakpoints and
-        // investigate the values of Flow variables
-
         if (!CanExecuteFlow)
         {
             throw new Exception("Can not execute flow from designer");
         }
 
         var flow = mapper.Map<Flow>(Flow);
-        await workflowExecuteService.Execute(flow, 100, CancellationToken.None);
+        await workflowExecuteService.Execute(flow, FlowDelay, CancellationToken.None);
     }
 
     public StudioDefinition CreateDefinition(string name)

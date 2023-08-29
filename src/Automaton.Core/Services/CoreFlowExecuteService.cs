@@ -1,5 +1,4 @@
-﻿using Automaton.Core.Events;
-using Automaton.Core.Models;
+﻿using Automaton.Core.Models;
 using MediatR;
 using Serilog;
 
@@ -22,11 +21,6 @@ public class CoreFlowExecuteService
     {
         var workflow = flowConvertService.ConvertFlow(flow);
 
-        workflow.SetWorkflowVariable += async (sender, e) =>
-        {
-            await mediator.Publish(new SetVariableNotification(e.Variable), cancellationToken);
-        };
-
         var result = await Execute(workflow, cancellationToken);
 
         return result;
@@ -34,8 +28,7 @@ public class CoreFlowExecuteService
 
     public async Task<WorkflowExecution> Execute(Workflow workflow, CancellationToken cancellationToken = default)
     {
-        var workflowExecution = new WorkflowExecution();
-        workflowExecution.Start(workflow.Id);
+        using var workflowExecution = new WorkflowExecution(workflow.Id);
 
         var definition = workflow.GetStartupDefinition();
         var step = definition.GetFirstStep();
@@ -59,15 +52,13 @@ public class CoreFlowExecuteService
             catch (Exception ex)
             {
                 logger.Error(ex, "Step: {0} encountered an error. Message: {1}", step.Id, ex.Message);
-                workflowExecution.Error();
+                workflowExecution.HasErrors();
             }
 
             step = step.GetNextStep();
         }
 
         logger.Information("End workflow: {0}", workflow.Name);
-
-        workflowExecution.Finish();
 
         return workflowExecution;
     }
