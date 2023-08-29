@@ -1,5 +1,4 @@
 using Automaton.Core.Logs;
-using Automaton.Studio.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Serilog.Context;
@@ -9,6 +8,8 @@ namespace Automaton.Studio.Server.Controllers;
 
 public class ClientLogsController : BaseController
 {
+    private const string SystemException = "System.Exception:";
+
     private readonly Serilog.ILogger logger;
 
     public ClientLogsController()
@@ -50,13 +51,11 @@ public class ClientLogsController : BaseController
 
     private static string CleanupExceptionText(string exceptionText)
     {
-        var systemExceptionText = "System.Exception:";
-
-        int index = exceptionText.IndexOf(systemExceptionText);
+        int index = exceptionText.IndexOf(SystemException);
 
         string cleanExcptionText = (index < 0)
             ? exceptionText
-            : exceptionText.Remove(index, systemExceptionText.Length);
+            : exceptionText.Remove(index, SystemException.Length);
 
         return cleanExcptionText.Trim();
     }

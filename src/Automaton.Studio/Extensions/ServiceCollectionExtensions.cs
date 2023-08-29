@@ -6,11 +6,9 @@ using Automaton.Client.Auth.Interfaces;
 using Automaton.Client.Auth.Services;
 using Automaton.Core.Logs;
 using Automaton.Core.Scripting;
-using Automaton.Core.Services;
 using Automaton.Studio.Config;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Factories;
-using Automaton.Studio.Logging;
 using Automaton.Studio.Mapper;
 using Automaton.Studio.Pages.CustomStepDesigner;
 using Automaton.Studio.Pages.CustomSteps;
@@ -125,7 +123,6 @@ public static class ServiceCollectionExtensions
         Serilog.Debugging.SelfLog.Enable(Console.Error);
 #endif
 
-        // Automapper profile
         services.AddScoped(provider => new MapperConfiguration(cfg =>
         {
             cfg.AddProfile(new AutoMapperProfile(provider));
