@@ -37,8 +37,6 @@ public class RunnerFlowExecuteService
 
         var result = await Execute(workflow, cancellationToken);
 
-        await SendWorkflowExecutionResult(result);
-
         return result;
     }
 
