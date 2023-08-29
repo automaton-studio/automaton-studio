@@ -11,12 +11,10 @@ public class DesktopAuthenticationStorage : IAuthenticationStorage
     {
         return await Task.Run(() =>
         {
-            var jsonWebToken = new JsonWebToken();
-
             var jsonWebTokenProperty = Properties.Settings.Default.JsonWebToken;
-            jsonWebToken = JsonConvert.DeserializeObject<JsonWebToken>(jsonWebTokenProperty.ToString());
+            var jsonWebToken = JsonConvert.DeserializeObject<JsonWebToken>(jsonWebTokenProperty.ToString());
 
-            return jsonWebToken;
+            return jsonWebToken ?? new JsonWebToken();
         });
     }
 
@@ -41,13 +39,13 @@ public class DesktopAuthenticationStorage : IAuthenticationStorage
     {
         var jsonWebToken = await GetJsonWebToken();
 
-        return await Task.Run(() => jsonWebToken != null ? jsonWebToken.AccessToken : string.Empty);
+        return await Task.Run(() => jsonWebToken.AccessToken);
     }
 
     public async Task<string> GetRefreshToken()
     {
         var jsonWebToken = await GetJsonWebToken();
 
-        return await Task.Run(() => jsonWebToken != null ? jsonWebToken.RefreshToken : string.Empty);
+        return await Task.Run(() => jsonWebToken.RefreshToken);
     }
 }

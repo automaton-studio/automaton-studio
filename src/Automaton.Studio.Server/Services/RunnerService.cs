@@ -81,18 +81,30 @@ public class RunnerService
         return result;
     }
 
+    public async Task UpdateConnection(Guid runnerId, string connectionId, CancellationToken cancellationToken)
+    {
+        var runner = dbContext.Runners
+            .Include(x => x.RunnerUsers)
+            .SingleOrDefault(x => x.Id == runnerId && x.RunnerUsers.Any(x => x.UserId == userId));
+
+        runner.ConnectionId = connectionId;
+
+        // Mark entity as modified
+        dbContext.Entry(runner).State = EntityState.Modified;
+
+        // Update runner entity
+        dbContext.Update(runner);
+
+        // Save changes
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
     public async Task Update(Guid id, Models.Runner runner, CancellationToken cancellationToken)
     {
-        if (string.IsNullOrEmpty(runner.Name))
-        {
-            throw new ArgumentException("Runner name can not be empty");
-        }
-
         var entity = dbContext.Runners
             .Include(x => x.RunnerUsers)
             .SingleOrDefault(x => x.Id == id && x.RunnerUsers.Any(x => x.UserId == userId));
 
-        entity.ConnectionId = runner.ConnectionId;
         entity.Name = runner.Name;
 
         // Mark entity as modified

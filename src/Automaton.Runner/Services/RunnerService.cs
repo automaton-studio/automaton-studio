@@ -30,9 +30,7 @@ public class RunnerService
             Name = runnerName 
         };
 
-        var runnerNameJson = JsonConvert.SerializeObject(runnerDetails);
-        var runnerNameContent = new StringContent(runnerNameJson, Encoding.UTF8, "application/json");
-        var response = await httpClient.PostAsync($"{configService.RunnersUrl}", runnerNameContent);
+        var response = await httpClient.PostAsJsonAsync(configService.RunnersUrl, runnerDetails);
         response.EnsureSuccessStatusCode();
 
         applicationService.SetRunnerId(runnerDetails.Id);
@@ -47,9 +45,7 @@ public class RunnerService
             Name = runnerName
         };
 
-        var runnerNameJson = JsonConvert.SerializeObject(runnerDetails);
-        var runnerContent = new StringContent(runnerNameJson, Encoding.UTF8, "application/json");
-        var response = await httpClient.PutAsync($"{configService.RunnersUrl}/{configService.RunnerId}", runnerContent);
+        var response = await httpClient.PutAsJsonAsync($"{configService.RunnersUrl}/{configService.RunnerId}", runnerDetails);
         response.EnsureSuccessStatusCode();
 
         applicationService.SetRunnerName(runnerName);

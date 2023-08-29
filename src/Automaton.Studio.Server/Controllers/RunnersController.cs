@@ -32,9 +32,9 @@ namespace Automaton.Studio.Server.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, Runner runnerDetails, CancellationToken cancellationToken)
+        public async Task<IActionResult> Put(Guid id, Runner runner, CancellationToken cancellationToken)
         {
-            await runnersService.Update(id, runnerDetails, cancellationToken);
+            await runnersService.Update(id, runner, cancellationToken);
 
             return NoContent();
         }
