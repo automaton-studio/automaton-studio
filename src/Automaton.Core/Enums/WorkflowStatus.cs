@@ -2,6 +2,7 @@
 {
     public enum WorkflowStatus
     {
+        None,
         Working,
         Error,
         Success,

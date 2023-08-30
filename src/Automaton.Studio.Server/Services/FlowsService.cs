@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Automaton.Core.Models;
-using Automaton.Core.Services;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Models;
 using Serilog;
@@ -33,8 +32,22 @@ public class FlowsService
 
     public IEnumerable<FlowInfo> List()
     {
-        var entities = dataContext.Flows.Where(x => x.FlowUsers.Any(x => x.UserId == userId));
-        var flows = mapper.Map<IEnumerable<FlowInfo>>(entities);
+        var flows = dataContext.Flows.Join(dataContext.FlowExecutions,
+            flow => flow.Id,
+            flowExecution => flowExecution.FlowId,
+            (flow, flowExecution) =>
+                new FlowInfo
+                {
+                    Id = flow.Id,
+                    Created = flow.Created,
+                    Updated = flow.Updated,
+                    Name = flow.Name,
+                    Started = flowExecution.Started,
+                    Finished = flowExecution.Finished,
+                    Status = flowExecution.Status
+                })
+            .OrderByDescending(x => x.Started)
+            .Take(1);
 
         return flows;
     }

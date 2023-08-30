@@ -8,4 +8,7 @@ public class FlowInfo
     public string Name { get; set; }
     public DateTime Created { get; set; }
     public DateTime Updated { get; set; }
+    public DateTime Started { get; set; }
+    public DateTime Finished { get; set; }
+    public string Status { get; set; }
 }

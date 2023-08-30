@@ -26,17 +26,36 @@
 
     <Content>
         <Table TItem="FlowModel" DataSource="@FlowsViewModel.Flows" Loading="@loading" Class="autoscroll-list">
+
             <Column Title="Name" @bind-Field="@context.Name">
                 @context.Name
             </Column>
 
-            <Column Title="Created" @bind-Field="@context.Created">
-                @context.Created
+            <Column Title="Last Executed" @bind-Field="@context.Started">
+                @if(@context.WasExecuted())
+                {
+                    @context.Started
+                }
+                else
+                {
+                    <span>-</span>
+                }
             </Column>
 
-            <Column Title="Updated" @bind-Field="@context.Updated">
-                @context.Updated
+            <Column Title="Status" @bind-Field="@context.Status">
+                <Space Direction="DirectionVHType.Horizontal">
+                    @if (@context.WasExecuted())
+                    {
+                        <SpaceItem>@context.Status</SpaceItem>
+                        <SpaceItem><Icon Type="@context.StatusIcon.Icon" Theme="Fill" Class="@context.StatusIcon.Class" /></SpaceItem>
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                </Space>
             </Column>
+
 
             <Column @bind-Field="@context.RunnerIds" Title="Runners" Width="300">
                 <Select Mode="multiple"
@@ -88,5 +107,25 @@
         </Table>
     </Content>
 </Layout>
+
+<style>
+    .status-working {
+        color: deepskyblue;
+        padding-top: 3px;
+        font-size: 20px;
+    }
+
+    .status-success {
+        color: limegreen;
+        padding-top: 3px;
+        font-size: 20px;
+    }
+
+    .status-error {
+        color: red;
+        padding-top: 3px;
+        font-size: 20px;
+    }
+</style>
 
 
