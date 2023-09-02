@@ -24,7 +24,6 @@ public class AutoMapperProfile : Profile
         CreateMap<StudioDefinition, FlowExplorerDefinition>();
         CreateMap<FlowInfo, ExecuteFlowModel>();
         CreateMap<FlowInfo, FlowModel>();
-        CreateMap<FlowModel, FlowInfo>();
         CreateMap<WorkflowExecution, FlowExecution>();
         CreateMap<CustomStep, CustomStepListItem>();   
     }

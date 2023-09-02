@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Automaton.Core.Enums;
 using Automaton.Core.Models;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Models;
@@ -9,7 +10,7 @@ namespace Automaton.Studio.Server.Services;
 
 public class FlowsService
 {
-    private readonly ApplicationDbContext dataContext;
+    private readonly ApplicationDbContext dbContext;
     private readonly RunnerService runnerService;
     private readonly IMapper mapper;
     private readonly Guid userId;
@@ -17,13 +18,13 @@ public class FlowsService
 
     public FlowsService
     (
-        ApplicationDbContext dataContext,
+        ApplicationDbContext dbContext,
         RunnerService runnerService,
         UserContextService userContextService,
         IMapper mapper
     )
     {
-        this.dataContext = dataContext;
+        this.dbContext = dbContext;
         this.runnerService = runnerService;
         this.mapper = mapper;
         this.userId = userContextService.GetUserId();
@@ -32,29 +33,30 @@ public class FlowsService
 
     public IEnumerable<FlowInfo> List()
     {
-        var flows = dataContext.Flows.Join(dataContext.FlowExecutions,
-            flow => flow.Id,
-            flowExecution => flowExecution.FlowId,
-            (flow, flowExecution) =>
-                new FlowInfo
-                {
-                    Id = flow.Id,
-                    Created = flow.Created,
-                    Updated = flow.Updated,
-                    Name = flow.Name,
-                    Started = flowExecution.Started,
-                    Finished = flowExecution.Finished,
-                    Status = flowExecution.Status
-                })
-            .OrderByDescending(x => x.Started)
-            .Take(1);
+        var flows =
+            from m in dbContext.Flows
+            from s in dbContext.FlowExecutions
+                .Where(s => m.Id == s.FlowId)
+                .DefaultIfEmpty()
+                .OrderByDescending(x => x.Started)
+                .Take(1)      
+            select new FlowInfo
+            {
+                Id = m.Id,
+                Created = m.Created,
+                Updated = m.Updated,
+                Name = m.Name,
+                Started = s != null ? s.Started : DateTime.MinValue,
+                Finished = s != null ? s.Finished : DateTime.MinValue,
+                Status = s != null ? s.Status : WorkflowStatus.None.ToString()
+            };
 
         return flows;
     }
 
     public Flow Get(Guid id)
     {
-        var entity = dataContext.Flows.SingleOrDefault(x => x.Id == id && x.FlowUsers.Any(x => x.UserId == userId));
+        var entity = dbContext.Flows.SingleOrDefault(x => x.Id == id && x.FlowUsers.Any(x => x.UserId == userId));
 
         var flow = DeserializeFlow(entity.Body);
 
@@ -76,7 +78,7 @@ public class FlowsService
             Updated = flow.Updated
         };
 
-        dataContext.Flows.Add(flowEntity);
+        dbContext.Flows.Add(flowEntity);
 
         var flowUser = new Entities.FlowUser
         {
@@ -84,36 +86,36 @@ public class FlowsService
             UserId = userId
         };
 
-        dataContext.FlowUsers.Add(flowUser);
+        dbContext.FlowUsers.Add(flowUser);
 
-        dataContext.SaveChanges();
+        dbContext.SaveChanges();
 
         return flowEntity.Id;
     }
 
     public void Update(Guid id, Flow flow)
     {
-        var entity = dataContext.Flows.SingleOrDefault(x => x.Id == id && x.FlowUsers.Any(x => x.UserId == userId));
+        var entity = dbContext.Flows.SingleOrDefault(x => x.Id == id && x.FlowUsers.Any(x => x.UserId == userId));
 
         entity.Name = flow.Name;
         entity.Body = JsonSerializer.Serialize(flow);
         entity.Updated = DateTime.UtcNow;
 
-        dataContext.SaveChanges();
+        dbContext.SaveChanges();
     }
 
     public void Remove(Guid id)
     {
-        var flow = dataContext.Flows.SingleOrDefault(x => x.Id == id && x.FlowUsers.Any(x => x.UserId == userId));
+        var flow = dbContext.Flows.SingleOrDefault(x => x.Id == id && x.FlowUsers.Any(x => x.UserId == userId));
 
-        dataContext.Flows.Remove(flow);
+        dbContext.Flows.Remove(flow);
 
-        dataContext.SaveChanges();
+        dbContext.SaveChanges();
     }
 
     public bool Exists(string name)
     {
-        var exists = dataContext.Flows.Any(x => x.Name == name && x.FlowUsers.Any(x => x.UserId == userId));
+        var exists = dbContext.Flows.Any(x => x.Name == name && x.FlowUsers.Any(x => x.UserId == userId));
 
         return exists;
     }

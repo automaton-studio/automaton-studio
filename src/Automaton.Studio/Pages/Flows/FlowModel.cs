@@ -4,7 +4,7 @@ namespace Automaton.Studio.Pages.Flows;
 
 public class FlowModel
 {
-    private readonly Dictionary<string, FlowStatusIcon> statusIcon = new()
+    private readonly Dictionary<string, FlowStatusIcon> StatusIcons = new()
     {
         { WorkflowStatus.None.ToString(), new FlowStatusIcon { Icon = "check-circle", Class = "status-not-executed" } },
         { WorkflowStatus.Working.ToString(), new FlowStatusIcon { Icon = "eye", Class = "status-working" } },
@@ -18,9 +18,18 @@ public class FlowModel
     public DateTime Updated { get; set; }
     public DateTime Started { get; set; }
     public DateTime Finished { get; set; }
-    public string Status { get; set; }
+    public string Status { get; set; } = WorkflowStatus.None.ToString();
     public IEnumerable<Guid> RunnerIds = new List<Guid>();
-    public FlowStatusIcon StatusIcon => statusIcon[Status];
+
+    public FlowStatusIcon StatusIcon
+    {
+        get
+        {
+            return StatusIcons.ContainsKey(Status) ? 
+                StatusIcons[Status] : 
+                StatusIcons[WorkflowStatus.None.ToString()];
+        }
+    }
 
     public bool WasExecuted()
     {
