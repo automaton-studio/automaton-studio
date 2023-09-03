@@ -1,8 +1,12 @@
-﻿using Automaton.Studio.Server.Data;
+﻿using AutoMapper;
+using Automaton.Core.Enums;
+using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Entities;
 using Automaton.Studio.Server.Hubs;
+using Automaton.Studio.Server.Models;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Automaton.Studio.Server.Services;
 
@@ -11,27 +15,33 @@ public class RunnerService
     private readonly ApplicationDbContext dbContext;
     private readonly IHubContext<AutomatonHub> automatonHub;
     private readonly Guid userId;
+    private readonly IMapper mapper;
+    private readonly Serilog.ILogger logger;
 
     public RunnerService(ApplicationDbContext dbContext,
         UserContextService userContextService,
+        IMapper mapper,
         IHubContext<AutomatonHub> automatonHub)
     {
         this.dbContext = dbContext;
+        this.mapper = mapper;
         this.automatonHub = automatonHub;
         this.userId = userContextService.GetUserId();
+        logger = Log.ForContext<RunnerService>();
     }
 
-    public IEnumerable<Runner> List()
+    public async Task<IEnumerable<RunnerDetails>> List(CancellationToken cancellationToken)
     {
         var runners = dbContext.Runners.Where(x => x.RunnerUsers.Any(x => x.UserId == userId));
-        return runners;
+
+        return await GetRunnersWithUpdatedStatus(runners, cancellationToken);
     }
 
-    public IEnumerable<Runner> List(IEnumerable<Guid> runnerIds)
+    public async Task<IEnumerable<RunnerDetails>> List(IEnumerable<Guid> runnerIds, CancellationToken cancellationToken)
     {
         var runners = dbContext.Runners.Where(x => x.RunnerUsers.Any(x => x.UserId == userId) && runnerIds.Contains(x.Id));
 
-        return runners;
+        return await GetRunnersWithUpdatedStatus(runners, cancellationToken);
     }
 
     public Runner Get(Guid id)
@@ -58,7 +68,7 @@ public class RunnerService
         return runner;
     }
 
-    public int Add(Models.Runner runnerModel)
+    public int Add(RunnerDetails runnerModel)
     {
         var runner = new Runner()
         {
@@ -99,7 +109,7 @@ public class RunnerService
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task Update(Guid id, Models.Runner runner, CancellationToken cancellationToken)
+    public async Task Update(Guid id, RunnerDetails runner, CancellationToken cancellationToken)
     {
         var entity = dbContext.Runners
             .Include(x => x.RunnerUsers)
@@ -135,5 +145,29 @@ public class RunnerService
 
             await client.SendAsync(AutomatonHubMethods.RunWorkflow, flowId);
         }
+    }
+
+    private async Task<IEnumerable<RunnerDetails>> GetRunnersWithUpdatedStatus(IEnumerable<Runner> runnerEntities, CancellationToken cancellationToken)
+    {
+        var runners = mapper.Map<IEnumerable<RunnerDetails>>(runnerEntities);
+
+        foreach (var runner in runners)
+        {
+            try
+            {
+                var client = automatonHub.Clients.Client(runner.ConnectionId);
+
+                var message = await client.InvokeAsync<string>(AutomatonHubMethods.Ping, cancellationToken);
+
+                runner.Status = string.IsNullOrEmpty(message) ? RunnerStatus.Offline : RunnerStatus.Online;
+            }
+            catch(Exception ex)
+            {
+                runner.Status = RunnerStatus.Offline;
+                logger.Warning("Runner {0} is offline", runner.Name);
+            }
+        }
+
+        return runners;
     }
 }

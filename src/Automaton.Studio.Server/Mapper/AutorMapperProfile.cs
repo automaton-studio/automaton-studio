@@ -3,7 +3,7 @@ using Automaton.Core.Models;
 using Automaton.Studio.Server.Models;
 using System.Text.Json;
 
-namespace Automaton.Studio.Server.Config
+namespace Automaton.Studio.Server.Mapper
 {
     public class AutorMapperProfile : Profile
     {
@@ -26,7 +26,7 @@ namespace Automaton.Studio.Server.Config
 
         private void CreateMaps()
         {
-            CreateMap<Entities.Runner, Runner>();
+            CreateMap<Entities.Runner, RunnerDetails>();
             CreateMap<Entities.Flow, FlowInfo>();
             CreateMap<Entities.CustomStep, CustomStep>().ForMember
             (

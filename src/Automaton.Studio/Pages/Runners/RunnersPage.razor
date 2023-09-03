@@ -25,8 +25,36 @@
             <Column Title="Name" @bind-Field="@context.Name">
                 @context.Name
             </Column>
+
+            <Column Title="Status" @bind-Field="@context.Status">
+                <Space Direction="DirectionVHType.Horizontal">
+                    <SpaceItem><Icon Type="@context.StatusIcon.Icon" Theme="Fill" Class="@context.StatusIcon.Class" /></SpaceItem>
+                    <SpaceItem>@context.Status</SpaceItem>
+                </Space>
+            </Column>
         </Table>
     </Content>
 </Layout>
+
+<style>
+    .status-checking {
+        color: deepskyblue;
+        padding-top: 3px;
+        font-size: 20px;
+    }
+
+    .status-online {
+        color: limegreen;
+        padding-top: 3px;
+        font-size: 20px;
+    }
+
+    .status-offline {
+        color: red;
+        padding-top: 3px;
+        font-size: 20px;
+    }
+</style>
+
 
 

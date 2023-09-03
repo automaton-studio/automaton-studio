@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Automaton.Core.Models;
-using Automaton.Core.Services;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;

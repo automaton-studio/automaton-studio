@@ -85,7 +85,7 @@ public class HubService
             .Build();
 
         connection.On<Guid>(RunWorkflowMethod, ExecuteWorkflow);
-        connection.On<string>(PingMethod, Ping);
+        connection.On(PingMethod, Ping);
 
         connection.Closed += ConnectionClosed;
         connection.Reconnecting += ConnectionReconnecting;
@@ -143,7 +143,7 @@ public class HubService
         await workflowService.ExecuteFlow(workflowId);
     }
 
-    private async Task<string> Ping(string name)
+    private async Task<string> Ping()
     {
         return await Task.Run(() => "Pong");
     }

@@ -46,8 +46,8 @@
                 <Space Direction="DirectionVHType.Horizontal">
                     @if (@context.WasExecuted())
                     {
-                        <SpaceItem>@context.Status</SpaceItem>
                         <SpaceItem><Icon Type="@context.StatusIcon.Icon" Theme="Fill" Class="@context.StatusIcon.Class" /></SpaceItem>
+                        <SpaceItem>@context.Status</SpaceItem>
                     }
                     else
                     {

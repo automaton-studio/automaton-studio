@@ -39,14 +39,14 @@ public class AutomatonHub : Hub
         return !string.IsNullOrEmpty(runnerName);
     }
 
-    private Models.Runner GetRunner()
+    private Models.RunnerDetails GetRunner()
     {
         var httpContext = Context.GetHttpContext();
         var runnerId = httpContext.Request.Headers[RunnerIdHeader].ToString();
         var runnerName = httpContext.Request.Headers[RunnerNameHeader].ToString();
         var connectionId = Context.ConnectionId;
 
-        var runner = new Models.Runner
+        var runner = new Models.RunnerDetails
         { 
             Id = Guid.Parse(runnerId),
             Name = runnerName,

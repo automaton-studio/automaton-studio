@@ -14,25 +14,25 @@ namespace Automaton.Studio.Server.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Runner>> Get()
+        public async Task<ActionResult<IEnumerable<RunnerDetails>>> Get(CancellationToken cancellationToken)
         {
-            return Ok(runnersService.List());
+            return Ok(await runnersService.List(cancellationToken));
         }
 
         [HttpGet("find")]
-        public ActionResult<IEnumerable<Runner>> Get(IEnumerable<Guid> runnerIds)
+        public async Task<ActionResult<IEnumerable<RunnerDetails>>> Get(IEnumerable<Guid> runnerIds, CancellationToken cancellationToken)
         {
-            return Ok(runnersService.List(runnerIds));
+            return Ok(await runnersService.List(runnerIds, cancellationToken));
         }
 
         [HttpPost]
-        public ActionResult Post(Runner runner, CancellationToken cancellationToken)
+        public ActionResult Post(RunnerDetails runner, CancellationToken cancellationToken)
         {
             return Ok(runnersService.Add(runner));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, Runner runner, CancellationToken cancellationToken)
+        public async Task<IActionResult> Put(Guid id, RunnerDetails runner, CancellationToken cancellationToken)
         {
             await runnersService.Update(id, runner, cancellationToken);
 
