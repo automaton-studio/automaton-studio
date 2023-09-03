@@ -17,7 +17,6 @@ public class AuthenticationService
     private const string ApplicationJson = "application/json";
 
     private readonly HttpClient httpClient;
-    private readonly JsonSerializerOptions options;
     private readonly AuthenticationStateProvider authStateProvider;
     private readonly ConfigurationService configService;
     private readonly IAuthenticationStorage authenticationStorage;
@@ -34,21 +33,15 @@ public class AuthenticationService
         this.configService = configService;
         this.authenticationStorage = localStorage;
         this.mediator = mediator;
-        this.options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
     }
 
     public async Task Login(LoginDetails loginCredentials)
     {
-        var content = JsonSerializer.Serialize(loginCredentials);
-        var bodyContent = new StringContent(content, Encoding.UTF8, ApplicationJson);
-
-        var result = await httpClient.PostAsync(configService.LoginUserUrl, bodyContent);
+        var result = await httpClient.PostAsJsonAsync(configService.LoginUserUrl, loginCredentials);
 
         result.EnsureSuccessStatusCode();
 
-        var jsonToken = await result.Content.ReadAsStringAsync();
-        var token = JsonSerializer.Deserialize<JsonWebToken>(jsonToken, options);
-
+        var token = await result.Content.ReadAsAsync<JsonWebToken>();
         await authenticationStorage.SetJsonWebToken(token);
 
         ((AuthStateProvider)authStateProvider).NotifyUserAuthentication(token.AccessToken);
