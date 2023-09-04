@@ -1,6 +1,4 @@
 ﻿using Automaton.Core.Models;
-using Automaton.Core.Services;
-using Automaton.Runner.Http;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -15,11 +13,11 @@ public class FlowService
 
     public FlowService(RunnerFlowExecuteService workflowExecuteService, 
         ConfigurationService configService, 
-        RunnerHttpClient httpClient)
+        HttpClient httpClient)
     {
         this.flowExecuteService = workflowExecuteService;
         this.configService = configService;
-        this.httpClient = httpClient.Client;
+        this.httpClient = httpClient;
     }
 
     public async Task ExecuteFlow(Guid flowId)

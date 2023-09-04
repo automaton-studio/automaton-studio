@@ -1,6 +1,4 @@
-﻿using Automaton.Client.Auth.Handlers;
-using Automaton.Runner.Http;
-using Automaton.Runner.Pages.Dashboard;
+﻿using Automaton.Runner.Pages.Dashboard;
 using Automaton.Runner.Pages.Settings;
 using Automaton.Runner.Pages.Setup;
 using Automaton.Runner.Services;
@@ -29,10 +27,5 @@ public static class ServiceCollectionExtension
         services.AddSingleton<RunnerAppViewModel>();
         services.AddSingleton<DashboardViewModel>();
         services.AddSingleton<SettingsViewModel>();
-
-        services.AddScoped<TokenAuthHeaderHandler>();
-        services.AddScoped<RunnerHttpClient>();
-        services.AddHttpClient<RunnerHttpClient>()
-            .AddHttpMessageHandler<TokenAuthHeaderHandler>();
     }
 }
