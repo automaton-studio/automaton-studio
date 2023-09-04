@@ -157,17 +157,27 @@ public class RunnerService
             {
                 var client = automatonHub.Clients.Client(runner.ConnectionId);
 
-                var message = await client.InvokeAsync<string>(AutomatonHubMethods.Ping, cancellationToken);
+                var response = await client.InvokeAsync<string>(AutomatonHubMethods.Ping, cancellationToken);
 
-                runner.Status = string.IsNullOrEmpty(message) ? RunnerStatus.Offline : RunnerStatus.Online;
+                runner.Status = GetRunnerStatus(response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 runner.Status = RunnerStatus.Offline;
-                logger.Warning("Runner {0} is offline", runner.Name);
+
+                logger.ForContext("RunnerName", runner.Name)
+                      .ForContext("RunnerId", runner.Id)
+                      .Error(ex, "Could not get runner status");
             }
         }
 
         return runners;
+    }
+
+    private static RunnerStatus GetRunnerStatus(string response)
+    {
+        return response.Equals("Pong", StringComparison.OrdinalIgnoreCase) ? 
+            RunnerStatus.Online : 
+            RunnerStatus.Offline;
     }
 }
