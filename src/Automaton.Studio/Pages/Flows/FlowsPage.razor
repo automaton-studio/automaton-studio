@@ -81,16 +81,14 @@
                                 Run
                             </Button>
                         </SpaceItem>
-                        <SpaceItem>
-                            <Button Icon="edit" @onclick="@(() => EditFlow(context.Id))">
-                                Edit
-                            </Button>
-                        </SpaceItem>
                     </Space>
 
                     <Dropdown Placement="@Placement.Bottom" Trigger="@(new Trigger[] { Trigger.Click })">
                         <Overlay>
                             <Menu>
+                                <MenuItem Icon="edit" OnClick="() => EditFlow(context.Id)">
+                                    <span class="menu-item-text">Edit</span>
+                                </MenuItem>
                                 <Popconfirm Title="Sure to delete?"
                                             OnConfirm="()=> DeleteFlow(context.Id)"
                                             OkText="Yes"
