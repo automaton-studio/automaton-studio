@@ -77,34 +77,37 @@
                 <div>
                     <Space>
                         <SpaceItem>
-                            <Button Icon="caret-right" @onclick="@(() => RunFlow(context))">
+                            <Button Icon="caret-right" @onclick="@(() => RunFlow(context))" Disabled="context.DoesNotHaveRunners()">
                                 Run
                             </Button>
                         </SpaceItem>
+                        <SpaceItem>
+                            <Dropdown Placement="@Placement.Bottom" Trigger="@(new Trigger[] { Trigger.Click })">
+                                <Overlay>
+                                    <Menu>
+                                        <MenuItem Icon="edit" OnClick="() => EditFlow(context.Id)">
+                                            <span class="menu-item-text">Edit</span>
+                                        </MenuItem>
+                                        <Popconfirm Title="Sure to delete?"
+                                                    OnConfirm="()=> DeleteFlow(context.Id)"
+                                                    OkText="Yes"
+                                                    CancelText="No">
+                                            <MenuItem Icon="delete">
+                                                <span class="menu-item-text">Delete</span>
+                                            </MenuItem>
+                                        </Popconfirm>
+                                    </Menu>
+                                </Overlay>
+                                <ChildContent>
+                                    <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
+                                        <Icon Type="more" Theme="outline" />
+                                    </a>
+                                </ChildContent>
+                            </Dropdown>
+                        </SpaceItem>
                     </Space>
 
-                    <Dropdown Placement="@Placement.Bottom" Trigger="@(new Trigger[] { Trigger.Click })">
-                        <Overlay>
-                            <Menu>
-                                <MenuItem Icon="edit" OnClick="() => EditFlow(context.Id)">
-                                    <span class="menu-item-text">Edit</span>
-                                </MenuItem>
-                                <Popconfirm Title="Sure to delete?"
-                                            OnConfirm="()=> DeleteFlow(context.Id)"
-                                            OkText="Yes"
-                                            CancelText="No">
-                                    <MenuItem Icon="delete">
-                                        <span class="menu-item-text">Delete</span>
-                                    </MenuItem>
-                                </Popconfirm>
-                            </Menu>
-                        </Overlay>
-                        <ChildContent>
-                            <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
-                                <Icon Type="more" Theme="outline" />
-                            </a>
-                        </ChildContent>
-                    </Dropdown>
+                    
                 </div>
             </ActionColumn>
         </Table>

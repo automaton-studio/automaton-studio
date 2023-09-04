@@ -31,8 +31,6 @@ public class FlowModel
         }
     }
 
-    public bool WasExecuted()
-    {
-        return Status != WorkflowStatus.None;
-    }
+    public bool WasExecuted() => Status != WorkflowStatus.None;
+    public bool DoesNotHaveRunners() => RunnerIds == null || !RunnerIds.Any();
 }
