@@ -32,7 +32,7 @@
             </Column>
 
             <Column Title="Last Executed" @bind-Field="@context.Started">
-                @if(@context.WasExecuted())
+                @if(@context.WasExecuted)
                 {
                     @context.Started
                 }
@@ -44,7 +44,7 @@
 
             <Column Title="Execution Result" @bind-Field="@context.Status">
                 <Space Direction="DirectionVHType.Horizontal">
-                    @if (@context.WasExecuted())
+                    @if (@context.WasExecuted)
                     {
                         <SpaceItem><Icon Type="@context.StatusIcon.Icon" Theme="Fill" Class="@context.StatusIcon.Class" /></SpaceItem>
                         <SpaceItem>@context.Status</SpaceItem>
@@ -77,7 +77,7 @@
                 <div>
                     <Space>
                         <SpaceItem>
-                            <Button Icon="caret-right" @onclick="@(() => RunFlow(context))" Disabled="context.DoesNotHaveRunners()">
+                            <Button Icon="caret-right" @onclick="@(() => RunFlow(context))" Disabled="context.DoesNotHaveRunners">
                                 Run
                             </Button>
                         </SpaceItem>
