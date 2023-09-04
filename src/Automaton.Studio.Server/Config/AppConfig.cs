@@ -5,5 +5,6 @@
         public string DatabaseType { get; set; }
         public bool UserSignUp { get; set; }
         public int RefreshTokenLifetime { get; set; }
+        public int RunnerRefreshTokenLifetime { get; set; }
     }
 }

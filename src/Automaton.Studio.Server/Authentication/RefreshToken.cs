@@ -19,7 +19,7 @@ namespace Common.Authentication
         {
         }
 
-        public RefreshToken(Guid userId, long dayToExpire = 3)
+        public RefreshToken(Guid userId, long dayToExpire = 4)
         {
             Id = Guid.NewGuid();
             UserId = userId;

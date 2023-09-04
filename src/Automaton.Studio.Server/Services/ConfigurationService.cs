@@ -13,6 +13,7 @@ public class ConfigurationService
 
     public string DatabaseType => appConfig.DatabaseType;
     public int RefreshTokenLifetime => appConfig.RefreshTokenLifetime;
+    public int RunnerRefreshTokenLifetime => appConfig.RunnerRefreshTokenLifetime;
     public bool NoUserSignUp => !appConfig.UserSignUp;
 
     public bool RequireDigit => userPasswordConfig.RequireDigit;

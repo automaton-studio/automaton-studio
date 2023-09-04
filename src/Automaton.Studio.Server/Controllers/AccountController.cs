@@ -78,21 +78,21 @@ namespace Automaton.Studio.Server.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _userManagerService.GetUserByEmailOrUserName(signInUserCommand.UserName);
+            var jwt = await LoginUser(signInUserCommand, configurationService.RefreshTokenLifetime, cancellationToken);
 
-            if (user == null || await _userManagerService.ValidatePasswordAsync(user, signInUserCommand.Password) == false)
+            return jwt;
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult<JsonWebToken>> LoginRunnerUser(SignInUserCommand signInUserCommand, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
             {
-                throw new Exception("Invalid credentials.");
+                return BadRequest(ModelState);
             }
 
-            var refreshToken = new RefreshToken(user.Id, configurationService.RefreshTokenLifetime);
-            var roles = (await _userManagerService.GetRoles(user.Id)).ToImmutableList();
-            var jwt = _jwtService.GenerateToken(user.Id.ToString(), user.UserName, roles, GetCustomClaimsForUser(user.Id));
-
-            jwt.RefreshToken = refreshToken.Token;
-
-            await _dataContext.Set<RefreshToken>().AddAsync(refreshToken, cancellationToken);
-            await _dataContext.SaveChangesAsync(cancellationToken);
+            var jwt = await LoginUser(signInUserCommand, configurationService.RunnerRefreshTokenLifetime, cancellationToken);
 
             return jwt;
         }
@@ -133,6 +133,27 @@ namespace Automaton.Studio.Server.Controllers
         {
             //Add custom claims here
             return new Dictionary<string, string>();
+        }
+
+        private async Task<JsonWebToken> LoginUser(SignInUserCommand signInUserCommand, int refreshTokenExpirationDays, CancellationToken cancellationToken)
+        {
+            var user = await _userManagerService.GetUserByEmailOrUserName(signInUserCommand.UserName);
+
+            if (user == null || await _userManagerService.ValidatePasswordAsync(user, signInUserCommand.Password) == false)
+            {
+                throw new Exception("Invalid credentials.");
+            }
+
+            var refreshToken = new RefreshToken(user.Id, refreshTokenExpirationDays);
+            var roles = (await _userManagerService.GetRoles(user.Id)).ToImmutableList();
+            var jwt = _jwtService.GenerateToken(user.Id.ToString(), user.UserName, roles, GetCustomClaimsForUser(user.Id));
+
+            jwt.RefreshToken = refreshToken.Token;
+
+            await _dataContext.Set<RefreshToken>().AddAsync(refreshToken, cancellationToken);
+            await _dataContext.SaveChangesAsync(cancellationToken);
+
+            return jwt;
         }
     }
 }
