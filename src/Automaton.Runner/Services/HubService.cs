@@ -1,6 +1,7 @@
 ﻿using Automaton.Client.Auth.Interfaces;
 using Automaton.Client.Auth.Providers;
 using Automaton.Core.Events;
+using Automaton.Core.Models;
 using Automaton.Runner.Connection;
 using MediatR;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -84,7 +85,7 @@ public class HubService
             })
             .Build();
 
-        connection.On<Guid>(RunWorkflowMethod, ExecuteWorkflow);
+        connection.On(RunWorkflowMethod, async (Guid workflowId) => await ExecuteWorkflow(workflowId));
         connection.On(PingMethod, Ping);
 
         connection.Closed += ConnectionClosed;
@@ -138,9 +139,11 @@ public class HubService
         logger.Information("Runner {0} connected to server {1}", configService.RunnerName, hubServer);
     }
 
-    private async Task ExecuteWorkflow(Guid workflowId)
+    private async Task<WorkflowExecution> ExecuteWorkflow(Guid workflowId)
     {
-        await workflowService.ExecuteFlow(workflowId);
+        var result = await workflowService.ExecuteFlow(workflowId);
+
+        return result;
     }
 
     private async Task<string> Ping()

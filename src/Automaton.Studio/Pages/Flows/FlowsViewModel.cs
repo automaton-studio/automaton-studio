@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Flows;
@@ -64,8 +65,10 @@ public class FlowsViewModel
         Flows.Remove(flow);
     }
 
-    public async Task RunFlow(Guid id, IEnumerable<Guid> runnerIds)
+    public async Task<IEnumerable<RunnerFlowResult>> RunFlow(Guid id, IEnumerable<Guid> runnerIds)
     {
-        await flowService.Run(id, runnerIds);
+        var results = await flowService.Run(id, runnerIds);
+
+        return results;
     }
 }

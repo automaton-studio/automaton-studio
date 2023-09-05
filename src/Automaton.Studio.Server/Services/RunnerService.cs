@@ -1,12 +1,16 @@
 ﻿using AutoMapper;
 using Automaton.Core.Enums;
+using Automaton.Core.Models;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Entities;
 using Automaton.Studio.Server.Hubs;
 using Automaton.Studio.Server.Models;
+using Azure;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using MySqlX.XDevAPI.Common;
 using Serilog;
+using System.Threading;
 
 namespace Automaton.Studio.Server.Services;
 
@@ -136,15 +140,35 @@ public class RunnerService
         return exists;
     }
 
-    public async Task ExecuteFlow(Guid flowId, IEnumerable<Guid> runnerIds)
+    public async Task<IEnumerable<RunnerFlowResult>> ExecuteFlow(Guid flowId, IEnumerable<Guid> runnerIds, CancellationToken cancellationToken)
     {
+        var results = new List<RunnerFlowResult>();
+
         foreach (var runnerId in runnerIds)
         {
+            RunnerFlowResult result;
             var runner = Get(runnerId);
             var client = automatonHub.Clients.Client(runner.ConnectionId);
 
-            await client.SendAsync(AutomatonHubMethods.RunWorkflow, flowId);
+            try
+            {
+                var response = await client.InvokeAsync<WorkflowExecution>(AutomatonHubMethods.RunWorkflow, flowId, cancellationToken);
+
+                result = GetSuccessfulFlowResult(flowId: flowId, runnerId: runnerId, response);
+            }
+            catch (Exception ex)
+            {
+                logger.ForContext("FlowId", flowId)
+                      .ForContext("RunnerId", runnerId)
+                      .Error(ex, "An error happened when executing flow on runner");
+
+                result = GetInvalidFlowResult(flowId: flowId, runnerId: runnerId);
+            }
+
+            results.Add(result);
         }
+
+        return results;
     }
 
     private async Task<IEnumerable<RunnerDetails>> GetRunnersWithUpdatedStatus(IEnumerable<Runner> runnerEntities, CancellationToken cancellationToken)
@@ -179,5 +203,29 @@ public class RunnerService
         return response.Equals("Pong", StringComparison.OrdinalIgnoreCase) ? 
             RunnerStatus.Online : 
             RunnerStatus.Offline;
+    }
+
+    private RunnerFlowResult GetSuccessfulFlowResult(Guid flowId, Guid runnerId, WorkflowExecution flowExecution)
+    {
+        return new RunnerFlowResult
+        {
+            FlowId = flowId,
+            RunnerId = runnerId,
+            Started = flowExecution.Started,
+            Finished = flowExecution.Finished,
+            Status = flowExecution.Status
+        };
+    }
+
+    private RunnerFlowResult GetInvalidFlowResult(Guid flowId, Guid runnerId)
+    {
+        return new RunnerFlowResult
+        {
+            FlowId = flowId,
+            RunnerId = runnerId,
+            Started = DateTime.MinValue,
+            Finished = DateTime.MinValue,
+            Status = WorkflowStatus.None
+        };
     }
 }

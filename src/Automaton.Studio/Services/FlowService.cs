@@ -2,6 +2,7 @@
 using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Factories;
+using Automaton.Studio.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Net.Http;
@@ -81,7 +82,7 @@ public class FlowService
         response.EnsureSuccessStatusCode();
     }
    
-    public async Task Run(Guid flowId, IEnumerable<Guid> runnerIds)
+    public async Task<IEnumerable<RunnerFlowResult>> Run(Guid flowId, IEnumerable<Guid> runnerIds)
     {
         var flowAndRunners = new
         {
@@ -90,8 +91,11 @@ public class FlowService
         };
 
         var response = await httpClient.PostAsJsonAsync($"{configService.FlowsUrl}/run", flowAndRunners);
-        
         response.EnsureSuccessStatusCode();
+
+        var results = await response.Content.ReadAsAsync<IEnumerable<RunnerFlowResult>>();
+
+        return results;
     }
 
     private StudioFlow CreateStudioFlow(Flow flow)

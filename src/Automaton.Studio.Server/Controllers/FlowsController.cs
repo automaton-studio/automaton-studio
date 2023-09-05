@@ -60,9 +60,11 @@ public class FlowsController : BaseController
     }
 
     [HttpPost("run")]
-    public ActionResult Post(ExecuteFlowDetails command)
+    public async Task<ActionResult> Post(ExecuteFlowDetails command, CancellationToken cancellationToken)
     {
-        return Ok(flowsService.Execute(command.FlowId, command.RunnerIds));
+        var result = await flowsService.Execute(command.FlowId, command.RunnerIds, cancellationToken);
+
+        return Ok(result);
     }
 
     [HttpGet("exists/{name}")]

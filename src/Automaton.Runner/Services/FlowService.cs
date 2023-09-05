@@ -20,11 +20,13 @@ public class FlowService
         this.httpClient = httpClient;
     }
 
-    public async Task ExecuteFlow(Guid flowId)
+    public async Task<WorkflowExecution> ExecuteFlow(Guid flowId)
     {
         var flow = await Load(flowId);
 
-        await flowExecuteService.Execute(flow);
+        var result = await flowExecuteService.Execute(flow);
+
+        return result;
     }
 
     private async Task<Flow> Load(Guid id)

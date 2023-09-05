@@ -120,9 +120,11 @@ public class FlowsService
         return exists;
     }
 
-    public async Task Execute(Guid flowId, IEnumerable<Guid> runnerIds)
+    public async Task<IEnumerable<RunnerFlowResult>> Execute(Guid flowId, IEnumerable<Guid> runnerIds, CancellationToken cancellationToken)
     {
-        await runnerService.ExecuteFlow(flowId, runnerIds);
+        var result = await runnerService.ExecuteFlow(flowId, runnerIds, cancellationToken);
+
+        return result;
     }
 
     private static Flow DeserializeFlow(string jsonFlow)
