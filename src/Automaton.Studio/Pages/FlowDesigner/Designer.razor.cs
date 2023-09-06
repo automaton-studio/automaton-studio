@@ -67,7 +67,7 @@ public partial class Designer : ComponentBase, IDisposable
             return;
         }
 
-        var newIndex = DragDropService.ActiveSpacerId ?? Steps.Count - 1;
+        var newIndex = DragDropService.ActiveSpacerId ?? Steps.Count;
 
         foreach (var item in DragDropService.ActiveSteps)
         {
@@ -76,10 +76,6 @@ public partial class Designer : ComponentBase, IDisposable
             if (oldIndex >= 0)
             {
                 Steps.RemoveAt(oldIndex);
-
-                // The actual index could have shifted due to the removal
-                if (newIndex > oldIndex)
-                    newIndex--;
             }
         }
 
@@ -93,7 +89,7 @@ public partial class Designer : ComponentBase, IDisposable
                 UpdateStepVisibility(step, prevStep);
             }
 
-            Steps.Insert(newIndex++, step);
+            Steps.Insert(newIndex, step);
             ItemDrop.InvokeAsync(step);
         }
 
