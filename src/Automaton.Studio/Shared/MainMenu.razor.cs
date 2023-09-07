@@ -2,7 +2,7 @@
 
 namespace Automaton.Studio.Shared
 {
-    public partial class NavMenu : ComponentBase
+    public partial class MainMenu : ComponentBase
     {
         [Parameter] public bool Collapsed { get; set; }
     }
