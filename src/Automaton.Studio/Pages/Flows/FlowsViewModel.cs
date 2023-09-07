@@ -1,5 +1,8 @@
-﻿using AutoMapper;
+﻿using AntDesign;
+using AutoMapper;
+using Automaton.Core.Enums;
 using Automaton.Studio.Models;
+using Automaton.Studio.Pages.Flows.Components.NewFlow;
 using Automaton.Studio.Services;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,10 +68,46 @@ public class FlowsViewModel
         Flows.Remove(flow);
     }
 
-    public async Task<IEnumerable<RunnerFlowResult>> RunFlow(Guid id, IEnumerable<Guid> runnerIds)
+    public async Task<string> RunFlow(Guid id, IEnumerable<Guid> runnerIds)
     {
-        var results = await flowService.Run(id, runnerIds);
+        var flowModel = GetFlowModel(id);
 
-        return results;
+        try
+        {
+            flowModel.IsRunning();
+
+            var result = await flowService.Run(id, runnerIds);
+
+            var message = GetFlowExecutionResult(result);
+
+            return message;
+        }
+        finally 
+        {
+            flowModel.IsNotRunning();
+        }
+    }
+
+    private FlowModel GetFlowModel(Guid id)
+    {
+        return Flows.SingleOrDefault(x => x.Id == id);
+    }
+
+    private string GetFlowExecutionResult(IEnumerable<RunnerFlowResult> results)
+    {
+        var resultText = new StringBuilder();
+
+        foreach (var result in results)
+        {
+            var runner = Runners.SingleOrDefault(x => x.Id == result.RunnerId);
+
+            var runnerMessage = result.Status == WorkflowStatus.None ?
+                $"Runner {runner.Name} did not respond" :
+                $"Runner {runner.Name} returned {result.Status}";
+
+            resultText.AppendLine(runnerMessage);
+        }
+
+        return resultText.ToString();
     }
 }

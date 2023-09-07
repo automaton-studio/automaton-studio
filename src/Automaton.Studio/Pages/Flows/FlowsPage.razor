@@ -32,52 +32,37 @@
             </Column>
 
             <Column Title="Last Executed" @bind-Field="@context.Started">
-                @if(@context.WasExecuted)
-                {
-                    @context.Started
-                }
-                else
-                {
-                    <span>-</span>
-                }
+                @context.StartedMessage
             </Column>
 
-            <Column Title="Execution Result" @bind-Field="@context.Status">
+            <Column Title="Last Result" @bind-Field="@context.Status">
                 <Space Direction="DirectionVHType.Horizontal">
-                    @if (@context.WasExecuted)
-                    {
-                        <SpaceItem><Icon Type="@context.StatusIcon.Icon" Theme="Fill" Class="@context.StatusIcon.Class" /></SpaceItem>
-                        <SpaceItem>@context.Status</SpaceItem>
-                    }
-                    else
-                    {
-                        <span>-</span>
-                    }
+                    <SpaceItem><Icon Type="@context.StatusIcon.Icon" Theme="Fill" Class="@context.StatusIcon.Class" /></SpaceItem>
+                    <SpaceItem>@context.StatusMessage</SpaceItem>
                 </Space>
             </Column>
 
-
             <Column @bind-Field="@context.RunnerIds" Title="Runners" Width="300">
-                <Select Mode="multiple"
-                        @bind-Values="context.RunnerIds"
-                        Placeholder="Select runners..."
-                        TItemValue="Guid"
-                        TItem="Guid"
-                        AllowClear>
+                <Select Mode="multiple" 
+                    @bind-Values="context.RunnerIds"
+                    Placeholder="Select runners..."
+                    TItemValue="Guid"
+                    TItem="Guid"
+                    AllowClear>
                     <SelectOptions>
                         @foreach (var item in FlowsViewModel.Runners)
                         {
                             <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
                         }
                     </SelectOptions>
-                </Select>
+                </Select>                
             </Column>
 
             <ActionColumn Title="Action">
                 <div>
                     <Space>
                         <SpaceItem>
-                            <Button Icon="caret-right" @onclick="@(() => RunFlow(context))" Disabled="context.DoesNotHaveRunners">
+                            <Button Icon="caret-right" @onclick="@(() => RunFlow(context))" Disabled="context.DoesNotHaveRunners" Loading="@context.Running">
                                 Run
                             </Button>
                         </SpaceItem>
@@ -86,8 +71,9 @@
                                 <Overlay>
                                     <Menu>
                                         <MenuItem Icon="edit" OnClick="() => EditFlow(context.Id)">
-                                            <span class="menu-item-text">Edit</span>
+                                            <span class="menu-item-text">View</span>
                                         </MenuItem>
+
                                         <Popconfirm Title="Sure to delete?"
                                                     OnConfirm="()=> DeleteFlow(context.Id)"
                                                     OkText="Yes"
@@ -115,6 +101,13 @@
 </Layout>
 
 <style>
+    .status-none {
+        color: gray;
+        padding-top: 3px;
+        font-size: 20px;
+        visibility: collapse;
+    }
+
     .status-working {
         color: deepskyblue;
         padding-top: 3px;
@@ -135,6 +128,13 @@
 
     .menu-item-text {
         padding-left: 5px;
+    }
+
+    .flow-running {
+        color: blue;
+        padding-top: 3px;
+        font-size: 20px;
+        float: left;
     }
 </style>
 

@@ -6,10 +6,18 @@ public class FlowModel
 {
     private readonly Dictionary<WorkflowStatus, FlowStatusIcon> StatusIcons = new()
     {
-        { WorkflowStatus.None, new FlowStatusIcon { Icon = "check-circle", Class = "status-not-executed" } },
+        { WorkflowStatus.None, new FlowStatusIcon { Icon = "check-circle", Class = "status-none" } },
         { WorkflowStatus.Working, new FlowStatusIcon { Icon = "eye", Class = "status-working" } },
         { WorkflowStatus.Success, new FlowStatusIcon { Icon = "check-circle", Class = "status-success" } },
         { WorkflowStatus.Error, new FlowStatusIcon { Icon = "exclamation-circle", Class = "status-error" } },
+    };
+
+    private readonly Dictionary<WorkflowStatus, string> StatusMessages = new()
+    {
+        { WorkflowStatus.None, "-" },
+        { WorkflowStatus.Working, "Working" },
+        { WorkflowStatus.Success, "Success" },
+        { WorkflowStatus.Error, "Error" },
     };
 
     public Guid Id { get; set; }
@@ -21,17 +29,24 @@ public class FlowModel
     public WorkflowStatus Status { get; set; } = WorkflowStatus.None;
     public IEnumerable<Guid> RunnerIds = new List<Guid>();
 
-    public FlowStatusIcon StatusIcon
+    public FlowStatusIcon StatusIcon => StatusIcons[Status];
+
+    public string StatusMessage => StatusMessages[Status];
+
+    public string StartedMessage
     {
         get
         {
-            return StatusIcons.ContainsKey(Status) ? 
-                StatusIcons[Status] : 
-                StatusIcons[WorkflowStatus.None];
+            return Status != WorkflowStatus.None ? Started.ToString() : "-";
         }
     }
 
-    public bool WasExecuted => Status != WorkflowStatus.None;
+    public bool Running { get; set; }
+
     public bool HasRunners => RunnerIds != null && RunnerIds.Any();
     public bool DoesNotHaveRunners => !HasRunners;
+
+    public void IsRunning() => Running = true;
+    public void IsNotRunning() => Running = false;
+
 }
