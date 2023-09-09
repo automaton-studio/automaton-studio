@@ -1,16 +1,17 @@
-﻿@using Automaton.Studio.Services
+﻿<Menu InlineCollapsed="Collapsed" Mode="MenuMode.Vertical" Theme="MenuTheme.Dark" Selectable="true" DefaultSelectedKeys=@(new[]{"1"})>
 
-<Menu InlineCollapsed=Collapsed Mode=MenuMode.Vertical Theme=MenuTheme.Dark Selectable=true DefaultSelectedKeys=@(new[]{"1"})>
-    <MenuItem Key="1" Icon="profile" RouterLink="/"> 
-        <b>Flows</b>
-    </MenuItem>
-    <MenuItem Key="2" Icon="profile" RouterLink="/runners">
-        <b>Runners</b>
-    </MenuItem>
-    <MenuItem Key="3" Icon="experiment" RouterMatch="NavLinkMatch.Prefix" RouterLink="/customsteps/">
-        <b>Custom Steps</b>
-    </MenuItem>
-    <MenuItem Key="4" Icon="user" RouterMatch="NavLinkMatch.Prefix" RouterLink="/account/">
-        <b>Account</b>
-    </MenuItem>
+<MenuItem Key="1" Icon="profile" RouterLink="/"> 
+    <b>Flows</b>
+</MenuItem>
+<MenuItem Key="2" Icon="profile" RouterLink="/runners">
+    <b>Runners</b>
+</MenuItem>
+<MenuItem Key="3" Icon="experiment" RouterMatch="NavLinkMatch.Prefix" RouterLink="/customsteps/">
+    <b>Custom Steps</b>
+</MenuItem>
+<MenuItem Key="4" Icon="user" RouterMatch="NavLinkMatch.Prefix" RouterLink="/account/">
+    <b>Account</b>
+</MenuItem>
+
 </Menu>
+
