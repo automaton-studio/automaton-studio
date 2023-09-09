@@ -62,12 +62,14 @@
                 <div>
                     <Space>
                         <SpaceItem>
-                            <Button Icon="caret-right" @onclick="@(() => RunFlow(context))" Disabled="context.DoesNotHaveRunners" Loading="@context.Running">
-                            </Button>
+                            <Tooltip Title="Run flow">
+                                <Button Icon="caret-right" @onclick="@(() => RunFlow(context))" Disabled="context.DoesNotHaveRunners" Loading="@context.Running" />
+                            </Tooltip>
                         </SpaceItem>
                         <SpaceItem>
-                            <Button Icon="edit" @onclick="@(() => EditFlow(context.Id))">
-                            </Button>
+                            <Tooltip Title="Edit flow">
+                                <Button Icon="edit" @onclick="@(() => EditFlow(context.Id))" />
+                            </Tooltip>
                         </SpaceItem>
                         <SpaceItem>
                             <Dropdown Placement="@Placement.Bottom" Trigger="@(new Trigger[] { Trigger.Click })">
