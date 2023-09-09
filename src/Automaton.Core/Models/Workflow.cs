@@ -1,5 +1,4 @@
 ﻿using Automaton.Core.Events;
-using System;
 
 namespace Automaton.Core.Models;
 

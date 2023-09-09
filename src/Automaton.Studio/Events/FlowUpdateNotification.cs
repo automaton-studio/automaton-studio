@@ -1,8 +1,5 @@
-﻿using MediatR;
+﻿namespace Automaton.Studio.Events;
 
-namespace Automaton.Studio.Events
+public class FlowUpdateNotification : INotification
 {
-    public class FlowUpdateNotification : INotification
-    {
-    }
 }

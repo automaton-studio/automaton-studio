@@ -1,16 +1,9 @@
-﻿using Automaton.Core.Events;
+﻿using AutoMapper;
+using Automaton.Core.Events;
 using Automaton.Core.Logs;
 using Automaton.Core.Models;
 using Automaton.Core.Services;
-using MediatR;
-using Newtonsoft.Json;
-using Serilog.Context;
-using Serilog;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+using Automaton.Studio.Events;
 using Automaton.Studio.Models;
 
 namespace Automaton.Studio.Services;

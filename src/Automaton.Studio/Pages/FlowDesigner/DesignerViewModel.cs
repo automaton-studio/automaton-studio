@@ -76,6 +76,8 @@ public class DesignerViewModel
         await workflowExecuteService.Execute(flow, FlowDelay, CancellationToken.None);
     }
 
+    public bool IsFlowNotLoaded(Guid flowId) => Flow.Id != flowId;
+
     public StudioDefinition CreateDefinition(string name)
     {
         var definition = Flow.CreateDefinition(name);

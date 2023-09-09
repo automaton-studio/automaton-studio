@@ -1,5 +1,4 @@
 ﻿using AntDesign;
-using Automaton.Core.Events;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
@@ -7,37 +6,29 @@ using Automaton.Studio.Pages.FlowDesigner.Components.Drawer;
 using Automaton.Studio.Pages.FlowDesigner.Components.FlowExplorer;
 using Automaton.Studio.Pages.FlowDesigner.Components.NewDefinition;
 using Automaton.Studio.Resources;
-using MediatR;
 using Microsoft.AspNetCore.Components;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.FlowDesigner;
 
-partial class DesignerPage : ComponentBase, 
-    INotificationHandler<ExecuteStepNotification>,
-    INotificationHandler<FlowUpdateNotification>
+partial class DesignerPage : ComponentBase
 {
     private Designer designer;
     private Sider toolsSider;
     private Type toolsPanel = typeof(FlowSettings);
 
     [Parameter] public string FlowId { get; set; }
+
+    [Inject] private ICourier Courier { get; set; }
     [Inject] private ModalService ModalService { get; set; } = default!;
     [Inject] private DesignerViewModel DesignerViewModel { get; set; } = default!;
     [Inject] private FlowExplorerViewModel FlowExplorerViewModel { get; set; } = default!;
 
-    public static event EventHandler<ExecuteStepNotification> ExecuteStep;
-    public static event EventHandler<FlowUpdateNotification> FlowUpdate;
-
     protected override async Task OnInitializedAsync()
     {
-        ExecuteStep += OnExecuteStep;
-        FlowUpdate += OnFlowUpdate;
+        Courier.Subscribe<ExecuteStepNotification>(HandleExecuteStepNotification);
+        Courier.Subscribe<FlowUpdateNotification>(HandleFlowUpdateNotification);
 
-        Guid.TryParse(FlowId, out var flowId);
-
-        await LoadFlow(flowId);
+        await LoadFlow();
 
         await base.OnInitializedAsync();
     }
@@ -45,20 +36,6 @@ partial class DesignerPage : ComponentBase,
     public async Task RunFlow()
     {
         await DesignerViewModel.RunFlow();
-    }
-
-    public Task Handle(ExecuteStepNotification notification, CancellationToken cancellationToken)
-    {
-        ExecuteStep?.Invoke(this, new ExecuteStepNotification(notification.StepId));
-
-        return Task.CompletedTask;
-    }
-
-    public Task Handle(FlowUpdateNotification notification, CancellationToken cancellationToken)
-    {
-        FlowUpdate?.Invoke(this, new FlowUpdateNotification());
-
-        return Task.CompletedTask;
     }
 
     private void OnStepCreated(object sender, StepEventArgs e)
@@ -100,9 +77,11 @@ partial class DesignerPage : ComponentBase,
         StateHasChanged();
     }
 
-    private async Task LoadFlow(Guid flowId)
+    private async Task LoadFlow()
     {
-        if (flowId != Guid.Empty && DesignerViewModel.Flow.Id != flowId)
+        Guid.TryParse(FlowId, out var flowId);
+
+        if (DesignerViewModel.IsFlowNotLoaded(flowId))
         {
             await DesignerViewModel.LoadFlow(flowId);
 
@@ -200,21 +179,27 @@ partial class DesignerPage : ComponentBase,
     {
     }
 
-    private void OnExecuteStep(object sender, ExecuteStepNotification e)
+    private void HandleExecuteStepNotification(ExecuteStepNotification notification, CancellationToken cancellationToken)
     {
-        DesignerViewModel.SetExecutingStep(e.StepId);
+        if(cancellationToken.IsCancellationRequested) 
+            return;
 
-        InvokeAsync(StateHasChanged);
+        DesignerViewModel.SetExecutingStep(notification.StepId);
+
+        StateHasChanged();
     }
 
-    private void OnFlowUpdate(object sender, FlowUpdateNotification e)
+    private void HandleFlowUpdateNotification(FlowUpdateNotification notification, CancellationToken cancellationToken)
     {
-        InvokeAsync(StateHasChanged);
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
+        StateHasChanged();
     }
 
     public void Dispose()
     {
-        ExecuteStep -= OnExecuteStep;
-        FlowUpdate -= OnFlowUpdate;
+        Courier.UnSubscribe<ExecuteStepNotification>(HandleExecuteStepNotification);
+        Courier.UnSubscribe<FlowUpdateNotification>(HandleFlowUpdateNotification);
     }
 }

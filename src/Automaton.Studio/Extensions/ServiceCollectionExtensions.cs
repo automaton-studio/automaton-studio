@@ -29,6 +29,7 @@ using Automaton.Studio.Steps.Test;
 using Automaton.Studio.Steps.TestAssert;
 using Automaton.Studio.Steps.TestReport;
 using Blazored.LocalStorage;
+using MediatR.Courier;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -62,6 +63,7 @@ public static class ServiceCollectionExtensions
         services.AddStudioAuthentication(configuration);
 
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+        services.AddCourier(Assembly.GetExecutingAssembly());
         services.AddScoped<IAuthenticationStorage, WebAuthenticationStorage>();
 
         // Services
