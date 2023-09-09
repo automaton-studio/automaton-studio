@@ -6,8 +6,8 @@
         <Row>
             <Col Flex=@("none") Class="page-title">
                 <Space Size="@AntSizeLDSType.Large">
-                <SpaceItem Class="header-item">
-                    <Title Level="4">Custom Steps</Title>
+                    <SpaceItem Class="header-item">
+                        <Title Level="4">Custom Steps</Title>
                     </SpaceItem>
                 </Space>
             </Col>
@@ -15,9 +15,11 @@
             <Col Class="right-actions">
                 <Space Class="right-header-items">
                     <SpaceItem>
-                    <Button Class="header-button" Icon="plus" @onclick="@(() => ShowNewCustomStepDialog())">
-                            New
-                        </Button>
+                        <Tooltip Title="New custom step">
+                            <Button Class="header-button" Icon="plus" @onclick="@(() => ShowNewCustomStepDialog())">
+                                New
+                            </Button>
+                        </Tooltip>
                     </SpaceItem>
                 </Space>
             </Col>
@@ -43,9 +45,9 @@
                 <div>
                     <Space>
                         <SpaceItem>
-                            <Button Icon="edit" @onclick="@(() => EditCustomStep(context.Id))">
-                                Edit
-                            </Button>
+                            <Tooltip Title="Edit step">
+                                <Button Icon="edit" @onclick="@(() => EditCustomStep(context.Id))"/>
+                            </Tooltip>
                         </SpaceItem>
                     </Space>
 
@@ -57,15 +59,17 @@
                                             OkText="Yes"
                                             CancelText="No">
                                     <MenuItem Icon="delete">                               
-                                        <span>Delete</span>
+                                        Delete
                                     </MenuItem>
                                 </Popconfirm>
                             </Menu>
                         </Overlay>
                         <ChildContent>
-                            <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
-                                <Icon Type="more" Theme="outline" />
-                            </a>
+                            <Tooltip Title="More actions">
+                                <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
+                                    <Icon Type="more" Theme="outline" />
+                                </a>
+                            </Tooltip>
                         </ChildContent>
                     </Dropdown>
                 </div>

@@ -15,9 +15,11 @@
             <Col Class="right-actions">
                 <Space Class="right-header-items">
                     <SpaceItem>
-                        <Button Class="header-button" Icon="plus" @onclick="@(() => NewFlowDialog())">
-                            New
-                        </Button>
+                        <Tooltip Title="New flow">
+                            <Button Class="header-button" Icon="plus" @onclick="@(() => NewFlowDialog())">
+                                New
+                            </Button>
+                        </Tooltip>
                     </SpaceItem>
                 </Space>
             </Col>
@@ -80,21 +82,21 @@
                                                     OkText="Yes"
                                                     CancelText="No">
                                             <MenuItem Icon="delete">
-                                                <span>Delete</span>
+                                                Delete
                                             </MenuItem>
                                         </Popconfirm>
                                     </Menu>
                                 </Overlay>
                                 <ChildContent>
-                                    <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
-                                        <Icon Type="more" Theme="outline" />
-                                    </a>
+                                    <Tooltip Title="More actions">
+                                        <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
+                                            <Icon Type="more" Theme="outline" />
+                                        </a>
+                                    </Tooltip>
                                 </ChildContent>
                             </Dropdown>
                         </SpaceItem>
-                    </Space>
-
-                    
+                    </Space>                  
                 </div>
             </ActionColumn>
         </Table>

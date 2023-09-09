@@ -16,9 +16,11 @@
                 <Col Class="right-actions">
                     <Space Class="right-header-items">
                         <SpaceItem>
-                            <Button Class="header-button" Icon="save" OnClick="Save">
-                                Save
-                            </Button>
+                            <Tooltip Title="Save step">
+                                <Button Class="header-button" Icon="save" OnClick="Save">
+                                    Save
+                                </Button>
+                            </Tooltip>
                         </SpaceItem>
                     </Space>
                 </Col>
@@ -74,9 +76,11 @@
                     <TabPane Tab="Input Variables" Key="3">
                         <Space Direction="DirectionVHType.Vertical">
                             <SpaceItem>
-                                <Button OnClick="AddInputVariable" Type="primary">
-                                    Add
-                                </Button>
+                                <Tooltip Title="Add input variable">
+                                    <Button OnClick="AddInputVariable" Type="primary">                                  
+                                        Add
+                                    </Button>
+                                </Tooltip>
                             </SpaceItem>
                             <SpaceItem>
                                 <Table DataSource="@context.Definition.CodeInputVariables"
@@ -102,12 +106,14 @@
                                             </Select>
                                         </Column>
                                         <ActionColumn Title="Action">
-                                            <Popconfirm Title="Sure to delete?"
-                                                        OnConfirm="()=> DeleteInputVariable(inputVariable.Name)"
-                                                        OkText="Yes"
-                                                        CancelText="No">
-                                                <a>Delete</a>
-                                            </Popconfirm>
+                                            <Tooltip Title="Delete variable">
+                                                <Popconfirm Title="Sure to delete?"
+                                                            OnConfirm="()=> DeleteInputVariable(inputVariable.Name)"
+                                                            OkText="Yes"
+                                                            CancelText="No">
+                                                    <a>Delete</a>
+                                                </Popconfirm>
+                                            </Tooltip>
                                         </ActionColumn>
                                     </ChildContent>
                                     <ExpandTemplate Context="inputVariable2">
@@ -132,9 +138,11 @@
                     <TabPane Tab="Output Variables" Key="4">
                         <Space Direction="DirectionVHType.Vertical" Style="width: 100%">
                             <SpaceItem>
-                                <Button OnClick="AddOutputVariable" Type="primary">
-                                    Add
-                                </Button>
+                                <Tooltip Title="Add output variable">
+                                    <Button OnClick="AddOutputVariable" Type="primary">
+                                        Add
+                                    </Button>
+                                </Tooltip>
                             </SpaceItem>
                             <SpaceItem>
                                 <Table DataSource="context.Definition.CodeOutputVariables"
@@ -163,12 +171,14 @@
                                             </Select>
                                         </Column>
                                         <ActionColumn Title="Action">
-                                            <Popconfirm Title="Sure to delete?"
-                                                        OnConfirm="()=> DeleteOutputVariable(outputVariable.Name)"
-                                                        OkText="Yes"
-                                                        CancelText="No">
-                                                <a>Delete</a>
-                                            </Popconfirm>
+                                            <Tooltip Title="Delete variable">
+                                                <Popconfirm Title="Sure to delete?"
+                                                            OnConfirm="()=> DeleteOutputVariable(outputVariable.Name)"
+                                                            OkText="Yes"
+                                                            CancelText="No">
+                                                    <a>Delete</a>
+                                                </Popconfirm>
+                                            </Tooltip>
                                         </ActionColumn>
                                     </ChildContent>
                                     <ExpandTemplate Context="outputVariable2">
