@@ -7,7 +7,7 @@ namespace Automaton.Studio.Shared
         private bool MenuCollapsed { get; set; }
 
         [Inject] JsInterop JsInterop { get; set; }
-        [Inject] NavigationManager NavigationManager { get; set; } = default!;
+        [Inject] NavigationManager NavigationManager { get; set; }
         [Inject] MainLayoutViewModel MainLayoutViewModel { get; set; }
 
         private void ToggleCollapsed()

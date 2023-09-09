@@ -1,18 +1,18 @@
-﻿<Menu InlineCollapsed="Collapsed" Mode="MenuMode.Vertical" Theme="MenuTheme.Dark" Selectable="true" DefaultSelectedKeys=@(new[]{"1"})>
+﻿<Menu InlineCollapsed="Collapsed" Mode="MenuMode.Vertical" Theme="MenuTheme.Dark" Selectable="true" DefaultSelectedKeys=@(new[]{"2"})>
 
-    <MenuItem Key="1" Icon="profile" RouterLink="/">
-        <b>Back</b>
+    <MenuItem Key="1" Icon="arrow-left" RouterLink="/">
+        <b>Back to Flows</b>
     </MenuItem>
-    <MenuItem Key="2" Icon="profile" RouterMatch="NavLinkMatch.Prefix" RouterLink="/flowdesigner">
+    <MenuItem Key="2" Icon="profile" RouterLink="@FlowDesignerUrl">
         <b>Designer</b>
     </MenuItem>
-    <MenuItem Key="2" Icon="profile" RouterMatch="NavLinkMatch.Prefix" RouterLink="/flowactivity">
+    <MenuItem Key="3" Icon="profile"  RouterLink="@FlowActivityUrl">
         <b>Activity</b>
     </MenuItem>
-    <MenuItem Key="3" Icon="experiment" RouterMatch="NavLinkMatch.Prefix" RouterLink="/flowlogs">
+    <MenuItem Key="4" Icon="experiment" RouterLink="@FlowLogsUrl">
         <b>Logs</b>
     </MenuItem>
-    <MenuItem Key="4" Icon="user" RouterMatch="NavLinkMatch.Prefix" RouterLink="/flowschedule/">
+    <MenuItem Key="5" Icon="user"  RouterLink="@FlowScheduleUrl">
         <b>Schedule</b>
     </MenuItem>
 
