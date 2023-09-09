@@ -1,52 +1,39 @@
 ﻿using Automaton.Core.Events;
-using MediatR;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.SignalR.Client;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Automaton.Runner.Pages.Dashboard
 {
-    public partial class Dashboard : ComponentBase, INotificationHandler<HubConnectionNotification>, IDisposable
+    public partial class Dashboard : ComponentBase, IDisposable
     {
-        private static event EventHandler<HubConnectionNotification> HubConnectionChange;
-
+        [Inject] ICourier Courier { get; set; }
         [Inject] Services.ConfigurationService ConfigService { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; } = default!;
         [Inject] DashboardViewModel DashboardViewModel { get; set; }
 
-        public Task Handle(HubConnectionNotification notification, CancellationToken cancellationToken)
+        public void HandleHubConnectionNotification(HubConnectionNotification notification, CancellationToken cancellationToken)
         {
-            HubConnectionChange?.Invoke(this, new HubConnectionNotification(notification.HubConnectionState));
+            DashboardViewModel.SetHubConnection(notification.HubConnectionState);
 
-            return Task.CompletedTask;
+            StateHasChanged();
         }
 
         protected override async Task OnInitializedAsync()
         {
+            Courier.Subscribe<HubConnectionNotification>(HandleHubConnectionNotification);
+
             if (!ConfigService.IsRunnerRegistered())
             {
                 NavigationManager.NavigateTo($"/setup");
                 return;
             }
 
-            HubConnectionChange += OnHubConnectionChange;
-
             if (!DashboardViewModel.IsRunnerConnected())
                 await DashboardViewModel.ConnectHub();
         }
 
-        private void OnHubConnectionChange(object? sender, HubConnectionNotification e)
-        {
-            DashboardViewModel.SetHubConnection(e.HubConnectionState);
-
-            InvokeAsync(StateHasChanged);
-        }
-
         public void Dispose()
         {
-            HubConnectionChange -= OnHubConnectionChange;
+            Courier.UnSubscribe<HubConnectionNotification>(HandleHubConnectionNotification);
         }
     }
 }

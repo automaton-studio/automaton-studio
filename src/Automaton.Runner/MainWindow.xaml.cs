@@ -56,6 +56,7 @@ public partial class MainWindow : Window
         services.AddAntDesign();
         services.AddScoped<JsInterop>();
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+        services.AddCourier(Assembly.GetExecutingAssembly());
 
         services.AddSingleton(Configuration);
         services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(ConfigurationService.BaseUrl) });
