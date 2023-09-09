@@ -8,22 +8,17 @@ using Automaton.Studio.Pages.FlowDesigner.Components.NewVariable;
 using Automaton.Studio.Pages.FlowDesigner.Components.ViewVariable;
 using Automaton.Studio.Resources;
 using Blazored.FluentValidation;
-using MediatR;
 using Microsoft.AspNetCore.Components;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.FlowDesigner.Components.Drawer;
 
-public partial class FlowVariables : ComponentBase, INotificationHandler<SetVariableNotification>, IDisposable
+public partial class FlowVariables : ComponentBase, IDisposable
 {
     private FluentValidationValidator fluentValidationValidator;
 
-    [CascadingParameter]
-    private StudioFlow Flow { get; set; }
-
-    [Inject]
-    private ModalService ModalService { get; set; } = default!;
+    [CascadingParameter] StudioFlow Flow { get; set; }
+    [Inject] ICourier Courier { get; set; }
+    [Inject] ModalService ModalService { get; set; } = default!;
 
     public IEnumerable<VariableType> VariableTypes { get; } = Enum.GetValues<VariableType>();
 
@@ -70,7 +65,7 @@ public partial class FlowVariables : ComponentBase, INotificationHandler<SetVari
 
     protected override async Task OnInitializedAsync()
     {
-        SetFlowVariable += OnSetFlowVariable;
+        Courier.Subscribe<SetVariableNotification>(HandleSetVariableNotification);
 
         await base.OnInitializedAsync();
     }
@@ -96,8 +91,6 @@ public partial class FlowVariables : ComponentBase, INotificationHandler<SetVari
                 Type = newVariable.Type,
                 Description = newVariable.Description
             });
-
-            //StateHasChanged();
 
             return Task.CompletedTask;
         };
@@ -131,8 +124,6 @@ public partial class FlowVariables : ComponentBase, INotificationHandler<SetVari
 
             Flow.SetOutputVariable(new StepVariable { Name = updatedVariable.Name, Value = updatedVariable.Value });
 
-            //StateHasChanged();
-
             return Task.CompletedTask;
         };
     }
@@ -163,8 +154,6 @@ public partial class FlowVariables : ComponentBase, INotificationHandler<SetVari
                 Value = newVariable.Value,
                 Description = newVariable.Description
             });
-
-            //StateHasChanged();
 
             return Task.CompletedTask;
         };
@@ -204,8 +193,6 @@ public partial class FlowVariables : ComponentBase, INotificationHandler<SetVari
                 Description = updatedVariable.Description
             });
 
-            //StateHasChanged();
-
             return Task.CompletedTask;
         };
     }
@@ -213,11 +200,6 @@ public partial class FlowVariables : ComponentBase, INotificationHandler<SetVari
     public void DeleteInputVariable(StepVariable variable)
     {
         Flow.InputVariables.Remove(variable.Name);
-    }
-
-    public async Task Cancel()
-    {
-        //await CloseFeedbackAsync();
     }
 
     public async Task ViewVariable(StepVariable variable)
@@ -235,25 +217,17 @@ public partial class FlowVariables : ComponentBase, INotificationHandler<SetVari
 
         newVariableDialog.OnOk = () =>
         {
-            //StateHasChanged();
-
             return Task.CompletedTask;
         };
     }
 
-    public Task Handle(SetVariableNotification notification, CancellationToken cancellationToken)
+    private void HandleSetVariableNotification(SetVariableNotification notification, CancellationToken cancellationToken)
     {
-        SetFlowVariable?.Invoke(this, new SetVariableNotification(notification.Variable));
-        return Task.CompletedTask;
-    }
-
-    private void OnSetFlowVariable(object sender, SetVariableNotification e)
-    {
-        Flow.Variables[e.Variable.Name] = e.Variable;
+        Flow.Variables[notification.Variable.Name] = notification.Variable;
     }
 
     public void Dispose()
     {
-        SetFlowVariable -= OnSetFlowVariable;
+        Courier.UnSubscribe<SetVariableNotification>(HandleSetVariableNotification);
     }
 }

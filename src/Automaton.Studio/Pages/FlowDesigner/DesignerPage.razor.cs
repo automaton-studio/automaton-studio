@@ -18,10 +18,10 @@ partial class DesignerPage : ComponentBase
 
     [Parameter] public string FlowId { get; set; }
 
-    [Inject] private ICourier Courier { get; set; }
-    [Inject] private ModalService ModalService { get; set; } = default!;
-    [Inject] private DesignerViewModel DesignerViewModel { get; set; } = default!;
-    [Inject] private FlowExplorerViewModel FlowExplorerViewModel { get; set; } = default!;
+    [Inject] ICourier Courier { get; set; }
+    [Inject] ModalService ModalService { get; set; } = default!;
+    [Inject] DesignerViewModel DesignerViewModel { get; set; } = default!;
+    [Inject] FlowExplorerViewModel FlowExplorerViewModel { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
