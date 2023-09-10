@@ -8,29 +8,16 @@ namespace Automaton.Studio.Shared
         private bool collapsed;
 
         [Inject] NavigationManager NavigationManager { get; set; }
+        [Inject] NavMenuViewModel NavMenuViewModel { get; set; }
 
-        public Guid Id { get; private set; }
-
-        [Parameter] public bool Collapsed 
-        { 
-            get 
-            {  
-                return collapsed; 
-            } 
-            set
-            {
-                collapsed = value;
-                MenuParameters = GetMenuParameters();
-            }
-        }
-
-        public Type Menu { get; set; } = typeof(MainMenu);
-        public Dictionary<string, object> MenuParameters { get; set; }
+        public MenuMetadata Menu { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            MenuParameters = GetMenuParameters();
             NavigationManager.RegisterLocationChangingHandler(NavigationLocationChanged);
+
+            Menu = NavMenuViewModel.GetMainMenu(collapsed);
+
             await base.OnInitializedAsync();
         }
 
@@ -40,37 +27,34 @@ namespace Automaton.Studio.Shared
             {
                 var id = context.TargetLocation.Split('/')[1];
                 Guid.TryParse(id, out var flowId);
-                NavigateToFlow(flowId);
+                ShowFlowMenu(flowId);
             }
-            else if(context.TargetLocation.Equals(NavigationManager.BaseUri, StringComparison.OrdinalIgnoreCase))
+            else if (context.TargetLocation.Equals(NavigationManager.BaseUri, StringComparison.OrdinalIgnoreCase))
             {
-                NavigateToFlows();
+                ShowMainMenu();
             }
+
+            InvokeAsync(StateHasChanged);
 
             return ValueTask.CompletedTask;
         }
 
-        private Dictionary<string,object> GetMenuParameters()
+        public void ShowFlowMenu(Guid flowId)
         {
-            return new Dictionary<string, object>()
-            {
-                { "Collapsed", Collapsed },
-                { "Id", Id }
-            };
+            Menu = NavMenuViewModel.GetFlowMenu(flowId, collapsed);
         }
 
-        public void NavigateToFlow(Guid flowId)
+        public void ShowMainMenu()
         {
-            Id = flowId;
-            MenuParameters = GetMenuParameters();
-            Menu = typeof(FlowMenu);
-            InvokeAsync(StateHasChanged);
+            Menu = NavMenuViewModel.GetMainMenu(collapsed);
         }
 
-        public void NavigateToFlows()
+        public void SetCollapsed(bool collapsed)
         {
-            MenuParameters = GetMenuParameters();
-            Menu = typeof(MainMenu);
+            this.collapsed = collapsed;
+
+            Menu.SetCollapsed(collapsed);
+
             InvokeAsync(StateHasChanged);
         }
     }

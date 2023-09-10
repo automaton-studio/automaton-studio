@@ -6,6 +6,8 @@ namespace Automaton.Studio.Shared
     {
         private bool MenuCollapsed { get; set; }
 
+        private NavMenu NavigationMenu { get; set; }
+
         [Inject] JsInterop JsInterop { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
         [Inject] MainLayoutViewModel MainLayoutViewModel { get; set; }
@@ -13,6 +15,7 @@ namespace Automaton.Studio.Shared
         private void ToggleCollapsed()
         {
             MenuCollapsed = !MenuCollapsed;
+            NavigationMenu.SetCollapsed(MenuCollapsed);
         }
 
         private async Task ToggleFullScreen()

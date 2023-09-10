@@ -85,8 +85,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<CustomStepViewModel>();     
         services.AddScoped<StepsViewModel>();
         services.AddScoped<FlowExplorerViewModel>();
-        services.AddScoped<MainLayoutViewModel>(); 
-
+        services.AddScoped<MainLayoutViewModel>();
+        services.AddScoped<NavMenuViewModel>();
+        
         // Studio steps
         // Note: Must be transient for some reason
         services.AddTransient<EmitLogStep>();
