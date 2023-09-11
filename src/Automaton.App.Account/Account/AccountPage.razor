@@ -5,52 +5,32 @@
     <Header Class="header">
         <Row>
             <Col Flex=@("none")>
-                <Space Size="@AntSizeLDSType.Large">
-                    <SpaceItem Class="header-item">
+            <Space Size="@AntSizeLDSType.Large">
+                <SpaceItem Class="header-item">
                     <Title Level="3">Account</Title>
-                    </SpaceItem>
-                </Space>
+                </SpaceItem>
+            </Space>
             </Col>
 
             <Col Class="right-actions">
-                <Space Class="right-header-items">
-                    <SpaceItem>           
-                    </SpaceItem>             
-                </Space>
+            <Space Class="right-header-items">
+                <SpaceItem>
+                </SpaceItem>
+            </Space>
             </Col>
         </Row>
     </Header>
 
-    <Layout Class="designer-container account-layout">
+    <Layout Class="designer-container account-form">
 
-        <Sider Breakpoint="@BreakpointType.Lg"
-               CollapsedWidth="64"
-               @bind-Collapsed=@collapsed
-               Theme="SiderTheme.Light">
-
-            <Row>
-                <Col Span="24">
-                <Menu Mode="MenuMode.Inline" DefaultSelectedKeys=@(new[]{"1"})>
-                    <MenuItem Key="1" OnClick="NavigateToUserProfile">
-                        <Icon Type="smile" Theme="outline" />
-                        <span class="nav-text">Profile</span>
-                    </MenuItem>
-                    <MenuItem Key="2" OnClick="NavigateToUserSecurity">
-                        <Icon Type="lock" Theme="outline" />
-                        <span class="nav-text">Security</span>
-                    </MenuItem>
-                </Menu>
-                </Col>
-            </Row>
-        </Sider>
-
-        <Content Class="account-layout">
-            <GridRow Justify="left" Align="left" Class="account-form">
-                <GridCol>
-                    <DynamicComponent Type="accountSection" />
-                </GridCol>
-            </GridRow>
-        </Content>
+        <Tabs TabPosition="TabPosition.Top">
+            <TabPane Tab="User profile" Key="1">
+                <UserProfile></UserProfile>
+            </TabPane>
+            <TabPane Tab="User security" Key="2">
+                <UserSecurity></UserSecurity>
+            </TabPane>
+        </Tabs>
 
     </Layout>
 
@@ -68,10 +48,6 @@
         padding: 20px;
         height: calc(100vh - 118px);
         overflow: auto;
-    }
-
-    .account-search {
-        padding: 5px 10px 5px 10px;
     }
 
 </style>
