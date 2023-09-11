@@ -2,11 +2,8 @@
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
-using Automaton.Studio.Pages.FlowDesigner.Components.NewVariable;
 using Automaton.Studio.Resources;
-using MediatR;
 using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
 
 namespace Automaton.Studio.Steps;
 
