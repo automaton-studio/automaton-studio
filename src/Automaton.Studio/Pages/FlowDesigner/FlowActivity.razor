@@ -1,0 +1,80 @@
+﻿@page "/flowactivity/{flowid}"
+@using AntDesign
+@using Automaton.Studio.Models;
+
+<Layout>
+    <Header Class="header">
+        <Row>
+            <Col Flex=@("none")>
+            <Space Size="@AntSizeLDSType.Large">
+                <SpaceItem Class="header-item">
+                    <Title Level="4">Flow activity</Title>
+                </SpaceItem>
+            </Space>
+            </Col>
+
+            <Col Class="right-actions">
+            <Space Class="right-header-items">
+            </Space>
+            </Col>
+        </Row>
+    </Header>
+
+    <Content>
+        <Table TItem="FlowExecution" DataSource="@FlowActivityViewModel.Executions" RowExpandable="@((record)=>true)" Loading="@loading" Class="autoscroll-list">
+            <ColumnDefinitions>
+
+                <Column Title="Status" @bind-Field="@context.Status">
+                    <Space Direction="DirectionVHType.Horizontal">
+                    <SpaceItem><Icon Type="@context.StatusIcon.Icon" Theme="Fill" Class="@context.StatusIcon.Class" /></SpaceItem>
+                    <SpaceItem>@context.Status</SpaceItem>
+                    </Space>
+                </Column>
+
+                <Column Title="Started" @bind-Field="@context.Started">
+                    @context.Started
+                </Column>
+
+                <Column Title="Finished" @bind-Field="@context.Finished">
+                    @context.Finished
+                </Column>
+            </ColumnDefinitions>
+
+
+            <ExpandTemplate Context="inputVariable2">
+                <div>Test</div>
+            </ExpandTemplate>
+        </Table>
+    </Content>
+</Layout>
+
+<style>
+    .status-none {
+        color: gray;
+        padding-top: 3px;
+        font-size: 20px;
+        visibility: collapse;
+    }
+
+    .status-working {
+        color: deepskyblue;
+        padding-top: 3px;
+        font-size: 20px;
+    }
+
+    .status-success {
+        color: limegreen;
+        padding-top: 3px;
+        font-size: 20px;
+    }
+
+    .status-error {
+        color: red;
+        padding-top: 3px;
+        font-size: 20px;
+    }
+
+</style>
+
+
+
