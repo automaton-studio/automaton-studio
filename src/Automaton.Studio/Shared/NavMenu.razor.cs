@@ -25,7 +25,8 @@ namespace Automaton.Studio.Shared
         {
             if (context.TargetLocation.Contains("flowdesigner"))
             {
-                var id = context.TargetLocation.Split('/')[1];
+                var urlElements = context.TargetLocation.Split('/');
+                var id = urlElements.LastOrDefault();
                 Guid.TryParse(id, out var flowId);
                 ShowFlowMenu(flowId);
             }
