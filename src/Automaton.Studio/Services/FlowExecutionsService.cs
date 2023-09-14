@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
-using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Models;
-using Serilog;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Automaton.Studio.Services;
 
@@ -46,6 +42,17 @@ public class FlowExecutionsService
         }
 
         return flowExecutions;
+    }
+
+    public async Task<CustomStep> GetLogs(Guid id)
+    {
+        var response = await httpClient.GetAsync($"{configService.FlowExecutionUrl}/logs/{id}");
+
+        response.EnsureSuccessStatusCode();
+
+        var customStep = await response.Content.ReadAsAsync<CustomStep>();
+
+        return customStep;
     }
 
     public async Task Add(FlowExecution flowExecution)

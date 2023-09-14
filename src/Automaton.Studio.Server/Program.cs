@@ -102,13 +102,14 @@ applicationBuilder.Host.UseSerilog((context, services, config) =>
             appConfiguration: configurationBuilder,
             // Below configuration is overritten by configuration from appsettings.json
             logEventFormatter: new CompactJsonFormatter(),
-            sinkOptions: new MSSqlServerSinkOptions { TableName = "LogEvents" }))
+            sinkOptions: new MSSqlServerSinkOptions { TableName = "Logs" }))
     .WriteTo.Conditional(evt => configurationService.IsDatabaseTypeMySql(),
         wt => wt.MySQL(
             connectionString: configurationManager.GetConnectionString("MySqlConnection"),
             tableName: "Logs"))
     );
 
+services.AddScoped<LogsService>();
 services.AddScoped<CustomStepsService>();
 services.AddScoped<FlowsService>();
 services.AddScoped<RunnerService>();

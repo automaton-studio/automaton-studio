@@ -19,4 +19,11 @@ public class UserContextService
 
         return userId;
     }
+
+    public string GetUserName()
+    {
+        var userName = httpContextAccessor.HttpContext?.User?.Identity?.Name;
+
+        return userName;
+    }
 }
