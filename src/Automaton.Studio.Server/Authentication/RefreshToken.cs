@@ -24,7 +24,7 @@ namespace Common.Authentication
             Id = Guid.NewGuid();
             UserId = userId;
             CreatedAt = DateTime.Now;
-            Token = RefreshToken.GenerateToken();
+            Token = GenerateToken();
             Expires = DateTime.Now.AddDays(dayToExpire);
         }
 
