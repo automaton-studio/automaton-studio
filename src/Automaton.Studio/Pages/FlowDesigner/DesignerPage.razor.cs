@@ -186,7 +186,7 @@ partial class DesignerPage : ComponentBase
 
         DesignerViewModel.SetExecutingStep(notification.StepId);
 
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
     }
 
     private void HandleFlowUpdateNotification(FlowUpdateNotification notification, CancellationToken cancellationToken)
@@ -194,7 +194,7 @@ partial class DesignerPage : ComponentBase
         if (cancellationToken.IsCancellationRequested)
             return;
 
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
     }
 
     public void Dispose()
