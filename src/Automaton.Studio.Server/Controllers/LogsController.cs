@@ -14,7 +14,7 @@ public class LogsController : BaseController
     }
 
     [HttpGet]
-    public IEnumerable<LogEvent> Get()
+    public IEnumerable<Log> Get()
     {
         return logsService.List();
     }

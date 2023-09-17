@@ -2,7 +2,6 @@
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Entities;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 
 namespace Automaton.Studio.Server.Services;
 
@@ -23,7 +22,7 @@ public class FlowExecutionService
         this.dbContext = dbContext;
         this.mapper = mapper;
         this.userId = userContextService.GetUserId();
-        this.logger = Log.ForContext<FlowsService>();
+        this.logger = Serilog.Log.ForContext<FlowsService>();
     }
 
     public IEnumerable<FlowExecution> List()

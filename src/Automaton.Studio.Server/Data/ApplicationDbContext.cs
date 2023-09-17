@@ -19,12 +19,13 @@ namespace Automaton.Studio.Server.Data
         public virtual DbSet<Runner> Runners { get; set; }
         public virtual DbSet<RunnerUser> RunnerUsers { get; set; }
         public virtual DbSet<CustomStep> CustomSteps { get; set; }
-        public virtual DbSet<LogEvent> Logs { get; set; }
+        public virtual DbSet<Log> Logs { get; set; }
         public virtual DbSet<CustomStepUser> CustomStepUsers { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            this.Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -83,34 +84,14 @@ namespace Automaton.Studio.Server.Data
                 entity.Property(e => e.CustomStepId).IsRequired();
             });
 
-            modelBuilder.Entity<RefreshToken>()
-                .ToTable("RefreshTokens");
-
-            modelBuilder.Entity<RefreshToken>()
-                .HasKey(x => x.Id);
-
-            modelBuilder.Entity<RefreshToken>().Property(x => x.UserId);
-
-            modelBuilder.Entity<RefreshToken>()
-                .Property(s => s.Id)
-                .IsRequired();
-
-            modelBuilder.Entity<RefreshToken>()
-                .Property(s => s.Token)
-                .IsRequired();
-
-            modelBuilder.Entity<RefreshToken>()
-                .Property(s => s.RevokedAt)
-                .IsRequired(false);
-
-            modelBuilder.Entity<RefreshToken>()
-                .Property(s => s.CreatedAt)
-                .IsRequired()
-                .HasDefaultValue(DateTime.Now);
-
-            modelBuilder.Entity<RefreshToken>()
-                .Property(s => s.Expires)
-                .IsRequired();
+            modelBuilder.Entity<RefreshToken>(entity =>
+            {
+                entity.HasKey(e => new { e.Id });
+                entity.Property(s => s.Token).IsRequired();
+                entity.Property(s => s.RevokedAt).IsRequired(false);
+                entity.Property(s => s.CreatedAt).IsRequired().HasDefaultValue(DateTime.Now);
+                entity.Property(s => s.Expires).IsRequired();
+            });
         }
 
         public void BeginTransaction()

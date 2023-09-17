@@ -5,12 +5,8 @@ using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Entities;
 using Automaton.Studio.Server.Hubs;
 using Automaton.Studio.Server.Models;
-using Azure;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using MySqlX.XDevAPI.Common;
-using Serilog;
-using System.Threading;
 
 namespace Automaton.Studio.Server.Services;
 
@@ -31,7 +27,7 @@ public class RunnerService
         this.mapper = mapper;
         this.automatonHub = automatonHub;
         this.userId = userContextService.GetUserId();
-        logger = Log.ForContext<RunnerService>();
+        logger = Serilog.Log.ForContext<RunnerService>();
     }
 
     public async Task<IEnumerable<RunnerDetails>> List(CancellationToken cancellationToken)

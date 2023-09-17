@@ -24,10 +24,10 @@ public class LogsService
         this.dataContext = dataContext;
         this.mapper = mapper;
         this.userName = userContextService.GetUserName();
-        this.logger = Log.ForContext<LogsService>();
+        this.logger = Serilog.Log.ForContext<LogsService>();
     }
 
-    public IEnumerable<LogEvent> List()
+    public IEnumerable<Entities.Log> List()
     {
         var entities = dataContext.Logs;
         //var steps = mapper.Map<IEnumerable<LogEvent>>(entities);
