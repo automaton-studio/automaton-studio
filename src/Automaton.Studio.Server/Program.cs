@@ -13,12 +13,9 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
-using Serilog.Formatting.Compact;
-using Serilog.Sinks.MariaDB.Extensions;
-using Serilog.Sinks.MariaDB;
-using Serilog.Sinks.MSSqlServer;
 using System.Reflection;
 
 var applicationBuilder = WebApplication.CreateBuilder(args);
@@ -83,7 +80,7 @@ services.AddControllers();
 services.AddTransient<UserNameEnricher>();
 services.AddHttpContextAccessor();
 
-Serilog.Debugging.SelfLog.Enable(Console.Error);
+Serilog.Debugging.SelfLog.Enable(Console.Out);
 
 applicationBuilder.Host.UseSerilog((context, services, config) =>
     config.Destructure.UsingAttributes()
@@ -92,16 +89,6 @@ applicationBuilder.Host.UseSerilog((context, services, config) =>
     .Enrich.With<EventTypeEnricher>()
     .Enrich.With(services.GetService<UserNameEnricher>())
     .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
-    .WriteTo.Conditional(evt => configurationService.IsDatabaseTypeMsSql(),
-        wt => wt.MSSqlServer(
-            connectionString: configurationManager.GetConnectionString("MsSqlConnection"),
-            appConfiguration: configurationBuilder,
-            logEventFormatter: new CompactJsonFormatter(),
-            sinkOptions: new MSSqlServerSinkOptions { TableName = "Logs" }))
-    .WriteTo.Conditional(evt => configurationService.IsDatabaseTypeMySql(),
-        wt => wt.MySQL(
-            connectionString: configurationManager.GetConnectionString("MySqlConnection"),
-            tableName: "Logs"))
 );
 
 services.AddScoped<LogsService>();
@@ -127,8 +114,6 @@ services.AddAutomatonSteps();
 services.AddAutomatonCore();
 
 var app = applicationBuilder.Build();
-
-//app.ApplyMigrations();
 
 app.UseSerilogRequestLogging(
     options =>

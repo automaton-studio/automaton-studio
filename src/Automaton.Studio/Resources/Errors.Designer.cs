@@ -178,6 +178,15 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Flow activity lists could not be loaded.
+        /// </summary>
+        public static string FlowsActivityNotLoaded {
+            get {
+                return ResourceManager.GetString("FlowsActivityNotLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Flow list could not be loaded.
         /// </summary>
         public static string FlowsListNotLoaded {

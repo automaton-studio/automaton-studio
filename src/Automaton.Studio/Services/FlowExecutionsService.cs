@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Automaton.Studio.Domain;
 using Automaton.Studio.Models;
 
 namespace Automaton.Studio.Services;
@@ -24,40 +23,83 @@ public class FlowExecutionsService
         this.mapper = mapper;
     }
 
-    public async Task<ICollection<FlowExecution>> List()
+    public async Task<IEnumerable<FlowExecution>> ListForFlow(Guid flowId)
     {
-        ICollection<FlowExecution> flowExecutions = new List<FlowExecution>();
-
         try
         {
-            var result = await httpClient.GetAsync(configService.FlowExecutionUrl);
+            var result = await httpClient.GetAsync($"{configService.FlowExecutionUrl}/flow/{flowId}");
 
             result.EnsureSuccessStatusCode();
 
-            flowExecutions = await result.Content.ReadAsAsync<ICollection<FlowExecution>>();
+            var flowExecutions = await result.Content.ReadAsAsync<IEnumerable<FlowExecution>>();
+
+            return flowExecutions;
         }
         catch (Exception ex)
         {
             logger.Error(ex, "Failed to load flow execution list");
-        }
 
-        return flowExecutions;
+            throw;
+        }
     }
 
-    public async Task<CustomStep> GetLogs(Guid id)
+    public async Task<IEnumerable<LogModel>> GetLogsActivity(Guid flowId, Guid flowExecutionId)
     {
-        var response = await httpClient.GetAsync($"{configService.FlowExecutionUrl}/logs/{id}");
+        try
+        {
+            var response = await httpClient.GetAsync($"{configService.FlowExecutionUrl}/logs/{flowExecutionId}");
 
-        response.EnsureSuccessStatusCode();
+            response.EnsureSuccessStatusCode();
 
-        var customStep = await response.Content.ReadAsAsync<CustomStep>();
+            var logs = await response.Content.ReadAsAsync<IEnumerable<LogModel>>();
 
-        return customStep;
+            return logs;
+
+        }
+        catch (Exception ex)
+        {
+            logger
+                .ForContext("FlowId", flowId)
+                .ForContext("FlowExecutionId", flowExecutionId)
+                .Error(ex, "Failed to load flow execution logs");
+
+            throw;
+        }
+    }
+
+    public async Task<string> GetLogsActivityText(Guid flowId, Guid flowExecutionId)
+    {
+        try
+        {
+            var logs = await GetLogsActivity(flowId, flowExecutionId);
+
+            var logsText = string.Join(Environment.NewLine, logs.Select(x => $"{x.Timestamp:s} {x.Level} {x.Message}"));
+
+            return logsText;
+        }
+        catch (Exception ex)
+        {
+            logger
+                .ForContext("FlowId", flowId)
+                .ForContext("FlowExecutionId", flowExecutionId)
+                .Error(ex, "Failed to load flow execution logs text");
+
+            throw;
+        }
     }
 
     public async Task Add(FlowExecution flowExecution)
     {
-        var response = await httpClient.PostAsJsonAsync(configService.FlowExecutionUrl, flowExecution);
+        var flowExecutionModel = new 
+        {
+            flowExecution.Id,
+            flowExecution.FlowId,
+            flowExecution.Started,
+            flowExecution.Finished,
+            Status = flowExecution.Status.ToString()
+        };
+
+        var response = await httpClient.PostAsJsonAsync(configService.FlowExecutionUrl, flowExecutionModel);
         response.EnsureSuccessStatusCode();
     }
 }

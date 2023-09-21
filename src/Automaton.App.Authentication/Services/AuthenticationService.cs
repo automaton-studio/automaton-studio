@@ -6,8 +6,6 @@ using Automaton.Client.Auth.Providers;
 using MediatR;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json;
 
 namespace Automaton.App.Authentication.Services;
 
@@ -58,5 +56,12 @@ public class AuthenticationService
         httpClient.DefaultRequestHeaders.Authorization = null;
 
         await mediator.Publish(new UserLogoutNotification());
+    }
+
+    public async Task<string> GetUserId()
+    {
+        var userId = await ((AuthStateProvider)authStateProvider).GetUserId();
+
+        return userId;
     }
 }

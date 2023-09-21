@@ -13,11 +13,11 @@ public class LogsController : BaseController
         this.logsService = logsService;
     }
 
-    [HttpGet]
-    public IEnumerable<Log> Get()
-    {
-        return logsService.List();
-    }
+    //[HttpGet]
+    //public IEnumerable<Log> Get()
+    //{
+    //    return logsService.List();
+    //}
 
     //[HttpGet("{id}")]
     //public ActionResult<Models.CustomStep> Get(Guid id)

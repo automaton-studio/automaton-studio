@@ -19,7 +19,6 @@ namespace Automaton.Studio.Server.Mapper
         private void CreateServices()
         {
             serviceCollection = new ServiceCollection();
-            serviceCollection.AddLogging();
             serviceCollection.AddAutomatonSteps();
             serviceProvider = serviceCollection.BuildServiceProvider();
         }

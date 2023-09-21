@@ -21,6 +21,16 @@ public class FlowExecution
     public DateTime Finished { get; set; }
     public WorkflowStatus Status { get; set; }
 
-    public FlowStatusIcon StatusIcon => StatusIcons[Status];
+    public string LogsText { get; set; } = string.Empty;
+
+    public string GetStatusIcon()
+    {
+        return StatusIcons[Status].Icon;
+    }
+
+    public string GetStatusClass()
+    {
+        return StatusIcons[Status].Class;
+    }
 }
 

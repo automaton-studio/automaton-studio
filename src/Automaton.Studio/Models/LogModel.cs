@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Automaton.Studio.Server.Entities;
+namespace Automaton.Studio.Models;
 
-public class Log
+public class LogModel
 {
     public int Id { get; set; }
 
@@ -11,7 +10,7 @@ public class Log
 
     public string Message { get; set; }
 
-    public string MessageTemplate { get; set; }
+    public string Template { get; set; }
 
     public string? Exception { get; set; }
 
@@ -19,9 +18,6 @@ public class Log
 
     public DateTime Timestamp { get; set; }
 
-    public string? UserId { get; set; }
-
-    [NotMapped]
     public Dictionary<string, object>? PropertiesDictionary
     {
         get { return JsonConvert.DeserializeObject<Dictionary<string, object>>(Properties); }

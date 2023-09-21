@@ -9,5 +9,7 @@
         public const string RunnerExecution = "RunnerExecution";
         public const string RunnerId = "RunnerId";
         public const string RunnerName = "RunnerName";
+
+        public const string UserId = "UserId";
     }
 }

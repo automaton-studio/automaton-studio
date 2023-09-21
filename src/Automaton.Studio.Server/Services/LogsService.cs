@@ -2,7 +2,9 @@
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Entities;
 using Automaton.Studio.Server.Models;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Reflection.Metadata;
 using System.Text.Json;
 
 namespace Automaton.Studio.Server.Services;
@@ -27,19 +29,28 @@ public class LogsService
         this.logger = Serilog.Log.ForContext<LogsService>();
     }
 
-    public IEnumerable<Entities.Log> List()
-    {
-        var entities = dataContext.Logs;
-        //var steps = mapper.Map<IEnumerable<LogEvent>>(entities);
+    //public IEnumerable<Entities.Log> List()
+    //{
+    //    var entities = dataContext.Logs;
+    //    //var steps = mapper.Map<IEnumerable<LogEvent>>(entities);
 
-        return entities;
-    }
+    //    return entities;
+    //}
+
+    //public IEnumerable<Entities.Log> GetFlowExecutionLogs(Guid executionId)
+    //{
+    //    //var logs = dataContext.Logs.FromSql<Entities.Log>($"SELECT * FROM `automaton.studio`.`logs` WHERE `properties` -> '$.WorkflowExecutionId' = {executionId}").ToList();
+
+    //    //return logs;
+
+    //    return null;
+    //}
 
     //public CustomStep Get(Guid id)
     //{
     //    var stepEntity = dataContext.CustomSteps.SingleOrDefault(x => x.Id == id && x.CustomStepUsers.Any(x => x.UserId == userId));
     //    var step = mapper.Map<CustomStep>(stepEntity);
- 
+
     //    return step;
     //}
 

@@ -38,6 +38,13 @@ public class FlowExecutionService
         return execution;
     }
 
+    public IEnumerable<FlowExecution> GetForFlow(Guid flowId)
+    {
+        var execution = dbContext.FlowExecutions.Where(x => x.FlowId == flowId && x.FlowExecutionUsers.Any(x => x.UserId == userId));
+
+        return execution;
+    }
+
     public int Add(Models.FlowExecution executionModel)
     {
         var execution = new FlowExecution()

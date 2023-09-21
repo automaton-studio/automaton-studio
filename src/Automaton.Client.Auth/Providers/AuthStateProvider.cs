@@ -115,6 +115,15 @@ public class AuthStateProvider : AuthenticationStateProvider
         return authenticated;
     }
 
+    public async Task<string> GetUserId()
+    {
+        var accessToken = await GetAccessTokenAsync();
+        var authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(JsonWebTokenParser.ParseClaimsFromJwt(accessToken), ClaimJwtAuthType));
+        var userId = authenticatedUser.FindFirst("sub")?.Value;
+
+        return userId;
+    }
+
     private async Task<JsonWebToken> RefreshJsonWebTokenAsync()
     {
         var refreshToken = await authenticationStorage.GetRefreshToken();

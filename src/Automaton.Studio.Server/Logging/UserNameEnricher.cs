@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Http;
 using Serilog.Core;
+using System.Security.Claims;
 
 public class UserNameEnricher : ILogEventEnricher
 {
@@ -16,9 +18,14 @@ public class UserNameEnricher : ILogEventEnricher
             return;
         }
 
-        // Access the name of the logged-in user
-        var userName = _httpContextAccessor.HttpContext.User.Identity.Name;
+        var user = _httpContextAccessor.HttpContext.User;
+        var userName = user.Identity.Name;
+        var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
         var userNameProperty = factory.CreateProperty("UserName", userName);
-        logEvent.AddPropertyIfAbsent(userNameProperty);
+        logEvent.AddOrUpdateProperty(userNameProperty);
+
+        var userIdProperty = factory.CreateProperty("UserId", userId);
+        logEvent.AddOrUpdateProperty(userIdProperty);
     }
 }

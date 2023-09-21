@@ -156,6 +156,9 @@
   <data name="FlowRequired" xml:space="preserve">
     <value>Flow is required</value>
   </data>
+  <data name="FlowsActivityNotLoaded" xml:space="preserve">
+    <value>Flow activity lists could not be loaded</value>
+  </data>
   <data name="FlowsListNotLoaded" xml:space="preserve">
     <value>Flow list could not be loaded</value>
   </data>

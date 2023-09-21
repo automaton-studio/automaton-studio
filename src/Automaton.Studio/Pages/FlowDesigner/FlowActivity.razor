@@ -21,12 +21,17 @@
     </Header>
 
     <Content>
-        <Table TItem="FlowExecution" DataSource="@FlowActivityViewModel.Executions" RowExpandable="@((record)=>true)" Loading="@loading" Class="autoscroll-list">
+        <Table TItem="FlowExecution" 
+            DataSource="@FlowActivityViewModel.Executions"
+            RowExpandable="@((record)=>true)"
+            OnExpand="OnRowExpand"
+            Loading="@loading" 
+            Class="autoscroll-list">
             <ColumnDefinitions>
 
                 <Column Title="Status" @bind-Field="@context.Status">
                     <Space Direction="DirectionVHType.Horizontal">
-                    <SpaceItem><Icon Type="@context.StatusIcon.Icon" Theme="Fill" Class="@context.StatusIcon.Class" /></SpaceItem>
+                    <SpaceItem><Icon Type="@context.GetStatusIcon()" Theme="Fill" Class="@context.GetStatusClass()" /></SpaceItem>
                     <SpaceItem>@context.Status</SpaceItem>
                     </Space>
                 </Column>
@@ -41,8 +46,8 @@
             </ColumnDefinitions>
 
 
-            <ExpandTemplate Context="inputVariable2">
-                <div>Test</div>
+            <ExpandTemplate Context="rowData">
+                <TextArea Id="flow-logs" Value="@rowData.Data.LogsText" />
             </ExpandTemplate>
         </Table>
     </Content>
@@ -72,6 +77,13 @@
         color: red;
         padding-top: 3px;
         font-size: 20px;
+    }
+
+    #flow-logs {
+        width: 100%;
+        height: 300px !important;
+        overflow-x: hidden;
+        font-size: smaller;
     }
 
 </style>

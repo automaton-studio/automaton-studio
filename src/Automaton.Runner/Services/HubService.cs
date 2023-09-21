@@ -3,14 +3,7 @@ using Automaton.Client.Auth.Providers;
 using Automaton.Core.Events;
 using Automaton.Core.Models;
 using Automaton.Runner.Connection;
-using MediatR;
 using Microsoft.AspNetCore.SignalR.Client;
-using Mono.Unix.Native;
-using Polly;
-using Polly.Timeout;
-using Serilog;
-using System;
-using System.Threading.Tasks;
 
 namespace Automaton.Runner.Services;
 
