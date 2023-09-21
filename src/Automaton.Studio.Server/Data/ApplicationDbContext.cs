@@ -19,7 +19,7 @@ namespace Automaton.Studio.Server.Data
         public virtual DbSet<Runner> Runners { get; set; }
         public virtual DbSet<RunnerUser> RunnerUsers { get; set; }
         public virtual DbSet<CustomStep> CustomSteps { get; set; }
-        //public virtual DbSet<Log> Logs { get; set; }
+        public virtual DbSet<Log> Logs { get; set; }
         public virtual DbSet<CustomStepUser> CustomStepUsers { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

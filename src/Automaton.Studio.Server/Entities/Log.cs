@@ -19,6 +19,8 @@ public class Log
 
     public DateTime Timestamp { get; set; }
 
+    public string? EventType { get; set; }
+
     public string? UserId { get; set; }
 
     [NotMapped]
