@@ -45,9 +45,15 @@
                 </Column>
             </ColumnDefinitions>
 
-
             <ExpandTemplate Context="rowData">
-                <TextArea Id="flow-logs" Value="@rowData.Data.LogsText" />
+                @if (LogIsLoading(rowData.Data.LogsText))
+                {
+                    <div class="log-spin"><Spin /></div>
+                }
+                else
+                {
+                    <TextArea Id="flow-logs" Value="@rowData.Data.LogsText" />
+                }
             </ExpandTemplate>
         </Table>
     </Content>
@@ -84,6 +90,13 @@
         height: 300px !important;
         overflow-x: hidden;
         font-size: smaller;
+    }
+
+    .log-spin {
+        text-align: center;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        margin: 20px 0;
     }
 
 </style>

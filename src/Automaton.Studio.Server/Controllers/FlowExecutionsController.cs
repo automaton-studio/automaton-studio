@@ -38,8 +38,7 @@ namespace Automaton.Studio.Server.Controllers
         [HttpGet("logs/{flowExecutionId}")]
         public ActionResult<IEnumerable<FlowExecution>> GetLogs(Guid flowExecutionId)
         {
-            return Ok();
-            //return Ok(logsService.GetFlowExecutionLogs(flowExecutionId));
+            return Ok(logsService.GetFlowExecutionLogs(flowExecutionId));
         }
 
         [HttpPost]

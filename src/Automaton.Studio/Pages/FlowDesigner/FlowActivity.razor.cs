@@ -44,5 +44,10 @@ namespace Automaton.Studio.Pages.FlowDesigner
 
             StateHasChanged();
         }
+
+        private static bool LogIsLoading(string log)
+        {
+            return string.IsNullOrEmpty(log);
+        }
     }
 }
