@@ -8,7 +8,7 @@ public class LogsService
 {
     private readonly ApplicationDbContext dataContext;
     private readonly IMapper mapper;
-    private readonly Guid userId;
+    private readonly string userName;
     private readonly Serilog.ILogger logger;
 
     public LogsService
@@ -20,14 +20,21 @@ public class LogsService
     {
         this.dataContext = dataContext;
         this.mapper = mapper;
-        this.userId = userContextService.GetUserId();
+        this.userName = userContextService.GetUserName();
         this.logger = Serilog.Log.ForContext<LogsService>();
     }
 
     public IEnumerable<Entities.Log> GetFlowExecutionLogs(Guid executionId)
     {
-        var logs = dataContext.Logs.FromSql($"SELECT * FROM `automaton.studio`.`logs` WHERE `userid` = {userId} and `properties` -> '$.WorkflowExecutionId' = {executionId}").ToList();
+        try
+        {
+            var logs = dataContext.Logs.FromSql($"SELECT * FROM `automaton.studio`.`logs` WHERE `username` = {userName} and `properties` -> '$.WorkflowExecutionId' = {executionId}").ToList();
 
-        return logs;
+            return logs;
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
-using Automaton.Core.Enums;
 using Automaton.Studio.Models;
-using Automaton.Studio.Pages.Flows;
 using Automaton.Studio.Services;
-using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.Runners;
 
@@ -40,7 +37,7 @@ public class FlowActivityViewModel
         return logs;
     }
 
-    public async Task<string> GetLogsctivity(string flowIdString, Guid flowExecutionId)
+    public async Task<string> GetLogsText(string flowIdString, Guid flowExecutionId)
     {
         Guid.TryParse(flowIdString, out var flowId);
         var logsText = await flowExecutionService.GetLogsActivityText(flowId, flowExecutionId);

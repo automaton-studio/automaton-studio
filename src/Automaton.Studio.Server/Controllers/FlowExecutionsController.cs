@@ -9,8 +9,6 @@ namespace Automaton.Studio.Server.Controllers
         private readonly FlowExecutionService flowExecutionService;
         private readonly LogsService logsService;
 
-        
-
         public FlowExecutionsController(FlowExecutionService flowExecutionService, LogsService logsService)
         {
             this.flowExecutionService = flowExecutionService;
@@ -36,7 +34,7 @@ namespace Automaton.Studio.Server.Controllers
         }
 
         [HttpGet("logs/{flowExecutionId}")]
-        public ActionResult<IEnumerable<FlowExecution>> GetLogs(Guid flowExecutionId)
+        public ActionResult<IEnumerable<Entities.Log>> GetLogs(Guid flowExecutionId)
         {
             return Ok(logsService.GetFlowExecutionLogs(flowExecutionId));
         }

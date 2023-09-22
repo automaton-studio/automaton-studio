@@ -3,7 +3,6 @@ using AntDesign.TableModels;
 using Automaton.Studio.Models;
 using Automaton.Studio.Pages.Runners;
 using Microsoft.AspNetCore.Components;
-using static IronPython.Runtime.Profiler;
 
 namespace Automaton.Studio.Pages.FlowDesigner
 {
@@ -40,9 +39,11 @@ namespace Automaton.Studio.Pages.FlowDesigner
 
         private async Task OnRowExpand(RowData<FlowExecution> rowData)
         {
-            rowData.Data.LogsText = await FlowActivityViewModel.GetLogsctivity(FlowId, rowData.Data.Id);
-
-            StateHasChanged();
+            if (rowData.Expanded)
+            {
+                rowData.Data.LogsText = await FlowActivityViewModel.GetLogsText(FlowId, rowData.Data.Id);
+                StateHasChanged();
+            }
         }
 
         private static bool LogIsLoading(string log)
