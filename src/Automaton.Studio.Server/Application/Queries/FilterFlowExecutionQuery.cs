@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using static Automaton.Studio.Server.Models.ServerModels;
+using Automaton.Studio.Server.Models;
 
 namespace Automaton.Studio.Server.Queries;
 

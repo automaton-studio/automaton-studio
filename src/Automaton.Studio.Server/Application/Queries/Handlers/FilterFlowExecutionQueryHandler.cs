@@ -1,7 +1,7 @@
 ﻿using Automaton.Studio.Server.Queries;
 using Automaton.Studio.Server.Services;
 using MediatR;
-using static Automaton.Studio.Server.Models.ServerModels;
+using Automaton.Studio.Server.Models;
 
 namespace AuthServer.Application.Queries.Handlers
 {
