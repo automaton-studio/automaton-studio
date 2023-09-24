@@ -26,7 +26,11 @@
             RowExpandable="@((record)=>true)"
             OnExpand="OnRowExpand"
             Loading="@loading" 
-            Class="autoscroll-list">
+            Class="autoscroll-list"
+            EnableVirtualization
+            OnChange="OnChange"
+            Total="FlowActivityViewModel.Total"
+            RemoteDataSource>
             <ColumnDefinitions>
 
                 <Column Title="Status" @bind-Field="@context.Status">

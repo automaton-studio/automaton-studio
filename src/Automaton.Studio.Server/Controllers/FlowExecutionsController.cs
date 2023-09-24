@@ -1,4 +1,6 @@
-﻿using Automaton.Studio.Server.Models;
+﻿using AuthServer.Core.Queries;
+using Automaton.Studio.Server.Models;
+using Automaton.Studio.Server.Queries;
 using Automaton.Studio.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,10 +29,19 @@ namespace Automaton.Studio.Server.Controllers
             return Ok(flowExecutionService.Get(id));
         }
 
-        [HttpGet("flow/{flowId}")]
-        public ActionResult<IEnumerable<FlowExecution>> GetForFlow(Guid flowId)
+        [HttpGet("flow/{flowId}/{startIndex}/{pageSize}")]
+        public async Task<ActionResult<IEnumerable<FlowExecution>>> GetForFlow(Guid flowId, int startIndex, int pageSize, CancellationToken cancellationToken)
         {
-            return Ok(flowExecutionService.GetForFlow(flowId));
+            var flowExecutionQuery = new FilterFlowExecutionQuery
+            {
+                FlowId = flowId,
+                StartIndex = startIndex,
+                PageSize = pageSize
+            };
+
+            var result = await Mediator.Send(flowExecutionQuery, cancellationToken);
+
+            return Ok(result);
         }
 
         [HttpGet("logs/{flowExecutionId}")]

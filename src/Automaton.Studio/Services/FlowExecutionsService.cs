@@ -23,17 +23,17 @@ public class FlowExecutionsService
         this.mapper = mapper;
     }
 
-    public async Task<IEnumerable<FlowExecution>> ListForFlow(Guid flowId)
+    public async Task<FlowExecutionResult> GetFlowExecutionResult(Guid flowId, int startIndex, int pageSize)
     {
         try
         {
-            var result = await httpClient.GetAsync($"{configService.FlowExecutionUrl}/flow/{flowId}");
+            var result = await httpClient.GetAsync($"{configService.FlowExecutionUrl}/flow/{flowId}/{startIndex}/{pageSize}");
 
             result.EnsureSuccessStatusCode();
 
-            var flowExecutions = await result.Content.ReadAsAsync<IEnumerable<FlowExecution>>();
+            var flowExecutionResult = await result.Content.ReadAsAsync<FlowExecutionResult>();
 
-            return flowExecutions;
+            return flowExecutionResult;
         }
         catch (Exception ex)
         {

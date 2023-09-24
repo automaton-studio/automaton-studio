@@ -3,6 +3,7 @@ using AntDesign.TableModels;
 using Automaton.Studio.Models;
 using Automaton.Studio.Pages.Runners;
 using Microsoft.AspNetCore.Components;
+using static IronPython.Runtime.Profiler;
 
 namespace Automaton.Studio.Pages.FlowDesigner
 {
@@ -23,7 +24,7 @@ namespace Automaton.Studio.Pages.FlowDesigner
 
             try
             {
-                await FlowActivityViewModel.GetFlowActivity(FlowId);
+                //await FlowActivityViewModel.GetFlowActivity(FlowId);
             }
             catch
             {
@@ -35,6 +36,11 @@ namespace Automaton.Studio.Pages.FlowDesigner
             }
 
             await base.OnInitializedAsync();
+        }
+
+        async Task OnChange(QueryModel queryModel)
+        {
+            await FlowActivityViewModel.GetFlowActivity(FlowId, queryModel.StartIndex, queryModel.PageSize);
         }
 
         private async Task OnRowExpand(RowData<FlowExecution> rowData)

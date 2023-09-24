@@ -9,7 +9,8 @@ public class FlowActivityViewModel
     private readonly FlowExecutionsService flowExecutionService;
     private readonly IMapper mapper;
 
-    public ICollection<FlowExecution> Executions { get; set; } = new List<FlowExecution>();
+    public IEnumerable<FlowExecution> Executions { get; set; } = new List<FlowExecution>();
+    public int Total { get; set; }
 
     public FlowActivityViewModel
     (
@@ -22,11 +23,13 @@ public class FlowActivityViewModel
         this.mapper = mapper;
     }
 
-    public async Task GetFlowActivity(string flowIdString)
+    public async Task GetFlowActivity(string flowIdString, int startIndex, int pageSize)
     {
         Guid.TryParse(flowIdString, out var flowId);
-        var activities = await flowExecutionService.ListForFlow(flowId);
-        Executions = mapper.Map<ICollection<FlowExecution>>(activities);
+        var result = await flowExecutionService.GetFlowExecutionResult(flowId, startIndex, pageSize);
+
+        Executions = result.FlowExecutions;
+        Total = result.Total;
     }
 
     public async Task<IEnumerable<LogModel>> GetLogs(string flowIdString, Guid flowExecutionId)

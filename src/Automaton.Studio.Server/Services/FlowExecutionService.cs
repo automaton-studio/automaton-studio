@@ -28,6 +28,7 @@ public class FlowExecutionService
     public IEnumerable<FlowExecution> List()
     {
         var executions = dbContext.FlowExecutions.Where(x => x.FlowExecutionUsers.Any(x => x.UserId == userId));
+
         return executions;
     }
 
@@ -38,11 +39,22 @@ public class FlowExecutionService
         return execution;
     }
 
-    public IEnumerable<FlowExecution> GetForFlow(Guid flowId)
+    public async Task<IEnumerable<FlowExecution>> GetForFlow(Guid flowId, int startIndex, int pageSize)
     {
-        var execution = dbContext.FlowExecutions.Where(x => x.FlowId == flowId && x.FlowExecutionUsers.Any(x => x.UserId == userId));
+        var execution = await dbContext.FlowExecutions
+            .Where(x => x.FlowId == flowId && x.FlowExecutionUsers.Any(x => x.UserId == userId))
+            .Skip(startIndex)
+            .Take(pageSize)
+            .ToListAsync();
 
         return execution;
+    }
+
+    public async Task<int> GetTotal(Guid flowId)
+    {
+        var total = await dbContext.FlowExecutions.CountAsync(x => x.FlowId == flowId && x.FlowExecutionUsers.Any(x => x.UserId == userId));
+
+        return total;
     }
 
     public int Add(Models.FlowExecution executionModel)
