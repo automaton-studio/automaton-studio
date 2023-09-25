@@ -29,22 +29,22 @@
             Class="autoscroll-list"
             EnableVirtualization
             OnChange="OnChange"
-            Total="FlowActivityViewModel.Total"
+            Total="FlowActivityViewModel.Total"           
             RemoteDataSource>
             <ColumnDefinitions>
 
-                <Column Title="Status" @bind-Field="@context.Status">
+                <Column Title="Status" @bind-Field="@context.Status" Sortable>
                     <Space Direction="DirectionVHType.Horizontal">
                     <SpaceItem><Icon Type="@context.GetStatusIcon()" Theme="Fill" Class="@context.GetStatusClass()" /></SpaceItem>
                     <SpaceItem>@context.Status</SpaceItem>
                     </Space>
                 </Column>
 
-                <Column Title="Started" @bind-Field="@context.Started">
+                <Column Title="Started" @bind-Field="@context.Started" Sortable>
                     @context.Started
                 </Column>
 
-                <Column Title="Finished" @bind-Field="@context.Finished">
+                <Column Title="Finished" @bind-Field="@context.Finished" Sortable>
                     @context.Finished
                 </Column>
             </ColumnDefinitions>
