@@ -24,7 +24,7 @@ public class DashboardViewModel
     public async Task ConnectHub()
     {
         RunnerId = configService.IsRunnerRegistered() ? configService.RunnerId : Messages.RunnerNotRegistered;
-        RunnerName = configService.IsRunnerRegistered() ? configService.RunnerName : Messages.RunnerNotRegistered;
+        RunnerName = configService.IsRunnerRegistered() ? configService.ApplicationName : Messages.RunnerNotRegistered;
 
         await hubService.ConnectToServer();
     }

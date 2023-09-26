@@ -9,5 +9,6 @@ namespace Automaton.Studio.Server.Models
         public DateTime Started { get; set; }
         public DateTime Finished { get; set; }
         public string Status { get; set; }
+        public string Application { get; set; }
     }
 }

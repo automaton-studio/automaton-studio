@@ -33,18 +33,22 @@
             RemoteDataSource>
             <ColumnDefinitions>
 
-                <Column Title="Status" @bind-Field="@context.Status" Sortable>
+                <Column Title="Status" @bind-Field="@context.Status">
                     <Space Direction="DirectionVHType.Horizontal">
                     <SpaceItem><Icon Type="@context.GetStatusIcon()" Theme="Fill" Class="@context.GetStatusClass()" /></SpaceItem>
                     <SpaceItem>@context.Status</SpaceItem>
                     </Space>
                 </Column>
 
-                <Column Title="Started" @bind-Field="@context.Started" Sortable>
+                <Column Title="Application" @bind-Field="@context.Application">
+                    @context.Application
+                </Column>
+
+                <Column Title="Started" @bind-Field="@context.Started">
                     @context.Started
                 </Column>
 
-                <Column Title="Finished" @bind-Field="@context.Finished" Sortable>
+                <Column Title="Finished" @bind-Field="@context.Finished">
                     @context.Finished
                 </Column>
             </ColumnDefinitions>

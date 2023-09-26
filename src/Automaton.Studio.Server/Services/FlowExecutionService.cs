@@ -43,6 +43,7 @@ public class FlowExecutionService
     {
         var execution = await dbContext.FlowExecutions
             .Where(x => x.FlowId == flowId && x.FlowExecutionUsers.Any(x => x.UserId == userId))
+            .OrderByDescending(x => x.Started)
             .Skip(startIndex)
             .Take(pageSize)
             .ToListAsync();
@@ -65,7 +66,8 @@ public class FlowExecutionService
             FlowId = executionModel.FlowId,
             Status = executionModel.Status,
             Started = executionModel.Started,
-            Finished = executionModel.Finished
+            Finished = executionModel.Finished,
+            Application = executionModel.Application
         };
 
         dbContext.FlowExecutions.Add(execution);

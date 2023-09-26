@@ -18,7 +18,7 @@ public class SettingsViewModel
 
     public void LoadSettings()
     {
-        RunnerName = configService.RunnerName;
+        RunnerName = configService.ApplicationName;
     }
 
     public async Task SaveSettings()

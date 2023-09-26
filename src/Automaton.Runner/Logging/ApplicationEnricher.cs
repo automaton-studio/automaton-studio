@@ -1,4 +1,3 @@
-using Automaton.Core.Logs;
 using Automaton.Runner.Services;
 using Serilog.Core;
 
@@ -15,16 +14,13 @@ public class ApplicationEnricher : ILogEventEnricher
 
     public void Enrich(Serilog.Events.LogEvent logEvent, ILogEventPropertyFactory factory)
     {
-        var applicatioName = factory.CreateProperty(nameof(configurationService.ApplicationName), configurationService.ApplicationName);
-        logEvent.AddPropertyIfAbsent(applicatioName);
-
-        var runnerId = factory.CreateProperty(LogContextProperties.RunnerId, configurationService.RunnerId);
-        logEvent.AddPropertyIfAbsent(runnerId);
-
-        var runnerName = factory.CreateProperty(LogContextProperties.RunnerName, configurationService.RunnerName);
-        logEvent.AddPropertyIfAbsent(runnerName);
+        var applicationName = factory.CreateProperty(nameof(configurationService.ApplicationName), configurationService.ApplicationName);
+        logEvent.AddPropertyIfAbsent(applicationName);
 
         var applicationType = factory.CreateProperty(nameof(configurationService.ApplicationType), configurationService.ApplicationType);
         logEvent.AddPropertyIfAbsent(applicationType);
+
+        var runnerId = factory.CreateProperty(nameof(configurationService.RunnerId), configurationService.RunnerId);
+        logEvent.AddPropertyIfAbsent(runnerId);
     }
 }

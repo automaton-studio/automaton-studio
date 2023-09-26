@@ -28,7 +28,8 @@ public class CoreFlowExecuteService
 
     public async Task<WorkflowExecution> Execute(Workflow workflow, CancellationToken cancellationToken = default)
     {
-        using var workflowExecution = new WorkflowExecution(workflow.Id);
+        // TODO! Add parent workflow as executing application name instead of an empty string?
+        using var workflowExecution = new WorkflowExecution(workflow.Id, string.Empty);
 
         var definition = workflow.GetStartupDefinition();
         var step = definition.GetFirstStep();

@@ -11,13 +11,15 @@ public class WorkflowExecution : IDisposable
     public DateTime Started { get; set; }
     public DateTime Finished { get; set; }
     public WorkflowStatus Status { get; set; }
+    public string Application { get; set; }
 
-    public WorkflowExecution(Guid flowId)
+    public WorkflowExecution(Guid flowId, string application)
     {
         Id = Guid.NewGuid();
         FlowId = flowId;
         Started = DateTime.UtcNow;
         Status = WorkflowStatus.Working;
+        Application = application;
     }
 
     public void HasErrors()

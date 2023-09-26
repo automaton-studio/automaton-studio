@@ -9,6 +9,7 @@ namespace Automaton.Studio.Server.Entities
         public DateTime Started { get; set; }
         public DateTime Finished { get; set; }
         public string Status { get; set; }
+        public string Application { get; set; }
 
         public virtual ICollection<FlowExecutionUser> FlowExecutionUsers { get; set; }
     }

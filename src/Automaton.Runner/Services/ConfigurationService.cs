@@ -14,7 +14,8 @@ public class ConfigurationService
     private readonly ApplicationStorage applicationStorage = new();
 
     public string RunnerId => applicationStorage.GetRunnerId();
-    public string RunnerName => applicationStorage.GetRunnerName();
+    public string ApplicationName => applicationStorage.GetRunnerName();
+    public string ApplicationType => appConfig.ApplicationType;
 
     public string BaseUrl => appConfig.BaseUrl;
     public string WorkflowHubUrl => appConfig.WorkflowHubUrl;
@@ -22,8 +23,6 @@ public class ConfigurationService
     public string RunnersUrl => appConfig.RunnersUrl;
     public string LogsUrl => appConfig.LogsUrl;
     public string FlowExecutionUrl => appConfig.FlowExecutionUrl;
-    public string ApplicationName => appConfig.ApplicationName;
-    public string ApplicationType => appConfig.ApplicationType;
 
     public string LoginUserUrl => authenticationConfig.LoginUserUrl;
 

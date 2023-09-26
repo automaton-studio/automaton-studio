@@ -20,11 +20,16 @@ namespace Automaton.Studio.Pages.FlowDesigner
 
         protected override async Task OnInitializedAsync()
         {
+            await base.OnInitializedAsync();
+        }
+
+        async Task OnChange(QueryModel queryModel)
+        {
             loading = true;
 
             try
             {
-                //await FlowActivityViewModel.GetFlowActivity(FlowId);
+                await FlowActivityViewModel.GetFlowActivity(FlowId, queryModel.StartIndex, queryModel.PageSize);
             }
             catch
             {
@@ -34,13 +39,6 @@ namespace Automaton.Studio.Pages.FlowDesigner
             {
                 loading = false;
             }
-
-            await base.OnInitializedAsync();
-        }
-
-        async Task OnChange(QueryModel queryModel)
-        {
-            await FlowActivityViewModel.GetFlowActivity(FlowId, queryModel.StartIndex, queryModel.PageSize);
         }
 
         private async Task OnRowExpand(RowData<FlowExecution> rowData)

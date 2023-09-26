@@ -49,7 +49,7 @@ public class StudioFlowExecuteService
 
     private async Task<WorkflowExecution> Execute(Workflow workflow, int executeDelay = 0, CancellationToken cancellationToken = default)
     {
-        using var workflowExecution = new WorkflowExecution(workflow.Id);
+        using var workflowExecution = new WorkflowExecution(workflow.Id, configurationService.ApplicationName);
         var definition = workflow.GetStartupDefinition();
         var step = definition.GetFirstStep();
 

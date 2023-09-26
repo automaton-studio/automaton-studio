@@ -4,13 +4,6 @@ using Automaton.Core.Models;
 using Automaton.Core.Services;
 using Automaton.Runner.Models;
 using Automaton.Runner.Services;
-using MediatR;
-using Serilog;
-using Serilog.Context;
-using System;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Automaton.Runner;
 
@@ -50,7 +43,7 @@ public class RunnerFlowExecuteService
 
     private async Task<WorkflowExecution> Execute(Workflow workflow, CancellationToken cancellationToken = default)
     {
-        using var workflowExecution = new WorkflowExecution(workflow.Id);
+        using var workflowExecution = new WorkflowExecution(workflow.Id, configurationService.ApplicationName);
 
         var definition = workflow.GetStartupDefinition();
         var step = definition.GetFirstStep();

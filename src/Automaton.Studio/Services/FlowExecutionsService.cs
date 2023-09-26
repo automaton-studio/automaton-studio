@@ -96,7 +96,8 @@ public class FlowExecutionsService
             flowExecution.FlowId,
             flowExecution.Started,
             flowExecution.Finished,
-            Status = flowExecution.Status.ToString()
+            Status = flowExecution.Status.ToString(),
+            flowExecution.Application
         };
 
         var response = await httpClient.PostAsJsonAsync(configService.FlowExecutionUrl, flowExecutionModel);
