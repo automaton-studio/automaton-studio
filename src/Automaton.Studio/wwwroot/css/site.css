@@ -125,9 +125,19 @@ a, .btn-link {
         margin-bottom: 15px;
     }
 
-.right-actions {
-    margin-left: auto;
-}
+    .header .subtitle {
+        font-size: 13px;
+        line-height: 15px !important;
+        color: gray;
+    }
+
+    .header .bullet {
+        margin: 0px 6px 0px 6px;
+    }
+
+    .right-actions {
+        margin-left: auto;
+    }
 
 .autoscroll-list {
     overflow: auto;
@@ -136,3 +146,28 @@ a, .btn-link {
     display: flex;
     flex-direction: column;
 }
+
+.badge {
+    padding: 1px 9px 3px 9px;
+    border-radius: 15px;
+}
+
+    .badge.badge-none {
+        color: #fff;
+        background-color: gray;
+    }
+
+    .badge.badge-success {
+        color: #fff;
+        background-color: limegreen;
+    }
+
+    .badge.badge-working {
+        color: #fff;
+        background-color: deepskyblue;
+    }
+
+    .badge.badge-error {
+        color: #fff;
+        background-color: red;
+    }

@@ -38,10 +38,7 @@
             </Column>
 
             <Column Title="Last Result" @bind-Field="@context.Status">
-                <Space Direction="DirectionVHType.Horizontal">
-                    <SpaceItem><Icon Type="@context.StatusIcon.Icon" Theme="Fill" Class="@context.StatusIcon.Class" /></SpaceItem>
-                    <SpaceItem>@context.StatusMessage</SpaceItem>
-                </Space>
+                <span class="@context.StatusClass">@context.Status</span>
             </Column>
 
             <Column @bind-Field="@context.RunnerIds" Title="Runners" Width="300">

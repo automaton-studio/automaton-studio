@@ -1,15 +1,14 @@
 ﻿using Automaton.Core.Enums;
-using Automaton.Studio.Pages.Flows;
 
 namespace Automaton.Studio.Models;
 
 public class RunnerModel
 {
-    private readonly Dictionary<RunnerStatus, FlowStatusIcon> StatusIcons = new()
+    private readonly Dictionary<RunnerStatus, string> SrarusClasses = new()
     {
-        { RunnerStatus.None, new FlowStatusIcon { Icon = "eye", Class = "status-checking" } },
-        { RunnerStatus.Online, new FlowStatusIcon { Icon = "check-circle", Class = "status-online" } },
-        { RunnerStatus.Offline, new FlowStatusIcon { Icon = "exclamation-circle", Class = "status-offline" } },
+        { RunnerStatus.None, "badge badge-none" },
+        { RunnerStatus.Online, "badge badge-success" },
+        { RunnerStatus.Offline,"badge badge-error" },
     };
 
     public Guid Id { get; set; }
@@ -19,13 +18,13 @@ public class RunnerModel
 
     public RunnerStatus Status { get; set; } = RunnerStatus.None;
 
-    public FlowStatusIcon StatusIcon
+    public string StatusClass
     {
         get
         {
-            return StatusIcons.ContainsKey(Status) ?
-                StatusIcons[Status] :
-                StatusIcons[RunnerStatus.None];
+            return SrarusClasses.ContainsKey(Status) ?
+                SrarusClasses[Status] :
+                SrarusClasses[RunnerStatus.None];
         }
     }
 }

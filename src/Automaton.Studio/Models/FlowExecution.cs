@@ -1,18 +1,17 @@
 ﻿#nullable disable
 
 using Automaton.Core.Enums;
-using Automaton.Studio.Pages.Flows;
 
 namespace Automaton.Studio.Models;
 
 public class FlowExecution
 {
-    private readonly Dictionary<WorkflowStatus, FlowStatusIcon> StatusIcons = new()
+    private readonly Dictionary<WorkflowStatus, string> StatusClasses = new()
     {
-        { WorkflowStatus.None, new FlowStatusIcon { Icon = "check-circle", Class = "status-none" } },
-        { WorkflowStatus.Working, new FlowStatusIcon { Icon = "eye", Class = "status-working" } },
-        { WorkflowStatus.Success, new FlowStatusIcon { Icon = "check-circle", Class = "status-success" } },
-        { WorkflowStatus.Error, new FlowStatusIcon { Icon = "exclamation-circle", Class = "status-error" } },
+        { WorkflowStatus.None, "badge badge-none" },
+        { WorkflowStatus.Working, "badge badge-working" },
+        { WorkflowStatus.Success, "badge badge-success" },
+        { WorkflowStatus.Error, "badge badge-error" },
     };
 
     public Guid Id { get; set; }
@@ -24,14 +23,6 @@ public class FlowExecution
 
     public string LogsText { get; set; } = string.Empty;
 
-    public string GetStatusIcon()
-    {
-        return StatusIcons[Status].Icon;
-    }
-
-    public string GetStatusClass()
-    {
-        return StatusIcons[Status].Class;
-    }
+    public string StatusClass => StatusClasses[Status];
 }
 

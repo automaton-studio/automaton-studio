@@ -3,7 +3,6 @@ using AntDesign.TableModels;
 using Automaton.Studio.Models;
 using Automaton.Studio.Pages.Runners;
 using Microsoft.AspNetCore.Components;
-using static IronPython.Runtime.Profiler;
 
 namespace Automaton.Studio.Pages.FlowDesigner
 {

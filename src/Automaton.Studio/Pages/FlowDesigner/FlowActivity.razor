@@ -8,7 +8,7 @@
             <Col Flex=@("none")>
             <Space Size="@AntSizeLDSType.Large">
                 <SpaceItem Class="header-item">
-                    <Title Level="4">Flow activity</Title>
+                    <Title Level="4">Activity</Title>
                 </SpaceItem>
             </Space>
             </Col>
@@ -32,14 +32,6 @@
             Total="FlowActivityViewModel.Total"           
             RemoteDataSource>
             <ColumnDefinitions>
-
-                <Column Title="Status" @bind-Field="@context.Status">
-                    <Space Direction="DirectionVHType.Horizontal">
-                    <SpaceItem><Icon Type="@context.GetStatusIcon()" Theme="Fill" Class="@context.GetStatusClass()" /></SpaceItem>
-                    <SpaceItem>@context.Status</SpaceItem>
-                    </Space>
-                </Column>
-
                 <Column Title="Application" @bind-Field="@context.Application">
                     @context.Application
                 </Column>
@@ -50,6 +42,10 @@
 
                 <Column Title="Finished" @bind-Field="@context.Finished">
                     @context.Finished
+                </Column>
+
+                <Column Title="Status" @bind-Field="@context.Status">
+                    <span class="@context.StatusClass">@context.Status</span>
                 </Column>
             </ColumnDefinitions>
 
@@ -68,31 +64,6 @@
 </Layout>
 
 <style>
-    .status-none {
-        color: gray;
-        padding-top: 3px;
-        font-size: 20px;
-        visibility: collapse;
-    }
-
-    .status-working {
-        color: deepskyblue;
-        padding-top: 3px;
-        font-size: 20px;
-    }
-
-    .status-success {
-        color: limegreen;
-        padding-top: 3px;
-        font-size: 20px;
-    }
-
-    .status-error {
-        color: red;
-        padding-top: 3px;
-        font-size: 20px;
-    }
-
     #flow-logs {
         width: 100%;
         height: 300px !important;
