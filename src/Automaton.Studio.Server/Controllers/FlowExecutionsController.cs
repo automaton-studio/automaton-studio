@@ -1,5 +1,4 @@
-﻿using AuthServer.Core.Queries;
-using Automaton.Studio.Server.Models;
+﻿using Automaton.Studio.Server.Models;
 using Automaton.Studio.Server.Queries;
 using Automaton.Studio.Server.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -42,6 +41,12 @@ namespace Automaton.Studio.Server.Controllers
             var result = await Mediator.Send(flowExecutionQuery, cancellationToken);
 
             return Ok(result);
+        }
+
+        [HttpGet("logs/{flowExecutionId}")]
+        public ActionResult<IEnumerable<Entities.Log>> GetLogs(Guid flowExecutionId)
+        {
+            return Ok(logsService.GetFlowExecutionLogs(flowExecutionId));
         }
 
         [HttpPost]
