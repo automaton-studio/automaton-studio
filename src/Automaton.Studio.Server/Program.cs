@@ -91,7 +91,7 @@ applicationBuilder.Host.UseSerilog((context, services, config) =>
     .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
 );
 
-services.AddScoped<LogsService>();
+services.AddScoped<FlowLogsService>();
 services.AddScoped<CustomStepsService>();
 services.AddScoped<FlowsService>();
 services.AddScoped<RunnerService>();

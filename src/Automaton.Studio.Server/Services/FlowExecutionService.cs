@@ -39,7 +39,7 @@ public class FlowExecutionService
         return execution;
     }
 
-    public async Task<IEnumerable<FlowExecution>> GetForFlow(Guid flowId, int startIndex, int pageSize)
+    public async Task<IEnumerable<FlowExecution>> GetListAsync(Guid flowId, int startIndex, int pageSize)
     {
         var execution = await dbContext.FlowExecutions
             .Where(x => x.FlowId == flowId && x.FlowExecutionUsers.Any(x => x.UserId == userId))
@@ -51,7 +51,7 @@ public class FlowExecutionService
         return execution;
     }
 
-    public async Task<int> GetTotal(Guid flowId)
+    public async Task<int> GetTotalAsync(Guid flowId)
     {
         var total = await dbContext.FlowExecutions.CountAsync(x => x.FlowId == flowId && x.FlowExecutionUsers.Any(x => x.UserId == userId));
 

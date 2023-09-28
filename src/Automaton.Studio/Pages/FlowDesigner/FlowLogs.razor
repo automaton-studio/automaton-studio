@@ -1,0 +1,85 @@
+﻿@page "/flowlog/{flowid}"
+@using AntDesign
+@using Automaton.Studio.Models;
+
+<Layout>
+    <Header Class="header">
+        <Row>
+            <Col Flex=@("none")>
+            <Space Size="@AntSizeLDSType.Large">
+                <SpaceItem Class="header-item">
+                    <Title Level="4">Logs</Title>
+                </SpaceItem>
+            </Space>
+            </Col>
+
+            <Col Class="right-actions">
+            <Space Class="right-header-items">
+            </Space>
+            </Col>
+        </Row>
+    </Header>
+
+    <Content>
+        <Table TItem="LogModel" 
+            DataSource="@FlowLogsViewModel.Logs"
+            RowExpandable="@((record)=>true)"
+            OnExpand="OnRowExpand"
+            Loading="@loading" 
+            Class="autoscroll-list"
+            EnableVirtualization
+            OnChange="OnChange"
+            Total="FlowLogsViewModel.Total"           
+            RemoteDataSource>
+            <ColumnDefinitions>
+
+                <Column Title="Timestamp" @bind-Field="@context.Timestamp">
+                    @context.Timestamp
+                </Column>
+
+                <Column Title="Level" @bind-Field="@context.Level">
+                    @context.Level
+                </Column>
+
+                <Column Title="Message" @bind-Field="@context.Message">
+                    @context.Message
+                </Column>
+
+                <Column Title="Exception" @bind-Field="@context.Exception">
+                    @context.Exception
+                </Column>
+            </ColumnDefinitions>
+
+            <ExpandTemplate Context="rowData">
+               @* @if (LogIsLoading(rowData.Data.LogsText))
+                {
+                    <div class="log-spin"><Spin /></div>
+                }
+                else
+                {
+                    <TextArea Id="flow-logs" Value="@rowData.Data.LogsText" />
+                }*@
+            </ExpandTemplate>
+        </Table>
+    </Content>
+</Layout>
+
+<style>
+    #flow-logs {
+        width: 100%;
+        height: 300px !important;
+        overflow-x: hidden;
+        font-size: smaller;
+    }
+
+    .log-spin {
+        text-align: center;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        margin: 20px 0;
+    }
+
+</style>
+
+
+

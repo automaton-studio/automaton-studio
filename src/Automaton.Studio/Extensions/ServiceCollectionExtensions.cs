@@ -73,9 +73,10 @@ public static class ServiceCollectionExtensions
         services.AddScoped<FlowsService>();
         services.AddScoped<RunnerService>();
         services.AddScoped<ErrorService>();
-        services.AddScoped<FlowExecutionsService>();
+        services.AddScoped<FlowExecutionsService>();        
         services.AddScoped<CustomStepsService>();
         services.AddScoped<StudioFlowExecuteService>();
+        services.AddScoped<FlowLogsService>();
 
         // ViewModels
         services.AddScoped<FlowsViewModel>();
@@ -88,7 +89,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<MainLayoutViewModel>();
         services.AddScoped<NavMenuViewModel>();
         services.AddScoped<FlowActivityViewModel>();
-   
+        services.AddScoped<FlowLogsViewModel>();
+      
         // Studio steps
         // Note: Must be transient for some reason
         services.AddTransient<EmitLogStep>();

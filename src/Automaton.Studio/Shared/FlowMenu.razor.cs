@@ -9,7 +9,7 @@ namespace Automaton.Studio.Shared
 
         public string FlowDesignerUrl => $"flowdesigner/{Id}";
         public string FlowActivityUrl => $"flowactivity/{Id}";
-        public string FlowLogsUrl => $"flowlogs/{Id}";
+        public string FlowLogUrl => $"flowlog/{Id}";
         public string FlowScheduleUrl => $"flowschedule/{Id}";
     }
 }

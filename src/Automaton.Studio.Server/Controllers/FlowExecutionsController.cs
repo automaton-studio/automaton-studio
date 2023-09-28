@@ -9,9 +9,9 @@ namespace Automaton.Studio.Server.Controllers
     public class FlowExecutionsController : BaseController
     {
         private readonly FlowExecutionService flowExecutionService;
-        private readonly LogsService logsService;
+        private readonly FlowLogsService logsService;
 
-        public FlowExecutionsController(FlowExecutionService flowExecutionService, LogsService logsService)
+        public FlowExecutionsController(FlowExecutionService flowExecutionService, FlowLogsService logsService)
         {
             this.flowExecutionService = flowExecutionService;
             this.logsService = logsService;
@@ -32,7 +32,7 @@ namespace Automaton.Studio.Server.Controllers
         [HttpGet("flow/{flowId}/{startIndex}/{pageSize}")]
         public async Task<ActionResult<IEnumerable<FlowExecution>>> GetForFlow(Guid flowId, int startIndex, int pageSize, CancellationToken cancellationToken)
         {
-            var flowExecutionQuery = new FilterFlowExecutionQuery
+            var flowExecutionQuery = new FlowExecutionQuery
             {
                 FlowId = flowId,
                 StartIndex = startIndex,
@@ -42,12 +42,6 @@ namespace Automaton.Studio.Server.Controllers
             var result = await Mediator.Send(flowExecutionQuery, cancellationToken);
 
             return Ok(result);
-        }
-
-        [HttpGet("logs/{flowExecutionId}")]
-        public ActionResult<IEnumerable<Entities.Log>> GetLogs(Guid flowExecutionId)
-        {
-            return Ok(logsService.GetFlowExecutionLogs(flowExecutionId));
         }
 
         [HttpPost]
