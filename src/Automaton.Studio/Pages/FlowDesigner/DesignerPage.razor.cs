@@ -17,6 +17,7 @@ partial class DesignerPage : ComponentBase
     private Type toolsPanel = typeof(FlowSettings);
 
     [Parameter] public string FlowId { get; set; }
+    [Parameter] public string FlowName { get; set; }
 
     [Inject] ICourier Courier { get; set; }
     [Inject] ModalService ModalService { get; set; } = default!;

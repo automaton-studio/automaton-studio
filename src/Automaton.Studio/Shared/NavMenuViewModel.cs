@@ -2,7 +2,8 @@
 
 public class NavMenuViewModel
 {
-    public const string IdParam = "Id";
+    public const string FlowIdParam = "FlowId";
+    public const string FlowNameParam = "FlowName";
     public const string CollapsedParam = "Collapsed";
 
     private readonly Dictionary<string, MenuMetadata> menus = new()
@@ -17,10 +18,11 @@ public class NavMenuViewModel
         }
     };
 
-    public MenuMetadata GetFlowMenu(Guid flowId, bool collapsed)
+    public MenuMetadata GetFlowMenu(Guid flowId, string flowName, bool collapsed)
     {
         var flowMenu = menus[nameof(FlowMenu)];
-        flowMenu.MenuParameters[IdParam] = flowId;
+        flowMenu.MenuParameters[FlowIdParam] = flowId;
+        flowMenu.MenuParameters[FlowNameParam] = flowName;
         flowMenu.MenuParameters[CollapsedParam] = collapsed;
 
         return flowMenu;

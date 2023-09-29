@@ -42,9 +42,9 @@ namespace Automaton.Studio.Pages.Flows
             await MessageService.Info(result);
         }
 
-        private void EditFlow(Guid id)
+        private void EditFlow(Guid id, string name)
         {
-            NavigationManager.NavigateTo($"flowdesigner/{id}");
+            NavigationManager.NavigateTo($"flowdesigner/{id}/{name}");
         }
 
         private async Task DeleteFlow(Guid id)

@@ -1,4 +1,4 @@
-﻿@page "/flowdesigner/{flowid}"
+﻿@page "/flowdesigner/{flowid}/{flowname}"
 @using AntDesign
 @using Automaton.Studio.Pages.FlowDesigner.Components.FlowExplorer
 @using Automaton.Studio.Pages.FlowDesigner.Components.StepExplorer
@@ -11,7 +11,7 @@
             <Col Span="10">
                 <Space>
                     <SpaceItem>
-                    <Title Level="4">Designer<span class="subtitle"><span class="bullet">&#x2022;</span>@DesignerViewModel.Flow.Name</span></Title>
+                    <Title Level="4">Designer<span class="subtitle"><span class="bullet">&#x2022;</span>@FlowName</span></Title>
                     </SpaceItem>
                 </Space>
             </Col>

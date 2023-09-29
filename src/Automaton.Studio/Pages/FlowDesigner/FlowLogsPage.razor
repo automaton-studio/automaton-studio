@@ -1,4 +1,4 @@
-﻿@page "/flowlogs/{flowid}"
+﻿@page "/flowlogs/{flowid}/{flowname}"
 @using AntDesign
 @using Automaton.Studio.Models;
 
@@ -8,7 +8,7 @@
             <Col Flex=@("none")>
             <Space Size="@AntSizeLDSType.Large">
                 <SpaceItem Class="header-item">
-                    <Title Level="4">Logs</Title>
+                    <Title Level="4">Logs<span class="subtitle"><span class="bullet">&#x2022;</span>@FlowName</span></Title>
                 </SpaceItem>
             </Space>
             </Col>

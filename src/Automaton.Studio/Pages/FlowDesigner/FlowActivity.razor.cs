@@ -9,6 +9,7 @@ namespace Automaton.Studio.Pages.FlowDesigner
     public partial class FlowActivity : ComponentBase
     {
         [Parameter] public string FlowId { get; set; }
+        [Parameter] public string FlowName { get; set; }
 
         public bool loading;
 

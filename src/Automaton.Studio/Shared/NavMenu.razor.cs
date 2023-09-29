@@ -23,12 +23,15 @@ namespace Automaton.Studio.Shared
 
         private ValueTask NavigationLocationChanged(LocationChangingContext context)
         {
-            if (context.TargetLocation.Contains("flowdesigner"))
+            if (context.TargetLocation.Contains("flowdesigner/"))
             {
-                var urlElements = context.TargetLocation.Split('/');
-                var id = urlElements.LastOrDefault();
+                var urlElements = context.TargetLocation.Split("flowdesigner/");
+                var flowIdAndNameString = urlElements.LastOrDefault();
+                var idAndNameArray = flowIdAndNameString.Split("/");
+                var id = idAndNameArray[0];
+                var flowName = idAndNameArray[1];
                 Guid.TryParse(id, out var flowId);
-                ShowFlowMenu(flowId);
+                ShowFlowMenu(flowId, flowName);
             }
             else if (context.TargetLocation.Equals(NavigationManager.BaseUri, StringComparison.OrdinalIgnoreCase))
             {
@@ -40,9 +43,9 @@ namespace Automaton.Studio.Shared
             return ValueTask.CompletedTask;
         }
 
-        public void ShowFlowMenu(Guid flowId)
+        public void ShowFlowMenu(Guid flowId, string flowName)
         {
-            Menu = NavMenuViewModel.GetFlowMenu(flowId, collapsed);
+            Menu = NavMenuViewModel.GetFlowMenu(flowId, flowName, collapsed);
         }
 
         public void ShowMainMenu()
