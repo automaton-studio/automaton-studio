@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Automaton.Core.Enums;
+using Newtonsoft.Json;
 
 namespace Automaton.Studio.Models;
 
@@ -26,4 +27,16 @@ public class LogModel
     {
         get { return JsonConvert.DeserializeObject<Dictionary<string, object>>(Properties); }
     }
+
+    public string LevelClass => LevelClasses[Level];
+
+    private readonly Dictionary<string, string> LevelClasses = new()
+    {
+        { "0", "default" },
+        { "1", "default" },
+        { "2", "success" },
+        { "3", "warning" },
+        { "4", "error" },
+        { "5", "error" },
+    };
 }

@@ -1,4 +1,4 @@
-﻿@page "/flowlog/{flowid}"
+﻿@page "/flowlogs/{flowid}"
 @using AntDesign
 @using Automaton.Studio.Models;
 
@@ -24,41 +24,43 @@
         <Table TItem="LogModel" 
             DataSource="@FlowLogsViewModel.Logs"
             RowExpandable="@((record)=>true)"
-            OnExpand="OnRowExpand"
+            OnRow="OnRow"
             Loading="@loading" 
             Class="autoscroll-list"
-            EnableVirtualization
             OnChange="OnChange"
             Total="FlowLogsViewModel.Total"           
-            RemoteDataSource>
+            RemoteDataSource
+            Size="TableSize.Small"
+            PageSize="100">
+
             <ColumnDefinitions>
 
-                <Column Title="Timestamp" @bind-Field="@context.Timestamp">
+                <Column Title="Timestamp" @bind-Field="@context.Timestamp" Width="10%" Sortable Filterable>
                     @context.Timestamp
                 </Column>
 
-                <Column Title="Level" @bind-Field="@context.Level">
+                <Column Title="Message" @bind-Field="@context.Message" Width="50%"  Sortable Filterable>
+                    <Badge Status="@context.LevelClass" Text="@context.Message" />            
+                </Column>
+
+                <Column Title="Level" @bind-Field="@context.Level" Width="5%" Sortable Filterable>
                     @context.Level
                 </Column>
 
-                <Column Title="Message" @bind-Field="@context.Message">
-                    @context.Message
+                <Column Title="Event Type" @bind-Field="@context.EventType" Width="35%" Sortable Filterable>
+                    @context.EventType
                 </Column>
 
-                <Column Title="Exception" @bind-Field="@context.Exception">
-                    @context.Exception
-                </Column>
             </ColumnDefinitions>
 
             <ExpandTemplate Context="rowData">
-               @* @if (LogIsLoading(rowData.Data.LogsText))
-                {
-                    <div class="log-spin"><Spin /></div>
-                }
-                else
-                {
-                    <TextArea Id="flow-logs" Value="@rowData.Data.LogsText" />
-                }*@
+                <AntList DataSource="@rowData.Data.PropertiesDictionary" Class="log-properties-list">
+                    <ChildContent Context="item">
+                        <ListItem>
+                            <div style="width: 200px;">@item.Key</div><div style="width: 100%">@item.Value</div>
+                        </ListItem>
+                    </ChildContent>
+                </AntList>
             </ExpandTemplate>
         </Table>
     </Content>
@@ -77,6 +79,16 @@
         border-radius: 4px;
         margin-bottom: 20px;
         margin: 20px 0;
+    }
+
+    .ant-list-split .ant-list-item {
+        height: 20px !important;
+        border: none;
+        padding-left: 40px;
+    }
+
+    .log-properties-list {
+        background-color: white;
     }
 
 </style>

@@ -1,7 +1,6 @@
 ﻿using Automaton.Core.Logs;
 using Automaton.Studio.Domain;
 using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.FlowDesigner.Components.Drawer;
 
