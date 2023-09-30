@@ -16,41 +16,9 @@ namespace Automaton.Studio.Shared
         {
             NavigationManager.RegisterLocationChangingHandler(NavigationLocationChanged);
 
-            Menu = NavMenuViewModel.GetMainMenu(collapsed);
+            ShowMenu(NavigationManager.Uri);
 
             await base.OnInitializedAsync();
-        }
-
-        private ValueTask NavigationLocationChanged(LocationChangingContext context)
-        {
-            if (context.TargetLocation.Contains("flowdesigner/"))
-            {
-                var urlElements = context.TargetLocation.Split("flowdesigner/");
-                var flowIdAndNameString = urlElements.LastOrDefault();
-                var idAndNameArray = flowIdAndNameString.Split("/");
-                var id = idAndNameArray[0];
-                var flowName = idAndNameArray[1];
-                Guid.TryParse(id, out var flowId);
-                ShowFlowMenu(flowId, flowName);
-            }
-            else if (context.TargetLocation.Equals(NavigationManager.BaseUri, StringComparison.OrdinalIgnoreCase))
-            {
-                ShowMainMenu();
-            }
-
-            InvokeAsync(StateHasChanged);
-
-            return ValueTask.CompletedTask;
-        }
-
-        public void ShowFlowMenu(Guid flowId, string flowName)
-        {
-            Menu = NavMenuViewModel.GetFlowMenu(flowId, flowName, collapsed);
-        }
-
-        public void ShowMainMenu()
-        {
-            Menu = NavMenuViewModel.GetMainMenu(collapsed);
         }
 
         public void SetCollapsed(bool collapsed)
@@ -60,6 +28,68 @@ namespace Automaton.Studio.Shared
             Menu.SetCollapsed(collapsed);
 
             InvokeAsync(StateHasChanged);
+        }
+
+        private ValueTask NavigationLocationChanged(LocationChangingContext context)
+        {
+            ShowMenu(context.TargetLocation);
+
+            InvokeAsync(StateHasChanged);
+
+            return ValueTask.CompletedTask;
+        }
+
+        private void ShowMenu(string uri)
+        {
+            if (IsFlowMenu(uri))
+            {
+                var page = GetPage(uri);
+                var parameters = GetFlowDesignerParams(uri, page);
+                ShowFlowMenu(parameters.Item1, parameters.Item2);
+            }
+            else
+            {
+                ShowMainMenu();
+            }
+        }
+
+        private bool IsFlowMenu(string uri)
+        {
+            return uri.Contains("flowdesigner") || uri.Contains("flowactivity") || uri.Contains("flowschedule");
+        }
+
+        private string GetPage(string uri)
+        {
+            if (uri.Contains("flowdesigner"))
+                return "flowdesigner";
+            else if (uri.Contains("flowactivity"))
+                return "flowactivity";
+            else if (uri.Contains("flowschedule"))
+                return "flowschedule";
+
+            return string.Empty;
+        }
+
+        private void ShowFlowMenu(Guid flowId, string flowName)
+        {
+            Menu = NavMenuViewModel.GetFlowMenu(flowId, flowName, collapsed);
+        }
+
+        private void ShowMainMenu()
+        {
+            Menu = NavMenuViewModel.GetMainMenu(collapsed);
+        }
+
+        private Tuple<Guid, string> GetFlowDesignerParams(string uri, string page)
+        {
+            var urlElements = uri.Split(page);
+            var flowIdAndNameString = urlElements.LastOrDefault();
+            var idAndNameArray = flowIdAndNameString.Trim('/').Split("/");
+            var id = idAndNameArray[0];
+            var flowName = idAndNameArray[1];
+            Guid.TryParse(id, out var flowId);
+
+            return new Tuple<Guid, string>(flowId, flowName);
         }
     }
 }
