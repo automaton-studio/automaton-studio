@@ -8,9 +8,9 @@ namespace Automaton.Studio.Shared
         [Parameter] public string FlowName { get; set; }
         [Parameter] public bool Collapsed { get; set; }
 
-        public string FlowDesignerUrl => $"flowdesigner/{FlowId}/{FlowName}";
-        public string FlowActivityUrl => $"flowactivity/{FlowId}/{FlowName}";
-        public string FlowLogsUrl => $"flowlogs/{FlowId}/{FlowName}";
-        public string FlowScheduleUrl => $"flowschedule/{FlowId}/{FlowName}";
+        public string FlowDesignerUrl => $"flow/designer/{FlowId}/{FlowName}";
+        public string FlowActivityUrl => $"flow/activity/{FlowId}/{FlowName}";
+        public string FlowLogsUrl => $"flow/logs/{FlowId}/{FlowName}";
+        public string FlowScheduleUrl => $"flow/schedule/{FlowId}/{FlowName}";
     }
 }

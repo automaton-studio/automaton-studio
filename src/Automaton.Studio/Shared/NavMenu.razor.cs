@@ -55,17 +55,17 @@ namespace Automaton.Studio.Shared
 
         private bool IsFlowMenu(string uri)
         {
-            return uri.Contains("flowdesigner") || uri.Contains("flowactivity") || uri.Contains("flowschedule");
+            return uri.Contains("flow/designer") || uri.Contains("flow/activity") || uri.Contains("flow/schedule");
         }
 
         private string GetPage(string uri)
         {
-            if (uri.Contains("flowdesigner"))
-                return "flowdesigner";
-            else if (uri.Contains("flowactivity"))
-                return "flowactivity";
-            else if (uri.Contains("flowschedule"))
-                return "flowschedule";
+            if (uri.Contains("flow/designer"))
+                return "flow/designer";
+            else if (uri.Contains("flow/activity"))
+                return "flow/activity";
+            else if (uri.Contains("flow/schedule"))
+                return "flow/schedule";
 
             return string.Empty;
         }
