@@ -167,6 +167,37 @@ public class RunnerService
         return results;
     }
 
+    public async Task<IEnumerable<RunnerFlowResult>> ExecuteFlow(Guid flowId, IEnumerable<Guid> runnerIds, Guid userId, CancellationToken cancellationToken)
+    {
+        var results = new List<RunnerFlowResult>();
+
+        foreach (var runnerId in runnerIds)
+        {
+            RunnerFlowResult result;
+            var runner = Get(runnerId);
+            var client = automatonHub.Clients.Client(runner.ConnectionId);
+
+            try
+            {
+                var response = await client.InvokeAsync<WorkflowExecution>(AutomatonHubMethods.RunWorkflow, flowId, cancellationToken);
+
+                result = GetSuccessfulFlowResult(flowId: flowId, runnerId: runnerId, response);
+            }
+            catch (Exception ex)
+            {
+                logger.ForContext("FlowId", flowId)
+                      .ForContext("RunnerId", runnerId)
+                      .Error(ex, "An error happened when executing flow on runner");
+
+                result = GetInvalidFlowResult(flowId: flowId, runnerId: runnerId);
+            }
+
+            results.Add(result);
+        }
+
+        return results;
+    }
+
     private async Task<IEnumerable<RunnerDetails>> GetRunnersWithUpdatedStatus(IEnumerable<Runner> runnerEntities, CancellationToken cancellationToken)
     {
         var runners = mapper.Map<IEnumerable<RunnerDetails>>(runnerEntities);

@@ -3,6 +3,7 @@ using Automaton.Core.Enums;
 using Automaton.Core.Models;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Models;
+using Hangfire;
 using Serilog;
 using System.Text.Json;
 
@@ -12,6 +13,7 @@ public class FlowsService
 {
     private readonly ApplicationDbContext dbContext;
     private readonly RunnerService runnerService;
+    private readonly ScheduleService scheduleService;
     private readonly IMapper mapper;
     private readonly Guid userId;
     private readonly Serilog.ILogger logger;
@@ -20,12 +22,14 @@ public class FlowsService
     (
         ApplicationDbContext dbContext,
         RunnerService runnerService,
+        ScheduleService scheduleService,
         UserContextService userContextService,
         IMapper mapper
     )
     {
         this.dbContext = dbContext;
         this.runnerService = runnerService;
+        this.scheduleService = scheduleService;
         this.mapper = mapper;
         this.userId = userContextService.GetUserId();
         this.logger = Log.ForContext<FlowsService>();
@@ -125,6 +129,21 @@ public class FlowsService
         var result = await runnerService.ExecuteFlow(flowId, runnerIds, cancellationToken);
 
         return result;
+    }
+
+    public void Schedule(ScheduleFlowDetails scheduleDetails, CancellationToken cancellationToken)
+    {
+        try
+        {
+            RecurringJob.AddOrUpdate($"ExecuteFlow{scheduleDetails.FlowId}", () =>
+                scheduleService.ExecuteFlow(scheduleDetails.FlowId, scheduleDetails.RunnerIds, userId, cancellationToken),
+                Cron.Minutely);
+        }
+        catch (Exception ex)
+        {
+
+            throw;
+        }
     }
 
     private static Flow DeserializeFlow(string jsonFlow)

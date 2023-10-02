@@ -8,6 +8,8 @@ using Automaton.Studio.Server.Services;
 using Common.Authentication;
 using Destructurama;
 using FluentValidation.AspNetCore;
+using Hangfire;
+using Hangfire.MySql;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
 using System.Reflection;
+using System.Transactions;
 
 var applicationBuilder = WebApplication.CreateBuilder(args);
 var configurationManager = applicationBuilder.Configuration;
@@ -91,6 +94,22 @@ applicationBuilder.Host.UseSerilog((context, services, config) =>
     .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
 );
 
+services.AddHangfire(x => x.UseStorage(
+    new MySqlStorage(configurationManager.GetConnectionString("MySqlConnection"),
+        new MySqlStorageOptions
+        {
+            TransactionIsolationLevel = IsolationLevel.ReadCommitted,
+            QueuePollInterval = TimeSpan.FromSeconds(15),
+            JobExpirationCheckInterval = TimeSpan.FromHours(1),
+            CountersAggregateInterval = TimeSpan.FromMinutes(5),
+            PrepareSchemaIfNecessary = true,
+            DashboardJobListLimit = 50000,
+            TransactionTimeout = TimeSpan.FromMinutes(1),
+            TablesPrefix = "Hangfire"
+        })));
+
+services.AddHangfireServer();
+
 services.AddScoped<FlowLogsService>();
 services.AddScoped<CustomStepsService>();
 services.AddScoped<FlowsService>();
@@ -99,6 +118,8 @@ services.AddScoped<FlowExecutionService>();
 services.AddScoped<UserContextService>();
 services.AddTransient<UserManagerService>();
 services.AddTransient<RoleManagerService>();
+services.AddTransient<ScheduleService>();
+
 services.AddScoped(service => configurationService);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -130,6 +151,8 @@ app.UseSerilogRequestLogging(
     });
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+app.UseHangfireDashboard();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

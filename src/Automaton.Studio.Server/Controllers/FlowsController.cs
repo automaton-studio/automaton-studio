@@ -74,4 +74,12 @@ public class FlowsController : BaseController
 
         return exists ? Ok(exists) : NotFound();
     }
+
+    [HttpPost("schedule")]
+    public ActionResult Post(ScheduleFlowDetails command, CancellationToken cancellationToken)
+    {
+        flowsService.Schedule(command, cancellationToken);
+
+        return NoContent();
+    }
 }
