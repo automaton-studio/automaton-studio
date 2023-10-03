@@ -152,8 +152,6 @@ app.UseSerilogRequestLogging(
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-app.UseHangfireDashboard();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
