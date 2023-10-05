@@ -6,6 +6,8 @@ using Automaton.Studio.Server.Entities;
 using Automaton.Studio.Server.Hubs;
 using Automaton.Studio.Server.Models;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace Automaton.Studio.Server.Services;
 
@@ -14,50 +16,107 @@ public class ScheduleService
     private readonly ApplicationDbContext dbContext;
     private readonly IHubContext<AutomatonHub> automatonHub;
     private readonly IMapper mapper;
+    private readonly Guid userId;
     private readonly Serilog.ILogger logger;
 
-    public ScheduleService(ApplicationDbContext dbContext,
+    public ScheduleService
+    (
+        ApplicationDbContext dbContext,
+        UserContextService userContextService,
         IMapper mapper,
-        IHubContext<AutomatonHub> automatonHub)
+        IHubContext<AutomatonHub> automatonHub
+    )
     {
         this.dbContext = dbContext;
         this.mapper = mapper;
         this.automatonHub = automatonHub;
-        logger = Serilog.Log.ForContext<RunnerService>();
+        this.userId = userContextService.GetUserId();
+        logger = Serilog.Log.ForContext<ScheduleService>();
     }
 
-    public Runner Get(Guid id, Guid userId)
+    public async Task<IEnumerable<ScheduleModel>> ListAsync(CancellationToken cancellationToken)
     {
-        var runner = dbContext.Runners.SingleOrDefault(x => x.Id == id && x.RunnerUsers.Any(x => x.UserId == userId));
+        var schedules = await dbContext.Schedules.Where(x => x.ScheduleUsers.Any(x => x.UserId == userId)).ToListAsync(cancellationToken: cancellationToken);
 
-        // Because we update Runner's ConnectionId on the fly,
-        // when retrieving data we get the cached version of it
-        // with previous ConnectionId. There is no need to do the
-        // same thing with other entities if they aren't updated
-        // in the same way as the Runner entity.
+        var scheduleModels = mapper.Map<IEnumerable<ScheduleModel>>(schedules);
 
-        // Here are some ideas to fix the issue:
-        // https://stackoverflow.com/a/51290890/778863
-        // http://codethug.com/2016/02/19/Entity-Framework-Cache-Busting/
-
-        // Solution 1. Reload the entity 
-        dbContext.Entry(runner).Reload();
-
-        // Solution 2. Detach the entity to remove it from context’s cache.
-        // dbContext.Entry(entity).State = EntityState.Detached;
-        // entity = dbContext.Runners.Find(id);
-
-        return runner;
+        return scheduleModels;
     }
 
-    public async Task<IEnumerable<RunnerFlowResult>> ExecuteFlow(Guid flowId, IEnumerable<Guid> runnerIds, Guid userId, CancellationToken cancellationToken)
+    public async Task<IEnumerable<ScheduleModel>> ListAsync(Guid flowId, CancellationToken cancellationToken)
+    {
+        var schedules = await dbContext.Schedules.Where(x => x.FlowId == flowId && x.ScheduleUsers.Any(x => x.UserId == userId)).ToListAsync(cancellationToken: cancellationToken);
+
+        var scheduleModels = mapper.Map<IEnumerable<ScheduleModel>>(schedules);
+
+        return scheduleModels;
+    }
+
+    public async Task<ScheduleModel> GetAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var schedule = await dbContext.Schedules.SingleOrDefaultAsync(x => x.Id == id && x.ScheduleUsers.Any(x => x.UserId == userId), cancellationToken: cancellationToken);
+
+        var scheduleModel = mapper.Map<ScheduleModel>(schedule);
+
+        return scheduleModel;
+    }
+
+    public async Task<int> AddAsync(ScheduleModel scheduleModel, CancellationToken cancellationToken)
+    {
+        var schedule = new Schedule()
+        {
+            Id = Guid.NewGuid(),
+            Name = scheduleModel.Name,
+            FlowId = scheduleModel.FlowId,
+            RunnerIds = JsonSerializer.Serialize(scheduleModel.RunnerIds)
+        };
+
+        dbContext.Schedules.Add(schedule);
+
+        var scheduleUser = new ScheduleUser
+        {
+            ScheduleId = schedule.Id,
+            UserId = userId
+        };
+
+        dbContext.ScheduleUsers.Add(scheduleUser);
+
+        var result = await dbContext.SaveChangesAsync(cancellationToken);
+
+        //RecurringJob.AddOrUpdate(schedule.Id.ToString(), () =>
+        //    ExecuteFlow(schedule.FlowId, scheduleModel.RunnerIds, userId, cancellationToken),
+        //    Cron.Yearly);
+
+        return result;
+    }
+
+    public async Task UpdateAsync(Guid id, ScheduleModel scheduleModel, CancellationToken cancellationToken)
+    {
+        var entity = dbContext.Schedules
+            .Include(x => x.ScheduleUsers)
+            .SingleOrDefault(x => x.Id == id && x.ScheduleUsers.Any(x => x.UserId == userId));
+
+        entity.Name = scheduleModel.Name;
+
+        dbContext.Entry(entity).State = EntityState.Modified;
+
+        dbContext.Update(entity);
+
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        //RecurringJob.AddOrUpdate(scheduleModel.Id.ToString(), () =>
+        //    ExecuteFlow(scheduleModel.FlowId, scheduleModel.RunnerIds, userId, cancellationToken),
+        //    Cron.Yearly);
+    }
+
+    private async Task<IEnumerable<RunnerFlowResult>> ExecuteFlow(Guid flowId, IEnumerable<Guid> runnerIds, Guid userId, CancellationToken cancellationToken)
     {
         var results = new List<RunnerFlowResult>();
 
         foreach (var runnerId in runnerIds)
         {
             RunnerFlowResult result;
-            var runner = Get(runnerId, userId);
+            var runner = GetRunner(runnerId, userId);
             var client = automatonHub.Clients.Client(runner.ConnectionId);
 
             try
@@ -79,6 +138,30 @@ public class ScheduleService
         }
 
         return results;
+    }
+
+    private Runner GetRunner(Guid id, Guid userId)
+    {
+        var runner = dbContext.Runners.SingleOrDefault(x => x.Id == id && x.RunnerUsers.Any(x => x.UserId == userId));
+
+        // Because we update Runner's ConnectionId on the fly,
+        // when retrieving data we get the cached version of it
+        // with previous ConnectionId. There is no need to do the
+        // same thing with other entities if they aren't updated
+        // in the same way as the Runner entity.
+
+        // Here are some ideas to fix the issue:
+        // https://stackoverflow.com/a/51290890/778863
+        // http://codethug.com/2016/02/19/Entity-Framework-Cache-Busting/
+
+        // Solution 1. Reload the entity 
+        dbContext.Entry(runner).Reload();
+
+        // Solution 2. Detach the entity to remove it from context’s cache.
+        // dbContext.Entry(entity).State = EntityState.Detached;
+        // entity = dbContext.Runners.Find(id);
+
+        return runner;
     }
 
     private RunnerFlowResult GetSuccessfulFlowResult(Guid flowId, Guid runnerId, WorkflowExecution flowExecution)

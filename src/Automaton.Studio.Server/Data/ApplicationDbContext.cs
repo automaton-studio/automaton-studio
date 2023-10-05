@@ -19,8 +19,10 @@ namespace Automaton.Studio.Server.Data
         public virtual DbSet<Runner> Runners { get; set; }
         public virtual DbSet<RunnerUser> RunnerUsers { get; set; }
         public virtual DbSet<CustomStep> CustomSteps { get; set; }
-        public virtual DbSet<Log> Logs { get; set; }
         public virtual DbSet<CustomStepUser> CustomStepUsers { get; set; }
+        public virtual DbSet<Schedule> Schedules { get; set; }
+        public virtual DbSet<ScheduleUser> ScheduleUsers { get; set; }
+        public virtual DbSet<Log> Logs { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -69,6 +71,19 @@ namespace Automaton.Studio.Server.Data
                 entity.HasIndex(e => e.RunnerId, "IX_RunnerUser_RunnerId");
                 entity.Property(e => e.UserId).IsRequired();
                 entity.Property(e => e.RunnerId).IsRequired();
+            });
+
+            modelBuilder.Entity<Schedule>(entity =>
+            {
+                entity.HasKey(e => new { e.Id });
+            });
+
+            modelBuilder.Entity<ScheduleUser>(entity =>
+            {
+                entity.HasKey(e => new { e.ScheduleId, e.UserId });
+                entity.HasIndex(e => e.ScheduleId, "IX_ScheduleUser_ScheduleId");
+                entity.Property(e => e.UserId).IsRequired();
+                entity.Property(e => e.ScheduleId).IsRequired();
             });
 
             modelBuilder.Entity<CustomStep>(entity =>

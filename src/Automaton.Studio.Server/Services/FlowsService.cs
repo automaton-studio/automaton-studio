@@ -3,7 +3,6 @@ using Automaton.Core.Enums;
 using Automaton.Core.Models;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Models;
-using Hangfire;
 using Serilog;
 using System.Text.Json;
 
@@ -129,21 +128,6 @@ public class FlowsService
         var result = await runnerService.ExecuteFlow(flowId, runnerIds, cancellationToken);
 
         return result;
-    }
-
-    public void Schedule(ScheduleFlowDetails scheduleDetails, CancellationToken cancellationToken)
-    {
-        try
-        {
-            RecurringJob.AddOrUpdate($"ExecuteFlow{scheduleDetails.FlowId}", () =>
-                scheduleService.ExecuteFlow(scheduleDetails.FlowId, scheduleDetails.RunnerIds, userId, cancellationToken),
-                Cron.Minutely);
-        }
-        catch (Exception ex)
-        {
-
-            throw;
-        }
     }
 
     private static Flow DeserializeFlow(string jsonFlow)
