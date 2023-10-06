@@ -10,14 +10,15 @@ using Destructurama;
 using FluentValidation.AspNetCore;
 using Hangfire;
 using Hangfire.MySql;
+using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
+using System.Configuration;
 using System.Reflection;
 using System.Transactions;
 
@@ -43,7 +44,7 @@ services.AddDbContext<ApplicationDbContext>(
             configurationManager.GetConnectionString("MySqlConnection"),
             x => x.MigrationsAssembly("Automaton.Studio.Server.MySql.Migrations")),
 
-        _ => throw new Exception($"Unsupported provider: {configurationService.DatabaseType}")
+        _ => throw new Exception($"Unsupported database provider: {configurationService.DatabaseType}")
     });
 
 services.AddDatabaseDeveloperPageExceptionFilter();
@@ -98,19 +99,39 @@ applicationBuilder.Host.UseSerilog((context, services, config) =>
     .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
 );
 
-services.AddHangfire(x => x.UseStorage(
-    new MySqlStorage(configurationManager.GetConnectionString("MySqlConnection"),
-        new MySqlStorageOptions
-        {
-            TransactionIsolationLevel = IsolationLevel.ReadCommitted,
-            QueuePollInterval = TimeSpan.FromSeconds(15),
-            JobExpirationCheckInterval = TimeSpan.FromHours(1),
-            CountersAggregateInterval = TimeSpan.FromMinutes(5),
-            PrepareSchemaIfNecessary = true,
-            DashboardJobListLimit = 50000,
-            TransactionTimeout = TimeSpan.FromMinutes(1),
-            TablesPrefix = "Hangfire"
-        })));
+services.AddHangfire(x =>
+{
+    object handler = configurationService.DatabaseType switch
+    {
+        ConfigurationService.MsSqlDatabaseType => 
+            x.UseStorage(new MySqlStorage(configurationManager.GetConnectionString("MySqlConnection"),
+                new MySqlStorageOptions
+                {
+                    TransactionIsolationLevel = IsolationLevel.ReadCommitted,
+                    QueuePollInterval = TimeSpan.FromSeconds(15),
+                    JobExpirationCheckInterval = TimeSpan.FromHours(1),
+                    CountersAggregateInterval = TimeSpan.FromMinutes(5),
+                    PrepareSchemaIfNecessary = true,
+                    DashboardJobListLimit = 50000,
+                    TransactionTimeout = TimeSpan.FromMinutes(1),
+                    TablesPrefix = "Hangfire"
+                })),
+
+        ConfigurationService.MySqlDatabaseType => 
+            x.UseSqlServerStorage(configurationManager.GetConnectionString("MsSqlConnection"), 
+                new SqlServerStorageOptions
+                {
+                    CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                    SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                    QueuePollInterval = TimeSpan.Zero,
+                    UseRecommendedIsolationLevel = true,
+                    DisableGlobalLocks = true
+                }),
+
+        _ => throw new Exception($"Unsupported hangfire provider: {configurationService.DatabaseType}")
+    };
+
+});  
 
 services.AddHangfireServer();
 
