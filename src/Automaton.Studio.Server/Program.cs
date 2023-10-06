@@ -35,6 +35,10 @@ var services = applicationBuilder.Services;
 services.AddDbContext<ApplicationDbContext>(
     options => _ = configurationService.DatabaseType switch
     {
+        ConfigurationService.MsSqlDatabaseType => options.UseSqlServer(
+            configurationManager.GetConnectionString("MsSqlConnection"),
+            x => x.MigrationsAssembly("Automaton.Studio.Server.MsSql.Migrations")),
+
         ConfigurationService.MySqlDatabaseType => options.UseMySQL(
             configurationManager.GetConnectionString("MySqlConnection"),
             x => x.MigrationsAssembly("Automaton.Studio.Server.MySql.Migrations")),
