@@ -102,7 +102,7 @@ services.AddHangfire(x =>
 {
     object handler = configurationService.DatabaseType switch
     {
-        ConfigurationService.MsSqlDatabaseType => 
+        ConfigurationService.MySqlDatabaseType => 
             x.UseStorage(new MySqlStorage(configurationManager.GetConnectionString("MySqlConnection"),
                 new MySqlStorageOptions
                 {
@@ -113,10 +113,10 @@ services.AddHangfire(x =>
                     PrepareSchemaIfNecessary = true,
                     DashboardJobListLimit = 50000,
                     TransactionTimeout = TimeSpan.FromMinutes(1),
-                    TablesPrefix = "Hangfire"
+                    TablesPrefix = "hangfire."
                 })),
 
-        ConfigurationService.MySqlDatabaseType => 
+        ConfigurationService.MsSqlDatabaseType => 
             x.UseSqlServerStorage(configurationManager.GetConnectionString("MsSqlConnection"), 
                 new SqlServerStorageOptions
                 {
