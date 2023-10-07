@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Automaton.Studio.Server.Migrations
+namespace Automaton.Studio.Server.MsSql.Migrations.Migrations
 {
-    public partial class Initial : Migration
+    /// <inheritdoc />
+    public partial class First : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -28,8 +30,8 @@ namespace Automaton.Studio.Server.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -51,6 +53,43 @@ namespace Automaton.Studio.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CustomSteps",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MoreInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Definition = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VisibleInExplorer = table.Column<bool>(type: "bit", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Updated = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CustomSteps", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlowExecutions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FlowId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Started = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Finished = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Application = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowExecutions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Flows",
                 columns: table => new
                 {
@@ -66,19 +105,66 @@ namespace Automaton.Studio.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Logs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Level = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MessageTemplate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Exception = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Properties = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EventType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Logs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RefreshTokens",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Token = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 4, 14, 18, 21, 36, 407, DateTimeKind.Local).AddTicks(9675)),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2023, 10, 7, 18, 54, 2, 833, DateTimeKind.Local).AddTicks(8937)),
                     RevokedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Expires = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RefreshTokens", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Runners",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ConnectionId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Runners", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Schedules",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FlowId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RunnerIds = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schedules", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -188,6 +274,42 @@ namespace Automaton.Studio.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CustomStepUsers",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CustomStepId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CustomStepUsers", x => new { x.CustomStepId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_CustomStepUsers_CustomSteps_CustomStepId",
+                        column: x => x.CustomStepId,
+                        principalTable: "CustomSteps",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FlowExecutionUsers",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FlowExecutionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowExecutionUsers", x => new { x.FlowExecutionId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_FlowExecutionUsers_FlowExecutions_FlowExecutionId",
+                        column: x => x.FlowExecutionId,
+                        principalTable: "FlowExecutions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FlowUsers",
                 columns: table => new
                 {
@@ -201,6 +323,42 @@ namespace Automaton.Studio.Server.Migrations
                         name: "FK_FlowUsers_Flows_FlowId",
                         column: x => x.FlowId,
                         principalTable: "Flows",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RunnerUsers",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RunnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RunnerUsers", x => new { x.RunnerId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_RunnerUsers_Runners_RunnerId",
+                        column: x => x.RunnerId,
+                        principalTable: "Runners",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ScheduleUsers",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ScheduleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ScheduleUsers", x => new { x.ScheduleId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_ScheduleUsers_Schedules_ScheduleId",
+                        column: x => x.ScheduleId,
+                        principalTable: "Schedules",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -245,11 +403,32 @@ namespace Automaton.Studio.Server.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CustomStepUser_CustomStepId",
+                table: "CustomStepUsers",
+                column: "CustomStepId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_FlowExecutionUser_FlowExecutionId",
+                table: "FlowExecutionUsers",
+                column: "FlowExecutionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FlowUser_FlowId",
                 table: "FlowUsers",
                 column: "FlowId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RunnerUser_RunnerId",
+                table: "RunnerUsers",
+                column: "RunnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ScheduleUser_ScheduleId",
+                table: "ScheduleUsers",
+                column: "ScheduleId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
@@ -268,10 +447,25 @@ namespace Automaton.Studio.Server.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CustomStepUsers");
+
+            migrationBuilder.DropTable(
+                name: "FlowExecutionUsers");
+
+            migrationBuilder.DropTable(
                 name: "FlowUsers");
 
             migrationBuilder.DropTable(
+                name: "Logs");
+
+            migrationBuilder.DropTable(
                 name: "RefreshTokens");
+
+            migrationBuilder.DropTable(
+                name: "RunnerUsers");
+
+            migrationBuilder.DropTable(
+                name: "ScheduleUsers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -280,7 +474,19 @@ namespace Automaton.Studio.Server.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
+                name: "CustomSteps");
+
+            migrationBuilder.DropTable(
+                name: "FlowExecutions");
+
+            migrationBuilder.DropTable(
                 name: "Flows");
+
+            migrationBuilder.DropTable(
+                name: "Runners");
+
+            migrationBuilder.DropTable(
+                name: "Schedules");
         }
     }
 }

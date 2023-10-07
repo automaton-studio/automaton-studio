@@ -4,10 +4,10 @@ using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace Automaton.Studio.Server.Migrations
+namespace Automaton.Studio.Server.MySql.Migrations.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMySql : Migration
+    public partial class First : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -81,6 +81,23 @@ namespace Automaton.Studio.Server.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "FlowExecutions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    FlowId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Started = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Finished = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Status = table.Column<string>(type: "longtext", nullable: true),
+                    Application = table.Column<string>(type: "longtext", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowExecutions", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "Flows",
                 columns: table => new
                 {
@@ -97,13 +114,34 @@ namespace Automaton.Studio.Server.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Logs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Level = table.Column<string>(type: "longtext", nullable: false),
+                    Message = table.Column<string>(type: "longtext", nullable: false),
+                    MessageTemplate = table.Column<string>(type: "longtext", nullable: false),
+                    Exception = table.Column<string>(type: "longtext", nullable: true),
+                    Properties = table.Column<string>(type: "longtext", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    EventType = table.Column<string>(type: "longtext", nullable: true),
+                    UserName = table.Column<string>(type: "longtext", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Logs", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "RefreshTokens",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false),
                     Token = table.Column<string>(type: "longtext", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 8, 10, 12, 18, 52, 578, DateTimeKind.Local).AddTicks(455)),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false, defaultValue: new DateTime(2023, 10, 7, 18, 28, 51, 453, DateTimeKind.Local).AddTicks(3589)),
                     RevokedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Expires = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
@@ -118,12 +156,27 @@ namespace Automaton.Studio.Server.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    Name = table.Column<string>(type: "longtext", nullable: true),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
                     ConnectionId = table.Column<string>(type: "longtext", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Runners", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Schedules",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
+                    FlowId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    RunnerIds = table.Column<string>(type: "longtext", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Schedules", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -258,6 +311,25 @@ namespace Automaton.Studio.Server.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "FlowExecutionUsers",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    FlowExecutionId = table.Column<Guid>(type: "char(36)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FlowExecutionUsers", x => new { x.FlowExecutionId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_FlowExecutionUsers_FlowExecutions_FlowExecutionId",
+                        column: x => x.FlowExecutionId,
+                        principalTable: "FlowExecutions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "FlowUsers",
                 columns: table => new
                 {
@@ -290,6 +362,25 @@ namespace Automaton.Studio.Server.Migrations
                         name: "FK_RunnerUsers_Runners_RunnerId",
                         column: x => x.RunnerId,
                         principalTable: "Runners",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "ScheduleUsers",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    ScheduleId = table.Column<Guid>(type: "char(36)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ScheduleUsers", x => new { x.ScheduleId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_ScheduleUsers_Schedules_ScheduleId",
+                        column: x => x.ScheduleId,
+                        principalTable: "Schedules",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -338,6 +429,11 @@ namespace Automaton.Studio.Server.Migrations
                 column: "CustomStepId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_FlowExecutionUser_FlowExecutionId",
+                table: "FlowExecutionUsers",
+                column: "FlowExecutionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FlowUser_FlowId",
                 table: "FlowUsers",
                 column: "FlowId");
@@ -346,6 +442,11 @@ namespace Automaton.Studio.Server.Migrations
                 name: "IX_RunnerUser_RunnerId",
                 table: "RunnerUsers",
                 column: "RunnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ScheduleUser_ScheduleId",
+                table: "ScheduleUsers",
+                column: "ScheduleId");
         }
 
         /// <inheritdoc />
@@ -370,13 +471,22 @@ namespace Automaton.Studio.Server.Migrations
                 name: "CustomStepUsers");
 
             migrationBuilder.DropTable(
+                name: "FlowExecutionUsers");
+
+            migrationBuilder.DropTable(
                 name: "FlowUsers");
+
+            migrationBuilder.DropTable(
+                name: "Logs");
 
             migrationBuilder.DropTable(
                 name: "RefreshTokens");
 
             migrationBuilder.DropTable(
                 name: "RunnerUsers");
+
+            migrationBuilder.DropTable(
+                name: "ScheduleUsers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -388,10 +498,16 @@ namespace Automaton.Studio.Server.Migrations
                 name: "CustomSteps");
 
             migrationBuilder.DropTable(
+                name: "FlowExecutions");
+
+            migrationBuilder.DropTable(
                 name: "Flows");
 
             migrationBuilder.DropTable(
                 name: "Runners");
+
+            migrationBuilder.DropTable(
+                name: "Schedules");
         }
     }
 }
