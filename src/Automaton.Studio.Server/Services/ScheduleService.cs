@@ -36,7 +36,9 @@ public class ScheduleService
 
     public async Task<IEnumerable<ScheduleModel>> ListAsync(CancellationToken cancellationToken)
     {
-        var schedules = await dbContext.Schedules.Where(x => x.ScheduleUsers.Any(x => x.UserId == userId)).ToListAsync(cancellationToken: cancellationToken);
+        var schedules = await dbContext.Schedules
+            .Where(x => x.ScheduleUsers.Any(x => x.UserId == userId))
+            .ToListAsync(cancellationToken: cancellationToken);
 
         var scheduleModels = mapper.Map<IEnumerable<ScheduleModel>>(schedules);
 
@@ -45,7 +47,9 @@ public class ScheduleService
 
     public async Task<IEnumerable<ScheduleModel>> ListAsync(Guid flowId, CancellationToken cancellationToken)
     {
-        var schedules = await dbContext.Schedules.Where(x => x.FlowId == flowId && x.ScheduleUsers.Any(x => x.UserId == userId)).ToListAsync(cancellationToken: cancellationToken);
+        var schedules = await dbContext.Schedules
+            .Where(x => x.FlowId == flowId && x.ScheduleUsers
+            .Any(x => x.UserId == userId)).ToListAsync(cancellationToken: cancellationToken);
 
         var scheduleModels = mapper.Map<IEnumerable<ScheduleModel>>(schedules);
 
@@ -54,7 +58,8 @@ public class ScheduleService
 
     public async Task<ScheduleModel> GetAsync(Guid id, CancellationToken cancellationToken)
     {
-        var schedule = await dbContext.Schedules.SingleOrDefaultAsync(x => x.Id == id && x.ScheduleUsers.Any(x => x.UserId == userId), cancellationToken: cancellationToken);
+        var schedule = await dbContext.Schedules
+            .SingleOrDefaultAsync(x => x.Id == id && x.ScheduleUsers.Any(x => x.UserId == userId), cancellationToken: cancellationToken);
 
         var scheduleModel = mapper.Map<ScheduleModel>(schedule);
 

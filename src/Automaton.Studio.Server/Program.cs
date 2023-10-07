@@ -18,7 +18,6 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
-using System.Configuration;
 using System.Reflection;
 using System.Transactions;
 
@@ -41,7 +40,7 @@ services.AddDbContext<ApplicationDbContext>(
             x => x.MigrationsAssembly("Automaton.Studio.Server.MsSql.Migrations")),
 
         ConfigurationService.MySqlDatabaseType => options.UseMySQL(
-            configurationManager.GetConnectionString("MySqlConnection"),
+        configurationManager.GetConnectionString("MySqlConnection"),
             x => x.MigrationsAssembly("Automaton.Studio.Server.MySql.Migrations")),
 
         _ => throw new Exception($"Unsupported database provider: {configurationService.DatabaseType}")
@@ -130,7 +129,6 @@ services.AddHangfire(x =>
 
         _ => throw new Exception($"Unsupported hangfire provider: {configurationService.DatabaseType}")
     };
-
 });  
 
 services.AddHangfireServer();
