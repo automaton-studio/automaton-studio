@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
+using Serilog.Formatting.Compact;
+using Serilog.Sinks.MSSqlServer;
 using System.Reflection;
 using System.Transactions;
 
@@ -96,6 +98,17 @@ applicationBuilder.Host.UseSerilog((context, services, config) =>
     .Enrich.With<EventTypeEnricher>()
     .Enrich.With(services.GetService<UserNameEnricher>())
     .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+    .WriteTo.Conditional(evt => configurationService.IsDatabaseTypeMsSql(),
+        wt => wt.MSSqlServer(
+            //If provided, the settings of MSSqlServerSinkOptions and ColumnOptions
+            //objects created in code are treated as a baseline
+            //which is then updated from the external configuration data
+            //https://github.com/serilog-mssql/serilog-sinks-mssqlserver
+            connectionString: configurationManager.GetConnectionString("MsSqlConnection"),
+            appConfiguration: configurationBuilder,
+            // Below configuration is overritten by configuration from appsettings.json
+            logEventFormatter: new CompactJsonFormatter(),
+            sinkOptions: new MSSqlServerSinkOptions { TableName = "Logs" }))
 );
 
 services.AddHangfire(x =>

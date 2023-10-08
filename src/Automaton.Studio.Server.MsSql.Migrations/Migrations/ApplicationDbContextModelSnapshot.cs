@@ -273,29 +273,26 @@ namespace Automaton.Studio.Server.MsSql.Migrations.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("EventType")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Exception")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Level")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Message")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MessageTemplate")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Properties")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("Timestamp")
+                        .HasColumnType("datetime");
 
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
@@ -384,7 +381,7 @@ namespace Automaton.Studio.Server.MsSql.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 7, 18, 54, 2, 833, DateTimeKind.Local).AddTicks(8937));
+                        .HasDefaultValue(new DateTime(2023, 10, 8, 0, 24, 56, 235, DateTimeKind.Local).AddTicks(3631));
 
                     b.Property<DateTime>("Expires")
                         .HasColumnType("datetime2");
