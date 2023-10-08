@@ -266,28 +266,25 @@ namespace Automaton.Studio.Server.MySql.Migrations.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("EventType")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Exception")
                         .HasColumnType("longtext");
 
                     b.Property<string>("Level")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Message")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("MessageTemplate")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Properties")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("Timestamp")
+                    b.Property<DateTime?>("Timestamp")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("UserName")
@@ -295,7 +292,10 @@ namespace Automaton.Studio.Server.MySql.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Logs");
+                    b.ToTable("Logs", t =>
+                        {
+                            t.ExcludeFromMigrations();
+                        });
                 });
 
             modelBuilder.Entity("Automaton.Studio.Server.Entities.Runner", b =>
@@ -377,7 +377,7 @@ namespace Automaton.Studio.Server.MySql.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 10, 7, 18, 28, 51, 453, DateTimeKind.Local).AddTicks(3589));
+                        .HasDefaultValue(new DateTime(2023, 10, 8, 11, 59, 22, 728, DateTimeKind.Local).AddTicks(1154));
 
                     b.Property<DateTime>("Expires")
                         .HasColumnType("datetime(6)");

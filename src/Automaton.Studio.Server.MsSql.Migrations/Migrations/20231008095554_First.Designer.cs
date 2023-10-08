@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Automaton.Studio.Server.MsSql.Migrations.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231007222456_First")]
+    [Migration("20231008095554_First")]
     partial class First
     {
         /// <inheritdoc />
@@ -302,7 +302,10 @@ namespace Automaton.Studio.Server.MsSql.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Logs");
+                    b.ToTable("Logs", t =>
+                        {
+                            t.ExcludeFromMigrations();
+                        });
                 });
 
             modelBuilder.Entity("Automaton.Studio.Server.Entities.Runner", b =>
@@ -384,7 +387,7 @@ namespace Automaton.Studio.Server.MsSql.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 8, 0, 24, 56, 235, DateTimeKind.Local).AddTicks(3631));
+                        .HasDefaultValue(new DateTime(2023, 10, 8, 11, 55, 54, 689, DateTimeKind.Local).AddTicks(9026));
 
                     b.Property<DateTime>("Expires")
                         .HasColumnType("datetime2");

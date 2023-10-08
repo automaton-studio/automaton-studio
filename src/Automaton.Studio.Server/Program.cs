@@ -19,6 +19,7 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
+using Serilog.Sinks.MariaDB.Extensions;
 using Serilog.Sinks.MSSqlServer;
 using System.Reflection;
 using System.Transactions;
@@ -109,6 +110,11 @@ applicationBuilder.Host.UseSerilog((context, services, config) =>
             // Below configuration is overritten by configuration from appsettings.json
             logEventFormatter: new CompactJsonFormatter(),
             sinkOptions: new MSSqlServerSinkOptions { TableName = "Logs" }))
+    .WriteTo.Conditional(evt => configurationService.IsDatabaseTypeMySql(),
+        wt => wt.MariaDB(
+            connectionString: configurationManager.GetConnectionString("MySqlConnection"),
+            tableName: "Logs"))
+
 );
 
 services.AddHangfire(x =>
