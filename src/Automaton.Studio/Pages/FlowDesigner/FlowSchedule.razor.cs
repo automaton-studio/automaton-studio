@@ -29,7 +29,7 @@ namespace Automaton.Studio.Pages.FlowDesigner
 
             try
             {
-                await FlowScheduleViewModel.GetFlowActivity(FlowId, queryModel.StartIndex, queryModel.PageSize);
+                await FlowScheduleViewModel.GetFlowSchedules(FlowId, queryModel.StartIndex, queryModel.PageSize);
             }
             catch
             {
@@ -39,20 +39,6 @@ namespace Automaton.Studio.Pages.FlowDesigner
             {
                 loading = false;
             }
-        }
-
-        private async Task OnRowExpand(RowData<FlowExecution> rowData)
-        {
-            if (rowData.Expanded)
-            {
-                rowData.Data.LogsText = await FlowScheduleViewModel.GetLogsText(FlowId, rowData.Data.Id);
-                StateHasChanged();
-            }
-        }
-
-        private static bool LogIsLoading(string log)
-        {
-            return string.IsNullOrEmpty(log);
         }
     }
 }

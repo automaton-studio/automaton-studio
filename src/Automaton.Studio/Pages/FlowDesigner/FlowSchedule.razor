@@ -8,7 +8,7 @@
             <Col Flex=@("none")>
             <Space Size="@AntSizeLDSType.Large">
                 <SpaceItem Class="header-item">
-                    <Title Level="4">Schedule<span class="subtitle"><span class="bullet">&#x2022;</span>@FlowName</span></Title>
+                    <Title Level="4">Schedules<span class="subtitle"><span class="bullet">&#x2022;</span>@FlowName</span></Title>
                 </SpaceItem>
             </Space>
             </Col>
@@ -21,43 +21,18 @@
     </Header>
 
     <Content>
-        <Table TItem="FlowExecution" 
-            DataSource="@FlowScheduleViewModel.Executions"
+        <Table TItem="FlowScheduleResult" 
+            DataSource="@FlowScheduleViewModel.Schedules"
             RowExpandable="@((record)=>true)"
-            OnExpand="OnRowExpand"
             Loading="@loading" 
             Class="autoscroll-list"
-            EnableVirtualization
-            OnChange="OnChange"
-            Total="FlowScheduleViewModel.Total"           
-            RemoteDataSource>
+            OnChange="OnChange">
             <ColumnDefinitions>
-                <Column Title="Application" @bind-Field="@context.Application">
-                    @context.Application
-                </Column>
-
-                <Column Title="Started" @bind-Field="@context.Started">
-                    @context.Started
-                </Column>
-
-                <Column Title="Finished" @bind-Field="@context.Finished">
-                    @context.Finished
-                </Column>
-
-                <Column Title="Status" @bind-Field="@context.Status">
-                    <span class="@context.StatusClass">@context.Status</span>
+                <Column Title="Name" @bind-Field="@context.Name">
+                    @context.Name
                 </Column>
             </ColumnDefinitions>
-
-            <ExpandTemplate Context="rowData">
-                @if (LogIsLoading(rowData.Data.LogsText))
-                {
-                    <div class="log-spin"><Spin /></div>
-                }
-                else
-                {
-                    <TextArea Id="flow-logs" Value="@rowData.Data.LogsText" />
-                }
+            <ExpandTemplate Context="rowData">             
             </ExpandTemplate>
         </Table>
     </Content>

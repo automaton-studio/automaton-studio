@@ -15,10 +15,12 @@ public class ConfigurationService
     public string RunnersUrl => apiConfig.RunnersUrl;
     public string LogsUrl => apiConfig.LogsUrl;
     public string FlowExecutionUrl => apiConfig.FlowExecutionUrl;
+    public string FlowScheduleUrl => apiConfig.FlowScheduleUrl;
     public string FlowLogsUrl => apiConfig.FlowLogsUrl;
     public bool IsDesktop => appConfig.IsDesktop;
     public string ApplicationName => appConfig.ApplicationName;
     public string ApplicationType => appConfig.ApplicationType;
+
 
     public ConfigurationService(IConfiguration configuration)
     {

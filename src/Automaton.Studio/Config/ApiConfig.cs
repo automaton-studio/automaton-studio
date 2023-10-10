@@ -8,5 +8,6 @@ public class ApiConfig
     public string RunnersUrl { get; set; }
     public string LogsUrl { get; set; }
     public string FlowExecutionUrl { get; set; }
+    public string FlowScheduleUrl { get; set; }
     public string FlowLogsUrl { get; set; }
 }

@@ -9,8 +9,7 @@ public class FlowScheduleViewModel
     private readonly FlowScheduleService flowScheduleService;
     private readonly IMapper mapper;
 
-    public IEnumerable<FlowExecution> Executions { get; set; } = new List<FlowExecution>();
-    public int Total { get; set; }
+    public IEnumerable<FlowScheduleResult> Schedules { get; set; } = new List<FlowScheduleResult>();
 
     public FlowScheduleViewModel
     (
@@ -23,28 +22,9 @@ public class FlowScheduleViewModel
         this.mapper = mapper;
     }
 
-    public async Task GetFlowActivity(string flowIdString, int startIndex, int pageSize)
+    public async Task GetFlowSchedules(string flowIdString, int startIndex, int pageSize)
     {
         Guid.TryParse(flowIdString, out var flowId);
-        var result = await flowScheduleService.GetFlowExecutionResult(flowId, startIndex, pageSize);
-
-        Executions = result.FlowExecutions;
-        Total = result.Total;
-    }
-
-    public async Task<IEnumerable<LogModel>> GetLogs(string flowIdString, Guid flowExecutionId)
-    {
-        Guid.TryParse(flowIdString, out var flowId);
-        var logs = await flowScheduleService.GetLogsActivity(flowId, flowExecutionId);
-
-        return logs;
-    }
-
-    public async Task<string> GetLogsText(string flowIdString, Guid flowExecutionId)
-    {
-        Guid.TryParse(flowIdString, out var flowId);
-        var logsText = await flowScheduleService.GetLogsActivityText(flowId, flowExecutionId);
-
-        return logsText;
+        Schedules = await flowScheduleService.GetFlowSchedules(flowId);
     }
 }

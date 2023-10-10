@@ -23,84 +23,23 @@ public class FlowScheduleService
         this.mapper = mapper;
     }
 
-    public async Task<FlowExecutionResult> GetFlowExecutionResult(Guid flowId, int startIndex, int pageSize)
+    public async Task<IEnumerable<FlowScheduleResult>> GetFlowSchedules(Guid flowId)
     {
         try
         {
-            var result = await httpClient.GetAsync($"{configService.FlowExecutionUrl}/flow/{flowId}/{startIndex}/{pageSize}");
+            var result = await httpClient.GetAsync($"{configService.FlowScheduleUrl}/{flowId}");
 
             result.EnsureSuccessStatusCode();
 
-            var flowExecutionResult = await result.Content.ReadAsAsync<FlowExecutionResult>();
+            var flowSchedules = await result.Content.ReadAsAsync<IEnumerable<FlowScheduleResult>>();
 
-            return flowExecutionResult;
+            return flowSchedules;
         }
         catch (Exception ex)
         {
-            logger.Error(ex, "Failed to load flow execution list");
+            logger.Error(ex, "Failed to load flow schedule list");
 
             throw;
         }
-    }
-
-    public async Task<IEnumerable<LogModel>> GetLogsActivity(Guid flowId, Guid flowExecutionId)
-    {
-        try
-        {
-            var response = await httpClient.GetAsync($"{configService.FlowExecutionUrl}/logs/{flowExecutionId}");
-
-            response.EnsureSuccessStatusCode();
-
-            var logs = await response.Content.ReadAsAsync<IEnumerable<LogModel>>();
-
-            return logs;
-
-        }
-        catch (Exception ex)
-        {
-            logger
-                .ForContext("FlowId", flowId)
-                .ForContext("FlowExecutionId", flowExecutionId)
-                .Error(ex, "Failed to load flow execution logs");
-
-            throw;
-        }
-    }
-
-    public async Task<string> GetLogsActivityText(Guid flowId, Guid flowExecutionId)
-    {
-        try
-        {
-            var logs = await GetLogsActivity(flowId, flowExecutionId);
-
-            var logsText = string.Join(Environment.NewLine, logs.Select(x => $"{x.Timestamp:s} {x.Level} {x.Message}"));
-
-            return logsText;
-        }
-        catch (Exception ex)
-        {
-            logger
-                .ForContext("FlowId", flowId)
-                .ForContext("FlowExecutionId", flowExecutionId)
-                .Error(ex, "Failed to load flow execution logs text");
-
-            throw;
-        }
-    }
-
-    public async Task Add(FlowExecution flowExecution)
-    {
-        var flowExecutionModel = new 
-        {
-            flowExecution.Id,
-            flowExecution.FlowId,
-            flowExecution.Started,
-            flowExecution.Finished,
-            Status = flowExecution.Status.ToString(),
-            flowExecution.Application
-        };
-
-        var response = await httpClient.PostAsJsonAsync(configService.FlowExecutionUrl, flowExecutionModel);
-        response.EnsureSuccessStatusCode();
     }
 }
