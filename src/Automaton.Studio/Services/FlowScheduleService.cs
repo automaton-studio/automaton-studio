@@ -23,7 +23,7 @@ public class FlowScheduleService
         this.mapper = mapper;
     }
 
-    public async Task<IEnumerable<FlowScheduleResult>> GetFlowSchedules(Guid flowId)
+    public async Task<IEnumerable<FlowSchedule>> GetFlowSchedules(Guid flowId)
     {
         try
         {
@@ -31,7 +31,7 @@ public class FlowScheduleService
 
             result.EnsureSuccessStatusCode();
 
-            var flowSchedules = await result.Content.ReadAsAsync<IEnumerable<FlowScheduleResult>>();
+            var flowSchedules = await result.Content.ReadAsAsync<IEnumerable<FlowSchedule>>();
 
             return flowSchedules;
         }

@@ -9,7 +9,7 @@ public class FlowScheduleViewModel
     private readonly FlowScheduleService flowScheduleService;
     private readonly IMapper mapper;
 
-    public IEnumerable<FlowScheduleResult> Schedules { get; set; } = new List<FlowScheduleResult>();
+    public IEnumerable<FlowSchedule> Schedules { get; set; } = new List<FlowSchedule>();
 
     public FlowScheduleViewModel
     (
