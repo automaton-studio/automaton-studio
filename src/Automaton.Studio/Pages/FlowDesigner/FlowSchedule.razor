@@ -1,6 +1,7 @@
 ﻿@page "/flow/schedule/{flowid}/{flowname}"
 @using AntDesign
 @using Automaton.Studio.Models;
+@using Blazored.FluentValidation;
 
 <Layout>
     <Header Class="header">
@@ -15,24 +16,70 @@
 
             <Col Class="right-actions">
             <Space Class="right-header-items">
+                <SpaceItem>
+                    <Tooltip Title="New schedule">
+                        <Button Class="header-button" Icon="plus" @onclick="@(() => NewSchedule())">
+                            New
+                        </Button>
+                    </Tooltip>
+                </SpaceItem>
             </Space>
             </Col>
         </Row>
     </Header>
 
     <Content>
-        <Table TItem="Models.FlowSchedule" 
+        <Table TItem="FlowScheduleModel" 
             DataSource="@FlowScheduleViewModel.Schedules"
             RowExpandable="@((record)=>true)"
             Loading="@loading" 
             Class="autoscroll-list"
+            OnRow="OnRow"
             OnChange="OnChange">
             <ColumnDefinitions>
                 <Column Title="Name" @bind-Field="@context.Name">
                     @context.Name
                 </Column>
             </ColumnDefinitions>
-            <ExpandTemplate Context="rowData">             
+            <ExpandTemplate Context="rowData">
+                <Form @ref="form"
+                      Model="@rowData.Data"
+                      Loading="loading"
+                      Class="step-form"
+                      Layout="@FormLayout.Vertical">
+
+                    <Validator>
+                        <FluentValidationValidator />
+                        <ValidationSummary />
+                    </Validator>
+
+                    <ChildContent>
+                        <GridRow Gutter="(16, 0)" Class="expanded-content">
+                            <GridCol Xs="6" Md="6">
+                                <FormItem Label="Name">
+                                    <Input Type="text" @bind-Value="@rowData.Data.Name" />
+                                </FormItem>
+                            </GridCol>
+                            <GridCol Xs="6" Md="6">
+                                @*<FormItem Label="Value">
+                                   <Select Mode="multiple" 
+                                    @bind-Values="context.RunnerIds"
+                                    Placeholder="Select runners..."
+                                    TItemValue="Guid"
+                                    TItem="Guid"
+                                    AllowClear>
+                                    <SelectOptions>
+                                        @foreach (var item in FlowsViewModel.Runners)
+                                        {
+                                            <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
+                                        }
+                                    </SelectOptions>
+                                </Select>   
+                                </FormItem>*@
+                            </GridCol>
+                        </GridRow>
+                    </ChildContent>
+                </Form>
             </ExpandTemplate>
         </Table>
     </Content>

@@ -1,6 +1,6 @@
 ﻿namespace Automaton.Studio.Models;
 
-public class FlowSchedule
+public class FlowScheduleModel
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

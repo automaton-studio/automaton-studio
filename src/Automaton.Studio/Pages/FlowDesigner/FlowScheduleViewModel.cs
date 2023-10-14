@@ -9,7 +9,8 @@ public class FlowScheduleViewModel
     private readonly FlowScheduleService flowScheduleService;
     private readonly IMapper mapper;
 
-    public IEnumerable<FlowSchedule> Schedules { get; set; } = new List<FlowSchedule>();
+    public Guid FlowId { get; set; }
+    public IList<FlowScheduleModel> Schedules { get; set; } = new List<FlowScheduleModel>();
 
     public FlowScheduleViewModel
     (
@@ -22,9 +23,25 @@ public class FlowScheduleViewModel
         this.mapper = mapper;
     }
 
-    public async Task GetFlowSchedules(string flowIdString, int startIndex, int pageSize)
+    public async Task GetFlowSchedules(int startIndex, int pageSize)
     {
-        Guid.TryParse(flowIdString, out var flowId);
-        Schedules = await flowScheduleService.GetFlowSchedules(flowId);
+        Schedules = await flowScheduleService.GetFlowSchedules(FlowId);
+    }
+
+    public void AddNewSchedule()
+    {
+        var schedule = new FlowScheduleModel
+        {
+            Id = Guid.NewGuid(),
+            Name = GetNewScheduleName(),
+            FlowId = FlowId
+        };
+
+        Schedules.Insert(0, schedule);
+    }
+
+    private string GetNewScheduleName()
+    {
+        return $"Schedule {Schedules.Count}";
     }
 }

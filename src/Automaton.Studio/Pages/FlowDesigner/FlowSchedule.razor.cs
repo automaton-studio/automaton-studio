@@ -8,10 +8,12 @@ namespace Automaton.Studio.Pages.FlowDesigner
 {
     public partial class FlowSchedule : ComponentBase
     {
+        private bool loading;
+        private bool newSchedule;
+        private Form<FlowScheduleModel> form;
+
         [Parameter] public string FlowId { get; set; }
         [Parameter] public string FlowName { get; set; }
-
-        public bool loading;
 
         [Inject] private NavigationManager NavigationManager { get; set; } = default!;
         [Inject] private FlowScheduleViewModel FlowScheduleViewModel { get; set; } = default!;
@@ -20,6 +22,8 @@ namespace Automaton.Studio.Pages.FlowDesigner
 
         protected override async Task OnInitializedAsync()
         {
+            FlowScheduleViewModel.FlowId = Guid.Parse(FlowId);
+
             await base.OnInitializedAsync();
         }
 
@@ -29,7 +33,7 @@ namespace Automaton.Studio.Pages.FlowDesigner
 
             try
             {
-                await FlowScheduleViewModel.GetFlowSchedules(FlowId, queryModel.StartIndex, queryModel.PageSize);
+                await FlowScheduleViewModel.GetFlowSchedules(queryModel.StartIndex, queryModel.PageSize);
             }
             catch
             {
@@ -39,6 +43,23 @@ namespace Automaton.Studio.Pages.FlowDesigner
             {
                 loading = false;
             }
+        }
+
+        private Dictionary<string, object> OnRow(RowData<FlowScheduleModel> row)
+        {
+            if (row.RowIndex == 1 && newSchedule)
+            {
+                row.Expanded = true;
+                newSchedule = false;
+            }
+
+            return new Dictionary<string, object>();
+        }
+
+        private void NewSchedule()
+        {
+            newSchedule = true;
+            FlowScheduleViewModel.AddNewSchedule();
         }
     }
 }
