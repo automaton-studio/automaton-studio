@@ -89,9 +89,9 @@ public class ScheduleService
 
         var result = await dbContext.SaveChangesAsync(cancellationToken);
 
-        //RecurringJob.AddOrUpdate(schedule.Id.ToString(), () =>
-        //    ExecuteFlow(schedule.FlowId, scheduleModel.RunnerIds, userId, cancellationToken),
-        //    Cron.Yearly);
+        RecurringJob.AddOrUpdate(schedule.Id.ToString(), () =>
+            ExecuteFlow(schedule.FlowId, scheduleModel.RunnerIds, userId, cancellationToken),
+            Cron.Yearly);
 
         return result;
     }

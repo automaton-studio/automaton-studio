@@ -54,14 +54,14 @@
                     </Validator>
 
                     <ChildContent>
-                        <GridRow Gutter="(16, 0)" Class="expanded-content">
-                            <GridCol Xs="6" Md="6">
-                                <FormItem Label="Name">
-                                    <Input Type="text" @bind-Value="@rowData.Data.Name" />
+                        <GridRow>
+                            <GridCol>
+                                <FormItem Label="Name" Id="schedule-name">
+                                    <Input Type="text" @bind-Value="@rowData.Data.Name"  />
                                 </FormItem>
                             </GridCol>
-                            <GridCol Xs="6" Md="6">
-                                @*<FormItem Label="Value">
+                            <GridCol>
+                                <FormItem Label="Runners" Id="schedule-runners">
                                    <Select Mode="multiple" 
                                     @bind-Values="context.RunnerIds"
                                     Placeholder="Select runners..."
@@ -69,13 +69,60 @@
                                     TItem="Guid"
                                     AllowClear>
                                     <SelectOptions>
-                                        @foreach (var item in FlowsViewModel.Runners)
+                                        @foreach (var item in FlowScheduleViewModel.Runners)
                                         {
                                             <SelectOption TItemValue="Guid" TItem="Guid" Value=@item.Id Label=@item.Name />
                                         }
                                     </SelectOptions>
                                 </Select>   
-                                </FormItem>*@
+                                </FormItem>
+                            </GridCol>
+                        </GridRow>
+                        <GridRow >
+                            <GridCol>
+                                <FormItem Label="Name">
+                                    <RadioGroup @bind-Value="context.CronReccurence" ButtonStyle="@RadioButtonStyle.Solid">
+                                        <Radio RadioButton Value="@CronReccurence.Date">Specific Date</Radio>
+                                        <Radio RadioButton Value="@CronReccurence.Minutely">Minutely</Radio>
+                                        <Radio RadioButton Value="@CronReccurence.Hourly">Hourly</Radio>
+                                        <Radio RadioButton Value="@CronReccurence.Daily">Daily</Radio>
+                                        <Radio RadioButton Value="@CronReccurence.Weekly">Weekly</Radio>
+                                        <Radio RadioButton Value="@CronReccurence.Monthly">Monthly</Radio>
+                                        <Radio RadioButton Value="@CronReccurence.Yearly">Yearly</Radio>
+                                    </RadioGroup>
+                                </FormItem>
+                            </GridCol>                          
+                        </GridRow>
+                        <GridRow Class="cron-dates">
+                            <GridCol>
+                                <FormItem Label="Date" Id="cron-date">
+                                    <Input Type="text" @bind-Value="@rowData.Data.CronDate.Date"  />
+                                </FormItem>
+                            </GridCol>
+                            <GridCol>
+                                <FormItem Label="Minute">
+                                    <Input Type="number" @bind-Value="@rowData.Data.CronDate.Minute" />
+                                </FormItem>
+                            </GridCol>
+                            <GridCol>
+                                <FormItem Label="Hour">
+                                    <Input Type="number" @bind-Value="@rowData.Data.CronDate.Hour" />
+                                </FormItem>
+                            </GridCol>
+                            <GridCol>
+                                <FormItem Label="Day">
+                                    <Input Type="number" @bind-Value="@rowData.Data.CronDate.Day" />
+                                </FormItem>
+                            </GridCol>
+                            <GridCol>
+                                <FormItem Label="Week">
+                                    <Input Type="number" @bind-Value="@rowData.Data.CronDate.Week" />
+                                </FormItem>
+                            </GridCol>
+                            <GridCol>
+                                <FormItem Label="Month">
+                                    <Input Type="number" @bind-Value="@rowData.Data.CronDate.Month" />
+                                </FormItem>
                             </GridCol>
                         </GridRow>
                     </ChildContent>
@@ -98,6 +145,24 @@
         border-radius: 4px;
         margin-bottom: 20px;
         margin: 20px 0;
+    }
+
+    .cron-dates .ant-form-item-control-input-content {
+        width: 80px;
+        padding: 0 5px 0 0;
+    }
+
+    #cron-date  {
+        width: 160px !important;
+    }
+
+    #schedule-name {
+        width: 255px;
+        padding-right: 10px;
+    }
+
+    #schedule-runners {
+        width: 300px;
     }
 
 </style>

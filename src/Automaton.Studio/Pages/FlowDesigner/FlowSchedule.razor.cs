@@ -1,6 +1,7 @@
 ﻿using AntDesign;
 using AntDesign.TableModels;
 using Automaton.Studio.Models;
+using Automaton.Studio.Pages.Flows;
 using Automaton.Studio.Pages.Runners;
 using Microsoft.AspNetCore.Components;
 
@@ -23,6 +24,7 @@ namespace Automaton.Studio.Pages.FlowDesigner
         protected override async Task OnInitializedAsync()
         {
             FlowScheduleViewModel.FlowId = Guid.Parse(FlowId);
+            await FlowScheduleViewModel.GetRunners();
 
             await base.OnInitializedAsync();
         }
