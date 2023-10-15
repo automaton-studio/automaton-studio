@@ -56,4 +56,10 @@ public class FlowScheduleService
         var response = await httpClient.PutAsJsonAsync($"{configService.FlowScheduleUrl}/{schedule.Id}", schedule);
         response.EnsureSuccessStatusCode();
     }
+
+    public async Task Delete(Guid id)
+    {
+        var response = await httpClient.DeleteAsync($"{configService.FlowScheduleUrl}/{id}");
+        response.EnsureSuccessStatusCode();
+    }
 }

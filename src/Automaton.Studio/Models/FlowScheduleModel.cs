@@ -9,4 +9,5 @@ public class FlowScheduleModel
     public CronReccurence CronReccurence { get; set; } = CronReccurence.Date;
     public CronDate CronDate { get; set; } = new CronDate();
     public bool IsNew { get; set; }
+    public bool Loading { get; set; }
 }

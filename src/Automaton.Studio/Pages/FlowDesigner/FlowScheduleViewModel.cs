@@ -60,6 +60,15 @@ public class FlowScheduleViewModel
         await flowScheduleService.Update(schedule);
     }
 
+    public async Task DeleteSchedule(Guid id)
+    {
+        await flowScheduleService.Delete(id);
+
+        var schedule = Schedules.SingleOrDefault(x => x.Id == id);
+
+        Schedules.Remove(schedule);
+    }
+
     private string GetNewScheduleName()
     {
         return $"Schedule {Schedules.Count}";

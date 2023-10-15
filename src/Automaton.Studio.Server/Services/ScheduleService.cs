@@ -116,6 +116,15 @@ public class ScheduleService
         //    Cron.Yearly);
     }
 
+    public void Remove(Guid id)
+    {
+        var schedule = dbContext.Schedules.SingleOrDefault(x => x.Id == id && x.ScheduleUsers.Any(x => x.UserId == userId));
+
+        dbContext.Schedules.Remove(schedule);
+
+        dbContext.SaveChanges();
+    }
+
     public async Task<IEnumerable<RunnerFlowResult>> ExecuteFlow(Guid flowId, IEnumerable<Guid> runnerIds, Guid userId, CancellationToken cancellationToken)
     {
         var results = new List<RunnerFlowResult>();
@@ -171,7 +180,7 @@ public class ScheduleService
         return runner;
     }
 
-    private RunnerFlowResult GetSuccessfulFlowResult(Guid flowId, Guid runnerId, WorkflowExecution flowExecution)
+    private static RunnerFlowResult GetSuccessfulFlowResult(Guid flowId, Guid runnerId, WorkflowExecution flowExecution)
     {
         return new RunnerFlowResult
         {
@@ -183,7 +192,7 @@ public class ScheduleService
         };
     }
 
-    private RunnerFlowResult GetInvalidFlowResult(Guid flowId, Guid runnerId)
+    private static RunnerFlowResult GetInvalidFlowResult(Guid flowId, Guid runnerId)
     {
         return new RunnerFlowResult
         {

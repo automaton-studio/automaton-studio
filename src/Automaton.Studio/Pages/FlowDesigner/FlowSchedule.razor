@@ -37,14 +37,37 @@
             OnRow="OnRow"
             OnChange="OnChange">
             <ColumnDefinitions>
-                <Column Title="Name" @bind-Field="@context.Name">
+                <Column Title="Name" @bind-Field="@context.Name" Width="80%">
                     @context.Name
                 </Column>
+                <ActionColumn Title="Action">
+                    <Dropdown Placement="@Placement.Bottom" Trigger="@(new Trigger[] { Trigger.Click })">
+                                <Overlay>
+                                    <Menu>
+                                        <Popconfirm Title="Sure to delete?"
+                                                    OnConfirm="()=> DeleteSchedule(context.Id)"
+                                                    OkText="Yes"
+                                                    CancelText="No">
+                                            <MenuItem Icon="delete">
+                                                Delete
+                                            </MenuItem>
+                                        </Popconfirm>
+                                    </Menu>
+                                </Overlay>
+                                <ChildContent>
+                                    <Tooltip Title="More actions">
+                                        <a href="#" @onclick:preventDefault @onmousedown:stopPropagation>
+                                            <Icon Type="more" Theme="outline" />
+                                        </a>
+                                    </Tooltip>
+                                </ChildContent>
+                            </Dropdown>
+                </ActionColumn>
             </ColumnDefinitions>
             <ExpandTemplate Context="rowData">
                 <Form @ref="form"
                       Model="@rowData.Data"
-                      Loading="loading"
+                      Loading="rowData.Data.Loading"
                       Class="step-form"
                       Layout="@FormLayout.Vertical"
                       OnFinish="Save"

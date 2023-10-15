@@ -2,41 +2,48 @@
 using Automaton.Studio.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Automaton.Studio.Server.Controllers
+namespace Automaton.Studio.Server.Controllers;
+
+public class SchedulesController : BaseController
 {
-    public class SchedulesController : BaseController
+    private readonly ScheduleService scheduleService;
+
+    public SchedulesController(ScheduleService scheduleService)
     {
-        private readonly ScheduleService scheduleService;
+        this.scheduleService = scheduleService;
+    }
 
-        public SchedulesController(ScheduleService scheduleService)
-        {
-            this.scheduleService = scheduleService;
-        }
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ScheduleModel>>> Get(CancellationToken cancellationToken)
+    {
+        return Ok(await scheduleService.ListAsync(cancellationToken));
+    }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ScheduleModel>>> Get(CancellationToken cancellationToken)
-        {
-            return Ok(await scheduleService.ListAsync(cancellationToken));
-        }
+    [HttpGet("{flowid}")]
+    public async Task<ActionResult<IEnumerable<ScheduleModel>>> Get(Guid flowId, CancellationToken cancellationToken)
+    {
+        return Ok(await scheduleService.ListAsync(flowId, cancellationToken));
+    }
 
-        [HttpGet("{flowid}")]
-        public async Task<ActionResult<IEnumerable<ScheduleModel>>> Get(Guid flowId, CancellationToken cancellationToken)
-        {
-            return Ok(await scheduleService.ListAsync(flowId, cancellationToken));
-        }
+    [HttpPost]
+    public async Task<ActionResult> Post(ScheduleModel schedule, CancellationToken cancellationToken)
+    {
+        return Ok(await scheduleService.AddAsync(schedule, cancellationToken));
+    }
 
-        [HttpPost]
-        public async Task<ActionResult> Post(ScheduleModel schedule, CancellationToken cancellationToken)
-        {
-            return Ok(await scheduleService.AddAsync(schedule, cancellationToken));
-        }
+    [HttpPut("{id}")]
+    public async Task<ActionResult> Put(Guid id, ScheduleModel schedule, CancellationToken cancellationToken)
+    {
+        await scheduleService.UpdateAsync(id, schedule, cancellationToken);
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Put(Guid id, ScheduleModel schedule, CancellationToken cancellationToken)
-        {
-            await scheduleService.UpdateAsync(id, schedule, cancellationToken);
+        return NoContent();
+    }
 
-            return NoContent();
-        }
+    [HttpDelete("{id}")]
+    public IActionResult Delete(Guid id)
+    {
+        scheduleService.Remove(id);
+
+        return NoContent();
     }
 }

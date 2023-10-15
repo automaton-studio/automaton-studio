@@ -23,6 +23,7 @@ public partial class FlowSchedule : ComponentBase
     protected override async Task OnInitializedAsync()
     {
         FlowScheduleViewModel.FlowId = Guid.Parse(FlowId);
+
         await FlowScheduleViewModel.GetRunners();
 
         await base.OnInitializedAsync();
@@ -30,15 +31,15 @@ public partial class FlowSchedule : ComponentBase
 
     private async Task OnChange(QueryModel queryModel)
     {
-        loading = true;
-
         try
         {
+            loading = true;
+
             await FlowScheduleViewModel.GetFlowSchedules(queryModel.StartIndex, queryModel.PageSize);
         }
         catch
         {
-            await MessageService.Error(Resources.Errors.FlowsActivityNotLoaded);
+            await MessageService.Error("Schedules not loaded");
         }
         finally
         {
@@ -48,13 +49,13 @@ public partial class FlowSchedule : ComponentBase
 
     private async Task Save(EditContext editContext)
     {
+        var schedule = editContext.Model as FlowScheduleModel;
+
         try
         {
-            loading = true;
+            schedule.Loading = true;
 
-            var schedule = editContext.Model as FlowScheduleModel;
-
-            if(schedule.IsNew)
+            if (schedule.IsNew)
             {
                 await FlowScheduleViewModel.AddSchedule(schedule);
                 await MessageService.Info("Schedule created");
@@ -68,6 +69,28 @@ public partial class FlowSchedule : ComponentBase
         catch (Exception ex)
         {
             await MessageService.Error("Schedule update failed");
+        }
+        finally
+        {
+            schedule.Loading = false;
+        }
+    }
+
+    private async Task DeleteSchedule(Guid id)
+    {
+        try
+        {
+            loading = true;
+
+            await FlowScheduleViewModel.DeleteSchedule(id);
+
+            await MessageService.Info("Schedule deleted");
+
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            await MessageService.Error("Schedule delete failed");
         }
         finally
         {
