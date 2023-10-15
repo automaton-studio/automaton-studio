@@ -3,39 +3,38 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Authentication;
 
-namespace Automaton.Studio.Server.Controllers
+namespace Automaton.Studio.Server.Controllers;
+
+[Route("api/[controller]/[action]")]
+public class TokenController : BaseController
 {
-    [Route("api/[controller]/[action]")]
-    public class TokenController : BaseController
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<IActionResult> RefreshAccessToken(RefreshAccessTokenCommand command, CancellationToken ct)
     {
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> RefreshAccessToken(RefreshAccessTokenCommand command, CancellationToken ct)
+        try
         {
-            try
-            {
-                return Ok(await Mediator.Send(command, ct));
-            }
-            catch (AuthenticationException)
-            {
-                return Unauthorized();
-            }          
+            return Ok(await Mediator.Send(command, ct));
         }
-
-        [HttpPost]
-        public async Task<IActionResult> RevokeAccessToken(RevokeAccessTokenCommand command, CancellationToken ct)
+        catch (AuthenticationException)
         {
-            await Mediator.Send(command, ct);
+            return Unauthorized();
+        }          
+    }
 
-            return NoContent();
-        }
+    [HttpPost]
+    public async Task<IActionResult> RevokeAccessToken(RevokeAccessTokenCommand command, CancellationToken ct)
+    {
+        await Mediator.Send(command, ct);
 
-        [HttpPost]
-        public async Task<IActionResult> RevokeRefreshToken(RevokeRefreshTokenCommand command, CancellationToken ct)
-        {
-            await Mediator.Send(command, ct);
+        return NoContent();
+    }
 
-            return NoContent();
-        }
+    [HttpPost]
+    public async Task<IActionResult> RevokeRefreshToken(RevokeRefreshTokenCommand command, CancellationToken ct)
+    {
+        await Mediator.Send(command, ct);
+
+        return NoContent();
     }
 }

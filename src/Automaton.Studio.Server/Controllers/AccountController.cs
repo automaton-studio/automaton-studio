@@ -11,149 +11,148 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Immutable;
 
-namespace Automaton.Studio.Server.Controllers
+namespace Automaton.Studio.Server.Controllers;
+
+[Route("api/[controller]/[action]")]
+public class AccountController : BaseController
 {
-    [Route("api/[controller]/[action]")]
-    public class AccountController : BaseController
+    private readonly ConfigurationService configurationService;
+    private readonly ApplicationDbContext _dataContext;
+    private readonly UserManagerService _userManagerService;
+    private readonly IMapper _mapper;
+    private readonly ILogger<AccountController> _logger;
+    private readonly IJwtService _jwtService;
+
+
+    public AccountController(ConfigurationService configurationService,
+        ApplicationDbContext dataContext, IMapper mapper,
+        ILogger<AccountController> logger,
+        UserManagerService userManagerService,
+        IJwtService jwtService)
     {
-        private readonly ConfigurationService configurationService;
-        private readonly ApplicationDbContext _dataContext;
-        private readonly UserManagerService _userManagerService;
-        private readonly IMapper _mapper;
-        private readonly ILogger<AccountController> _logger;
-        private readonly IJwtService _jwtService;
+        this.configurationService = configurationService;
+        _jwtService = jwtService;
+        _dataContext = dataContext;
+        _mapper = mapper;
+        _logger = logger;
+        _userManagerService = userManagerService;
+    }
 
-
-        public AccountController(ConfigurationService configurationService,
-            ApplicationDbContext dataContext, IMapper mapper,
-            ILogger<AccountController> logger,
-            UserManagerService userManagerService,
-            IJwtService jwtService)
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<IActionResult> RegisterUser(RegisterUserCommand registerUserCommand)
+    {
+        if (configurationService.NoUserSignUp)
         {
-            this.configurationService = configurationService;
-            _jwtService = jwtService;
-            _dataContext = dataContext;
-            _mapper = mapper;
-            _logger = logger;
-            _userManagerService = userManagerService;
+            return NotFound();
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> RegisterUser(RegisterUserCommand registerUserCommand)
+        if (!ModelState.IsValid)
         {
-            if (configurationService.NoUserSignUp)
-            {
-                return NotFound();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            await _userManagerService.CreateUser(new ApplicationUser
-            {
-                Id = Guid.NewGuid(),
-                FirstName = registerUserCommand.FirstName,
-                LastName = registerUserCommand.LastName,
-                UserName = registerUserCommand.UserName,
-                Email = registerUserCommand.Email,
-                SecurityStamp = Guid.NewGuid().ToString()
-            }, registerUserCommand.Password);
-
-            await _dataContext.SaveChangesAsync();
-
-            return CreatedAtRoute("User",
-                new { controller = "User", userId = registerUserCommand.UserName },
-                registerUserCommand.UserName);
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<ActionResult<JsonWebToken>> LoginUser(SignInUserCommand signInUserCommand, CancellationToken cancellationToken)
+        await _userManagerService.CreateUser(new ApplicationUser
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            Id = Guid.NewGuid(),
+            FirstName = registerUserCommand.FirstName,
+            LastName = registerUserCommand.LastName,
+            UserName = registerUserCommand.UserName,
+            Email = registerUserCommand.Email,
+            SecurityStamp = Guid.NewGuid().ToString()
+        }, registerUserCommand.Password);
 
-            var jwt = await LoginUser(signInUserCommand, configurationService.RefreshTokenLifetime, cancellationToken);
+        await _dataContext.SaveChangesAsync();
 
-            return jwt;
+        return CreatedAtRoute("User",
+            new { controller = "User", userId = registerUserCommand.UserName },
+            registerUserCommand.UserName);
+    }
+
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<ActionResult<JsonWebToken>> LoginUser(SignInUserCommand signInUserCommand, CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<ActionResult<JsonWebToken>> LoginRunnerUser(SignInUserCommand signInUserCommand, CancellationToken cancellationToken)
+        var jwt = await LoginUser(signInUserCommand, configurationService.RefreshTokenLifetime, cancellationToken);
+
+        return jwt;
+    }
+
+    [HttpPost]
+    [AllowAnonymous]
+    public async Task<ActionResult<JsonWebToken>> LoginRunnerUser(SignInUserCommand signInUserCommand, CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var jwt = await LoginUser(signInUserCommand, configurationService.RunnerRefreshTokenLifetime, cancellationToken);
-
-            return jwt;
+            return BadRequest(ModelState);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateUserPassword(UpdateUserPasswordCommand passwordUpdateCommand, CancellationToken cancellationToken)
+        var jwt = await LoginUser(signInUserCommand, configurationService.RunnerRefreshTokenLifetime, cancellationToken);
+
+        return jwt;
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateUserPassword(UpdateUserPasswordCommand passwordUpdateCommand, CancellationToken cancellationToken)
+    {
+        var userId = GetUserId();
+
+        await _userManagerService.UpdatePassword
+        (
+            userId, 
+            passwordUpdateCommand.OldPassword, 
+            passwordUpdateCommand.NewPassword
+        );
+
+        await _dataContext.SaveChangesAsync(cancellationToken);
+
+        return NoContent();
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateUserProfile(UpdateUserInfoCommand profileUpdateCommand, CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid)
         {
-            var userId = GetUserId();
-
-            await _userManagerService.UpdatePassword
-            (
-                userId, 
-                passwordUpdateCommand.OldPassword, 
-                passwordUpdateCommand.NewPassword
-            );
-
-            await _dataContext.SaveChangesAsync(cancellationToken);
-
-            return NoContent();
+            return BadRequest(ModelState);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateUserProfile(UpdateUserInfoCommand profileUpdateCommand, CancellationToken cancellationToken)
+        profileUpdateCommand.Id = GetUserId();
+
+        await Mediator.Send(profileUpdateCommand, cancellationToken);
+
+        return NoContent();
+    }
+
+    private IDictionary<string, string> GetCustomClaimsForUser(Guid userId)
+    {
+        //Add custom claims here
+        return new Dictionary<string, string>();
+    }
+
+    private async Task<JsonWebToken> LoginUser(SignInUserCommand signInUserCommand, int refreshTokenExpirationDays, CancellationToken cancellationToken)
+    {
+        var user = await _userManagerService.GetUserByEmailOrUserName(signInUserCommand.UserName);
+
+        if (user == null || await _userManagerService.ValidatePasswordAsync(user, signInUserCommand.Password) == false)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            profileUpdateCommand.Id = GetUserId();
-
-            await Mediator.Send(profileUpdateCommand, cancellationToken);
-
-            return NoContent();
+            throw new Exception("Invalid credentials.");
         }
 
-        private IDictionary<string, string> GetCustomClaimsForUser(Guid userId)
-        {
-            //Add custom claims here
-            return new Dictionary<string, string>();
-        }
+        var refreshToken = new RefreshToken(user.Id, refreshTokenExpirationDays);
+        var roles = (await _userManagerService.GetRoles(user.Id)).ToImmutableList();
+        var jwt = _jwtService.GenerateToken(user.Id.ToString(), user.UserName, roles, GetCustomClaimsForUser(user.Id));
 
-        private async Task<JsonWebToken> LoginUser(SignInUserCommand signInUserCommand, int refreshTokenExpirationDays, CancellationToken cancellationToken)
-        {
-            var user = await _userManagerService.GetUserByEmailOrUserName(signInUserCommand.UserName);
+        jwt.RefreshToken = refreshToken.Token;
 
-            if (user == null || await _userManagerService.ValidatePasswordAsync(user, signInUserCommand.Password) == false)
-            {
-                throw new Exception("Invalid credentials.");
-            }
+        await _dataContext.Set<RefreshToken>().AddAsync(refreshToken, cancellationToken);
+        await _dataContext.SaveChangesAsync(cancellationToken);
 
-            var refreshToken = new RefreshToken(user.Id, refreshTokenExpirationDays);
-            var roles = (await _userManagerService.GetRoles(user.Id)).ToImmutableList();
-            var jwt = _jwtService.GenerateToken(user.Id.ToString(), user.UserName, roles, GetCustomClaimsForUser(user.Id));
-
-            jwt.RefreshToken = refreshToken.Token;
-
-            await _dataContext.Set<RefreshToken>().AddAsync(refreshToken, cancellationToken);
-            await _dataContext.SaveChangesAsync(cancellationToken);
-
-            return jwt;
-        }
+        return jwt;
     }
 }
