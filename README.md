@@ -18,17 +18,9 @@ The application can be installed on favourite web server that supports .NET 7/Bl
 
 ## Screenshots
 
-![Screenshot 02](/screenshots/Screenshot 2023-10-16 001341.png?raw=true "Automaton Studio Flows")
+![Screenshot 02](/screenshots/Screenshot-2023-10-16-001341.png?raw=true "Automaton Studio Flows")
 
-![Screenshot 01](/screenshots/Screenshot-2022-05-27-103012.png?raw=true "Automaton Studio Designer")
-
-## Technical Details
-
-The solution consists of:
-- Desktop/Web application used to design, debug, test and orchestrate flows
-- Runner application to execute flows on other machines
-
-Automaton Studio is written in C# / Blazor, and it relays on a other opensource projects.
+![Screenshot 01](/screenshots/Screenshot-2023-10-16-002050.png?raw=true "Automaton Studio Designer")
 
 ## Licence
 
