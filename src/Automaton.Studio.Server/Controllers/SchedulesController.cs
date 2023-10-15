@@ -26,15 +26,15 @@ namespace Automaton.Studio.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(ScheduleModel scheduleFlowDetails, CancellationToken cancellationToken)
+        public async Task<ActionResult> Post(ScheduleModel schedule, CancellationToken cancellationToken)
         {
-            return Ok(await scheduleService.AddAsync(scheduleFlowDetails, cancellationToken));
+            return Ok(await scheduleService.AddAsync(schedule, cancellationToken));
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(Guid id, ScheduleModel scheduleModel, CancellationToken cancellationToken)
+        public async Task<ActionResult> Put(Guid id, ScheduleModel schedule, CancellationToken cancellationToken)
         {
-            await scheduleService.UpdateAsync(id, scheduleModel, cancellationToken);
+            await scheduleService.UpdateAsync(id, schedule, cancellationToken);
 
             return NoContent();
         }

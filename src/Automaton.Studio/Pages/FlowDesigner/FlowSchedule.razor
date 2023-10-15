@@ -46,7 +46,9 @@
                       Model="@rowData.Data"
                       Loading="loading"
                       Class="step-form"
-                      Layout="@FormLayout.Vertical">
+                      Layout="@FormLayout.Vertical"
+                      OnFinish="Save"
+                      OnFinishFailed="SaveFailed">
 
                     <Validator>
                         <FluentValidationValidator />
@@ -124,6 +126,13 @@
                                     <Input Type="number" @bind-Value="@rowData.Data.CronDate.Month" />
                                 </FormItem>
                             </GridCol>
+                        </GridRow>
+                        <GridRow>
+                            <FormItem>
+                                <Button Type="@ButtonType.Primary" HtmlType="submit">
+                                    Save
+                                </Button>
+                            </FormItem>
                         </GridRow>
                     </ChildContent>
                 </Form>

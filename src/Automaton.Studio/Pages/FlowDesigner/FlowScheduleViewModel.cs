@@ -28,7 +28,7 @@ public class FlowScheduleViewModel
 
     public async Task GetFlowSchedules(int startIndex, int pageSize)
     {
-        Schedules = await flowScheduleService.GetFlowSchedules(FlowId);
+        Schedules = await flowScheduleService.List(FlowId);
     }
 
     public async Task GetRunners()
@@ -36,16 +36,28 @@ public class FlowScheduleViewModel
         Runners = await runnerService.List();
     }
 
-    public void AddNewSchedule()
+    public void NewSchedule()
     {
         var schedule = new FlowScheduleModel
         {
             Id = Guid.NewGuid(),
             Name = GetNewScheduleName(),
-            FlowId = FlowId
+            FlowId = FlowId,
+            IsNew = true
         };
 
         Schedules.Insert(0, schedule);
+    }
+
+    public async Task AddSchedule(FlowScheduleModel schedule)
+    {
+        await flowScheduleService.Create(schedule);
+        schedule.IsNew = false;
+    }
+
+    public async Task UpdateSchedule(FlowScheduleModel schedule)
+    {
+        await flowScheduleService.Update(schedule);
     }
 
     private string GetNewScheduleName()

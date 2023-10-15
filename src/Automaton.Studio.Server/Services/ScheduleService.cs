@@ -71,7 +71,7 @@ public class ScheduleService
     {
         var schedule = new Schedule()
         {
-            Id = Guid.NewGuid(),
+            Id = scheduleModel.Id,
             Name = scheduleModel.Name,
             FlowId = scheduleModel.FlowId,
             RunnerIds = JsonSerializer.Serialize(scheduleModel.RunnerIds)
@@ -103,6 +103,7 @@ public class ScheduleService
             .SingleOrDefault(x => x.Id == id && x.ScheduleUsers.Any(x => x.UserId == userId));
 
         entity.Name = scheduleModel.Name;
+        entity.RunnerIds = JsonSerializer.Serialize(scheduleModel.RunnerIds);
 
         dbContext.Entry(entity).State = EntityState.Modified;
 

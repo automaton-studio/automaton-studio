@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Automaton.Core.Models;
+using Automaton.Studio.Domain;
 using Automaton.Studio.Models;
 
 namespace Automaton.Studio.Services;
@@ -23,7 +25,7 @@ public class FlowScheduleService
         this.mapper = mapper;
     }
 
-    public async Task<IList<FlowScheduleModel>> GetFlowSchedules(Guid flowId)
+    public async Task<IList<FlowScheduleModel>> List(Guid flowId)
     {
         try
         {
@@ -41,5 +43,17 @@ public class FlowScheduleService
 
             throw;
         }
+    }
+
+    public async Task Create(FlowScheduleModel schedule)
+    {
+        var response = await httpClient.PostAsJsonAsync(configService.FlowScheduleUrl, schedule);
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task Update(FlowScheduleModel schedule)
+    {
+        var response = await httpClient.PutAsJsonAsync($"{configService.FlowScheduleUrl}/{schedule.Id}", schedule);
+        response.EnsureSuccessStatusCode();
     }
 }
