@@ -18,7 +18,7 @@ The application can be installed on favourite web server that supports .NET 7/Bl
 
 ## Screenshots
 
-![Screenshot 02](/screenshots/Screenshot 2023-10-16 001341.png?raw=true "Automaton Studio Flows")
+![Screenshot 02](/screenshots/Screenshot-2023-10-16-001341.png?raw=true "Automaton Studio Flows")
 
 ![Screenshot 01](/screenshots/Screenshot-2022-05-27-103012.png?raw=true "Automaton Studio Designer")
 
