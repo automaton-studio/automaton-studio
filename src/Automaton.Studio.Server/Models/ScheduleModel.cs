@@ -13,4 +13,9 @@ public class ScheduleModel
     public CronReccurence CronReccurence { get; set; } = CronReccurence.Date;
 
     public CronDate CronDate { get; set; } = new CronDate();
+
+    public string Cron { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
 }

@@ -52,7 +52,16 @@ public class ScheduleService
             .Where(x => x.FlowId == flowId && x.ScheduleUsers
             .Any(x => x.UserId == userId)).ToListAsync(cancellationToken: cancellationToken);
 
+        using var connection = JobStorage.Current.GetConnection();
+
         var scheduleModels = mapper.Map<IEnumerable<ScheduleModel>>(schedules);
+
+        foreach ( var schedule in scheduleModels)
+        {
+            var hashJob = connection.GetAllEntriesFromHash($"recurring-job:{schedule.Id}");
+            schedule.Cron = hashJob["Cron"];
+            schedule.CreatedAt = DateTime.Parse(hashJob["CreatedAt"]);
+        }
 
         return scheduleModels;
     }

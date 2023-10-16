@@ -8,6 +8,8 @@ public class FlowScheduleModel
     public IEnumerable<Guid> RunnerIds { get; set; } = new List<Guid>();
     public CronReccurence CronReccurence { get; set; } = CronReccurence.Date;
     public CronDate CronDate { get; set; } = new CronDate();
+    public string Cron { get; set; }
+    public DateTime CreatedAt { get; set; }
     public bool IsNew { get; set; }
     public bool Loading { get; set; }
 }

@@ -9,7 +9,7 @@
             <Col Flex=@("none")>
             <Space Size="@AntSizeLDSType.Large">
                 <SpaceItem Class="header-item">
-                    <Title Level="4">Schedules<span class="subtitle"><span class="bullet">&#x2022;</span>@FlowName</span></Title>
+                    <Title Level="4">Schedule<span class="subtitle"><span class="bullet">&#x2022;</span>@FlowName</span></Title>
                 </SpaceItem>
             </Space>
             </Col>
@@ -37,10 +37,16 @@
             OnRow="OnRow"
             OnChange="OnChange">
             <ColumnDefinitions>
-                <Column Title="Name" @bind-Field="@context.Name" Width="80%">
+                <Column Title="Name" @bind-Field="@context.Name">
                     @context.Name
                 </Column>
-                <ActionColumn Title="Action">
+                <Column Title="Cron" @bind-Field="@context.Cron">
+                    @context.Cron
+                </Column>
+                <Column Title="CreatedAt" @bind-Field="@context.CreatedAt">
+                    @context.CreatedAt
+                </Column>
+                <ActionColumn Title="Action" Width="10%">
                     <Dropdown Placement="@Placement.Bottom" Trigger="@(new Trigger[] { Trigger.Click })">
                                 <Overlay>
                                     <Menu>
