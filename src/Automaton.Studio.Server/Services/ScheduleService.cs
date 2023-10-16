@@ -6,9 +6,11 @@ using Automaton.Studio.Server.Entities;
 using Automaton.Studio.Server.Hubs;
 using Automaton.Studio.Server.Models;
 using Hangfire;
+using Hangfire.Common;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using System.Threading;
 
 namespace Automaton.Studio.Server.Services;
 
@@ -56,11 +58,11 @@ public class ScheduleService
 
         var scheduleModels = mapper.Map<IEnumerable<ScheduleModel>>(schedules);
 
-        foreach ( var schedule in scheduleModels)
+        foreach(var schedule in scheduleModels)
         {
-            var hashJob = connection.GetAllEntriesFromHash($"recurring-job:{schedule.Id}");
-            schedule.Cron = hashJob["Cron"];
-            schedule.CreatedAt = DateTime.Parse(hashJob["CreatedAt"]);
+            var scheduleHash = connection.GetAllEntriesFromHash($"recurring-job:{schedule.Id}");
+            schedule.Cron = scheduleHash["Cron"];
+            schedule.CreatedAt = DateTime.Parse(scheduleHash["CreatedAt"]);
         }
 
         return scheduleModels;
@@ -72,6 +74,12 @@ public class ScheduleService
             .SingleOrDefaultAsync(x => x.Id == id && x.ScheduleUsers.Any(x => x.UserId == userId), cancellationToken: cancellationToken);
 
         var scheduleModel = mapper.Map<ScheduleModel>(schedule);
+
+        using var connection = JobStorage.Current.GetConnection();
+
+        var scheduleHash = connection.GetAllEntriesFromHash($"recurring-job:{schedule.Id}");
+        scheduleModel.Cron = scheduleHash["Cron"];
+        scheduleModel.CreatedAt = DateTime.Parse(scheduleHash["CreatedAt"]);
 
         return scheduleModel;
     }
@@ -98,31 +106,31 @@ public class ScheduleService
 
         var result = await dbContext.SaveChangesAsync(cancellationToken);
 
-        RecurringJob.AddOrUpdate(schedule.Id.ToString(), () =>
-            ExecuteFlow(schedule.FlowId, scheduleModel.RunnerIds, userId, cancellationToken),
-            Cron.Yearly);
+        RecurringJob.AddOrUpdate(schedule.Id.ToString(), 
+            () => ExecuteFlow(schedule.FlowId, scheduleModel.RunnerIds, userId, cancellationToken),
+            scheduleModel.GetCron());
 
         return result;
     }
 
     public async Task UpdateAsync(Guid id, ScheduleModel scheduleModel, CancellationToken cancellationToken)
     {
-        var entity = dbContext.Schedules
+        var schedule = dbContext.Schedules
             .Include(x => x.ScheduleUsers)
             .SingleOrDefault(x => x.Id == id && x.ScheduleUsers.Any(x => x.UserId == userId));
 
-        entity.Name = scheduleModel.Name;
-        entity.RunnerIds = JsonSerializer.Serialize(scheduleModel.RunnerIds);
+        schedule.Name = scheduleModel.Name;
+        schedule.RunnerIds = JsonSerializer.Serialize(scheduleModel.RunnerIds);
 
-        dbContext.Entry(entity).State = EntityState.Modified;
+        dbContext.Entry(schedule).State = EntityState.Modified;
 
-        dbContext.Update(entity);
+        dbContext.Update(schedule);
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        //RecurringJob.AddOrUpdate(scheduleModel.Id.ToString(), () =>
-        //    ExecuteFlow(scheduleModel.FlowId, scheduleModel.RunnerIds, userId, cancellationToken),
-        //    Cron.Yearly);
+        RecurringJob.AddOrUpdate(schedule.Id.ToString(),
+            () => ExecuteFlow(schedule.FlowId, scheduleModel.RunnerIds, userId, cancellationToken),
+            scheduleModel.GetCron());
     }
 
     public void Remove(Guid id)
@@ -132,6 +140,8 @@ public class ScheduleService
         dbContext.Schedules.Remove(schedule);
 
         dbContext.SaveChanges();
+      
+        RecurringJob.RemoveIfExists(schedule.Id.ToString());
     }
 
     public async Task<IEnumerable<RunnerFlowResult>> ExecuteFlow(Guid flowId, IEnumerable<Guid> runnerIds, Guid userId, CancellationToken cancellationToken)

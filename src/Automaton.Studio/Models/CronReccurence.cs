@@ -2,7 +2,7 @@
 
 public enum CronReccurence
 {
-    Date,
+    Never,
     Minutely,
     Hourly,
     Daily,

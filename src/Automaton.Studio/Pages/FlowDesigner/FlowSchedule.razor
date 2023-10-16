@@ -113,7 +113,6 @@
                             <GridCol>
                                 <FormItem Label="Name">
                                     <RadioGroup @bind-Value="context.CronReccurence" ButtonStyle="@RadioButtonStyle.Solid">
-                                        <Radio RadioButton Value="@CronReccurence.Date">Specific Date</Radio>
                                         <Radio RadioButton Value="@CronReccurence.Minutely">Minutely</Radio>
                                         <Radio RadioButton Value="@CronReccurence.Hourly">Hourly</Radio>
                                         <Radio RadioButton Value="@CronReccurence.Daily">Daily</Radio>
@@ -125,11 +124,6 @@
                             </GridCol>                          
                         </GridRow>
                         <GridRow Class="cron-dates">
-                            <GridCol>
-                                <FormItem Label="Date" Id="cron-date">
-                                    <Input Type="text" @bind-Value="@rowData.Data.CronDate.Date"  />
-                                </FormItem>
-                            </GridCol>
                             <GridCol>
                                 <FormItem Label="Minute">
                                     <Input Type="number" @bind-Value="@rowData.Data.CronDate.Minute" />
