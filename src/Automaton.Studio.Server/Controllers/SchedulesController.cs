@@ -13,12 +13,6 @@ public class SchedulesController : BaseController
         this.scheduleService = scheduleService;
     }
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<ScheduleModel>>> Get(CancellationToken cancellationToken)
-    {
-        return Ok(await scheduleService.ListAsync(cancellationToken));
-    }
-
     [HttpGet("{flowid}")]
     public async Task<ActionResult<IEnumerable<ScheduleModel>>> Get(Guid flowId, CancellationToken cancellationToken)
     {
