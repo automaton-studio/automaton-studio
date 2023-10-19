@@ -5,12 +5,11 @@ using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Entities;
 using Automaton.Studio.Server.Hubs;
 using Automaton.Studio.Server.Models;
+using Cronos;
 using Hangfire;
-using Hangfire.Common;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
-using System.Threading;
 
 namespace Automaton.Studio.Server.Services;
 
@@ -36,17 +35,6 @@ public class ScheduleService
         this.userId = userContextService.GetUserId();
         logger = Serilog.Log.ForContext<ScheduleService>();
     }
-
-    public async Task<IEnumerable<ScheduleModel>> ListAsync(CancellationToken cancellationToken)
-    {
-        var schedules = await dbContext.Schedules
-            .Where(x => x.ScheduleUsers.Any(x => x.UserId == userId))
-            .ToListAsync(cancellationToken: cancellationToken);
-
-        var scheduleModels = mapper.Map<IEnumerable<ScheduleModel>>(schedules);
-
-        return scheduleModels;
-    }
         
     public async Task<IEnumerable<ScheduleModel>> ListAsync(Guid flowId, CancellationToken cancellationToken)
     {
@@ -58,11 +46,23 @@ public class ScheduleService
 
         var scheduleModels = mapper.Map<IEnumerable<ScheduleModel>>(schedules);
 
-        foreach(var schedule in scheduleModels)
+        foreach (var schedule in scheduleModels)
         {
             var scheduleHash = connection.GetAllEntriesFromHash($"recurring-job:{schedule.Id}");
             schedule.Cron = scheduleHash["Cron"];
             schedule.CreatedAt = DateTime.Parse(scheduleHash["CreatedAt"]);
+
+            var expression = CronExpression.Parse(schedule.Cron);
+            var nextOccurenceDate = expression.GetNextOccurrence(DateTime.UtcNow);
+
+            if (nextOccurenceDate != null)
+            {
+                schedule.CronRecurrence.Minute = nextOccurenceDate.Value.Minute;
+                schedule.CronRecurrence.Hour = nextOccurenceDate.Value.Hour;
+                schedule.CronRecurrence.Day = nextOccurenceDate.Value.Day;
+                schedule.CronRecurrence.Week = nextOccurenceDate.Value.DayOfWeek;
+                schedule.CronRecurrence.Month = nextOccurenceDate.Value.Month;
+            }
         }
 
         return scheduleModels;

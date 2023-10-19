@@ -344,6 +344,10 @@ namespace Automaton.Studio.Server.MsSql.Migrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("CronRecurrence")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("FlowId")
                         .HasColumnType("uniqueidentifier");
 
@@ -384,7 +388,7 @@ namespace Automaton.Studio.Server.MsSql.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2023, 10, 8, 11, 55, 54, 689, DateTimeKind.Local).AddTicks(9026));
+                        .HasDefaultValue(new DateTime(2023, 10, 18, 22, 8, 51, 618, DateTimeKind.Local).AddTicks(3171));
 
                     b.Property<DateTime>("Expires")
                         .HasColumnType("datetime2");

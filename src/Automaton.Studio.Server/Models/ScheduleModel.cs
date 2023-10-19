@@ -10,9 +10,7 @@ public class ScheduleModel
 
     public IEnumerable<Guid> RunnerIds { get; set; }
 
-    public CronReccurence CronReccurence { get; set; } = CronReccurence.Never;
-
-    public CronDate CronDate { get; set; } = new CronDate();
+    public CronRecurrence CronRecurrence { get; set; } = new CronRecurrence();
 
     public string? Cron { get; set; }
 
@@ -20,21 +18,21 @@ public class ScheduleModel
 
     public string GetCron()
     {
-        switch (CronReccurence)
+        switch (CronRecurrence.CronType)
         {
-            case CronReccurence.Minutely:
+            case CronType.Minutely:
                 return Hangfire.Cron.Minutely();
-            case CronReccurence.Hourly:
-                return Hangfire.Cron.Hourly(CronDate.Minute);
-            case CronReccurence.Daily:
-                return Hangfire.Cron.Daily(hour: CronDate.Hour, minute: CronDate.Minute);
-            case CronReccurence.Weekly:
-                return Hangfire.Cron.Weekly(dayOfWeek: CronDate.DayOfWeek, hour: CronDate.Hour, minute: CronDate.Minute);
-            case CronReccurence.Monthly:
-                return Hangfire.Cron.Monthly(day: CronDate.Day, hour: CronDate.Hour, minute: CronDate.Minute);
-            case CronReccurence.Yearly:
-                return Hangfire.Cron.Yearly(month: CronDate.Month, day: CronDate.Day, hour: CronDate.Hour, minute: CronDate.Minute);
-            case CronReccurence.Never:
+            case CronType.Hourly:
+                return Hangfire.Cron.Hourly(CronRecurrence.Minute);
+            case CronType.Daily:
+                return Hangfire.Cron.Daily(hour: CronRecurrence.Hour, minute: CronRecurrence.Minute);
+            case CronType.Weekly:
+                return Hangfire.Cron.Weekly(dayOfWeek: CronRecurrence.Week, hour: CronRecurrence.Hour, minute: CronRecurrence.Minute);
+            case CronType.Monthly:
+                return Hangfire.Cron.Monthly(day: CronRecurrence.Day, hour: CronRecurrence.Hour, minute: CronRecurrence.Minute);
+            case CronType.Yearly:
+                return Hangfire.Cron.Yearly(month: CronRecurrence.Month, day: CronRecurrence.Day, hour: CronRecurrence.Hour, minute: CronRecurrence.Minute);
+            case CronType.Never:
                 return Hangfire.Cron.Never();
             default:
                 return Hangfire.Cron.Never();

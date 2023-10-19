@@ -112,13 +112,13 @@
                         <GridRow >
                             <GridCol>
                                 <FormItem Label="Name">
-                                    <RadioGroup @bind-Value="context.CronReccurence" ButtonStyle="@RadioButtonStyle.Solid">
-                                        <Radio RadioButton Value="@CronReccurence.Minutely">Minutely</Radio>
-                                        <Radio RadioButton Value="@CronReccurence.Hourly">Hourly</Radio>
-                                        <Radio RadioButton Value="@CronReccurence.Daily">Daily</Radio>
-                                        <Radio RadioButton Value="@CronReccurence.Weekly">Weekly</Radio>
-                                        <Radio RadioButton Value="@CronReccurence.Monthly">Monthly</Radio>
-                                        <Radio RadioButton Value="@CronReccurence.Yearly">Yearly</Radio>
+                                    <RadioGroup @bind-Value="context.CronRecurrence.CronType" ButtonStyle="@RadioButtonStyle.Solid">
+                                        <Radio RadioButton Value="@CronType.Minutely">Minutely</Radio>
+                                        <Radio RadioButton Value="@CronType.Hourly">Hourly</Radio>
+                                        <Radio RadioButton Value="@CronType.Daily">Daily</Radio>
+                                        <Radio RadioButton Value="@CronType.Weekly">Weekly</Radio>
+                                        <Radio RadioButton Value="@CronType.Monthly">Monthly</Radio>
+                                        <Radio RadioButton Value="@CronType.Yearly">Yearly</Radio>
                                     </RadioGroup>
                                 </FormItem>
                             </GridCol>                          
@@ -126,27 +126,27 @@
                         <GridRow Class="cron-dates">
                             <GridCol>
                                 <FormItem Label="Minute">
-                                    <Input Type="number" @bind-Value="@rowData.Data.CronDate.Minute" />
+                                    <Input Type="number" @bind-Value="@rowData.Data.CronRecurrence.Minute" />
                                 </FormItem>
                             </GridCol>
                             <GridCol>
                                 <FormItem Label="Hour">
-                                    <Input Type="number" @bind-Value="@rowData.Data.CronDate.Hour" />
+                                    <Input Type="number" @bind-Value="@rowData.Data.CronRecurrence.Hour" />
                                 </FormItem>
                             </GridCol>
                             <GridCol>
                                 <FormItem Label="Day">
-                                    <Input Type="number" @bind-Value="@rowData.Data.CronDate.Day" />
+                                    <Input Type="number" @bind-Value="@rowData.Data.CronRecurrence.Day" />
                                 </FormItem>
                             </GridCol>
                             <GridCol>
                                 <FormItem Label="Week">
-                                    <Input Type="number" @bind-Value="@rowData.Data.CronDate.Week" />
+                                    <Input Type="number" @bind-Value="@rowData.Data.CronRecurrence.Week" />
                                 </FormItem>
                             </GridCol>
                             <GridCol>
                                 <FormItem Label="Month">
-                                    <Input Type="number" @bind-Value="@rowData.Data.CronDate.Month" />
+                                    <Input Type="number" @bind-Value="@rowData.Data.CronRecurrence.Month" />
                                 </FormItem>
                             </GridCol>
                         </GridRow>

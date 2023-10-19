@@ -6,8 +6,7 @@ public class FlowScheduleModel
     public string Name { get; set; }
     public Guid FlowId { get; set; }
     public IEnumerable<Guid> RunnerIds { get; set; } = new List<Guid>();
-    public CronReccurence CronReccurence { get; set; } = CronReccurence.Never;
-    public CronDate CronDate { get; set; } = new CronDate();
+    public CronRecurrence CronRecurrence { get; set; } = new CronRecurrence();
     public string Cron { get; set; }
     public DateTime CreatedAt { get; set; }
     public bool IsNew { get; set; }
