@@ -33,21 +33,8 @@ namespace Automaton.Studio.Server.Mapper
                 target => target.MapFrom(entity => CreateCustomStepDefinition(entity.Definition))
             );
             CreateMap<Entities.ApplicationUser, UserDetails>();
-
-            CreateMap<Entities.Schedule, ScheduleModel>().ForMember
-            (
-                source => source.RunnerIds,
-                target => target.MapFrom(entity => GetScheduleRunnerIds(entity.RunnerIds))
-            );
         }
 
-        private static IEnumerable<Guid> GetScheduleRunnerIds(string runnerIdsJson)
-        {
-            var runnerIds = JsonSerializer.Deserialize<IEnumerable<Guid>>(runnerIdsJson);
-
-            return runnerIds;
-
-        }
         private static CustomStepDefinition CreateCustomStepDefinition(string stepDefinitionText)
         {
             var customStepDefinition = JsonSerializer.Deserialize<CustomStepDefinition>(stepDefinitionText);

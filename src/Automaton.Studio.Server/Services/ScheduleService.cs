@@ -5,7 +5,6 @@ using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Entities;
 using Automaton.Studio.Server.Hubs;
 using Automaton.Studio.Server.Models;
-using Cronos;
 using Hangfire;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -44,25 +43,23 @@ public class ScheduleService
 
         using var connection = JobStorage.Current.GetConnection();
 
-        var scheduleModels = mapper.Map<IEnumerable<ScheduleModel>>(schedules);
-
-        foreach (var schedule in scheduleModels)
+        var scheduleModels = new List<ScheduleModel>();
+        
+        foreach (var schedule in schedules)
         {
             var scheduleHash = connection.GetAllEntriesFromHash($"recurring-job:{schedule.Id}");
-            schedule.Cron = scheduleHash["Cron"];
-            schedule.CreatedAt = DateTime.Parse(scheduleHash["CreatedAt"]);
 
-            var expression = CronExpression.Parse(schedule.Cron);
-            var nextOccurenceDate = expression.GetNextOccurrence(DateTime.UtcNow);
-
-            if (nextOccurenceDate != null)
+            var scheduleModel = new ScheduleModel
             {
-                schedule.CronRecurrence.Minute = nextOccurenceDate.Value.Minute;
-                schedule.CronRecurrence.Hour = nextOccurenceDate.Value.Hour;
-                schedule.CronRecurrence.Day = nextOccurenceDate.Value.Day;
-                schedule.CronRecurrence.Week = nextOccurenceDate.Value.DayOfWeek;
-                schedule.CronRecurrence.Month = nextOccurenceDate.Value.Month;
-            }
+                Id = schedule.Id,
+                Name = schedule.Name,
+                Cron = scheduleHash["Cron"],
+                CreatedAt = DateTime.Parse(scheduleHash["CreatedAt"]),
+                RunnerIds = JsonSerializer.Deserialize<IEnumerable<Guid>>(schedule.RunnerIds),
+                CronRecurrence = JsonSerializer.Deserialize<CronRecurrence>(schedule.CronRecurrence)
+            };
+
+            scheduleModels.Add(scheduleModel);     
         }
 
         return scheduleModels;
@@ -73,13 +70,19 @@ public class ScheduleService
         var schedule = await dbContext.Schedules
             .SingleOrDefaultAsync(x => x.Id == id && x.ScheduleUsers.Any(x => x.UserId == userId), cancellationToken: cancellationToken);
 
-        var scheduleModel = mapper.Map<ScheduleModel>(schedule);
-
         using var connection = JobStorage.Current.GetConnection();
 
         var scheduleHash = connection.GetAllEntriesFromHash($"recurring-job:{schedule.Id}");
-        scheduleModel.Cron = scheduleHash["Cron"];
-        scheduleModel.CreatedAt = DateTime.Parse(scheduleHash["CreatedAt"]);
+        var scheduleModel = new ScheduleModel
+        {
+            Id = schedule.Id,
+            Name = schedule.Name,
+            FlowId = schedule.FlowId,
+            Cron = scheduleHash["Cron"],
+            CreatedAt = DateTime.Parse(scheduleHash["CreatedAt"]),
+            RunnerIds = JsonSerializer.Deserialize<IEnumerable<Guid>>(schedule.RunnerIds),
+            CronRecurrence = JsonSerializer.Deserialize<CronRecurrence>(schedule.CronRecurrence)
+        };        
 
         return scheduleModel;
     }
@@ -91,7 +94,8 @@ public class ScheduleService
             Id = scheduleModel.Id,
             Name = scheduleModel.Name,
             FlowId = scheduleModel.FlowId,
-            RunnerIds = JsonSerializer.Serialize(scheduleModel.RunnerIds)
+            RunnerIds = JsonSerializer.Serialize(scheduleModel.RunnerIds),
+            CronRecurrence = JsonSerializer.Serialize(scheduleModel.CronRecurrence),
         };
 
         dbContext.Schedules.Add(schedule);
@@ -120,6 +124,7 @@ public class ScheduleService
             .SingleOrDefault(x => x.Id == id && x.ScheduleUsers.Any(x => x.UserId == userId));
 
         schedule.Name = scheduleModel.Name;
+        schedule.CronRecurrence = JsonSerializer.Serialize(scheduleModel.CronRecurrence);
         schedule.RunnerIds = JsonSerializer.Serialize(scheduleModel.RunnerIds);
 
         dbContext.Entry(schedule).State = EntityState.Modified;
