@@ -1,13 +1,13 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Automaton.Core.Scripting.Tests
 {
-    [TestClass]
     public class ScriptEngineHostTest
     {
-        [TestMethod]
+        [SetUp]
+        public void Setup()
+        {
+        }
+
+        [Test]
         [Description("Test that input variables are returned to execution result")]
         public void InputVariables()
         {
@@ -26,11 +26,11 @@ namespace Automaton.Core.Scripting.Tests
 
             var variables = scriptEngine.Execute(resource, inputs);
 
-            Assert.IsTrue(variables.Any(x => x.Key == "a"));
-            Assert.IsTrue(variables.Any(x => x.Key == "b"));
+            Assert.That(variables.Any(x => x.Key == "a"), Is.True);
+            Assert.That(variables.Any(x => x.Key == "b"), Is.True);
         }
 
-        [TestMethod]
+        [Test]
         [Description("Test that Python variables are returned to execution result")]
         public void OutputVariables()
         {
@@ -49,7 +49,7 @@ namespace Automaton.Core.Scripting.Tests
 
             var variables = scriptEngine.Execute(resource, inputs);
 
-            Assert.IsTrue(variables.Any(x => x.Key == "c" && x.Value == 3));
+            Assert.That(variables.Any(x => x.Key == "c" && x.Value == 3), Is.True);
         }
     }
 }

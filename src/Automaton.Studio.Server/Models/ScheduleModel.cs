@@ -1,4 +1,6 @@
-﻿namespace Automaton.Studio.Server.Models;
+﻿using Automaton.Studio.Server.Enums;
+
+namespace Automaton.Studio.Server.Models;
 
 public class ScheduleModel
 {
@@ -10,11 +12,16 @@ public class ScheduleModel
 
     public IEnumerable<Guid> RunnerIds { get; set; }
 
-    public CronRecurrence CronRecurrence { get; set; } = new CronRecurrence();
+    public CronRecurrence CronRecurrence { get; set; }
 
     public string? Cron { get; set; }
 
     public DateTime? CreatedAt { get; set; }
+
+    public ScheduleModel()
+    {
+        CronRecurrence = new CronRecurrence();
+    }
 
     public string GetCron()
     {

@@ -109,9 +109,9 @@
                                 </FormItem>
                             </GridCol>
                         </GridRow>
-                        <GridRow >
+                        <GridRow>
                             <GridCol>
-                                <FormItem Label="Name">
+                                <FormItem Label="Repeat">
                                     <RadioGroup @bind-Value="context.CronRecurrence.CronType" ButtonStyle="@RadioButtonStyle.Solid">
                                         <Radio RadioButton Value="@CronType.Minutely">Minutely</Radio>
                                         <Radio RadioButton Value="@CronType.Hourly">Hourly</Radio>
@@ -124,27 +124,38 @@
                             </GridCol>                          
                         </GridRow>
                         <GridRow Class="cron-dates">
-                            <GridCol>
+                            <GridCol Class="schedule-repeat-value-input">
                                 <FormItem Label="Minute">
                                     <Input Type="number" @bind-Value="@rowData.Data.CronRecurrence.Minute" />
                                 </FormItem>
                             </GridCol>
-                            <GridCol>
+                            <GridCol Class="schedule-repeat-value-input">
                                 <FormItem Label="Hour">
                                     <Input Type="number" @bind-Value="@rowData.Data.CronRecurrence.Hour" />
                                 </FormItem>
                             </GridCol>
-                            <GridCol>
+                            <GridCol Class="schedule-repeat-value-input">
                                 <FormItem Label="Day">
                                     <Input Type="number" @bind-Value="@rowData.Data.CronRecurrence.Day" />
                                 </FormItem>
                             </GridCol>
-                            <GridCol>
+                            <GridCol Class="schedule-repeat-value-select">
                                 <FormItem Label="Week">
-                                    <Input Type="number" @bind-Value="@rowData.Data.CronRecurrence.Week" />
+                                    <Select @bind-Value="rowData.Data.CronRecurrence.Week"
+                                            Placeholder="Select type..."
+                                            TItem="DayOfWeek"
+                                            TItemValue="DayOfWeek"
+                                            Class="day-of-week">
+                                        <SelectOptions>
+                                            @foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+                                            {
+                                                <SelectOption TItemValue="DayOfWeek" TItem="DayOfWeek" Value="(DayOfWeek)day" Label=@day.ToString() />
+                                            }
+                                        </SelectOptions>
+                                    </Select>
                                 </FormItem>
                             </GridCol>
-                            <GridCol>
+                            <GridCol Class="schedule-repeat-value-input">
                                 <FormItem Label="Month">
                                     <Input Type="number" @bind-Value="@rowData.Data.CronRecurrence.Month" />
                                 </FormItem>
@@ -179,9 +190,14 @@
         margin: 20px 0;
     }
 
-    .cron-dates .ant-form-item-control-input-content {
+    .schedule-repeat-value-input {
         width: 80px;
-        padding: 0 5px 0 0;
+        margin-right: 6px;
+    }
+
+    .schedule-repeat-value-select {
+        width: 100px;
+        margin-right: 6px;
     }
 
     #cron-date  {
