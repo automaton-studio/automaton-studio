@@ -34,7 +34,7 @@ public class ScheduleModel
             case CronType.Daily:
                 return Hangfire.Cron.Daily(hour: CronRecurrence.Hour, minute: CronRecurrence.Minute);
             case CronType.Weekly:
-                return Hangfire.Cron.Weekly(dayOfWeek: CronRecurrence.Week, hour: CronRecurrence.Hour, minute: CronRecurrence.Minute);
+                return Hangfire.Cron.Weekly(dayOfWeek: CronRecurrence.DayOfWeek, hour: CronRecurrence.Hour, minute: CronRecurrence.Minute);
             case CronType.Monthly:
                 return Hangfire.Cron.Monthly(day: CronRecurrence.Day, hour: CronRecurrence.Hour, minute: CronRecurrence.Minute);
             case CronType.Yearly:

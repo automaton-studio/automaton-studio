@@ -1,6 +1,7 @@
 ﻿@page "/flow/schedule/{flowid}/{flowname}"
 @using AntDesign
 @using Automaton.Studio.Models;
+@using Automaton.Studio.Enums;
 @using Blazored.FluentValidation;
 
 <Layout>
@@ -141,7 +142,7 @@
                             </GridCol>
                             <GridCol Class="schedule-repeat-value-select">
                                 <FormItem Label="Week">
-                                    <Select @bind-Value="rowData.Data.CronRecurrence.Week"
+                                    <Select @bind-Value="rowData.Data.CronRecurrence.DayOfWeek"
                                             Placeholder="Select type..."
                                             TItem="DayOfWeek"
                                             TItemValue="DayOfWeek"
