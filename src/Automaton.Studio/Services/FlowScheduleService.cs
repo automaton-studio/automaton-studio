@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Automaton.Core.Models;
-using Automaton.Studio.Domain;
 using Automaton.Studio.Models;
 
 namespace Automaton.Studio.Services;

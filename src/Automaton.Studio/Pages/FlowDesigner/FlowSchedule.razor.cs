@@ -1,5 +1,6 @@
 ﻿using AntDesign;
 using AntDesign.TableModels;
+using Automaton.Studio.Enums;
 using Automaton.Studio.Models;
 using Automaton.Studio.Pages.Runners;
 using Microsoft.AspNetCore.Components;
@@ -116,5 +117,46 @@ public partial class FlowSchedule : ComponentBase
     private void NewSchedule()
     {
         FlowScheduleViewModel.NewSchedule();
+    }
+
+    private void OnCronTypeChange(CronType cronType)
+    {
+    }
+
+    private bool IsMinuteHidden(CronType cronType)
+    {
+        return cronType == CronType.Minutely;
+    }
+
+    private bool IsHourHidden(CronType cronType)
+    {
+        return cronType == CronType.Minutely ||
+            cronType == CronType.Hourly;
+    }
+
+    private bool IsDayHidden(CronType cronType)
+    {
+        return cronType == CronType.Minutely ||
+            cronType == CronType.Hourly ||
+            cronType == CronType.Daily ||
+            cronType == CronType.Weekly;
+    }
+
+    private bool IsDayOfWeekHidden(CronType cronType)
+    {
+        return cronType == CronType.Minutely ||
+           cronType == CronType.Hourly ||
+           cronType == CronType.Daily ||
+           cronType == CronType.Monthly ||
+           cronType == CronType.Yearly;
+    }
+
+    private bool IsMonthHidden(CronType cronType)
+    {
+        return cronType == CronType.Minutely || 
+            cronType == CronType.Hourly || 
+            cronType == CronType.Daily || 
+            cronType == CronType.Weekly ||
+            cronType == CronType.Monthly;
     }
 }

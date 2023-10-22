@@ -1,9 +1,7 @@
 using Automaton.Studio.Server.Enums;
 using Automaton.Studio.Server.Models;
-using Google.Protobuf.WellKnownTypes;
 using Hangfire;
 using Hangfire.MemoryStorage;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Automaton.Studio.Server.Tests
 {

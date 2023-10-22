@@ -113,7 +113,10 @@
                         <GridRow>
                             <GridCol>
                                 <FormItem Label="Repeat">
-                                    <RadioGroup @bind-Value="context.CronRecurrence.CronType" ButtonStyle="@RadioButtonStyle.Solid">
+                                    <RadioGroup TValue="CronType"
+                                    @bind-Value="context.CronRecurrence.CronType" 
+                                    ButtonStyle="@RadioButtonStyle.Solid" 
+                                    OnChange="(e) => OnCronTypeChange(e)">
                                         <Radio RadioButton Value="@CronType.Minutely">Minutely</Radio>
                                         <Radio RadioButton Value="@CronType.Hourly">Hourly</Radio>
                                         <Radio RadioButton Value="@CronType.Daily">Daily</Radio>
@@ -125,42 +128,67 @@
                             </GridCol>                          
                         </GridRow>
                         <GridRow Class="cron-dates">
-                            <GridCol Class="schedule-repeat-value-input">
-                                <FormItem Label="Minute">
-                                    <Input Type="number" @bind-Value="@rowData.Data.CronRecurrence.Minute" />
-                                </FormItem>
-                            </GridCol>
-                            <GridCol Class="schedule-repeat-value-input">
-                                <FormItem Label="Hour">
-                                    <Input Type="number" @bind-Value="@rowData.Data.CronRecurrence.Hour" />
-                                </FormItem>
-                            </GridCol>
-                            <GridCol Class="schedule-repeat-value-input">
-                                <FormItem Label="Day">
-                                    <Input Type="number" @bind-Value="@rowData.Data.CronRecurrence.Day" />
-                                </FormItem>
-                            </GridCol>
-                            <GridCol Class="schedule-repeat-value-select">
-                                <FormItem Label="Week">
-                                    <Select @bind-Value="rowData.Data.CronRecurrence.DayOfWeek"
-                                            Placeholder="Select type..."
-                                            TItem="DayOfWeek"
-                                            TItemValue="DayOfWeek"
-                                            Class="day-of-week">
-                                        <SelectOptions>
-                                            @foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
-                                            {
-                                                <SelectOption TItemValue="DayOfWeek" TItem="DayOfWeek" Value="(DayOfWeek)day" Label=@day.ToString() />
-                                            }
-                                        </SelectOptions>
-                                    </Select>
-                                </FormItem>
-                            </GridCol>
-                            <GridCol Class="schedule-repeat-value-input">
-                                <FormItem Label="Month">
-                                    <Input Type="number" @bind-Value="@rowData.Data.CronRecurrence.Month" />
-                                </FormItem>
-                            </GridCol>
+
+                            @if(!IsMinuteHidden(context.CronRecurrence.CronType))
+                            {
+                                <GridCol Class="schedule-repeat-value-input">
+                                    <FormItem Label="Minute">
+                                        <AntDesign.InputNumber @bind-Value="@rowData.Data.CronRecurrence.Minute" 
+                                                               Min="0" Max="59" DefaultValue="0" />
+                                    </FormItem>
+                                </GridCol>
+                            }
+
+                            @if(!IsHourHidden(context.CronRecurrence.CronType))
+                            {
+                                <GridCol Class="schedule-repeat-value-input">
+                                    <FormItem Label="Hour">
+                                        <AntDesign.InputNumber @bind-Value="@rowData.Data.CronRecurrence.Hour"
+                                                               Min="0" Max="23" DefaultValue="0" />
+                                    </FormItem>
+                                </GridCol>
+                            }
+
+                            @if (!IsDayHidden(context.CronRecurrence.CronType))
+                            {
+                                <GridCol Class="schedule-repeat-value-input">
+                                    <FormItem Label="Day">
+                                        <AntDesign.InputNumber @bind-Value="@rowData.Data.CronRecurrence.Day"
+                                                               Min="1" Max="31" DefaultValue="1" />
+                                    </FormItem>
+                                </GridCol>
+                            }
+
+                            @if (!IsDayOfWeekHidden(context.CronRecurrence.CronType))
+                            {
+                                <GridCol Class="schedule-repeat-value-select">
+                                    <FormItem Label="Day of Week">
+                                        <Select @bind-Value="rowData.Data.CronRecurrence.DayOfWeek"
+                                                Placeholder="Select type..."
+                                                TItem="DayOfWeek"
+                                                TItemValue="DayOfWeek"
+                                                Class="day-of-week"
+                                                DefaultValue="DayOfWeek.Sunday">
+                                            <SelectOptions>
+                                                @foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+                                                {
+                                                    <SelectOption TItemValue="DayOfWeek" TItem="DayOfWeek" Value="(DayOfWeek)day" Label=@day.ToString() />
+                                                }
+                                            </SelectOptions>
+                                        </Select>
+                                    </FormItem>
+                                </GridCol>
+                            }
+                            
+                            @if (!IsMonthHidden(context.CronRecurrence.CronType))
+                            {
+                                <GridCol Class="schedule-repeat-value-input">
+                                    <FormItem Label="Month">
+                                        <AntDesign.InputNumber @bind-Value="@rowData.Data.CronRecurrence.Month"
+                                                               Min="1" Max="12" DefaultValue="1" />
+                                    </FormItem>
+                                </GridCol>
+                            }
                         </GridRow>
                         <GridRow>
                             <FormItem>
