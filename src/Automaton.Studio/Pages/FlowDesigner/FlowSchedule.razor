@@ -41,9 +41,13 @@
                 <Column Title="Name" @bind-Field="@context.Name">
                     @context.Name
                 </Column>
-                <Column Title="Cron" @bind-Field="@context.Cron">
-                    @context.Cron
-                </Column>
+
+                <PropertyColumn Title="Type" Property="c=>c.CronRecurrence.CronType" />
+
+                <PropertyColumn Title="Description" Property="c=>c.CronDescription" />
+
+                <PropertyColumn Title="Next Execution" Property="c=>c.CronNextExecution" />
+
                 <Column Title="CreatedAt" @bind-Field="@context.CreatedAt">
                     @context.CreatedAt
                 </Column>
@@ -117,6 +121,7 @@
                                     @bind-Value="context.CronRecurrence.CronType" 
                                     ButtonStyle="@RadioButtonStyle.Solid" 
                                     OnChange="(e) => OnCronTypeChange(e)">
+                                        <Radio RadioButton Value="@CronType.Never">Never</Radio>
                                         <Radio RadioButton Value="@CronType.Minutely">Minutely</Radio>
                                         <Radio RadioButton Value="@CronType.Hourly">Hourly</Radio>
                                         <Radio RadioButton Value="@CronType.Daily">Daily</Radio>

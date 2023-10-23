@@ -120,6 +120,12 @@
   <data name="AddVariable" xml:space="preserve">
     <value>Add Variable</value>
   </data>
+  <data name="CronDescriptionNever" xml:space="preserve">
+    <value>Does not execute</value>
+  </data>
+  <data name="CronNextExecutionNever" xml:space="preserve">
+    <value>Never</value>
+  </data>
   <data name="DefinitionName" xml:space="preserve">
     <value>Definition name</value>
   </data>

@@ -70,6 +70,24 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Does not execute.
+        /// </summary>
+        internal static string CronDescriptionNever {
+            get {
+                return ResourceManager.GetString("CronDescriptionNever", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Never.
+        /// </summary>
+        internal static string CronNextExecutionNever {
+            get {
+                return ResourceManager.GetString("CronNextExecutionNever", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Definition name.
         /// </summary>
         internal static string DefinitionName {

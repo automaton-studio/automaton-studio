@@ -125,18 +125,21 @@ public partial class FlowSchedule : ComponentBase
 
     private bool IsMinuteHidden(CronType cronType)
     {
-        return cronType == CronType.Minutely;
+        return cronType == CronType.Never || 
+            cronType == CronType.Minutely;
     }
 
     private bool IsHourHidden(CronType cronType)
     {
-        return cronType == CronType.Minutely ||
+        return cronType == CronType.Never || 
+            cronType == CronType.Minutely ||
             cronType == CronType.Hourly;
     }
 
     private bool IsDayHidden(CronType cronType)
     {
-        return cronType == CronType.Minutely ||
+        return cronType == CronType.Never || 
+            cronType == CronType.Minutely ||
             cronType == CronType.Hourly ||
             cronType == CronType.Daily ||
             cronType == CronType.Weekly;
@@ -144,7 +147,8 @@ public partial class FlowSchedule : ComponentBase
 
     private bool IsDayOfWeekHidden(CronType cronType)
     {
-        return cronType == CronType.Minutely ||
+        return cronType == CronType.Never || 
+           cronType == CronType.Minutely ||
            cronType == CronType.Hourly ||
            cronType == CronType.Daily ||
            cronType == CronType.Monthly ||
@@ -153,7 +157,8 @@ public partial class FlowSchedule : ComponentBase
 
     private bool IsMonthHidden(CronType cronType)
     {
-        return cronType == CronType.Minutely || 
+        return cronType == CronType.Never || 
+            cronType == CronType.Minutely || 
             cronType == CronType.Hourly || 
             cronType == CronType.Daily || 
             cronType == CronType.Weekly ||
