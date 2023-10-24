@@ -268,6 +268,15 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Runner required to schedule flow.
+        /// </summary>
+        public static string RunnerRequiredToScheduleFlow {
+            get {
+                return ResourceManager.GetString("RunnerRequiredToScheduleFlow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Something has gone wrong. Please contact support..
         /// </summary>
         public static string UnexpectedError {

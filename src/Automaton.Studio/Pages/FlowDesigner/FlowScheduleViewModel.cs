@@ -62,9 +62,12 @@ public class FlowScheduleViewModel
 
     public async Task DeleteSchedule(Guid id)
     {
-        await flowScheduleService.Delete(id);
-
         var schedule = Schedules.SingleOrDefault(x => x.Id == id);
+
+        if (!schedule.IsNew)
+        {
+            await flowScheduleService.Delete(id);
+        }
 
         Schedules.Remove(schedule);
     }
