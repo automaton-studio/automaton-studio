@@ -4,7 +4,6 @@ namespace Automaton.Studio.Domain;
 
 public class StudioFlow
 {
-    private StudioStep selectedStep;
     private StudioStep executingStep;
 
     public Guid Id { get; set; }
@@ -22,10 +21,7 @@ public class StudioFlow
 
     public StudioFlow()
     {
-        Name = "Untitled";
-        var defaultDefinition = new StudioDefinition { Flow = this };
-        StartupDefinitionId = defaultDefinition.Id;
-        Definitions = new List<StudioDefinition> { defaultDefinition };
+        Definitions = new List<StudioDefinition>();
         Variables = new Dictionary<string, StepVariable>();
         InputVariables = new Dictionary<string, StepVariable>();
         OutputVariables = new Dictionary<string, StepVariable>();
