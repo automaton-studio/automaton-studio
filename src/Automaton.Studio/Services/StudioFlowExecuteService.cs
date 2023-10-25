@@ -13,18 +13,16 @@ public class StudioFlowExecuteService
     private readonly IMediator mediator;
     private readonly IMapper mapper;
     private readonly ILogger logger;
-    private readonly HttpClient httpClient;
     private readonly ConfigurationService configurationService;
     private readonly FlowConvertService flowConvertService;
     private readonly FlowExecutionsService flowExecutionsService;
     
     public StudioFlowExecuteService(FlowConvertService flowConvertService, 
         FlowExecutionsService flowExecutionsService, ConfigurationService configurationService, 
-        HttpClient httpClient, IMediator mediator, IMapper mapper) 
+        IMediator mediator, IMapper mapper) 
     {
         this.mediator = mediator;
         this.mapper = mapper;
-        this.httpClient = httpClient;
         this.configurationService = configurationService;
         this.flowConvertService = flowConvertService;
         this.flowExecutionsService = flowExecutionsService;

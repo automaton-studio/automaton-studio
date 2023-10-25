@@ -10,11 +10,11 @@ namespace Automaton.Runner.Pages.Dashboard
         [Inject] NavigationManager NavigationManager { get; set; } = default!;
         [Inject] DashboardViewModel DashboardViewModel { get; set; }
 
-        public void HandleHubConnectionNotification(HubConnectionNotification notification, CancellationToken cancellationToken)
+        public async Task HandleHubConnectionNotification(HubConnectionNotification notification, CancellationToken cancellationToken)
         {
             DashboardViewModel.SetHubConnection(notification.HubConnectionState);
 
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
         }
 
         protected override async Task OnInitializedAsync()
