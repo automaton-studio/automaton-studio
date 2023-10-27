@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using Automaton.Core.Events;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
@@ -6,7 +7,9 @@ using Automaton.Studio.Pages.FlowDesigner.Components.Drawer;
 using Automaton.Studio.Pages.FlowDesigner.Components.FlowExplorer;
 using Automaton.Studio.Pages.FlowDesigner.Components.NewDefinition;
 using Automaton.Studio.Resources;
+using MediatR;
 using Microsoft.AspNetCore.Components;
+using System.Threading;
 
 namespace Automaton.Studio.Pages.FlowDesigner;
 
@@ -19,6 +22,7 @@ partial class DesignerPage : ComponentBase
     [Parameter] public string FlowId { get; set; }
     [Parameter] public string FlowName { get; set; }
 
+    [Inject] IMediator mediator { get; set; }
     [Inject] ICourier Courier { get; set; }
     [Inject] ModalService ModalService { get; set; } = default!;
     [Inject] DesignerViewModel DesignerViewModel { get; set; } = default!;
@@ -28,12 +32,12 @@ partial class DesignerPage : ComponentBase
     {
         Courier.Subscribe<ExecuteStepNotification>(HandleExecuteStepNotification);
         Courier.Subscribe<FlowUpdateNotification>(HandleFlowUpdateNotification);
+        Courier.Subscribe<VariableUpdateNotification>(HandleSimpleNotification);
 
         await LoadFlow();
 
         await base.OnInitializedAsync();
     }
-
     public async Task RunFlow()
     {
         await DesignerViewModel.RunFlow();
@@ -198,9 +202,20 @@ partial class DesignerPage : ComponentBase
         InvokeAsync(StateHasChanged);
     }
 
+    private void HandleSimpleNotification(VariableUpdateNotification notification, CancellationToken cancellationToken)
+    {
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
+        DesignerViewModel.Flow.Variables[notification.Variable.Name] = notification.Variable;
+
+        InvokeAsync(StateHasChanged);
+    }
+
     public void Dispose()
     {
         Courier.UnSubscribe<ExecuteStepNotification>(HandleExecuteStepNotification);
         Courier.UnSubscribe<FlowUpdateNotification>(HandleFlowUpdateNotification);
+        Courier.UnSubscribe<VariableUpdateNotification>(HandleSimpleNotification);
     }
 }

@@ -1,7 +1,6 @@
 ﻿
 using AntDesign;
 using Automaton.Core.Enums;
-using Automaton.Core.Events;
 using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Pages.FlowDesigner.Components.NewVariable;
@@ -12,17 +11,14 @@ using Microsoft.AspNetCore.Components;
 
 namespace Automaton.Studio.Pages.FlowDesigner.Components.Drawer;
 
-public partial class FlowVariables : ComponentBase, IDisposable
+public partial class FlowVariables : ComponentBase
 {
     private FluentValidationValidator fluentValidationValidator;
 
     [CascadingParameter] StudioFlow Flow { get; set; }
-    [Inject] ICourier Courier { get; set; }
     [Inject] ModalService ModalService { get; set; } = default!;
 
     public IEnumerable<VariableType> VariableTypes { get; } = Enum.GetValues<VariableType>();
-
-    public static event EventHandler<SetVariableNotification> SetFlowVariable;
 
     private IEnumerable<StepVariable> Variables
     {
@@ -65,8 +61,6 @@ public partial class FlowVariables : ComponentBase, IDisposable
 
     protected override async Task OnInitializedAsync()
     {
-        Courier.Subscribe<SetVariableNotification>(HandleSetVariableNotification);
-
         await base.OnInitializedAsync();
     }
 
@@ -219,15 +213,5 @@ public partial class FlowVariables : ComponentBase, IDisposable
         {
             return Task.CompletedTask;
         };
-    }
-
-    private void HandleSetVariableNotification(SetVariableNotification notification, CancellationToken cancellationToken)
-    {
-        Flow.Variables[notification.Variable.Name] = notification.Variable;
-    }
-
-    public void Dispose()
-    {
-        Courier.UnSubscribe<SetVariableNotification>(HandleSetVariableNotification);
     }
 }

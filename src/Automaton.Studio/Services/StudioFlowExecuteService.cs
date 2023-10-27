@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Automaton.Core.Events;
 using Automaton.Core.Logs;
 using Automaton.Core.Models;
 using Automaton.Core.Services;
@@ -35,7 +34,7 @@ public class StudioFlowExecuteService
 
         workflow.SetWorkflowVariable += async (sender, e) =>
         {
-            await mediator.Publish(new SetVariableNotification(e.Variable), cancellationToken);
+            await mediator.Publish(new VariableUpdateNotification(e.Variable), cancellationToken);
         };
 
         var workflowExecution = await Execute(workflow, executeDelay, cancellationToken);
