@@ -1,5 +1,4 @@
 ﻿using AntDesign;
-using Automaton.Core.Events;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
@@ -7,9 +6,7 @@ using Automaton.Studio.Pages.FlowDesigner.Components.Drawer;
 using Automaton.Studio.Pages.FlowDesigner.Components.FlowExplorer;
 using Automaton.Studio.Pages.FlowDesigner.Components.NewDefinition;
 using Automaton.Studio.Resources;
-using MediatR;
 using Microsoft.AspNetCore.Components;
-using System.Threading;
 
 namespace Automaton.Studio.Pages.FlowDesigner;
 

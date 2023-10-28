@@ -47,14 +47,14 @@ public class StudioFlowConvertService
         foreach (var step in steps)
         {
             var workflowStep = serviceProvider.GetService(step.FindType()) as WorkflowStep;
-            UpdateStep(ref workflowStep, step);
+            UpdateStep(ref workflowStep, step, workflowDefinition);
             workflowSteps.Add(step.Id, workflowStep);
         }
 
         return workflowSteps;
     }
 
-    public void UpdateStep(ref WorkflowStep step, StudioStep studioStep)
+    public void UpdateStep(ref WorkflowStep step, StudioStep studioStep, WorkflowDefinition workflowDefinition)
     {
         step.Id = studioStep.Id;
         step.Name = studioStep.Name;
@@ -65,5 +65,6 @@ public class StudioFlowConvertService
         step.ParentId = studioStep.ParentId;
         step.Inputs = studioStep.Inputs;
         step.Outputs = studioStep.Outputs;
+        step.WorkflowDefinition = workflowDefinition;
     }
 }

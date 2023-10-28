@@ -8,14 +8,14 @@ public class StudioDefinition
 
     public string Name { get; set; }
 
-    public List<StudioStep> Steps { get; set; } = new List<StudioStep>();
+    public List<StudioStep> Steps { get; set; }
 
     public StudioFlow Flow { get; set; }
 
     public StudioDefinition()
     {
         Id = Guid.NewGuid().ToString();
-        Name = "Untitled";
+        Steps = new List<StudioStep>();
     }
         
     public void DeleteStep(StudioStep step)
