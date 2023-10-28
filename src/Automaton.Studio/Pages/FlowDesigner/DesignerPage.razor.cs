@@ -86,15 +86,12 @@ partial class DesignerPage : ComponentBase
     {
         Guid.TryParse(FlowId, out var flowId);
 
-        if (DesignerViewModel.IsFlowNotLoaded(flowId))
-        {
-            await DesignerViewModel.LoadFlow(flowId);
+        await DesignerViewModel.LoadFlow(flowId);
 
-            FlowExplorerViewModel.LoadDefinitions(DesignerViewModel.Flow);
+        FlowExplorerViewModel.LoadDefinitions(DesignerViewModel.Flow);
 
-            // Setup event handlers after flow is loaded
-            DesignerViewModel.StepCreated += OnStepCreated;
-        }
+        // Setup event handlers after flow is loaded
+        DesignerViewModel.StepCreated += OnStepCreated;
     }
 
     private async Task SaveFlow()

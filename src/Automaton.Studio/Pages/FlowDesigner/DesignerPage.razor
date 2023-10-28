@@ -59,7 +59,7 @@
                   OnTabClick="OnTabClick"
                   OnClose="OnTabClose">
 
-                @foreach (var definition in DesignerViewModel.Flow.Definitions)
+                @foreach (var definition in DesignerViewModel.GetFlowDefinitions())
                 {
                     <TabPane Key="@definition.Id" Tab="@definition.Name">
                         <Designer @ref="designer"

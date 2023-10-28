@@ -1,4 +1,5 @@
 ﻿using AntDesign;
+using Automaton.Studio.Domain;
 using System.Threading.Tasks;
 
 namespace Automaton.Studio.Extensions;
@@ -25,5 +26,13 @@ public static class StepExtensions
         var result = await generic.InvokeAsync(modalService, new object[] { modalService, modalConfig, step }) as ModalRef;
 
         return result;
+    }
+
+    public static Type FindType(this StudioStep step)
+    {
+        var fullClassName = $"Automaton.Steps.{step.Type}, Automaton.Steps";
+        var type = Type.GetType(fullClassName, true, true);
+
+        return type;
     }
 }

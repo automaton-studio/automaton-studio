@@ -2,6 +2,7 @@
 using Automaton.Core.Logs;
 using Automaton.Core.Models;
 using Automaton.Core.Services;
+using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Models;
 
@@ -13,12 +14,17 @@ public class StudioFlowExecuteService
     private readonly IMapper mapper;
     private readonly ILogger logger;
     private readonly ConfigurationService configurationService;
-    private readonly FlowConvertService flowConvertService;
+    private readonly StudioFlowConvertService flowConvertService;
     private readonly FlowExecutionsService flowExecutionsService;
     
-    public StudioFlowExecuteService(FlowConvertService flowConvertService, 
-        FlowExecutionsService flowExecutionsService, ConfigurationService configurationService, 
-        IMediator mediator, IMapper mapper) 
+    public StudioFlowExecuteService
+    (
+        StudioFlowConvertService flowConvertService, 
+        FlowExecutionsService flowExecutionsService,
+        ConfigurationService configurationService, 
+        IMediator mediator, 
+        IMapper mapper
+    ) 
     {
         this.mediator = mediator;
         this.mapper = mapper;
@@ -28,7 +34,7 @@ public class StudioFlowExecuteService
         logger = Log.ForContext<StudioFlowExecuteService>();
     }
 
-    public async Task<WorkflowExecution> Execute(Flow flow, int executeDelay = 0, CancellationToken cancellationToken = default)
+    public async Task<WorkflowExecution> Execute(StudioFlow flow, int executeDelay = 0, CancellationToken cancellationToken = default)
     {
         var workflow = flowConvertService.ConvertFlow(flow);
 
@@ -37,14 +43,14 @@ public class StudioFlowExecuteService
             await mediator.Publish(new VariableUpdateNotification(e.Variable), cancellationToken);
         };
 
-        var workflowExecution = await Execute(workflow, executeDelay, cancellationToken);
+        var workflowExecution = await ExecuteWorkflow(workflow, executeDelay, cancellationToken);
 
         await SaveWorkflowExecution(workflowExecution);
 
         return workflowExecution;
     }
 
-    private async Task<WorkflowExecution> Execute(Workflow workflow, int executeDelay = 0, CancellationToken cancellationToken = default)
+    private async Task<WorkflowExecution> ExecuteWorkflow(Workflow workflow, int executeDelay = 0, CancellationToken cancellationToken = default)
     {
         using var workflowExecution = new WorkflowExecution(workflow.Id, configurationService.ApplicationName);
         var definition = workflow.GetStartupDefinition();

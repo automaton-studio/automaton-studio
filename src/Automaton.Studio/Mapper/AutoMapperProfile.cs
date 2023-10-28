@@ -19,8 +19,8 @@ public class AutoMapperProfile : Profile
 
         CreateMap<StudioFlow, Flow>();
         CreateMap<StudioStep, Step>();
-        CreateMap<Step, StudioStep>();
         CreateMap<StudioDefinition, Definition>();
+
         CreateMap<StudioDefinition, FlowExplorerDefinition>();
         CreateMap<FlowInfo, ExecuteFlowModel>();
         CreateMap<FlowInfo, FlowModel>();

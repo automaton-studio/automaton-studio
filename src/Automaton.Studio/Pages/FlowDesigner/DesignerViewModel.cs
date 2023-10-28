@@ -17,10 +17,11 @@ public class DesignerViewModel
     private readonly IMapper mapper;
     private readonly StepFactory stepFactory;
     private readonly FlowService flowService;
+    private readonly StudioFlowConvertService flowConvertService;
     private readonly StudioFlowExecuteService workflowExecuteService;
     private readonly ConfigurationService configurationService;
 
-    public StudioFlow Flow { get; set; } = new StudioFlow();
+    public StudioFlow Flow { get; set; }
     public StudioDefinition ActiveDefinition { get; set; }
 
     public bool CanExecuteFlow
@@ -43,6 +44,7 @@ public class DesignerViewModel
         ConfigurationService configurationService,
         StepFactory stepFactory,
         FlowService flowService,
+        StudioFlowConvertService flowConvertService,
         StudioFlowExecuteService workflowExecuteService
     )
     {
@@ -51,6 +53,9 @@ public class DesignerViewModel
         this.stepFactory = stepFactory;
         this.flowService = flowService;
         this.workflowExecuteService = workflowExecuteService;
+        this.flowConvertService = flowConvertService;
+
+        Flow = new StudioFlow();
     }
 
     public async Task LoadFlow(Guid flowId)
@@ -72,11 +77,8 @@ public class DesignerViewModel
             throw new Exception("Can not execute flow from designer");
         }
 
-        var flow = mapper.Map<Flow>(Flow);
-        await workflowExecuteService.Execute(flow, FlowDelay, CancellationToken.None);
+        await workflowExecuteService.Execute(Flow, FlowDelay, CancellationToken.None);
     }
-
-    public bool IsFlowNotLoaded(Guid flowId) => Flow.Id != flowId;
 
     public StudioDefinition CreateDefinition(string name)
     {
@@ -107,7 +109,12 @@ public class DesignerViewModel
 
     public string GetStartupDefinitionId()
     {
-        return Flow.StartupDefinitionId;
+        return Flow?.StartupDefinitionId;
+    }
+
+    public IEnumerable<StudioDefinition> GetFlowDefinitions()
+    {
+        return Flow != null ? Flow.Definitions : Enumerable.Empty<StudioDefinition>();
     }
 
     public void CreateStep(StepExplorerModel customStepModel)
