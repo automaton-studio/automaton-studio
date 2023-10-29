@@ -4,6 +4,7 @@ using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Resources;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Automaton.Studio.Steps;
 
@@ -71,4 +72,13 @@ public partial class StepDesigner : ComponentBase
             }
         });
     }
+
+    private async Task OnKeyDown(KeyboardEventArgs e, StudioStep step)
+    {
+        if (e.Key == "Delete")
+        {
+            await OnDelete(step);
+        }
+    }
+
 }

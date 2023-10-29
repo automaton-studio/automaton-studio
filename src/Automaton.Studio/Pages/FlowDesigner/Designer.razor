@@ -43,8 +43,7 @@
 
                     <GridCol Flex=@("auto")>
 
-                        <div tabindex="0"
-                             id="@step.Id" 
+                        <div id="@step.Id" 
                              draggable="@IsStepDragable(step)"
                              @ondragstart="()=>OnStepDragStart(step)"
                              @ondragend="()=>OnStepDragEnd()"
@@ -53,7 +52,6 @@
                              @ondragleave="()=>OnStepDragLeave()"
                              @ondrop="()=>OnDrop()"
                              @onclick="()=>OnStepClick(step)"
-                             @onkeydown="(e)=>OnKeyDown(e, step)"
                              @ondblclick="()=>OnStepDoubleClick(step)"
                              @ondblclick:stopPropagation="true"
                              @onmousedown="()=>OnStepMouseDown(step)"
