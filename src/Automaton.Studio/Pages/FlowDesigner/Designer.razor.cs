@@ -311,27 +311,6 @@ public partial class Designer : ComponentBase, IDisposable
         }
     }
 
-    private void Swap(StudioStep draggedOverItem, StudioStep activeItem)
-    {
-        var indexDraggedOverItem = Steps.IndexOf(draggedOverItem);
-        var indexActiveItem = Steps.IndexOf(activeItem);
-
-        if (indexActiveItem == -1) // item is new to the dropzone
-        {
-            //insert into new zone
-            Steps.Insert(indexDraggedOverItem + 1, activeItem);
-        }
-        else
-        {
-            if (indexDraggedOverItem == indexActiveItem)
-                return;
-
-            var tmp = Steps[indexActiveItem];
-            Steps.RemoveAt(indexActiveItem);
-            Steps.Insert(indexDraggedOverItem, tmp);
-        }
-    }
-
     private string IsStepDragable(StudioStep item)
     {
         if (AllowsDrag == null)
