@@ -303,6 +303,14 @@ public partial class Designer : ComponentBase, IDisposable
         ItemDoubleClick.InvokeAsync(item);
     }
 
+    private void OnKeyDown(KeyboardEventArgs e, StudioStep step)
+    {
+        if (e.Key == "Delete")
+        {
+            Steps.Remove(step);
+        }
+    }
+
     private void Swap(StudioStep draggedOverItem, StudioStep activeItem)
     {
         var indexDraggedOverItem = Steps.IndexOf(draggedOverItem);
