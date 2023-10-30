@@ -115,6 +115,24 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete steps.
+        /// </summary>
+        internal static string DeleteSteps {
+            get {
+                return ResourceManager.GetString("DeleteSteps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure to delete these steps?.
+        /// </summary>
+        internal static string DeleteStepsConfirmation {
+            get {
+                return ResourceManager.GetString("DeleteStepsConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Flow.
         /// </summary>
         internal static string NewFlow {

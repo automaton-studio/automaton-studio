@@ -59,13 +59,44 @@ public partial class StepDesigner : ComponentBase
 
     private async Task OnDelete(StudioStep step)
     {
+        var selectedSteps = step.Definition.Steps.Where(x => x.IsSelected());
+
+        if (selectedSteps.Count() > 1)
+        {
+           await DeleteSelectedSteps(step.Definition);
+        }
+        else
+        {
+            await DeleteStep(step);
+        }    
+    }
+
+    private async Task DeleteStep(StudioStep step)
+    {
         var newVariableDialog = await ModalService.ConfirmAsync(new ConfirmOptions()
         {
             Title = Labels.DeleteStep,
             Content = Labels.DeleteStepConfirmation,
-            OnOk = e => 
+            OnOk = e =>
             {
                 step.Definition.DeleteStep(step);
+
+                Mediator.Publish(new FlowUpdateNotification());
+
+                return Task.CompletedTask;
+            }
+        });
+    }
+
+    private async Task DeleteSelectedSteps(StudioDefinition definition)
+    {
+        var newVariableDialog = await ModalService.ConfirmAsync(new ConfirmOptions()
+        {
+            Title = Labels.DeleteSteps,
+            Content = Labels.DeleteStepsConfirmation,
+            OnOk = e =>
+            {
+                definition.DeleteSelectedSteps();
 
                 Mediator.Publish(new FlowUpdateNotification());
 

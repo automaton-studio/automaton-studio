@@ -1,4 +1,5 @@
-﻿using Automaton.Core.Models;
+﻿using AntDesign;
+using Automaton.Core.Models;
 
 namespace Automaton.Studio.Domain;
 
@@ -55,6 +56,14 @@ public class StudioDefinition
         Flow.DeleteVariables(variablesToDelete);
 
         UpdateStepConnections();
+    }
+
+    public void DeleteSelectedSteps()
+    {
+        // Create a new list to avoid modifying the same list error
+        var selectedSteps = Steps.Where(x => x.IsSelected()).ToList();
+
+        DeleteSteps(selectedSteps);
     }
 
     public void CompleteStep(StudioStep step)

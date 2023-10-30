@@ -135,6 +135,12 @@
   <data name="DeleteStepConfirmation" xml:space="preserve">
     <value>Are you sure to delete this step?</value>
   </data>
+  <data name="DeleteSteps" xml:space="preserve">
+    <value>Delete steps</value>
+  </data>
+  <data name="DeleteStepsConfirmation" xml:space="preserve">
+    <value>Are you sure to delete these steps?</value>
+  </data>
   <data name="NewFlow" xml:space="preserve">
     <value>New Flow</value>
   </data>
