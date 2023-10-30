@@ -10,11 +10,13 @@ namespace Automaton.Studio.Steps;
 
 public partial class StepDesigner : ComponentBase
 {
-    [Parameter] public StudioStep Step { get; set; }
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    private ElementReference stepContainerReference;
 
     [Inject] private ModalService ModalService { get; set; }
     [Inject] private IMediator Mediator { get; set; }
+
+    [Parameter] public StudioStep Step { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     protected override void OnInitialized()
     {
@@ -73,7 +75,7 @@ public partial class StepDesigner : ComponentBase
 
     private async Task DeleteStep(StudioStep step)
     {
-        var newVariableDialog = await ModalService.ConfirmAsync(new ConfirmOptions()
+        var deleteStepDialog = await ModalService.ConfirmAsync(new ConfirmOptions()
         {
             Title = Labels.DeleteStep,
             Content = Labels.DeleteStepConfirmation,
@@ -84,13 +86,17 @@ public partial class StepDesigner : ComponentBase
                 Mediator.Publish(new FlowUpdateNotification());
 
                 return Task.CompletedTask;
+            },
+            OnCancel = async (e) =>
+            {
+                await stepContainerReference.FocusAsync();
             }
         });
     }
 
     private async Task DeleteSelectedSteps(StudioDefinition definition)
     {
-        var newVariableDialog = await ModalService.ConfirmAsync(new ConfirmOptions()
+        var deleteStepsDialog = await ModalService.ConfirmAsync(new ConfirmOptions()
         {
             Title = Labels.DeleteSteps,
             Content = Labels.DeleteStepsConfirmation,
@@ -101,6 +107,10 @@ public partial class StepDesigner : ComponentBase
                 Mediator.Publish(new FlowUpdateNotification());
 
                 return Task.CompletedTask;
+            },
+            OnCancel = async (e) =>
+            {
+                await stepContainerReference.FocusAsync();
             }
         });
     }

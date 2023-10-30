@@ -1,5 +1,4 @@
-﻿using AntDesign;
-using Automaton.Core.Models;
+﻿using Automaton.Core.Models;
 
 namespace Automaton.Studio.Domain;
 
