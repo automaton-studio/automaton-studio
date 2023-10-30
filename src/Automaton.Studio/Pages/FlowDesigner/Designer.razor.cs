@@ -4,7 +4,6 @@ using Automaton.Studio.Steps.Sequence;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.FlowDesigner;
 
@@ -13,36 +12,23 @@ public partial class Designer : ComponentBase, IDisposable
     private const string ActiveStepSpacingClass = "step-active-spacing";
     private const string StepSpacingClass = "step-spacing";
 
+    [Inject] KeyboardService KeyboardService { get; set; }
     [Inject] DragDropService DragDropService { get; set; }
-
     [Inject] JsInterop JsInterop { get; set; }
 
     [Parameter] public Func<IList<StudioStep>, StudioStep, bool> Accepts { get; set; }
-
     [Parameter] public Func<StudioStep, bool> AllowsDrag { get; set; }
-
     [Parameter] public Action<IList<StudioStep>> DragEnd { get; set; }
-
     [Parameter] public EventCallback DropzoneClick { get; set; }
-
     [Parameter] public EventCallback DropzoneMouseDown { get; set; }
-
     [Parameter] public EventCallback<IList<StudioStep>> OnItemDropRejected { get; set; }
-
     [Parameter] public EventCallback<StudioStep> ItemDrop { get; set; }
-
     [Parameter] public EventCallback<StudioStep> ItemClick { get; set; }
-
     [Parameter] public EventCallback<StudioStep> ItemMouseDown { get; set; }
-
     [Parameter] public EventCallback<StudioStep> ItemDoubleClick { get; set; }
-
     [Parameter] public List<StudioStep> Steps { get; set; }
-
     [Parameter] public RenderFragment<StudioStep> ChildContent { get; set; }
-
     [Parameter] public string Class { get; set; }
-
     [Parameter] public Func<StudioStep, string> ItemWrapperClass { get; set; }
 
     public IList<StudioStep> VisibleSteps => Steps.Where(x => x.IsVisible()).ToList();
@@ -287,9 +273,18 @@ public partial class Designer : ComponentBase, IDisposable
 
     public void SelectStep(StudioStep step)
     {
-        UnselectSteps();
-
-        step.Select();
+        if (KeyboardService.ControlDown())
+        {
+            if (step.IsSelected())
+                step.Unselect();
+            else
+                step.Select();
+        }
+        else
+        {
+            UnselectSteps();
+            step.Select();
+        }
     }
 
     public void CompleteStep(StudioStep step)

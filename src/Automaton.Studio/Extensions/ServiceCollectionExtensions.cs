@@ -119,6 +119,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });      
         services.AddSingleton(sp => new SerilogHttpClient(new HttpClient { BaseAddress = new Uri(configService.BaseUrl) }));
         services.AddSingleton(sp => new WorkflowLogsSink());
+        services.AddSingleton<KeyboardService>();
 
         services.AddScoped(typeof(DragDropService));
 

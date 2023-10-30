@@ -45,7 +45,9 @@
                 </Row>
             </AuthorizeView>
 
-            <div class="site-layout-content">@Body</div>
+            <div class="site-layout-content" tabindex="0" @onkeydown="(e)=>OnKeyDown(e)" @onkeyup="(e)=>OnKeyUp(e)">
+                @Body
+            </div>
 
         </Content>
     </Layout>

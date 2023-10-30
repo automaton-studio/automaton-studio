@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Automaton.Studio.Services;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Automaton.Studio.Shared
 {
@@ -11,6 +13,7 @@ namespace Automaton.Studio.Shared
         [Inject] JsInterop JsInterop { get; set; }
         [Inject] NavigationManager NavigationManager { get; set; }
         [Inject] MainLayoutViewModel MainLayoutViewModel { get; set; }
+        [Inject] KeyboardService KeyboardService { get; set; }
 
         private void ToggleCollapsed()
         {
@@ -28,6 +31,16 @@ namespace Automaton.Studio.Shared
             await MainLayoutViewModel.Logout();
 
             NavigationManager.NavigateTo($"/");
+        }
+
+        private void OnKeyDown(KeyboardEventArgs e)
+        {
+            KeyboardService.KeyDown(e.Code);
+        }
+
+        private void OnKeyUp(KeyboardEventArgs e)
+        {
+            KeyboardService.KeyUp(e.Code);
         }
     }
 }

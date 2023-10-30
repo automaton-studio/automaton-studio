@@ -12,6 +12,7 @@ public partial class StepDesigner : ComponentBase
 {
     [Parameter] public StudioStep Step { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
+
     [Inject] private ModalService ModalService { get; set; }
     [Inject] private IMediator Mediator { get; set; }
 
@@ -79,6 +80,5 @@ public partial class StepDesigner : ComponentBase
         {
             await OnDelete(step);
         }
-    }
-
+    } 
 }
