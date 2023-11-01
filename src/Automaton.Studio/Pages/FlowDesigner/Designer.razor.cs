@@ -271,6 +271,17 @@ public partial class Designer : ComponentBase, IDisposable
         ItemMouseDown.InvokeAsync(step);
     }
 
+    private void OnKeyDown(KeyboardEventArgs e)
+    {
+        if(e.Key == "a" && KeyboardService.ControlDown())
+        {
+            foreach (var steps in Steps)
+            {
+                steps.Select();
+            }
+        }
+    }
+
     public void SelectStep(StudioStep step)
     {
         if (KeyboardService.ControlDown())
@@ -279,6 +290,22 @@ public partial class Designer : ComponentBase, IDisposable
                 step.Unselect();
             else
                 step.Select();
+        }
+        else if (KeyboardService.ShiftDown())
+        {
+            step.Select();
+
+            var selectedSteps = Steps.Where(x => x.IsSelected());
+            var firstStep = selectedSteps.FirstOrDefault();
+            var lastStep = selectedSteps.LastOrDefault();
+            var firstStepIndex = Steps.IndexOf(firstStep);
+            var lastStepIndex = Steps.IndexOf(lastStep);
+            var stepsToSelect = Steps.GetRange(firstStepIndex, lastStepIndex - firstStepIndex);
+
+            foreach(var stepToSelect in stepsToSelect)
+            {
+                stepToSelect.Select();
+            }
         }
         else
         {

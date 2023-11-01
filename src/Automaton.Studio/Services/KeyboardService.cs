@@ -29,5 +29,10 @@
         {
             return IsKeyDown("ControlLeft") || IsKeyDown("ControlRight");
         }
+
+        public bool ShiftDown()
+        {
+            return IsKeyDown("ShiftLeft") || IsKeyDown("ShiftRight");
+        }
     }
 }

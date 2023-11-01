@@ -3,6 +3,7 @@
 @using Automaton.Studio.Steps.Sequence
 
 <div class="@GetClassesForDropzone()"
+     tabindex="0"
      @ondragover:preventDefault
      @ondragover="()=>{}"
      @ondragenter:preventDefault
@@ -17,6 +18,8 @@
      @ondragover:stopPropagation
      @ondragleave:stopPropagation
      @ondragstart:stopPropagation
+     @onkeydown="(e)=>OnKeyDown(e)"
+     @onkeydown:preventDefault="true"
      ondragstart="event.dataTransfer.setData('text', event.target.id);">
 
     <div>
@@ -43,7 +46,7 @@
 
                     <GridCol Flex=@("auto")>
 
-                        <div id="@step.Id" 
+                        <div id="@step.Id"
                              draggable="@IsStepDragable(step)"
                              @ondragstart="()=>OnStepDragStart(step)"
                              @ondragend="()=>OnStepDragEnd()"
