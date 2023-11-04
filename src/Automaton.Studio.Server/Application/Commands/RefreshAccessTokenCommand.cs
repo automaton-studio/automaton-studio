@@ -3,8 +3,13 @@ using MediatR;
 
 namespace Automaton.Studio.Server.Core.Commands
 {
-    public class RefreshAccessTokenCommand : IRequest<JsonWebToken>
+    public class RefreshAccessTokenCommand
     {
-        public string Token { get; set; }
+        public string Token { get; }
+
+        public RefreshAccessTokenCommand(string token)
+        {
+            Token = token;
+        }
     }
 }

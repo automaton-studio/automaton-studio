@@ -3,34 +3,36 @@ using Automaton.Studio.Server.Core.Commands;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Services;
 using Common.Authentication;
-using Common.EF;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Immutable;
 
-namespace Automaton.Studio.Server.Application.Commands.Handlers
+namespace Automaton.Studio.Server.Application.Queries.Handlers
 {
-    public class RefreshAccessTokenCommandHandler : IRequestHandler<RefreshAccessTokenCommand, JsonWebToken>
+    public class RefreshAccessTokenQueryHandler : IRequestHandler<RefreshAccessTokenQuery, JsonWebToken>
     {
         private readonly ApplicationDbContext dataContext;
         private readonly IJwtService jwtService;
         private readonly IMediator mediator;
         private readonly UserManagerService userManagerService;
-        private readonly ILogger<RefreshAccessTokenCommandHandler> logger;
-        private readonly ConfigurationService configurationService;
+        private readonly ILogger<RefreshAccessTokenQueryHandler> logger;
 
-        public RefreshAccessTokenCommandHandler(ApplicationDbContext dataContext, IJwtService jwtService, IMediator mediator,
-            UserManagerService userManagerService, ILogger<RefreshAccessTokenCommandHandler> logger, ConfigurationService configurationService)
+        public RefreshAccessTokenQueryHandler
+        (
+            ApplicationDbContext dataContext, 
+            IJwtService jwtService, IMediator mediator,
+            UserManagerService userManagerService, 
+            ILogger<RefreshAccessTokenQueryHandler> logger
+        )
         {
             this.dataContext = dataContext;
             this.jwtService = jwtService;
             this.mediator = mediator;
             this.userManagerService = userManagerService;
             this.logger = logger;
-            this.configurationService = configurationService;
         }
 
-        public async Task<JsonWebToken> Handle(RefreshAccessTokenCommand request, CancellationToken cancellationToken)
+        public async Task<JsonWebToken> Handle(RefreshAccessTokenQuery request, CancellationToken cancellationToken)
         {
             var refreshToken = await dataContext
                 .Set<RefreshToken>()
@@ -50,7 +52,7 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
                 throw new Exception($"User: '{refreshToken.UserId}' not found.");
             }
 
-            var newRefreshToken = new RefreshToken(user.Id, configurationService.RefreshTokenLifetime);
+            var newRefreshToken = new RefreshToken(user.Id, request.RefreshTokenExpirationDays);
 
             try
             {

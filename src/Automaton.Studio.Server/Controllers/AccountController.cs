@@ -78,7 +78,7 @@ public class AccountController : BaseController
             return BadRequest(ModelState);
         }
 
-        var signInUserQuery = new SignInUserQuery(configurationService.RefreshTokenLifetime, signInUserCommand.UserName, signInUserCommand.Password);
+        var signInUserQuery = new SignInUserQuery(configurationService.RunnerRefreshTokenLifetime, signInUserCommand.UserName, signInUserCommand.Password);
 
         return Ok(await Mediator.Send(signInUserQuery, cancellationToken));
     }
