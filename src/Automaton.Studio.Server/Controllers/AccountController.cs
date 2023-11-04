@@ -1,15 +1,10 @@
-﻿using AuthServer.Core.Events;
-using AutoMapper;
-using Automaton.Studio.Server.Core.Commands;
+﻿using Automaton.Studio.Server.Core.Commands;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Entities;
 using Automaton.Studio.Server.Services;
-using Azure.Core;
 using Common.Authentication;
-using Common.EF;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Immutable;
 
 namespace Automaton.Studio.Server.Controllers;
 
@@ -19,22 +14,13 @@ public class AccountController : BaseController
     private readonly ConfigurationService configurationService;
     private readonly ApplicationDbContext _dataContext;
     private readonly UserManagerService _userManagerService;
-    private readonly IMapper _mapper;
-    private readonly ILogger<AccountController> _logger;
-    private readonly IJwtService _jwtService;
-
 
     public AccountController(ConfigurationService configurationService,
-        ApplicationDbContext dataContext, IMapper mapper,
-        ILogger<AccountController> logger,
-        UserManagerService userManagerService,
-        IJwtService jwtService)
+        ApplicationDbContext dataContext, 
+        UserManagerService userManagerService)
     {
         this.configurationService = configurationService;
-        _jwtService = jwtService;
         _dataContext = dataContext;
-        _mapper = mapper;
-        _logger = logger;
         _userManagerService = userManagerService;
     }
 
@@ -78,9 +64,9 @@ public class AccountController : BaseController
             return BadRequest(ModelState);
         }
 
-        var jwt = await LoginUser(signInUserCommand, configurationService.RefreshTokenLifetime, cancellationToken);
+        var signInUserQuery = new SignInUserQuery(configurationService.RefreshTokenLifetime, signInUserCommand.UserName, signInUserCommand.Password);
 
-        return jwt;
+        return Ok(await Mediator.Send(signInUserQuery, cancellationToken));
     }
 
     [HttpPost]
@@ -92,9 +78,9 @@ public class AccountController : BaseController
             return BadRequest(ModelState);
         }
 
-        var jwt = await LoginUser(signInUserCommand, configurationService.RunnerRefreshTokenLifetime, cancellationToken);
+        var signInUserQuery = new SignInUserQuery(configurationService.RefreshTokenLifetime, signInUserCommand.UserName, signInUserCommand.Password);
 
-        return jwt;
+        return Ok(await Mediator.Send(signInUserQuery, cancellationToken));
     }
 
     [HttpPut]
@@ -127,32 +113,5 @@ public class AccountController : BaseController
         await Mediator.Send(profileUpdateCommand, cancellationToken);
 
         return NoContent();
-    }
-
-    private IDictionary<string, string> GetCustomClaimsForUser(Guid userId)
-    {
-        //Add custom claims here
-        return new Dictionary<string, string>();
-    }
-
-    private async Task<JsonWebToken> LoginUser(SignInUserCommand signInUserCommand, int refreshTokenExpirationDays, CancellationToken cancellationToken)
-    {
-        var user = await _userManagerService.GetUserByEmailOrUserName(signInUserCommand.UserName);
-
-        if (user == null || await _userManagerService.ValidatePasswordAsync(user, signInUserCommand.Password) == false)
-        {
-            throw new Exception("Invalid credentials.");
-        }
-
-        var refreshToken = new RefreshToken(user.Id, refreshTokenExpirationDays);
-        var roles = (await _userManagerService.GetRoles(user.Id)).ToImmutableList();
-        var jwt = _jwtService.GenerateToken(user.Id.ToString(), user.UserName, roles, GetCustomClaimsForUser(user.Id));
-
-        jwt.RefreshToken = refreshToken.Token;
-
-        await _dataContext.Set<RefreshToken>().AddAsync(refreshToken, cancellationToken);
-        await _dataContext.SaveChangesAsync(cancellationToken);
-
-        return jwt;
     }
 }

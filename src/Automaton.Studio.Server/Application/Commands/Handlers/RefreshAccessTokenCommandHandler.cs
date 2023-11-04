@@ -32,7 +32,8 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
 
         public async Task<JsonWebToken> Handle(RefreshAccessTokenCommand request, CancellationToken cancellationToken)
         {
-            var refreshToken = await dataContext.Set<RefreshToken>()
+            var refreshToken = await dataContext
+                .Set<RefreshToken>()
                 .SingleOrDefaultAsync(x => x.Token == request.Token, cancellationToken);
 
             if (refreshToken == null)
@@ -43,6 +44,7 @@ namespace Automaton.Studio.Server.Application.Commands.Handlers
             refreshToken.ValidateRefreshToken();
 
             var user = await userManagerService.GetUserById(refreshToken.UserId);
+
             if (user == null)
             {
                 throw new Exception($"User: '{refreshToken.UserId}' not found.");
