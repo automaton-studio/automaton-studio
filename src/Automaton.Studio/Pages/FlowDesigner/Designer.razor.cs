@@ -71,7 +71,7 @@ public partial class Designer : ComponentBase, IDisposable
                 ItemDrop.InvokeAsync(step);
             }
         }
-        // Is selection of existing steps
+        // Are existing steps
         else if (activeSpacerIndex < firstActiveStepIndex || activeSpacerIndex > lastActiveStepIndex + 1)
         {
             var stepIndex = Steps.IndexOf(firstActiveStep);
@@ -85,59 +85,18 @@ public partial class Designer : ComponentBase, IDisposable
                 activeSpacerIndex -= DragDropService.ActiveSteps.Count;
 
             foreach (var step in DragDropService.ActiveSteps)
-            {
+            {                
                 Steps.Insert(activeSpacerIndex++, step);
+
+                step.UpdateParent();
+                step.UpdateVisibility();
+
                 ItemDrop.InvokeAsync(step);
             }
         }
 
-        //var prevStep = activeSpacerIndex > 0 ? Steps.ElementAt(activeSpacerIndex - 1) : null;
-
-        //foreach (var step in DragDropService.ActiveSteps)
-        //{
-        //    if (!step.HasParent() || !DragDropService.HasActiveStep(step.ParentId))
-        //    {
-        //        UpdateStepParent(step, prevStep);
-        //        UpdateStepVisibility(step, prevStep);
-        //    }
-
-        //    Steps.Insert(activeSpacerIndex, step);
-        //    ItemDrop.InvokeAsync(step);
-        //}
-
         DragDropService.Reset();
     }  
-
-    private void UpdateStepParent(StudioStep step, StudioStep prevStep)
-    {
-        if (prevStep != null)
-        {
-            if (prevStep is SequenceStep)
-            {
-                step.ParentId = prevStep.Id;
-            }
-            else if (prevStep.HasParent())
-            {
-                step.ParentId = prevStep.ParentId;
-            }
-            else
-            {
-                step.ParentId = null;
-            }
-        }
-        else
-        {
-            step.ParentId = null;
-        }
-    }
-
-    private void UpdateStepVisibility(StudioStep step, StudioStep prevStep)
-    {
-        if (step.HasParent())
-        {
-            step.Hidden = step.Parent.Collapsed;
-        }
-    }
 
     private void OnStepDragEnd()
     {

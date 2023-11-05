@@ -190,6 +190,39 @@ public abstract class StudioStep : INotifyPropertyChanged
         return stepMargin;
     }
 
+    public void UpdateParent()
+    {
+        var prevStep = GetPreviousStep();
+
+        if (prevStep != null)
+        {
+            if (prevStep is SequenceStep)
+            {
+                ParentId = prevStep.Id;
+            }
+            else if (prevStep.HasParent())
+            {
+                ParentId = prevStep.ParentId;
+            }
+            else
+            {
+                ParentId = null;
+            }
+        }
+        else
+        {
+            ParentId = null;
+        }
+    }
+
+    public void UpdateVisibility()
+    {
+        if (HasParent())
+        {
+            Hidden = Parent.Collapsed;
+        }
+    }
+
     private int GetNestedLevel(int level = 1)
     {
         if (HasParent())
@@ -198,6 +231,14 @@ public abstract class StudioStep : INotifyPropertyChanged
         }
 
         return level;
+    }
+
+    private StudioStep GetPreviousStep()
+    {
+        var prevStepIndex = Definition.Steps.IndexOf(this);
+        var prevStep = prevStepIndex > 0 ? Definition.Steps.ElementAt(prevStepIndex - 1) : null;
+
+        return prevStep;
     }
 
     #region INotifyPropertyChanged
