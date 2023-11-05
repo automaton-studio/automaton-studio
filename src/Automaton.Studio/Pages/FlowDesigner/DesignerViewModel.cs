@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
-using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Pages.FlowDesigner.Components.StepExplorer;
 using Automaton.Studio.Services;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.FlowDesigner;
 

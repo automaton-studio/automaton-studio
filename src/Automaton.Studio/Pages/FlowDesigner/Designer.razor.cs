@@ -25,6 +25,7 @@ public partial class Designer : ComponentBase, IDisposable
     [Parameter] public EventCallback<StudioStep> ItemDrop { get; set; }
     [Parameter] public EventCallback<StudioStep> ItemClick { get; set; }
     [Parameter] public EventCallback<StudioStep> ItemMouseDown { get; set; }
+    [Parameter] public EventCallback<StudioStep> ItemMouseUp { get; set; }
     [Parameter] public EventCallback<StudioStep> ItemDoubleClick { get; set; }
     [Parameter] public List<StudioStep> Steps { get; set; }
     [Parameter] public RenderFragment<StudioStep> ChildContent { get; set; }
@@ -53,31 +54,56 @@ public partial class Designer : ComponentBase, IDisposable
             return;
         }
 
-        var newIndex = DragDropService.ActiveSpacerId ?? Steps.Count;
+        var activeSpacerIndex = DragDropService.ActiveSpacerId ?? Steps.Count;
 
-        foreach (var item in DragDropService.ActiveSteps)
+        var firstActiveStep = DragDropService.ActiveSteps.First();
+        var lastActiveStep = DragDropService.ActiveSteps.Last();
+
+        var firstActiveStepIndex = Steps.IndexOf(firstActiveStep);
+        var lastActiveStepIndex = Steps.IndexOf(lastActiveStep);
+
+        // Is new step
+        if (firstActiveStepIndex == -1 && lastActiveStepIndex == -1)
         {
-            var oldIndex = Steps.IndexOf(item);
-
-            if (oldIndex >= 0)
+            foreach (var step in DragDropService.ActiveSteps)
             {
-                Steps.RemoveAt(oldIndex);
+                Steps.Insert(activeSpacerIndex, step);
+                ItemDrop.InvokeAsync(step);
+            }
+        }
+        // Is selection of existing steps
+        else if (activeSpacerIndex < firstActiveStepIndex || activeSpacerIndex > lastActiveStepIndex + 1)
+        {
+            var stepIndex = Steps.IndexOf(firstActiveStep);
+
+            if (stepIndex >= 0)
+            {
+                Steps.RemoveRange(firstActiveStepIndex, DragDropService.ActiveSteps.Count);
+            }
+
+            if (lastActiveStepIndex >= 0 && activeSpacerIndex > lastActiveStepIndex) 
+                activeSpacerIndex -= DragDropService.ActiveSteps.Count;
+
+            foreach (var step in DragDropService.ActiveSteps)
+            {
+                Steps.Insert(activeSpacerIndex++, step);
+                ItemDrop.InvokeAsync(step);
             }
         }
 
-        var prevStep = newIndex > 0 ? Steps.ElementAt(newIndex - 1) : null;
+        //var prevStep = activeSpacerIndex > 0 ? Steps.ElementAt(activeSpacerIndex - 1) : null;
 
-        foreach (var step in DragDropService.ActiveSteps)
-        {
-            if (!step.HasParent() || !DragDropService.HasActiveStep(step.ParentId))
-            {
-                UpdateStepParent(step, prevStep);
-                UpdateStepVisibility(step, prevStep);
-            }
+        //foreach (var step in DragDropService.ActiveSteps)
+        //{
+        //    if (!step.HasParent() || !DragDropService.HasActiveStep(step.ParentId))
+        //    {
+        //        UpdateStepParent(step, prevStep);
+        //        UpdateStepVisibility(step, prevStep);
+        //    }
 
-            Steps.Insert(newIndex, step);
-            ItemDrop.InvokeAsync(step);
-        }
+        //    Steps.Insert(activeSpacerIndex, step);
+        //    ItemDrop.InvokeAsync(step);
+        //}
 
         DragDropService.Reset();
     }  
@@ -182,7 +208,7 @@ public partial class Designer : ComponentBase, IDisposable
 
     private void UnselectSteps()
     {
-        var selectedSteps = Steps.Where(x => x.IsSelected()); ;
+        var selectedSteps = Steps.Where(x => x.IsSelected());
 
         if (selectedSteps != null)
         {
@@ -271,9 +297,20 @@ public partial class Designer : ComponentBase, IDisposable
         ItemMouseDown.InvokeAsync(step);
     }
 
+    private void OnStepMouseUp(StudioStep step)
+    {
+        if (!KeyboardService.ControlKeysDown())
+        {
+            UnselectSteps();
+            step.Select();
+        }
+
+        ItemMouseUp.InvokeAsync(step);
+    }
+
     private void OnKeyDown(KeyboardEventArgs e)
     {
-        if(e.Key == "a" && KeyboardService.ControlDown())
+        if (e.Key == "a" && KeyboardService.ControlDown())
         {
             foreach (var steps in Steps)
             {
@@ -309,7 +346,10 @@ public partial class Designer : ComponentBase, IDisposable
         }
         else
         {
-            UnselectSteps();
+            var selectedSteps = Steps.Where(x => x.IsSelected());
+            if (!selectedSteps.Contains(step))
+                UnselectSteps();
+
             step.Select();
         }
     }

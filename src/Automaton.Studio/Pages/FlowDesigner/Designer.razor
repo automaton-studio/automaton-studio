@@ -59,6 +59,8 @@
                              @ondblclick:stopPropagation="true"
                              @onmousedown="()=>OnStepMouseDown(step)"
                              @onmousedown:stopPropagation="true"
+                             @onmouseup="()=>OnStepMouseUp(step)"
+                             @onmouseup:stopPropagation="true"
                              class="step-container  
                              @GetDraggableClass(step)
                              @GetDragOperationClass()
