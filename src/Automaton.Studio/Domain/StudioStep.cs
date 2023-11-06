@@ -190,7 +190,7 @@ public abstract class StudioStep : INotifyPropertyChanged
         return stepMargin;
     }
 
-    public void UpdateParent()
+    public virtual void UpdateParent()
     {
         var prevStep = GetPreviousStep();
 
@@ -233,7 +233,7 @@ public abstract class StudioStep : INotifyPropertyChanged
         return level;
     }
 
-    private StudioStep GetPreviousStep()
+    protected StudioStep GetPreviousStep()
     {
         var prevStepIndex = Definition.Steps.IndexOf(this);
         var prevStep = prevStepIndex > 0 ? Definition.Steps.ElementAt(prevStepIndex - 1) : null;

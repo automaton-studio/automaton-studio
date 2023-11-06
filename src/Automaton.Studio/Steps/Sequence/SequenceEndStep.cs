@@ -55,7 +55,11 @@ public class SequenceEndStep : StudioStep
     {
         base.Select();
 
-        // TODO! SequenceStep can be null.
-        SequenceStep.SelectNoEndStep();
-    } 
+        SequenceStep.SelectExcludingEndStep();
+    }
+
+    public override void UpdateParent()
+    {
+        ParentId = SequenceStep.ParentId;
+    }
 }

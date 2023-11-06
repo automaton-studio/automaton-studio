@@ -1,10 +1,8 @@
 using Automaton.Studio.Domain;
 using Automaton.Studio.Services;
-using Automaton.Studio.Steps.Sequence;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using System.Text;
-using static Community.CsharpSqlite.Sqlite3;
 
 namespace Automaton.Studio.Pages.FlowDesigner;
 
@@ -69,10 +67,11 @@ public partial class Designer : ComponentBase, IDisposable
             foreach (var step in DragDropService.ActiveSteps)
             {
                 Steps.Insert(activeSpacerIndex, step);
-                ItemDrop.InvokeAsync(step);
 
                 step.UpdateParent();
                 step.UpdateVisibility();
+
+                ItemDrop.InvokeAsync(step);
             }
         }
         // Are existing steps
@@ -91,21 +90,15 @@ public partial class Designer : ComponentBase, IDisposable
             foreach (var step in DragDropService.ActiveSteps)
             {                
                 Steps.Insert(activeSpacerIndex++, step);
-                ItemDrop.InvokeAsync(step);
 
                 step.UpdateParent();
                 step.UpdateVisibility();
+
+                ItemDrop.InvokeAsync(step);
             }
         }
 
         DragDropService.Reset();
-    }
-
-    private void AddStep(StudioStep step, int index)
-    {
-        Steps.Insert(index, step);
-        step.UpdateParent();
-        step.UpdateVisibility();
     }
 
     private void OnStepDragEnd()

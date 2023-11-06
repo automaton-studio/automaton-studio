@@ -58,11 +58,20 @@ public class SequenceStep : StudioStep
         throw new NotImplementedException();
     }
 
+    public override void Complete()
+    {
+        base.Complete();
+
+        var sequenceEndStep = CreateSequenceEndStep();
+
+        AddEndSequenceStep(sequenceEndStep);
+    }
+
     public override void Select()
     {
         base.Select();
 
-        var childrenPlusEndStep = GetChildrenAndEndStep();
+        var childrenPlusEndStep = GetChildrenIncludingEndStep();
 
         foreach (var child in childrenPlusEndStep)
         {
@@ -70,11 +79,11 @@ public class SequenceStep : StudioStep
         }
     }
 
-    public void SelectNoEndStep()
+    public void SelectExcludingEndStep()
     {
         base.Select();
 
-        var childrenPlusEndStep = GetChildren();
+        var childrenPlusEndStep = GetChildrenExcludingEndStep();
 
         foreach (var child in childrenPlusEndStep)
         {
@@ -82,7 +91,7 @@ public class SequenceStep : StudioStep
         }
     }
 
-    public IEnumerable<StudioStep> GetChildren()
+    public IEnumerable<StudioStep> GetChildrenExcludingEndStep()
     {
         var sequenceStepIndex = Definition.Steps.IndexOf(this);
         var endSequenceStepIndex = Definition.Steps.IndexOf(SequenceEndStep);
@@ -92,7 +101,7 @@ public class SequenceStep : StudioStep
         return children;
     }
 
-    public IEnumerable<StudioStep> GetChildrenAndEndStep()
+    public IEnumerable<StudioStep> GetChildrenIncludingEndStep()
     {
         var sequenceStepIndex = Definition.Steps.IndexOf(this);
         var endSequenceStepIndex = Definition.Steps.IndexOf(SequenceEndStep);
@@ -100,15 +109,6 @@ public class SequenceStep : StudioStep
         var children = Definition.Steps.GetRange(sequenceStepIndex + 1, count);
 
         return children;
-    }
-
-    public override void Complete()
-    {
-        base.Complete();
-
-        var sequenceEndStep = CreateSequenceEndStep();
-
-        AddEndSequenceStep(sequenceEndStep);
     }
 
     private void AddEndSequenceStep(SequenceEndStep sequenceEndStep)
