@@ -28,11 +28,8 @@ public partial class SequenceEndDesigner : ComponentBase
             Content = Labels.DeleteStepConfirmation,
             OnOk = e =>
             {
-                var sequenceStepIndex = Step.Definition.Steps.IndexOf(Step.SequenceStep);
-                var endSequenceStepIndex = Step.Definition.Steps.IndexOf(Step);
-                var count = endSequenceStepIndex - sequenceStepIndex;
+                Step.Delete();
 
-                step.Definition.DeleteSteps(sequenceStepIndex, count + 1);
                 Mediator.Publish(new FlowUpdateNotification());
 
                 return Task.CompletedTask;

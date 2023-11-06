@@ -51,6 +51,15 @@ public class SequenceEndStep : StudioStep
         throw new NotImplementedException();
     }
 
+    public void Delete()
+    {
+        var sequenceStepIndex = Definition.Steps.IndexOf(SequenceStep);
+        var endSequenceStepIndex = Definition.Steps.IndexOf(this);
+        var count = endSequenceStepIndex - sequenceStepIndex;
+
+        Definition.DeleteSteps(sequenceStepIndex, count + 1);
+    }
+
     public override void Select()
     {
         base.Select();

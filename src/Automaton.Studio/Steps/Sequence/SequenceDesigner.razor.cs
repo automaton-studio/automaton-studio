@@ -3,7 +3,6 @@ using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Resources;
-using Automaton.Studio.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -14,7 +13,6 @@ public partial class SequenceDesigner : ComponentBase
     [Parameter] public SequenceStep Step { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
     [Inject] private ModalService ModalService { get; set; } = default!;
-    [Inject] private ConfigurationService ConfigurationService { get; set; }
     [Inject] private IMediator Mediator { get; set; }
 
     protected override void OnInitialized()
@@ -66,11 +64,8 @@ public partial class SequenceDesigner : ComponentBase
             Content = Labels.DeleteStepConfirmation,
             OnOk = e =>
             {
-                var sequenceStepIndex = Step.Definition.Steps.IndexOf(Step);
-                var endSequenceStepIndex = Step.Definition.Steps.IndexOf(Step.SequenceEndStep);
-                var count = endSequenceStepIndex - sequenceStepIndex;
+                Step.Delete();
 
-                step.Definition.DeleteSteps(sequenceStepIndex, count + 1);
                 Mediator.Publish(new FlowUpdateNotification());
 
                 return Task.CompletedTask;

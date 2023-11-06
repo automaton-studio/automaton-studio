@@ -1,4 +1,5 @@
-﻿using Automaton.Core.Models;
+﻿using AntDesign;
+using Automaton.Core.Models;
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Events;
@@ -46,6 +47,15 @@ public class SequenceStep : StudioStep
     {
         this.stepFactory = stepFactory;
         HasProperties = false;
+    }
+
+    public void Delete()
+    {
+        var sequenceStepIndex = Definition.Steps.IndexOf(this);
+        var endSequenceStepIndex = Definition.Steps.IndexOf(SequenceEndStep);
+        var count = endSequenceStepIndex - sequenceStepIndex;
+
+        Definition.DeleteSteps(sequenceStepIndex, count + 1);
     }
 
     public override Type GetDesignerComponent()
