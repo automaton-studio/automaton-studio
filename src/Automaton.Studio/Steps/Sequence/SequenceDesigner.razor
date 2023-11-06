@@ -1,6 +1,6 @@
 ﻿@using AntDesign
 
-<div class="@Step.Class" style="margin-left: @Step.GetMargin()px">
+<div class="@Step.Class" style="margin-left: @Step.GetMargin()px" tabindex="0" @onkeydown="(e)=>OnKeyDown(e, Step)">
     <Row Align="middle">
         <Col Flex=@("none")>
         <div class="designer-step-icon-container">

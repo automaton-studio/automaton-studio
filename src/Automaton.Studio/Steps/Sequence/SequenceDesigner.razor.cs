@@ -4,9 +4,8 @@ using Automaton.Studio.Events;
 using Automaton.Studio.Extensions;
 using Automaton.Studio.Resources;
 using Automaton.Studio.Services;
-using MediatR;
 using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Automaton.Studio.Steps.Sequence;
 
@@ -100,5 +99,13 @@ public partial class SequenceDesigner : ComponentBase
     private string GetExpandCollapseIcon()
     {
         return Step.Collapsed ? "right" : "down";
+    }
+
+    private async Task OnKeyDown(KeyboardEventArgs e, StudioStep step)
+    {
+        if (e.Key == "Delete")
+        {
+            await OnDelete(step);
+        }
     }
 }
