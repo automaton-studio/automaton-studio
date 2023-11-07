@@ -1,7 +1,7 @@
 ﻿<div class="activities-container">
     <Row>
         <div class="activities-search">
-            <Search Placeholder="Search steps" Size="@InputSize.Default" OnChange="(e)=>OnSearchChange(e)" @bind-Value="@searchText" OnSearch="OnSearch"></Search>
+            <Search Placeholder="Search..." @bind-Value="@searchText" BindOnInput AllowClear ClassicSearchIcon></Search>
         </div>
     </Row>
     <Row>
@@ -9,6 +9,9 @@
             <Tree  
                 ShowIcon
                 Draggable
+                DefaultExpandAll
+                SearchValue="@searchText"
+                HideUnmatched="true"
                 DataSource="@StepsViewModel.Steps"
                 TitleExpression="x => x.DataItem.DisplayName"
                 ChildrenExpression="x => x.DataItem.Steps"

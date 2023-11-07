@@ -9,27 +9,13 @@ partial class StepExplorer : ComponentBase
     [Inject] 
     private StepsViewModel StepsViewModel { get; set; } = default!;
 
-    private string searchText { get; set; }
+    private string searchText;
+    private bool hideUnmatched;
 
     protected override async Task OnInitializedAsync()
     {
         StepsViewModel.Initialize();
 
         await base.OnInitializedAsync();
-    }
-
-    private void OnSearchChange(string text)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task OnSearch()
-    {
-        throw new NotImplementedException();
-    }
-
-    private async Task OnEnter(KeyboardEventArgs e)
-    {
-        throw new NotImplementedException();
     }
 }
