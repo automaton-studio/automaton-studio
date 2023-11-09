@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Automaton.Core.Enums;
+using Automaton.Studio.Domain;
 using Automaton.Studio.Models;
 using Automaton.Studio.Services;
 using System.Text;

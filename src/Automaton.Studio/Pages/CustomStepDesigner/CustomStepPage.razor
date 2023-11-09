@@ -17,6 +17,11 @@
                     <Space Class="right-header-items">
                         <SpaceItem>
                             <Tooltip Title="Save step">
+                                <Button Class="header-button" Icon="caret-right" OnClick="Test">
+                                    Test
+                                </Button>
+                            </Tooltip>
+                            <Tooltip Title="Save step">
                                 <Button Class="header-button" Icon="save" OnClick="Save">
                                     Save
                                 </Button>
@@ -25,7 +30,6 @@
                     </Space>
                 </Col>
             </Row>
-
         </Header>
 
         <Form @ref="form"

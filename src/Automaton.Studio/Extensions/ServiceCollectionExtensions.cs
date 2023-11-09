@@ -79,7 +79,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<StudioFlowConvertService>();     
         services.AddScoped<FlowLogsService>();
         services.AddScoped<FlowScheduleService>();
-
+        services.AddScoped<CustomStepExecuteService>();
+        
         // ViewModels
         services.AddScoped<FlowsViewModel>();
         services.AddScoped<RunnersViewModel>();

@@ -1,4 +1,6 @@
-﻿namespace Automaton.Studio.Domain;
+﻿using Automaton.Core.Models;
+
+namespace Automaton.Studio.Domain;
 
 public class CustomStep
 {
@@ -11,7 +13,10 @@ public class CustomStep
     public string MoreInfo { get; set; } = string.Empty;
     public bool VisibleInExplorer { get; set; }
     public string Icon { get; set; } = string.Empty;
-    public CustomStepDefinition Definition { get; set; } = new CustomStepDefinition();
     public DateTime Created { get; set; }
     public DateTime Updated { get; set; }
+    public CustomStepDefinition Definition { get; set; } = new CustomStepDefinition();
+    public string Code => Definition.Code;
+    public IList<StepVariable> InputVariables => Definition.CodeInputVariables;
+    public IList<StepVariable> OutputVariables => Definition.CodeOutputVariables;
 }

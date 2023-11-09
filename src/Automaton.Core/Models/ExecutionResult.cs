@@ -8,7 +8,15 @@ public class ExecutionResult
     {
         return new ExecutionResult
         {
-            Proceed = true,
+            Proceed = true
+        };
+    }
+
+    public static ExecutionResult Stop()
+    {
+        return new ExecutionResult
+        {
+            Proceed = false
         };
     }
 }

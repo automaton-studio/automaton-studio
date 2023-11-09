@@ -72,6 +72,18 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
             }
         }
 
+        private async Task Test()
+        {
+            try
+            {
+                StepDesignerViewModel.Execute();
+            }
+            catch (Exception ex)
+            {
+                await MessageService.Error(Resources.Errors.CustomStepUpdateFailed);
+            }
+        }
+
         private void OnNameChanged(string name)
         {
             StepDesignerViewModel.CustomStep.Name = name;

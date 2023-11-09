@@ -54,7 +54,7 @@ public class StudioFlowConvertService
         return workflowSteps;
     }
 
-    public void UpdateStep(ref WorkflowStep step, StudioStep studioStep, WorkflowDefinition workflowDefinition)
+    private static void UpdateStep(ref WorkflowStep step, StudioStep studioStep, WorkflowDefinition workflowDefinition)
     {
         step.Id = studioStep.Id;
         step.Name = studioStep.Name;

@@ -1,21 +1,22 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Services;
-using System.Threading.Tasks;
 
 namespace Automaton.Studio.Pages.CustomStepDesigner;
 
 public class CustomStepViewModel
 {
     private readonly CustomStepsService customStepsService;
+    private readonly CustomStepExecuteService customStepExecuteService;
 
     private CustomStepDefinition CustomStepDefinition => CustomStep.Definition;
 
     public CustomStep CustomStep { get; set; } = new();
 
-    public CustomStepViewModel(CustomStepsService customStepsService)
+    public CustomStepViewModel(CustomStepsService customStepsService, CustomStepExecuteService customStepExecuteService)
     {
         this.customStepsService = customStepsService;
+        this.customStepExecuteService = customStepExecuteService;
     }
 
     public async Task Load(Guid id)
@@ -28,6 +29,11 @@ public class CustomStepViewModel
         await customStepsService.Update(CustomStep);
     }
 
+    public void Execute()
+    {
+        customStepExecuteService.Execute(CustomStep);
+    }
+
     public void AddInputVariable()
     {
         var variableName = $"Variable{CustomStepDefinition.CodeInputVariables?.Count}";
@@ -37,7 +43,6 @@ public class CustomStepViewModel
             Id = variableName,
             Name = variableName
         });
-
     }
 
     public void DeleteInputVariable(string name)
