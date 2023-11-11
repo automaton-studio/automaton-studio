@@ -16,7 +16,7 @@
                 <Col Class="right-actions">
                 <Space Class="right-header-items">
                     <SpaceItem>
-                        <Tooltip Title="Save step">
+                        <Tooltip Title="Run step">
                             <Button Class="header-button" Icon="caret-right" OnClick="Run">
                                 Run
                             </Button>
@@ -116,16 +116,16 @@
                                                 <b>Test Output Variables</b>
                                             </HeaderTemplate>
                                             <ChildContent>
-                                                <AntList DataSource="@context.Definition.CodeInputVariables" Class="scrollable-list">
-                                                    <ChildContent Context="inputVariable">
+                                                <AntList DataSource="@context.Definition.CodeOutputVariables" Class="scrollable-list">
+                                                    <ChildContent Context="outputVariable">
                                                         <ListItem Style="padding-left: 0px; padding-bottom: 0px; padding-top: 0px;">
-                                                            <FormItem Label="@inputVariable.Name" Style="margin-bottom: 0px">
+                                                        <FormItem Label="@outputVariable.Name" Style="margin-bottom: 0px">
                                                                 <Space Direction="DirectionVHType.Horizontal">
                                                                     <SpaceItem>
-                                                                        <Input Type="text" @bind-Value="inputVariable.Value" />
+                                                                        <Input Type="text" @bind-Value="outputVariable.Value" />
                                                                     </SpaceItem>
                                                                     <SpaceItem>
-                                                                        <Popover Content="@inputVariable.Description" Trigger="@(new AntDesign.Trigger[] { AntDesign.Trigger.Click})" Class="variable-description">
+                                                                        <Popover Content="@outputVariable.Description" Trigger="@(new AntDesign.Trigger[] { AntDesign.Trigger.Click})" Class="variable-description">
                                                                             <Button Shape="@ButtonShape.Circle" Icon="info" Size="@ButtonSize.Small"></Button>
                                                                         </Popover>
                                                                     </SpaceItem>
