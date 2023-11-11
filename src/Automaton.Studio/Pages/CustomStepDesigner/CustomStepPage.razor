@@ -10,24 +10,24 @@
         <Header Class="header">
             <Row>
                 <Col>
-                    <Title Level="4" Editable EditConfig="stepNameEditableConfig" Class="editable-title">@StepDesignerViewModel.CustomStep.Name</Title>
+                <Title Level="4" Editable EditConfig="stepNameEditableConfig" Class="editable-title">@StepDesignerViewModel.CustomStep.Name</Title>
                 </Col>
 
                 <Col Class="right-actions">
-                    <Space Class="right-header-items">
-                        <SpaceItem>
-                            <Tooltip Title="Save step">
-                                <Button Class="header-button" Icon="caret-right" OnClick="Test">
-                                    Test
-                                </Button>
-                            </Tooltip>
-                            <Tooltip Title="Save step">
-                                <Button Class="header-button" Icon="save" OnClick="Save">
-                                    Save
-                                </Button>
-                            </Tooltip>
-                        </SpaceItem>
-                    </Space>
+                <Space Class="right-header-items">
+                    <SpaceItem>
+                        <Tooltip Title="Save step">
+                            <Button Class="header-button" Icon="caret-right" OnClick="Run">
+                                Run
+                            </Button>
+                        </Tooltip>
+                        <Tooltip Title="Save step">
+                            <Button Class="header-button" Icon="save" OnClick="Save">
+                                Save
+                            </Button>
+                        </Tooltip>
+                    </SpaceItem>
+                </Space>
                 </Col>
             </Row>
         </Header>
@@ -48,40 +48,105 @@
                     <TabPane Tab="Details" Key="1">
                         <Row Gutter="(16, 0)" Justify="left">
                             <Col Xs="24" Md="6">
-                                <FormItem Label="Name">
-                                    <Input @bind-Value="@context.Name" Placeholder="Enter name" />
-                                </FormItem>
+                            <FormItem Label="Name">
+                                <Input @bind-Value="@context.Name" Placeholder="Enter name" />
+                            </FormItem>
                             </Col>
                             <Col Xs="24" Md="6">
-                                <FormItem Label="Display Name">
-                                    <Input @bind-Value="@context.DisplayName" Placeholder="Enter display name" />
-                                </FormItem>
+                            <FormItem Label="Display Name">
+                                <Input @bind-Value="@context.DisplayName" Placeholder="Enter display name" />
+                            </FormItem>
                             </Col>
                         </Row>
 
                         <Row Gutter="(16, 0)" Justify="left">
                             <Col Xs="24" Md="6">
-                                <FormItem Label="Description">
-                                    <Input @bind-Value="@context.Description" Placeholder="Enter description" />
-                                </FormItem>
+                            <FormItem Label="Description">
+                                <Input @bind-Value="@context.Description" Placeholder="Enter description" />
+                            </FormItem>
                             </Col>
                             <Col Xs="24" Md="6">
-                                <FormItem Label="More info URL">
-                                    <Input @bind-Value="@context.MoreInfo" Placeholder="Enter description" />
-                                </FormItem>
+                            <FormItem Label="More info URL">
+                                <Input @bind-Value="@context.MoreInfo" Placeholder="Enter description" />
+                            </FormItem>
                             </Col>
                         </Row>
                     </TabPane>
 
                     <TabPane Tab="Code" Key="2">
-                        <TextArea Rows="6" Id="step-code" @bind-Value="context.Definition.Code" AutoFocus />
+                        <Row Gutter="(16, 0)">
+                            <Col Md="12">
+                                <TextArea Rows="6" Id="step-code" @bind-Value="context.Definition.Code" AutoFocus />
+                            </Col>
+                            <Col Md="12">
+                                <Row>
+                                    <Collapse DefaultActiveKey="@(new[]{"1"})" Bordered="false" Class="variables-collapse-panel">
+                                        <Panel Key="1">
+                                            <HeaderTemplate>
+                                                <b>Test Input Variables</b>
+                                            </HeaderTemplate>
+                                            <ChildContent>
+                                                <AntList DataSource="@context.Definition.CodeInputVariables" Class="scrollable-list">
+                                                    <ChildContent Context="inputVariable">
+                                                        <ListItem Style="padding-left: 0px; padding-bottom: 0px; padding-top: 0px;">
+                                                            <FormItem Label="@inputVariable.Name" Style="margin-bottom: 0px">
+                                                                <Space Direction="DirectionVHType.Horizontal">
+                                                                    <SpaceItem>
+                                                                            <Input Type="text" @bind-Value="inputVariable.Value" />
+                                                                    </SpaceItem>
+                                                                    <SpaceItem>
+                                                                        <Popover Content="@inputVariable.Description" Trigger="@(new AntDesign.Trigger[] { AntDesign.Trigger.Click})" Class="variable-description">
+                                                                            <Button Shape="@ButtonShape.Circle" Icon="info" Size="@ButtonSize.Small"></Button>
+                                                                        </Popover>
+                                                                    </SpaceItem>
+                                                                </Space>
+                                                            </FormItem>
+                                                        </ListItem>
+                                                    </ChildContent>
+                                                </AntList>
+                                            </ChildContent>
+                                        </Panel>
+                                    </Collapse>
+                                </Row>
+
+                                <Row>
+                                    <Collapse DefaultActiveKey="@(new[]{"1"})" Bordered="false" Class="variables-collapse-panel">
+                                        <Panel Key="1">
+                                            <HeaderTemplate>
+                                                <b>Test Output Variables</b>
+                                            </HeaderTemplate>
+                                            <ChildContent>
+                                                <AntList DataSource="@context.Definition.CodeInputVariables" Class="scrollable-list">
+                                                    <ChildContent Context="inputVariable">
+                                                        <ListItem Style="padding-left: 0px; padding-bottom: 0px; padding-top: 0px;">
+                                                            <FormItem Label="@inputVariable.Name" Style="margin-bottom: 0px">
+                                                                <Space Direction="DirectionVHType.Horizontal">
+                                                                    <SpaceItem>
+                                                                        <Input Type="text" @bind-Value="inputVariable.Value" />
+                                                                    </SpaceItem>
+                                                                    <SpaceItem>
+                                                                        <Popover Content="@inputVariable.Description" Trigger="@(new AntDesign.Trigger[] { AntDesign.Trigger.Click})" Class="variable-description">
+                                                                            <Button Shape="@ButtonShape.Circle" Icon="info" Size="@ButtonSize.Small"></Button>
+                                                                        </Popover>
+                                                                    </SpaceItem>
+                                                                </Space>
+                                                            </FormItem>
+                                                        </ListItem>
+                                                    </ChildContent>
+                                                </AntList>
+                                            </ChildContent>
+                                        </Panel>
+                                    </Collapse>
+                                </Row>
+                            </Col>
+                        </Row>
                     </TabPane>
 
                     <TabPane Tab="Input Variables" Key="3">
                         <Space Direction="DirectionVHType.Vertical">
                             <SpaceItem>
                                 <Tooltip Title="Add input variable">
-                                    <Button OnClick="AddInputVariable" Type="primary">                                  
+                                    <Button OnClick="AddInputVariable" Type="primary">
                                         Add
                                     </Button>
                                 </Tooltip>
@@ -102,10 +167,10 @@
                                                     TItemValue="VariableType"
                                                     TItem="VariableType">
                                                 <SelectOptions>
-                                                @foreach (var variableType in VariableTypes)
-                                                {
+                                                    @foreach (var variableType in VariableTypes)
+                                                    {
                                                         <SelectOption TItemValue="VariableType" TItem="VariableType" Value=@variableType Label=@variableType.ToString() />
-                                                }
+                                                    }
                                                 </SelectOptions>
                                             </Select>
                                         </Column>
@@ -197,8 +262,8 @@
                                                     <Input Type="text" TValue="string" Value="outputVariable2.Data.Value?.ToString()" OnChange="(x) => { outputVariable2.Data.Value = x; }" />
                                                 </FormItem>
                                             </GridCol>
-                                        </GridRow>                                      
-	                                </ExpandTemplate>
+                                        </GridRow>
+                                    </ExpandTemplate>
                                 </Table>
                             </SpaceItem>
                         </Space>
@@ -237,6 +302,23 @@
 
     .header .ant-typography-edit-content {
         padding-top: 18px;
+    }
+
+    .scrollable-list {
+        overflow: auto;
+        max-height: 300px;
+    }
+
+    .variables-collapse-panel {
+        background-color: #efefef;
+        border-radius: 2px;
+        margin-bottom: 24px;
+        border-radius: 5px;
+    }
+
+    .variable-description {
+        float: right;
+        margin: 3px 5px 0 0;
     }
 
 </style>

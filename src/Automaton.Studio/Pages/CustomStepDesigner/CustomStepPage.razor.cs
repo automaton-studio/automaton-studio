@@ -72,7 +72,7 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
             }
         }
 
-        private async Task Test()
+        private async Task Run()
         {
             try
             {
@@ -80,7 +80,7 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
             }
             catch (Exception ex)
             {
-                await MessageService.Error(Resources.Errors.CustomStepUpdateFailed);
+                await MessageService.Error(Resources.Errors.CustomStepExecutionFailed);
             }
         }
 

@@ -8,8 +8,8 @@
         <Input Type="Input.Text" TValue="string" Value="Variable.Value?.ToString()" OnChange="(x) => { Variable.Value = x; }" Placeholder="@Variable.Description" />
     </Col>
     <Col Md="2">
-    <Popover Content="@Variable.Description" Trigger="@(new AntDesign.Trigger[] { AntDesign.Trigger.Click})" Class="variable-description">
-        <Button Shape="@ButtonShape.Circle" Icon="info" Size="@ButtonSize.Small"></Button>
+        <Popover Content="@Variable.Description" Trigger="@(new AntDesign.Trigger[] { AntDesign.Trigger.Click})" Class="variable-description">
+            <Button Shape="@ButtonShape.Circle" Icon="info" Size="@ButtonSize.Small"></Button>
         </Popover>
     </Col>
 </Row>

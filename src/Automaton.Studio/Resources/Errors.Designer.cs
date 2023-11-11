@@ -88,6 +88,15 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Execution failed.
+        /// </summary>
+        public static string CustomStepExecutionFailed {
+            get {
+                return ResourceManager.GetString("CustomStepExecutionFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom step name already exists.
         /// </summary>
         public static string CustomStepNameExists {
