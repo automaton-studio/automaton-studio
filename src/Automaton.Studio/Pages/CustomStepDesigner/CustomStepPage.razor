@@ -88,11 +88,11 @@
                                             <ChildContent>
                                                 <AntList DataSource="@context.Definition.CodeInputVariables" Class="scrollable-list">
                                                     <ChildContent Context="inputVariable">
-                                                        <ListItem Style="padding-left: 0px; padding-bottom: 0px; padding-top: 0px;">
-                                                            <FormItem Label="@inputVariable.Name" Style="margin-bottom: 0px">
+                                                        <ListItem Class="variable-list-item">
+                                                        <FormItem Label="@inputVariable.Name" Class="variable-label">
                                                                 <Space Direction="DirectionVHType.Horizontal">
                                                                     <SpaceItem>
-                                                                            <Input Type="text" @bind-Value="inputVariable.Value" />
+                                                                        <Input Type="text" @bind-Value="inputVariable.Value" />
                                                                     </SpaceItem>
                                                                     <SpaceItem>
                                                                         <Popover Content="@inputVariable.Description" Trigger="@(new AntDesign.Trigger[] { AntDesign.Trigger.Click})" Class="variable-description">
@@ -116,10 +116,10 @@
                                                 <b>Test Output Variables</b>
                                             </HeaderTemplate>
                                             <ChildContent>
-                                                <AntList DataSource="@context.Definition.CodeOutputVariables" Class="scrollable-list">
+                                            <AntList DataSource="@context.Definition.CodeOutputVariables" Class="scrollable-list">
                                                     <ChildContent Context="outputVariable">
-                                                        <ListItem Style="padding-left: 0px; padding-bottom: 0px; padding-top: 0px;">
-                                                        <FormItem Label="@outputVariable.Name" Style="margin-bottom: 0px">
+                                                        <ListItem Class="variable-list-item">
+                                                        <FormItem Label="@outputVariable.Name" Class="variable-label">
                                                                 <Space Direction="DirectionVHType.Horizontal">
                                                                     <SpaceItem>
                                                                         <Input Type="text" @bind-Value="outputVariable.Value" />
@@ -316,9 +316,19 @@
         border-radius: 5px;
     }
 
+    .variable-list-item {
+        padding-left: 0px;
+        padding-bottom: 0px;
+        padding-top: 0px;
+    }
+
     .variable-description {
         float: right;
         margin: 3px 5px 0 0;
     }
 
+    .variable-label {
+        margin-bottom: 0px; 
+        padding-bottom: 0px;
+    }
 </style>
