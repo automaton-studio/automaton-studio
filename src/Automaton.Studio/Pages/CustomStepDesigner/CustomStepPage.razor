@@ -36,7 +36,9 @@
               Model="@StepDesignerViewModel.CustomStep"
               Loading="loading"
               Class="step-form"
-              Layout="@FormLayout.Vertical">
+              Layout="@FormLayout.Vertical"
+              LabelColSpan="24"
+              WrapperColSpan="24">
 
             <Validator>
                 <FluentValidationValidator />
@@ -89,19 +91,8 @@
                                                 <AntList DataSource="@context.Definition.CodeInputVariables" Class="scrollable-list">
                                                     <ChildContent Context="inputVariable">
                                                         <ListItem Class="variable-list-item">
-                                                        <FormItem Label="@inputVariable.Name" Class="variable-label">
-                                                                <Space Direction="DirectionVHType.Horizontal">
-                                                                    <SpaceItem>
-                                                                        <Input Type="text" @bind-Value="inputVariable.Value" />
-                                                                    </SpaceItem>
-                                                                    <SpaceItem>
-                                                                        <Popover Content="@inputVariable.Description" Trigger="@(new AntDesign.Trigger[] { AntDesign.Trigger.Click})" Class="variable-description">
-                                                                            <Button Shape="@ButtonShape.Circle" Icon="info" Size="@ButtonSize.Small"></Button>
-                                                                        </Popover>
-                                                                    </SpaceItem>
-                                                                </Space>
-                                                            </FormItem>
-                                                        </ListItem>
+                                                            <DynamicComponent Type="GetVariableComponent(inputVariable.Type)" Parameters="GetVariableComponentParameters(inputVariable)" />
+                                                       </ListItem>
                                                     </ChildContent>
                                                 </AntList>
                                             </ChildContent>
@@ -119,18 +110,7 @@
                                             <AntList DataSource="@context.Definition.CodeOutputVariables" Class="scrollable-list">
                                                     <ChildContent Context="outputVariable">
                                                         <ListItem Class="variable-list-item">
-                                                        <FormItem Label="@outputVariable.Name" Class="variable-label">
-                                                                <Space Direction="DirectionVHType.Horizontal">
-                                                                    <SpaceItem>
-                                                                        <Input Type="text" @bind-Value="outputVariable.Value" />
-                                                                    </SpaceItem>
-                                                                    <SpaceItem>
-                                                                        <Popover Content="@outputVariable.Description" Trigger="@(new AntDesign.Trigger[] { AntDesign.Trigger.Click})" Class="variable-description">
-                                                                            <Button Shape="@ButtonShape.Circle" Icon="info" Size="@ButtonSize.Small"></Button>
-                                                                        </Popover>
-                                                                    </SpaceItem>
-                                                                </Space>
-                                                            </FormItem>
+                                                            <DynamicComponent Type="GetVariableComponent(outputVariable.Type)" Parameters="GetVariableComponentParameters(outputVariable)" />
                                                         </ListItem>
                                                     </ChildContent>
                                                 </AntList>
@@ -305,7 +285,8 @@
     }
 
     .scrollable-list {
-        overflow: auto;
+        overflow-x: hidden;
+        overflow-y: auto;
         max-height: 300px;
     }
 
@@ -314,21 +295,13 @@
         border-radius: 2px;
         margin-bottom: 24px;
         border-radius: 5px;
+        width: 300px;
     }
 
     .variable-list-item {
         padding-left: 0px;
-        padding-bottom: 0px;
+        padding-bottom: 5px;
         padding-top: 0px;
     }
 
-    .variable-description {
-        float: right;
-        margin: 3px 5px 0 0;
-    }
-
-    .variable-label {
-        margin-bottom: 0px; 
-        padding-bottom: 0px;
-    }
 </style>

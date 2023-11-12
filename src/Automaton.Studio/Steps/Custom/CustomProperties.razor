@@ -8,9 +8,10 @@
 <StepProperties Step="@step">
 
     <Form @ref="form"
-          Model="@step"
-          LabelColSpan="4"
-          WrapperColSpan="20">
+        Model="@step"
+        LabelColSpan="4"
+        WrapperColSpan="24"
+        Layout="Vertical">
         <Validator>
             <FluentValidationValidator @ref="fluentValidationValidator" />
             <ValidationSummary />

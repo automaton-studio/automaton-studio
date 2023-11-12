@@ -1,22 +1,23 @@
 ﻿@using Automaton.Core.Models;
 @inherits BaseStepVariable
 
-<Text>@Variable.Name</Text>
+<FormItem Label="@Variable.Name" Class="variable-label">
+    <Row>
+        <Col Md="23">
+            <Input Type="Input.Text" TValue="string" Value="Variable.Value?.ToString()" OnChange="(x) => { Variable.Value = x; }" Placeholder="@Variable.Description" />
+        </Col>
+        <Col Md="1">
+            <Popover Content="@Variable.Description" Trigger="@(new AntDesign.Trigger[] { AntDesign.Trigger.Click})" Class="variable-description">
+                <Button Shape="@ButtonShape.Circle" Icon="info" Size="@ButtonSize.Small"></Button>
+            </Popover>
+        </Col>
+    </Row>
+</FormItem>
 
-<Row>
-    <Col Md="22">
-        <Input Type="Input.Text" TValue="string" Value="Variable.Value?.ToString()" OnChange="(x) => { Variable.Value = x; }" Placeholder="@Variable.Description" />
-    </Col>
-    <Col Md="2">
-        <Popover Content="@Variable.Description" Trigger="@(new AntDesign.Trigger[] { AntDesign.Trigger.Click})" Class="variable-description">
-            <Button Shape="@ButtonShape.Circle" Icon="info" Size="@ButtonSize.Small"></Button>
-        </Popover>
-    </Col>
-</Row>
+
 
 <style>
     .variable-description {
-        float: right;
-        margin: 3px 5px 0 0;
+        padding: 4px 0px 0px 4px;
     }
 </style>

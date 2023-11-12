@@ -1,6 +1,7 @@
 ﻿using AntDesign;
 using Automaton.Core.Enums;
 using Automaton.Studio.Domain;
+using Automaton.Studio.Steps.Custom.Variables;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -82,6 +83,20 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
             {
                 await MessageService.Error(Resources.Errors.CustomStepExecutionFailed);
             }
+        }
+
+        private Type GetVariableComponent(VariableType type)
+        {
+            return type switch
+            {
+                VariableType.String => typeof(StringVariable),
+                _ => throw new NotImplementedException()
+            };
+        }
+
+        private Dictionary<string, object> GetVariableComponentParameters(Core.Models.StepVariable customStepVariable)
+        {
+            return new Dictionary<string, object>() { { "Variable", customStepVariable } };
         }
 
         private void OnNameChanged(string name)
