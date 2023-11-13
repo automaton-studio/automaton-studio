@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Automaton.Core.Logs;
+using Automaton.Core.Models;
 using Automaton.Core.Scripting;
 using Automaton.Studio.Domain;
 
@@ -40,7 +41,7 @@ public class CustomStepExecuteService
         logger = Log.ForContext<StudioFlowExecuteService>();
     }
 
-    public CustomStepExecution Execute(CustomStep step, CancellationToken cancellationToken = default)
+    public async Task<CustomStepExecution> Execute(CustomStep step, CancellationToken cancellationToken = default)
     {
         using var customStepExecution = new CustomStepExecution();
 
@@ -51,7 +52,7 @@ public class CustomStepExecuteService
 
         try
         {
-            ExecuteAsync(step);
+            await ExecuteAsync(step);
         }
         catch (Exception ex)
         {
@@ -65,7 +66,7 @@ public class CustomStepExecuteService
         return customStepExecution;
     }
 
-    protected void ExecuteAsync(CustomStep step)
+    protected Task<ExecutionResult> ExecuteAsync(CustomStep step)
     {
         var resource = new ScriptResource()
         {
@@ -84,5 +85,7 @@ public class CustomStepExecuteService
                 variable.Value = scriptVariables[variable.Id].ToString();
             }
         }
+
+        return Task.FromResult(ExecutionResult.Next());
     }
 }

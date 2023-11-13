@@ -1,6 +1,7 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Services;
+using System.Runtime.CompilerServices;
 
 namespace Automaton.Studio.Pages.CustomStepDesigner;
 
@@ -29,9 +30,9 @@ public class CustomStepViewModel
         await customStepsService.Update(CustomStep);
     }
 
-    public void Execute()
+    public async Task Execute()
     {
-        customStepExecuteService.Execute(CustomStep);
+        await customStepExecuteService.Execute(CustomStep);
     }
 
     public void AddInputVariable()

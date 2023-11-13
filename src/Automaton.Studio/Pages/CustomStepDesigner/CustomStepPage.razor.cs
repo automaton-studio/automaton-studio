@@ -10,7 +10,11 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
     partial class CustomStepPage : ComponentBase
     {
         private bool loading = false;
+        private bool runningCode = false;
+
         private Form<CustomStep> form;
+        private Form<CustomStep> codeForm;
+
         public IEnumerable<VariableType> VariableTypes { get; } = Enum.GetValues<VariableType>();
         private TypographyEditableConfig stepNameEditableConfig;
 
@@ -77,11 +81,19 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
         {
             try
             {
-                StepDesignerViewModel.Execute();
+                runningCode = true;
+
+                await Task.Delay(100);
+
+                await StepDesignerViewModel.Execute();
             }
             catch (Exception ex)
             {
                 await MessageService.Error(Resources.Errors.CustomStepExecutionFailed);
+            }
+            finally
+            {
+                runningCode = false;
             }
         }
 
