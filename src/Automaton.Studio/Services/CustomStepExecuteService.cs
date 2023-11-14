@@ -41,7 +41,7 @@ public class CustomStepExecuteService
         logger = Log.ForContext<StudioFlowExecuteService>();
     }
 
-    public async Task<CustomStepExecution> Execute(CustomStep step, CancellationToken cancellationToken = default)
+    public CustomStepExecution Execute(CustomStep step, CancellationToken cancellationToken = default)
     {
         using var customStepExecution = new CustomStepExecution();
 
@@ -52,13 +52,15 @@ public class CustomStepExecuteService
 
         try
         {
-            await ExecuteAsync(step);
+            ExecuteAsync(step);
         }
         catch (Exception ex)
         {
             customStepExecution.HasErrors();
 
             logger.Error(ex, "Step: {0} encountered an error. Message: {1}", step.Name, ex.Message);
+
+            throw;
         }
 
         logger.Information("End step: {0}", step.Name);
@@ -66,7 +68,7 @@ public class CustomStepExecuteService
         return customStepExecution;
     }
 
-    protected Task<ExecutionResult> ExecuteAsync(CustomStep step)
+    protected void ExecuteAsync(CustomStep step)
     {
         var resource = new ScriptResource()
         {
@@ -85,7 +87,5 @@ public class CustomStepExecuteService
                 variable.Value = scriptVariables[variable.Id].ToString();
             }
         }
-
-        return Task.FromResult(ExecutionResult.Next());
     }
 }

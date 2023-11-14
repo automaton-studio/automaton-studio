@@ -30,9 +30,9 @@ public class CustomStepViewModel
         await customStepsService.Update(CustomStep);
     }
 
-    public async Task Execute()
+    public void Execute()
     {
-        await customStepExecuteService.Execute(CustomStep);
+        customStepExecuteService.Execute(CustomStep);
     }
 
     public void AddInputVariable()

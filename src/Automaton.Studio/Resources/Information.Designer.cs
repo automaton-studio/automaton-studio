@@ -61,6 +61,15 @@ namespace Automaton.Studio.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Step executed successfully. Check the output variables..
+        /// </summary>
+        internal static string CustomStepExecutionSuccessful {
+            get {
+                return ResourceManager.GetString("CustomStepExecutionSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password updated.
         /// </summary>
         internal static string UserPasswordUpdated {

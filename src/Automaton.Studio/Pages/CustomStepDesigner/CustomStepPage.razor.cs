@@ -85,11 +85,13 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
 
                 await Task.Delay(100);
 
-                await StepDesignerViewModel.Execute();
+                StepDesignerViewModel.Execute();
+
+                await MessageService.Success(Resources.Information.CustomStepExecutionSuccessful);
             }
             catch (Exception ex)
             {
-                await MessageService.Error(Resources.Errors.CustomStepExecutionFailed);
+                await MessageService.Error($"{Resources.Errors.CustomStepExecutionFailed}. Error: {ex.Message}");
             }
             finally
             {
