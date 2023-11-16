@@ -3,7 +3,7 @@ using Automaton.Core.Enums;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Steps.Custom.Variables;
 using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace Automaton.Studio.Pages.CustomStepDesigner
 {
@@ -15,6 +15,8 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
         private Form<CustomStep> form;
         private Form<CustomStep> codeForm;
 
+        private StringBuilder ScriptOutput { get; set; } = new StringBuilder();
+
         public IEnumerable<VariableType> VariableTypes { get; } = Enum.GetValues<VariableType>();
         private TypographyEditableConfig stepNameEditableConfig;
 
@@ -25,6 +27,8 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
 
         protected override async Task OnInitializedAsync()
         {
+            StepDesignerViewModel.ScriptTextWritten += OnScriptOutputWritten;
+
             await StepDesignerViewModel.Load(Guid.Parse(StepId));
 
             stepNameEditableConfig = new() 
@@ -81,6 +85,8 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
         {
             try
             {
+                ScriptOutput.Clear();
+
                 runningCode = true;
 
                 await Task.Delay(100);
@@ -116,7 +122,13 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
         private void OnNameChanged(string name)
         {
             StepDesignerViewModel.CustomStep.Name = name;
-            StateHasChanged();
+            InvokeAsync(StateHasChanged);
+        }
+
+        private void OnScriptOutputWritten(object sender, string e)
+        {
+            ScriptOutput.Append(e);
+            InvokeAsync(StateHasChanged);
         }
     }
 }

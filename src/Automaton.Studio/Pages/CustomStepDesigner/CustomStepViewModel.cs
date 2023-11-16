@@ -1,7 +1,8 @@
-﻿using Automaton.Core.Models;
+﻿using Automaton.Core.Events;
+using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Services;
-using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Automaton.Studio.Pages.CustomStepDesigner;
 
@@ -9,10 +10,12 @@ public class CustomStepViewModel
 {
     private readonly CustomStepsService customStepsService;
     private readonly CustomStepExecuteService customStepExecuteService;
-
     private CustomStepDefinition CustomStepDefinition => CustomStep.Definition;
 
     public CustomStep CustomStep { get; set; } = new();
+    public string ScriptOutput { get; set; }
+
+    public event EventHandler<string> ScriptTextWritten;
 
     public CustomStepViewModel(CustomStepsService customStepsService, CustomStepExecuteService customStepExecuteService)
     {
@@ -32,7 +35,13 @@ public class CustomStepViewModel
 
     public void Execute()
     {
+        customStepExecuteService.NewScriptText += OnNewScriptText;
+
+        ClearScriptOutputText();
+
         customStepExecuteService.Execute(CustomStep);
+
+        customStepExecuteService.NewScriptText -= OnNewScriptText;
     }
 
     public void AddInputVariable()
@@ -67,5 +76,15 @@ public class CustomStepViewModel
     {
         var variable = CustomStepDefinition.CodeOutputVariables.SingleOrDefault(x => x.Name == name);
         CustomStepDefinition.CodeOutputVariables.Remove(variable);
+    }
+
+    private void ClearScriptOutputText()
+    {
+        ScriptOutput = string.Empty;
+    }
+
+    private void OnNewScriptText(object sender, string e)
+    {
+        ScriptTextWritten?.Invoke(this, e);
     }
 }

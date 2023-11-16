@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Automaton.Core.Logs;
-using Automaton.Core.Models;
 using Automaton.Core.Scripting;
 using Automaton.Studio.Domain;
 
@@ -8,7 +7,7 @@ namespace Automaton.Studio.Services;
 
 public class CustomStepExecuteService
 {
-    private const string ContentType = @"text/x-python";
+    private const string ScriptType = @"text/x-python";
 
     private readonly IMediator mediator;
     private readonly IMapper mapper;
@@ -18,6 +17,8 @@ public class CustomStepExecuteService
     private readonly StudioFlowConvertService flowConvertService;
     private readonly FlowExecutionsService flowExecutionsService;
     private readonly ScriptEngineHost scriptHost;
+
+    public event EventHandler<string> NewScriptText;
 
     public CustomStepExecuteService
     (
@@ -37,6 +38,7 @@ public class CustomStepExecuteService
         this.flowExecutionsService = flowExecutionsService;
         this.serviceProvider = serviceProvider;
         this.scriptHost = scriptHost;
+        this.scriptHost.NewText += OnTextWritten;
 
         logger = Log.ForContext<StudioFlowExecuteService>();
     }
@@ -72,7 +74,7 @@ public class CustomStepExecuteService
     {
         var resource = new ScriptResource()
         {
-            ContentType = ContentType,
+            ContentType = ScriptType,
             Content = step.Code
         };
 
@@ -87,5 +89,10 @@ public class CustomStepExecuteService
                 variable.Value = scriptVariables[variable.Id].ToString();
             }
         }
+    }
+
+    private void OnTextWritten(object sender, string e)
+    {
+        NewScriptText?.Invoke(this, e);
     }
 }

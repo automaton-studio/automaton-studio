@@ -98,12 +98,10 @@
                                             
                                     
                                         <TextArea Rows="6" Id="step-code" @bind-Value="codeContext.Definition.Code" AutoFocus />
-                                    
+                                                <TextArea Rows="6" Id="code-log" Value="@ScriptOutput.ToString()" />
                                     
                                         </TabPane>
-                                        <TabPane Tab="Log" Key="2">
-                                            
-                                        </TabPane>
+                                       
                                         </ChildContent>
                                         
                                     </Tabs>
@@ -298,8 +296,11 @@
     }
 
     #step-code {
-        width: 100vw !important;
-        height: calc(100vh - 270px) !important;
+        height: calc(100vh - 500px) !important;
+        margin: 0 0 5px 0;
+    }
+
+    #code-log {
         margin: 0 0 5px 0;
     }
 
