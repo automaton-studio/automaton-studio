@@ -5,7 +5,7 @@ using Automaton.Studio.Domain;
 
 namespace Automaton.Studio.Services;
 
-public class CustomStepExecuteService
+public class CustomStepExecuteService : IDisposable
 {
     private const string ScriptType = @"text/x-python";
 
@@ -18,7 +18,7 @@ public class CustomStepExecuteService
     private readonly FlowExecutionsService flowExecutionsService;
     private readonly ScriptEngineHost scriptHost;
 
-    public event EventHandler<string> NewScriptText;
+    public event EventHandler<string> ScriptTextWritten;
 
     public CustomStepExecuteService
     (
@@ -38,7 +38,7 @@ public class CustomStepExecuteService
         this.flowExecutionsService = flowExecutionsService;
         this.serviceProvider = serviceProvider;
         this.scriptHost = scriptHost;
-        this.scriptHost.NewText += OnTextWritten;
+        this.scriptHost.ScriptTextWritten += OnScriptTextWritten;
 
         logger = Log.ForContext<StudioFlowExecuteService>();
     }
@@ -91,8 +91,13 @@ public class CustomStepExecuteService
         }
     }
 
-    private void OnTextWritten(object sender, string e)
+    private void OnScriptTextWritten(object sender, string e)
     {
-        NewScriptText?.Invoke(this, e);
+        ScriptTextWritten?.Invoke(this, e);
+    }
+
+    public void Dispose()
+    {
+        scriptHost.ScriptTextWritten -= OnScriptTextWritten;
     }
 }

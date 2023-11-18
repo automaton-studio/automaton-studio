@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Automaton.Studio.Pages.CustomStepDesigner;
 
-public class CustomStepViewModel
+public class CustomStepViewModel : IDisposable
 {
     private readonly CustomStepsService customStepsService;
     private readonly CustomStepExecuteService customStepExecuteService;
@@ -14,12 +14,13 @@ public class CustomStepViewModel
     public CustomStep CustomStep { get; set; } = new();
     public StringBuilder ScriptOutput { get; set; } = new StringBuilder();
 
-    public event EventHandler<string> ScriptTextWritten;
+    public event EventHandler ScriptTextWritten;
 
     public CustomStepViewModel(CustomStepsService customStepsService, CustomStepExecuteService customStepExecuteService)
     {
         this.customStepsService = customStepsService;
         this.customStepExecuteService = customStepExecuteService;
+        customStepExecuteService.ScriptTextWritten += OnNewScriptText;
     }
 
     public async Task Load(Guid id)
@@ -34,13 +35,9 @@ public class CustomStepViewModel
 
     public void Execute()
     {
-        customStepExecuteService.NewScriptText += OnNewScriptText;
-
         ClearScriptOutputText();
 
         customStepExecuteService.Execute(CustomStep);
-
-        customStepExecuteService.NewScriptText -= OnNewScriptText;
     }
 
     public void AddInputVariable()
@@ -86,6 +83,11 @@ public class CustomStepViewModel
     {
         ScriptOutput.Append(e);
 
-        ScriptTextWritten?.Invoke(this, e);
+        ScriptTextWritten?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void Dispose()
+    {
+        customStepExecuteService.ScriptTextWritten -= OnNewScriptText;
     }
 }

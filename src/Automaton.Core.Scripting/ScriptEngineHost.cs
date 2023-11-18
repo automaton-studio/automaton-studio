@@ -10,7 +10,7 @@ public class ScriptEngineHost
 
     private readonly ScriptEngineFactory engineFactory;
 
-    public event EventHandler<string>? NewText;
+    public event EventHandler<string>? ScriptTextWritten;
 
     public ScriptEngineHost(ScriptEngineFactory engineFactory)
     {
@@ -40,6 +40,6 @@ public class ScriptEngineHost
 
     private void OnTextWritten(object? sender, string e)
     {
-        NewText?.Invoke(this, e);
+        ScriptTextWritten?.Invoke(this, e);
     }
 }

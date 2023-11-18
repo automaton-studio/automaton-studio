@@ -120,9 +120,8 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
             InvokeAsync(StateHasChanged);
         }
 
-        private void OnScriptOutputWritten(object sender, string e)
+        private void OnScriptOutputWritten(object sender, EventArgs e)
         {
-            var a = StepDesignerViewModel.ScriptOutput;
             InvokeAsync(StateHasChanged);
         }
 
