@@ -6,7 +6,6 @@ using Automaton.Client.Auth.Interfaces;
 using Automaton.Client.Auth.Services;
 using Automaton.Core.Logs;
 using Automaton.Core.Scripting;
-using Automaton.Studio.Config;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Factories;
 using Automaton.Studio.Mapper;
@@ -35,9 +34,9 @@ using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace Automaton.Studio.Extensions;
+namespace Automaton.Studio.Config;
 
-public static class ServiceCollectionExtensions
+public static class SeviceCollection
 {
     public static void AddStudio(this IServiceCollection services, IConfiguration configuration)
     {
@@ -45,7 +44,7 @@ public static class ServiceCollectionExtensions
 
         services.AddAccountApp(configuration);
         services.AddAuthenticationApp(configuration);
-  
+
         services.AddAutomatonCore();
         services.AddAutomatonSteps();
         services.AddScoped<StepTypeDescriptor>();
@@ -65,25 +64,25 @@ public static class ServiceCollectionExtensions
 
         // Services
         services.AddScoped<Services.ConfigurationService>();
-        services.AddScoped<UserAccountService>();      
+        services.AddScoped<UserAccountService>();
         services.AddScoped<FlowService>();
         services.AddScoped<FlowsService>();
         services.AddScoped<RunnerService>();
         services.AddScoped<ErrorService>();
-        services.AddScoped<FlowExecutionsService>();        
+        services.AddScoped<FlowExecutionsService>();
         services.AddScoped<CustomStepsService>();
         services.AddScoped<StudioFlowExecuteService>();
-        services.AddScoped<StudioFlowConvertService>();     
+        services.AddScoped<StudioFlowConvertService>();
         services.AddScoped<FlowLogsService>();
         services.AddScoped<FlowScheduleService>();
         services.AddScoped<CustomStepExecuteService>();
-        
+
         // ViewModels
         services.AddScoped<FlowsViewModel>();
         services.AddScoped<RunnersViewModel>();
         services.AddScoped<CustomStepsViewModel>();
         services.AddScoped<DesignerViewModel>();
-        services.AddScoped<CustomStepViewModel>();     
+        services.AddScoped<CustomStepViewModel>();
         services.AddScoped<StepsViewModel>();
         services.AddScoped<FlowExplorerViewModel>();
         services.AddScoped<MainLayoutViewModel>();
@@ -114,7 +113,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<JsInterop>();
 
         // Other
-        services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });      
+        services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(configService.BaseUrl) });
         services.AddSingleton(sp => new SerilogHttpClient(new HttpClient { BaseAddress = new Uri(configService.BaseUrl) }));
         services.AddSingleton(sp => new WorkflowLogsSink());
         services.AddSingleton<KeyboardService>();

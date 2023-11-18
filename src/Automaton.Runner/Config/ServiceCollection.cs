@@ -7,9 +7,9 @@ using Automaton.Runner.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Automaton.Runner.Extensions;
+namespace Automaton.Runner.Config;
 
-public static class ServiceCollectionExtension
+public static class ServiceCollection
 {
     public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
     {

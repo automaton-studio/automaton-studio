@@ -2,7 +2,7 @@
 using Automaton.Client.Auth.Extensions;
 using Automaton.Client.Auth.Interfaces;
 using Automaton.Core.Logs;
-using Automaton.Runner.Extensions;
+using Automaton.Runner.Config;
 using Automaton.Runner.Services;
 using Blazored.LocalStorage;
 using Microsoft.Extensions.Configuration;
@@ -36,7 +36,7 @@ public partial class MainWindow : Window
         Configuration = builder.Build();
         ConfigurationService = new Services.ConfigurationService(Configuration);
 
-        var services = new ServiceCollection();
+        var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
 
         services.AddScoped<JsInterop>();
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));

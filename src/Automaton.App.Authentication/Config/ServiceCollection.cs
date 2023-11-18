@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Automaton.App.Authentication.Config;
 
-public static class ServiceCollectionExtensions
+public static class ServiceCollection
 {
     public static void AddAuthenticationApp(this IServiceCollection services, IConfiguration configuration)
     {
