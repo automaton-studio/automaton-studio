@@ -29,13 +29,10 @@ using Automaton.Studio.Steps.Test;
 using Automaton.Studio.Steps.TestAssert;
 using Automaton.Studio.Steps.TestReport;
 using Blazored.LocalStorage;
-using MediatR.Courier;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Serilog;
 using System.Diagnostics;
-using System.Net.Http;
 using System.Reflection;
 
 namespace Automaton.Studio.Extensions;

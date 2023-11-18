@@ -1,5 +1,4 @@
-﻿using Automaton.Core.Events;
-using Automaton.Core.Models;
+﻿using Automaton.Core.Models;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Services;
 using System.Text;
@@ -13,7 +12,7 @@ public class CustomStepViewModel
     private CustomStepDefinition CustomStepDefinition => CustomStep.Definition;
 
     public CustomStep CustomStep { get; set; } = new();
-    public string ScriptOutput { get; set; }
+    public StringBuilder ScriptOutput { get; set; } = new StringBuilder();
 
     public event EventHandler<string> ScriptTextWritten;
 
@@ -78,13 +77,15 @@ public class CustomStepViewModel
         CustomStepDefinition.CodeOutputVariables.Remove(variable);
     }
 
-    private void ClearScriptOutputText()
+    public void ClearScriptOutputText()
     {
-        ScriptOutput = string.Empty;
+        ScriptOutput.Clear();
     }
 
     private void OnNewScriptText(object sender, string e)
     {
+        ScriptOutput.Append(e);
+
         ScriptTextWritten?.Invoke(this, e);
     }
 }
