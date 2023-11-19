@@ -70,75 +70,6 @@
                         </Row>
                     </TabPane>
 
-                    <TabPane Tab="Code" Key="2">
-                         <Form @ref="codeForm"
-                                Model="@StepDesignerViewModel.CustomStep"
-                                Class="code-form"
-                                Layout="@FormLayout.Vertical"
-                                LabelColSpan="24"
-                                WrapperColSpan="24">
-
-                            <Validator>
-                                <FluentValidationValidator />
-                                <ValidationSummary />
-                            </Validator>
-
-                            <ChildContent Context="codeContext">
-                               <Row Gutter="(16, 0)">
-                                    <Col Md="12">
-                                        <TextArea Rows="20" Id="step-code" @bind-Value="codeContext.Definition.Code" AutoFocus />
-                                        <TextArea Rows="6" Id="code-log" Value="@StepDesignerViewModel.ScriptOutput.ToString()" />                                 
-                                    </Col>
-                                    <Col Md="12">     
-                                        <Row>
-                                            <Button Class="code-button" Icon="caret-right" OnClick="Run" Loading="@runningCode" Disabled="@runningCode" Type="@ButtonType.Primary" HtmlType="submit">
-                                                Run
-                                            </Button>
-                                        </Row>
-                                        <Row>
-                                            <Collapse DefaultActiveKey="@(new[]{"1"})" Bordered="false" Class="variables-collapse-panel">
-                                                <Panel Key="1">
-                                                    <HeaderTemplate>
-                                                        <b>Test Input Variables</b>
-                                                    </HeaderTemplate>
-                                                    <ChildContent>
-                                                        <AntList DataSource="@codeContext.Definition.CodeInputVariables" Class="scrollable-list">
-                                                            <ChildContent Context="inputVariable">
-                                                                <ListItem Class="variable-list-item">
-                                                                    <DynamicComponent Type="GetVariableComponent(inputVariable.Type)" Parameters="GetVariableComponentParameters(inputVariable)" />
-                                                                </ListItem>
-                                                            </ChildContent>
-                                                        </AntList>
-                                                    </ChildContent>
-                                                </Panel>
-                                            </Collapse>
-                                        </Row>
-
-                                        <Row>
-                                            <Collapse DefaultActiveKey="@(new[]{"1"})" Bordered="false" Class="variables-collapse-panel">
-                                                <Panel Key="1">
-                                                    <HeaderTemplate>
-                                                        <b>Test Output Variables</b>
-                                                    </HeaderTemplate>
-                                                    <ChildContent>
-                                                        <AntList DataSource="@codeContext.Definition.CodeOutputVariables" Class="scrollable-list">
-                                                            <ChildContent Context="outputVariable">
-                                                                <ListItem Class="variable-list-item">
-                                                                    <DynamicComponent Type="GetVariableComponent(outputVariable.Type)" Parameters="GetVariableComponentParameters(outputVariable)" />
-                                                                </ListItem>
-                                                            </ChildContent>
-                                                        </AntList>
-                                                    </ChildContent>
-                                                </Panel>
-                                            </Collapse>
-                                        </Row>
-                                    </Col>
-                                </Row>            
-                            </ChildContent>
-                        </Form>
-
-                    </TabPane>
-
                     <TabPane Tab="Input Variables" Key="3">
                         <Space Direction="DirectionVHType.Vertical">
                             <SpaceItem>
@@ -265,6 +196,75 @@
                             </SpaceItem>
                         </Space>
                     </TabPane>
+
+                    <TabPane Tab="Code" Key="2">
+                        <Form @ref="codeForm"
+                              Model="@StepDesignerViewModel.CustomStep"
+                              Class="code-form"
+                              Layout="@FormLayout.Vertical"
+                              LabelColSpan="24"
+                              WrapperColSpan="24">
+
+                            <Validator>
+                                <FluentValidationValidator />
+                                <ValidationSummary />
+                            </Validator>
+
+                            <ChildContent Context="codeContext">
+                                <Row Gutter="(16, 0)">
+                                    <Col Md="12">
+                                    <TextArea Rows="20" Id="step-code" @bind-Value="codeContext.Definition.Code" AutoFocus />
+                                     <TextArea Rows="6" Id="code-log" Value="@StepDesignerViewModel.ScriptOutput.ToString()" />
+                                     </Col>
+                                     <Col Md="12">
+                                     <Row>
+                                         <Button Class="code-button" Icon="caret-right" OnClick="Run" Loading="@runningCode" Disabled="@runningCode" Type="@ButtonType.Primary" HtmlType="submit">
+                                             Run
+                                         </Button>
+                                     </Row>
+                                     <Row>
+                                         <Collapse DefaultActiveKey="@(new[]{"1"})" Bordered="false" Class="variables-collapse-panel">
+                                             <Panel Key="1">
+                                                 <HeaderTemplate>
+                                                     <b>Test Input Variables</b>
+                                                 </HeaderTemplate>
+                                                 <ChildContent>
+                                                     <AntList DataSource="@codeContext.Definition.CodeInputVariables" Class="scrollable-list">
+                                                         <ChildContent Context="inputVariable">
+                                                             <ListItem Class="variable-list-item">
+                                                                 <DynamicComponent Type="GetVariableComponent(inputVariable.Type)" Parameters="GetVariableComponentParameters(inputVariable)" />
+                                                             </ListItem>
+                                                         </ChildContent>
+                                                     </AntList>
+                                                 </ChildContent>
+                                             </Panel>
+                                         </Collapse>
+                                     </Row>
+
+                                     <Row>
+                                         <Collapse DefaultActiveKey="@(new[]{"1"})" Bordered="false" Class="variables-collapse-panel">
+                                             <Panel Key="1">
+                                                 <HeaderTemplate>
+                                                     <b>Test Output Variables</b>
+                                                 </HeaderTemplate>
+                                                 <ChildContent>
+                                                     <AntList DataSource="@codeContext.Definition.CodeOutputVariables" Class="scrollable-list">
+                                                         <ChildContent Context="outputVariable">
+                                                             <ListItem Class="variable-list-item">
+                                                                 <DynamicComponent Type="GetVariableComponent(outputVariable.Type)" Parameters="GetVariableComponentParameters(outputVariable)" />
+                                                             </ListItem>
+                                                         </ChildContent>
+                                                     </AntList>
+                                                 </ChildContent>
+                                             </Panel>
+                                         </Collapse>
+                                     </Row>
+                                     </Col>
+                                 </Row>
+                             </ChildContent>
+                         </Form>
+
+                     </TabPane>
                 </Tabs>
             </ChildContent>
         </Form>
