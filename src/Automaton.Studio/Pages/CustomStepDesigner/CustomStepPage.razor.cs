@@ -105,6 +105,7 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
             return type switch
             {
                 VariableType.String => typeof(StringVariable),
+                VariableType.Boolean => typeof(BooleanVariable),
                 _ => throw new NotImplementedException()
             };
         }
