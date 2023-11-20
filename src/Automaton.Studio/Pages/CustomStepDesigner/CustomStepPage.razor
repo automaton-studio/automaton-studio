@@ -229,13 +229,14 @@
                                                      <b>Test Input Variables</b>
                                                  </HeaderTemplate>
                                                  <ChildContent>
-                                                     <AntList DataSource="@codeContext.Definition.CodeInputVariables" Class="scrollable-list">
-                                                         <ChildContent Context="inputVariable">
-                                                             <ListItem Class="variable-list-item">
-                                                                 <DynamicComponent Type="GetVariableComponent(inputVariable.Type)" Parameters="GetVariableComponentParameters(inputVariable)" />
-                                                             </ListItem>
-                                                         </ChildContent>
-                                                     </AntList>
+                                                     <div class="scrollable-list">
+                                                        @foreach(var inputVariable in @codeContext.Definition.CodeInputVariables)
+                                                        {
+                                                            <div class="variable">
+                                                                <DynamicComponent Type="GetVariableComponent(inputVariable.Type)" Parameters="GetVariableComponentParameters(inputVariable)" />
+                                                            </div>
+                                                        }  
+                                                     </div>
                                                  </ChildContent>
                                              </Panel>
                                          </Collapse>
@@ -248,13 +249,14 @@
                                                      <b>Test Output Variables</b>
                                                  </HeaderTemplate>
                                                  <ChildContent>
-                                                     <AntList DataSource="@codeContext.Definition.CodeOutputVariables" Class="scrollable-list">
-                                                         <ChildContent Context="outputVariable">
-                                                             <ListItem Class="variable-list-item">
-                                                                 <DynamicComponent Type="GetVariableComponent(outputVariable.Type)" Parameters="GetVariableComponentParameters(outputVariable)" />
-                                                             </ListItem>
-                                                         </ChildContent>
-                                                     </AntList>
+                                                    <div class="scrollable-list">
+                                                        @foreach (var outputVariable in @codeContext.Definition.CodeOutputVariables)
+                                                        {
+                                                            <div class="variable">
+                                                                <DynamicComponent Type="GetVariableComponent(outputVariable.Type)" Parameters="GetVariableComponentParameters(outputVariable)" />
+                                                            </div>
+                                                        }
+                                                    </div>
                                                  </ChildContent>
                                              </Panel>
                                          </Collapse>
@@ -312,6 +314,16 @@
         overflow-x: hidden;
         overflow-y: auto;
         max-height: 250px;
+        padding-right: 30px;
+    }
+
+        .scrollable-list .variable
+        {
+            margin: 6px 0 0 0;
+        }
+
+    .variable-row {
+        margin-bottom: 5px;
     }
 
     .variables-collapse-panel {
@@ -320,12 +332,6 @@
         margin: 5px 0 10px 0;
         border-radius: 5px;
         width: 300px;
-    }
-
-    .variable-list-item {
-        padding-left: 0px;
-        padding-bottom: 5px;
-        padding-top: 0px;
     }
 
 </style>

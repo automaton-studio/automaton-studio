@@ -106,6 +106,7 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
             {
                 VariableType.String => typeof(StringVariable),
                 VariableType.Boolean => typeof(BooleanVariable),
+                VariableType.Number => typeof(NumericVariable),
                 _ => throw new NotImplementedException()
             };
         }

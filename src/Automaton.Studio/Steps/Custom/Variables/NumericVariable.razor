@@ -4,7 +4,7 @@
 <FormItem Label="@Variable.Name" Class="variable-label">
     <Row>
         <Col Md="23">
-            <Switch OnChange="(x) => { Variable.Value = x; }" />
+        <AntDesign.InputNumber OnChange="(decimal x) => { Variable.Value = x; }" Class="variable-input-number"/>
         </Col>
         <Col Md="1">
             <Popover Content="@Variable.Description" Trigger="@(new AntDesign.Trigger[] { AntDesign.Trigger.Click})" Class="variable-description">
@@ -16,11 +16,15 @@
 
 <style>
     .variable-description {
-        padding: 4px 0 0 0;
+        padding: 4px 0px 0px 4px;
     }
 
     .variable-label {
         margin: 0px;
         padding: 0px;
+    }
+
+    .variable-input-number {
+        width: 100%;
     }
 </style>
