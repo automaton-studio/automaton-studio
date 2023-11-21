@@ -1,7 +1,7 @@
 ﻿using Automaton.Core.Attributes;
 using Automaton.Core.Models;
-using Automaton.Core.Scripting;
 using Automaton.Core.Parsers;
+using Automaton.Core.Scripting;
 using Newtonsoft.Json.Linq;
 
 namespace Automaton.Steps;
@@ -25,26 +25,35 @@ public class CustomStep : WorkflowStep
 
     protected override Task<ExecutionResult> RunAsync(StepExecutionContext context)
     {
-        var resource = new ScriptResource()
+        try
         {
-            ContentType = ContentType,
-            Content = Code
-        };
+            this.scriptHost.ScriptTextWritten += OnScriptTextWritten;
 
-        var inputVariablesDictionary = CodeInputVariables.ToDictionary(x => x.Name, x => x.Value);
-
-        var scriptVariables = scriptHost.Execute(resource, inputVariablesDictionary);
-
-        foreach (var variable in Outputs)
-        {
-            if (scriptVariables.ContainsKey(variable.Value.Id))
+            var resource = new ScriptResource()
             {
-                variable.Value.Value = scriptVariables[variable.Value.Id].ToString();
-                context.Workflow.SetVariable(variable.Value);
-            }
-        }
+                ContentType = ContentType,
+                Content = Code
+            };
 
-        return Task.FromResult(ExecutionResult.Next());
+            var inputVariablesDictionary = CodeInputVariables.ToDictionary(x => x.Name, x => x.Value);
+
+            var scriptVariables = scriptHost.Execute(resource, inputVariablesDictionary);
+
+            foreach (var variable in Outputs)
+            {
+                if (scriptVariables.ContainsKey(variable.Value.Id))
+                {
+                    variable.Value.Value = scriptVariables[variable.Value.Id].ToString();
+                    context.Workflow.SetVariable(variable.Value);
+                }
+            }
+
+            return Task.FromResult(ExecutionResult.Next());
+        }
+        finally
+        {
+            scriptHost.ScriptTextWritten -= OnScriptTextWritten;
+        }     
     }
 
     protected override void SetProperties(StepExecutionContext context)
@@ -69,5 +78,10 @@ public class CustomStep : WorkflowStep
 
             CodeInputVariables.Add(variable);
         }
+    }
+
+    private void OnScriptTextWritten(object sender, string text)
+    {
+        logger.Information("{Text}", text);
     }
 }
