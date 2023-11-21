@@ -1,0 +1,27 @@
+﻿@using Automaton.Core.Models;
+@using AntDesign
+@inherits BaseStepVariable
+
+<FormItem Label="@Variable.Name" Class="variable-label">
+    <Row>
+        <Col Md="23">
+            <TextArea Value="@Variable.Value?.ToString()" OnChange="(x) => { Variable.Value = x; }" />    
+        </Col>
+        <Col Md="1">
+            <Popover Content="@Variable.Description" Trigger="@(new AntDesign.Trigger[] { AntDesign.Trigger.Click})" Class="variable-description">
+                <Button Shape="@ButtonShape.Circle" Icon="info" Size="@ButtonSize.Small"></Button>
+            </Popover>
+        </Col>
+    </Row>
+</FormItem>
+
+<style>
+    .variable-description {
+        margin: 0px 0px 4px 4px;
+    }
+
+    .variable-label {
+        margin: 0px;
+        padding: 0px;
+    }
+</style>

@@ -3,9 +3,9 @@
     public enum VariableType
     {
         String,
+        Text,
         Number,
         Boolean,
-        DateTime,
-        Object
+        DateTime
     }
 }
