@@ -10,7 +10,7 @@ public class ScriptEngineHost
 
     private readonly ScriptEngineFactory engineFactory;
 
-    public event EventHandler<string>? ScriptTextWritten;
+    public event EventHandler<string> ScriptTextWritten;
 
     public ScriptEngineHost(ScriptEngineFactory engineFactory)
     {

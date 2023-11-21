@@ -6,7 +6,7 @@ public static class ServiceCollectionExtensions
 {
     public static void AddScripting(this IServiceCollection services)
     {
-        services.AddSingleton<ScriptEngineFactory>();
-        services.AddSingleton<ScriptEngineHost>();
+        services.AddScoped<ScriptEngineFactory>();
+        services.AddScoped<ScriptEngineHost>();
     }
 }
