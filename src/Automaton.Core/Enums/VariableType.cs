@@ -6,6 +6,6 @@
         Text,
         Number,
         Boolean,
-        DateTime
+        Date
     }
 }

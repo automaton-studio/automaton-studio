@@ -1,0 +1,30 @@
+﻿@using Automaton.Core.Models;
+@inherits BaseStepVariable
+
+<FormItem Label="@Variable.Name" Class="variable-label">
+    <Row>
+        <Col Md="23">
+        <DatePicker TValue="DateOnly?" Picker="@DatePickerType.Date" Class="variable-date" OnChange="(x) => { Variable.Value = x.Date; }" />
+        </Col>
+        <Col Md="1">
+            <Popover Content="@Variable.Description" Trigger="@(new AntDesign.Trigger[] { AntDesign.Trigger.Click})" Class="variable-description">
+                <Button Shape="@ButtonShape.Circle" Icon="info" Size="@ButtonSize.Small"></Button>
+            </Popover>
+        </Col>
+    </Row>
+</FormItem>
+
+<style>
+    .variable-description {
+        padding: 4px 0 0 0;
+    }
+
+    .variable-label {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .variable-date {
+        width: 100%;
+    }
+</style>

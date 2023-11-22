@@ -108,6 +108,7 @@ namespace Automaton.Studio.Pages.CustomStepDesigner
                 VariableType.Text => typeof(TextVariable),
                 VariableType.Boolean => typeof(BooleanVariable),
                 VariableType.Number => typeof(NumericVariable),
+                VariableType.Date => typeof(DateVariable),
                 _ => throw new NotImplementedException()
             };
         }
