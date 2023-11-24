@@ -79,6 +79,10 @@ public class StudioFlowExecuteService
 
                 await step.ExecuteAsync(context);
             }
+            catch (OperationCanceledException)
+            {
+                logger.Information("Workflow execution was canceled");
+            }
             catch (Exception ex)
             {
                 logger.Error(ex, "Step of type {0} with Id {1} encountered an error. Message: {2}", step.Id, step.Type, ex.Message);
