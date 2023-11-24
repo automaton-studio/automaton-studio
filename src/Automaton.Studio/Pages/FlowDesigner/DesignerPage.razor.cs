@@ -35,9 +35,15 @@ partial class DesignerPage : ComponentBase
 
         await base.OnInitializedAsync();
     }
+
     public async Task RunFlow()
     {
         await DesignerViewModel.RunFlow();
+    }
+
+    public void StopFlow()
+    {
+        DesignerViewModel.StopFlow();
     }
 
     private void OnStepCreated(object sender, StepEventArgs e)

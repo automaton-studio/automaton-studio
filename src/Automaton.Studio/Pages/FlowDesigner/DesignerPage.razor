@@ -27,7 +27,14 @@
                     <SpaceItem>
                         @if (DesignerViewModel.CanExecuteFlow)
                         {
-                            <Button Icon="caret-right" Class="header-button" OnClick="RunFlow">Run</Button>
+                            if (DesignerViewModel.IsFlowNotRunning())
+                            {
+                                <Button Icon="caret-right" Class="header-button" OnClick="RunFlow">Run</Button>
+                            }
+                            else
+                            {
+                                <Button Icon="stop" Class="header-button" OnClick="StopFlow">Stop</Button>
+                            }
                         }
                     </SpaceItem>
                 </Space>

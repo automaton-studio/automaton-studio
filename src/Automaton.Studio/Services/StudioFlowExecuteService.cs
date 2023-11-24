@@ -61,7 +61,7 @@ public class StudioFlowExecuteService
 
         logger.Information("Start workflow: {0}", workflow.Name);
 
-        while (step != null)
+        while (step != null && !cancellationToken.IsCancellationRequested)
         {
             var context = new StepExecutionContext
             {
@@ -81,7 +81,7 @@ public class StudioFlowExecuteService
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "Step: {0} encountered an error. Message: {1}", step.Id, ex.Message);
+                logger.Error(ex, "Step of type {0} with Id {1} encountered an error. Message: {2}", step.Id, step.Type, ex.Message);
                 workflowExecution.HasErrors();
             }
 

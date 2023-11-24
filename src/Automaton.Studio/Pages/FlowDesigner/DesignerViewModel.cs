@@ -17,6 +17,8 @@ public class DesignerViewModel
     private readonly StudioFlowConvertService flowConvertService;
     private readonly StudioFlowExecuteService workflowExecuteService;
     private readonly ConfigurationService configurationService;
+    private CancellationTokenSource cancelFlowTokenSource;
+    private bool flowRunning;
 
     public StudioFlow Flow { get; set; }
     public StudioDefinition ActiveDefinition { get; set; }
@@ -74,7 +76,23 @@ public class DesignerViewModel
             throw new Exception("Can not execute flow from designer");
         }
 
-        await workflowExecuteService.Execute(Flow, FlowDelay, CancellationToken.None);
+        cancelFlowTokenSource = new CancellationTokenSource();
+
+        flowRunning = true;
+
+        try
+        {
+            await workflowExecuteService.Execute(Flow, FlowDelay, cancelFlowTokenSource.Token);
+        }
+        finally
+        {
+            flowRunning = false;
+        }
+    }
+
+    public void StopFlow()
+    {
+        cancelFlowTokenSource.Cancel();
     }
 
     public StudioDefinition CreateDefinition(string name)
@@ -141,5 +159,10 @@ public class DesignerViewModel
     public void SetExecutingStep(string stepId)
     {
         Flow.SetExecutingStep(stepId);
+    }
+
+    public bool IsFlowNotRunning()
+    {
+        return !flowRunning;
     }
 }
