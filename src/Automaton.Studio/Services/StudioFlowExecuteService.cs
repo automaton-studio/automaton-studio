@@ -85,7 +85,7 @@ public class StudioFlowExecuteService
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "Step of type {0} with Id {1} encountered an error. Message: {2}", step.Id, step.Type, ex.Message);
+                logger.Error(ex, "Step {0} with Id {1} encountered an error. Message: {2}", step.Name, step.Id, ex.Message);
                 workflowExecution.HasErrors();
             }
 

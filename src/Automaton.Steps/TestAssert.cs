@@ -1,5 +1,4 @@
 ﻿using Automaton.Core.Models;
-using Automaton.Core.Parsers;
 
 namespace Automaton.Steps;
 
@@ -17,7 +16,7 @@ public class TestAssert : WorkflowStep
     /// </summary>
     public override async Task<ExecutionResult> ExecuteAsync(StepExecutionContext context)
     {
-        Expression = Inputs[nameof(Expression)].ToString();
+        Expression = Inputs[nameof(Expression)].Value.ToString();
 
         var result = await RunAsync(context);
 
@@ -28,7 +27,7 @@ public class TestAssert : WorkflowStep
     {
         logger.Information("""Evaluating expression "{0}" """, Expression);
 
-        var result = ExpressionParser.Parse(Expression, context.Workflow);
+        var result = StepVariableParser.Parse(Inputs[nameof(Expression)], context.Workflow);
 
         logger.Information("""Expression "{0}" result is {1}""", Expression, result);
 

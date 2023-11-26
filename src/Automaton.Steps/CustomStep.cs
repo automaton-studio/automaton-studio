@@ -1,6 +1,5 @@
 ﻿using Automaton.Core.Attributes;
 using Automaton.Core.Models;
-using Automaton.Core.Parsers;
 using Automaton.Core.Scripting;
 using Newtonsoft.Json.Linq;
 
@@ -56,7 +55,7 @@ public class CustomStep : WorkflowStep
         }     
     }
 
-    protected override void SetProperties(StepExecutionContext context)
+    protected override void SetupProperties(StepExecutionContext context)
     {
         Code = Inputs[nameof(Code)]?.Value?.ToString();
 
@@ -73,7 +72,7 @@ public class CustomStep : WorkflowStep
 
         foreach (var variable in codeInputVariables)
         {
-            var variableValue = ExpressionParser.Parse(variable.Value, context.Workflow);
+            var variableValue = StepVariableParser.Parse(variable, context.Workflow);
             variable.Value = variableValue;
 
             CodeInputVariables.Add(variable);

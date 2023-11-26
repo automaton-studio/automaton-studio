@@ -1,18 +1,18 @@
-﻿using Automaton.Core.Models;
-using Newtonsoft.Json.Linq;
-using System.Linq.Dynamic.Core;
+﻿using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 
-namespace Automaton.Core.Parsers
+namespace Automaton.Core.Models
 {
-    public class ExpressionParser
+    public class StepVariableParser
     {
         private const string Percentage = "%";
         private const string VariablePattern = "%.+?%";
 
-        public static object Parse(object expression, Workflow workflow)
+        public static object? Parse(StepVariable variable, Workflow workflow)
         {
+            var expression = variable.Value;
+
             var stringExpression = string.Empty;
 
             if (expression is StepVariable customStepVariable)
@@ -24,19 +24,19 @@ namespace Automaton.Core.Parsers
                 stringExpression = expression.ToString();
             }
 
+            if (string.IsNullOrEmpty(stringExpression))
+            {
+                return null;
+            }
+
             var variableNames = GetVariableNames(stringExpression);
             var parameterExpressions = GetParameterExpressions(variableNames, workflow);
             var sanitizedExpression = stringExpression.Replace(Percentage, string.Empty);
 
-            if (string.IsNullOrEmpty(sanitizedExpression))
-            {
-                return string.Empty;
-            }
-
             var workflowVariables = workflow.GetVariables(variableNames);
-            var variableValues = workflowVariables.Select(x => x.Value?.Value);
+            var variableValues = workflowVariables.Select(x => x.Value);
 
-            var lambdaExpresion = DynamicExpressionParser.ParseLambda(parameterExpressions.ToArray(), null, sanitizedExpression);
+            var lambdaExpresion = DynamicExpressionParser.ParseLambda(parameterExpressions.ToArray(), variable.GetRealType(), sanitizedExpression);
             var expressionValue = lambdaExpresion.Compile().DynamicInvoke(variableValues.ToArray());
 
             return expressionValue;
@@ -60,7 +60,7 @@ namespace Automaton.Core.Parsers
                 if (workflow.VariableExists(name))
                 {
                     var variable = workflow.GetVariable(name);
-                    var variableExpression = Expression.Parameter(typeof(string), variable.Key);
+                    var variableExpression = Expression.Parameter(variable.GetRealType(), variable.Id);
                     variableExpressions.Add(variableExpression);
                 }
             }

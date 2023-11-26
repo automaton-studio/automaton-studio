@@ -1,8 +1,8 @@
 ﻿using Automaton.Core.Attributes;
 using Automaton.Core.Extensions;
-using Automaton.Core.Parsers;
 using Newtonsoft.Json.Linq;
 using Serilog;
+using System.Linq.Dynamic.Core;
 using System.Reflection;
 
 namespace Automaton.Core.Models;
@@ -60,7 +60,7 @@ public abstract class WorkflowStep
     {
         logger.Information("Execute step: {0}", Name);
 
-        SetProperties(context);
+        SetupProperties(context);
 
         return await RunAsync(context);
     }
@@ -78,39 +78,42 @@ public abstract class WorkflowStep
         workflow.SetVariable(variable);
     }
 
-    protected virtual void SetProperties(StepExecutionContext context)
+    protected virtual void SetupProperties(StepExecutionContext context)
     {
         foreach (var input in Inputs)
         {
             var stepType = GetType();
-
-            var stepProperty = stepType.GetProperty(input.Key);
-
+            var stepVariable = stepType.GetProperty(input.Key);
             var variable = input.Value;
             var value = variable.Value;
 
-            if (ShouldParseProperty(stepProperty))
+            if (ShouldParseProperty(stepVariable))
             {
-                value = ExpressionParser.Parse(value, context.Workflow);
+                value = StepVariableParser.Parse(variable, context.Workflow);
+            }
+
+            if (value == null)
+            {
+                continue;
             }
 
             if (value is JArray array)
             {
-                value = array.ToObject(stepProperty.PropertyType);
+                value = array.ToObject(stepVariable.PropertyType);
             }
 
-            if (stepProperty.PropertyType.Name == nameof(Guid))
+            if (stepVariable.PropertyType.Name == nameof(Guid))
             {
                 Guid.TryParse(value.ToString(), out var guidValue);
                 value = guidValue;
             }
 
-            if (stepProperty.PropertyType.Name == nameof(String))
+            if (stepVariable.PropertyType.Name == nameof(String))
             {
                 value = value?.ToString();
             }
 
-            stepProperty.SetValue(this, value);
+            stepVariable.SetValue(this, value);
         }
     }
 

@@ -1,5 +1,4 @@
 ﻿using Automaton.Core.Models;
-using Automaton.Core.Parsers;
 
 namespace Automaton.Steps;
 
@@ -20,7 +19,7 @@ public class If : Sequence
 
     private bool ExpressionIsTrue(Workflow workflow)
     {
-        var parsedExpression = ExpressionParser.Parse(Expression, workflow);
+        var parsedExpression = StepVariableParser.Parse(Expression, workflow);
 
         return parsedExpression is bool result && result;
     }

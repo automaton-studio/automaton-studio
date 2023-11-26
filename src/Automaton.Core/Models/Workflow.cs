@@ -1,4 +1,5 @@
 ﻿using Automaton.Core.Events;
+using System.Linq.Dynamic.Core;
 
 namespace Automaton.Core.Models;
 
@@ -38,14 +39,14 @@ public class Workflow
         return Variables.ContainsKey(key);
     }
 
-    public KeyValuePair<string, StepVariable> GetVariable(string key)
+    public StepVariable GetVariable(string key)
     {
-        return new KeyValuePair<string, StepVariable>(key, Variables[key]);
+        return Variables[key];
     }
 
-    public IEnumerable<KeyValuePair<string, StepVariable>> GetVariables(IEnumerable<string> names)
+    public IEnumerable<StepVariable> GetVariables(IEnumerable<string> names)
     {
-        var variables = Variables.Where(x => names.Contains(x.Key)).Select(x => new KeyValuePair<string, StepVariable>(x.Key, x.Value));
+        var variables = Variables.Where(x => names.Contains(x.Key)).Select(x => x.Value);
 
         return variables;
     }
