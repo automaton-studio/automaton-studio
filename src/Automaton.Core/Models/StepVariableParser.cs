@@ -13,23 +13,22 @@ namespace Automaton.Core.Models
         {
             var expression = variable.Value;
 
-            var stringExpression = string.Empty;
-
-            if (expression is StepVariable customStepVariable)
+            if (expression == null)
             {
-                stringExpression = customStepVariable.Value.ToString();
-            }
-            else
-            {
-                stringExpression = expression.ToString();
+                throw new ArgumentException();
             }
 
-            if (string.IsNullOrEmpty(stringExpression))
-            {
-                return null;
-            }
+            var stringExpression = expression is StepVariable customStepVariable ?
+                customStepVariable.Value.ToString() :
+                expression.ToString();
 
             var variableNames = GetVariableNames(stringExpression);
+
+            if (variable.GetRealType() == typeof(string))
+            {
+                return ParseString(stringExpression, variableNames, workflow);
+            }
+
             var parameterExpressions = GetParameterExpressions(variableNames, workflow);
             var sanitizedExpression = stringExpression.Replace(Percentage, string.Empty);
 
@@ -40,6 +39,17 @@ namespace Automaton.Core.Models
             var expressionValue = lambdaExpresion.Compile().DynamicInvoke(variableValues.ToArray());
 
             return expressionValue;
+        }
+
+        private static string ParseString(string expression, IEnumerable<string> variableNames, Workflow workflow)
+        {
+            foreach(var variableName in variableNames)
+            {
+                var variable = workflow.GetVariable(variableName);
+                expression = expression.Replace($"%{variableName}%", variable.Value.ToString());
+            }
+
+            return expression;
         }
 
         private static IEnumerable<string> GetVariableNames(string inputString)
