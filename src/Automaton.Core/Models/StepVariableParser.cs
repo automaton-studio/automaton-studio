@@ -24,7 +24,7 @@ namespace Automaton.Core.Models
 
             var variableNames = GetVariableNames(stringExpression);
 
-            if (variable.GetRealType() == typeof(string))
+            if (variable.GetValueType() == typeof(string))
             {
                 return ParseString(stringExpression, variableNames, workflow);
             }
@@ -35,7 +35,7 @@ namespace Automaton.Core.Models
             var workflowVariables = workflow.GetVariables(variableNames);
             var variableValues = workflowVariables.Select(x => x.Value);
 
-            var lambdaExpresion = DynamicExpressionParser.ParseLambda(parameterExpressions.ToArray(), variable.GetRealType(), sanitizedExpression);
+            var lambdaExpresion = DynamicExpressionParser.ParseLambda(parameterExpressions.ToArray(), variable.GetValueType(), sanitizedExpression);
             var expressionValue = lambdaExpresion.Compile().DynamicInvoke(variableValues.ToArray());
 
             return expressionValue;
@@ -46,7 +46,7 @@ namespace Automaton.Core.Models
             foreach(var variableName in variableNames)
             {
                 var variable = workflow.GetVariable(variableName);
-                expression = expression.Replace($"%{variableName}%", variable.Value.ToString());
+                expression = expression.Replace($"%{variableName}%", variable.GetValue<string>());
             }
 
             return expression;
@@ -70,7 +70,7 @@ namespace Automaton.Core.Models
                 if (workflow.VariableExists(name))
                 {
                     var variable = workflow.GetVariable(name);
-                    var variableExpression = Expression.Parameter(variable.GetRealType(), variable.Id);
+                    var variableExpression = Expression.Parameter(variable.GetValueType(), variable.Id);
                     variableExpressions.Add(variableExpression);
                 }
             }

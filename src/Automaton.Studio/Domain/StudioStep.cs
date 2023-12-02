@@ -1,5 +1,6 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Studio.Steps.Sequence;
+using Newtonsoft.Json.Linq;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -76,9 +77,14 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public abstract Type GetPropertiesComponent();
 
-    public object GetInputValue(string name)
+    public T GetInputValue<T>(string name)
     {
-        return Inputs[name].Value;
+        if (Inputs[name].Value is JArray inputArray)
+        {
+            return inputArray.ToObject<T>();
+        }
+
+        return Inputs[name].GetValue<T>();
     }
 
     public void SetInputValue(string name, object value)

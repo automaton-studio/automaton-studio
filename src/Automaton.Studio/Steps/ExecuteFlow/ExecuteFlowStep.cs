@@ -40,7 +40,7 @@ public class ExecuteFlowStep : StudioStep
 
     public IList<StepVariable> InputVariables
     {
-        get => GetInputValue(nameof(InputVariables)) as IList<StepVariable>;
+        get => GetInputValue<IList<StepVariable>>(nameof(InputVariables));
         set => SetInputValue(nameof(InputVariables), value);
     }
 
@@ -49,7 +49,7 @@ public class ExecuteFlowStep : StudioStep
     /// </summary>
     public IList<StepVariable> OutputVariables
     {
-        get => GetInputValue(nameof(OutputVariables)) as IList<StepVariable>;
+        get => GetInputValue<IList<StepVariable>>(nameof(OutputVariables));
         set => SetInputValue(nameof(OutputVariables), value);
     }
 
@@ -81,7 +81,7 @@ public class ExecuteFlowStep : StudioStep
 
     private Guid GetFlowIdFromInput()
     {
-        var guid = GetInputValue(nameof(FlowId)) as string;
+        var guid = GetInputValue<string>(nameof(FlowId));
         Guid.TryParse(guid, out Guid flowId);
         return flowId;
     }

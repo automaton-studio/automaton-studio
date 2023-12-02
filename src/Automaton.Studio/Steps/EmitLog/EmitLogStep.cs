@@ -16,7 +16,7 @@ public class EmitLogStep : StudioStep
 {
     public string Message
     {
-        get => GetInputValue(nameof(Message)) as string;
+        get => GetInputValue<string>(nameof(Message)) as string;
         set => SetInputValue(nameof(Message), value);
     }
 

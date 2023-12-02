@@ -37,7 +37,7 @@ public class SequenceStep : StudioStep
 
     public string SequenceEndStepId
     {
-        get => GetInputValue(nameof(SequenceEndStepId)) as string;
+        get => GetInputValue<string>(nameof(SequenceEndStepId));
         set => SetInputValue(nameof(SequenceEndStepId), value);
     }
 

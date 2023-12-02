@@ -16,7 +16,7 @@ public class IfStep : SequenceStep
 {
     public string Expression
     {
-        get => GetInputValue(nameof(Expression)) as string;
+        get => GetInputValue<string>(nameof(Expression));
         set => SetInputValue(nameof(Expression), value);
     }
 

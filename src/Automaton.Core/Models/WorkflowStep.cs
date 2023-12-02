@@ -78,6 +78,16 @@ public abstract class WorkflowStep
         workflow.SetVariable(variable);
     }
 
+    public T GetInputValue<T>(string name)
+    {
+        if (Inputs[name].Value is JArray inputArray)
+        {
+            return inputArray.ToObject<T>();
+        }
+
+        return Inputs[name].GetValue<T>();
+    }
+
     protected virtual void SetupProperties(StepExecutionContext context)
     {
         foreach (var input in Inputs)

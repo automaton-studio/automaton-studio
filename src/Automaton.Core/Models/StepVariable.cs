@@ -10,7 +10,7 @@ public class StepVariable
     public object? Value { get; set; }
     public string? Description { get; set; }
 
-    public Type GetRealType()
+    public Type GetValueType()
     {
         return Type switch
         {
@@ -20,5 +20,10 @@ public class StepVariable
             VariableType.Date => typeof(DateTime),
             _ => typeof(string),
         };
+    }
+
+    public T GetValue<T>()
+    {
+        return (T)Value;
     }
 }

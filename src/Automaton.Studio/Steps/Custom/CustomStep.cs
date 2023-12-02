@@ -1,7 +1,6 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
-using Newtonsoft.Json.Linq;
 
 namespace Automaton.Studio.Steps.Custom;
 
@@ -19,7 +18,7 @@ public class CustomStep : StudioStep
 {
     public string Code
     {
-        get => GetInputValue(nameof(Code)) as string;
+        get => GetInputValue<string>(nameof(Code));
         set => SetInputValue(nameof(Code), value);
     }
 
@@ -27,14 +26,9 @@ public class CustomStep : StudioStep
     {
         get
         {
-            var value = GetInputValue(nameof(CodeInputVariables));
+            var value = GetInputValue<IList<StepVariable>>(nameof(CodeInputVariables));
 
-            if (value is JArray)
-            {
-                return (value as JArray).ToObject<List<StepVariable>>();
-            }
-
-            return value as IList<StepVariable>;
+            return value;
         }
 
         set => SetInputValue(nameof(CodeInputVariables), value);
@@ -44,14 +38,9 @@ public class CustomStep : StudioStep
     {
         get
         {
-            var value = GetInputValue(nameof(CodeOutputVariables));
+            var value = GetInputValue<IList<StepVariable>>(nameof(CodeOutputVariables));
 
-            if (value is JArray)
-            {
-                return (value as JArray).ToObject<List<StepVariable>>();
-            }
-
-            return value as IList<StepVariable>;
+            return value;
         }
 
         set => SetInputValue(nameof(CodeOutputVariables), value);

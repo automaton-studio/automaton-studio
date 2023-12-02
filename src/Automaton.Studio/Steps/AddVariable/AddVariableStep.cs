@@ -21,7 +21,7 @@ public class AddVariableStep : StudioStep
 
     public string VariableValue
     {
-        get => GetInputValue(nameof(VariableValue)) as string;
+        get => GetInputValue<string>(nameof(VariableValue));
         set => SetInputValue(nameof(VariableValue), value);
     }
 
