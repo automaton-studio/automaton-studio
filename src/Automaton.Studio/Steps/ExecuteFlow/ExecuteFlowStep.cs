@@ -3,7 +3,6 @@ using Automaton.Core.Models;
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
 using Automaton.Studio.Services;
-using System.Threading.Tasks;
 
 namespace Automaton.Studio.Steps.ExecuteFlow;
 
@@ -34,7 +33,7 @@ public class ExecuteFlowStep : StudioStep
 
     public Guid FlowId
     {
-        get => GetFlowIdFromInput();
+        get => GetInputValue<Guid>(nameof(FlowId));
         set => SetInputValue(nameof(FlowId), value);
     }
 
@@ -77,12 +76,5 @@ public class ExecuteFlowStep : StudioStep
     public override Type GetPropertiesComponent()
     {
         return typeof(ExecuteFlowProperties);
-    }
-
-    private Guid GetFlowIdFromInput()
-    {
-        var guid = GetInputValue<string>(nameof(FlowId));
-        Guid.TryParse(guid, out Guid flowId);
-        return flowId;
     }
 }
