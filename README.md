@@ -18,7 +18,11 @@ The application can be installed on favourite web server that supports .NET 7/Bl
 
 ## Screenshots
 
-![Screenshot 02](/screenshots/Screenshot-2023-10-16-001341.png?raw=true "Automaton Studio Flows")
+![Screenshot 01](/screenshots/Screenshot-2024-01-22-231011.png?raw=true "Studio Flow")
+
+![Screenshot 02](/screenshots/Screenshot-2024-01-22-230540.png?raw=true "Studio Activity")
+
+![Screenshot 02](/screenshots/Screenshot-2024-01-22-231417.png?raw=true "Studio Step")
 
 ## Licence
 
