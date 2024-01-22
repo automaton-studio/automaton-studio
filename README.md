@@ -22,7 +22,9 @@ The application can be installed on favourite web server that supports .NET 7/Bl
 
 ![Screenshot 02](/screenshots/Screenshot-2024-01-22-230540.png?raw=true "Studio Activity")
 
-![Screenshot 02](/screenshots/Screenshot-2024-01-22-231417.png?raw=true "Studio Step")
+![Screenshot 03](/screenshots/Screenshot-2024-01-22-231417.png?raw=true "Studio Step")
+
+![Screenshot 04](/screenshots/Screenshot-2024-01-22-231131.png?raw=true "Studio Python")
 
 ## Licence
 
