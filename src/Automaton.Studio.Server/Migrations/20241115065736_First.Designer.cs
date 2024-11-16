@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Automaton.Studio.Server.MySql.Migrations.Migrations
+namespace Automaton.Studio.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231018200744_ScheduleRecurrence")]
-    partial class ScheduleRecurrence
+    [Migration("20241115065736_First")]
+    partial class First
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -295,10 +295,7 @@ namespace Automaton.Studio.Server.MySql.Migrations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Logs", t =>
-                        {
-                            t.ExcludeFromMigrations();
-                        });
+                    b.ToTable("Logs");
                 });
 
             modelBuilder.Entity("Automaton.Studio.Server.Entities.Runner", b =>
@@ -384,7 +381,7 @@ namespace Automaton.Studio.Server.MySql.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 10, 18, 22, 7, 44, 539, DateTimeKind.Local).AddTicks(9333));
+                        .HasDefaultValue(new DateTime(2024, 11, 15, 7, 57, 36, 189, DateTimeKind.Local).AddTicks(4578));
 
                     b.Property<DateTime>("Expires")
                         .HasColumnType("datetime(6)");

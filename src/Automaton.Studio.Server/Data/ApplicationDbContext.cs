@@ -34,9 +34,6 @@ namespace Automaton.Studio.Server.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Log>().Metadata
-                .SetIsTableExcludedFromMigrations(true);
-
             modelBuilder.Entity<Flow>(entity =>
             {
                 entity.HasKey(e => new { e.Id });

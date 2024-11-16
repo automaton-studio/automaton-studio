@@ -2,6 +2,7 @@ using Automaton.Core.Scripting;
 using Automaton.Studio.Server.Areas.Identity;
 using Automaton.Studio.Server.Data;
 using Automaton.Studio.Server.Entities;
+using Automaton.Studio.Server.Extensions;
 using Automaton.Studio.Server.Hubs;
 using Automaton.Studio.Server.Middleware;
 using Automaton.Studio.Server.Services;
@@ -39,12 +40,10 @@ services.AddDbContext<ApplicationDbContext>(
     options => _ = configurationService.DatabaseType switch
     {
         ConfigurationService.MsSqlDatabaseType => options.UseSqlServer(
-            configurationManager.GetConnectionString("MsSqlConnection"),
-            x => x.MigrationsAssembly("Automaton.Studio.Server.MsSql.Migrations")),
+            configurationManager.GetConnectionString("MsSqlConnection")),
 
         ConfigurationService.MySqlDatabaseType => options.UseMySQL(
-        configurationManager.GetConnectionString("MySqlConnection"),
-            x => x.MigrationsAssembly("Automaton.Studio.Server.MySql.Migrations")),
+        configurationManager.GetConnectionString("MySqlConnection")),
 
         _ => throw new Exception($"Unsupported database provider: {configurationService.DatabaseType}")
     });
@@ -177,6 +176,8 @@ services.AddAutomatonSteps();
 services.AddAutomatonCore();
 
 var app = applicationBuilder.Build();
+
+app.ApplyMigrations();
 
 app.UseSerilogRequestLogging(
     options =>
