@@ -7,7 +7,7 @@ public class StepVariable
     public string? Id { get; set; }
     public required string? Name { get; set; }
     public VariableType Type { get; set; } = VariableType.String;
-    public object? Value { get; set; }
+    public virtual object? Value { get; set; }
     public string? Description { get; set; }
 
     public Type GetValueType()

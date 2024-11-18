@@ -11,7 +11,7 @@ public class ExecutePythonValidator : AbstractValidator<ExecutePythonStep>
 
         When(x => x.CodeInputVariables.Any(), () =>
         {
-            RuleFor(x => x.CodeInputVariables).Must(HaveValidVariableName).WithMessage("Input variable name not valid");
+            RuleFor(x => x.CodeInputVariables).Must(HavePythonValidVariableName).WithMessage("Input variable name not valid");
         });
 
         When(x => x.CodeOutputVariables.Any(), () =>
@@ -21,6 +21,11 @@ public class ExecutePythonValidator : AbstractValidator<ExecutePythonStep>
     }
 
     private bool HaveValidVariableName(IList<StepVariable> variables)
+    {
+        return !variables.Any(x => string.IsNullOrEmpty(x.Name));
+    }
+
+    private bool HavePythonValidVariableName(IList<PythonStepVariable> variables)
     {
         return !variables.Any(x => string.IsNullOrEmpty(x.Name));
     }

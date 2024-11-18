@@ -32,10 +32,10 @@
                                    HidePagination>
                                 <ChildContent Context="inputVariable">
                                     <Column Title="Name" TData="string">
-                                        <Input Type="text" @bind-Value="inputVariable.Name" AutoFocus />
+                                        <Input Type="text" @bind-Value="inputVariable.Name" />
                                     </Column>
                                     <Column Title="Value" TData="string">
-                                        <Input Type="text" @bind-Value="inputVariable.Value" />
+                                        <Input Type="text" @bind-Value="inputVariable.PythonValue" />
                                     </Column>
                                     <ActionColumn Title="Action">
                                         <Popconfirm Title="Sure to delete?"
@@ -124,7 +124,7 @@
     public void AddInputVariable()
     {
         var variableName = $"Variable{step.CodeInputVariables?.Count}";
-        step.CodeInputVariables.Add(new StepVariable { Name = variableName });
+        step.CodeInputVariables.Add(new PythonStepVariable { Name = variableName });
     }
 
     public void DeleteInputVariable(string name)
