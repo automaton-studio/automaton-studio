@@ -1,5 +1,4 @@
 ﻿using Automaton.Core.Models;
-using System.Text.Json.Serialization;
 
 namespace Automaton.Studio.Steps.ExecutePython
 {

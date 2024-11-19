@@ -81,7 +81,13 @@ public abstract class StudioStep : INotifyPropertyChanged
     {
         if (Inputs[name].Value is JArray inputArray)
         {
-            return inputArray.ToObject<T>();
+            // We need to return back the value of the same instance 
+            // so it can be updated from the UI.
+            // ToObject<T>() create a new object which is not
+            // bound to the UI controls, unless we assign it to Inputs[name].Value 
+            Inputs[name].Value = inputArray.ToObject<T>();
+
+            return Inputs[name].GetValue<T>();
         }
 
         return Inputs[name].GetValue<T>();

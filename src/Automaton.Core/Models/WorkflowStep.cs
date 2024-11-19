@@ -118,12 +118,47 @@ public abstract class WorkflowStep
                 value = guidValue;
             }
 
+            // TODO! Use stepVariable.PropertyType == typeof(string) instead?
             if (stepVariable.PropertyType.Name == nameof(String))
             {
                 value = value?.ToString();
             }
 
-            stepVariable.SetValue(this, value);
+            // Check if the stepVariable is a collection
+            if (typeof(IEnumerable<StepVariable>).IsAssignableFrom(stepVariable.PropertyType))
+            {
+                if (value is IEnumerable<StepVariable> enumerableValue)
+                { 
+                    var list = new List<StepVariable>();
+                    foreach (var item in enumerableValue)
+                    {
+                        var stepVar = new StepVariable 
+                        {
+                            Id = item.Id,
+                            Name = item.Name, 
+                            Value = item.Value,
+                            Description = item.Description,
+                            Type = item.Type
+                        };
+
+                        list.Add(item);
+                    }
+
+                    value = list;
+                }
+            }
+
+            // Check if the value is of the correct type before setting it
+            if (stepVariable.PropertyType.IsAssignableFrom(value.GetType()))
+            {
+                stepVariable.SetValue(this, value);
+            }
+            else
+            {
+                // Handle the type mismatch case, e.g., log an error or throw an exception
+                logger.Error("Type mismatch: Cannot assign value of type {0} to property of type {1}", value.GetType(), stepVariable.PropertyType);
+                throw new InvalidCastException($"Cannot assign value of type {value.GetType()} to property of type {stepVariable.PropertyType}");
+            }
         }
     }
 
