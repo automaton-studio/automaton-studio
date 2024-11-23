@@ -52,3 +52,5 @@ App_Data/
 
 # Created by developers using GNU/Linux
 .directory
+
+.vscode
