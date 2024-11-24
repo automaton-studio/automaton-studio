@@ -1,4 +1,5 @@
-﻿@using Blazored.FluentValidation;
+﻿@using Automaton.Studio.Domain
+@using Blazored.FluentValidation;
 @using Automaton.Core.Models;
 @inherits FeedbackComponent<ExecutePythonStep>
 
@@ -35,7 +36,7 @@
                                         <Input Type="text" @bind-Value="inputVariable.Name" />
                                     </Column>
                                     <Column Title="Value" TData="string">
-                                        <Input Type="text" @bind-Value="inputVariable.PythonValue" />
+                                        <Input Type="text" @bind-Value="inputVariable.StringValue" />
                                     </Column>
                                     <ActionColumn Title="Action">
                                         <Popconfirm Title="Sure to delete?"
@@ -124,7 +125,7 @@
     public void AddCodeInputVariable()
     {
         var variableName = $"Variable{step.CodeInputVariables?.Count}";
-        step.CodeInputVariables.Add(new PythonStepVariable { Name = variableName });
+        step.CodeInputVariables.Add(new StringStepVariable { Name = variableName });
     }
 
     public void DeleteCodeInputVariable(string name)

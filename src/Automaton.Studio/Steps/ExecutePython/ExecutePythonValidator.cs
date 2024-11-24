@@ -1,4 +1,5 @@
 ﻿using Automaton.Core.Models;
+using Automaton.Studio.Domain;
 using FluentValidation;
 
 namespace Automaton.Studio.Steps.ExecutePython;
@@ -25,7 +26,7 @@ public class ExecutePythonValidator : AbstractValidator<ExecutePythonStep>
         return !variables.Any(x => string.IsNullOrEmpty(x.Name));
     }
 
-    private bool HavePythonValidVariableName(IList<PythonStepVariable> variables)
+    private bool HavePythonValidVariableName(IList<StringStepVariable> variables)
     {
         return !variables.Any(x => string.IsNullOrEmpty(x.Name));
     }

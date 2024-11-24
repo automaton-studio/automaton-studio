@@ -1,7 +1,6 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
-using Automaton.Studio.Steps.ExecutePython;
 
 namespace Automaton.Studio.Steps.AddVariable;
 
@@ -18,9 +17,9 @@ public class AddVariableStep : StudioStep
 {
     private const string DefaultVariableBaseName = "NewVar";
 
-    public PythonStepVariable Variable
+    public StringStepVariable Variable
     {
-        get => GetInputValue<PythonStepVariable>(nameof(Variable));
+        get => GetInputValue<StringStepVariable>(nameof(Variable));
         set => SetInputValue(nameof(Variable), value);
     }
 
@@ -45,7 +44,7 @@ public class AddVariableStep : StudioStep
     {
         base.Created();
 
-        Variable = new PythonStepVariable
+        Variable = new StringStepVariable
         {
             Id = Guid.NewGuid().ToString(),
             Name = $"{DefaultVariableBaseName}{Flow.GetNumberOfSteps<AddVariableStep>()}",

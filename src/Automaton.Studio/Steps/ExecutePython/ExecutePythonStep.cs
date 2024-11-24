@@ -21,9 +21,9 @@ public class ExecutePythonStep : StudioStep
         set => SetInputValue(nameof(Code), value);
     }
 
-    public IList<PythonStepVariable> CodeInputVariables
+    public IList<StringStepVariable> CodeInputVariables
     {
-        get => GetInputValue<IList<PythonStepVariable>>(nameof(CodeInputVariables));
+        get => GetInputValue<IList<StringStepVariable>>(nameof(CodeInputVariables));
         set => SetInputValue(nameof(CodeInputVariables), value);
     }
 
@@ -37,7 +37,7 @@ public class ExecutePythonStep : StudioStep
     {
         SetInputValue(nameof(Code), string.Empty);
         SetInputValue(nameof(CodeOutputVariables), new List<StepVariable>());
-        SetInputValue(nameof(CodeInputVariables), new List<PythonStepVariable>());
+        SetInputValue(nameof(CodeInputVariables), new List<StringStepVariable>());
     }
 
     public override Type GetDesignerComponent()
