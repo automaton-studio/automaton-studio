@@ -79,65 +79,81 @@ public abstract class StudioStep : INotifyPropertyChanged
 
     public T GetInputValue<T>(string name)
     {
-        if (Inputs[name].Value is JArray inputArray)
-        {
-            // We need to return back the value of the same instance 
-            // so it can be updated from the UI.
-            // ToObject<T>() create a new object which is not
-            // bound to the UI controls, unless we assign it to Inputs[name].Value 
-            Inputs[name].Value = inputArray.ToObject<T>();
+        var existingVariable = Inputs.Values.FirstOrDefault(v => v.Name == name);
 
-            return Inputs[name].GetValue<T>();
-        }
-
-        return Inputs[name].GetValue<T>();
+        return existingVariable.GetValue<T>();
     }
 
     public void SetInputValue(string name, object value)
     {
-        Inputs[name] = new StepVariable { Name = name, Value = value };
+        var existingVariable = Inputs.Values.FirstOrDefault(v => v.Name == name);
+
+        if (existingVariable == null)
+        {
+            var newVariable = new StepVariable { Id = Guid.NewGuid().ToString(), Name = name, Value = value };
+            Inputs[newVariable.Id] = newVariable;
+        }
+        else
+        {
+            existingVariable.Value = value;
+        }
     }
 
     public object GetOutputValue(string name)
     {
-        return Outputs[name].Value;
+        var output = Outputs.Values.FirstOrDefault(v => v.Name == name);
+
+        return output.Value;
     }
 
-    public void SetOutputValue(string name, object value)
-    {
-        SetOutputVariable(new StepVariable { Name = name, Value = value });
-    }
-
+    /// <summary>
+    /// Adds/Updates the output variable in the step, but also does it
+    /// in the flow so other steps can access it.
+    /// </summary>
+    /// <param name="variable"></param>
     public void SetOutputVariable(StepVariable variable)
     {
-        if (Outputs.ContainsKey(variable.Name))
+        if (Outputs.ContainsKey(variable.Id))
         {
-            Outputs[variable.Name] = variable;
+            Outputs[variable.Id] = variable;
         } 
         else
         {
-            Outputs.Add(variable.Name, variable);
+            Outputs.Add(variable.Id, variable);
         }
 
         Flow.SetVariable(variable);
     }
 
-    public void UpdateOutputVariable(string originalName, StepVariable variable)
+    /// <summary>
+    /// Deletes the output variable from the step and the flow.
+    /// </summary>
+    /// <param name="variable"></param>
+    public void DeleteOutputVariable(StepVariable variable)
     {
-        if (Outputs.ContainsKey(originalName))
-            Outputs.Remove(originalName);
-
-        if (Outputs.ContainsKey(variable.Name))
+        if (Outputs.ContainsKey(variable.Id))
         {
-            Outputs[variable.Name] = variable;
+            Outputs.Remove(variable.Id);
+            Flow.DeleteVariable(variable);
+        }
+    }
+
+    public void UpdateOutputVariable(StepVariable variable)
+    {
+        if (Outputs.ContainsKey(variable.Id))
+            Outputs.Remove(variable.Id);
+
+        if (Outputs.ContainsKey(variable.Id))
+        {
+            Outputs[variable.Id] = variable;
         }
         else
         {
-            Outputs.Add(variable.Name, variable);
+            Outputs.Add(variable.Id, variable);
         }
 
-        if (Flow.VariableExists(originalName))
-            Flow.DeleteVariable(originalName);
+        if (Flow.VariableExists(variable))
+            Flow.DeleteVariable(variable);
 
         Flow.SetVariable(variable);
     }

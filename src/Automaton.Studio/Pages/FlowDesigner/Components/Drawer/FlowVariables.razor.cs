@@ -26,7 +26,8 @@ public partial class FlowVariables : ComponentBase
         {
             return Flow.Variables.Select(x => new StepVariable
             {
-                Name = x.Key,
+                Id = x.Key,
+                Name = x.Value.Name,
                 Value = x.Value.Value,
                 Description = x.Value.Description
             }).OrderBy(x => x.Name);
@@ -39,7 +40,8 @@ public partial class FlowVariables : ComponentBase
         {
             return Flow.InputVariables.Select(x => new StepVariable
             {
-                Name = x.Key,
+                Id = x.Key,
+                Name = x.Value.Name,
                 Value = x.Value.Value,
                 Description = x.Value.Description
             }).OrderBy(x => x.Name);
@@ -52,7 +54,8 @@ public partial class FlowVariables : ComponentBase
         {
             return Flow.OutputVariables.Select(x => new StepVariable
             {
-                Name = x.Key,
+                Id = x.Key,
+                Name = x.Value.Name,
                 Value = x.Value.Value,
                 Description = x.Value.Description
             }).OrderBy(x => x.Name);
@@ -80,6 +83,7 @@ public partial class FlowVariables : ComponentBase
         {
             Flow.SetOutputVariable(new StepVariable 
             { 
+                Id = Guid.NewGuid().ToString(),
                 Name = newVariable.Name, 
                 Value = newVariable.Value,
                 Type = newVariable.Type,
@@ -116,7 +120,7 @@ public partial class FlowVariables : ComponentBase
                 Flow.DeleteOutputVariable(variable.Name);
             }
 
-            Flow.SetOutputVariable(new StepVariable { Name = updatedVariable.Name, Value = updatedVariable.Value });
+            Flow.SetOutputVariable(new StepVariable { Id = Guid.NewGuid().ToString(), Name = updatedVariable.Name, Value = updatedVariable.Value });
 
             return Task.CompletedTask;
         };
@@ -142,7 +146,8 @@ public partial class FlowVariables : ComponentBase
         newVariableDialog.OnOk = () =>
         {
             Flow.SetInputVariable(new StepVariable 
-            { 
+            {
+                Id = Guid.NewGuid().ToString(),
                 Name = newVariable.Name, 
                 Type = newVariable.Type, 
                 Value = newVariable.Value,

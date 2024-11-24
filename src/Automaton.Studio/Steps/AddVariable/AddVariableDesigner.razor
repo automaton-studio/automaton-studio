@@ -5,7 +5,9 @@
         <b>@Step.DisplayName</b>
     </div>
     <div>
-        Add variable <a href="" @onclick:preventDefault>@Step.OutputVariable.Name</a> with value <a href="" @onclick:preventDefault>@Step.VariableValue.ToString()</a>
+        Add variable <a href="" @onclick:preventDefault>
+            @Step.Variable?.Name
+        </a> with value <a href="" @onclick:preventDefault>@Step.Variable?.PythonValue</a>
     </div>
 </StepDesigner>
 

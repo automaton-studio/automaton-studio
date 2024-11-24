@@ -43,6 +43,7 @@ public class TestReportStep : StudioStep
 
         var reportVariable = new StepVariable
         {
+            Id = Guid.NewGuid().ToString(),
             Name = $"{ReportVariableKey}{Flow.GetNumberOfSteps<TestReportStep>()}",
             Description = Variables.TestReport
         };

@@ -80,12 +80,20 @@ public abstract class WorkflowStep
 
     public T GetInputValue<T>(string name)
     {
-        if (Inputs[name].Value is JArray inputArray)
+        var existingVariable = Inputs.Values.FirstOrDefault(v => v.Name == name);
+
+        if (existingVariable.Value is JArray inputArray)
         {
-            return inputArray.ToObject<T>();
+            // We need to return back the value of the same instance 
+            // so it can be updated from the UI.
+            // ToObject<T>() create a new object which is not
+            // bound to the UI controls, unless we assign it to existingVariable.Value 
+            existingVariable.Value = inputArray.ToObject<T>();
+
+            return existingVariable.GetValue<T>();
         }
 
-        return Inputs[name].GetValue<T>();
+        return existingVariable.GetValue<T>();
     }
 
     protected virtual void SetupProperties(StepExecutionContext context)

@@ -17,10 +17,10 @@
 
         <ChildContent>
             <FormItem Label="Name">
-                <StepVariableInput Step="@context" Variable="@context.OutputVariable" />
+                <Input Type="text" @bind-Value="@context.Variable.Name" />
             </FormItem>
             <FormItem Label="Value">
-                <Input @bind-Value="@context.VariableValue" Placeholder="Enter value" />
+                <Input @bind-Value="@context.Variable.PythonValue" Placeholder="Enter value" />
             </FormItem>
         </ChildContent>
     </Form>
@@ -50,6 +50,8 @@
         await Task.Delay(50);
 
         var valid = fluentValidationValidator.Validate(options => options.IncludeAllRuleSets());
+
+        step.SetOutputVariable();
 
         args.Cancel = !valid;
     }

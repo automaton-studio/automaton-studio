@@ -125,21 +125,13 @@
 
         var valid = fluentValidationValidator.Validate(options => options.IncludeAllRuleSets());
 
-        if (valid)
-        {
-            foreach (var variable in step.OutputVariables)
-            {
-                step.SetOutputValue(variable.Name, variable.Value);
-            }
-        }
-
         args.Cancel = !valid;
     }
 
     public void AddInputVariable()
     {
         var variableName = $"Variable{step.InputVariables?.Count}";
-        step.InputVariables.Add(new StepVariable { Name = variableName });
+        step.InputVariables.Add(new StepVariable { Id = Guid.NewGuid().ToString(), Name = variableName });
     }
 
     public void DeleteInputVariable(string name)
@@ -151,7 +143,7 @@
     public void AddOutputVariable()
     {
         var variableName = $"Variable{step.OutputVariables?.Count}";
-        step.OutputVariables.Add(new StepVariable { Name = variableName });
+        step.OutputVariables.Add(new StepVariable { Id = Guid.NewGuid().ToString(), Name = variableName });
     }
 
     public void DeleteOutputVariable(string name)

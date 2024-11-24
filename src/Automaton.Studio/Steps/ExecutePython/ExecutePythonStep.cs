@@ -23,25 +23,13 @@ public class ExecutePythonStep : StudioStep
 
     public IList<PythonStepVariable> CodeInputVariables
     {
-        get
-        {
-            var value = GetInputValue<IList<PythonStepVariable>>(nameof(CodeInputVariables));
-
-            return value;
-        }
-
+        get => GetInputValue<IList<PythonStepVariable>>(nameof(CodeInputVariables));
         set => SetInputValue(nameof(CodeInputVariables), value);
     }
 
     public IList<StepVariable> CodeOutputVariables
     {
-        get
-        {
-            var value = GetInputValue<IList<StepVariable>>(nameof(CodeOutputVariables));
-
-            return value;
-        }
-
+        get => GetInputValue<IList<StepVariable>>(nameof(CodeOutputVariables));
         set => SetInputValue(nameof(CodeOutputVariables), value);
     }
 

@@ -32,8 +32,6 @@ partial class DesignerPage : ComponentBase
         Courier.Subscribe<VariableUpdateNotification>(HandleSimpleNotification);
 
         await LoadFlow();
-
-        await base.OnInitializedAsync();
     }
 
     public async Task RunFlow()

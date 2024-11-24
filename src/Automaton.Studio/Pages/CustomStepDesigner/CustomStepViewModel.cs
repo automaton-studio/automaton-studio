@@ -46,7 +46,7 @@ public class CustomStepViewModel : IDisposable
 
         CustomStepDefinition.CodeInputVariables.Add(new StepVariable
         {
-            Id = variableName,
+            Id = Guid.NewGuid().ToString(),
             Name = variableName
         });
     }
@@ -63,7 +63,7 @@ public class CustomStepViewModel : IDisposable
 
         CustomStepDefinition.CodeOutputVariables.Add(new StepVariable
         {
-            Id = variableName,
+            Id = Guid.NewGuid().ToString(),
             Name = variableName 
         });
     }

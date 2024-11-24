@@ -21,7 +21,7 @@
                 <TabPane Tab="Input Variables" Key="2">
                     <Space Direction="DirectionVHType.Vertical">
                         <SpaceItem>
-                            <Button OnClick="AddInputVariable" Type="primary">
+                            <Button OnClick="AddCodeInputVariable" Type="primary">
                                 Add
                             </Button>
                         </SpaceItem>
@@ -39,7 +39,7 @@
                                     </Column>
                                     <ActionColumn Title="Action">
                                         <Popconfirm Title="Sure to delete?"
-                                                    OnConfirm="()=> DeleteInputVariable(inputVariable.Name)"
+                                                    OnConfirm="()=> DeleteCodeInputVariable(inputVariable.Name)"
                                                     OkText="Yes"
                                                     CancelText="No">
                                             <a>Delete</a>
@@ -54,7 +54,7 @@
                 <TabPane Tab="Output Variables" Key="3">
                     <Space Direction="DirectionVHType.Vertical" Style="width: 100%">
                         <SpaceItem>
-                            <Button OnClick="AddOutputVariable" Type="primary">
+                            <Button OnClick="AddCodeOutputVariable" Type="primary">
                                 Add
                             </Button>
                         </SpaceItem>
@@ -65,11 +65,11 @@
                                    HidePagination>
                                 <ChildContent Context="outputVariable">
                                     <Column Title="Name" TData="string">
-                                        <Input Type="text" @bind-Value="outputVariable.Name" AutoFocus />
+                                        <Input Type="text" @bind-Value="outputVariable.Name" OnBlur="()=>StopEdit(outputVariable)" AutoFocus />
                                     </Column>
                                     <ActionColumn Title="Action">
                                         <Popconfirm Title="Sure to delete?"
-                                                    OnConfirm="()=> DeleteOutputVariable(outputVariable.Name)"
+                                                    OnConfirm="()=> DeleteCodeOutputVariable(outputVariable.Name)"
                                                     OkText="Yes"
                                                     CancelText="No">
                                             <a>Delete</a>
@@ -114,34 +114,45 @@
         {
             foreach (var variable in step.CodeOutputVariables)
             {
-                step.SetOutputValue(variable.Name, variable.Value);
+                step.SetOutputVariable(variable);
             }
         }
 
         args.Cancel = !valid;
     }
 
-    public void AddInputVariable()
+    public void AddCodeInputVariable()
     {
         var variableName = $"Variable{step.CodeInputVariables?.Count}";
         step.CodeInputVariables.Add(new PythonStepVariable { Name = variableName });
     }
 
-    public void DeleteInputVariable(string name)
+    public void DeleteCodeInputVariable(string name)
     {
         var variable = step.CodeInputVariables.SingleOrDefault(x => x.Name == name);
         step.CodeInputVariables.Remove(variable);
     }
 
-    public void AddOutputVariable()
+    public void AddCodeOutputVariable()
     {
         var variableName = $"Variable{step.CodeOutputVariables?.Count}";
-        step.CodeOutputVariables.Add(new StepVariable { Name = variableName });
+        var variable = new StepVariable { Id = Guid.NewGuid().ToString(), Name = variableName };
+        step.CodeOutputVariables.Add(variable);
+        step.SetOutputVariable(variable);
     }
 
-    public void DeleteOutputVariable(string name)
+    public void DeleteCodeOutputVariable(string name)
     {
         var variable = step.CodeOutputVariables.SingleOrDefault(x => x.Name == name);
         step.CodeOutputVariables.Remove(variable);
+        step.DeleteOutputVariable(variable);
+    }
+
+    private void StopEdit(StepVariable stepVariable)
+    {
+        if (stepVariable.Id != null)
+        {
+            step.SetOutputVariable(stepVariable);
+        }
     }
 }

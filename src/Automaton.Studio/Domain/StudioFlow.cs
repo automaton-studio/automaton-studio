@@ -58,53 +58,53 @@ public class StudioFlow
 
     public StepVariable GetVariable(string name)
     {
-        return Variables[name];
+        return Variables.Values.SingleOrDefault(x => x.Name == name);
     }
 
     public void SetVariable(StepVariable variable)
     {
-        if (Variables.ContainsKey(variable.Name))
+        if (Variables.ContainsKey(variable.Id))
         {
-            Variables[variable.Name] = variable;
+            Variables[variable.Id] = variable;
         }
         else
         {
-            Variables.Add(variable.Name, variable);
+            Variables.Add(variable.Id, variable);
         }
     }
 
     public void SetInputVariable(StepVariable variable)
     {
-        if (InputVariables.ContainsKey(variable.Name))
+        if (InputVariables.ContainsKey(variable.Id))
         {
-            InputVariables[variable.Name] = variable;
+            InputVariables[variable.Id] = variable;
         }
         else
         {
-            InputVariables.Add(variable.Name, variable);
+            InputVariables.Add(variable.Id, variable);
         }
     }
 
     public void SetOutputVariable(StepVariable variable)
     {
-        if (OutputVariables.ContainsKey(variable.Name))
+        if (OutputVariables.ContainsKey(variable.Id))
         {
-            OutputVariables[variable.Name] = variable;
+            OutputVariables[variable.Id] = variable;
         }
         else
         {
-            OutputVariables.Add(variable.Name, variable);
+            OutputVariables.Add(variable.Id, variable);
         }
     }
 
     public IEnumerable<string> GetVariableNames()
     {
-        return Variables.Keys;
+        return Variables.Select(x => x.Value.Name);
     }
 
     public IEnumerable<string> GetInputVariableNames()
     {
-        return InputVariables.Keys;
+        return InputVariables.Select(x => x.Value.Name);
     }
 
     public IEnumerable<string> GetOutputVariableNames()
@@ -112,9 +112,9 @@ public class StudioFlow
         return OutputVariables.Keys;
     }
 
-    public void DeleteVariable(string name)
+    public void DeleteVariable(StepVariable variable)
     {
-        Variables.Remove(name);
+        Variables.Remove(variable.Id);
     }
 
     public void DeleteInputVariable(string variable)
@@ -127,17 +127,9 @@ public class StudioFlow
         OutputVariables.Remove(variable);
     }
 
-    public bool VariableExists(string name)
+    public bool VariableExists(StepVariable variable)
     {
-        return Variables.ContainsKey(name);
-    }
-
-    public void DeleteVariable(StepVariable variable)
-    {
-        if (Variables.ContainsKey(variable.Name))
-        {
-            Variables.Remove(variable.Name);
-        }
+        return Variables.ContainsKey(variable.Id);
     }
 
     public void DeleteVariables(IEnumerable<StepVariable> variables)

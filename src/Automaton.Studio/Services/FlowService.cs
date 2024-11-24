@@ -141,7 +141,7 @@ public class FlowService
     }
 
     private IEnumerable<StudioStep> CreateSteps(StudioDefinition studioDefinition, Definition definition)
-    {
+     {
         foreach (var step in definition.Steps)
         {
             var studioStep = stepFactory.CreateStep(step, studioDefinition);

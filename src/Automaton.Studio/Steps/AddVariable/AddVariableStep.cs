@@ -1,8 +1,7 @@
 ﻿using Automaton.Core.Models;
 using Automaton.Studio.Attributes;
 using Automaton.Studio.Domain;
-using Automaton.Studio.Events;
-using IronPython.Compiler.Ast;
+using Automaton.Studio.Steps.ExecutePython;
 
 namespace Automaton.Studio.Steps.AddVariable;
 
@@ -17,19 +16,17 @@ namespace Automaton.Studio.Steps.AddVariable;
 )]
 public class AddVariableStep : StudioStep
 {
-    private const string AddVariableKey = "NewVar";
+    private const string DefaultVariableBaseName = "NewVar";
 
-    public string VariableValue
+    public PythonStepVariable Variable
     {
-        get => GetInputValue<string>(nameof(VariableValue));
-        set => SetInputValue(nameof(VariableValue), value);
+        get => GetInputValue<PythonStepVariable>(nameof(Variable));
+        set => SetInputValue(nameof(Variable), value);
     }
-
-    public StepVariable OutputVariable { get; set; }
 
     public AddVariableStep()
     {
-        SetInputValue(nameof(VariableValue), string.Empty);
+        SetInputValue(nameof(Variable), string.Empty);
 
         ShowVariables = false;
     }
@@ -48,12 +45,18 @@ public class AddVariableStep : StudioStep
     {
         base.Created();
 
-        OutputVariable = new StepVariable
+        Variable = new PythonStepVariable
         {
-            Name = $"{AddVariableKey}{Flow.GetNumberOfSteps<AddVariableStep>()}",
-            Value = VariableValue
+            Id = Guid.NewGuid().ToString(),
+            Name = $"{DefaultVariableBaseName}{Flow.GetNumberOfSteps<AddVariableStep>()}",
+            Value = string.Empty
         };
 
-        SetOutputVariable(OutputVariable);
+        SetOutputVariable();
+    }
+
+    public void SetOutputVariable()
+    {
+        SetOutputVariable(Variable);
     }
 }

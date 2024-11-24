@@ -20,7 +20,6 @@
 
 @code {
     private bool editing;
-    private string originalName;
 
     [Parameter]
     public StepVariable Variable { get; set; }
@@ -40,14 +39,12 @@
 
     private void StartEdit()
     {
-        originalName = Variable.Name;
-
         editing = true;
     }
 
     private void StopEdit()
     {
-        Step.UpdateOutputVariable(originalName, Variable);
+        Step.UpdateOutputVariable(Variable);
 
         editing = false;
     }
