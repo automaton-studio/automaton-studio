@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Serilog.Sinks.Http;
+using System.IO;
 using System.Net.Http.Json;
 
 namespace Automaton.Core.Logs
@@ -24,17 +25,6 @@ namespace Automaton.Core.Logs
             // Does nothing for now
         }
 
-        public async Task<HttpResponseMessage> PostAsync(string requestUri, Stream stream)
-        {
-            var reader = new StreamReader(stream);
-            var logEventsText = reader.ReadToEnd();
-            var logEvents = JsonConvert.DeserializeObject<IEnumerable<SerilogHttpLogEvent>>(logEventsText);
-
-            var response = await httpClient.PostAsJsonAsync(requestUri, logEvents);
-
-            return response;
-        }
-
         public void Dispose()
         {
             Dispose(true);
@@ -47,6 +37,17 @@ namespace Automaton.Core.Logs
             {
                 httpClient.Dispose();
             }
+        }
+
+        public async Task<HttpResponseMessage> PostAsync(string requestUri, Stream stream, CancellationToken cancellationToken)
+        {
+            var reader = new StreamReader(stream);
+            var logEventsText = reader.ReadToEnd();
+            var logEvents = JsonConvert.DeserializeObject<IEnumerable<SerilogHttpLogEvent>>(logEventsText);
+
+            var response = await httpClient.PostAsJsonAsync(requestUri, logEvents);
+
+            return response;
         }
     }
 }
