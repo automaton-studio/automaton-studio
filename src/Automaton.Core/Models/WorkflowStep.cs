@@ -101,7 +101,7 @@ public abstract class WorkflowStep
         foreach (var input in Inputs)
         {
             var stepType = GetType();
-            var stepVariable = stepType.GetProperty(input.Key);
+            var stepVariable = stepType.GetProperty(input.Value.Name);
             var variable = input.Value;
             var value = variable.Value;
 

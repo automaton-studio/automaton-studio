@@ -45,7 +45,7 @@ namespace Automaton.Core.Models
         {
             foreach(var variableName in variableNames)
             {
-                var variable = workflow.GetVariable(variableName);
+                var variable = workflow.GetVariableByName(variableName);
                 expression = expression.Replace($"%{variableName}%", variable.GetValue<string>());
             }
 
@@ -67,9 +67,9 @@ namespace Automaton.Core.Models
 
             foreach (var name in variableNames)
             {
-                if (workflow.VariableExists(name))
+                if (workflow.VariableWithNameExists(name))
                 {
-                    var variable = workflow.GetVariable(name);
+                    var variable = workflow.GetVariableByName(name);
                     var variableExpression = Expression.Parameter(variable.GetValueType(), variable.Id);
                     variableExpressions.Add(variableExpression);
                 }

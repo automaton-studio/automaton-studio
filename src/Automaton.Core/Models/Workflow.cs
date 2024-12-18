@@ -34,14 +34,14 @@ public class Workflow
         return Definitions.SingleOrDefault(x => x.Id == StartupDefinitionId);
     }
 
-    public bool VariableExists(string key)
+    public bool VariableWithNameExists(string name)
     {
-        return Variables.ContainsKey(key);
+        return Variables.Any(x => x.Value.Name == name);
     }
 
-    public StepVariable GetVariable(string key)
+    public StepVariable GetVariableByName(string name)
     {
-        return Variables[key];
+        return Variables.SingleOrDefault(x => x.Value.Name == name).Value;
     }
 
     public IEnumerable<StepVariable> GetVariables(IEnumerable<string> names)
@@ -53,9 +53,9 @@ public class Workflow
 
     public void SetVariable(StepVariable variable)
     {
-        if (Variables.ContainsKey(variable.Name))
+        if (Variables.ContainsKey(variable.Id))
         {
-            Variables[variable.Name] = variable;
+            Variables[variable.Id] = variable;
         }
         else
         {

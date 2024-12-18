@@ -29,7 +29,7 @@ partial class DesignerPage : ComponentBase
     {
         Courier.Subscribe<ExecuteStepNotification>(HandleExecuteStepNotification);
         Courier.Subscribe<FlowUpdateNotification>(HandleFlowUpdateNotification);
-        Courier.Subscribe<VariableUpdateNotification>(HandleSimpleNotification);
+        Courier.Subscribe<VariableUpdateNotification>(HandleVariableUpdateNotification);
 
         await LoadFlow();
     }
@@ -200,12 +200,12 @@ partial class DesignerPage : ComponentBase
         InvokeAsync(StateHasChanged);
     }
 
-    private void HandleSimpleNotification(VariableUpdateNotification notification, CancellationToken cancellationToken)
+    private void HandleVariableUpdateNotification(VariableUpdateNotification notification, CancellationToken cancellationToken)
     {
         if (cancellationToken.IsCancellationRequested)
             return;
 
-        DesignerViewModel.Flow.Variables[notification.Variable.Name] = notification.Variable;
+        DesignerViewModel.Flow.Variables[notification.Variable.Id] = notification.Variable;
 
         InvokeAsync(StateHasChanged);
     }
@@ -214,6 +214,6 @@ partial class DesignerPage : ComponentBase
     {
         Courier.UnSubscribe<ExecuteStepNotification>(HandleExecuteStepNotification);
         Courier.UnSubscribe<FlowUpdateNotification>(HandleFlowUpdateNotification);
-        Courier.UnSubscribe<VariableUpdateNotification>(HandleSimpleNotification);
+        Courier.UnSubscribe<VariableUpdateNotification>(HandleVariableUpdateNotification);
     }
 }
